@@ -1,0 +1,180 @@
+{
+  "hullName": "Altais",
+  "hullId": "42d_altais",
+  "hullSize": "CRUISER",
+  "spriteName": "graphics/ships/42d_altais.png",
+  "style": "HIGH_TECH",
+  "height": 428,
+  "width": 122,
+  "center": [61, 204.5],
+  "collisionRadius": 270,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 249.5,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "WS0009": "42d_mac_3"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 180,
+      "angle": 180,
+      "locations": [-187.5, 26]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 180,
+      "angle": -180,
+      "locations": [-187.5, -26]
+    },
+    {
+      "id": "WS0005",
+      "size": "MEDIUM",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 9,
+      "angle": 90,
+      "locations": [-65.5, 30]
+    },
+    {
+      "id": "WS0006",
+      "size": "MEDIUM",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 9,
+      "angle": -90,
+      "locations": [-65.5, -30]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 180,
+      "angle": -0,
+      "locations": [14, 26.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 180,
+      "angle": 0,
+      "locations": [14, -26.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 1,
+      "angle": 0,
+      "locations": [96.5, -0]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "COMPOSITE",
+      "mount": "TURRET",
+      "arc": 300,
+      "angle": 0,
+      "locations": [118.5, 21]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "COMPOSITE",
+      "mount": "TURRET",
+      "arc": 300,
+      "angle": -0,
+      "locations": [118.5, -21]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 90,
+      "locations": [-36.5, 26]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": -90,
+      "locations": [-36.5, -26]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-204, -0],
+      "length": 255,
+      "width": 85,
+      "angle": 180,
+      "contrailSize": 85,
+      "style": "MIDLINE"
+    }
+  ],
+  "bounds": [
+    222.5, -11.5,
+    196, -14.5,
+    193.5, -20.5,
+    175, -20.5,
+    170, -17.5,
+    157, -17.5,
+    157, -20,
+    146, -21,
+    136, -22.5,
+    130, -24.5,
+    124, -24.5,
+    121, -28,
+    117, -28,
+    114, -26,
+    106.5, -26,
+    102.5, -32,
+    84.5, -32.5,
+    42, -43.5,
+    -19, -43.5,
+    -41.5, -35,
+    -83, -35,
+    -102.5, -55,
+    -124.5, -60,
+    -182.5, -60,
+    -203, -41,
+    -203, 41,
+    -182.5, 60,
+    -124.5, 60,
+    -102.5, 55,
+    -83, 35,
+    -41.5, 35,
+    -19, 43.5,
+    42, 43.5,
+    84.5, 32.5,
+    102.5, 32,
+    106.5, 26,
+    114, 26,
+    117, 28,
+    121, 28,
+    124, 24.5,
+    130, 24.5,
+    136, 22.5,
+    146, 21,
+    157, 20,
+    157, 17.5,
+    170, 17.5,
+    175, 20.5,
+    193.5, 20.5,
+    196, 14.5,
+    222.5, 11.5
+  ]
+}

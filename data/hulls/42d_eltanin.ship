@@ -1,0 +1,153 @@
+{
+  "hullName": "Eltanin",
+  "hullId": "42d_eltanin",
+  "hullSize": "CRUISER",
+  "spriteName": "graphics/ships/42d_eltanin.png",
+  "style": "HIGH_TECH",
+  "height": 272,
+  "width": 96,
+  "center": [48, 136],
+  "collisionRadius": 180.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 163,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "WS0010": "42d_mac_3"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 90,
+      "locations": [-52, 23]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": -90,
+      "locations": [-52, -23]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 135,
+      "locations": [-84, 23]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": -135,
+      "locations": [-84, -23]
+    },
+    {
+      "id": "WS0005",
+      "size": "MEDIUM",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 9,
+      "angle": 0,
+      "locations": [6, 35]
+    },
+    {
+      "id": "WS0006",
+      "size": "MEDIUM",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": -0,
+      "locations": [6, -35]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 0,
+      "locations": [23.5, -0]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 90,
+      "locations": [61, 23]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": -90,
+      "locations": [61, -23]
+    },
+    {
+      "id": "WS0010",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 3,
+      "angle": 0,
+      "locations": [63, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-130.5, -0.5],
+      "length": 255,
+      "width": 85,
+      "angle": 180,
+      "contrailSize": 85,
+      "style": "MIDLINE"
+    }
+  ],
+  "bounds": [
+    133, -10,
+    124, -18,
+    37, -29,
+    25.5, -29,
+    14, -27,
+    14, -44.5,
+    -0.5, -44.5,
+    -11.5, -45.5,
+    -16.5, -46.5,
+    -28.5, -46.5,
+    -34.5, -44.5,
+    -46, -33.5,
+    -54.5, -33.5,
+    -66, -44.5,
+    -115, -44.5,
+    -130.5, -37,
+    -130.5, 37,
+    -115, 44.5,
+    -66, 44.5,
+    -54.5, 33.5,
+    -46, 33.5,
+    -34.5, 44.5,
+    -28.5, 46.5,
+    -16.5, 46.5,
+    -11.5, 45.5,
+    -0.5, 44.5,
+    14, 44.5,
+    14, 27,
+    25.5, 29,
+    37, 29,
+    124, 18,
+    133, 10
+  ]
+}

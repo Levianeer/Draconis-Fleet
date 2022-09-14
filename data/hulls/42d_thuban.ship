@@ -1,0 +1,75 @@
+{
+  "hullName": "Thuban",
+  "hullId": "42d_thuban",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/ships/42d_thuban.png",
+  "style": "HIGH_TECH",
+  "height": 112,
+  "width": 52,
+  "center": [26, 56.5],
+  "collisionRadius": 83.5,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 74,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "WS0003": "42d_mac_1"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 360,
+      "angle": 180,
+      "locations": [-6.5, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 0,
+      "locations": [14.5, -0]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 9,
+      "angle": 0,
+      "locations": [29.5, -0]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 300,
+      "angle": -180,
+      "locations": [-39, 0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-56, -0],
+      "length": 96,
+      "width": 32,
+      "angle": 180,
+      "contrailSize": 32,
+      "style": "MIDLINE"
+    }
+  ],
+  "bounds": [
+    51.5, -13,
+    2.5, -25,
+    -16.5, -25,
+    -50.5, -15,
+    -50.5, 15,
+    -16.5, 25,
+    2.5, 25,
+    51.5, 13
+  ]
+}

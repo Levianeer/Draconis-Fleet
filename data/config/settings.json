@@ -1,0 +1,10 @@
+{
+	"designTypeColors":{
+	"42nd Draconis":[130,157,209,255],
+	},
+	"graphics":{
+		"blueprint_packages":{
+			"42d_package":"graphics/icons/cargo/42d_package_bp.png"
+		},
+	}
+}
