@@ -30,11 +30,10 @@
 			"faction":"draconis",
 			"size":5,
 			"startingConditions":[
+				"volatiles_abundant",
 				"population_5",
-				"volatiles_rich",
 				"ore_abundant",
 				"rare_ore_moderate",
-				"cold",
 			],
 			"industries":[
 				"population",
