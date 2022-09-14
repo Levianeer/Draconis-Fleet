@@ -28,10 +28,10 @@
 		{
 			"entities":["gebbar5"],
 			"faction":"draconis",
-			"size":6,
+			"size":5,
 			"startingConditions":[
-				"population_6",
-				"volatiles_abundant",
+				"population_5",
+				"volatiles_rich",
 				"ore_abundant",
 				"rare_ore_moderate",
 				"cold",
@@ -44,13 +44,9 @@
 				["orbitalworks", "corrupted_nanoforge"],
 				"lightindustry",
 				"heavybatteries",
-				"militarybase",
 				"orbitalstation",
 				"patrolhq",
 			],
 		},
 	],
 }
-
-
-

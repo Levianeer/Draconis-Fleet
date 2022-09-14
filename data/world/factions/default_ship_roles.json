@@ -12,12 +12,12 @@
 		"fallback":{"combatMedium":0.5},
 	},
 	"combatMedium":{
-		"42d_rastaban_strike":3,
+		"42d_rastaban_strike":4,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"42d_eltanin_strike":2,
+		"42d_eltanin_strike":3,
 		"42d_altais_strike":2,
 		
 		"fallback":{"combatMedium":1},

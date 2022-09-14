@@ -6,7 +6,7 @@
 	"gridUIColor":[130,157,209,75],
 	"brightUIColor":[130,157,209,255],
 	"displayName":"Draconis",
-	"displayNameWithArticle":"the Draconis",
+	"displayNameWithArticle":"the 42nd Draconis Fleet",
 	"logo":"graphics/factions/draconis.png",
 	"crest":"graphics/factions/crest_draconis.png",
 	"shipNamePrefix":"DSS",
@@ -149,15 +149,15 @@
 		],
 	},
 	"factionDoctrine":{
-		"warships":4,
-		"carriers":2,
-		"phaseShips":0,
+		"warships":5,
+		"carriers":1,
+		"phaseShips":1,
 		
-		"officerQuality":5,
-		"shipQuality":1,
+		"officerQuality":3,
+		"shipQuality":3,
 		"numShips":1,
 		
-		"shipSize":4,
+		"shipSize":3,
 		
 		"aggression":2,
 		
@@ -177,8 +177,7 @@
 	"illegalCommodities":[
 		"drugs",
 		"organs",
-		"hand_weapons",
-		"ai_cores",	
+		"ai_cores",
 	],
 	"music":{
 		"theme":"music_diktat_market_neutral",
