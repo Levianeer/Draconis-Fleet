@@ -1,27 +1,31 @@
 {
-  "variantId": "42d_thuban_strike",
-  "hullId": "42d_thuban",
-  "displayName": "Strike",
-  "goalVariant": true,
-  "fluxCapacitors": 1,
-  "fluxVents": 10,
-  "quality": 1,
-  "permaMods": [],
-  "hullMods": [
-    "targetingunit"
-  ],
-  "weaponGroups": [
-    {
-      "autofire": false,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0001": "vulcan",
-        "WS0002": "railgun",
-        "WS0003": "42d_mac_1",
-        "WS0005": "vulcan"
-      }
-    }
-  ],
-  "modules": [],
-  "wings": []
+    "displayName": "Strike",
+    "fluxCapacitors": 6,
+    "fluxVents": 10,
+    "goalVariant": true,
+    "hullId": "42d_thuban",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "42d_thuban_strike",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0002": "railgun"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "42d_mac_1"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "vulcan",
+                "WS0005": "vulcan"
+            }
+        }
+    ]
 }

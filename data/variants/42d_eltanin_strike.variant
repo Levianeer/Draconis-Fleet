@@ -1,33 +1,43 @@
 {
-  "variantId": "42d_eltanin_strike",
-  "hullId": "42d_eltanin",
-  "displayName": "Strike",
-  "goalVariant": true,
-  "fluxCapacitors": 23,
-  "fluxVents": 30,
-  "quality": 1,
-  "permaMods": [],
-  "hullMods": [
-    "targetingunit"
-  ],
-  "weaponGroups": [
-    {
-      "autofire": false,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0001": "vulcan",
-        "WS0002": "vulcan",
-        "WS0003": "vulcan",
-        "WS0004": "vulcan",
-        "WS0005": "harpoonpod",
-        "WS0006": "harpoonpod",
-        "WS0007": "hveldriver",
-        "WS0008": "vulcan",
-        "WS0009": "vulcan",
-        "WS0010": "42d_mac_3"
-      }
-    }
-  ],
-  "modules": [],
-  "wings": []
+    "displayName": "Strike",
+    "fluxCapacitors": 18,
+    "fluxVents": 30,
+    "goalVariant": true,
+    "hullId": "42d_eltanin",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "42d_eltanin_strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "harpoonpod",
+                "WS0006": "harpoonpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0010": "42d_mac_3"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0007": "hveldriver"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
+                "WS0003": "vulcan",
+                "WS0004": "vulcan",
+                "WS0008": "vulcan",
+                "WS0009": "vulcan"
+            }
+        }
+    ]
 }
