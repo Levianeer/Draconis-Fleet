@@ -1,5 +1,5 @@
 {
-	"id":"42d_mac_1",
+	"id":"fsdf_mac_1",
 	"specClass":"projectile",
 	"type":"MISSILE",
 	"size":"SMALL",
@@ -25,6 +25,6 @@
 				 "blowbackSpread":10.0,
 				 "particleColor":[170,160,150,130]},
 	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
-	"projectileSpecId":"42d_mac_shot",
+	"projectileSpecId":"fsdf_mac_shot",
 	"fireSoundTwo":"rifttorpedo_fire",
 }

@@ -1,8 +1,8 @@
 {
   "hullName": "Altais",
-  "hullId": "42d_altais",
+  "hullId": "fsdf_altais",
   "hullSize": "CRUISER",
-  "spriteName": "graphics/ships/42d_altais.png",
+  "spriteName": "graphics/ships/fsdf_altais.png",
   "style": "HIGH_TECH",
   "height": 428,
   "width": 122,
@@ -12,7 +12,7 @@
   "shieldRadius": 249.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0009": "42d_mac_3"
+    "WS0009": "fsdf_mac_3"
   },
   "weaponSlots": [
     {

@@ -1,8 +1,8 @@
 {
   "hullName": "Thuban",
-  "hullId": "42d_thuban",
+  "hullId": "fsdf_thuban",
   "hullSize": "FRIGATE",
-  "spriteName": "graphics/ships/42d_thuban.png",
+  "spriteName": "graphics/ships/fsdf_thuban.png",
   "style": "HIGH_TECH",
   "height": 112,
   "width": 52,
@@ -15,7 +15,7 @@
     "insulatedengine"
   ],
   "builtInWeapons": {
-    "WS0003": "42d_mac_1"
+    "WS0003": "fsdf_mac_1"
   },
   "weaponSlots": [
     {

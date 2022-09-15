@@ -1,5 +1,5 @@
 {
-	"id":"draconis",
+	"id":"fsdf_draconis",
 	"color":[43,52,69,255],
 	"baseUIColor":[130,157,209,255],
 	"darkUIColor":[51,61,82,175],
@@ -32,13 +32,13 @@
 	# multiplier for how often hulls show up in the faction's fleets
 	"hullFrequency":{
 		"tags":{
-			"42d_package_bp":10,
+			"fsdf_package_bp":10,
 		},
 		"hulls":{
-			"42d_thuban":10,
-			"42d_rastaban":10,
-			"42d_eltanin":10,
-			"42d_altais":10,
+			"fsdf_thuban":10,
+			"fsdf_rastaban":10,
+			"fsdf_eltanin":10,
+			"fsdf_altais":10,
 			"buffalo2":0, # just say no
 		},
 	},
@@ -46,29 +46,29 @@
 	"shipsWhenImporting":{
 		"tags":["base_bp", "midline_bp", "hightech_bp"],
 		"hulls":[
-			"42d_thuban",
-			"42d_rastaban",
-			"42d_eltanin",
-			"42d_altais",
+			"fsdf_thuban",
+			"fsdf_rastaban",
+			"fsdf_eltanin",
+			"fsdf_altais",
 		],
 	},
 	"knownShips":{
-		"tags":["base_bp", "midline_bp", "hightech_bp", "42d_package_bp"],
+		"tags":["base_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
 		"hulls":[
-			"42d_thuban",
-			"42d_rastaban",
-			"42d_eltanin",
-			"42d_altais",
+			"fsdf_thuban",
+			"fsdf_rastaban",
+			"fsdf_eltanin",
+			"fsdf_altais",
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
 		"tags":[],
 		"hulls":[
-			"42d_thuban",
-			"42d_rastaban",
-			"42d_eltanin",
-			"42d_altais",
+			"fsdf_thuban",
+			"fsdf_rastaban",
+			"fsdf_eltanin",
+			"fsdf_altais",
 		],
 	},
 	"knownFighters":{

@@ -4,12 +4,12 @@
 	},
 	"graphics":{
 		"blueprint_packages":{
-			"42d_package":"graphics/icons/cargo/42d_package_bp.png"
+			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
 		},
     "planets":{
-      "mod_vesta": "graphics/mod/planets/mod_vesta.jpg",
-      "mod_vulcan": "graphics/mod/planets/mod_vulcan.jpg",
-	  "mod_minerva": "graphics/mod/planets/mod_minerva.jpg",
+      "fsdf_vesta": "graphics/mod/planets/fsdf_vesta.jpg",
+      "fsdf_vulcan": "graphics/mod/planets/fsdf_vulcan.jpg",
+	  "fsdf_minerva": "graphics/mod/planets/fsdf_minerva.jpg",
     }
 	}
 }

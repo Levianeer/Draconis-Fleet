@@ -2,27 +2,27 @@
 	# should be a copy of "combatSmall", minus variants that are annoying to fight in low numbers
 	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
 	"combatSmallForSmallFleet":{
-		"42d_thuban_strike":4,
+		"fsdf_thuban_strike":4,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"42d_thuban_strike":4,
+		"fsdf_thuban_strike":4,
 		
 		"fallback":{"combatMedium":0.5},
 	},
 	"combatMedium":{
-		"42d_rastaban_strike":3,
+		"fsdf_rastaban_strike":3,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"42d_eltanin_strike":2,
+		"fsdf_eltanin_strike":2,
 		
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"42d_altais_strike":1,
+		"fsdf_altais_strike":1,
 		
 		"fallback":{"combatLarge":1},
 	},
@@ -32,7 +32,7 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"42d_rastaban_carrier":1,
+		"fsdf_rastaban_carrier":1,
 		
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},

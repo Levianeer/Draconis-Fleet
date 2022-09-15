@@ -1,9 +1,9 @@
 {
-	"starSystem":"fafnir",
+	"starSystem":"fsdf_fafnir",
 	"markets":[
 		{
 			"entities":["vesta"],
-			"faction":"draconis",
+			"faction":"fsdf_draconis",
 			"size":6,
 			"startingConditions":[
 				"population_6",
@@ -21,7 +21,7 @@
 		},
 		{
 			"entities":["vulcan"],
-			"faction":"draconis",
+			"faction":"fsdf_draconis",
 			"size":4,
 			"startingConditions":[
 				"population_4",
@@ -35,7 +35,7 @@
 		},
 		{
 			"entities":["minerva"],
-			"faction":"draconis",
+			"faction":"fsdf_draconis",
 			"size":4,
 			"startingConditions":[
 				"population_4",

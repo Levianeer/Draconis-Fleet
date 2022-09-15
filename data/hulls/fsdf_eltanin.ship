@@ -1,8 +1,8 @@
 {
   "hullName": "Eltanin",
-  "hullId": "42d_eltanin",
+  "hullId": "fsdf_eltanin",
   "hullSize": "CRUISER",
-  "spriteName": "graphics/ships/42d_eltanin.png",
+  "spriteName": "graphics/ships/fsdf_eltanin.png",
   "style": "HIGH_TECH",
   "height": 272,
   "width": 96,
@@ -12,7 +12,7 @@
   "shieldRadius": 163,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0010": "42d_mac_3"
+    "WS0010": "fsdf_mac_3"
   },
   "weaponSlots": [
     {

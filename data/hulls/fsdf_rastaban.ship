@@ -1,8 +1,8 @@
 {
   "hullName": "Rastaban",
-  "hullId": "42d_rastaban",
+  "hullId": "fsdf_rastaban",
   "hullSize": "DESTROYER",
-  "spriteName": "graphics/ships/42d_rastaban.png",
+  "spriteName": "graphics/ships/fsdf_rastaban.png",
   "style": "HIGH_TECH",
   "height": 186,
   "width": 62,
@@ -15,7 +15,7 @@
     "insulatedengine"
   ],
   "builtInWeapons": {
-    "WS0003": "42d_mac_2"
+    "WS0003": "fsdf_mac_2"
   },
   "weaponSlots": [
     {

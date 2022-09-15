@@ -1,8 +1,8 @@
 {
-	"id":"42d_mac_3",
+	"id":"fsdf_mac_2",
 	"specClass":"projectile",
 	"type":"MISSILE",
-	"size":"LARGE",
+	"size":"MEDIUM",
 
 	"turretSprite":"graphics/weapons/gauss_cannon_turret_base.png",
 	"hardpointSprite":"graphics/weapons/gauss_cannon_hardpoint_base.png",
@@ -25,6 +25,6 @@
 				 "blowbackSpread":10.0,
 				 "particleColor":[170,160,150,130]},
 	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
-	"projectileSpecId":"42d_mac_shot",
+	"projectileSpecId":"fsdf_mac_shot",
 	"fireSoundTwo":"rifttorpedo_fire",
 }
