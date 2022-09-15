@@ -6,5 +6,10 @@
 		"blueprint_packages":{
 			"42d_package":"graphics/icons/cargo/42d_package_bp.png"
 		},
+    "planets":{
+      "mod_vesta": "graphics/mod/planets/mod_vesta.jpg",
+      "mod_vulcan": "graphics/mod/planets/mod_vulcan.jpg",
+	  "mod_minerva": "graphics/mod/planets/mod_minerva.jpg",
+    }
 	}
 }

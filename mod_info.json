@@ -2,8 +2,8 @@
 	"id":"42_draconis",
 	"name":"42nd Draconis Fleet Mod",
 	"author":"Levianeer",
-	"version":"1.1.3",
+	"version":"1.2.0",
 	"description":"Faction mod",
 	"gameVersion":"0.95.1a-RC6",
-    "replace":["data/campaign/econ/algebbar.json"],
+	"modPlugin":"data.scripts.MODSystem_modPlugin"
 }

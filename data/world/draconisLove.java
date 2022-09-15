@@ -34,8 +34,8 @@ public class draconisLove implements SectorGeneratorPlugin {
 		draconis.setRelationship(Factions.PERSEAN, RepLevel.NEUTRAL);
 		draconis.setRelationship(Factions.INDEPENDENT, RepLevel.NEUTRAL);
 		draconis.setRelationship(Factions.TRITACHYON, RepLevel.NEUTRAL);
-		draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE);
-		draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE);
+		draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.VENGEFUL);
+		draconis.setRelationship(Factions.PIRATES, RepLevel.VENGEFUL);
 		draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.NEUTRAL);
 		draconis.setRelationship(Factions.DIKTAT, RepLevel.NEUTRAL);
 		draconis.setRelationship(Factions.PLAYER, RepLevel.NEUTRAL);
