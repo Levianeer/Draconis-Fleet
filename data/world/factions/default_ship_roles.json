@@ -26,4 +26,20 @@
 		
 		"fallback":{"combatLarge":1},
 	},
+	"carrierSmall":{
+		
+		"fallback":{"carrierMedium":0.5},
+		"fallback2":{"carrierLarge":0.25},
+	},
+	"carrierMedium":{
+		"42d_rastaban_carrier":1,
+		
+		"fallback":{"carrierSmall":1},
+		"fallback2":{"carrierLarge":0.5},
+	},
+	"carrierLarge":{
+		
+		"fallback":{"carrierMedium":1},
+		"fallback2":{"carrierSmall":1},
+	}
 }

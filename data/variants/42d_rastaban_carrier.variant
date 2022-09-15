@@ -1,13 +1,13 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 10,
+    "displayName": "Carrier",
+    "fluxCapacitors": 2,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "42d_rastaban",
-    "hullMods": ["targetingunit"],
+    "hullMods": ["converted_hangar"],
     "permaMods": [],
     "sMods": [],
-    "variantId": "42d_rastaban_strike",
+    "variantId": "42d_rastaban_carrier",
     "weaponGroups": [
         {
             "autofire": false,
@@ -33,7 +33,8 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "lightdualmg"}
+            "weapons": {"WS0006": "lightmg"}
         }
-    ]
+    ],
+    "wings": ["wasp_wing"]
 }

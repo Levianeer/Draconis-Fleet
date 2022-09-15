@@ -149,8 +149,8 @@
 		],
 	},
 	"factionDoctrine":{
-		"warships":5,
-		"carriers":1,
+		"warships":4,
+		"carriers":2,
 		"phaseShips":1,
 		
 		"officerQuality":3,
@@ -229,7 +229,7 @@
 			"spaceCommander":{"name":"Commander"},
 		},
 		"posts":{
-			"factionLeader":{"name":"High Commander"},
+			"factionLeader":{"name":"Head of Operations"},
 			"patrolCommander":{"name":"Patrol Commander"},
 			"fleetCommander":{"name":"Fleet Commander"},
 			"baseCommander":{"name":"Base Commander"},
