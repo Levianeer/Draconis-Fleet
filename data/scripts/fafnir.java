@@ -12,7 +12,7 @@ import com.fs.starfarer.combat.entities.terrain.Planet;
 
 import java.awt.*;
 
-public class MODSystem_modPlugin extends BaseModPlugin {
+public class fafnir extends BaseModPlugin {
     @Override
     public void onNewGame() {
 
@@ -20,11 +20,11 @@ public class MODSystem_modPlugin extends BaseModPlugin {
     	boolean presetConditions = true;
 
 		SectorAPI sector = Global.getSector();
-		StarSystemAPI system = sector.createStarSystem("Calvera");
+		StarSystemAPI system = sector.createStarSystem("Fafnir");
 
 		//Star
 		PlanetAPI star = system.initStar(
-			"calvera",
+			"fafnir",
 			"star_yellow", //star types located in starsector-core\data\config\planets.json
 			800,
 			-750, //was 11000
@@ -46,21 +46,21 @@ public class MODSystem_modPlugin extends BaseModPlugin {
 		vesta.applySpecChanges();
 		
 		
-		// Calvera System Jump Point
-		JumpPointAPI calvera_jp = Global.getFactory().createJumpPoint("calvera_jump_point", "Fringe Jump Point");
-		calvera_jp.setCircularOrbit(system.getEntityById("vesta"), 0, 1600, 90);  //id, angle, orbit radius, orbit days
-		calvera_jp.setStandardWormholeToHyperspaceVisual();
-		system.addEntity(calvera_jp);
+		// Fafnir System Jump Point
+		JumpPointAPI fafnir_jp = Global.getFactory().createJumpPoint("fafnir_jump_point", "Fringe Jump Point");
+		fafnir_jp.setCircularOrbit(system.getEntityById("vesta"), 0, 1600, 90);  //id, angle, orbit radius, orbit days
+		fafnir_jp.setStandardWormholeToHyperspaceVisual();
+		system.addEntity(fafnir_jp);
 		
 
 		// Vulcan
-		PlanetAPI vulcan = system.addPlanet("vulcan", calvera_jp, "Vulcan","lava", 180, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
+		PlanetAPI vulcan = system.addPlanet("vulcan", fafnir_jp, "Vulcan","lava", 180, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
 		vulcan.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "mod_vulcan")); //graphics\mod\planets\mod_vulcan.jpg
 		vulcan.applySpecChanges();
 		
 		
 		// Minerva
-		PlanetAPI minerva = system.addPlanet("minerva", calvera_jp, "Minerva","frozen", 0, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
+		PlanetAPI minerva = system.addPlanet("minerva", fafnir_jp, "Minerva","frozen", 0, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
 		minerva.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "mod_minerva")); //graphics\mod\planets\mod_minerva.jpg
 		minerva.applySpecChanges();
 		
@@ -73,86 +73,32 @@ public class MODSystem_modPlugin extends BaseModPlugin {
 		////////////////////////
 		
 		//Gate
-		SectorEntityToken calvera_gate = system.addCustomEntity("calvera_gate",
-				 "Calvera Gate",
+		SectorEntityToken fafnir_gate = system.addCustomEntity("fafnir_gate",
+				 "Fafnir Gate",
 				 "inactive_gate",
 				 null);
-		calvera_gate.setCircularOrbit(vesta, 180, 1600, 90); //focus, angle, orbit radius, orbit days
+		fafnir_gate.setCircularOrbit(vesta, 180, 1600, 90); //focus, angle, orbit radius, orbit days
 
 		//Buoy
-		SectorEntityToken buoy = system.addCustomEntity("calvera_buoy",
-				 "Calvera Buoy",
+		SectorEntityToken buoy = system.addCustomEntity("fafnir_buoy",
+				 "Fafnir Buoy",
 				 "nav_buoy",
 				 "draconis");
-		buoy.setCircularOrbitPointingDown(calvera_gate, 60, 200, 45); //focus, angle, orbit radius, orbit days
+		buoy.setCircularOrbitPointingDown(fafnir_gate, 60, 200, 45); //focus, angle, orbit radius, orbit days
 
 		//Relay
-		SectorEntityToken relay = system.addCustomEntity("calvera_relay",
-				 "Calvera Relay",
+		SectorEntityToken relay = system.addCustomEntity("fafnir_relay",
+				 "Fafnir Relay",
 				 "comm_relay",
 				 "draconis");
-		relay.setCircularOrbitPointingDown(calvera_gate, 180, 200, 45); //focus, angle, orbit radius, orbit days
+		relay.setCircularOrbitPointingDown(fafnir_gate, 180, 200, 45); //focus, angle, orbit radius, orbit days
 
 		//Array
-		SectorEntityToken array = system.addCustomEntity("calvera_array",
-				 "Calvera Array",
+		SectorEntityToken array = system.addCustomEntity("fafnir_array",
+				 "Fafnir Array",
 				 "sensor_array",
 				 "draconis");
-		array.setCircularOrbitPointingDown(calvera_gate, 300, 200, 45); //focus, angle, orbit radius, orbit days
-		
-		//Cryosleeper
-		SectorEntityToken ccryosleeper = system.addCustomEntity("calvera_cryosleeper",
-				 "Domain-era Cryosleeper",
-				 "derelict_cryosleeper",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		ccryosleeper.setCircularOrbitPointingDown(star, 180, 10000, 500); //focus, angle, orbit radius, orbit days
-		
-		//Coronal Hypershunt
-		SectorEntityToken ccoronaltap = system.addCustomEntity("calvera_coronal_hypershunt",
-				 "Coronal Hypershunt",
-				 "coronal_tap",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		ccoronaltap.setCircularOrbitPointingDown(star, 180, 1200, 500); //focus, angle, orbit radius, orbit days
-		
-		//-----------Research Stations-----------//
-		
-		//Research Station 1
-		SectorEntityToken cresearchstation1 = system.addCustomEntity("calvera_research_station_1",
-				 "Research Station",
-				 "station_research",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		cresearchstation1.setCircularOrbitPointingDown(star, 90, 1300, 500); //focus, angle, orbit radius, orbit days
-		
-		//Research Station 2
-		SectorEntityToken cresearchstation2 = system.addCustomEntity("calvera_research_station_2",
-				 "Research Station",
-				 "station_research",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		cresearchstation2.setCircularOrbitPointingDown(star, 270, 1300, 500); //focus, angle, orbit radius, orbit days
-		
-		//-----------Loot Around Cryosleeper-----------//
-		
-		//Technology Cache
-		SectorEntityToken ctechcache = system.addCustomEntity("calvera_tech_cache",
-				 "Technology Cache",
-				 "technology_cache",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		ctechcache.setCircularOrbitPointingDown(ccryosleeper, 180, 400, 15); //focus, angle, orbit radius, orbit days
-		
-		//Equipment Cache
-		SectorEntityToken cequipcache = system.addCustomEntity("calvera_equpment_cache",
-				 "Equipment Cache",
-				 "equipment_cache",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		cequipcache.setCircularOrbitPointingDown(ccryosleeper, 60, 400, 15); //focus, angle, orbit radius, orbit days
-		
-		//Alpha Site Weapons Cache
-		SectorEntityToken calphacache = system.addCustomEntity("calvera_alpha_cache",
-				 "Heavily Shielded Cache",
-				 "alpha_site_weapons_cache",  //custom entity types located in: starsector-core\data\config\custom_entities.json
-				 "draconis");
-		calphacache.setCircularOrbitPointingDown(ccryosleeper, 300, 400, 15); //focus, angle, orbit radius, orbit days
-		
+		array.setCircularOrbitPointingDown(fafnir_gate, 300, 200, 45); //focus, angle, orbit radius, orbit days
 
 		/////////////////////////////////////
 		// Preset Planet & Moon Conditions //

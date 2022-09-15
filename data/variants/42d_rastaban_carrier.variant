@@ -1,7 +1,7 @@
 {
     "displayName": "Carrier",
-    "fluxCapacitors": 2,
-    "fluxVents": 20,
+    "fluxCapacitors": 0,
+    "fluxVents": 18,
     "goalVariant": true,
     "hullId": "42d_rastaban",
     "hullMods": ["converted_hangar"],
@@ -36,5 +36,5 @@
             "weapons": {"WS0006": "lightmg"}
         }
     ],
-    "wings": ["wasp_wing"]
+    "wings": ["spark_wing"]
 }

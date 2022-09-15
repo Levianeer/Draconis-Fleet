@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 12,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "42d_rastaban",
@@ -33,7 +33,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "lightdualmg"}
+            "weapons": {"WS0006": "lightmg"}
         }
     ]
 }
