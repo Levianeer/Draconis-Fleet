@@ -31,13 +31,13 @@ public class draconisLove implements SectorGeneratorPlugin {
 ///STARTING REP LEVELS
 
 		fsdf_draconis.setRelationship(Factions.HEGEMONY, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.PERSEAN, RepLevel.NEUTRAL);
+		fsdf_draconis.setRelationship(Factions.PERSEAN, RepLevel.FRIENDLY);
 		fsdf_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.TRITACHYON, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE);
 		fsdf_draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE);
 		fsdf_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.DIKTAT, RepLevel.NEUTRAL);
+		fsdf_draconis.setRelationship(Factions.DIKTAT, RepLevel.FRIENDLY);
 		fsdf_draconis.setRelationship(Factions.PLAYER, RepLevel.NEUTRAL);
     }
 
