@@ -250,7 +250,6 @@
 		},
 	},
 	"custom":{
-		"spawnsAsIndependent":true,
 		"offersCommissions":true,
 		"engagesInHostilities":true,
 		"buysAICores":true,
