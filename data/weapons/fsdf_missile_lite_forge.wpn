@@ -4,8 +4,8 @@
 	"type":"MISSILE",
 	"size":"SMALL",
 	
-	"turretSprite":"graphics/weapons/type_x_mac.png",
-	"hardpointSprite":"graphics/weapons/type_x_mac.png",
+	"turretSprite":"graphics/weapons/fsdf_blank.png",
+	"hardpointSprite":"graphics/weapons/fsdf_blank.png",
 	"hardpointOffsets":[15, -4, 15, -2, 15, 2, 15, 4],
 	"turretOffsets":[10, -4, 10, -2, 10, 2, 10, 4],
 	"hardpointAngleOffsets":[0, 0, 0, 0],

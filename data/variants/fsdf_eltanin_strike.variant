@@ -19,16 +19,16 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0010": "fsdf_mac_3"}
-        },
-        {
-            "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
                 "WS0011": "fsdf_missile_forge",
                 "WS0012": "fsdf_missile_forge"
             }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0010": "fsdf_mac_3"}
         },
         {
             "autofire": true,

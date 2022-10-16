@@ -11,14 +11,14 @@
 	"crest":"graphics/factions/crest_draconis.png",
 	"shipNamePrefix":"DSS",
 	"shipNameSources":{
-		"BRITISH_NAVY":10,
+		"DRACONIS":10,
 	},
 	"names":{
-		"old english":1,
-		"modern":1,
+		"old english":2,
+		"modern":2,
 		"world":1,
 		"future":1,
-		"myth":2,
+		"myth":1,
 	},
 	
 	# variantOverrides restricts hulls to listed variants and adjusts their probability
