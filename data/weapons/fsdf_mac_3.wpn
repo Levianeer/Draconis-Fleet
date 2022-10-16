@@ -4,13 +4,12 @@
 	"type":"MISSILE",
 	"size":"LARGE",
 
-	"turretSprite":"graphics/weapons/gauss_cannon_turret_base.png",
-	"hardpointSprite":"graphics/weapons/gauss_cannon_hardpoint_base.png",
+	"turretSprite":"graphics/weapons/type_x_mac.png",
+	"hardpointSprite":"graphics/weapons/type_x_mac.png",
 	"hardpointOffsets":[7, -0.5],
 	"turretOffsets":[2, -0.5],
 	"hardpointAngleOffsets":[0],
 	"turretAngleOffsets":[0],
-	
 	"barrelMode":"ALTERNATING",
 	"animationType":"NONE",
 	"interruptibleBurst":true,
@@ -25,6 +24,6 @@
 				 "blowbackSpread":10.0,
 				 "particleColor":[170,160,150,130]},
 	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
-	"projectileSpecId":"fsdf_mac_shot",
+	"projectileSpecId":"fsdf_mac_shot3",
 	"fireSoundTwo":"rifttorpedo_fire",
 }

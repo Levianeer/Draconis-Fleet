@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 4,
+    "fluxCapacitors": 7,
     "fluxVents": 10,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
@@ -11,23 +11,29 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_1"}
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "fsdf_missile_lite_forge",
+                "WS0007": "fsdf_missile_lite_forge"
+            }
         },
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0001": "sabot"}
+            "weapons": {"WS0003": "fsdf_mac_1"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0002": "lightneedler"}
+            "weapons": {
+                "WS0001": "lightdualac",
+                "WS0002": "lightdualac"
+            }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "lightdualmg"}
+            "weapons": {"WS0005": "vulcan"}
         }
     ]
 }

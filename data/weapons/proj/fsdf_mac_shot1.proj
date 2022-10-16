@@ -1,19 +1,17 @@
 {
-	"id":"fsdf_mac_shot",
+	"id":"fsdf_mac_shot1",
 	"specClass":"missile",
 	"missileType":"ROCKET",
 	"sprite":"graphics/missiles/missile_sabot_warhead.png",
-	#"size":[10,14],
-	#"center":[5,7],
-	"size":[13,17],	
-	"center":[7,9],
-	"collisionRadius":8,
+	"size":[7,14],	
+	"center":[3.5,7],
+	"collisionRadius":12,
 	"collisionClass":"PROJECTILE_FF",
 	"explosionColor":[255,100,100,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":200, # purely visual
+	"explosionRadius":175, # purely visual
 	"explosionSpec":{"duration":0.1f, # not visual
-					 "radius":200,
-					 "coreRadius":75, # full damage within core radius
+					 "radius":90,
+					 "coreRadius":40, # full damage within core radius
 					 "collisionClass":HITS_SHIPS_AND_ASTEROIDS,
 					 "collisionClassByFighter":HITS_SHIPS_AND_ASTEROIDS,
 					 "particleSizeMin":5.0,
@@ -21,16 +19,8 @@
 					 "particleDuration":1,
 					 "particleCount":200,
 					 "particleColor":[255,155,155,255]},
-	#"alwaysAccelerate":true,
-	"reduceDamageWhileFading":true,
+	"fadeTime":1.0, # fadeout duration	
 	"noCollisionWhileFading":true,
-	"useHitGlowWhenDestroyed":true,
-	"fizzleOnReachingWeaponRange":true,
-	"dudProbabilityOnFlameout":0,
-	#"armingTime":0,
-	"flameoutTime":1, # total time from flameout to full fadeout
-	#"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
-	"fadeTime":0.5, # fadeout duration	
 	"glowColor":[255,165,0,75,75],
 	"glowRadius":50,
 	"engineSpec":{
@@ -47,7 +37,7 @@
 						"engineColor":[255,100,150,0],
 						"glowSizeMult":2,
 						"glowAlternateColor":[250,0,0,75,255],
-						"contrailDuration":6,
+						"contrailDuration":3,
 						"contrailWidthMult":1,
 						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
 						"contrailMinSeg":5, # min segment length, in pixels

@@ -1,9 +1,10 @@
 id,type,text1,text2,text3,notes
-fsdf_draconis,FACTION,"The 42nd Fleet is a relatively new faction making its home in Loutron, Al Gebbar.",,,
+fsdf_draconis,FACTION,The 42nd Fleet is a relatively new faction made up of a few allied planet’s veteran forces.,,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
-fsdf_thuban,SHIP,"The Thuban-class corvette is a fast mobile coilgun, primarily meant for Picket Fleets, boasting a high speed and just enough mounts for point defence.",,,
+fsdf_missile_forge,WEAPON,The Type 10 Multiple Launch Rocket System carries 200 short-range ship-to-ship missiles meant to overwhelm.,,,
+fsdf_missile_lite_forge,WEAPON,The Type 9 MLRS is the Type 10’s little brother. It has less range and half the missiles. Still serviceable but not as potent.,,,
+fsdf_thuban,SHIP,"The Thuban-class is a Frigate built around its massive Type 1 Magnetic Accelerator Cannon meant to compensate for its lack of weapons. Primarily meant for Picket Fleets, boasting a high speed and just enough mounts for point defence but otherwise subpar.",,,
 fsdf__rastaban,SHIP,[NOTE: FINISH LORE],,,
 fsdf_eltanin,SHIP,[NOTE: FINISH LORE],,,
-fsdf_altais,SHIP,[NOTE: FINISH LORE],,,

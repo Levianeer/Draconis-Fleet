@@ -11,11 +11,7 @@
 	"crest":"graphics/factions/crest_draconis.png",
 	"shipNamePrefix":"DSS",
 	"shipNameSources":{
-		"BRITISH_NAVY":2,
-		"ROMAN":1,
-		"GREEK":1,
-		"SPACE":1,
-		"GENERAL":1,
+		"BRITISH_NAVY":10,
 	},
 	"names":{
 		"old english":1,
@@ -38,18 +34,26 @@
 			"fsdf_thuban":10,
 			"fsdf_rastaban":10,
 			"fsdf_eltanin":10,
-			"fsdf_altais":10,
-			"buffalo2":0, # just say no
+			"astral":0,
+			"colossus3":0,
+			"condor":0,
+			"drover":0,
+			"heron":0,
+			"legion":0,
+			"mora":0,
+			"odyssey":0,
+			"prometheus2":0,
+			"shepherd":0,
+			"venture":0,
 		},
 	},
 	# ships the faction gets access to when importing S&W out-of-faction
 	"shipsWhenImporting":{
-		"tags":["base_bp", "midline_bp", "hightech_bp"],
+		"tags":["base_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
 		"hulls":[
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
-			"fsdf_altais",
 		],
 	},
 	"knownShips":{
@@ -58,28 +62,20 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
-			"fsdf_altais",
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":[],
+		"tags":["fsdf_package_bp"],
 		"hulls":[
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
-			"fsdf_altais",
 		],
 	},
 	"knownFighters":{
-		"tags":["base_bp", "midline_bp", "hightech_bp"],
+		"tags":[],
 		"fighters":[
-			"xyphos_wing",
-			"thunder_wing",
-			"claw_wing",
-			"trident_wing",
-			"cobra_wing",
-			"longbow_wing",
 		],
 	},
 	"priorityFighters":{
@@ -140,21 +136,20 @@
 			"operations_center",
 			"fluxbreakers",
 			"stabilizedshieldemitter",
-			"frontshield",  # makeshift
+			"frontshield",
 			"surveying_equipment",
 			"efficiency_overhaul",
 			"escort_package",
 			"assault_package",
-			"converted_fighterbay",
 		],
 	},
 	"factionDoctrine":{
-		"warships":4,
-		"carriers":2,
+		"warships":5,
+		"carriers":1,
 		"phaseShips":1,
 		
-		"officerQuality":3,
-		"shipQuality":3,
+		"officerQuality":5,
+		"shipQuality":1,
 		"numShips":1,
 		
 		"shipSize":3,
@@ -171,6 +166,9 @@
 			"crew_training",
 			"officer_training",
 			"coordinated_maneuvers",
+			"electronic_warfare",
+			"fighter_uplink",
+			"flux_regulation",
 			"support_doctrine",
 		],
 	},
@@ -268,6 +266,4 @@
 			"territorial":true,
 		},
 	},	
-	
-	
 },

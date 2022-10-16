@@ -5,5 +5,5 @@
 	"version":"1.4.0",
 	"description":"Faction mod",
 	"gameVersion":"0.95.1a-RC6",
-	"modPlugin":"data.scripts.fsdf_fafnir"
+	"modPlugin":"data.scripts.fsdf_ModPlugin"
 }

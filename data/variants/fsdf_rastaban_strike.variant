@@ -16,7 +16,15 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0008": "fsdf_missile_forge",
+                "WS0009": "fsdf_missile_forge"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0004": "sabot",
                 "WS0005": "sabot"

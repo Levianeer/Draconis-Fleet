@@ -3,13 +3,11 @@
 	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
 	"combatSmallForSmallFleet":{
 		"fsdf_thuban_strike":4,
-		"fsdf_thuban_overdriven":3,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
 		"fsdf_thuban_strike":4,
-		"fsdf_thuban_overdriven":3,
 		
 		"fallback":{"combatMedium":0.5},
 	},
@@ -24,7 +22,6 @@
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"fsdf_altais_strike":1,
 		
 		"fallback":{"combatLarge":1},
 	},
@@ -34,7 +31,6 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"fsdf_rastaban_carrier":1,
 		
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},

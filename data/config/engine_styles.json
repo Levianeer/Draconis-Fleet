@@ -1,0 +1,15 @@
+{
+	"fsdf_draconis_engine": {
+		"contrailParticleSizeMult":2,
+		"contrailParticleDuration":2,
+		"contrailParticleFinalSizeMult":0.5,
+		"contrailMaxSpeedMult":0.1,
+		"contrailAngularVelocityMult":0,
+		"contrailColor":[55,55,55,100],
+		"type":"SMOKE", # GLOW or SMOKE; additive or regular blend mode
+						
+		"glowSprite":"graphics/fx/engineglow32b.png",
+		"glowOutline":"graphics/fx/engineflame32b.png",
+		"engineColor":[255,125,25,255],
+	},
+}

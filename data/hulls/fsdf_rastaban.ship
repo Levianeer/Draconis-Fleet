@@ -12,10 +12,12 @@
   "shieldRadius": 123.5,
   "viewOffset": 0,
   "builtInMods": [
-    "insulatedengine"
+    "fsdf_Draconis_Fleet"
   ],
   "builtInWeapons": {
-    "WS0003": "fsdf_mac_2"
+    "WS0003": "fsdf_mac_2",
+    "WS0008": "fsdf_missile_forge",
+    "WS0009": "fsdf_missile_forge"
   },
   "weaponSlots": [
     {
@@ -50,7 +52,7 @@
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HARDPOINT",
-      "arc": 9,
+      "arc": 0,
       "angle": 135,
       "locations": [-26.5, 22.5]
     },
@@ -59,7 +61,7 @@
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HARDPOINT",
-      "arc": 9,
+      "arc": 0,
       "angle": -135,
       "locations": [-26.5, -22.5]
     },
@@ -68,36 +70,27 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 220,
+      "arc": 270,
       "angle": 180,
       "locations": [-6, -0]
     },
     {
-      "id": "WS0007",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-65, 21]
-    },
-    {
       "id": "WS0008",
       "size": "SMALL",
-      "type": "SYSTEM",
+      "type": "BUILT_IN",
       "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-65, -19.5]
+      "arc": 180,
+      "angle": 90,
+      "locations": [-65, 23]
     },
     {
       "id": "WS0009",
       "size": "SMALL",
-      "type": "SYSTEM",
+      "type": "BUILT_IN",
       "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 180,
-      "locations": [-88, -0]
+      "arc": 180,
+      "angle": -90,
+      "locations": [-65, -23]
     }
   ],
   "engineSlots": [
@@ -107,7 +100,8 @@
       "width": 40,
       "angle": 180,
       "contrailSize": 40,
-      "style": "MIDLINE"
+      "style": "CUSTOM",
+      "styleId": "fsdf_draconis_engine"
     }
   ],
   "bounds": [
