@@ -1,5 +1,9 @@
 id,type,text1,text2,text3,notes
-fsdf_draconis,FACTION,The 42nd Fleet is a relatively new faction made up of a few allied planet’s veteran forces.,,,
+fsdf_draconis,FACTION,"The 42nd Fleet was the primary defence force of Athebyne, a once pristine world that was experiencing mass civil unrest over the dictatorial rule of the system's government based on Drytron. The 1st Drytron Defence Fleet was dispatched to pacify Athebyne. The 42nd stepped in to try and stop them but were unsuccessful. The planet was bombarded anyway, and the remains of the 42nd fled.
+
+The 13th, 27th, and 33rd Fleets established Task Force Draconis and were hastily dispatched to hunt down the remains of the 42nd fleet while the 1st fleet was being resupplied and refitted. Task Force Draconis tracked down the 42nd, but the admiral of the 42nd convinced them of the scale of the atrocities committed by the 1st Fleet and the Drytronian leadership. Draconis ceded command to the 42nd.
+
+The group returns and in cooperation with mutinous planetary defence forces and a disgruntled civilian element manages to unseat the government and its dictator. Officially killed in action. The 42nd, Task Force Draconis and the rebels that aided them, formed the interim government on Drytron. The 42nd's admiral became the defacto ruler until order can be fully restored and a proper government elected.",,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
@@ -8,3 +12,7 @@ fsdf_missile_lite_forge,WEAPON,The Type 9 MLRS is the Type 10’s little brother
 fsdf_thuban,SHIP,"The Thuban-class is a Frigate built around its massive Type 1 Magnetic Accelerator Cannon meant to compensate for its lack of weapons. Primarily meant for Picket Fleets, boasting a high speed and just enough mounts for point defence but otherwise subpar.",,,
 fsdf_rastaban,SHIP,ADD DESCRIPTION.,,,
 fsdf_eltanin,SHIP,ADD DESCRIPTION.,,,
+star_fafnir ,PLANET,ADD DESCRIPTION.,,,
+planet_drytron ,PLANET,ADD DESCRIPTION.,,,
+planet_athebyne ,PLANET,ADD DESCRIPTION.,,,
+planet_kori ,PLANET,ADD DESCRIPTION.,,,

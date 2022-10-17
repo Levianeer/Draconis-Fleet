@@ -45,6 +45,7 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 			-750, //was 11000
 			-5250, //was -11000
 			600);  //id, type, radius, x coordinate, y coordiante, corona radius
+			star.setCustomDescriptionId("star_fafnir");
 			
 
 		system.setBackgroundTextureFilename("graphics/mod/backgrounds/modbg.jpg");
@@ -54,6 +55,7 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		PlanetAPI drytron = system.addPlanet("drytron", star, "Drytron", "terran", 0, 300, 5000, 500);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
 		drytron.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_drytron")); //graphics\mod\planets\fsdf_drytron.jpg
 		drytron.applySpecChanges();
+		drytron.setCustomDescriptionId("planet_drytron");
 
 		// Fafnir System Jump Point
 		JumpPointAPI fsdf_fafnir_jp = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point", "Fringe Jump Point");
@@ -63,15 +65,16 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		
 
 		// Athebyne
-		PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","lava", 180, 100, 2500, 60);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
+		PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","toxic", 180, 300, 2500, 60);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
 		athebyne.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_athebyne")); //graphics\mod\planets\fsdf_athebyne.jpg
 		athebyne.applySpecChanges();
-		
+		athebyne.setCustomDescriptionId("planet_athebyne");
 		
 		// Kori
 		PlanetAPI kori = system.addPlanet("kori", fsdf_fafnir_jp, "Kori","frozen", 0, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
 		kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_kori")); //graphics\mod\planets\fsdf_kori.jpg
 		kori.applySpecChanges();
+		kori.setCustomDescriptionId("planet_kori");
 
 		system.autogenerateHyperspaceJumpPoints(false,false); //gas giant = false, fringe = false / generates star gravity well
 		

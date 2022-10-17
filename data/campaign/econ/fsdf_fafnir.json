@@ -28,9 +28,10 @@
 			"size":4,
 			"startingConditions":[
 				"population_4",
-				"hot",
+				"pollution",
 				"ore_ultrarich",
 				"rare_ore_rich",
+				"ruins_extensive",
 			],
 			"industries":[
 				"population",
