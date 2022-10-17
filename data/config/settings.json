@@ -7,9 +7,9 @@
 			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
 		},
     "planets":{
-      "fsdf_vesta": "graphics/mod/planets/fsdf_vesta.jpg",
-      "fsdf_vulcan": "graphics/mod/planets/fsdf_vulcan.jpg",
-	  "fsdf_minerva": "graphics/mod/planets/fsdf_minerva.jpg",
-    }
+      "fsdf_drytron": "graphics/mod/planets/fsdf_drytron.jpg",
+      "fsdf_athebyne": "graphics/mod/planets/fsdf_athebyne.jpg",
+	  "fsdf_kori": "graphics/mod/planets/fsdf_kori.jpg",
+		}
 	}
 }

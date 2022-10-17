@@ -29,7 +29,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		
 		// These show up as items in the bulleted list under 
 		// "Tactical Objectives" on the mission detail screen
-		api.addBriefingItem("Defeat the defending forces");
+		api.addBriefingItem("Defeat the defending forces and keep the 'Fist of Vlorik alive'.");
 		api.addBriefingItem("Steal their Nanoforge and get back to what matters, making money.");
 		api.addBriefingItem("Draconis ships rely on missiles and high burst damage MACs.");
 		api.addBriefingItem("Bring strong Point Defense and brace for some hard punches, this is why we drink, boys.");
@@ -50,30 +50,33 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "afflictor_d_pirates_Strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "vanguard_pirates_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "lasher_CS", FleetMemberType.SHIP, false);
+		//api.addToFleet(FleetSide.PLAYER, "lasher_CS", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "lasher_Standard", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "wolf_Overdriven", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "wolf_Assault", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "cerberus_Overdriven", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "enforcer_Assault", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "fc_elco_Support", FleetMemberType.SHIP, false);
+		//api.addToFleet(FleetSide.PLAYER, "cerberus_Overdriven", FleetMemberType.SHIP, false);
+		//api.addToFleet(FleetSide.PLAYER, "enforcer_Assault", FleetMemberType.SHIP, false);
+		//api.addToFleet(FleetSide.PLAYER, "fc_elco_Support", FleetMemberType.SHIP, false);
 		
 		api.defeatOnShipLoss("Fist of Vlorik");
 		// Set up the enemy fleet.
 
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, true);		//	25ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);	//	75
 		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);	//	11ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);	//	99
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);		//	5ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);		//	25
 		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);

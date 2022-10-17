@@ -2,14 +2,14 @@
 	"starSystem":"fsdf_fafnir",
 	"markets":[
 		{
-			"entities":["vesta"],
+			"entities":["drytron"],
 			"faction":"fsdf_draconis",
 			"size":7,
 			"startingConditions":[
 				"population_7",
 				"habitable",
-				"organics_plentiful",
 				"farmland_bountiful",
+				"organics_plentiful",
 			],
 			"industries":[
 				"population",
@@ -23,7 +23,7 @@
 			],
 		},
 		{
-			"entities":["vulcan"],
+			"entities":["athebyne"],
 			"faction":"fsdf_draconis",
 			"size":4,
 			"startingConditions":[
@@ -31,7 +31,6 @@
 				"hot",
 				"ore_ultrarich",
 				"rare_ore_rich",
-				"volatiles_plentiful",
 			],
 			"industries":[
 				"population",
@@ -41,18 +40,18 @@
 			],
 		},
 		{
-			"entities":["minerva"],
+			"entities":["kori"],
 			"faction":"fsdf_draconis",
 			"size":3,
 			"startingConditions":[
 				"population_3",
 				"cold",
-				"ruins_vast",
+				"volatiles_abundant",
 			],
 			"industries":[
 				"population",
 				"spaceport",
-				"techmining",
+				"mining",
 			],
 		},
 	],

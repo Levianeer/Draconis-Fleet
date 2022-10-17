@@ -1,10 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 10,
-    "fluxVents": 8,
+    "fluxCapacitors": 1,
+    "fluxVents": 10,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "fluxdistributor"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_strike",
@@ -12,7 +15,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "lightdualac"}
+            "weapons": {"WS0001": "lightneedler"}
         },
         {
             "autofire": false,

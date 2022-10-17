@@ -50,28 +50,28 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		system.setBackgroundTextureFilename("graphics/mod/backgrounds/modbg.jpg");
 
 
-		// Vesta
-		PlanetAPI vesta = system.addPlanet("vesta", star, "Vesta", "terran", 0, 300, 5000, 500);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
-		vesta.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_vesta")); //graphics\mod\planets\fsdf_vesta.jpg
-		vesta.applySpecChanges();
+		// Drytron
+		PlanetAPI drytron = system.addPlanet("drytron", star, "Drytron", "terran", 0, 300, 5000, 500);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
+		drytron.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_drytron")); //graphics\mod\planets\fsdf_drytron.jpg
+		drytron.applySpecChanges();
 
 		// Fafnir System Jump Point
 		JumpPointAPI fsdf_fafnir_jp = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point", "Fringe Jump Point");
-		fsdf_fafnir_jp.setCircularOrbit(system.getEntityById("vesta"), 0, 1600, 90);  //id, angle, orbit radius, orbit days
+		fsdf_fafnir_jp.setCircularOrbit(system.getEntityById("drytron"), 0, 1600, 90);  //id, angle, orbit radius, orbit days
 		fsdf_fafnir_jp.setStandardWormholeToHyperspaceVisual();
 		system.addEntity(fsdf_fafnir_jp);
 		
 
-		// Vulcan
-		PlanetAPI vulcan = system.addPlanet("vulcan", fsdf_fafnir_jp, "Vulcan","lava", 180, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
-		vulcan.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_vulcan")); //graphics\mod\planets\fsdf_vulcan.jpg
-		vulcan.applySpecChanges();
+		// Athebyne
+		PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","lava", 180, 100, 2500, 60);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
+		athebyne.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_athebyne")); //graphics\mod\planets\fsdf_athebyne.jpg
+		athebyne.applySpecChanges();
 		
 		
-		// Minerva
-		PlanetAPI minerva = system.addPlanet("minerva", fsdf_fafnir_jp, "Minerva","frozen", 0, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
-		minerva.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_minerva")); //graphics\mod\planets\fsdf_minerva.jpg
-		minerva.applySpecChanges();
+		// Kori
+		PlanetAPI kori = system.addPlanet("kori", fsdf_fafnir_jp, "Kori","frozen", 0, 150, 350, 30);  //id, focus, name, type (starsector-core\data\config\planets.json), angle, radius, orbit radius, orbit days
+		kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_kori")); //graphics\mod\planets\fsdf_kori.jpg
+		kori.applySpecChanges();
 
 		system.autogenerateHyperspaceJumpPoints(false,false); //gas giant = false, fringe = false / generates star gravity well
 		
@@ -81,7 +81,7 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 				 "Fafnir Gate",
 				 "inactive_gate",
 				 null);
-		fsdf_fafnir_gate.setCircularOrbit(vesta, 180, 1600, 90); //focus, angle, orbit radius, orbit days
+		fsdf_fafnir_gate.setCircularOrbit(drytron, 180, 1600, 90); //focus, angle, orbit radius, orbit days
 
 		//Buoy
 		SectorEntityToken buoy = system.addCustomEntity("fsdf_fafnir_buoy",

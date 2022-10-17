@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 30,
+    "fluxCapacitors": 18,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
@@ -13,8 +13,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0005": "sabot",
-                "WS0006": "sabot"
+                "WS0005": "harpoonpod",
+                "WS0006": "harpoonpod"
             }
         },
         {
