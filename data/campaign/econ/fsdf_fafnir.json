@@ -8,7 +8,6 @@
 			"startingConditions":[
 				"population_7",
 				"habitable",
-				"ore_sparse",
 				"organics_plentiful",
 				"farmland_bountiful",
 			],
@@ -18,7 +17,7 @@
 				"megaport",
 				"grounddefenses",
 				"lightindustry",
-				"heavyindustry",
+				["orbitalworks", "corrupted_nanoforge"],
 				"militarybase",
 				"starfortress_high",
 			],
@@ -30,7 +29,8 @@
 			"startingConditions":[
 				"population_4",
 				"hot",
-				"rare_ore_ultrarich",
+				"ore_ultrarich",
+				"rare_ore_rich",
 				"volatiles_plentiful",
 			],
 			"industries":[
@@ -43,18 +43,16 @@
 		{
 			"entities":["minerva"],
 			"faction":"fsdf_draconis",
-			"size":4,
+			"size":3,
 			"startingConditions":[
-				"population_4",
+				"population_3",
 				"cold",
-				"ore_ultrarich",
 				"ruins_vast",
 			],
 			"industries":[
 				"population",
 				"spaceport",
-				"mining",
-				"refining",
+				"techmining",
 			],
 		},
 	],

@@ -9,6 +9,7 @@ import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
+import com.fs.starfarer.api.characters.PersonAPI;
 
 public class MissionDefinition implements MissionDefinitionPlugin {
 
@@ -18,63 +19,64 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		// Set up the fleets so we can add ships and fighter wings to them.
 		// In this scenario, the fleets are attacking each other, but
 		// in other scenarios, a fleet may be defending or trying to escape
-		api.initFleet(FleetSide.PLAYER, "ISS", FleetGoal.ATTACK, false);
+		api.initFleet(FleetSide.PLAYER, "", FleetGoal.ATTACK, false);
 		api.initFleet(FleetSide.ENEMY, "DSS", FleetGoal.ATTACK, true);
 
 		// Set a small blurb for each fleet that shows up on the mission detail and
 		// mission results screens to identify each side.
-		api.setFleetTagline(FleetSide.PLAYER, "Combined Independent Fleet");
-		api.setFleetTagline(FleetSide.ENEMY, "Draconis Home Defense Fleet");
+		api.setFleetTagline(FleetSide.PLAYER, "The Great Vlorik Pirate Armata");
+		api.setFleetTagline(FleetSide.ENEMY, "Draconis Detachment");
 		
 		// These show up as items in the bulleted list under 
 		// "Tactical Objectives" on the mission detail screen
-		api.addBriefingItem("Defeat the enemy forces");
-		api.addBriefingItem("The enemy relies on missiles and high burst damage, bring strong Point Defense");
+		api.addBriefingItem("Defeat the defending forces");
+		api.addBriefingItem("Steal their Nanoforge and get back to what matters, making money.");
+		api.addBriefingItem("Draconis ships rely on missiles and high burst damage MACs.");
+		api.addBriefingItem("Bring strong Point Defense and brace for some hard punches, this is why we drink, boys.");
 		
 		// Set up the player's fleet.  Variant names come from the
 		// files in data/variants and data/variants/fighters
 
-		// Capitals
-		api.addToFleet(FleetSide.PLAYER, "conquest_Elite", FleetMemberType.SHIP, "ISS Ace Pilot Bile", true);				//	15 OP	// 15
-		// Cruisers
-		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "ISS Dunkirk Prize", false);				//	25 OP	// 115
-		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "ISS Bulwark", false);					//	25 OP	//
-		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "ISS Stalwart", false);					//	25 OP	//
-		api.addToFleet(FleetSide.PLAYER, "heron_Strike", FleetMemberType.SHIP, "ISS Enterprise", false);					//	20 OP	//
-		api.addToFleet(FleetSide.PLAYER, "heron_Strike", FleetMemberType.SHIP, "ISS Ark Royal", false);						//	20 OP	//
-		// Destroyers
-		api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, "ISS Karma", false);						//	12 OP	// 12
-		// Frigates
-		api.addToFleet(FleetSide.PLAYER, "afflictor_Strike", FleetMemberType.SHIP, "ISS Blind Justice", false);				//	10 OP	// 58
-		api.addToFleet(FleetSide.PLAYER, "afflictor_Strike", FleetMemberType.SHIP, "ISS Blind Consequence", false);			//	10 OP	//
-		api.addToFleet(FleetSide.PLAYER, "afflictor_Strike", FleetMemberType.SHIP, "ISS Normal Consequence", false);		//	10 OP	//
-		api.addToFleet(FleetSide.PLAYER, "afflictor_Strike", FleetMemberType.SHIP, "ISS Normal Justice", false);			//	10 OP	//
-		api.addToFleet(FleetSide.PLAYER, "omen_PD", FleetMemberType.SHIP, "ISS Fortune", false);							//	6 OP 	//
-		api.addToFleet(FleetSide.PLAYER, "omen_PD", FleetMemberType.SHIP, "ISS Quaker", false);								//	6 OP	//
-		api.addToFleet(FleetSide.PLAYER, "omen_PD", FleetMemberType.SHIP, "ISS Feroze", false);								//	6 OP	//
+		api.addToFleet(FleetSide.PLAYER, "fc_atlas3_Combat", FleetMemberType.SHIP, "Fist of Vlorik", true);
+		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "Space Dog",false);
+		api.addToFleet(FleetSide.PLAYER, "eradicator_Assault", FleetMemberType.SHIP, "Moral Ambivalence", false);
+
+		api.addToFleet(FleetSide.PLAYER, "eagle_Assault", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "venture_Balanced", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "hammerhead_Balanced", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "manticore_pirates_Support", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "afflictor_d_pirates_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "vanguard_pirates_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "lasher_CS", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "lasher_Standard", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "wolf_Overdriven", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "wolf_Assault", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "cerberus_Overdriven", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "enforcer_Assault", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fc_elco_Support", FleetMemberType.SHIP, false);
 		
-		api.defeatOnShipLoss("ISS Ace Pilot Bile");
+		api.defeatOnShipLoss("Fist of Vlorik");
 		// Set up the enemy fleet.
 
-		// Cruisers
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, "DSS Armageddon's Edge", true);		//	22 OP	// 110
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, "DSS Lancelot", false);				//	22 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, "DSS Tharsis", false);					//	22 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, "DSS Persephone", false);				//	22 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, "DSS Brasidas", false);				//	22 OP	//
-		// Destroyers
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, "DSS Aegis Fate", false);				//	11 OP	// 66
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, "DSS The Heart of Midlothian", false);//	11 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, "DSS Everest", false);				//	11 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, "DSS Leviathan", false);				//	11 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, "DSS Cascadia", false);				//	11 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, "DSS Marathon", false);				//	11 OP	//
-		// Frigates
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, "DSS Ready or Not", false);				//	5 OP	// 25
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, "DSS Seattle", false);					//	5 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, "DSS Dresden", false);					//	5 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, "DSS Glasgow Kiss", false);				//	5 OP	//
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, "DSS Say My Name", false);				//	5 OP	//
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
 		
 		// Set up the map.
 		float width = 24000f;

@@ -3,6 +3,8 @@
 	"id":"fsdf_mac_2",
 	"type":"ENERGY",
 	"size":"MEDIUM",
+	"beamFireOnlyOnFullCharge":true,
+	"beamEffect":"com.fs.starfarer.api.impl.combat.TachyonLanceEffect",
 	"turretSprite":"graphics/weapons/fsdf_blank.png",
 	"hardpointSprite":"graphics/weapons/fsdf_blank.png",
 	"turretOffsets":[8, 0],
@@ -19,5 +21,5 @@
 	"pixelsPerTexel":4.0,
 	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
 	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF,FIGHTER,SHIP,ASTEROID],
-	"fireSoundOne":"rifttorpedo_fire",
+	"fireSoundOne":"riftcascade_rift",
 }
