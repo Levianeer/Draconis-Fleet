@@ -4,7 +4,6 @@
 	"type":"ENERGY",
 	"size":"SMALL",
 	"beamFireOnlyOnFullCharge":true,
-	"beamEffect":"com.fs.starfarer.api.impl.combat.TachyonLanceEffect",
 	"turretSprite":"graphics/weapons/fsdf_blank.png",
 	"hardpointSprite":"graphics/weapons/fsdf_blank.png",
 	"turretOffsets":[8, 0],
@@ -15,11 +14,11 @@
 	"coreColor":[255,255,255,100],
 	"glowColor":[255,100,100,255],
 	"coreWidthMult":2,
-	"width":15.0,
+	"width":2.0,
 	"textureType":SMOOTH,
 	"textureScrollSpeed":0,
 	"pixelsPerTexel":4.0,
 	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
-	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF,FIGHTER,SHIP,ASTEROID],
+	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF,FIGHTER,ASTEROID],
 	"fireSoundOne":"riftcascade_rift",
 }

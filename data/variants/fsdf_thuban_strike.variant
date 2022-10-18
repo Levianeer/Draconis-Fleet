@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 4,
     "fluxVents": 10,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
@@ -15,7 +15,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "lightneedler"}
+            "weapons": {"WS0001": "lightag"}
         },
         {
             "autofire": false,

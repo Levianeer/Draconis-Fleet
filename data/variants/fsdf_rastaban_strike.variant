@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 9,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
@@ -37,14 +37,10 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightneedler",
-                "WS0002": "lightneedler"
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
+                "WS0006": "vulcan"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "vulcan"}
         }
     ]
 }
