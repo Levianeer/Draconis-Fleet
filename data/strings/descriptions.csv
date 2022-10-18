@@ -1,18 +1,25 @@
 id,type,text1,text2,text3,notes
-fsdf_draconis,FACTION,"The 42nd Fleet was the primary defence force of Athebyne, a once pristine world that was experiencing mass civil unrest over the dictatorial rule of the system's government based on Drytron. The 1st Drytron Defence Fleet was dispatched to pacify Athebyne. The 42nd stepped in to try and stop them but were unsuccessful. The planet was bombarded anyway, and the remains of the 42nd fled.
+fsdf_draconis,FACTION,"The 42nd Fleet was the primary defence force of Athebyne, a once pristine world that experienced mass civil unrest when the Drytronian government tried to enforce a system-wide dictatorial rule.
 
-The 13th, 27th, and 33rd Fleets established Task Force Draconis and were hastily dispatched to hunt down the remains of the 42nd fleet while the 1st fleet was being resupplied and refitted. Task Force Draconis tracked down the 42nd, but the admiral of the 42nd convinced them of the scale of the atrocities committed by the 1st Fleet and the Drytronian leadership. Draconis ceded command to the 42nd.
+The 1st Drytron Defence Fleet was dispatched to pacify Athebyne. Although the 42nd tried valiantly to defend their home, they were soon overwhelmed. The planet was bombarded and the remains of the 42nd fleet fled to the outer reaches of their star system.
 
-The group returns and in cooperation with mutinous planetary defence forces and a disgruntled civilian element manages to unseat the government and its dictator. Officially killed in action. The 42nd, Task Force Draconis and the rebels that aided them, formed the interim government on Drytron. The 42nd's admiral became the defacto ruler until order can be fully restored and a proper government elected.",,,
+The 13th, 27th, and 33rd Drytronian Fleets temporarily became Task Force Draconis established to hunt down the remains of the insurgent 42nd fleet, while the 1st fleet was being resupplied and refitted. When the Draconis task force finally tracked down the missing fleet, the admiral of the 42nd revealed the extent of the atrocities committed by the 1st Fleet and the Draconis ceded command and merged with the 42nd.
+
+The newly formed 42nd Draconis Fleet returns to Athebyne and in cooperation with mutinous planetary defence forces and a disgruntled civilian element manages to unseat the government and its dictator. Officially killed in action. The 42nd Draconis Fleet and the rebels form the interim government on Drytron. The 42nd's admiral is elected de facto ruler until order can be fully restored and a proper government elected.",,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_missile_forge,WEAPON,The Type 10 Multiple Launch Rocket System carries 200 short-range ship-to-ship missiles meant to overwhelm.,,,
 fsdf_missile_lite_forge,WEAPON,The Type 9 MLRS is the Type 10’s little brother. It has less range and half the missiles. Still serviceable but not as potent.,,,
-fsdf_thuban,SHIP,"The Thuban-class is a Frigate built around its massive Type 1 Magnetic Accelerator Cannon meant to compensate for its lack of weapons. Primarily meant for Picket Fleets, boasting a high speed and just enough mounts for point defence but otherwise subpar.",,,
-fsdf_rastaban,SHIP,ADD DESCRIPTION.,,,
-fsdf_eltanin,SHIP,ADD DESCRIPTION.,,,
-star_fafnir ,PLANET,ADD DESCRIPTION.,,,
-planet_drytron ,PLANET,ADD DESCRIPTION.,,,
-planet_athebyne ,PLANET,ADD DESCRIPTION.,,,
-planet_kori ,PLANET,ADD DESCRIPTION.,,,
+fsdf_thuban,SHIP,"The Thuban-class Frigate is specifically meant for Picket Fleets, boasting a high max burn rate and above-average top speed with just enough weapon mounts for a functional point defence. She excels at chasing and destroying other frigates and is capable of punching above her weight in a combined force but will quickly break if under pressure.
+
+Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
+fsdf_rastaban,SHIP,"The Rastaban-class Destroyer is a stop-gap between the small Thuban-class and the venerable Eltanin-class. Purpose-built to act as the spearhead of a quick reaction force. It bares much more potent weapon systems than the Thuban, not seen on any other destroyer of its weight. However, it sacrifices much to achieve this, as it's much slower and unwieldy.
+
+Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
+fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
+
+Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
+planet_drytron,CUSTOM,"A habitable Terran world, home to many in the Fafnir system. It has large crops and mostly docile wildlife, making it perfect for humanity. However, the rampant growth of the military-industrial complex has polluted the world somewhat.",,,
+planet_athebyne,CUSTOM,"Once a beautiful earth-like sister world to Drytron, now a wasteland after its near annihilation at the hands of the 1st Drytron Fleet. Kept barely habitable by the mining corps that continue to extract her vast resources.",,,
+planet_kori,CUSTOM,Kori is an ice world known for its extensive supply of rare isotopes. The primary surface feature is a massive ice sheet that hides an endless ocean below its frigid skin.,,,
