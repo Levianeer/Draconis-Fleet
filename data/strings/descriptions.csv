@@ -10,7 +10,7 @@ fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; 
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_missile_forge,WEAPON,The Type 10 Multiple Launch Rocket System carries 200 short-range ship-to-ship missiles meant to overwhelm.,,,
-fsdf_missile_lite_forge,WEAPON,The Type 9 MLRS is the Type 10’s little brother. It has less range and half the missiles. Still serviceable but not as potent.,,,
+fsdf_missile_lite_forge,WEAPON,The Type 9 MLRS is the Type 10’s little brother. It has half the missiles and a slowly fire-rate Still serviceable but not as potent.,,,
 fsdf_thuban,SHIP,"The Thuban-class Frigate is specifically meant for Picket Fleets, boasting a high max burn rate and above-average top speed with just enough weapon mounts for a functional point defence. She excels at chasing and destroying other frigates and is capable of punching above her weight in a combined force but will quickly break if under pressure.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,

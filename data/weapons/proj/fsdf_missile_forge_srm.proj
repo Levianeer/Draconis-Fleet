@@ -2,10 +2,10 @@
 	"id":"fsdf_missile_forge_srm",
 	"specClass":"missile",
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/fsdf_missile_srm.png",
-	"size":[6,24],	
-	"center":[3,12],
-	"collisionRadius":14,
+	"sprite":"graphics/missiles/missile_SRM.png",
+	"size":[6,14],	
+	"center":[3,7],
+	"collisionRadius":12,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,165,50,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":150, # purely visual
