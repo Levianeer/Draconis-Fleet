@@ -3,7 +3,7 @@
   "hullId": "fsdf_rastaban",
   "hullSize": "DESTROYER",
   "spriteName": "graphics/ships/fsdf_rastaban.png",
-  "style": "HIGH_TECH",
+  "style": "DRACONIS",
   "height": 186,
   "width": 62,
   "center": [31, 93],
@@ -16,6 +16,7 @@
   ],
   "builtInWeapons": {
     "WS0003": "fsdf_mac_2",
+    "WS0007": "blinker_red",
     "WS0008": "fsdf_missile_forge",
     "WS0009": "fsdf_missile_forge"
   },
@@ -54,7 +55,7 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": 135,
-      "locations": [-26.5, 22.5]
+      "locations": [-27.5, 23.5]
     },
     {
       "id": "WS0005",
@@ -63,15 +64,15 @@
       "mount": "HARDPOINT",
       "arc": 0,
       "angle": -135,
-      "locations": [-26.5, -22.5]
+      "locations": [-27.5, -23.5]
     },
     {
       "id": "WS0006",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 270,
-      "angle": 180,
+      "arc": 360,
+      "angle": 0,
       "locations": [-6, -0]
     },
     {
@@ -81,7 +82,7 @@
       "mount": "HIDDEN",
       "arc": 180,
       "angle": 90,
-      "locations": [-65, 23]
+      "locations": [-65.5, 26]
     },
     {
       "id": "WS0009",
@@ -90,7 +91,16 @@
       "mount": "HIDDEN",
       "arc": 180,
       "angle": -90,
-      "locations": [-65, -23]
+      "locations": [-65.5, -26]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [90.5, -17.5]
     }
   ],
   "engineSlots": [
@@ -101,7 +111,7 @@
       "angle": 180,
       "contrailSize": 40,
       "style": "CUSTOM",
-      "styleId": "fsdf_draconis_engine"
+      "styleId": "DRACONIS"
     }
   ],
   "bounds": [

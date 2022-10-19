@@ -2,7 +2,7 @@
 	"id":"fsdf_draconis",
 	"name":"42nd Draconis Fleet Mod",
 	"author":"Levianeer",
-	"version":"1.8.7",
+	"version":"1.8.8",
 	"description":"Faction mod",
 	"gameVersion":"0.95.1a-RC6",
 	"modPlugin":"data.scripts.fsdf_ModPlugin",

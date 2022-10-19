@@ -55,5 +55,22 @@
 				"mining",
 			],
 		},
+		{
+			"entities":["fafnir_pirate_station"],
+			"faction":"pirates",
+			"size":3,
+			"freePort":true,
+			"startingConditions":[
+				"population_3",
+				"no_atmosphere",
+				"volatiles_plentiful",
+			],
+			"industries":[
+				"population",
+				"spaceport",
+				"mining",
+				"grounddefenses",
+			],
+		},
 	],
 }

@@ -187,9 +187,6 @@
 		"encounter_friendly":"music_diktat_encounter_friendly",
 	},
 	"internalComms":"hegemony_internal",
-	#"tariffFraction":0.4,
-	#"tollFraction":0.1,
-	#"fineFraction":0.25,
 	"portraits":{
 		"standard_male":[
 			"graphics/portraits/portrait_hegemony01.png",
@@ -223,15 +220,29 @@
 	},
 	"ranks":{
 		"ranks":{
-			"factionLeader":{"name":"Head of Operations"},
-			"spaceCommander":{"name":"Commander"},
+			"spaceCommander":{"name":"Chief of Naval Operations"},
 		},
 		"posts":{
-			"factionLeader":{"name":"Head of Operations"},
-			"patrolCommander":{"name":"Patrol Commander"},
-			"fleetCommander":{"name":"Fleet Commander"},
+			"patrolCommander":{"name":"Patrol Admiral"},
+			"fleetCommander":{"name":"Fleet Admiral"},
 			"baseCommander":{"name":"Base Commander"},
 		},
+	},
+	"fleetTypeNames":{
+		"trade":"Mercantile Convoy",
+		"tradeLiner":"Liner Convoy",
+		"tradeSmuggler":"Smuggler",
+		"smallTrader":"Trader",
+		
+		"patrolSmall":"Picket Fleet",
+		"patrolMedium":"Patrol Fleet",
+		"patrolLarge":"Strike Group",
+		
+		"inspectionFleet":"Inspection Fleet",
+		"taskForce":"Task Force",
+		
+		"foodReliefFleet":"Relief Convoy",
+	},
 	},
 	"voices":{
 		"LOW":{
@@ -254,7 +265,7 @@
 		"engagesInHostilities":true,
 		"buysAICores":true,
 		"AICoreValueMult":1,
-		"AICoreRepMult":2,
+		"AICoreRepMult":1,
 		"buysSurveyData":true,
 		"hostilityImpactOnGrowth":true,
 		"caresAboutAtrocities":true,

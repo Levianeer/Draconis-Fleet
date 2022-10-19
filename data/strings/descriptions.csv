@@ -6,10 +6,13 @@ The 1st Drytron Defence Fleet was dispatched to pacify Athebyne. Although the 42
 The 13th, 27th, and 33rd Drytronian Fleets temporarily became Task Force Draconis established to hunt down the remains of the insurgent 42nd fleet, while the 1st fleet was being resupplied and refitted. When the Draconis task force finally tracked down the missing fleet, the admiral of the 42nd revealed the extent of the atrocities committed by the 1st Fleet and the Draconis ceded command and merged with the 42nd.
 
 The newly formed 42nd Draconis Fleet returns to Athebyne and in cooperation with mutinous planetary defence forces and a disgruntled civilian element manages to unseat the government and its dictator. Officially killed in action. The 42nd Draconis Fleet and the rebels form the interim government on Drytron. The 42nd's admiral is elected de facto ruler until order can be fully restored and a proper government elected.",,,
+planet_drytron,CUSTOM,"A habitable Terran world, home to many in the Fafnir system. It has large crops and mostly docile wildlife, making it perfect for humanity. However, the rampant growth of the military-industrial complex has polluted the world somewhat.",,,
+planet_athebyne,CUSTOM,"Once a beautiful earth-like sister world to Drytron, now a wasteland after its near annihilation at the hands of the 1st Drytron Fleet. Kept barely habitable by the mining corps that continue to extract her vast resources.",,,
+planet_kori,CUSTOM,Kori is an ice world known for its extensive supply of rare isotopes. The primary surface feature is a massive ice sheet that hides an endless ocean below its frigid skin.,,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
-fsdf_missile_forge,WEAPON,The Type 10 Multiple Launch Rocket System carries 200 short-range ship-to-ship missiles meant to overwhelm.,,,
+fsdf_missile_forge,WEAPON,The Type 10 Multiple Launch Rocket System carries 200 ship-to-ship missiles meant to overwhelm their target.,,,
 fsdf_missile_lite_forge,WEAPON,The Type 9 MLRS is the Type 10’s little brother. It has half the missiles and a slowly fire-rate Still serviceable but not as potent.,,,
 fsdf_thuban,SHIP,"The Thuban-class Frigate is specifically meant for Picket Fleets, boasting a high max burn rate and above-average top speed with just enough weapon mounts for a functional point defence. She excels at chasing and destroying other frigates and is capable of punching above her weight in a combined force but will quickly break if under pressure.
 
@@ -20,6 +23,6 @@ Like all Draconis ships, shielding is inadequate and dated, but made up for by i
 fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-planet_drytron,CUSTOM,"A habitable Terran world, home to many in the Fafnir system. It has large crops and mostly docile wildlife, making it perfect for humanity. However, the rampant growth of the military-industrial complex has polluted the world somewhat.",,,
-planet_athebyne,CUSTOM,"Once a beautiful earth-like sister world to Drytron, now a wasteland after its near annihilation at the hands of the 1st Drytron Fleet. Kept barely habitable by the mining corps that continue to extract her vast resources.",,,
-planet_kori,CUSTOM,Kori is an ice world known for its extensive supply of rare isotopes. The primary surface feature is a massive ice sheet that hides an endless ocean below its frigid skin.,,,
+fsdf_mac_turret,WEAPON,"A jury-rigged Type 1 MAC, likely done by some creative bandits after stealing a Thuban-class Frigate. Although an impressive attempt at reverse engineering it's mostly a downgrade to its spinally mounted cousins, it does feature an increased fire rate.
+
+Who sold them the ammunition though...?",,,

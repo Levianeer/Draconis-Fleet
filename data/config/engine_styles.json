@@ -1,15 +1,20 @@
 {
-	"fsdf_draconis_engine": {
-		"contrailParticleSizeMult":2,
-		"contrailParticleDuration":2,
-		"contrailParticleFinalSizeMult":0.5,
-		"contrailMaxSpeedMult":0.1,
-		"contrailAngularVelocityMult":0,
-		"contrailColor":[55,55,55,100],
-		"type":"SMOKE", # GLOW or SMOKE; additive or regular blend mode
+	"DRACONIS": {
+		"mode":"QUAD_STRIP",
+		"contrailDuration":1.0,
+		"contrailWidthMult":0.7,
+		"contrailWidthAddedFractionAtEnd":-1f,  # can be negative. makes trail spread out/narrow at the end
+		"contrailMinSeg":12,
+		"contrailMaxSpeedMult":25f,
+		"contrailAngularVelocityMult":25f,
+		"contrailColor":[255,50,50,75],
+		"type":"GLOW",
 						
 		"glowSprite":"graphics/fx/engineglow32b.png",
 		"glowOutline":"graphics/fx/engineflame32b.png",
-		"engineColor":[255,125,25,255],
+		"omegaMode":true,
+		"glowSizeMult":0.25,
+		"glowAlternateColor":[255,125,50,255],
+		"engineColor":[255,50,50,255],
 	},
 }

@@ -12,6 +12,7 @@ import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Terrain;
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor;
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
+import com.fs.starfarer.api.impl.campaign.terrain.BaseRingTerrain.RingParams;
 import com.fs.starfarer.api.util.Misc;
 
 public class fsdf_ModPlugin extends BaseModPlugin {
@@ -32,10 +33,53 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 			-5250,
 			600);
 
+		//	--------------------------------------	Break	--------------------------------------	//
+
 		// Asteroids
-		system.addAsteroidBelt(star, 90, 7650, 500, 150, 300, Terrain.ASTEROID_BELT,  "Fafnir's Belt");
-		system.addRingBand(star, "misc", "rings_dust0", 256f, 3, Color.white, 256f, 7600, 305f, null, null);
-		system.addRingBand(star, "misc", "rings_asteroids0", 256f, 3, Color.white, 256f, 7720, 295f, null, null);
+		system.addAsteroidBelt(star, 100, 7300, 256, 150, 250, Terrain.ASTEROID_BELT, null);
+		system.addAsteroidBelt(star, 100, 7700, 256, 150, 250, Terrain.ASTEROID_BELT, null);
+		
+		system.addAsteroidBelt(star, 100, 8150, 128, 200, 300, Terrain.ASTEROID_BELT, null);
+		system.addAsteroidBelt(star, 100, 8450, 188, 200, 300, Terrain.ASTEROID_BELT, null);
+		system.addAsteroidBelt(star, 100, 8675, 256, 200, 300, Terrain.ASTEROID_BELT, null);
+			
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, 7200, 80f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, 7400, 100f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, 7600, 130f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, 7800, 80f);
+		
+		// add one ring that covers all of the above
+		SectorEntityToken ring = system.addTerrain(Terrain.RING, new RingParams(600 + 256, 7500, null, "Fafnir's Rings"));
+		ring.setCircularOrbit(star, 0, 0, 100);
+		
+		
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, 8000, 80f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, 8100, 120f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, 8200, 160f);
+		
+		// add one ring that covers all of the above
+		ring = system.addTerrain(Terrain.RING, new RingParams(200 + 256, 8100, null, "Fafnir's Rings"));
+		ring.setCircularOrbit(star, 0, 0, 100);
+		
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 3, Color.white, 256f, 8300, 140f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, 8400, 180f);
+		system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, 8500, 220f);
+		
+		// add one ring that covers all of the above
+		ring = system.addTerrain(Terrain.RING, new RingParams(200 + 256, 8400, null, "Fafnir's Rings"));
+		ring.setCircularOrbit(star, 0, 0, 100);
+		
+		
+		system.addRingBand(star, "misc", "rings_ice0", 256f, 0, Color.white, 256f, 8500, 100f);
+		system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, 8600, 140f);
+		system.addRingBand(star, "misc", "rings_ice0", 256f, 1, Color.white, 256f, 8700, 160f);
+		system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, 8800, 180f);
+		
+		// add one ring that covers all of the above
+		ring = system.addTerrain(Terrain.RING, new RingParams(300 + 256, 4650, null, "Fafnir's Rings"));
+		ring.setCircularOrbit(star, 0, 0, 100);
+
+		//	--------------------------------------	Break	--------------------------------------	//
 
 		system.setBackgroundTextureFilename("graphics/mod/backgrounds/modbg.jpg");
 
@@ -47,27 +91,33 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 
 		// Close Fafnir System Jump Point
 		JumpPointAPI fsdf_fafnir_jp_1 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_in", "Kori's Jump Point");
-		fsdf_fafnir_jp_1.setCircularOrbit(system.getEntityById("drytron"), 0, 1600, 90);
+		fsdf_fafnir_jp_1.setCircularOrbit(system.getEntityById("drytron"), 60, 1600, 90);
 		fsdf_fafnir_jp_1.setStandardWormholeToHyperspaceVisual();
 		system.addEntity(fsdf_fafnir_jp_1);
 
 		// Far Fafnir System Jump Point
 		JumpPointAPI fsdf_fafnir_jp_2 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_out", "Fringe Jump Point");
-		fsdf_fafnir_jp_2.setCircularOrbit(system.getEntityById("fsdf_fafnir"), 180, 9000, 180);
+		fsdf_fafnir_jp_2.setCircularOrbit(system.getEntityById("fsdf_fafnir"), 120, 9500, 300);
 		fsdf_fafnir_jp_2.setStandardWormholeToHyperspaceVisual();
 		system.addEntity(fsdf_fafnir_jp_2);
 		
 		// Athebyne
-		PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","barren_venuslike", 180, 300, 2500, 60);  //id, focus, name, type, angle, radius, orbit radius, orbit days
+		PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","barren_venuslike", 200, 300, 2500, 30);  //id, focus, name, type, angle, radius, orbit radius, orbit days
 		athebyne.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_athebyne"));
 		athebyne.setCustomDescriptionId("planet_athebyne");
 		athebyne.applySpecChanges();
 		
 		// Kori
-		PlanetAPI kori = system.addPlanet("kori", fsdf_fafnir_jp_1, "Kori","frozen", 0, 150, 350, 30);  //id, focus, name, type, angle, radius, orbit radius, orbit days
+		PlanetAPI kori = system.addPlanet("kori", fsdf_fafnir_jp_1, "Kori","frozen", 270, 150, 350, 60);  //id, focus, name, type, angle, radius, orbit radius, orbit days
 		kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_kori"));
 		kori.setCustomDescriptionId("planet_kori");
 		kori.applySpecChanges();
+
+		// Pirate Station
+		SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station","Outer Reach Extraction Depot", "station_lowtech1", "pirates");
+		pirateStation.setCircularOrbitPointingDown(system.getEntityById("fsdf_fafnir"), 160, 8500, 240);
+		pirateStation.setCustomDescriptionId("station_pirate_base");
+		pirateStation.setInteractionImage("illustrations", "pirate_station");
 
 		system.autogenerateHyperspaceJumpPoints(false,false); //gas giant = false, fringe = false / generates star gravity well
 		
