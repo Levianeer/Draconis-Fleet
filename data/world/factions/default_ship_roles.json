@@ -12,12 +12,12 @@
 		"fallback":{"combatMedium":0.5},
 	},
 	"combatMedium":{
-		"fsdf_rastaban_strike":3,
+		"fsdf_rastaban_strike":4,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"fsdf_eltanin_strike":2,
+		"fsdf_eltanin_strike":4,
 		
 		"fallback":{"combatMedium":1},
 	},

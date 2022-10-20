@@ -16,8 +16,10 @@
   ],
   "builtInWeapons": {
     "WS0010": "fsdf_mac_3",
-    "WS0011": "fsdf_missile_forge",
-    "WS0012": "fsdf_missile_forge"
+    "WS0011": "fsdf_mlrs_10_srm",
+    "WS0012": "fsdf_mlrs_10_srm",
+    "WS0013": "fsdf_mlrs_10_srm",
+    "WS0014": "fsdf_mlrs_10_srm"
   },
   "weaponSlots": [
     {
@@ -43,7 +45,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 200,
+      "arc": 160,
       "angle": 135,
       "locations": [-105, 30]
     },
@@ -52,7 +54,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 200,
+      "arc": 160,
       "angle": -135,
       "locations": [-105, -30]
     },
@@ -79,7 +81,7 @@
       "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 200,
+      "arc": 270,
       "angle": 0,
       "locations": [49.5, -0]
     },
@@ -88,7 +90,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 300,
+      "arc": 230,
       "angle": 0,
       "locations": [102, 11]
     },
@@ -97,7 +99,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 300,
+      "arc": 230,
       "angle": -0,
       "locations": [102, -11]
     },
@@ -105,28 +107,46 @@
       "id": "WS0010",
       "size": "LARGE",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [74, -0]
+      "locations": [64, 1]
     },
     {
       "id": "WS0011",
-      "size": "SMALL",
+      "size": "LARGE",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 90,
-      "locations": [-19.5, 41]
+      "locations": [-9, 40]
     },
     {
       "id": "WS0012",
-      "size": "SMALL",
+      "size": "LARGE",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -90,
-      "locations": [-19.5, -41]
+      "locations": [-9, -40]
+    },
+    {
+      "id": "WS0013",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-91, 39]
+    },
+    {
+      "id": "WS0014",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-91, -39]
     }
   ],
   "engineSlots": [
@@ -141,16 +161,16 @@
     }
   ],
   "bounds": [
-    134.5, -3,
-    123.5, -17.5,
-    102.5, -20.5,
-    61, -25.5,
-    26.5, -27,
-    12.5, -27,
-    12.5, -43.5,
-    -0.5, -43.5,
-    -16.5, -45.5,
-    -28.5, -45.5,
+    135, -5,
+    124, -18,
+    88, -23,
+    58.5, -27,
+    26.5, -29,
+    14, -27,
+    14, -43.5,
+    -0.5, -45,
+    -16, -47,
+    -26, -47,
     -34.5, -44.5,
     -44.5, -33.5,
     -55.5, -33.5,
@@ -163,15 +183,15 @@
     -55.5, 33.5,
     -44.5, 33.5,
     -34.5, 44.5,
-    -28.5, 45.5,
-    -16.5, 45.5,
-    -0.5, 43.5,
-    12.5, 43.5,
-    12.5, 27,
-    26.5, 27,
-    61, 25.5,
-    102.5, 20.5,
-    123.5, 17.5,
-    134.5, 3
+    -26, 47,
+    -16, 47,
+    -0.5, 45,
+    14, 43.5,
+    14, 27,
+    26.5, 29,
+    58.5, 27,
+    88, 23,
+    124, 18,
+    135, 5
   ]
 }

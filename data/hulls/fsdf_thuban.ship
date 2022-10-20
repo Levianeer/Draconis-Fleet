@@ -16,9 +16,9 @@
   ],
   "builtInWeapons": {
     "WS0003": "fsdf_mac_1",
-    "WS0004": "fsdf_missile_lite_forge",
+    "WS0004": "fsdf_mlrs_9_srm",
     "WS0006": "blinker_red",
-    "WS0007": "fsdf_missile_lite_forge"
+    "WS0007": "fsdf_mlrs_9_srm"
   },
   "weaponSlots": [
     {
@@ -43,10 +43,10 @@
       "id": "WS0003",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [30.5, -0]
+      "locations": [30.5, 1]
     },
     {
       "id": "WS0005",
@@ -64,7 +64,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 90,
-      "locations": [-25.5, 20]
+      "locations": [-23.5, 18]
     },
     {
       "id": "WS0007",
@@ -73,7 +73,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -90,
-      "locations": [-25.5, -20]
+      "locations": [-23.5, -18]
     },
     {
       "id": "WS0006",
@@ -97,17 +97,17 @@
     }
   ],
   "bounds": [
-    51, -12.5,
-    29, -12.5,
-    8, -22.5,
-    -18, -22.5,
-    -18, -14.5,
-    -50, -14.5,
-    -50, 14.5,
-    -18, 14.5,
-    -18, 22.5,
-    8, 22.5,
-    29, 12.5,
-    51, 12.5
+    53.5, -12,
+    31.5, -14,
+    2.5, -25,
+    -15.5, -25,
+    -24, -16,
+    -54.5, -16,
+    -54.5, 16,
+    -24, 16,
+    -15.5, 25,
+    2.5, 25,
+    31.5, 14,
+    53.5, 12
   ]
 }

@@ -1,11 +1,11 @@
 {
-	"version":2.0,
+	# "version":2.0,
 	
 	# each step is 3 game days
-	"initialStepsToRun":20,
+	# "initialStepsToRun":20,
 	
-	"maxExoticUtilityAtRange":14000,
-	"defaultTariff":0.3,
+	# "maxExoticUtilityAtRange":14000,
+	# "defaultTariff":0.3,
 	
 	"starSystems":[
 		"fsdf_fafnir.json",

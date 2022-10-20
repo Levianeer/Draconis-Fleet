@@ -1,11 +1,9 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
-#Built-in,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Type 1 MAC,fsdf_mac_1,5,,,600,1410,,,250,,,30,,,KINETIC,,1410,0.5,1,0.1,4.4,,,,,100000,,,,,,,"SYSTEM, FIRE_WHEN_INEFFICIENT",,,Draconis,,Strike,,,,,,,,,,711000
-Type 2 MAC,fsdf_mac_2,5,,,700,2820,,,250,,,30,,,KINETIC,,2820,0.5,1,0.1,4.4,,,,,100000,,,,,,,"SYSTEM, FIRE_WHEN_INEFFICIENT",,,Draconis,,Strike,,,,,,,,,,711000
-Type 3 MAC,fsdf_mac_3,5,,,800,5639,,,250,,,30,,,KINETIC,,5639,0.5,1,0.1,4.4,,,,,100000,,,,,,,"SYSTEM, FIRE_WHEN_INEFFICIENT",,,Draconis,,Strike,,,,,,,,,,711000
-Type 10 MLRS,fsdf_missile_forge,5,,,1200,,200,,,,,200,,,HIGH_EXPLOSIVE,,,,6,20,0.1,,,,,,300,100,7,10,,,"SYSTEM, DO_NOT_AIM",,,Draconis,,Pressure,Slow,Good,,,,,,,,711000
-Type 9 MLRS,fsdf_missile_lite_forge,5,,,1200,,200,,,,,100,,,HIGH_EXPLOSIVE,,,,6,10,0.2,,,,,,300,100,7,10,,,"SYSTEM, DO_NOT_AIM",,,Draconis,,Pressure,Slow,Good,,,,,,,,711000
+#MACs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Type 1 MAC,fsdf_mac_1,5,,,600,1410,,,250,,,30,,,ENERGY,,1058,0.9,1,0.1,4,,,,,100000,,,,,,,"SYSTEM, SHOW_IN_CODEX",,,Draconis,,General,,,,,,,,,,711000
+Type 2 MAC,fsdf_mac_2,5,,,700,2820,,,250,,,30,,,ENERGY,,2115,0.9,1,0.1,4,,,,,100000,,,,,,,"SYSTEM, SHOW_IN_CODEX",,,Draconis,,General,,,,,,,,,,711000
+Type 3 MAC,fsdf_mac_3,5,,,800,5639,,,250,,,30,,,ENERGY,,4229,0.9,1,0.1,4,,,,,100000,,,,,,,,,,Draconis,,General,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#Turrets,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Type 4 MAC,fsdf_mac_turret,3,0.6,7500,600,564,,,125,30,15,180,,,KINETIC,,564,0.25,0.5,0.1,0.15,,,,,100000,,,,,,,FIRE_WHEN_INEFFICIENT,fsdf_package_bp,,Draconis,,General,,,,,,,,,,711000
-#Type 8 MLRS,fsdf_missile_forge_pod,3,0.6,7500,1200,,200,,,30,20,200,,,HIGH_EXPLOSIVE,,,,6,20,0.1,,,,,,300,100,7,10,,,"SYSTEM, DO_NOT_AIM",,,Draconis,,Pressure,Slow,Good,,,,,,,,711000
+#MLRSs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Type 9 MLRS,fsdf_mlrs_9_srm,5,,,1200,,200,,,,,100,,,HIGH_EXPLOSIVE,,,,12,10,0.2,,,,,,250,70,6.6,200,,,"SYSTEM, SHOW_IN_CODEX, DO_NOT_AIM, DO_NOT_CONSERVE, MISSILE_SPREAD",,,,,Suppression,Medium,Good,,,,,,,,711000
+Type 10 MLRS,fsdf_mlrs_10_srm,5,,,1200,,200,,,,,200,,,HIGH_EXPLOSIVE,,,,12,20,0.1,,,,,,250,70,6.6,200,,,"SYSTEM, SHOW_IN_CODEX, DO_NOT_AIM, DO_NOT_CONSERVE, MISSILE_SPREAD",,,,,Suppression,Medium,Good,,,,,,,,711000
