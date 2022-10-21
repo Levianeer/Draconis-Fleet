@@ -10,7 +10,6 @@ planet_drytron,CUSTOM,"A habitable Terran world, home to many in the Fafnir syst
 planet_athebyne,CUSTOM,"Once a beautiful earth-like sister world to Drytron, now a wasteland after its near annihilation at the hands of the 1st Drytron Fleet. Kept barely habitable by the mining corps that continue to extract her vast resources.",,,
 planet_kori,CUSTOM,Kori is an ice world known for its extensive supply of rare isotopes. The primary surface feature is a massive ice sheet that hides an endless ocean below its frigid skin.,,,
 station_ringport,CUSTOM,ADD DESCRIPTION.,,,
-,,,,,
 fsdf_thuban,SHIP,"The Thuban-class Frigate is specifically meant for Picket Fleets, boasting a high max burn rate and above-average top speed with just enough weapon mounts for a functional point defence. She excels at chasing and destroying other frigates and is capable of punching above her weight in a combined force but will quickly break if under pressure.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
@@ -20,10 +19,11 @@ Like all Draconis ships, shielding is inadequate and dated, but made up for by i
 fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-,,,,,
+fsdf_eltanin_carrier,SHIP,,,,
+fsdf_thuban_pirates,SHIP,"A stolen heavily modified Thuban-class that's had its MAC replaced with a Heavy Mauler, a retrofit that has given a fair amount of space for additional armour. Its shield has also changed, ironically to a much more efficient one.",,,
 ,,,,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
-fsdf_mlrs_9_srm,WEAPON,The Type 9 Multiple Launch Rocket System is the Type 10’s little brother. It has half the missiles and a slowly fire-rate Still serviceable but not as potent.,,,
-fsdf_mlrs_10_srm,WEAPON,The Type 10 Multiple Launch Rocket System carries 200 ship-to-ship missiles meant to overwhelm their target.,,,
+fsdf_vls_9_mrm,WEAPON,ADD DESCRIPTION.,,,
+fsdf_vls_10_mrm,WEAPON,ADD DESCRIPTION.,,,

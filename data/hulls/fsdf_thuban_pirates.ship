@@ -1,9 +1,9 @@
 {
-  "hullName": "Thuban",
-  "hullId": "fsdf_thuban",
+  "hullName": "Thuban (P)",
+  "hullId": "fsdf_thuban_pirates",
   "hullSize": "FRIGATE",
-  "spriteName": "graphics/ships/fsdf_thuban.png",
-  "style": "DRACONIS",
+  "spriteName": "graphics/ships/fsdf_thuban_pirates.png",
+  "style": "LOW_TECH",
   "height": 112,
   "width": 52,
   "center": [26, 56],
@@ -12,13 +12,11 @@
   "shieldRadius": 68.5,
   "viewOffset": 0,
   "builtInMods": [
-    "fsdf_Draconis_Fleet"
+    "ballistic_rangefinder"
   ],
   "builtInWeapons": {
-    "WS0003": "fsdf_mac_1",
-    "WS0004": "fsdf_vls_9_mrm",
-    "WS0006": "blinker_red",
-    "WS0007": "fsdf_vls_9_mrm"
+    "WS0003": "heavymauler",
+    "WS0006": "blinker_red"
   },
   "weaponSlots": [
     {
@@ -41,9 +39,9 @@
     },
     {
       "id": "WS0003",
-      "size": "SMALL",
+      "size": "MEDIUM",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
+      "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
       "locations": [31, 1]
@@ -58,9 +56,18 @@
       "locations": [-38.5, 0]
     },
     {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [46.5, -17.5]
+    },
+    {
       "id": "WS0004",
       "size": "SMALL",
-      "type": "BUILT_IN",
+      "type": "MISSILE",
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 90,
@@ -69,20 +76,11 @@
     {
       "id": "WS0007",
       "size": "SMALL",
-      "type": "BUILT_IN",
+      "type": "MISSILE",
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -90,
       "locations": [-23, -18]
-    },
-    {
-      "id": "WS0006",
-      "size": "SMALL",
-      "type": "DECORATIVE",
-      "mount": "TURRET",
-      "arc": 0,
-      "angle": 0,
-      "locations": [46.5, -17.5]
     }
   ],
   "engineSlots": [
@@ -92,8 +90,7 @@
       "width": 32,
       "angle": 180,
       "contrailSize": 32,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "style": "LOW_TECH"
     }
   ],
   "bounds": [

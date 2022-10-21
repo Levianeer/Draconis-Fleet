@@ -12,10 +12,11 @@
 	"shipNamePrefix":"DSS",
 	"shipNameSources":{
 		"DRACONIS":10,
+		"BRITISH_NAVY":10,
 	},
 	"names":{
-		"old english":2,
-		"modern":2,
+		"old english":1,
+		"modern":1,
 		"world":1,
 		"future":1,
 		"myth":1,
@@ -34,6 +35,7 @@
 			"fsdf_thuban":10,
 			"fsdf_rastaban":10,
 			"fsdf_eltanin":10,
+			"fsdf_eltanin_carrier":10,
 			"astral":0,
 			"colossus3":0,
 			"condor":0,
@@ -54,6 +56,7 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
+			"fsdf_eltanin_carrier",
 		],
 	},
 	"knownShips":{
@@ -62,6 +65,7 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
+			"fsdf_eltanin_carrier",
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
@@ -71,11 +75,16 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
+			"fsdf_eltanin_carrier",
 		],
 	},
 	"knownFighters":{
-		"tags":[],
+		"tags":["base_bp", "lowtech_bp", "midline_bp"],
 		"fighters":[
+			"broadsword_wing",
+			"hoplon_wing",
+			"thunder_wing",
+			"hoplon_wing",
 		],
 	},
 	"priorityFighters":{
@@ -84,7 +93,7 @@
 		],
 	},
 	"knownWeapons":{
-		"tags":["base_bp", "lowtech_bp", "midline_bp", "missile_bp", "hightech_bp"],
+		"tags":["base_bp", "lowtech_bp", "midline_bp", "hightech_bp", "missile_bp"],
 		"weapons":[
 			"lightneedler",
 			"hveldriver",
@@ -154,7 +163,7 @@
 		
 		"shipSize":3,
 		
-		"aggression":3,
+		"aggression":2,
 		
 		"combatFreighterProbability":0.1,      				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup
@@ -187,6 +196,9 @@
 		"encounter_friendly":"music_diktat_encounter_friendly",
 	},
 	"internalComms":"hegemony_internal",
+	#"tariffFraction":0.4,
+	#"tollFraction":0.1,
+	#"fineFraction":0.25,
 	"portraits":{
 		"standard_male":[
 			"graphics/portraits/portrait_hegemony01.png",
@@ -220,9 +232,11 @@
 	},
 	"ranks":{
 		"ranks":{
-			"spaceCommander":{"name":"Chief of Naval Operations"},
+			"factionLeader":{"name":"Chief of Naval Operations"},
+			"spaceCommander":{"name":"Commander"},
 		},
 		"posts":{
+			"factionLeader":{"name":"Chief of Naval Operations"},
 			"patrolCommander":{"name":"Patrol Admiral"},
 			"fleetCommander":{"name":"Fleet Admiral"},
 			"baseCommander":{"name":"Base Commander"},
@@ -234,7 +248,7 @@
 		"tradeSmuggler":"Smuggler",
 		"smallTrader":"Trader",
 		
-		"patrolSmall":"Picket Fleet",
+		"patrolSmall":"Picket Flotilla",
 		"patrolMedium":"Patrol Fleet",
 		"patrolLarge":"Strike Group",
 		
@@ -242,7 +256,6 @@
 		"taskForce":"Task Force",
 		
 		"foodReliefFleet":"Relief Convoy",
-	},
 	},
 	"voices":{
 		"LOW":{
@@ -265,7 +278,7 @@
 		"engagesInHostilities":true,
 		"buysAICores":true,
 		"AICoreValueMult":1,
-		"AICoreRepMult":1,
+		"AICoreRepMult":2,
 		"buysSurveyData":true,
 		"hostilityImpactOnGrowth":true,
 		"caresAboutAtrocities":true,

@@ -1,13 +1,10 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 6,
+    "fluxCapacitors": 10,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
-    "hullMods": [
-        "targetingunit",
-        "fluxdistributor"
-    ],
+    "hullMods": ["fluxdistributor"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_strike",
@@ -16,8 +13,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0008": "fsdf_mlrs_10_srm",
-                "WS0009": "fsdf_mlrs_10_srm"
+                "WS0008": "fsdf_vls_10_mrm",
+                "WS0009": "fsdf_vls_10_mrm"
             }
         },
         {
@@ -29,12 +26,7 @@
             }
         },
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "railgun"}
-        },
-        {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {"WS0003": "fsdf_mac_2"}
         },
@@ -42,9 +34,14 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "vulcan",
-                "WS0002": "vulcan"
+                "WS0001": "railgun",
+                "WS0002": "railgun"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0006": "lightdualmg"}
         }
     ]
 }

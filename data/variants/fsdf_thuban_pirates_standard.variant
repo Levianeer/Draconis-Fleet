@@ -1,25 +1,25 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 6,
+    "displayName": "Standard",
+    "fluxCapacitors": 7,
     "fluxVents": 10,
     "goalVariant": true,
-    "hullId": "fsdf_thuban",
-    "hullMods": ["fluxdistributor"],
+    "hullId": "fsdf_thuban_pirates",
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_thuban_strike",
+    "variantId": "fsdf_thuban_pirates_standard",
     "weaponGroups": [
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_1"}
+            "weapons": {"WS0003": "heavymauler"}
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "fsdf_vls_9_mrm",
-                "WS0007": "fsdf_vls_9_mrm"
+                "WS0004": "sabot",
+                "WS0007": "sabot"
             }
         },
         {

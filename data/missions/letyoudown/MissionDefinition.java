@@ -30,49 +30,35 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		// "Tactical Objectives" on the mission detail screen
 		api.addBriefingItem("Defeat the defending forces and keep the 'Fist of Vlorik alive'.");
 		api.addBriefingItem("Steal their Nanoforge and get back to what matters, making money.");
-		api.addBriefingItem("Draconis ships rely on missiles and high burst damage MACs.");
+		api.addBriefingItem("Draconis ships rely on torpedos and high burst damage MACs.");
 		api.addBriefingItem("Bring strong Point Defense and brace for some hard punches, this is why we drink, boys.");
 		
-		// Set up the player's fleet.  Variant names come from the
-		// files in data/variants and data/variants/fighters
+		// Player's fleet.
+		api.addToFleet(FleetSide.PLAYER, "fc_atlas3_Combat", FleetMemberType.SHIP, "Fist of Vlorik", true); // 31
 
-		api.addToFleet(FleetSide.PLAYER, "fc_atlas3_Combat", FleetMemberType.SHIP, "Fist of Vlorik", true);
-		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "Space Dog",false);
-		api.addToFleet(FleetSide.PLAYER, "eradicator_Assault", FleetMemberType.SHIP, "Moral Ambivalence", false);
+		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "Space Dog",false); // 25 // 45
+		api.addToFleet(FleetSide.PLAYER, "eradicator_Assault", FleetMemberType.SHIP, "Moral Ambivalence", false); // 20
 
-		api.addToFleet(FleetSide.PLAYER, "eagle_Assault", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "venture_Balanced", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "hammerhead_Balanced", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "manticore_pirates_Support", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "afflictor_d_pirates_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "vanguard_pirates_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "lasher_Standard", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "wolf_Overdriven", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "wolf_Assault", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "hammerhead_Balanced", FleetMemberType.SHIP, false); // 10 // Total 20
+		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false); // 10
+
+		api.addToFleet(FleetSide.PLAYER, "afflictor_d_pirates_Strike", FleetMemberType.SHIP, false); // 10 // Total 25
+		api.addToFleet(FleetSide.PLAYER, "wolf_Assault", FleetMemberType.SHIP, false); // 5
+		api.addToFleet(FleetSide.PLAYER, "wolf_Assault", FleetMemberType.SHIP, false); // 5
+		api.addToFleet(FleetSide.PLAYER, "lasher_Standard", FleetMemberType.SHIP, false); // 4
 		
 		api.defeatOnShipLoss("Fist of Vlorik");
-		// Set up the enemy fleet.
 
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, true);		//	25ea
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);	//	100
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		// Enemy fleet.
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_carrier_standard", FleetMemberType.SHIP, true);	//	25 DP ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);			//	50
 		
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);	//	11ea
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);	//	66
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);		//	12 DP ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);		//	24
 		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);		//	5ea
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);		//	30
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);			//	6 DP ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);			//	18
 		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
 		
