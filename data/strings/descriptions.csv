@@ -19,7 +19,7 @@ Like all Draconis ships, shielding is inadequate and dated, but made up for by i
 fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-fsdf_eltanin_carrier,SHIP,,,,
+,,,,,
 fsdf_thuban_pirates,SHIP,"A stolen heavily modified Thuban-class that's had its MAC replaced with a Heavy Mauler, a retrofit that has given a fair amount of space for additional armour. Its shield has also changed, ironically to a much more efficient one.",,,
 ,,,,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,

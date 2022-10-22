@@ -2,7 +2,7 @@ name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating
 Thuban,fsdf_thuban,Frigate,Draconis,maneuveringjets,8,1500,150,2250,,150,35,,140,135,100,50,130,200,OMNI,,120,0.4,1.2,,,10,25,40,30,1,35,10,15000,7,16,120,0.25,6,6,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
 Rastaban,fsdf_rastaban,Destroyer ,Draconis,maneuveringjets,12,3000,300,4500,,270,65,,90,70,50,25,65,400,OMNI,,120,0.4,1.2,,,30,80,95,85,2,40,8,35000,5,15,240,0.25,12,12,,,,,,,,"fsdf_package_bp, req_military",,0.7,2,3,,711000
 Eltanin,fsdf_eltanin,Battlecruiser,Draconis,maneuveringjets,22,9000,1000,10000,,550,120,,75,40,30,15,20,1000,OMNI,,120,0.4,1.2,,,100,250,225,135,3,45,8,100000,3,14,360,0.25,35,25,,,,,,,,"fsdf_package_bp, req_military",,0.9,2,4,,711000
-Eltanin (C),fsdf_eltanin_carrier,Battlecarrier,Draconis,reservewing,22,9000,1000,10000,,550,120,2,75,40,30,15,20,1000,OMNI,,120,0.4,1.2,,,100,250,225,135,3,45,8,100000,3,14,360,0.25,35,25,,,,,,,,"fsdf_package_bp, req_military",,0.9,2,4,,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Pirates,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Thuban (P),fsdf_thuban_pirates,Frigate,Pirates,burndrive,5,1750,300,2250,,150,40,,140,135,100,50,130,200,FRONT,,210,0.4,0.8,,,10,25,40,30,1,35,10,9500,8,10,240,0.25,5,5,,,,,,,,"pirate_bp, merc",,0.5,2,2,,711000

@@ -50,7 +50,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.defeatOnShipLoss("Fist of Vlorik");
 
 		// Enemy fleet.
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_carrier_standard", FleetMemberType.SHIP, true);	//	25 DP ea
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, true);	//	25 DP ea
 		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);			//	50
 		
 		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);		//	12 DP ea

@@ -23,7 +23,7 @@
 					"turnAcc":478.6,
 					"turnRate":240,
 					"acc":478.6,
-					"dec":478.6},
+					"dec":0},
 	"engineSlots":[{"id":"ES1",
 					"loc":[-9, 0],
 				    "style":"CUSTOM",

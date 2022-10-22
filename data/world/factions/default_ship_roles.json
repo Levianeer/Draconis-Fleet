@@ -36,7 +36,6 @@
 		"fallback2":{"carrierLarge":0.5},
 	},
 	"carrierLarge":{
-		"fsdf_eltanin_carrier_standard":4,
 		
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},

@@ -35,7 +35,6 @@
 			"fsdf_thuban":10,
 			"fsdf_rastaban":10,
 			"fsdf_eltanin":10,
-			"fsdf_eltanin_carrier":10,
 			"astral":0,
 			"colossus3":0,
 			"condor":0,
@@ -56,7 +55,6 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
-			"fsdf_eltanin_carrier",
 		],
 	},
 	"knownShips":{
@@ -65,7 +63,6 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
-			"fsdf_eltanin_carrier",
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
@@ -75,7 +72,6 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
-			"fsdf_eltanin_carrier",
 		],
 	},
 	"knownFighters":{
