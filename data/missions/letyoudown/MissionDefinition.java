@@ -34,10 +34,10 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addBriefingItem("Bring strong Point Defense and brace for some hard punches, this is why we drink, boys.");
 		
 		// Player's fleet.
-		api.addToFleet(FleetSide.PLAYER, "fc_atlas3_Combat", FleetMemberType.SHIP, "Fist of Vlorik", true); // 31
+		api.addToFleet(FleetSide.PLAYER, "atlas2_Standard", FleetMemberType.SHIP, "Fist of Vlorik", true); // 31
 
 		api.addToFleet(FleetSide.PLAYER, "champion_Assault", FleetMemberType.SHIP, "Space Dog",false); // 25 // 45
-		api.addToFleet(FleetSide.PLAYER, "eradicator_Assault", FleetMemberType.SHIP, "Moral Ambivalence", false); // 20
+		api.addToFleet(FleetSide.PLAYER, "eradicator_pirates_Attack", FleetMemberType.SHIP, "Moral Ambivalence", false); // 20
 
 		api.addToFleet(FleetSide.PLAYER, "hammerhead_Balanced", FleetMemberType.SHIP, false); // 10 // Total 20
 		api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, false); // 10
