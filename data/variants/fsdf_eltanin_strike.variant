@@ -1,65 +1,71 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 30,
-    "fluxVents": 30,
-    "goalVariant": true,
-    "hullId": "fsdf_eltanin",
-    "hullMods": [],
-    "permaMods": [],
-    "sMods": [],
-    "variantId": "fsdf_eltanin_strike",
-    "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0010": "fsdf_mac_3"}
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0005": "harpoonpod",
-                "WS0006": "harpoonpod"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0013": "fsdf_vls_10_mrm",
-                "WS0014": "fsdf_vls_10_mrm"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0011": "fsdf_vls_9_mrm",
-                "WS0012": "fsdf_vls_9_mrm"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0008": "railgun",
-                "WS0009": "railgun"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0007": "heavyac"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "vulcan",
-                "WS0002": "vulcan",
-                "WS0003": "vulcan",
-                "WS0004": "vulcan"
-            }
-        }
-    ]
+  "variantId": "fsdf_eltanin_strike",
+  "hullId": "fsdf_eltanin",
+  "displayName": "Strike",
+  "goalVariant": true,
+  "fluxCapacitors": 30,
+  "fluxVents": 30,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0005": "sabotpod",
+        "WS0006": "sabotpod",
+        "WS0010": "fsdf_mac_3",
+        "WS0015": "heavyac"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {}
+    },
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0013": "fsdf_vls_10_mrm",
+        "WS0014": "fsdf_vls_10_mrm"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0011": "fsdf_vls_9_mrm",
+        "WS0012": "fsdf_vls_9_mrm"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0008": "railgun",
+        "WS0009": "railgun"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0007": "heavyac"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "vulcan",
+        "WS0002": "vulcan",
+        "WS0003": "vulcan",
+        "WS0004": "vulcan"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
 }

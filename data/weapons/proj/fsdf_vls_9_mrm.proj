@@ -7,21 +7,11 @@
 	"center":[3,7],
 	"collisionRadius":12,
 	"collisionClass":"MISSILE_NO_FF",
-	"explosionColor":[255,155,100,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":165, # purely visual
-	"explosionSpec":{"duration":0.1f, # not visual
-					"radius":80,
-					"coreRadius":50, # full damage within core radius
-					"collisionClass":HITS_SHIPS_AND_ASTEROIDS,
-					"collisionClassByFighter":HITS_SHIPS_AND_ASTEROIDS,
-					"particleSizeMin":5.0,
-					"particleSizeRange":3.0,
-					"particleDuration":1,
-					"particleCount":100,
-					"particleColor":[255,185,155,255]},
+	"explosionColor":[255,90,90,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":70, # purely visual
 	"engineSpec":{
 					"turnAcc":478.6,
-					"turnRate":240,
+					"turnRate":120,
 					"acc":478.6,
 					"dec":0},
 	"engineSlots":[{"id":"ES1",
@@ -29,7 +19,7 @@
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
-						"engineColor":[255,100,100,255],
+						"engineColor":[50,255,230,255],
 						"contrailDuration":3,
 						"contrailWidthMult":2,
 						"contrailWidthAddedFractionAtEnd":-1,  # can be negative. makes trail spread out/narrow at the end

@@ -119,7 +119,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 90,
-      "locations": [-9, 40]
+      "locations": [-23, 39]
     },
     {
       "id": "WS0012",
@@ -128,7 +128,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": -90,
-      "locations": [-9, -40]
+      "locations": [-23, -39]
     },
     {
       "id": "WS0013",
@@ -147,6 +147,15 @@
       "arc": 0,
       "angle": -90,
       "locations": [-91, -39]
+    },
+    {
+      "id": "WS0015",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 270,
+      "angle": 0,
+      "locations": [-32.5, -0]
     }
   ],
   "engineSlots": [
