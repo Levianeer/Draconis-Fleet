@@ -26,6 +26,8 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 
 		SectorAPI sector = Global.getSector();
 		StarSystemAPI system = sector.createStarSystem("Fafnir");
+
+		system.setBackgroundTextureFilename("graphics/mod/backgrounds/fafnirbg.jpg");
 		
 		//Star
 		PlanetAPI star = system.initStar(
@@ -55,7 +57,6 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		SectorEntityToken ring = system.addTerrain(Terrain.RING, new RingParams(600 + 256, 6500, null, "Fafnir's Rings"));
 		ring.setCircularOrbit(star, 0, 0, 100);
 		
-		
 		system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, 7000, 80f);
 		system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, 7100, 120f);
 		system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, 7200, 160f);
@@ -82,10 +83,6 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		ring = system.addTerrain(Terrain.RING, new RingParams(300 + 256, 8650, null, "Fafnir's Rings"));
 		ring.setCircularOrbit(star, 0, 0, 100);
 
-		//	--------------------------------------	Break	--------------------------------------	//
-
-		system.setBackgroundTextureFilename("graphics/mod/backgrounds/modbg.jpg");
-
 		// Athebyne
 		PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","barren_venuslike", 200, 300, 2500, 300);  //id, focus, name, type, angle, radius, orbit radius, orbit days
 		athebyne.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_athebyne"));
@@ -111,7 +108,7 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		kori.applySpecChanges();
 
 		// Pirate Station
-		SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station","Ringport Station", "station_lowtech1", "pirates");
+		SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station","Ring-Port Station", "station_lowtech1", "pirates");
 		pirateStation.setCircularOrbitPointingDown(system.getEntityById("fsdf_fafnir"), 120, 6900, 220);   //focus, angle, orbit radius, orbit days
 		pirateStation.setCustomDescriptionId("station_ringport");
 		pirateStation.setInteractionImage("illustrations", "pirate_station");
