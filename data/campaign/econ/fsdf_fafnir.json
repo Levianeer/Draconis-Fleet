@@ -58,11 +58,10 @@
 		{
 			"entities":["fafnir_pirate_station"],
 			"faction":"pirates",
-			"size":3,
+			"size":4,
 			"freePort":true,
 			"startingConditions":[
-				"population_3",
-				"no_atmosphere",
+				"population_4",
 				"volatiles_plentiful",
 			],
 			"industries":[
@@ -70,6 +69,7 @@
 				"spaceport",
 				"mining",
 				"grounddefenses",
+				"battlestation",
 			],
 		},
 	],

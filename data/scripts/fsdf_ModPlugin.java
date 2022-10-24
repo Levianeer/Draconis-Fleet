@@ -38,8 +38,6 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 			-5250,
 			600);
 
-		//	--------------------------------------	Break	--------------------------------------	//
-
 		// Asteroids
 		system.addAsteroidBelt(star, 100, 6300, 256, 150, 250, Terrain.ASTEROID_BELT, null);
 		system.addAsteroidBelt(star, 100, 6700, 256, 150, 250, Terrain.ASTEROID_BELT, null);

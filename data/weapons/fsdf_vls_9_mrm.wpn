@@ -6,8 +6,8 @@
 	
 	"turretSprite":"graphics/weapons/fsdf_vls_9_mrm.png",
 	"hardpointSprite":"graphics/weapons/fsdf_vls_9_mrm.png",
-	"hardpointOffsets":[5, 6.5, 5, 2.5, 5, -1.5, 5, -5.5],
-	"turretOffsets":[0, 6.5, 0, 2.5, 0, -1.5, 0, -5.5],
+	"hardpointOffsets":[7.5,6,7.5,2,7.5,-2,7.5,-6],
+	"turretOffsets":[3,6,3,2,3,-2,3,-6],
 	"hardpointAngleOffsets":[0, 0, 0, 0,],
 	"turretAngleOffsets":[0, 0, 0, 0,],
 	

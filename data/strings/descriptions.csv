@@ -20,7 +20,7 @@ Like all Draconis ships, shielding is inadequate and dated, but made up for by i
 fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-fsdf_vls_9_mrm,WEAPON,"The Type 9 Vertical Launch System has a total of 46 medium-range kinetic missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-fighter weapon.",,,
+fsdf_vls_9_mrm,WEAPON,"The Type 9 Vertical Launch System has a total of 46 medium-range kinetic missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-shield weapon.",,,
 fsdf_vls_10_mrm,WEAPON,"The Type 10 Vertical Launch System contains 16 heavy torpedos. They're slow, well armoured and cumbersome but hit hard. Great for anything it can catch.",,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,

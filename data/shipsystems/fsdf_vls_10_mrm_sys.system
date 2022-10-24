@@ -1,0 +1,11 @@
+{
+	"id":"fsdf_vls_10_mrm_sys",
+	"type":"WEAPON",
+	"aiType":"FLARE",
+	"weaponDataId":"fsdf_vls_10_mrm",
+	
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	"aiHints":{
+	}	
+}

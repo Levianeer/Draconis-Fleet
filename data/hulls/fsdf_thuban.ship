@@ -61,19 +61,19 @@
       "id": "WS0004",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": 90,
-      "locations": [-23, 18]
+      "locations": [-24, 14.5]
     },
     {
       "id": "WS0007",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": -90,
-      "locations": [-23, -18]
+      "locations": [-24, -14.5]
     },
     {
       "id": "WS0006",

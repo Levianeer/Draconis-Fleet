@@ -17,8 +17,8 @@
   "builtInWeapons": {
     "WS0003": "fsdf_mac_2",
     "WS0007": "blinker_red",
-    "WS0008": "fsdf_vls_10_mrm",
-    "WS0009": "fsdf_vls_10_mrm"
+    "WS0008": "fsdf_vls_9_mrm",
+    "WS0009": "fsdf_vls_9_mrm"
   },
   "weaponSlots": [
     {
@@ -77,21 +77,21 @@
     },
     {
       "id": "WS0008",
-      "size": "LARGE",
+      "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 180,
       "angle": 90,
-      "locations": [-65, 21]
+      "locations": [-65, 15.5]
     },
     {
       "id": "WS0009",
-      "size": "LARGE",
+      "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 180,
       "angle": -90,
-      "locations": [-65, -21]
+      "locations": [-65, -15.5]
     },
     {
       "id": "WS0007",

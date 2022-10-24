@@ -116,37 +116,37 @@
       "id": "WS0011",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": 90,
-      "locations": [-23, 39]
+      "locations": [-23, 33.5]
     },
     {
       "id": "WS0012",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": -90,
-      "locations": [-23, -39]
+      "locations": [-23, -33.5]
     },
     {
       "id": "WS0013",
       "size": "LARGE",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "type": "SYSTEM",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": 90,
-      "locations": [-91, 39]
+      "locations": [-91, 33.5]
     },
     {
       "id": "WS0014",
       "size": "LARGE",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "type": "SYSTEM",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": -90,
-      "locations": [-91, -39]
+      "locations": [-91, -33.5]
     },
     {
       "id": "WS0015",
