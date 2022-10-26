@@ -1,0 +1,48 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 30,
+    "fluxVents": 0,
+    "goalVariant": true,
+    "hullId": "fsdf_altais",
+    "hullMods": [
+        "adaptive_coils",
+        "hardened_subsystems",
+        "fluxbreakers"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_altais_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "amblaster",
+                "WS0005": "amblaster",
+                "WS0006": "amblaster",
+                "WS0007": "amblaster"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "typhoon",
+                "WS0002": "typhoon"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "heavyblaster"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0008": "pdburst",
+                "WS0009": "pdburst"
+            }
+        }
+    ]
+}

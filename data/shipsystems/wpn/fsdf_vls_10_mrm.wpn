@@ -25,5 +25,5 @@
 				 "blowbackSpread":15.0,
 				 "particleColor":[125,75,25,105]},
 	"projectileSpecId":"fsdf_vls_10_mrm",
-	"fireSoundTwo":"atropos_fire",
+	"fireSoundTwo":"reaper_fire",
 }

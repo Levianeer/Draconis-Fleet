@@ -4,8 +4,14 @@
 	"aiType":"FLARE",
 	"weaponDataId":"fsdf_vls_10_mrm",
 	
+	"canUseWhileRightClickSystemOn":true,
+	
 	"outOfUsesSound":"gun_out_of_ammo",
 	
 	"aiHints":{
-	}	
+		"threatRange":2500,
+		"threatAmount":10,
+		"threatAngle":0,
+		"threatArc":360,
+	}
 }

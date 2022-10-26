@@ -2,7 +2,7 @@
 	"starSystem":"fsdf_fafnir",
 	"markets":[
 		{
-			"entities":["drytron"],
+			"entities":["doraitoron"],
 			"faction":"fsdf_draconis",
 			"size":7,
 			"startingConditions":[

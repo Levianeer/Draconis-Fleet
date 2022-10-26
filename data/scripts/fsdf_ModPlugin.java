@@ -87,20 +87,20 @@ public class fsdf_ModPlugin extends BaseModPlugin {
 		athebyne.setCustomDescriptionId("planet_athebyne");
 		athebyne.applySpecChanges();
 
-		// Drytron
-		PlanetAPI drytron = system.addPlanet("drytron", star, "Drytron", "terran", 0, 300, 5000, 360);	//id, focus, name, type, angle, radius, orbit radius, orbit days
-		drytron.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_drytron"));
-		drytron.setCustomDescriptionId("planet_drytron");
-		drytron.applySpecChanges();
+		// Doraitoron
+		PlanetAPI doraitoron = system.addPlanet("doraitoron", star, "Doraitoron", "terran", 0, 300, 5000, 360);	//id, focus, name, type, angle, radius, orbit radius, orbit days
+		doraitoron.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_doraitoron"));
+		doraitoron.setCustomDescriptionId("planet_doraitoron");
+		doraitoron.applySpecChanges();
 
-		// Drytron's System Jump Point
-		JumpPointAPI fsdf_fafnir_jp_1 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_in", "Drytron's Jump Point");
-		fsdf_fafnir_jp_1.setCircularOrbit(system.getEntityById("drytron"), 315, 800, 30);   //focus, angle, orbit radius, orbit days
+		// Doraitoron's System Jump Point
+		JumpPointAPI fsdf_fafnir_jp_1 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_in", "Doraitoron's Jump Point");
+		fsdf_fafnir_jp_1.setCircularOrbit(system.getEntityById("doraitoron"), 315, 800, 30);   //focus, angle, orbit radius, orbit days
 		fsdf_fafnir_jp_1.setStandardWormholeToHyperspaceVisual();
 		system.addEntity(fsdf_fafnir_jp_1);
 
 		// Kori
-		PlanetAPI kori = system.addPlanet("kori", drytron, "Kori","frozen", 135, 150, 800, 30);  //id, focus, name, type, angle, radius, orbit radius, orbit days
+		PlanetAPI kori = system.addPlanet("kori", doraitoron, "Kori","frozen", 135, 150, 800, 30);  //id, focus, name, type, angle, radius, orbit radius, orbit days
 		kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_kori"));
 		kori.setCustomDescriptionId("planet_kori");
 		kori.applySpecChanges();
