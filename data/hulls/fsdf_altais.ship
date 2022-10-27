@@ -27,7 +27,7 @@
       "mount": "HARDPOINT",
       "arc": 9,
       "angle": 0,
-      "locations": [33.5, 29]
+      "locations": [34.5, 29]
     },
     {
       "id": "WS0002",
@@ -36,7 +36,7 @@
       "mount": "HARDPOINT",
       "arc": 9,
       "angle": -0,
-      "locations": [33.5, -29]
+      "locations": [34.5, -29]
     },
     {
       "id": "WS0003",
@@ -45,7 +45,7 @@
       "mount": "TURRET",
       "arc": 270,
       "angle": 0,
-      "locations": [45.5, -0]
+      "locations": [60.5, -0]
     },
     {
       "id": "WS0004",
@@ -84,15 +84,6 @@
       "locations": [-22.5, -71]
     },
     {
-      "id": "WS0008",
-      "size": "SMALL",
-      "type": "ENERGY",
-      "mount": "TURRET",
-      "arc": 270,
-      "angle": 0,
-      "locations": [69.5, -0]
-    },
-    {
       "id": "WS0009",
       "size": "SMALL",
       "type": "ENERGY",
@@ -102,30 +93,12 @@
       "locations": [-58.5, -0]
     },
     {
-      "id": "WS0010",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 9,
-      "angle": 0,
-      "locations": [37.5, 48.5]
-    },
-    {
-      "id": "WS0011",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 9,
-      "angle": -0,
-      "locations": [37.5, -48.5]
-    },
-    {
       "id": "WS0012",
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
       "arc": 0,
-      "angle": 180,
+      "angle": 0,
       "locations": [35, 48.5]
     },
     {
@@ -134,7 +107,7 @@
       "type": "DECORATIVE",
       "mount": "TURRET",
       "arc": 0,
-      "angle": -180,
+      "angle": -0,
       "locations": [35, -48.5]
     }
   ],
