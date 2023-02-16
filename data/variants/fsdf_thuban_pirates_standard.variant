@@ -10,30 +10,24 @@
     "variantId": "fsdf_thuban_pirates_standard",
     "weaponGroups": [
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0003": "heavymauler"}
-        },
-        {
             "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0004": "sabot",
-                "WS0007": "sabot"
-            }
+            "mode": "LINKED",
+            "weapons": {"WS0002": "amblaster"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "railgun"}
+            "weapons": {"WS0003": "hveldriver"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0002": "vulcan",
-                "WS0005": "vulcan"
-            }
+            "weapons": {"WS0001": "irpulse"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "vulcan"}
         }
     ]
 }

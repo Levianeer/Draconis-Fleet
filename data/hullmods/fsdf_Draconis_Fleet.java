@@ -25,26 +25,4 @@ public class fsdf_Draconis_Fleet extends BaseHullMod {
 		if (index == 0) return "" + (int) ((1f - PROFILE_MULT) * 100f) + "%";
 		return null;
 	}
-
-	@Override 
-	public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
-		ship.addListener(new ScatterAmpDamageDealtMod(ship));
-	}
-	
-	public static class ScatterAmpDamageDealtMod implements DamageDealtModifier {
-		protected ShipAPI ship;
-		public ScatterAmpDamageDealtMod(ShipAPI ship) {
-			this.ship = ship;
-		}
-		
-		public String modifyDamageDealt(Object param,
-								   		CombatEntityAPI target, DamageAPI damage,
-								   		Vector2f point, boolean shieldHit) {
-			
-			if (!(param instanceof DamagingProjectileAPI) && param instanceof BeamAPI) {
-				damage.setForceHardFlux(true);
-			}
-			return null;
-		}
-	}
 }

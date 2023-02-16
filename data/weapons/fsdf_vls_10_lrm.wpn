@@ -1,11 +1,11 @@
 {
-	"id":"fsdf_vls_10_mrm",
+	"id":"fsdf_vls_10_lrm",
 	"specClass":"projectile",
 	"type":"MISSILE",
 	"size":"LARGE",
 	
-	"turretSprite":"graphics/weapons/fsdf_vls_10_mrm.png",
-	"hardpointSprite":"graphics/weapons/fsdf_vls_10_mrm.png",
+	"turretSprite":"graphics/weapons/fsdf_vls_10_lrm.png",
+	"hardpointSprite":"graphics/weapons/fsdf_vls_10_lrm.png",
 	"hardpointOffsets":[11.5,6,11.5,2,11.5,-2,11.5,-6],
 	"turretOffsets":[7,6,7,2,7,-2,7,-6],
 	"hardpointAngleOffsets":[0, 0, 0, 0,],
@@ -24,6 +24,6 @@
 				 "blowbackLength":22.0,
 				 "blowbackSpread":15.0,
 				 "particleColor":[125,75,25,105]},
-	"projectileSpecId":"fsdf_vls_10_mrm",
+	"projectileSpecId":"fsdf_vls_10_lrm",
 	"fireSoundTwo":"reaper_fire",
 }

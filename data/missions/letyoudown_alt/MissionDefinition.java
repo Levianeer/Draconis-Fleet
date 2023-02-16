@@ -1,4 +1,4 @@
-package data.missions.letyoudown;
+package data.missions.letyoudown_alt;
 
 import java.util.List;
 
@@ -18,43 +18,43 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		// Set up the fleets so we can add ships and fighter wings to them.
 		// In this scenario, the fleets are attacking each other, but
 		// in other scenarios, a fleet may be defending or trying to escape
-		api.initFleet(FleetSide.PLAYER, "", FleetGoal.ATTACK, true);
-		api.initFleet(FleetSide.ENEMY, "DSS", FleetGoal.ATTACK, true);
+		api.initFleet(FleetSide.ENEMY, "", FleetGoal.ATTACK, true);
+		api.initFleet(FleetSide.PLAYER, "DSS", FleetGoal.ATTACK, true);
 
 		// Set a small blurb for each fleet that shows up on the mission detail and
 		// mission results screens to identify each side.
-		api.setFleetTagline(FleetSide.PLAYER, "The Great Vlorik Pirate Armata");
-		api.setFleetTagline(FleetSide.ENEMY, "Draconis Detachment");
+		api.setFleetTagline(FleetSide.ENEMY, "The Great Vlorik Pirate Armata");
+		api.setFleetTagline(FleetSide.PLAYER, "Draconis Detachment");
 		
 		// These show up as items in the bulleted list under 
 		// "Tactical Objectives" on the mission detail screen
 		api.addBriefingItem("Defeat the enemy forces.");
 		
 		// Player's fleet.
-		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, true);
-		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_eltanin_strike", FleetMemberType.SHIP, true);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.PLAYER, "hammerhead_Elite", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "hammerhead_Elite", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "hammerhead_Elite", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
 		
 		// Enemy fleet.
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, true);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "falcon_p_Strike", FleetMemberType.SHIP, true);
+		api.addToFleet(FleetSide.ENEMY, "falcon_p_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "falcon_p_Strike", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_rastaban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "hammerhead_Elite", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "hammerhead_Elite", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "hammerhead_Elite", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.ENEMY, "fsdf_thuban_strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "scarab_Experimental", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "scarab_Experimental", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.ENEMY, "scarab_Experimental", FleetMemberType.SHIP, false);
 		
 		// Set up the map.
 		float width = 24000f;

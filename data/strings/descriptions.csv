@@ -13,20 +13,15 @@ station_ringport,CUSTOM,"Ring-Port is an old asteroid mining station, that in mo
 fsdf_thuban,SHIP,"The Thuban-class Frigate is specifically meant for Picket Fleets, boasting a high max burn rate and above-average top speed with just enough weapon mounts for a functional point defence. She excels at chasing and destroying other frigates and is capable of punching above her weight in a combined force but will quickly break if under pressure.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-fsdf_thuban_pirates,SHIP,"A stolen heavily modified Thuban-class that's had its MAC replaced with a Heavy Mauler, a retrofit that has given a fair amount of space for additional armour. Its shield has also changed, ironically to a much more efficient one.",,,
+fsdf_thuban_pirates,SHIP,"A stolen heavily modified Thuban-class that's had its MAC replaced with a Hypervelocity Driver, a retrofit that has given a fair amount of space for additional armour. Its shield has also changed, ironically to a much more efficient one.",,,
 fsdf_rastaban,SHIP,"The Rastaban-class Destroyer is a stop-gap between the small Thuban-class and the venerable Eltanin-class. Purpose-built to act as the spearhead of a quick reaction force. It bares much more potent weapon systems than the Thuban, not seen on any other destroyer of its weight. However, it sacrifices much to achieve this, as it's much slower and unwieldy.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
 fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-fsdf_altais,SHIP,"The Altais-class Phase Cruiser was a technological testbed meant to evaluate various advancements in ship design, primarily Phase Cloaking and energy weapons.
-
-The sole example of this class went missing during a routine test when it entered p-space and never emerged, all hands presumed lost. Because of the political fallout that followed the disaster the Draconis military officially abandoned further research into Phase tech.
-
-Unlike most Draconis ships, this lacks any spinally mounted Magnetic Accelerator Cannon.",,,
-fsdf_vls_9_mrm,WEAPON,"The Type 9 Vertical Launch System has a total of 46 medium-range kinetic missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-shield weapon.",,,
-fsdf_vls_10_mrm,WEAPON,"The Type 10 Vertical Launch System contains 16 heavy torpedos. They're slow, well armoured and cumbersome but hit hard. Great for anything it can catch.",,,
+fsdf_vls_9_srm,WEAPON,"The Type 9 Vertical Launch System has a total of 46 medium-range kinetic missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-shield weapon.",,,
+fsdf_vls_10_lrm,WEAPON,"The Type 10 Vertical Launch System contains 16 heavy torpedos. They're slow, well armoured and cumbersome but hit hard. Great for anything it can catch.",,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,

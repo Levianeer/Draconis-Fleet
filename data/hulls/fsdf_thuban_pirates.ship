@@ -15,14 +15,14 @@
     "ballistic_rangefinder"
   ],
   "builtInWeapons": {
-    "WS0003": "heavymauler",
+    "WS0003": "hveldriver",
     "WS0006": "blinker_red"
   },
   "weaponSlots": [
     {
       "id": "WS0001",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
@@ -31,7 +31,7 @@
     {
       "id": "WS0002",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 300,
       "angle": 0,
@@ -44,7 +44,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [31, 1]
+      "locations": [31, -0]
     },
     {
       "id": "WS0005",
@@ -63,24 +63,6 @@
       "arc": 0,
       "angle": 0,
       "locations": [46.5, -17.5]
-    },
-    {
-      "id": "WS0004",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HIDDEN",
-      "arc": 0,
-      "angle": 90,
-      "locations": [-23, 18]
-    },
-    {
-      "id": "WS0007",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HIDDEN",
-      "arc": 0,
-      "angle": -90,
-      "locations": [-23, -18]
     }
   ],
   "engineSlots": [

@@ -1,9 +1,8 @@
 {
-	"id":"fsdf_vls_9_mrm",
+	"id":"fsdf_vls_9_srm",
 	"specClass":"missile",
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/fsdf_vls_9_mrm.png",
-	"onHitEffect":"com.fs.starfarer.api.impl.combat.SabotOnHitEffect",
+	"sprite":"graphics/missiles/fsdf_vls_9_srm.png",
 	"size":[6,14],	
 	"center":[3,7],
 	"collisionRadius":12,

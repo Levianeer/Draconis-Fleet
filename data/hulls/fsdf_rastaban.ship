@@ -17,8 +17,8 @@
   "builtInWeapons": {
     "WS0003": "fsdf_mac_2",
     "WS0007": "blinker_red",
-    "WS0008": "fsdf_vls_9_mrm",
-    "WS0009": "fsdf_vls_9_mrm"
+    "WS0008": "fsdf_vls_9_srm",
+    "WS0009": "fsdf_vls_9_srm"
   },
   "weaponSlots": [
     {
@@ -41,19 +41,19 @@
     },
     {
       "id": "WS0003",
-      "size": "MEDIUM",
+      "size": "LARGE",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
+      "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [37, 1]
+      "locations": [38, -0]
     },
     {
       "id": "WS0004",
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HARDPOINT",
-      "arc": 0,
+      "arc": 5,
       "angle": 135,
       "locations": [-27.5, 23.5]
     },
@@ -62,14 +62,14 @@
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HARDPOINT",
-      "arc": 0,
+      "arc": 5,
       "angle": -135,
       "locations": [-27.5, -23.5]
     },
     {
       "id": "WS0006",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
@@ -79,8 +79,8 @@
       "id": "WS0008",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 180,
+      "mount": "HIDDEN",
+      "arc": 5,
       "angle": 90,
       "locations": [-65, 15.5]
     },
@@ -88,8 +88,8 @@
       "id": "WS0009",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 180,
+      "mount": "HIDDEN",
+      "arc": 5,
       "angle": -90,
       "locations": [-65, -15.5]
     },
@@ -101,6 +101,24 @@
       "arc": 0,
       "angle": 0,
       "locations": [90.5, -17.5]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 90,
+      "locations": [-41.5, 2]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -90,
+      "locations": [-41.5, -2]
     }
   ],
   "engineSlots": [

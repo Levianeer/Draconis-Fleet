@@ -16,15 +16,15 @@
   ],
   "builtInWeapons": {
     "WS0003": "fsdf_mac_1",
-    "WS0004": "fsdf_vls_9_mrm",
+    "WS0004": "fsdf_vls_9_srm",
     "WS0006": "blinker_red",
-    "WS0007": "fsdf_vls_9_mrm"
+    "WS0007": "fsdf_vls_9_srm"
   },
   "weaponSlots": [
     {
       "id": "WS0001",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
@@ -41,12 +41,12 @@
     },
     {
       "id": "WS0003",
-      "size": "SMALL",
+      "size": "MEDIUM",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
+      "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [31, 1]
+      "locations": [31, -0]
     },
     {
       "id": "WS0005",
@@ -61,8 +61,8 @@
       "id": "WS0004",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 0,
+      "mount": "HIDDEN",
+      "arc": 5,
       "angle": 90,
       "locations": [-24, 14.5]
     },
@@ -70,8 +70,8 @@
       "id": "WS0007",
       "size": "SMALL",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 0,
+      "mount": "HIDDEN",
+      "arc": 5,
       "angle": -90,
       "locations": [-24, -14.5]
     },
@@ -83,6 +83,24 @@
       "arc": 0,
       "angle": 0,
       "locations": [46.5, -17.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 90,
+      "locations": [10.5, 17]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -90,
+      "locations": [10.5, -17]
     }
   ],
   "engineSlots": [
