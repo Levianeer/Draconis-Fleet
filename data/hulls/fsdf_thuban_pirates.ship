@@ -11,9 +11,6 @@
   "shieldCenter": [0, -0],
   "shieldRadius": 68.5,
   "viewOffset": 0,
-  "builtInMods": [
-    "ballistic_rangefinder"
-  ],
   "builtInWeapons": {
     "WS0003": "hveldriver",
     "WS0006": "blinker_red"

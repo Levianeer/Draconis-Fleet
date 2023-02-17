@@ -7,18 +7,18 @@
 	"center":[3,7],
 	"collisionRadius":8,
 	"collisionClass":"MISSILE_NO_FF",
-	"explosionColor":[255,105,20,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":250, # purely visual
+	"explosionColor":[255,0,255,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":2000, # purely visual
 	"explosionSpec":{"duration":0.1f, # not visual
-					 "radius":125,
-					 "coreRadius":75, # full damage within core radius
+					 "radius":1000,
+					 "coreRadius":500, # full damage within core radius
 					 "collisionClass":HITS_SHIPS_AND_ASTEROIDS,
 					 "collisionClassByFighter":HITS_SHIPS_AND_ASTEROIDS,
 					 "particleSizeMin":5.0,
 					 "particleSizeRange":3.0,
 					 "particleDuration":1,
-					 "particleCount":150,
-					 "particleColor":[255,185,155,255]},
+					 "particleCount":200,
+					 "particleColor":[255,155,155,255]},
 	"engineSpec":{
 					"turnAcc":181.8,
 					"turnRate":30,
