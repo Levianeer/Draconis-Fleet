@@ -6,5 +6,8 @@ Type 3 MAC,fsdf_mac_3,5,,,1000,,1000,,100,,,30,,,ENERGY,1000,,,4,1,0,,,,,,3000,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #VLSs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Type 9 VLS,fsdf_vls_9_srm,5,,,1000,,100,,15,,,80,,,HIGH_EXPLOSIVE,,,,5,4,0.2,,,,,,300,100,5,50,,,"SYSTEM, ANTI_FTR, DO_NOT_AIM, DO_NOT_CONSERVE",,,Draconis,,Anti Small Craft,Fast,Excellent,,,,,,,TRUE,711000
-Type 10 VLS,fsdf_vls_10_mrm,5,,,2500,,750,,15,,,3,,,HIGH_EXPLOSIVE,,,,1,1,0,,,,,,300,100,12.5,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_5",,,Draconis,,Finisher,Medium,Medium,,,,,,,TRUE,711000
+Type 10 VLS,fsdf_vls_10_mrm,5,,,2500,,750,,15,,,4,,,HIGH_EXPLOSIVE,,,,1,1,0,,,,,,300,100,12.5,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_5",,,Draconis,,Finisher,Medium,Medium,,,,,,,TRUE,711000
 Type 11 VLS,fsdf_vls_11_lrm,5,,,4000,,2000,,25,,,12,,,HIGH_EXPLOSIVE,,,,15,3,0.4,,,,,,125,100,30,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_1",,,Draconis,,Long Range Strike,Very Slow,Very Poor,,,,,,,TRUE,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#Other,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Type 5 Particle Beam,fsdf_particle_beam,5,,,1200,1500,,1000,0,,,,,,HIGH_EXPLOSIVE,,2000,0.5,0.5,7.5,30,,,,,1000000,,,,,,,"SYSTEM, STRIKE, FIRE_WHEN_INEFFICIENT",,,Draconis,,General,,,,,,,,,,711000

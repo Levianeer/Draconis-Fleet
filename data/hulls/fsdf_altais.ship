@@ -15,7 +15,7 @@
     "fsdf_Draconis_Fleet"
   ],
   "builtInWeapons": {
-    "WS0023": "fsdf_mac_3"
+    "WS0023": "fsdf_particle_beam"
   },
   "weaponSlots": [
     {
@@ -265,7 +265,7 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [209.5, -0]
+      "locations": [222, -0]
     }
   ],
   "engineSlots": [

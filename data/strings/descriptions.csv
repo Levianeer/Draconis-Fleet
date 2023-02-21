@@ -17,11 +17,16 @@ fsdf_thuban_pirates,SHIP,"A stolen heavily modified Thuban-class that's had its 
 fsdf_rastaban,SHIP,"The Rastaban-class Destroyer is a stop-gap between the small Thuban-class and the venerable Eltanin-class. Purpose-built to act as the spearhead of a quick reaction force. It bares much more potent weapon systems than the Thuban, not seen on any other destroyer of its weight. However, it sacrifices much to achieve this, as it's much slower and unwieldy.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship design philosophy in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
+fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet. Forgoing the Battleship doctrine in exchange for a cheaper but equally impressive multi-role Cruiser. She is well-armoured, armed and very fast for her class. However, in one-on-one combat, she falls short of the superior Capital size ships.
 
 Like all Draconis ships, shielding is inadequate and dated, but made up for by its reduced sensor profile, two guided Multiple Launch Rocket System racks for target suppression and a large spinally mounted Magnetic Accelerator Cannon as its primary weapon.",,,
-fsdf_vls_9_srm,WEAPON,"The Type 9 Vertical Launch System has a total of 24 medium-range kinetic missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-shield weapon.",,,
-fsdf_vls_10_lrm,WEAPON,"The Type 10 Vertical Launch System contains 4 heavy torpedos. They're slow, well armoured and cumbersome but hit hard. Great for anything it can catch.",,,
+fsdf_altais,SHIP,"The Altais-class Battleruiser is the only capital of the Draconis fleet. They got it right with their first service capital and you'll see why.
+
+Unlike most Draconis ships, the shielding is quite good and the Altais comes with a spinally mounted particle beam instead of the standard MAC.",,,
+fsdf_vls_9_srm,WEAPON,"The Type 9 Vertical Launch System has a total of 80 short-range missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-fighter weapon.",,,
+fsdf_vls_10_mrm,WEAPON,The Type 10 Vertical Launch System contains 4 torpedos. They're slow and cumbersome but hit decently hard. Great for anything it can catch.,,,
+fsdf_vls_11_lrm,WEAPON,The Type 11 Vertical Launch System contains 12 heavy torpedos. They're even slower than the Type 10 but hit incredibly hard. Great for anything unlucky enough to catch one.,,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
+fsdf_particle_beam,WEAPON,"A bow-mounted particle beam, made for the Altais-class Battlecruiser. ""Danger: Do not stare directly into the beam.""",,,
