@@ -31,7 +31,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addBriefingItem("Defeat the enemy forces.");
 		
 		// Player's fleet.
-		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, true);
+		api.addToFleet(FleetSide.PLAYER, "onslaught_Standard", FleetMemberType.SHIP, true);
+
+		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
 
@@ -44,7 +46,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
 		
 		// Enemy fleet.
-		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, true);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_altais_strike", FleetMemberType.SHIP, true);
+
+		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 

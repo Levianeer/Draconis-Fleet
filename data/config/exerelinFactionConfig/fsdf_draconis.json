@@ -1,0 +1,56 @@
+{
+    "playableFaction":true,
+    "corvusCompatible":true,
+    
+    "rebelFleetSuffix":"Traitors",
+    
+    "marketSpawnWeight":1,
+
+    "startRelationships":{ "pirates":-0.6, "luddic_path":-0.6, "independent": 1, },
+	"diplomacyPositiveChance":{ "hegemony":0.8 },
+    "diplomacyNegativeChance":{ "hegemony":1.2 },
+    
+    "alignments":{
+	    "hierarchial":1,
+        "technocratic":0.5,
+	    "diplomatic":1,
+	    "militarist":1,
+    },
+	
+    "diplomacyTraits":["helps_allies", "stalwart", "likes_ai", "envious", "law_and_order"],
+    
+    # chance of the faction being picked to send a colony expedition. Default 0 (disabled)
+    "colonyExpeditionChance":1,	# baseline expansion behaviour
+
+    "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
+
+    "specialForcesNamerClass":"exerelin.campaign.intel.specialforces.namer.PlanetNamer",
+    
+    "startShipsSolo":[["fsdf_thuban_starter"]],
+    "startShipsCombatSmall":[["fsdf_thuban_starter", "fsdf_rastaban_starter"]],
+    "startShipsCombatLarge":[["fsdf_thuban_starter", "fsdf_rastaban_starter", "fsdf_eltanin_starter"]],
+
+    "startSpecialItems":[
+        [["low_tech_package", ""], ["midline_package", ""], ["high_tech_package", ""], ["fsdf_package", ""], ["missile_package", ""]],
+    ],
+    
+    "defenceStations":[
+        {"ids":["orbitalstation", "battlestation", "starfortress"], "weight":0.5},
+        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]},
+        {"ids":["orbitalstation_high", "battlestation_high", "starfortress_high"], "weight":0.5},
+    ],
+    
+    "industrySeeds":[
+        {"id":"orbitalworks", "mult":0.1},
+        {"id":"fuelprod", "mult":0.1},
+        {"id":"lightindustry", "mult":0.1},
+    ],
+    
+    "bonusSeeds":[
+        {"id":"nanoforge_pristine", "count":1},
+        {"id":"aiCore_station", "count":2, "mult":0.4},
+        {"id":"aiCore_military", "mult":0.6},
+        {"id":"aiCore_heavyindustry", "count":1.2},
+        {"id":"aiCore_any", "mult":1.2},
+    ],
+}

@@ -1,20 +1,22 @@
 {
 	"id":"fsdf_mac_shot",
 	"specClass":"projectile",
-	"spawnType":"BALLISTIC",
-	"collisionClass":"PROJECTILE_FF",
-	"collisionClassByFighter":"PROJECTILE_FIGHTER",
-	"explosionColor":[255,90,90,255],  # purely visual, will get a white additively blended core on top of this color
+	#"onHitEffect":"data.levi.weapons.fsdf_MassDamagePlugin",
+	"spawnType":"BALLISTIC_AS_BEAM",
+	"collisionClass":"RAY",
+	"collisionClassByFighter":"RAY_FIGHTER",
+	"explosionColor":[255,90,10,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":100, # purely visual
-	"length":500.0,
+	"passThroughMissiles":true,
+	"length":250.0,
 	"hitGlowRadius":72,
 	"width":12.0,
 	"fadeTime":2.0,
-	"fringeColor":[255,75,95,255],
-	"coreColor":[255,235,235,255],
+	"fringeColor":[255,90,10,255],
+	"coreColor":[255,255,155,255],
 	"textureScrollSpeed":64.0,
 	"pixelsPerTexel":5.0,
 	"bulletSprite":"graphics/missiles/fsdf_shell_mac.png",
-	"glowColor":[255,75,95,127],
+	"glowColor":[255,90,10,127],
 	"glowRadius":70,
 }

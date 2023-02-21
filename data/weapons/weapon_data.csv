@@ -1,9 +1,10 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
 #MACs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Type 1 MAC,fsdf_mac_1,5,,,600,,1500,,30,,,20,,,ENERGY,,1500,,4,,,,,,,,700,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
-Type 2 MAC,fsdf_mac_2,5,,,900,,1500,,30,,,20,,,ENERGY,,1500,,4,,,,,,,,700,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
-Type 3 MAC,fsdf_mac_3,5,,,1000,,1500,,30,,,20,,,ENERGY,,1500,,4,,,,,,,,700,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
+Type 1 MAC,fsdf_mac_1,5,,,700,,500,,75,,,30,,,ENERGY,500,,,4,1,0,,,,,,3000,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
+Type 2 MAC,fsdf_mac_2,5,,,900,,500,,75,,,30,,,ENERGY,250,,,8,3,0.15,,,,,,3000,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
+Type 3 MAC,fsdf_mac_3,5,,,1000,,1000,,100,,,30,,,ENERGY,1000,,,4,1,0,,,,,,3000,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #VLSs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Type 9 VLS,fsdf_vls_9_srm,5,,,900,,250,,15,,,24,,,KINETIC,,,,12,4,0.25,,,,,,335,165,12,100,,,"SYSTEM, DO_NOT_AIM, DO_NOT_CONSERVE",,,Draconis,,Anti-Ship Missile,Fast,Excellent,,,,,,,TRUE,711000
-Type 10 VLS,fsdf_vls_10_lrm,5,,,2000,,4000,,100,,,4,,,HIGH_EXPLOSIVE,,,,36,1,,,,,,,200,100,24,400,,,"SYSTEM, DO_NOT_AIM, GROUP_ALTERNATING, CONSERVE_ALL, CONSERVE_FOR_ANTI_ARMOR",,,Draconis,,Nuclear Missile,Slow,Good,,,,,,,TRUE,711000
+Type 9 VLS,fsdf_vls_9_srm,5,,,1000,,100,,15,,,80,,,HIGH_EXPLOSIVE,,,,5,4,0.2,,,,,,300,100,5,50,,,"SYSTEM, ANTI_FTR, DO_NOT_AIM, DO_NOT_CONSERVE",,,Draconis,,Anti Small Craft,Fast,Excellent,,,,,,,TRUE,711000
+Type 10 VLS,fsdf_vls_10_mrm,5,,,2500,,750,,15,,,3,,,HIGH_EXPLOSIVE,,,,1,1,0,,,,,,300,100,12.5,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_5",,,Draconis,,Finisher,Medium,Medium,,,,,,,TRUE,711000
+Type 11 VLS,fsdf_vls_11_lrm,5,,,4000,,2000,,25,,,12,,,HIGH_EXPLOSIVE,,,,15,3,0.4,,,,,,125,100,30,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_1",,,Draconis,,Long Range Strike,Very Slow,Very Poor,,,,,,,TRUE,711000

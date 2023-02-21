@@ -1,13 +1,12 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 8,
+    "displayName": "Starter",
+    "fluxCapacitors": 15,
     "fluxVents": 20,
-    "goalVariant": true,
     "hullId": "fsdf_rastaban",
-    "hullMods": ["targetingunit"],
+    "hullMods": ["fluxdistributor"],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_rastaban_strike",
+    "variantId": "fsdf_rastaban_starter",
     "weaponGroups": [
         {
             "autofire": false,
@@ -21,8 +20,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "harpoon",
-                "WS0005": "harpoon"
+                "WS0004": "swarmer_fighter",
+                "WS0005": "swarmer_fighter"
             }
         },
         {
@@ -34,14 +33,14 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
+                "WS0001": "irpulse",
+                "WS0002": "irpulse"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "pdburst"}
+            "weapons": {"WS0006": "pdlaser"}
         }
     ]
 }

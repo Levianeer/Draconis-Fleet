@@ -1,27 +1,27 @@
 {
-	"id":"fsdf_vls_9_srm",
-	"specClass":"missile",
+	"id":"fsdf_vls_10_mrm",
+	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/fsdf_vls_9_srm.png",
+	"sprite":"graphics/missiles/fsdf_vls_10_mrm.png",
 	"size":[6,14],	
 	"center":[3,7],
-	"collisionRadius":12,
+	"collisionRadius":8,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,90,90,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":60, # purely visual
-	"engineSpec":{"turnAcc":1720,
-				  "turnRate":240,
-				  "acc":2500,
-				  "dec":800},
+	"explosionRadius":80, # purely visual
+	"engineSpec":{"turnAcc":210,
+				  "turnRate":70,
+				  "acc":1000,
+				  "dec":500},
 	"engineSlots":[{"id":"ES1",
 					"loc":[-12, 0],
 				    #"style":"MISSILE_LOW_TECH",
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
-						"engineColor":[75,75,255,155],
+						"engineColor":[75,255,75,155],
 						"contrailDuration":1.0,
-						"contrailWidthMult":0.25,
+						"contrailWidthMult":0.5,
 						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
 						"contrailMinSeg":15, # min segment length, in pixels
 						"contrailMaxSpeedMult":.0f,

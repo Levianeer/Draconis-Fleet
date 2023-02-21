@@ -1,13 +1,12 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 8,
+    "displayName": "Starter",
+    "fluxCapacitors": 10,
     "fluxVents": 10,
-    "goalVariant": true,
     "hullId": "fsdf_thuban",
-    "hullMods": ["fluxdistributor"],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_thuban_strike",
+    "variantId": "fsdf_thuban_starter",
     "weaponGroups": [
         {
             "autofire": true,
@@ -30,10 +29,12 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0002": "vulcan",
-                "WS0005": "vulcan"
-            }
+            "weapons": {"WS0002": "irpulse"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "lightdualmg"}
         }
     ]
 }

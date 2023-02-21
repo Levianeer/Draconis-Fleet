@@ -12,7 +12,6 @@
 	"shipNamePrefix":"DSS",
 	"shipNameSources":{
 		"DRACONIS":10,
-		"BRITISH_NAVY":10,
 	},
 	"names":{
 		"old english":1,
@@ -35,6 +34,7 @@
 			"fsdf_thuban":10,
 			"fsdf_rastaban":10,
 			"fsdf_eltanin":10,
+			"fsdf_altais":10,
 			"astral":0,
 			"colossus3":0,
 			"condor":0,
@@ -55,6 +55,7 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
+			"fsdf_altais",
 		],
 	},
 	"knownShips":{
@@ -63,6 +64,7 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
+			"fsdf_altais",
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
@@ -72,15 +74,16 @@
 			"fsdf_thuban",
 			"fsdf_rastaban",
 			"fsdf_eltanin",
+			"fsdf_altais",
 		],
 	},
 	"knownFighters":{
 		"tags":["base_bp", "lowtech_bp", "midline_bp"],
 		"fighters":[
 			"broadsword_wing",
-			"hoplon_wing",
+			"warthog_wing",
 			"thunder_wing",
-			"hoplon_wing",
+			"piranha_wing",
 		],
 	},
 	"priorityFighters":{
@@ -157,7 +160,7 @@
 		"shipQuality":1,
 		"numShips":1,
 		
-		"shipSize":3,
+		"shipSize":4,
 		
 		"aggression":2,
 		
@@ -180,7 +183,6 @@
 	"illegalCommodities":[
 		"drugs",
 		"organs",
-		"ai_cores",
 	],
 	"music":{
 		"theme":"music_diktat_market_neutral",
