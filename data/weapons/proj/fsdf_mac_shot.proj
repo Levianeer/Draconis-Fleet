@@ -1,7 +1,6 @@
 {
 	"id":"fsdf_mac_shot",
 	"specClass":"projectile",
-	#"onHitEffect":"data.levi.weapons.fsdf_MassDamagePlugin",
 	"spawnType":"BALLISTIC_AS_BEAM",
 	"collisionClass":"RAY",
 	"collisionClassByFighter":"RAY_FIGHTER",
