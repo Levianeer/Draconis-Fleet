@@ -1,0 +1,63 @@
+{
+    "displayName": "Starter",
+    "fluxCapacitors": 45,
+    "fluxVents": 50,
+    "hullId": "fsdf_altais",
+    "hullMods": [
+        "dedicated_targeting_core",
+        "fluxdistributor",
+        "turretgyros"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_altais_starter",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0023": "fsdf_particle_beam"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0017": "annihilator",
+                "WS0018": "annihilator",
+                "WS0021": "annihilator",
+                "WS0022": "annihilator",
+                "WS0025": "annihilator",
+                "WS0026": "annihilator"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "heavyac",
+                "WS0002": "heavyac",
+                "WS0003": "heavyac",
+                "WS0004": "heavyac",
+                "WS0005": "heavyac",
+                "WS0006": "heavyac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "lightmg",
+                "WS0008": "lightmg",
+                "WS0009": "lightmg",
+                "WS0010": "lightmg",
+                "WS0011": "lightmg",
+                "WS0012": "lightmg"
+            }
+        }
+    ],
+    "wings": [
+        "hoplon_wing",
+        "hoplon_wing",
+        "hoplon_wing",
+        "hoplon_wing"
+    ]
+}

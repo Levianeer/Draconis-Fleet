@@ -29,10 +29,7 @@
     "startShipsSolo":[["fsdf_thuban_starter"]],
     "startShipsCombatSmall":[["fsdf_thuban_starter", "fsdf_rastaban_starter"]],
     "startShipsCombatLarge":[["fsdf_thuban_starter", "fsdf_rastaban_starter", "fsdf_eltanin_starter"]],
-
-    "startSpecialItems":[
-        [["low_tech_package", ""], ["midline_package", ""], ["high_tech_package", ""], ["fsdf_package", ""], ["missile_package", ""]],
-    ],
+    "startShipsCarrierLarge":[["fsdf_thuban_starter", "fsdf_rastaban_starter", "fsdf_eltanin_starter", "fsdf_altais_starter"]],
     
     "defenceStations":[
         {"ids":["orbitalstation", "battlestation", "starfortress"], "weight":0.5},
