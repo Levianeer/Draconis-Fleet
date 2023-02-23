@@ -31,7 +31,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addBriefingItem("Defeat the enemy forces.");
 		
 		// Player's fleet.
-		api.addToFleet(FleetSide.PLAYER, "fsdf_altais_elite", FleetMemberType.SHIP, true);
+		api.addToFleet(FleetSide.PLAYER, "fsdf_altais_strike", FleetMemberType.SHIP, true);
 
 		api.addToFleet(FleetSide.PLAYER, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.PLAYER, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);

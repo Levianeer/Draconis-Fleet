@@ -1,6 +1,6 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 20,
+    "fluxCapacitors": 28,
     "fluxVents": 30,
     "hullId": "fsdf_eltanin",
     "hullMods": ["fluxdistributor"],
@@ -12,16 +12,16 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0022": "fsdf_vls_11_lrm",
-                "WS0023": "fsdf_vls_11_lrm"
+                "WS0024": "heatseeker",
+                "WS0025": "heatseeker"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0024": "fsdf_vls_9_srm",
-                "WS0025": "fsdf_vls_9_srm"
+                "WS0022": "fsdf_vls_7_36_mrm",
+                "WS0023": "fsdf_vls_7_36_mrm"
             }
         },
         {
@@ -41,10 +41,10 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightdualmg",
-                "WS0002": "lightdualmg",
-                "WS0003": "lightdualmg",
-                "WS0004": "lightdualmg",
+                "WS0001": "lightmg",
+                "WS0002": "lightmg",
+                "WS0003": "lightmg",
+                "WS0004": "lightmg",
                 "WS0008": "lightdualmg",
                 "WS0009": "lightdualmg"
             }

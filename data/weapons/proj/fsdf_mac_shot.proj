@@ -7,7 +7,7 @@
 	"explosionColor":[255,90,10,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":100, # purely visual
 	"passThroughMissiles":true,
-	"length":250.0,
+	"length":300.0,
 	"hitGlowRadius":72,
 	"width":12.0,
 	"fadeTime":2.0,

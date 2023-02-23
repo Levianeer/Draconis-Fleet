@@ -23,10 +23,12 @@ Like all Draconis ships, shielding is inadequate and dated, but made up for by i
 fsdf_altais,SHIP,"The Altais-class Battleruiser is the only capital of the Draconis fleet. They got it right with their first service capital and you'll see why.
 
 Unlike most Draconis ships, the shielding is quite good and the Altais comes with a spinally mounted particle beam instead of the standard MAC.",,,
-fsdf_vls_9_srm,WEAPON,"The Type 9 Vertical Launch System has a total of 80 short-range missiles. They're fast and have excellent tracking with a respectable payload, primarily meant as an anti-fighter weapon.",,,
-fsdf_vls_10_mrm,WEAPON,The Type 10 Vertical Launch System contains 4 torpedos. They're slow and cumbersome but hit decently hard. Great for anything it can catch.,,,
-fsdf_vls_11_lrm,WEAPON,The Type 11 Vertical Launch System contains 12 heavy torpedos. They're even slower than the Type 10 but hit incredibly hard. Great for anything unlucky enough to catch one.,,,
 fsdf_mac_1,WEAPON,"The Type 1 MAC is the smallest of the 42nd Fleet's coilguns; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_2,WEAPON,"The Type 2 MAC is the intermediate coilgun of the 42nd Fleet; firing a tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
 fsdf_mac_3,WEAPON,"The Type 3 MAC is the largest coilgun of the 42nd Fleet; firing a massive tungsten rod using a series of magnetic coils, the sheer kinetic energy of a single rod is capable of destroying smaller targets outright.",,,
-fsdf_particle_beam,WEAPON,"A bow-mounted particle beam, made for the Altais-class Battlecruiser. ""Danger: Do not stare directly into the beam.""",,,
+fsdf_particle_beam,WEAPON,"A bow-mounted particle beam, made for the Altais-class Battlecruiser.
+
+""Danger: Do not stare directly into the beam.""",,,
+fsdf_vls_7_12_mrm,WEAPON,"The Type 7 Vertical Launch System fires large and bulky two-stage torpedoes with good tracking and a respectable payload, primarily meant as long range strike weapons. This variant carries 12 torpedoes.",,,
+fsdf_vls_7_24_mrm,WEAPON,"The Type 7 Vertical Launch System fires large and bulky two-stage torpedoes with good tracking and a respectable payload, primarily meant as long range strike weapons. This variant carries 24 torpedoes.",,,
+fsdf_vls_7_36_mrm,WEAPON,"The Type 7 Vertical Launch System fires large and bulky two-stage torpedoes with good tracking and a respectable payload, primarily meant as long range strike weapons. This variant carries 36 torpedoes.",,,

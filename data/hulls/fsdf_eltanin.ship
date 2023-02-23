@@ -16,10 +16,8 @@
   ],
   "builtInWeapons": {
     "WS0010": "fsdf_mac_3",
-    "WS0022": "fsdf_vls_11_lrm",
-    "WS0023": "fsdf_vls_11_lrm",
-    "WS0024": "fsdf_vls_9_srm",
-    "WS0025": "fsdf_vls_9_srm"
+    "WS0022": "fsdf_vls_7_36_mrm",
+    "WS0023": "fsdf_vls_7_36_mrm"
   },
   "weaponSlots": [
     {
@@ -88,7 +86,7 @@
     {
       "id": "WS0008",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 230,
       "angle": 0,
@@ -97,7 +95,7 @@
     {
       "id": "WS0009",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 230,
       "angle": -0,
@@ -164,7 +162,7 @@
       "mount": "HIDDEN",
       "arc": 5,
       "angle": 90,
-      "locations": [-91, 33.5]
+      "locations": [-91, 34]
     },
     {
       "id": "WS0023",
@@ -173,25 +171,25 @@
       "mount": "HIDDEN",
       "arc": 5,
       "angle": -90,
-      "locations": [-91, -33.5]
+      "locations": [-91, -34]
     },
     {
       "id": "WS0024",
       "size": "SMALL",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
       "arc": 5,
       "angle": 90,
-      "locations": [-23, 33.5]
+      "locations": [-50, 38]
     },
     {
       "id": "WS0025",
       "size": "SMALL",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
       "arc": 5,
       "angle": -90,
-      "locations": [-23, -33.5]
+      "locations": [-50, -38]
     }
   ],
   "engineSlots": [

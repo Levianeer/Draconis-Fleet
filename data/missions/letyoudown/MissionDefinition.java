@@ -46,7 +46,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
 		
 		// Enemy fleet.
-		api.addToFleet(FleetSide.ENEMY, "fsdf_altais_elite", FleetMemberType.SHIP, true);
+		api.addToFleet(FleetSide.ENEMY, "fsdf_altais_strike", FleetMemberType.SHIP, true);
 
 		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);
 		api.addToFleet(FleetSide.ENEMY, "fsdf_eltanin_strike", FleetMemberType.SHIP, false);

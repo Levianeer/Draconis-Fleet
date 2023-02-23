@@ -4,10 +4,8 @@ Type 1 MAC,fsdf_mac_1,5,,,700,,500,,75,,,30,,,ENERGY,500,,,4,1,0,,,,,,3000,,,100
 Type 2 MAC,fsdf_mac_2,5,,,900,,500,,75,,,30,,,ENERGY,250,,,8,3,0.15,,,,,,3000,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
 Type 3 MAC,fsdf_mac_3,5,,,1000,,1000,,100,,,30,,,ENERGY,1000,,,4,1,0,,,,,,3000,,,100000,,,"SYSTEM, STRIKE, USE_VS_FRIGATES",,,Draconis,,General,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#VLSs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Type 9 VLS,fsdf_vls_9_srm,5,,,1000,,100,,15,,,80,,,HIGH_EXPLOSIVE,,,,5,4,0.2,,,,,,300,100,5,50,,,"SYSTEM, ANTI_FTR, DO_NOT_AIM, DO_NOT_CONSERVE",,,Draconis,,Anti Small Craft,Fast,Excellent,,,,,,,TRUE,711000
-Type 10 VLS,fsdf_vls_10_mrm,5,,,2500,,750,,15,,,4,,,HIGH_EXPLOSIVE,,,,1,1,0,,,,,,300,100,12.5,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_5",,,Draconis,,Finisher,Medium,Medium,,,,,,,TRUE,711000
-Type 11 VLS,fsdf_vls_11_lrm,5,,,4000,,2000,,25,,,12,,,HIGH_EXPLOSIVE,,,,15,3,0.4,,,,,,125,100,30,150,,,"SYSTEM, DO_NOT_AIM, CONSERVE_1",,,Draconis,,Long Range Strike,Very Slow,Very Poor,,,,,,,TRUE,711000
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Other,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Type 5 Particle Beam,fsdf_particle_beam,5,,,1200,1500,,1000,0,,,,,,HIGH_EXPLOSIVE,,2000,0.5,0.5,7.5,30,,,,,1000000,,,,,,,"SYSTEM, STRIKE, FIRE_WHEN_INEFFICIENT",,,Draconis,,General,,,,,,,,,,711000
+Type 5 Particle Beam,fsdf_particle_beam,5,,,1000,1500,,1000,0,,,,,,HIGH_EXPLOSIVE,,2000,0.5,1,7.5,30,,,,,1000000,,,,,,,"SYSTEM, STRIKE",,,Draconis,,General,,,,,"Hits on hull or armor frequently arc to weapons and engines, dealing extra EMP and energy damage. Hits on shields have a chance to generate a shield-penetrating arc based on the target's hard flux level.",,,,,711000
+Type 7-12 VLS,fsdf_vls_7_12_mrm,5,,,2000,,500,,25,,,12,,,HIGH_EXPLOSIVE,,,,12,4,0.5,,,,,,125,100,30,150,,,"SYSTEM, STRIKE, DO_NOT_AIM, STRIKE, USE_VS_FRIGATES",,,Draconis,,Long Range Support,Very Slow,Very Poor,,,,,,,TRUE,711000
+Type 7-24 VLS,fsdf_vls_7_24_mrm,5,,,2000,,500,,25,,,24,,,HIGH_EXPLOSIVE,,,,12,4,0.5,,,,,,125,100,30,150,,,"SYSTEM, STRIKE, DO_NOT_AIM, STRIKE, USE_VS_FRIGATES",,,Draconis,,Long Range Support,Very Slow,Very Poor,,,,,,,TRUE,711000
+Type 7-36 VLS,fsdf_vls_7_36_mrm,5,,,2000,,500,,25,,,36,,,HIGH_EXPLOSIVE,,,,12,4,0.5,,,,,,125,100,30,150,,,"SYSTEM, STRIKE, DO_NOT_AIM, STRIKE, USE_VS_FRIGATES",,,Draconis,,Long Range Support,Very Slow,Very Poor,,,,,,,TRUE,711000

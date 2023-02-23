@@ -4,7 +4,10 @@
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "fluxdistributor"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_eltanin_strike",
@@ -13,16 +16,16 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0022": "fsdf_vls_11_lrm",
-                "WS0023": "fsdf_vls_11_lrm"
+                "WS0024": "harpoon",
+                "WS0025": "harpoon"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0024": "fsdf_vls_9_srm",
-                "WS0025": "fsdf_vls_9_srm"
+                "WS0022": "fsdf_vls_7_36_mrm",
+                "WS0023": "fsdf_vls_7_36_mrm"
             }
         },
         {
@@ -41,20 +44,14 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "lightmg",
-                "WS0002": "lightmg",
-                "WS0003": "lightmg",
-                "WS0004": "lightmg",
-                "WS0008": "lightmg",
-                "WS0009": "lightmg"
-            }
+            "weapons": {"WS0007": "heavymauler"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "dualflak",
+                "WS0003": "vulcan",
+                "WS0004": "vulcan",
                 "WS0015": "dualflak"
             }
         }

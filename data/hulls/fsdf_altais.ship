@@ -21,7 +21,7 @@
     {
       "id": "WS0001",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 100,
       "angle": 45,
@@ -30,7 +30,7 @@
     {
       "id": "WS0002",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 100,
       "angle": -45,
@@ -39,7 +39,7 @@
     {
       "id": "WS0003",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 100,
       "angle": 45,
@@ -48,7 +48,7 @@
     {
       "id": "WS0004",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 100,
       "angle": -45,
@@ -57,7 +57,7 @@
     {
       "id": "WS0005",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 100,
       "angle": 45,
@@ -66,7 +66,7 @@
     {
       "id": "WS0006",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 100,
       "angle": -45,
@@ -129,7 +129,7 @@
     {
       "id": "WS0017",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -138,7 +138,7 @@
     {
       "id": "WS0018",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
@@ -147,7 +147,7 @@
     {
       "id": "WS0021",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -156,7 +156,7 @@
     {
       "id": "WS0022",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
@@ -165,7 +165,7 @@
     {
       "id": "WS0025",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -174,7 +174,7 @@
     {
       "id": "WS0026",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
