@@ -1,16 +1,8 @@
 package data.hullmods;
 
-import org.lwjgl.util.vector.Vector2f;
-
 import com.fs.starfarer.api.combat.BaseHullMod;
-import com.fs.starfarer.api.combat.BeamAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.DamageAPI;
-import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
-import com.fs.starfarer.api.combat.listeners.DamageDealtModifier;
 
 public class fsdf_Draconis_Fleet extends BaseHullMod {
 
