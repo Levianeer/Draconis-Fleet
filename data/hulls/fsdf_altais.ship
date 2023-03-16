@@ -137,7 +137,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-42, 107]
+      "locations": [-41.5, 96]
     },
     {
       "id": "WS0018",
@@ -146,7 +146,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-42, -107]
+      "locations": [-41.5, -96]
     },
     {
       "id": "WS0021",
@@ -155,7 +155,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-42, 83]
+      "locations": [-41.5, 72]
     },
     {
       "id": "WS0022",
@@ -164,25 +164,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-42, -83]
-    },
-    {
-      "id": "WS0025",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [-42, 59]
-    },
-    {
-      "id": "WS0026",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [-42, -59]
+      "locations": [-41.5, -72]
     },
     {
       "id": "LB 1",
@@ -224,7 +206,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-42, 131]
+      "locations": [-41.5, 120]
     },
     {
       "id": "WS0027",
@@ -233,7 +215,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-42, -131]
+      "locations": [-41.5, -120]
     }
   ],
   "engineSlots": [
