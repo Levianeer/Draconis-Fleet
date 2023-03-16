@@ -7,9 +7,9 @@
   "height": 272,
   "width": 96,
   "center": [48, 136],
-  "collisionRadius": 165.5,
+  "collisionRadius": 238,
   "shieldCenter": [0, 0],
-  "shieldRadius": 151.5,
+  "shieldRadius": 197,
   "viewOffset": 0,
   "builtInMods": [
     "fsdf_Draconis_Fleet"
@@ -60,18 +60,18 @@
       "id": "WS0005",
       "size": "MEDIUM",
       "type": "COMPOSITE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
+      "mount": "TURRET",
+      "arc": 100,
+      "angle": 45,
       "locations": [6, 35]
     },
     {
       "id": "WS0006",
       "size": "MEDIUM",
       "type": "COMPOSITE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
+      "mount": "TURRET",
+      "arc": 100,
+      "angle": -45,
       "locations": [6, -35]
     },
     {
@@ -115,7 +115,7 @@
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 270,
+      "arc": 360,
       "angle": 0,
       "locations": [-32.5, -0]
     },

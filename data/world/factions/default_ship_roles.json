@@ -32,6 +32,7 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
+		"fsdf_eltanin_carrier":2,
 		
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},
@@ -41,5 +42,8 @@
 		
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},
+	},
+	"utility":{
+
 	}
 }

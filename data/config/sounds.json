@@ -1,0 +1,6 @@
+{        
+        "fsdf_mac_fire":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_mac_fire_01.ogg","pitch":1.0, "volume":0.5},
+		{"file":"sounds/sfx_wpn_guns/fsdf_mac_fire_02.ogg","pitch":1.0, "volume":0.5},
+        ],
+}

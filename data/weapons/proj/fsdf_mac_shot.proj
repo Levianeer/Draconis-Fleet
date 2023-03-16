@@ -1,21 +1,22 @@
 {
 	"id":"fsdf_mac_shot",
 	"specClass":"projectile",
-	"spawnType":"BALLISTIC_AS_BEAM",
-	"collisionClass":"RAY",
-	"collisionClassByFighter":"RAY_FIGHTER",
-	"explosionColor":[255,90,10,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":100, # purely visual
+	"spawnType":"BALLISTIC",
+	"onHitEffect":"data.scripts.weapons.fsdf_MassDamageOnHit",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"explosionColor":[255,100,100,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":350, # purely visual
 	"passThroughMissiles":true,
-	"length":300.0,
+	"length":350.0,
 	"hitGlowRadius":72,
 	"width":12.0,
-	"fadeTime":2.0,
+	"fadeTime":0.175,
 	"fringeColor":[255,90,10,255],
 	"coreColor":[255,255,155,255],
 	"textureScrollSpeed":64.0,
 	"pixelsPerTexel":5.0,
 	"bulletSprite":"graphics/missiles/fsdf_shell_mac.png",
 	"glowColor":[255,90,10,127],
-	"glowRadius":70,
+	"glowRadius":50,
 }

@@ -1,9 +1,9 @@
 name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating,max flux,8/6/5/4%,flux dissipation,ordnance points,fighter bays,max speed,acceleration,deceleration,max turn rate,turn acceleration,mass,shield type,defense id,shield arc,shield upkeep,shield efficiency,phase cost,phase upkeep,min crew,max crew,cargo,fuel,fuel/ly,range,max burn,base value,cr %/day,CR to deploy,peak CR sec,CR loss/sec,supplies/rec,supplies/mo,c/s,c/f,f/s,f/f,crew/s,crew/f,hints,tags,rarity,breakProb,minPieces,maxPieces,travel drive,number
-#Main,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Thuban,fsdf_thuban,Frigate,Draconis,flarelauncher,5,1750,400,2500,,300,35,,120,120,80,60,50,200,FRONT,,90,0.4,1.4,,,10,25,40,35,1,35,10,20000,7,16,260,0.25,6,6,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
-Rastaban,fsdf_rastaban,Destroyer ,Draconis,flarelauncher,10,4000,500,4500,,300,65,,90,60,40,30,30,400,FRONT,,90,0.4,1.4,,,40,80,100,90,2,45,8,40000,5,15,360,0.25,10,10,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
-Eltanin,fsdf_eltanin,Cruiser,Draconis,flarelauncher,14,8500,1000,8000,,500,140,,80,60,30,15,20,750,FRONT,,90,0.4,1.4,,,100,180,120,100,3,33,9,120000,4,12,480,0.25,14,14,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
-Altais,fsdf_altais,Battlecruiser,Draconis,flarelauncher,28,15000,1250,17500,,1000,300,4,70,50,15,5,5,2500,FRONT,,180,0.4,0.8,,,400,800,400,450,8,56,8,340000,4,20,600,0.25,45,45,,,,,,,,"fsdf_package_bp, req_military",,0.6,2,4,,711000
+#Fighters,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Nova,fsdf_nova,,Draconis,flarelauncher,,600,150,400,,50,0,,335,500,450,150,300,50,NONE,,0,0,0,,,2,2,,,,,,,,,,,,,,,,,,,,,,0,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#Other,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Thuban (P),fsdf_thuban_pirates,Frigate,Pirates,ammofeed,5,1750,400,2500,,300,35,,120,100,70,50,50,200,OMNI,,180,0.3,0.8,,,10,25,40,35,1,35,10,15000,7,16,240,0.25,4,4,,,,,,,,"pirate_bp, midline_bp, merc",,0.5,2,2,,711000
+#Ships,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Thuban,fsdf_thuban,Frigate,Draconis,flarelauncher,5,1500,600,1600,,300,35,,165,200,175,60,120,175,OMNI,,90,0.4,1.4,,,15,30,40,25,1,25,10,12500,7,16,260,0.25,5,5,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
+Rastaban,fsdf_rastaban,Destroyer,Draconis,flarelauncher,9,4250,750,3000,,350,65,,100,100,80,25,25,350,OMNI,,90,0.4,1.4,,,40,80,100,90,2,45,8,40000,5,15,360,0.25,9,9,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
+Eltanin,fsdf_eltanin,Cruiser,Draconis,flarelauncher,16,8000,1250,7000,,800,140,,90,100,80,15,20,650,OMNI,,90,0.4,1.4,,,100,180,120,100,3,33,9,125000,4,12,480,0.25,20,20,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
+Altais,fsdf_altais,Battlecruiser,Draconis,ammofeed,26,14000,1500,12000,,1200,300,2,80,90,70,20,30,2250,OMNI,,180,0.4,0.8,,,400,800,400,450,8,56,8,375000,3,15,600,0.25,40,40,,,,,,,,"fsdf_package_bp, req_military",,0.6,2,4,,711000

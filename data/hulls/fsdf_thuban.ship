@@ -7,9 +7,9 @@
   "height": 112,
   "width": 52,
   "center": [26, 56],
-  "collisionRadius": 77,
+  "collisionRadius": 91.5,
   "shieldCenter": [0, -0],
-  "shieldRadius": 68.5,
+  "shieldRadius": 80.5,
   "viewOffset": 0,
   "builtInMods": [
     "fsdf_Draconis_Fleet"
@@ -17,8 +17,8 @@
   "builtInWeapons": {
     "WS0003": "fsdf_mac_1",
     "WS0006": "blinker_red",
-    "WS0010": "fsdf_vls_7_12_mrm",
-    "WS0011": "fsdf_vls_7_12_mrm"
+    "WS0010": "fsdf_type_9_skm",
+    "WS0011": "fsdf_type_9_skm"
   },
   "weaponSlots": [
     {
@@ -28,7 +28,8 @@
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
-      "locations": [-11, -0]
+      "locations": [-11, -0],
+      "renderOrderMod": 1
     },
     {
       "id": "WS0002",
@@ -37,7 +38,8 @@
       "mount": "TURRET",
       "arc": 300,
       "angle": 0,
-      "locations": [9.5, -0]
+      "locations": [9.5, -0],
+      "renderOrderMod": -1
     },
     {
       "id": "WS0003",
@@ -55,7 +57,8 @@
       "mount": "TURRET",
       "arc": 290,
       "angle": -180,
-      "locations": [-38.5, 0]
+      "locations": [-38.5, 0],
+      "renderOrderMod": -1
     },
     {
       "id": "WS0006",
@@ -86,7 +89,7 @@
     },
     {
       "id": "WS0010",
-      "size": "LARGE",
+      "size": "SMALL",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 5,
@@ -95,7 +98,7 @@
     },
     {
       "id": "WS0011",
-      "size": "LARGE",
+      "size": "SMALL",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 5,

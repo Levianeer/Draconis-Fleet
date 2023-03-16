@@ -3,7 +3,7 @@
 	"specClass":"projectile",
 	"type":"BALLISTIC",
 	"size":"LARGE",
-	"displayArcRadius":450,
+
 	"turretSprite":"graphics/weapons/fsdf_mac.png",
 	#"turretGunSprite":"graphics/weapons/hellbore_cannon_turret_recoil.png",
 	"hardpointSprite":"graphics/weapons/fsdf_mac.png",
@@ -26,5 +26,5 @@
 					   "particleColor":[255,185,215,215]},
 					   #"particleColor":[155,185,255,215]},
 	"projectileSpecId":"fsdf_mac_shot",  # projectile that will be fired
-	"fireSoundTwo":"mjolnir_fire",
+	"fireSoundTwo":"fsdf_mac_fire",
 }

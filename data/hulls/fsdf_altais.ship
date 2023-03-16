@@ -7,9 +7,9 @@
   "height": 440,
   "width": 280,
   "center": [140, 220],
-  "collisionRadius": 259,
+  "collisionRadius": 309,
   "shieldCenter": [0, 0],
-  "shieldRadius": 235,
+  "shieldRadius": 273.5,
   "viewOffset": 0,
   "builtInMods": [
     "fsdf_Draconis_Fleet"
@@ -23,54 +23,58 @@
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 100,
-      "angle": 45,
-      "locations": [-25, 34]
+      "arc": 92,
+      "angle": 42,
+      "locations": [-27, 33],
+      "renderOrderMod": 1
     },
     {
       "id": "WS0002",
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 100,
-      "angle": -45,
-      "locations": [-25, -34]
+      "arc": 92,
+      "angle": -42,
+      "locations": [-27, -33],
+      "renderOrderMod": 1
     },
     {
       "id": "WS0003",
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 100,
-      "angle": 45,
-      "locations": [8, 34]
+      "arc": 92,
+      "angle": 42,
+      "locations": [-2, 33]
     },
     {
       "id": "WS0004",
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 100,
-      "angle": -45,
-      "locations": [8, -34]
+      "arc": 92,
+      "angle": -42,
+      "locations": [-2, -33]
     },
     {
       "id": "WS0005",
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 100,
-      "angle": 45,
-      "locations": [41, 34]
+      "arc": 92,
+      "angle": 42,
+      "locations": [23, 33],
+      "renderOrderMod": -1
     },
     {
       "id": "WS0006",
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 100,
-      "angle": -45,
-      "locations": [41, -34]
+      "arc": 92,
+      "angle": -42,
+      "locations": [23, -33],
+      "renderOrderMod": -1
     },
     {
       "id": "WS0007",
@@ -129,110 +133,56 @@
     {
       "id": "WS0017",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-41.5, 120]
+      "locations": [-42, 107]
     },
     {
       "id": "WS0018",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-41.5, -120]
+      "locations": [-42, -107]
     },
     {
       "id": "WS0021",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-41.5, 96]
+      "locations": [-42, 83]
     },
     {
       "id": "WS0022",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-41.5, -96]
+      "locations": [-42, -83]
     },
     {
       "id": "WS0025",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-41.5, 72]
+      "locations": [-42, 59]
     },
     {
       "id": "WS0026",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-41.5, -72]
-    },
-    {
-      "id": "WS0013",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-173.5, 2]
-    },
-    {
-      "id": "WS0014",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-173.5, -2]
-    },
-    {
-      "id": "WS0015",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-21.5, 2]
-    },
-    {
-      "id": "WS0016",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-21.5, -2]
-    },
-    {
-      "id": "WS0019",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 90,
-      "locations": [66, 2]
-    },
-    {
-      "id": "WS0020",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [66, -2]
+      "locations": [-42, -59]
     },
     {
       "id": "LB 1",
@@ -265,7 +215,25 @@
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [222, -0]
+      "locations": [220, -0]
+    },
+    {
+      "id": "WS0024",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [-42, 131]
+    },
+    {
+      "id": "WS0027",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -0,
+      "locations": [-42, -131]
     }
   ],
   "engineSlots": [

@@ -7,9 +7,9 @@
   "height": 186,
   "width": 62,
   "center": [31, 93],
-  "collisionRadius": 114,
+  "collisionRadius": 131.5,
   "shieldCenter": [0, 0],
-  "shieldRadius": 100,
+  "shieldRadius": 118.5,
   "viewOffset": 0,
   "builtInMods": [
     "fsdf_Draconis_Fleet"

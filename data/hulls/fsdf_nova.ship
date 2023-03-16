@@ -1,0 +1,89 @@
+{
+  "hullName": "Nova",
+  "hullId": "fsdf_nova",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/fsdf_nova.png",
+  "style": "DRACONIS",
+  "height": 42,
+  "width": 32,
+  "center": [16, 17.5],
+  "collisionRadius": 40.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 33.5,
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [22.5, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [4, 11.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [4, -11.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-12, 12],
+      "length": 15,
+      "width": 5,
+      "angle": 180,
+      "contrailSize": 5,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-12, -12],
+      "length": 15,
+      "width": 5,
+      "angle": -180,
+      "contrailSize": 5,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, 5],
+      "length": 28.5,
+      "width": 9,
+      "angle": -180,
+      "contrailSize": 9,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, -5],
+      "length": 28.5,
+      "width": 9,
+      "angle": 180,
+      "contrailSize": 9,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    4, -13.5,
+    -11, -13.5,
+    -16, -0,
+    -11, 13.5,
+    4, 13.5,
+    23, -0
+  ]
+}

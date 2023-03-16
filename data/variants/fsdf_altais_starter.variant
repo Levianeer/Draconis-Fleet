@@ -1,12 +1,13 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 45,
+    "fluxCapacitors": 31,
     "fluxVents": 50,
     "hullId": "fsdf_altais",
     "hullMods": [
         "dedicated_targeting_core",
-        "fluxdistributor",
-        "turretgyros"
+        "expanded_deck_crew",
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -19,14 +20,16 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0017": "annihilator",
-                "WS0018": "annihilator",
-                "WS0021": "annihilator",
-                "WS0022": "annihilator",
-                "WS0025": "annihilator",
-                "WS0026": "annihilator"
+                "WS0017": "swarmer",
+                "WS0018": "swarmer",
+                "WS0021": "swarmer",
+                "WS0022": "swarmer",
+                "WS0024": "swarmer",
+                "WS0025": "swarmer",
+                "WS0026": "swarmer",
+                "WS0027": "swarmer"
             }
         },
         {
@@ -36,9 +39,7 @@
                 "WS0001": "heavyac",
                 "WS0002": "heavyac",
                 "WS0003": "heavyac",
-                "WS0004": "heavyac",
-                "WS0005": "heavyac",
-                "WS0006": "heavyac"
+                "WS0004": "heavyac"
             }
         },
         {
@@ -52,12 +53,18 @@
                 "WS0011": "lightmg",
                 "WS0012": "lightmg"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "flak",
+                "WS0006": "flak"
+            }
         }
     ],
     "wings": [
-        "hoplon_wing",
-        "hoplon_wing",
-        "hoplon_wing",
-        "hoplon_wing"
+        "fsdf_nova_wing",
+        "fsdf_nova_wing"
     ]
 }

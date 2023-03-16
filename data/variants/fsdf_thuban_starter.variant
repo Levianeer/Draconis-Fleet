@@ -1,9 +1,9 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 7,
-    "fluxVents": 10,
+    "fluxCapacitors": 10,
+    "fluxVents": 9,
     "hullId": "fsdf_thuban",
-    "hullMods": ["fluxdistributor"],
+    "hullMods": ["fluxcoil"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_starter",
@@ -11,28 +11,28 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "irpulse",
-                "WS0002": "irpulse"
-            }
+            "weapons": {"WS0001": "lightac"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0010": "fsdf_vls_7_12_mrm",
-                "WS0011": "fsdf_vls_7_12_mrm"
+                "WS0010": "fsdf_type_9_skm",
+                "WS0011": "fsdf_type_9_skm"
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0003": "fsdf_mac_1"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "vulcan"}
+            "weapons": {
+                "WS0002": "vulcan",
+                "WS0005": "vulcan"
+            }
         }
     ]
 }

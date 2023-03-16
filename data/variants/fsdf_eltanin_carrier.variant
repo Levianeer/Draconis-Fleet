@@ -1,0 +1,54 @@
+{
+    "displayName": "Carrier",
+    "fluxCapacitors": 0,
+    "fluxVents": 22,
+    "goalVariant": true,
+    "hullId": "fsdf_eltanin",
+    "hullMods": [
+        "targetingunit",
+        "converted_hangar"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_eltanin_carrier",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "sabotpod",
+                "WS0006": "sabotpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0022": "fsdf_vls_7_36_mrm",
+                "WS0023": "fsdf_vls_7_36_mrm"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0010": "fsdf_mac_3"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "hveldriver"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "vulcan",
+                "WS0004": "vulcan",
+                "WS0007": "dualflak",
+                "WS0008": "vulcan",
+                "WS0009": "vulcan"
+            }
+        }
+    ],
+    "wings": ["fsdf_nova_wing"]
+}

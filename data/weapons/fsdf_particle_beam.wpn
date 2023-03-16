@@ -3,7 +3,6 @@
 	"id":"fsdf_particle_beam",
 	"type":"ENERGY",
 	"size":"LARGE",
-	"beamEffect":"com.fs.starfarer.api.impl.combat.TachyonLanceEffect",
 	"turretSprite":"graphics/weapons/fsdf_mac.png",
 	"hardpointSprite":"graphics/weapons/fsdf_mac.png",
 	"turretOffsets":[32, 0],

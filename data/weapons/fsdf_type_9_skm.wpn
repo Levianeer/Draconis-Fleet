@@ -1,0 +1,61 @@
+{
+  "id": "fsdf_type_9_skm",
+  "specClass": "projectile",
+  "projectileSpecId": "fsdf_type_9_skm_mrm",
+  "type": "MISSILE",
+  "size": "SMALL",
+  "turretSprite": "graphics/weapons/fsdf_vls_7_mrm.png",
+  "hardpointSprite": "graphics/weapons/fsdf_vls_7_mrm.png",
+  "turretOffsets": [
+    3,
+    6,
+    3,
+    2,
+    3,
+    -2,
+    3,
+    -6
+  ],
+  "turretAngleOffsets": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "hardpointOffsets": [
+    7.5,
+    6,
+    7.5,
+    2,
+    7.5,
+    -2,
+    7.5,
+    -6
+  ],
+  "hardpointAngleOffsets": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "SMOKE",
+  "smokeSpec": {
+    "particleSizeMin": 6,
+    "particleSizeRange": 6,
+    "cloudParticleCount": 3,
+    "cloudDuration": 0.25,
+    "cloudRadius": 5,
+    "blowbackParticleCount": 2,
+    "blowbackDuration": 1,
+    "blowbackLength": 12,
+    "blowbackSpread": 5,
+    "particleColor": [
+      125,
+      125,
+      125,
+      105
+    ]
+  },
+  "fireSoundTwo": "annihilator_fire"
+}

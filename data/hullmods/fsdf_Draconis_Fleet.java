@@ -8,8 +8,7 @@ public class fsdf_Draconis_Fleet extends BaseHullMod {
 
 	public static final float PROFILE_MULT = 0.75f;
 	
-	// I don't know what am I doing.
-
+	// Reduce sensor profile
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		stats.getSensorProfile().modifyMult(id, PROFILE_MULT);
 	}
@@ -17,4 +16,5 @@ public class fsdf_Draconis_Fleet extends BaseHullMod {
 		if (index == 0) return "" + (int) ((1f - PROFILE_MULT) * 100f) + "%";
 		return null;
 	}
+	
 }
