@@ -31,19 +31,19 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addBriefingItem("Defeat the enemy forces.");
 		
 		// Player's fleet.
-		api.addToFleet(FleetSide.PLAYER, "conquest_Elite", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "onslaught_Standard", FleetMemberType.SHIP, true);
+		
+		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "falcon_p_Strike", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.PLAYER, "aurora_Assault", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "aurora_Assault", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "aurora_Assault", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "hammerhead_Elite", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "hammerhead_Elite", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "hammerhead_Elite", FleetMemberType.SHIP, false);
 
-		api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, false);
-
-		api.addToFleet(FleetSide.PLAYER, "tempest_Attack", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "tempest_Attack", FleetMemberType.SHIP, false);
-		api.addToFleet(FleetSide.PLAYER, "tempest_Attack", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
+		api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, false);
 		
 		// Enemy fleet.
 		api.addToFleet(FleetSide.ENEMY, "fsdf_altais_strike", FleetMemberType.SHIP, false);
