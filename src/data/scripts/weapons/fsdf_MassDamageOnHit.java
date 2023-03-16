@@ -25,15 +25,14 @@ public class fsdf_MassDamageOnHit implements OnHitEffectPlugin {
       float newDamage = damage * damageModifier;                              // Calculate the new damage based on the damage modifier.
 
       //Get locations and deal damage, god this was a pain in the ass to work out.
-      engine.applyDamage(target, point, newDamage, DamageType.HIGH_EXPLOSIVE, 0, false, false, target, false);
+      engine.applyDamage(target, point, newDamage, DamageType.KINETIC, 0, false, false, target, false);
 
-      //Just a copy of RiftTorpedoEffect stuff until I work out a better method of this
+      //I have to work out a better way of doing this.
       Vector2f vel = new Vector2f();
       if (target != null) vel.set(target.getVelocity());
       Global.getSoundPlayer().playSound("rifttorpedo_explosion", 1f, 1f, point, vel);
 
-      //SFX Stuff
-      engine.spawnExplosion(point, vel, new Color(255, 125, 50), newDamage / 5, 1f);
+      engine.spawnExplosion(point, vel, new Color(255, 125, 50), newDamage / 5, 1f);  //SFX Stuff.
     }
   }
 }
