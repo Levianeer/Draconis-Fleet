@@ -6,9 +6,7 @@
     
     "marketSpawnWeight":1,
 
-    "startRelationships":{ "pirates":-0.6, "luddic_path":-0.6, "independent": 1, },
-	"diplomacyPositiveChance":{ "hegemony":0.8 },
-    "diplomacyNegativeChance":{ "hegemony":1.2 },
+    "startRelationships":{ "pirates":-0.6, "luddic_path":-0.6 },
     
     "alignments":{
 	    "hierarchial":1,
@@ -17,7 +15,7 @@
 	    "militarist":1,
     },
 	
-    "diplomacyTraits":["helps_allies", "stalwart", "likes_ai", "envious", "law_and_order"],
+    "diplomacyTraits":["paranoid", "stalwart", "helps_allies", "anarchist", "envious"],
     
     # chance of the faction being picked to send a colony expedition. Default 0 (disabled)
     "colonyExpeditionChance":1,	# baseline expansion behaviour
@@ -32,9 +30,7 @@
     "startShipsCarrierLarge":[["fsdf_thuban_starter", "fsdf_rastaban_starter", "fsdf_eltanin_starter", "fsdf_altais_starter"]],
     
     "defenceStations":[
-        {"ids":["orbitalstation", "battlestation", "starfortress"], "weight":0.5},
-        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]},
-        {"ids":["orbitalstation_high", "battlestation_high", "starfortress_high"], "weight":0.5},
+        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]}
     ],
     
     "industrySeeds":[
@@ -44,10 +40,6 @@
     ],
     
     "bonusSeeds":[
-        {"id":"nanoforge_pristine", "count":1},
-        {"id":"aiCore_station", "count":2, "mult":0.4},
-        {"id":"aiCore_military", "mult":0.6},
-        {"id":"aiCore_heavyindustry", "count":1.2},
-        {"id":"aiCore_any", "mult":1.2},
+        {"id":"nanoforge_pristine", "count":1}
     ],
 }

@@ -30,7 +30,7 @@ public class draconisWorldGen implements SectorGeneratorPlugin {
 
 		fsdf_draconis.setRelationship(Factions.HEGEMONY, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.PERSEAN, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.FRIENDLY);
+		fsdf_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.TRITACHYON, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE);
 		fsdf_draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE);
