@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 
 public class fsdf_Draconis_Fleet extends BaseHullMod {
 
-	public static final float PROFILE_MULT = 0.75f;
+	public static final float PROFILE_MULT = 0.90f;
 	
 	// Reduce sensor profile
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {

@@ -15,9 +15,7 @@
     "fsdf_Draconis_Fleet"
   ],
   "builtInWeapons": {
-    "WS0010": "fsdf_mac_3",
-    "WS0022": "fsdf_vls_7_36_mrm",
-    "WS0023": "fsdf_vls_7_36_mrm"
+    "WS0010": "fsdf_mac_3"
   },
   "weaponSlots": [
     {
@@ -154,24 +152,6 @@
       "arc": 5,
       "angle": -90,
       "locations": [8.5, -2]
-    },
-    {
-      "id": "WS0022",
-      "size": "LARGE",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-91, 34]
-    },
-    {
-      "id": "WS0023",
-      "size": "LARGE",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-91, -34]
     },
     {
       "id": "WS0024",

@@ -9,16 +9,13 @@
     "variantId": "fsdf_rastaban_starter",
     "weaponGroups": [
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0008": "fsdf_vls_7_24_mrm",
-                "WS0009": "fsdf_vls_7_24_mrm"
-            }
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "fsdf_mac_2"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0004": "swarmer_fighter",
                 "WS0005": "swarmer_fighter"
@@ -31,11 +28,6 @@
                 "WS0001": "irpulse",
                 "WS0002": "irpulse"
             }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_2"}
         },
         {
             "autofire": true,

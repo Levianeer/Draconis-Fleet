@@ -81,54 +81,54 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 60,
       "angle": 90,
-      "locations": [-122, 53]
+      "locations": [-128, 51]
     },
     {
       "id": "WS0008",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 60,
       "angle": -90,
-      "locations": [-122, -53]
+      "locations": [-128, -51]
     },
     {
       "id": "WS0009",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 70,
       "angle": 90,
-      "locations": [-145, 44]
+      "locations": [-146, 45]
     },
     {
       "id": "WS0010",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 70,
       "angle": -90,
-      "locations": [-145, -44]
+      "locations": [-146, -45]
     },
     {
       "id": "WS0011",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 80,
       "angle": 90,
-      "locations": [-168, 37]
+      "locations": [-164, 39]
     },
     {
       "id": "WS0012",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 80,
       "angle": -90,
-      "locations": [-168, -37]
+      "locations": [-164, -39]
     },
     {
       "id": "WS0017",
@@ -167,37 +167,13 @@
       "locations": [-41.5, -72]
     },
     {
-      "id": "LB 1",
-      "size": "LARGE",
-      "type": "LAUNCH_BAY",
-      "mount": "HIDDEN",
-      "arc": 360,
-      "angle": 0,
-      "locations": [
-        -94, 72,
-        -71.5, 71.5
-      ]
-    },
-    {
-      "id": "LB 2",
-      "size": "LARGE",
-      "type": "LAUNCH_BAY",
-      "mount": "HIDDEN",
-      "arc": 360,
-      "angle": 0,
-      "locations": [
-        -94.5, -71.5,
-        -71.5, -71.5
-      ]
-    },
-    {
       "id": "WS0023",
       "size": "LARGE",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [220, -0]
+      "locations": [217.5, -0]
     },
     {
       "id": "WS0024",
@@ -216,6 +192,36 @@
       "arc": 5,
       "angle": -0,
       "locations": [-41.5, -120]
+    },
+    {
+      "id": "LB 1",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY",
+      "mount": "HIDDEN",
+      "arc": 360,
+      "angle": 0,
+      "locations": [
+        -19.5, 49,
+        -8.5, 48.5,
+        1.5, 48.5,
+        11.5, 48.5,
+        21.5, 48.5
+      ]
+    },
+    {
+      "id": "LB 2",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY",
+      "mount": "HIDDEN",
+      "arc": 360,
+      "angle": 0,
+      "locations": [
+        -19.5, -48.5,
+        -8.5, -48.5,
+        1.5, -48.5,
+        11.5, -48.5,
+        21.5, -48.5
+      ]
     }
   ],
   "engineSlots": [

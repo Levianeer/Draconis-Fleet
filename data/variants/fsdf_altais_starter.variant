@@ -1,13 +1,14 @@
 {
     "displayName": "Starter",
     "fluxCapacitors": 45,
-    "fluxVents": 42,
+    "fluxVents": 50,
     "hullId": "fsdf_altais",
     "hullMods": [
         "dedicated_targeting_core",
         "expanded_deck_crew",
         "hardenedshieldemitter",
-        "stabilizedshieldemitter"
+        "stabilizedshieldemitter",
+        "fluxcoil"
     ],
     "permaMods": [],
     "sMods": [],
@@ -34,22 +35,16 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "heavyac",
-                "WS0002": "heavyac",
-                "WS0003": "heavyac",
-                "WS0004": "heavyac"
+                "WS0003": "gravitonbeam",
+                "WS0004": "gravitonbeam"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "lightmg",
-                "WS0008": "lightmg",
-                "WS0009": "lightmg",
-                "WS0010": "lightmg",
-                "WS0011": "lightmg",
-                "WS0012": "lightmg"
+                "WS0001": "heavyac",
+                "WS0002": "heavyac"
             }
         },
         {
@@ -57,12 +52,18 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0005": "flak",
-                "WS0006": "flak"
+                "WS0006": "flak",
+                "WS0007": "vulcan",
+                "WS0008": "vulcan",
+                "WS0009": "vulcan",
+                "WS0010": "vulcan",
+                "WS0011": "vulcan",
+                "WS0012": "vulcan"
             }
         }
     ],
     "wings": [
-        "fsdf_nova_wing",
-        "fsdf_nova_wing"
+        "talon_wing",
+        "talon_wing"
     ]
 }

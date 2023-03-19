@@ -1,38 +1,32 @@
 {
 	"DRACONIS": {
-		"mode":"QUAD_STRIP",
-		"contrailDuration":1.0,
-		"contrailWidthMult":0.7,
+		"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+		"contrailDuration":4,
+		"contrailWidthMult":0.67,
 		"contrailWidthAddedFractionAtEnd":-1f,  # can be negative. makes trail spread out/narrow at the end
-		"contrailMinSeg":12,
-		"contrailMaxSpeedMult":25f,
-		"contrailAngularVelocityMult":25f,
-		"contrailColor":[245,145,60,255],
-		"type":"SMOKE",
+		"contrailMinSeg":12, # min segment length, in pixels
+		"contrailMaxSpeedMult":1f,
+		"contrailAngularVelocityMult":1f,
+		"contrailColor":[150,120,100,155],
+		"type":"GLOW", # GLOW or SMOKE; additive or regular blend mode
 						
-		"glowSprite":"graphics/fx/engineglow32b.png",
-		"glowOutline":"graphics/fx/engineflame32b.png",
-		"omegaMode":false,
-		"glowSizeMult":0.25,
-		"glowAlternateColor":[215,105,40,75],
-		"engineColor":[245,145,60,255],
+		"glowSizeMult":1,
+		"engineColor":[255,145,75,255],
+		"contrailCampaignColor":[150,120,100,155],
 	},
 	"DRACONIS_FIGHTER": {
-		"mode":"QUAD_STRIP",
-		"contrailDuration":0.5,
-		"contrailWidthMult":0.35,
+		"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+		"contrailDuration":1,
+		"contrailWidthMult":0.67,
 		"contrailWidthAddedFractionAtEnd":-1f,  # can be negative. makes trail spread out/narrow at the end
-		"contrailMinSeg":6,
-		"contrailMaxSpeedMult":12.5f,
-		"contrailAngularVelocityMult":12.5f,
-		"contrailColor":[245,145,60,255],
-		"type":"SMOKE",
+		"contrailMinSeg":3, # min segment length, in pixels
+		"contrailMaxSpeedMult":1f,
+		"contrailAngularVelocityMult":1f,
+		"contrailColor":[150,120,100,155],
+		"type":"GLOW", # GLOW or SMOKE; additive or regular blend mode
 						
-		"glowSprite":"graphics/fx/engineglow32b.png",
-		"glowOutline":"graphics/fx/engineflame32b.png",
-		"omegaMode":false,
-		"glowSizeMult":0.125,
-		"glowAlternateColor":[215,105,40,75],
-		"engineColor":[245,145,60,255],
+		"glowSizeMult":1,
+		"engineColor":[255,145,75,255],
+		"contrailCampaignColor":[150,120,100,155],
 	}
 }
