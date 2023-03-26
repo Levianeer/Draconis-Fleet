@@ -57,5 +57,9 @@
                 "WS0012": "vulcan"
             }
         }
+    ],
+    "wings": [
+        "mining_drone_wing",
+        "mining_drone_wing"
     ]
 }
