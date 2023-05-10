@@ -4,8 +4,8 @@
   "projectileSpecId": "fsdf_type_9_skm_mrm",
   "type": "MISSILE",
   "size": "SMALL",
-  "turretSprite": "graphics/weapons/fsdf_vls_7_mrm.png",
-  "hardpointSprite": "graphics/weapons/fsdf_vls_7_mrm.png",
+  "turretSprite": "graphics/weapons/fsdf_type_9_skm.png",
+  "hardpointSprite": "graphics/weapons/fsdf_type_9_skm.png",
   "turretOffsets": [
     3,
     6,

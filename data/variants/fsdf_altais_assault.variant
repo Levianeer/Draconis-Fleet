@@ -1,6 +1,6 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 35,
+    "fluxCapacitors": 25,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_altais",
@@ -59,7 +59,7 @@
         }
     ],
     "wings": [
-        "mining_drone_wing",
-        "mining_drone_wing"
+        "wasp_wing",
+        "wasp_wing"
     ]
 }

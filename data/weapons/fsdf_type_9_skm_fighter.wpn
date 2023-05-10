@@ -4,8 +4,8 @@
 	"type":"MISSILE",
 	"size":"SMALL",
 	
-	"turretSprite":"graphics/weapons/fsdf_vls_7_mrm.png",
-	"hardpointSprite":"graphics/weapons/fsdf_vls_7_mrm.png",
+	"turretSprite":"graphics/weapons/fsdf_type_9_skm.png",
+	"hardpointSprite":"graphics/weapons/fsdf_type_9_skm.png",
 	"hardpointOffsets":[11.5,6,11.5,2,11.5,-2,11.5,-6],
 	"turretOffsets":[7,6,7,2,7,-2,7,-6],
 	"hardpointAngleOffsets":[0, 0, 0, 0,],
