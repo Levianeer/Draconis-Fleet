@@ -13,7 +13,6 @@
 	},
 	"combatMedium":{
 		"fsdf_rastaban_strike":4,
-		"fsdf_rastaban_assault":4,
 		
 		"fallback":{"combatSmall":1},
 	},
@@ -23,7 +22,7 @@
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"fsdf_altais_assault":4,
+		"fsdf_altais_strike":4,
 
 		"fallback":{"combatLarge":1},
 	},
@@ -33,7 +32,6 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"fsdf_eltanin_carrier":2,
 		
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},

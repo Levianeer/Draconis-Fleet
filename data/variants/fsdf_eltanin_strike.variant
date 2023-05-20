@@ -1,32 +1,19 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 17,
-    "fluxVents": 30,
+    "fluxCapacitors": 30,
+    "fluxVents": 5,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor"
+        "fluxcoil"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_eltanin_strike",
     "weaponGroups": [
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0010": "fsdf_mac_3"}
-        },
-        {
             "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0024": "harpoon",
-                "WS0025": "harpoon"
-            }
-        },
-        {
-            "autofire": true,
             "mode": "LINKED",
             "weapons": {
                 "WS0005": "hveldriver",
@@ -34,17 +21,34 @@
             }
         },
         {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0024": "harpoon",
+                "WS0025": "harpoon"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0010": "fsdf_mac_ii"}
+        },
+        {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0007": "heavymauler"}
+            "weapons": {"WS0015": "heavymauler"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
                 "WS0003": "vulcan",
                 "WS0004": "vulcan",
-                "WS0015": "dualflak"
+                "WS0007": "flak",
+                "WS0008": "vulcan",
+                "WS0009": "vulcan"
             }
         }
     ]

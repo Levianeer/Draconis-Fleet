@@ -15,16 +15,14 @@
     "fsdf_Draconis_Fleet"
   ],
   "builtInWeapons": {
-    "WS0003": "fsdf_mac_1",
-    "WS0006": "blinker_red",
-    "WS0010": "fsdf_type_9_skm",
-    "WS0011": "fsdf_type_9_skm"
+    "WS0003": "fsdf_mac_iiii",
+    "WS0006": "blinker_red"
   },
   "weaponSlots": [
     {
       "id": "WS0001",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
@@ -34,7 +32,7 @@
     {
       "id": "WS0002",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 300,
       "angle": 0,
@@ -70,40 +68,13 @@
       "locations": [46.5, -17.5]
     },
     {
-      "id": "WS0008",
+      "id": "WS0004",
       "size": "SMALL",
       "type": "SYSTEM",
       "mount": "HIDDEN",
       "arc": 5,
-      "angle": 90,
-      "locations": [10.5, 17]
-    },
-    {
-      "id": "WS0009",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [10.5, -17]
-    },
-    {
-      "id": "WS0010",
-      "size": "SMALL",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-24, 14.5]
-    },
-    {
-      "id": "WS0011",
-      "size": "SMALL",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-24, -14.5]
+      "angle": 180,
+      "locations": [-29.5, -0]
     }
   ],
   "engineSlots": [

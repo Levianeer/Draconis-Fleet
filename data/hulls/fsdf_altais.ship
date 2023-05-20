@@ -12,16 +12,17 @@
   "shieldRadius": 273.5,
   "viewOffset": 0,
   "builtInMods": [
-    "fsdf_Draconis_Fleet"
+    "fsdf_Draconis_Fleet",
+    "vast_hangar"
   ],
   "builtInWeapons": {
-    "WS0023": "fsdf_particle_beam"
+    "WS0023": "fsdf_mac_i"
   },
   "weaponSlots": [
     {
       "id": "WS0001",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 92,
       "angle": 42,
@@ -31,7 +32,7 @@
     {
       "id": "WS0002",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 92,
       "angle": -42,
@@ -41,7 +42,7 @@
     {
       "id": "WS0003",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 92,
       "angle": 42,
@@ -50,7 +51,7 @@
     {
       "id": "WS0004",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 92,
       "angle": -42,
@@ -59,7 +60,7 @@
     {
       "id": "WS0005",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 92,
       "angle": 42,
@@ -69,7 +70,7 @@
     {
       "id": "WS0006",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 92,
       "angle": -42,
@@ -222,6 +223,15 @@
         11.5, -48.5,
         21.5, -48.5
       ]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 180,
+      "locations": [-173.5, -0]
     }
   ],
   "engineSlots": [
@@ -239,8 +249,8 @@
     217.5, -8.5,
     201.5, -17.5,
     174.5, -21.5,
-    84.5, -21.5,
-    35.5, -50.5,
+    65.5, -21.5,
+    18.5, -50.5,
     -44, -50.5,
     -45.5, -138.5,
     -76.5, -138.5,
@@ -259,8 +269,8 @@
     -76.5, 138.5,
     -45.5, 138.5,
     -44, 50.5,
-    35.5, 50.5,
-    84.5, 21.5,
+    18.5, 50.5,
+    65.5, 21.5,
     174.5, 21.5,
     201.5, 17.5,
     217.5, 8.5

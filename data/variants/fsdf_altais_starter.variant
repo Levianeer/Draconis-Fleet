@@ -1,13 +1,13 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 45,
-    "fluxVents": 50,
+    "fluxCapacitors": 50,
+    "fluxVents": 15,
     "hullId": "fsdf_altais",
     "hullMods": [
         "dedicated_targeting_core",
-        "expanded_deck_crew",
-        "hardenedshieldemitter",
-        "stabilizedshieldemitter",
+        "converted_hangar",
+        "heavyarmor",
+        "defensive_targeting_array",
         "fluxcoil"
     ],
     "permaMods": [],
@@ -16,35 +16,35 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0023": "fsdf_particle_beam"}
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0017": "heatseeker",
+                "WS0018": "heatseeker",
+                "WS0021": "heatseeker",
+                "WS0022": "heatseeker"
+            }
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0017": "swarmer",
-                "WS0018": "swarmer",
-                "WS0021": "swarmer",
-                "WS0022": "swarmer",
                 "WS0024": "swarmer",
                 "WS0027": "swarmer"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0003": "gravitonbeam",
-                "WS0004": "gravitonbeam"
-            }
+            "weapons": {"WS0023": "fsdf_mac_i"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
                 "WS0001": "heavyac",
-                "WS0002": "heavyac"
+                "WS0002": "heavyac",
+                "WS0003": "heavyac",
+                "WS0004": "heavyac"
             }
         },
         {
@@ -63,7 +63,7 @@
         }
     ],
     "wings": [
-        "talon_wing",
-        "talon_wing"
+        "hoplon_wing",
+        "hoplon_wing"
     ]
 }

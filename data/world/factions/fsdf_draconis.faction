@@ -11,7 +11,7 @@
 	"displayNameLongWithArticle":"the 42nd Draconis Fleet",
 	"logo":"graphics/factions/draconis.png",
 	"crest":"graphics/factions/crest_draconis.png",
-	"shipNamePrefix":"DSS",
+	"shipNamePrefix":"DNS",
 	"shipNameSources":{
 		"DRACONIS":10,
 	},

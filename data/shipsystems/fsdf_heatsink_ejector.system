@@ -1,0 +1,9 @@
+{
+	"id":"fsdf_heatsink_ejector",
+	"type":"WEAPON",
+	"aiType":"CUSTOM",
+	"aiScript":"data.shipsystems.scripts.ai.fsdf_heatsinkAI",
+	
+	"weaponDataId":"fsdf_heatsink",
+	"outOfUsesSound":"gun_out_of_ammo",
+}

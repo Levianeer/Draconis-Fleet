@@ -28,13 +28,13 @@ public class draconisWorldGen implements SectorGeneratorPlugin {
 		/// REP LEVELS: VENGEFUL/HOSTILE/INHOSPITABLE/SUSPICIOUS/NEUTRAL/FAVORABLE/WELCOMING/FRIENDLY/COOPERATIVE
 		///STARTING REP LEVELS
 
-		fsdf_draconis.setRelationship(Factions.HEGEMONY, RepLevel.NEUTRAL);
+		fsdf_draconis.setRelationship(Factions.HEGEMONY, RepLevel.SUSPICIOUS);
 		fsdf_draconis.setRelationship(Factions.PERSEAN, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.TRITACHYON, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE);
+		fsdf_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.SUSPICIOUS);
 		fsdf_draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE);
-		fsdf_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.NEUTRAL);
+		fsdf_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.SUSPICIOUS);
 		fsdf_draconis.setRelationship(Factions.DIKTAT, RepLevel.NEUTRAL);
 		fsdf_draconis.setRelationship(Factions.PLAYER, RepLevel.NEUTRAL);
     }
