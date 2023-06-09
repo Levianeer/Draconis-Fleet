@@ -1,6 +1,9 @@
 {
 	"id":"fsdf_heatsink_ejector",
 	"type":"WEAPON",
+	
+	"statsScript":"data.shipsystems.scripts.fsdf_heatsinkStats",
+	
 	"aiType":"CUSTOM",
 	"aiScript":"data.shipsystems.scripts.ai.fsdf_heatsinkAI",
 	

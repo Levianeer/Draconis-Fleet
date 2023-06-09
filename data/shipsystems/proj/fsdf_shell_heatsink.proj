@@ -6,7 +6,7 @@
 	"size":[9,11],	
 	"center":[4.5,5.5],
 	"collisionRadius":13,
-	"collisionClass":"MISSILE_NO_FF",
+	"collisionClass":"MISSILE_FF",
 	"explosionColor":[255,155,125,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":15, # purely visual
 	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
@@ -15,8 +15,8 @@
 	"glowColor":[255,40,40,155],
 	"glowRadius":32,
 	"behaviorSpec":{"behavior":"CUSTOM",
-					"effectRange":300,
-					"effectChance":0.05,
+					"effectRange":600,
+					"effectChance":0.1,
 				   },
 	"engineSpec":{"turnAcc":0,
 				  "turnRate":0,

@@ -1,31 +1,39 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 10,
-    "fluxVents": 3,
-    "goalVariant": true,
-    "hullId": "fsdf_thuban",
-    "hullMods": ["targetingunit"],
-    "permaMods": [],
-    "sMods": [],
-    "variantId": "fsdf_thuban_strike",
-    "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_iiii"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0005": "vulcan"}
-        }
-    ]
+  "variantId": "fsdf_thuban_strike",
+  "hullId": "fsdf_thuban",
+  "displayName": "Strike",
+  "goalVariant": true,
+  "fluxCapacitors": 9,
+  "fluxVents": 10,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [
+    "fluxdistributor"
+  ],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "fsdf_mac_100"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "lightac",
+        "WS0002": "lightac"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0005": "vulcan"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
 }

@@ -1,2 +1,3 @@
 name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sprite
-Fleet Doctrine,fsdf_Draconis_Fleet,5,,Draconis,,,,,TRUE,,0,0,0,0,data.hullmods.fsdf_Draconis_Fleet,Per compliance with 42nd Fleet doctrine all ships have radar absorbing coating that reduces sensor profile by %s.,Lowers sensor profile.,graphics/hullmods/hullmod_crest_draconis.png
+Fleet Doctrine,fsdf_Draconis_Fleet,5,,Draconis,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.fsdf_Draconis_Fleet,,,graphics/hullmods/hullmod_crest_draconis.png
+Enhanced Targeting,fsdf_Enhanced_Targeting,5,,Draconis,,,,,TRUE,,0,0,0,0,data.hullmods.fsdf_Enhanced_Targeting,Increases the range of the ship's ballistic weapons by %s and reduces recoil by %s.,Improves ballistic weapon range and recoil.,graphics/hullmods/hullmod_enhanced_targeting.png

@@ -15,7 +15,7 @@
     "fsdf_Draconis_Fleet"
   ],
   "builtInWeapons": {
-    "WS0003": "fsdf_mac_iiii",
+    "WS0003": "fsdf_mac_100",
     "WS0006": "blinker_red"
   },
   "weaponSlots": [
@@ -41,7 +41,7 @@
     },
     {
       "id": "WS0003",
-      "size": "SMALL",
+      "size": "LARGE",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,
@@ -79,11 +79,38 @@
   ],
   "engineSlots": [
     {
-      "location": [-55.5, -0],
-      "length": 96,
-      "width": 32,
+      "location": [-54.5, 8],
+      "length": 38,
+      "width": 12,
       "angle": 180,
-      "contrailSize": 32,
+      "contrailSize": 12,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-54.5, -8],
+      "length": 38,
+      "width": 12,
+      "angle": -180,
+      "contrailSize": 12,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-54.5, 2.5],
+      "length": 62,
+      "width": 12,
+      "angle": 180,
+      "contrailSize": 12,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-54.5, -2.5],
+      "length": 62,
+      "width": 12,
+      "angle": -180,
+      "contrailSize": 12,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     }

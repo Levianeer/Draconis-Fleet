@@ -13,10 +13,12 @@
   "viewOffset": 0,
   "builtInMods": [
     "fsdf_Draconis_Fleet",
-    "vast_hangar"
+    "fsdf_Enhanced_Targeting"
   ],
   "builtInWeapons": {
-    "WS0023": "fsdf_mac_i"
+    "WS0014": "fsdf_400_mrm",
+    "WS0015": "fsdf_400_mrm",
+    "WS0023": "fsdf_mac_400"
   },
   "weaponSlots": [
     {
@@ -132,42 +134,6 @@
       "locations": [-164, -39]
     },
     {
-      "id": "WS0017",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [-41.5, 96]
-    },
-    {
-      "id": "WS0018",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [-41.5, -96]
-    },
-    {
-      "id": "WS0021",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [-41.5, 72]
-    },
-    {
-      "id": "WS0022",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [-41.5, -72]
-    },
-    {
       "id": "WS0023",
       "size": "LARGE",
       "type": "BUILT_IN",
@@ -178,21 +144,21 @@
     },
     {
       "id": "WS0024",
-      "size": "SMALL",
+      "size": "MEDIUM",
       "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [-41.5, 120]
+      "locations": [-47.5, 129]
     },
     {
       "id": "WS0027",
-      "size": "SMALL",
+      "size": "MEDIUM",
       "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [-41.5, -120]
+      "locations": [-47.5, -129]
     },
     {
       "id": "LB 1",
@@ -232,15 +198,78 @@
       "arc": 5,
       "angle": 180,
       "locations": [-173.5, -0]
+    },
+    {
+      "id": "WS0014",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-47.5, 87]
+    },
+    {
+      "id": "WS0015",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-47.5, -87]
     }
   ],
   "engineSlots": [
     {
-      "location": [-218, -0],
-      "length": 276,
-      "width": 92,
+      "location": [-217, 20],
+      "length": 100,
+      "width": 18,
       "angle": 180,
-      "contrailSize": 92,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-217, -20],
+      "length": 100,
+      "width": 18,
+      "angle": -180,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-218.5, -7.5],
+      "length": 162,
+      "width": 22,
+      "angle": 180,
+      "contrailSize": 22,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-218.5, 7.5],
+      "length": 162,
+      "width": 22,
+      "angle": -180,
+      "contrailSize": 22,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-216.5, 30],
+      "length": 86,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 16,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-216.5, -30],
+      "length": 86,
+      "width": 16,
+      "angle": -180,
+      "contrailSize": 16,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     }

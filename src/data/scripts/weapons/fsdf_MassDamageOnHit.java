@@ -2,7 +2,6 @@ package data.scripts.weapons;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.DamageType;
@@ -17,21 +16,16 @@ public class fsdf_MassDamageOnHit implements OnHitEffectPlugin {
 					  Vector2f point, boolean shieldHit, ApplyDamageResultAPI damageResult, CombatEngineAPI engine) {
             if (!shieldHit && target instanceof ShipAPI) {
 
-      float mass = target.getMass ();                                         // Get mass.
-      float damageModifier = (mass / 4000) + (float)(8.5 / Math.sqrt(mass));  // Calculate the damage modifier. Thanks Owen for the equation <3
-      float damage = projectile.getDamageAmount();                            // Get the initial damage of the projectile.
-      float newDamage = damage * damageModifier;                              // Calculate the new damage based on the damage modifier.
+      // Calculates the modifier. Thanks Owen for the equation <3
+      float mass = target.getMass ();
+      float damageModifier = (mass / 2500) + (float)(8.5 / Math.sqrt(mass));
+      float damage = projectile.getDamageAmount();
+      float newDamage = damage * damageModifier;
 
-            Math.min(damageModifier, 2.5);                                   // Stop the damage getting too high or too low.
-            Math.max(damageModifier, 0.7);                                  // Which I think could've caused a crash with 0 mass ships.
+            Math.min(damageModifier, 2.0);  // Stops the damage from getting too high or low.
+            Math.max(damageModifier, 0.8);  // Could this cause a crash with 0 mass ships?
 
-      engine.applyDamage(target, point, newDamage, DamageType.ENERGY, 0, false, false, target, false); //Get location, velocity and deal damage. God this was a pain in the ass to work out.
-
-      //Sound fx
-      //I have to work out a better way of doing this.
-      Vector2f vel = new Vector2f();
-      if (target != null) vel.set(target.getVelocity());
-      Global.getSoundPlayer().playSound("rifttorpedo_explosion", 1f, 1f, point, vel);
+      engine.applyDamage(target, point, newDamage, DamageType.ENERGY, 0, false, false, target, false); // Get location, velocity and deal damage. God this was a pain in the ass to work out.
     }
   }
 }

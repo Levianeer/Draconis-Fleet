@@ -1,9 +1,9 @@
 {
     "displayName": "Starter",
     "fluxCapacitors": 20,
-    "fluxVents": 4,
+    "fluxVents": 20,
     "hullId": "fsdf_rastaban",
-    "hullMods": ["heavyarmor"],
+    "hullMods": ["turretgyros"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_starter",
@@ -11,28 +11,28 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_iii"}
+            "weapons": {"WS0003": "fsdf_mac_120"}
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "heatseeker",
-                "WS0005": "heatseeker"
+                "WS0004": "harpoon",
+                "WS0005": "harpoon"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "irpulse",
-                "WS0002": "irpulse"
+                "WS0001": "lightdualac",
+                "WS0002": "lightdualac"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "pdburst"}
+            "weapons": {"WS0006": "flak"}
         }
     ]
 }

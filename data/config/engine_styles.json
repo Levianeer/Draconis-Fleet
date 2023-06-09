@@ -7,12 +7,12 @@
 		"contrailMinSeg":12, # min segment length, in pixels
 		"contrailMaxSpeedMult":1f,
 		"contrailAngularVelocityMult":1f,
-		"contrailColor":[150,120,100,155],
 		"type":"GLOW", # GLOW or SMOKE; additive or regular blend mode
 						
 		"glowSizeMult":1,
 		"engineColor":[255,145,75,255],
-		"contrailCampaignColor":[150,120,100,155],
+		"contrailColor":[100,100,100,25],
+		"contrailCampaignColor":[150,120,100,75],
 	},
 	"DRACONIS_FIGHTER": {
 		"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
@@ -22,11 +22,11 @@
 		"contrailMinSeg":3, # min segment length, in pixels
 		"contrailMaxSpeedMult":1f,
 		"contrailAngularVelocityMult":1f,
-		"contrailColor":[150,120,100,155],
 		"type":"GLOW", # GLOW or SMOKE; additive or regular blend mode
 						
 		"glowSizeMult":1,
 		"engineColor":[255,145,75,255],
-		"contrailCampaignColor":[150,120,100,155],
+		"contrailColor":[100,100,100,25],
+		"contrailCampaignColor":[150,120,100,75],
 	}
 }

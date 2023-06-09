@@ -15,7 +15,7 @@
     "fsdf_Draconis_Fleet"
   ],
   "builtInWeapons": {
-    "WS0010": "fsdf_mac_ii"
+    "WS0010": "fsdf_mac_250"
   },
   "weaponSlots": [
     {
@@ -55,24 +55,6 @@
       "locations": [-105, -30]
     },
     {
-      "id": "WS0005",
-      "size": "MEDIUM",
-      "type": "BALLISTIC",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [6, 35]
-    },
-    {
-      "id": "WS0006",
-      "size": "MEDIUM",
-      "type": "BALLISTIC",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [6, -35]
-    },
-    {
       "id": "WS0007",
       "size": "MEDIUM",
       "type": "BALLISTIC",
@@ -110,31 +92,13 @@
     },
     {
       "id": "WS0015",
-      "size": "MEDIUM",
+      "size": "LARGE",
       "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
-      "locations": [-32.5, -0],
+      "locations": [-19, -0],
       "renderOrderMod": 1
-    },
-    {
-      "id": "WS0024",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-50, 38]
-    },
-    {
-      "id": "WS0025",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-50, -38]
     },
     {
       "id": "WS0011",
@@ -148,37 +112,86 @@
   ],
   "engineSlots": [
     {
-      "location": [-135.5, -0],
-      "length": 190,
-      "width": 68,
+      "location": [-130.5, 32],
+      "length": 62,
+      "width": 18,
       "angle": 180,
-      "contrailSize": 68,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-130.5, -32],
+      "length": 62,
+      "width": 18,
+      "angle": -180,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-130.5, 21],
+      "length": 90,
+      "width": 22,
+      "angle": 180,
+      "contrailSize": 22,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-130.5, -21],
+      "length": 90,
+      "width": 22,
+      "angle": -180,
+      "contrailSize": 22,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-136, -7.5],
+      "length": 164,
+      "width": 25,
+      "angle": 180,
+      "contrailSize": 25,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-136, 7.5],
+      "length": 164,
+      "width": 25,
+      "angle": -180,
+      "contrailSize": 25,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     }
   ],
   "bounds": [
-    135, -5,
-    124, -18,
-    13.5, -26.5,
-    12.5, -43.5,
-    -25.5, -46.5,
-    -34.5, -44.5,
-    -45.5, -32.5,
-    -53.5, -32.5,
-    -66.5, -43.5,
-    -117.5, -43.5,
+    134.5, -10.5,
+    127.5, -18.5,
+    42.5, -26.5,
+    2.5, -26.5,
+    -14.5, -45.5,
+    -32.5, -46.5,
+    -46.5, -32.5,
+    -60.5, -32.5,
+    -73.5, -43.5,
+    -117, -43.5,
     -129.5, -37.5,
+    -129.5, -16.5,
+    -134.5, -7.5,
+    -134.5, 7.5,
+    -129.5, 16.5,
     -129.5, 37.5,
-    -117.5, 43.5,
-    -66.5, 43.5,
-    -53.5, 32.5,
-    -45.5, 32.5,
-    -34.5, 44.5,
-    -25.5, 46.5,
-    12.5, 43.5,
-    13.5, 26.5,
-    124, 18,
-    135, 5
+    -117, 43.5,
+    -73.5, 43.5,
+    -60.5, 32.5,
+    -46.5, 32.5,
+    -32.5, 46.5,
+    -14.5, 45.5,
+    2.5, 26.5,
+    42.5, 26.5,
+    127.5, 18.5,
+    134.5, 10.5
   ]
 }

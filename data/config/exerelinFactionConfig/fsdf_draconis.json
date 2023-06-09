@@ -1,33 +1,76 @@
 {
     "playableFaction":true,
     "corvusCompatible":true,
+    "startingFaction":true,
     
+    "difficultyString":"hard",
+    "ngcTooltip":"TBA",
     "rebelFleetSuffix":"Traitors",
     
-    "marketSpawnWeight":1,
+    "asteroidMiningFleetName":"Mining Flotilla",
+    "gasMiningFleetName":"Gas Mining Flotilla",
+    "invasionFleetName":"Invasion Fleet",
+    "responseFleetName":"Planetary Defense Fleet ",
+    "invasionSupportFleetName":"Support Squadron",
+    "defenceFleetName":"Defense Fleet",
+	"noSyncRelations":false,
+	"noStartingContact":false,
 
-    "startRelationships":{ "pirates":-0.6, "luddic_path":-0.6 },
+    "invasionFleetSizeMod":1,
+	"responseFleetSizeMod":1,
+	"invasionPointMult":1,
+
+	"vengeanceFleetSizeMult":2.0,
+    "vengeanceLevelNames":["Excommunication"],
+    "vengeanceFleetNames":["Quick Reaction Force"],
+    "vengeanceFleetNamesSingle":["a Quick Reaction Force"],
+
+    "specialForcesPointMult":1.5,
+	"specialForcesSizeMult":1.5,
+
+    "stabilizeCommodities":["food", "hand_weapons", "supplies"],
+    "marketSpawnWeight":2,
+
+    "startRelationships":{
+
+    },
     
+    "morality":"neutral",
     "alignments":{
-	    "hierarchial":1,
-        "technocratic":0.5,
-	    "diplomatic":1,
-	    "militarist":1,
+        "militarist":1.0,
+        "diplomatic":1.0,
+        "corporate":0.2,
+        "technocratic":0.2,
     },
 	
-    "diplomacyTraits":["paranoid", "stalwart", "helps_allies", "anarchist", "envious"],
+    "diplomacyTraits":["paranoid", "stalwart", "helps_allies", "lowprofile", "selfrighteous"],
     
+    "freeMarket":true,
+
     # chance of the faction being picked to send a colony expedition. Default 0 (disabled)
     "colonyExpeditionChance":1,	# baseline expansion behaviour
-
     "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
 
     "specialForcesNamerClass":"exerelin.campaign.intel.specialforces.namer.PlanetNamer",
     
-    "startShipsSolo":[["fsdf_thuban_starter"]],
-    "startShipsCombatSmall":[["fsdf_thuban_starter", "fsdf_rastaban_starter"]],
-    "startShipsCombatLarge":[["fsdf_thuban_starter", "fsdf_rastaban_starter", "fsdf_eltanin_starter"]],
-    "startShipsCarrierLarge":[["fsdf_thuban_starter", "fsdf_rastaban_starter", "fsdf_eltanin_starter", "fsdf_altais_starter"]],
+    "startShipsSolo":[
+        ["fsdf_thuban_starter"],
+        ],
+    "startShipsCombatSmall":[
+        ["fsdf_thuban_starter"],
+        ["fsdf_rastaban_starter"],
+        ],
+    "startShipsCombatLarge":[
+        ["fsdf_thuban_starter"],
+        ["fsdf_rastaban_starter"],
+        ["fsdf_eltanin_starter"],
+    ],
+    "startShipsCarrierLarge":[
+        ["fsdf_thuban_starter"],
+        ["fsdf_rastaban_starter"],
+        ["fsdf_eltanin_starter"],
+        ["fsdf_altais_starter"]
+    ],
     
     "defenceStations":[
         {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]}

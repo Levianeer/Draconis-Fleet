@@ -1,69 +1,75 @@
 {
-    "displayName": "Starter",
-    "fluxCapacitors": 50,
-    "fluxVents": 15,
-    "hullId": "fsdf_altais",
-    "hullMods": [
-        "dedicated_targeting_core",
-        "converted_hangar",
-        "heavyarmor",
-        "defensive_targeting_array",
-        "fluxcoil"
-    ],
-    "permaMods": [],
-    "sMods": [],
-    "variantId": "fsdf_altais_starter",
-    "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0017": "heatseeker",
-                "WS0018": "heatseeker",
-                "WS0021": "heatseeker",
-                "WS0022": "heatseeker"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0024": "swarmer",
-                "WS0027": "swarmer"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0023": "fsdf_mac_i"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "heavyac",
-                "WS0002": "heavyac",
-                "WS0003": "heavyac",
-                "WS0004": "heavyac"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "flak",
-                "WS0006": "flak",
-                "WS0007": "vulcan",
-                "WS0008": "vulcan",
-                "WS0009": "vulcan",
-                "WS0010": "vulcan",
-                "WS0011": "vulcan",
-                "WS0012": "vulcan"
-            }
-        }
-    ],
-    "wings": [
-        "hoplon_wing",
-        "hoplon_wing"
-    ]
+  "variantId": "fsdf_altais_starter",
+  "hullId": "fsdf_altais",
+  "displayName": "Starter",
+  "goalVariant": false,
+  "fluxCapacitors": 35,
+  "fluxVents": 50,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [
+    "dedicated_targeting_core",
+    "heavyarmor",
+    "fluxcoil"
+  ],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0014": "fsdf_400_mrm",
+        "WS0015": "fsdf_400_mrm"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0024": "salamanderpod",
+        "WS0027": "salamanderpod"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0023": "fsdf_mac_400"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "arbalest",
+        "WS0002": "arbalest"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0005": "flak",
+        "WS0006": "flak",
+        "WS0007": "vulcan",
+        "WS0008": "vulcan",
+        "WS0009": "vulcan",
+        "WS0010": "vulcan",
+        "WS0011": "vulcan",
+        "WS0012": "vulcan"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "heavymg",
+        "WS0004": "heavymg"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": [
+    "hoplon_wing",
+    "hoplon_wing"
+  ]
 }
