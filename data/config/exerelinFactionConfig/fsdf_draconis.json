@@ -3,15 +3,15 @@
     "corvusCompatible":true,
     "startingFaction":true,
     
-    "difficultyString":"hard",
-    "ngcTooltip":"TBA",
+    //"difficultyString":"hard",
+    //"ngcTooltip":"TBA",
     "rebelFleetSuffix":"Traitors",
     
     "asteroidMiningFleetName":"Mining Flotilla",
     "gasMiningFleetName":"Gas Mining Flotilla",
-    "invasionFleetName":"Invasion Fleet",
-    "responseFleetName":"Planetary Defense Fleet ",
-    "invasionSupportFleetName":"Support Squadron",
+    "invasionFleetName":"Assault Fleet",
+    "responseFleetName":"Quick Response Fleet ",
+    "invasionSupportFleetName":"Support Fleet",
     "defenceFleetName":"Defense Fleet",
 	"noSyncRelations":false,
 	"noStartingContact":false,
@@ -43,7 +43,7 @@
         "technocratic":0.2,
     },
 	
-    "diplomacyTraits":["paranoid", "stalwart", "helps_allies", "lowprofile", "selfrighteous"],
+    "diplomacyTraits":["stalwart", "law_and_order", "irredentist", "helps_allies", "dislikes_ai"],
     
     "freeMarket":true,
 
@@ -57,19 +57,13 @@
         ["fsdf_thuban_starter"],
         ],
     "startShipsCombatSmall":[
-        ["fsdf_thuban_starter"],
-        ["fsdf_rastaban_starter"],
+        ["fsdf_thuban_starter","fsdf_rastaban_starter"],
         ],
     "startShipsCombatLarge":[
-        ["fsdf_thuban_starter"],
-        ["fsdf_rastaban_starter"],
-        ["fsdf_eltanin_starter"],
+        ["fsdf_thuban_starter","fsdf_rastaban_starter","fsdf_eltanin_starter"],
     ],
     "startShipsCarrierLarge":[
-        ["fsdf_thuban_starter"],
-        ["fsdf_rastaban_starter"],
-        ["fsdf_eltanin_starter"],
-        ["fsdf_altais_starter"]
+        ["fsdf_thuban_starter","fsdf_rastaban_starter","fsdf_eltanin_starter","fsdf_altais_starter"]
     ],
     
     "defenceStations":[

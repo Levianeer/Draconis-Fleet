@@ -24,6 +24,6 @@
 					   "particleDuration":0.75,
 					   "particleCount":50,
 					   "particleColor":[255,120,50,245]},
-	"projectileSpecId":"fsdf_mac_shot",  # projectile that will be fired
+	"projectileSpecId":"fsdf_mac_SR_shot",  # projectile that will be fired
 	"fireSoundTwo":"fsdf_mac_fire",
 }

@@ -16,9 +16,9 @@
 					   "spread":30.0,
 					   "particleSizeMin":40.0,
 					   "particleSizeRange":20.0,
-					   "particleDuration":0.48,
-					   "particleCount":24,
-					   "particleColor":[245,245,245,255]},
+					   "particleDuration":0.96,
+					   "particleCount":48,
+					   "particleColor":[245,245,245,100]},
 	"projectileSpecId":"fsdf_shell_heatsink",
 	"fireSoundTwo":"fsdf_vent_heatsink",
 }

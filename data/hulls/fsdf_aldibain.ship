@@ -1,8 +1,8 @@
 {
-  "hullName": "Nova",
-  "hullId": "fsdf_nova",
+  "hullName": "Aldibain",
+  "hullId": "fsdf_aldibain",
   "hullSize": "FIGHTER",
-  "spriteName": "graphics/ships/fsdf_nova.png",
+  "spriteName": "graphics/ships/fsdf_aldibain.png",
   "style": "DRACONIS",
   "height": 42,
   "width": 32,

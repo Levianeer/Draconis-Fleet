@@ -177,8 +177,8 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 array.setCircularOrbitPointingDown(star, 300, arrayDistance, arrayOrbit); //focus, angle, orbit radius, orbit days
     
                 // Sets up hyperspace editor plugin
-                HyperspaceTerrainPlugin hyperspaceTerrainPlugin = (HyperspaceTerrainPlugin) Misc.getHyperspaceTerrain().getPlugin(); //get instance of hyperspace terrain
-                NebulaEditor nebulaEditor = new NebulaEditor(hyperspaceTerrainPlugin); //object used to make changes to hyperspace nebula
+                HyperspaceTerrainPlugin hyperspaceTerrainPlugin = (HyperspaceTerrainPlugin) Misc.getHyperspaceTerrain().getPlugin(); // get instance of hyperspace terrain
+                NebulaEditor nebulaEditor = new NebulaEditor(hyperspaceTerrainPlugin); // object used to make changes to hyperspace nebula
     
                 // Sets up radiuses in hyperspace of system
                 float minHyperspaceRadius = hyperspaceTerrainPlugin.getTileSize() * 2f; //minimum radius is two 'tiles'

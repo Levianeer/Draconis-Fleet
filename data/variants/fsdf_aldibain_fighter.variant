@@ -1,6 +1,6 @@
 {
-  "variantId": "fsdf_nova_fighter",
-  "hullId": "fsdf_nova",
+  "variantId": "fsdf_aldibain_fighter",
+  "hullId": "fsdf_aldibain",
   "displayName": "Fighter",
   "goalVariant": false,
   "fluxCapacitors": 0,

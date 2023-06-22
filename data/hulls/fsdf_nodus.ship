@@ -1,0 +1,50 @@
+{
+  "hullName": "Nodus",
+  "hullId": "fsdf_nodus",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/fsdf_nodus.png",
+  "style": "DRACONIS",
+  "height": 60,
+  "width": 54,
+  "center": [27, 29.5],
+  "collisionRadius": 56.5,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 43,
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [6, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-25.5, -0],
+      "length": 52,
+      "width": 12,
+      "angle": 180,
+      "contrailSize": 12,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    28.5, -5.5,
+    5, -16,
+    -4, -25.5,
+    -13, -9.5,
+    -22, -18.5,
+    -28, -7.5,
+    -28, 7.5,
+    -22, 18.5,
+    -13, 9.5,
+    -4, 25.5,
+    5, 16,
+    28.5, 5.5
+  ]
+}

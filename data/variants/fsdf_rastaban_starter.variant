@@ -3,36 +3,36 @@
     "fluxCapacitors": 20,
     "fluxVents": 20,
     "hullId": "fsdf_rastaban",
-    "hullMods": ["turretgyros"],
+    "hullMods": ["armoredweapons"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_starter",
     "weaponGroups": [
         {
             "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "swarmer",
+                "WS0005": "swarmer"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0006": "annihilatorpod"}
+        },
+        {
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0003": "fsdf_mac_120"}
         },
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0004": "harpoon",
-                "WS0005": "harpoon"
-            }
-        },
-        {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightdualac",
-                "WS0002": "lightdualac"
+                "WS0001": "lightac",
+                "WS0002": "lightac"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "flak"}
         }
     ]
 }

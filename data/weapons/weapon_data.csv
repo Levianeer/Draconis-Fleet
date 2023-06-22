@@ -1,13 +1,13 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
-#Cannons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Mk50 Cannon,fsdf_mac_100,5,,,700,,300,,75,,,15,,,ENERGY,115,,,15,4,1,0.05,0.05,,,,900,,,500,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,Anti Armor,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
-Mk51 Cannon,fsdf_mac_120,5,,,700,,475,,75,,,65,,,ENERGY,475,,,5.5,1,0,0.15,0.15,,,,800,,,500,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,Anti Armor,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
-Mk54 Cannon,fsdf_mac_250,5,,,800,,600,,75,,,35,,,ENERGY,600,,,10,1,0,0.15,0.15,,,,800,,,500,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,Anti Armor,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
-Mk56 Cannon,fsdf_mac_400,5,,,1100,,1100,,75,,,30,,,ENERGY,1100,,,18,1,0,0.2,0.2,,,,750,,,500,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,Anti Armor,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
+#Main Guns,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Mk50 Cannon,fsdf_mac_100,5,,,700,,150,,10,,,,,,ENERGY,150,,,1,1,0,,,,,,900,,,200,,,"SYSTEM,SHOW_IN_CODEX,ANTI_FTR",,,Draconis,,General,,,,,,,,,,711000
+Mk51 Cannon,fsdf_mac_120,5,,,900,,850,,10,,,,,,ENERGY,850,,,5,1,0,,,,,,800,,,200,,,"SYSTEM,SHOW_IN_CODEX,ANTI_FTR",,,Draconis,,General,,,,,,,,,,711000
+Mk54 Cannon,fsdf_mac_250,5,,,1000,,1000,,75,25,,,,,ENERGY,1000,,,10,2,0.5,,,,,,800,,,200,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
+Mk56 Cannon,fsdf_mac_400,5,,,1000,,1500,,75,,,,,,ENERGY,1500,,,15,3,0.75,,,,,,750,,,200,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Missiles,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-SGM-700 Blackout,fsdf_700_srm_fighter,5,,,500,,0,500,5,,,2,0.0833,2,FRAGMENTATION,,,,5,1,0.25,,,,,,1000,500,0.5,50,,,"SYSTEM,SHOW_IN_CODEX,DO_NOT_AIM,ANTI_FTR",,,Draconis,,Suppression,Extremely Fast,Excellent,,,,,,,TRUE,711000
-SGM-400 Meteor,fsdf_400_mrm,5,,,2500,,150,,15,,,154,,,KINETIC,,,,10,14,0.5,,,,,,600,100,5,300,,,"SYSTEM,CONSERVE_5",,,Draconis,,Finisher,Fast,Good,,,,,,,TRUE,711000
+SGM-700 Blackout,fsdf_700_srm_fighter,5,,,500,,0,500,5,,,,,,FRAGMENTATION,,,,2,1,0.25,,,,,,1000,500,0.5,100,,,"SYSTEM,SHOW_IN_CODEX,DO_NOT_AIM,ANTI_FTR",,,Draconis,,Suppression,Extremely Fast,Excellent,,,,,,,TRUE,711000
+SGM-400 Meteor,fsdf_400_mrm,5,,,2500,,500,,50,,,70,,,HIGH_EXPLOSIVE,,,,15,7,0.35,,,,,,600,100,5,500,,,"SYSTEM,CONSERVE_5",,,Draconis,,Finisher,Fast,Good,,,,,,,TRUE,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Systems,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Heatsink Ejector,fsdf_heatsink,,,,600,,10,,,,,,,,FRAGMENTATION,,,,0.1,1,,60,60,0,0,,250,,6,500,,,SYSTEM,,,,,,,,,,,,,,TRUE,711000
+Heatsink Ejector,fsdf_heatsink,,,,500,,10,,,,,,,,FRAGMENTATION,,,,0.1,1,,60,60,0,0,,150,500,5,50,,,SYSTEM,,,,,,,,,,,,,,TRUE,711000

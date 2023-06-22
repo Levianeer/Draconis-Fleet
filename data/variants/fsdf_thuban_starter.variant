@@ -1,39 +1,33 @@
 {
-  "variantId": "fsdf_thuban_starter",
-  "hullId": "fsdf_thuban",
-  "displayName": "Starter",
-  "goalVariant": false,
-  "fluxCapacitors": 10,
-  "fluxVents": 10,
-  "quality": 1,
-  "permaMods": [],
-  "hullMods": [
-    "insulatedengine"
-  ],
-  "weaponGroups": [
-    {
-      "autofire": false,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0003": "fsdf_mac_100"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0001": "lightac"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0002": "vulcan",
-        "WS0005": "vulcan"
-      }
-    }
-  ],
-  "modules": [],
-  "wings": []
+    "displayName": "Starter",
+    "fluxCapacitors": 10,
+    "fluxVents": 10,
+    "hullId": "fsdf_thuban",
+    "hullMods": [
+        "insulatedengine",
+        "blast_doors"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_thuban_starter",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "fsdf_mac_100"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "railgun"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "lightmg",
+                "WS0005": "lightmg"
+            }
+        }
+    ]
 }

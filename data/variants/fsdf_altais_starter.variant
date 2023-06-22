@@ -1,75 +1,82 @@
 {
-  "variantId": "fsdf_altais_starter",
-  "hullId": "fsdf_altais",
-  "displayName": "Starter",
-  "goalVariant": false,
-  "fluxCapacitors": 35,
-  "fluxVents": 50,
-  "quality": 1,
-  "permaMods": [],
-  "hullMods": [
-    "dedicated_targeting_core",
-    "heavyarmor",
-    "fluxcoil"
-  ],
-  "weaponGroups": [
-    {
-      "autofire": false,
-      "mode": "ALTERNATING",
-      "weapons": {
-        "WS0014": "fsdf_400_mrm",
-        "WS0015": "fsdf_400_mrm"
-      }
-    },
-    {
-      "autofire": false,
-      "mode": "ALTERNATING",
-      "weapons": {
-        "WS0024": "salamanderpod",
-        "WS0027": "salamanderpod"
-      }
-    },
-    {
-      "autofire": false,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0023": "fsdf_mac_400"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0001": "arbalest",
-        "WS0002": "arbalest"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0005": "flak",
-        "WS0006": "flak",
-        "WS0007": "vulcan",
-        "WS0008": "vulcan",
-        "WS0009": "vulcan",
-        "WS0010": "vulcan",
-        "WS0011": "vulcan",
-        "WS0012": "vulcan"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0003": "heavymg",
-        "WS0004": "heavymg"
-      }
-    }
-  ],
-  "modules": [],
-  "wings": [
-    "hoplon_wing",
-    "hoplon_wing"
-  ]
+    "displayName": "Starter",
+    "fluxCapacitors": 27,
+    "fluxVents": 50,
+    "hullId": "fsdf_altais",
+    "hullMods": [
+        "dedicated_targeting_core",
+        "expanded_deck_crew",
+        "eccm",
+        "stabilizedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_altais_starter",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0023": "fsdf_mac_400"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0014": "fsdf_400_mrm",
+                "WS0015": "fsdf_400_mrm"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0024": "heatseeker",
+                "WS0027": "heatseeker"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "arbalest",
+                "WS0002": "arbalest",
+                "WS0003": "arbalest",
+                "WS0004": "arbalest"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0016": "lightac",
+                "WS0017": "lightac",
+                "WS0018": "railgun",
+                "WS0019": "railgun"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "lightmg",
+                "WS0008": "lightmg",
+                "WS0009": "lightmg",
+                "WS0010": "lightmg",
+                "WS0011": "lightmg",
+                "WS0012": "lightmg"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "flak",
+                "WS0006": "flak"
+            }
+        }
+    ],
+    "wings": [
+        "perdition_wing",
+        "perdition_wing"
+    ]
 }
