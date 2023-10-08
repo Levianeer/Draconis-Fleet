@@ -1,0 +1,102 @@
+{
+	"name":"Draconis Captain",
+	"personalities":["aggressive"],
+	"gender":["m","f","n"],
+	"chance":1,
+	"talkativeness":1,
+	"categoryTags":["draconis"],
+	
+	"lines":{
+		"start":[
+			{"text":"$shipNameNoPrefix, checking in as fragged, ready for tasking."},
+			{"text":"$shipNameNoPrefix, as fragged and ready for tasking."},
+			{"text":"$shipNameNoPrefix, as fragged."},
+			{"text":"$shipNameNoPrefix, group comfirmed as hostile."},
+			{"text":"$shipNameNoPrefix, tally. Engaging."},
+			{"text":"$shipNameNoPrefix, engaging."},
+			{"text":"$shipNameNoPrefix, playtime 10 minutes, let's make this quick."},
+			{"text":"$shipNameNoPrefix, playtime 10 minutes, speed and aggression."},
+		],
+		"start_boss":[
+			{"text":"Were we briefed on this...?"},
+			{"text":"Was this in the brief...?"},
+			{"text":"Um were we briefed on this...?"},
+			{"text":"Was this in the brief...?"},
+			{"text":"Why weren't we briefed on this...?"},
+		],
+		"retreat":[
+			{"text":"$shipNameNoPrefix, we're bugging out."},
+			{"text":"$shipNameNoPrefix, bugging out."},
+			{"text":"$shipNameNoPrefix, abort, abort."},
+		],
+		"out_of_missiles":[
+			{"text":"$shipNameNoPrefix, is remington, requesting RTB."},
+			{"text":"$shipNameNoPrefix, is remington."},
+			{"text":"$shipNameNoPrefix, remington."},
+		],
+		"engaged":[
+			{"text":"$shipNameNoPrefix, engaging."},
+			{"text":"$shipNameNoPrefix, engaging bandit."},
+			{"text":"$shipNameNoPrefix, merged."},
+			{"text":"$shipNameNoPrefix, merging."},
+			{"text":"$shipNameNoPrefix, fence in."},
+			{"text":"$shipNameNoPrefix, bandits comfirmed."},
+			{"text":"$shipNameNoPrefix, bandits."},
+		],
+		"need_help":[
+			{"text":"$shipNameNoPrefix, defending, need assist."},
+			{"text":"$shipNameNoPrefix, going defensive, need help."},
+			{"text":"$shipNameNoPrefix, jinking, requesting help."},
+			{"text":"$shipNameNoPrefix, need assist."},
+			{"text":"$shipNameNoPrefix, need help."},
+			{"text":"$shipNameNoPrefix, requesting help."},
+		],
+		"pursuing":[
+			{"text":"$shipNameNoPrefix, pursuing bandit."},
+			{"text":"$shipNameNoPrefix, chasing bandit."},
+			{"text":"$shipNameNoPrefix, hunting bandit."},
+		],
+		"running":[
+			{"text":"$shipNameNoPrefix, we're bugging out."},
+			{"text":"$shipNameNoPrefix, bugging out."},
+			{"text":"$shipNameNoPrefix, abort, abort."},
+		],
+		"hull_90":[
+			{"text":"$shipNameNoPrefix, is gadget bent."},
+			{"text":"$shipNameNoPrefix, is gadget sick."},
+			{"text":"$shipNameNoPrefix, is bent."},
+			{"text":"$shipNameNoPrefix, is sick."},
+			{"text":"$shipNameNoPrefix, systems bent."},
+			{"text":"$shipNameNoPrefix, systems sick."},
+
+		],
+		"hull_50":[
+			{"text":"$shipNameNoPrefix, battle damage sustained, conducting BDA."},
+			{"text":"$shipNameNoPrefix, we've received some battle damage."},
+			{"text":"$shipNameNoPrefix, we've received battle damage."},
+		],
+		"hull_30":[
+			{"text":"$shipNameNoPrefix, we've received major battle damage."},
+			{"text":"Things are getting a little hot in here!"},
+		],
+		"overload":[
+			{"text":"$shipNameNoPrefix, requesting immediate support, we've overloaded!"},
+			{"text":"$shipNameNoPrefix, we've overloaded. Need support!"},
+			{"text":"$shipNameNoPrefix, overloaded!"},
+			{"text":"$shipNameNoPrefix, T's and P's in the red, need help ASAP!"},
+		],
+		"death":[
+			{"text":"This is the $shipName, signing off."},
+			{"text":"See you on the other side..."},
+			{"text":"It's been an honour..."},
+			{"text":"I only regret that I have but one life to lose for my home"},
+			{"text":"I have done my duty."},
+		],
+		"victory":[
+			{"text":"$shipNameNoPrefix, is joker, requesting RTB."},
+			{"text":"$shipNameNoPrefix, skosh, requesting RTB."},
+			{"text":"$shipNameNoPrefix, clean, requesting RTB."},
+			{"text":"$shipNameNoPrefix, is winchester, we're RTB."},
+		],
+	}
+}

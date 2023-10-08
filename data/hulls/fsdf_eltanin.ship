@@ -25,7 +25,8 @@
       "mount": "TURRET",
       "arc": 190,
       "angle": 90,
-      "locations": [-84, 26]
+      "locations": [-84, 26],
+      "renderOrderMod": 100
     },
     {
       "id": "WS0002",
@@ -34,7 +35,8 @@
       "mount": "TURRET",
       "arc": 190,
       "angle": -90,
-      "locations": [-84, -26]
+      "locations": [-84, -26],
+      "renderOrderMod": 100
     },
     {
       "id": "WS0003",
@@ -62,7 +64,7 @@
       "arc": 270,
       "angle": 0,
       "locations": [49.5, -0],
-      "renderOrderMod": 1
+      "renderOrderMod": 300
     },
     {
       "id": "WS0008",
@@ -71,7 +73,8 @@
       "mount": "TURRET",
       "arc": 180,
       "angle": 45,
-      "locations": [102, 11]
+      "locations": [102, 11],
+      "renderOrderMod": 100
     },
     {
       "id": "WS0009",
@@ -80,7 +83,8 @@
       "mount": "TURRET",
       "arc": 180,
       "angle": -45,
-      "locations": [102, -11]
+      "locations": [102, -11],
+      "renderOrderMod": 100
     },
     {
       "id": "WS0015",
@@ -90,7 +94,7 @@
       "arc": 360,
       "angle": 0,
       "locations": [-19, -0],
-      "renderOrderMod": 1
+      "renderOrderMod": 400
     },
     {
       "id": "WS0011",
@@ -108,16 +112,17 @@
       "mount": "TURRET",
       "arc": 270,
       "angle": 0,
-      "locations": [76.5, -0]
+      "locations": [76.5, -0],
+      "renderOrderMod": 200
     },
     {
       "id": "WS0006",
       "size": "MEDIUM",
-      "type": "COMPOSITE",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [114.5, -0]
+      "locations": [115.5, -0]
     }
   ],
   "engineSlots": [

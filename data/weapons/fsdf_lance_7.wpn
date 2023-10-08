@@ -1,0 +1,62 @@
+{
+  "id": "fsdf_lance_7",
+  "specClass": "beam",
+  "type": "ENERGY",
+  "size": "LARGE",
+  "collisionClass": "RAY",
+  "collisionClassByFighter": "RAY_FIGHTER",
+  "turretSprite": "graphics/weapons/fsdf_mac_400_turret_base.png",
+  "turretGlowSprite": "graphics/weapons/fsdf_mac_400_turret_recoil.png",
+  "turretGunSprite": "graphics/weapons/fsdf_mac_400_turret_recoil.png",
+  "turretUnderSprite": "graphics/weapons/fsdf_mac_400_turret_mount.png",
+  "hardpointSprite": "graphics/weapons/fsdf_mac_400_turret_base.png",
+  "hardpointGlowSprite": "graphics/weapons/fsdf_mac_400_turret_recoil.png",
+  "hardpointGunSprite": "graphics/weapons/fsdf_mac_400_turret_recoil.png",
+  "hardpointUnderSprite": "graphics/weapons/fsdf_mac_400_turret_mount.png",
+  "glowColor": [
+    165,
+    100,
+    255,
+    235
+  ],
+  "hitGlowRadius": 0,
+  "turretOffsets": [
+    19,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    35.5,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "fringeColor": [
+    165,
+    100,
+    255,
+    255
+  ],
+  "coreColor": [
+    255,
+    255,
+    255,
+    255
+  ],
+  "width": 25,
+  "textureType": ROUGH,
+  "textureScrollSpeed": 292,
+  "pixelsPerTexel": 5,
+  "pierceSet": [
+    PROJECTILE_FF,
+    PROJECTILE_NO_FF,
+    PROJECTILE_FIGHTER,
+    MISSILE_FF,
+    MISSILE_NO_FF
+  ],
+  "playFullFireSoundOne":true,
+  "fireSoundOne":"dragonfire_payload_fire",
+}

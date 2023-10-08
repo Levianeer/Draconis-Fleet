@@ -3,8 +3,6 @@
     "corvusCompatible":true,
     "startingFaction":true,
     
-    //"difficultyString":"hard",
-    //"ngcTooltip":"TBA",
     "rebelFleetSuffix":"Traitors",
     
     "asteroidMiningFleetName":"Mining Flotilla",

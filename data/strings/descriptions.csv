@@ -1,5 +1,5 @@
 id,type,text1,text2,text3,notes
-fsdf_draconis,FACTION,"Draconis represents the values of freedom and self-reliance, developed during the system-wide civil war in the Fafnir star system. Despite their limited access to advanced technologies, they make up for it with their ingenuity and resourcefulness in engineering. In the midst of the internal conflict, the Admiral has taken emergency powers, bypassing the political system. The people's opinions on his rule vary from essential to power-hungry despotism. Meanwhile, the Ring-Port mining station continues to witness guerrilla warfare and terrorism between Draconis soldiers and refugees. After the civil war, Draconis became the governing body for system-wide affairs, while Athebyne and Itoron have limited roles in internal matters. Although Fafnir still bears the scars of war, it is gradually finding its way back to stability.",,,
+fsdf_draconis,FACTION,"Borne out of a system-wide civil war, Draconis became the governing body for the Fafnir system representing freedom and self-reliance. And although she still bears the scars of war, it is gradually finding its way back to stability.",,,
 planet_athebyne,CUSTOM,ADD DESCRIPTION.,,,
 planet_itoron,CUSTOM,ADD DESCRIPTION.,,,
 planet_kori,CUSTOM,ADD DESCRIPTION.,,,
@@ -18,11 +18,11 @@ fsdf_altais,SHIP,"The Altais-class Battlecruiser is the only capital ship of the
 
 Unlike most Draconis ships, the shielding on the Altais is quite good and it sports a bow-mounted particle beam; a relatively new technology for Draconis.",,,
 fsdf_aldibain,SHIP,ADD DESCRIPTION.,,,
-,,,,,
-fsdf_mac_400,WEAPON,ADD DESCRIPTION.,,,
+fsdf_nodus,SHIP,ADD DESCRIPTION.,,,
+fsdf_lance_7,WEAPON,ADD DESCRIPTION.,,,
 fsdf_mac_250,WEAPON,ADD DESCRIPTION.,,,
 fsdf_mac_120,WEAPON,ADD DESCRIPTION.,,,
 fsdf_mac_100,WEAPON,ADD DESCRIPTION.,,,
 fsdf_700_srm_fighter,WEAPON,ADD DESCRIPTION.,,,
-fsdf_400_mrm,WEAPON,ADD DESCRIPTION.,,,
+fsdf_400_lrm,WEAPON,ADD DESCRIPTION.,,,
 fsdf_heatsink_ejector,SHIP_SYSTEM,"Ejects the primary heat sink for instant flux reduction replacing it with a new one, however this requires disabling the shield generator and will damage the ship in the process, reducing Combat Readiness. Enables rapid cooldown without venting, enhancing combat performance at the cost of ship integrity.",Defensive,,

@@ -1,16 +1,34 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 0,
-    "fluxVents": 0,
+    "fluxCapacitors": 6,
+    "fluxVents": 10,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
-    "hullMods": [],
+    "hullMods": [
+        "hardenedshieldemitter",
+        "fluxdistributor"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_strike",
-    "weaponGroups": [{
-        "autofire": true,
-        "mode": "LINKED",
-        "weapons": {"WS0003": "fsdf_mac_100"}
-    }]
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "fsdf_mac_100"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "ioncannon",
+                "WS0002": "irpulse"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "vulcan"}
+        }
+    ]
 }

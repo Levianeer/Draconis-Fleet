@@ -1,9 +1,9 @@
 name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating,max flux,8/6/5/4%,flux dissipation,ordnance points,fighter bays,max speed,acceleration,deceleration,max turn rate,turn acceleration,mass,shield type,defense id,shield arc,shield upkeep,shield efficiency,phase cost,phase upkeep,min crew,max crew,cargo,fuel,fuel/ly,range,max burn,base value,cr %/day,CR to deploy,peak CR sec,CR loss/sec,supplies/rec,supplies/mo,c/s,c/f,f/s,f/f,crew/s,crew/f,hints,tags,rarity,breakProb,minPieces,maxPieces,travel drive,number
-Thuban,fsdf_thuban,Frigate,Draconis,fsdf_heatsink_ejector,6,1500,250,1500,,150,40,,155,120,100,60,120,200,OMNI,,120,0.4,0.6,,,10,25,40,25,1,25,10,20000,7,16,260,0.25,5,5,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
-Rastaban,fsdf_rastaban,Destroyer,Draconis,fsdf_heatsink_ejector,10,3000,250,2200,,250,70,,90,60,40,25,30,300,OMNI,,120,0.4,0.8,,,40,80,100,90,2,45,9,50000,5,15,360,0.25,11,11,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
-Eltanin,fsdf_eltanin,Cruiser,Draconis,fsdf_heatsink_ejector,15,7000,900,5000,,450,130,,70,50,40,20,25,1000,OMNI,,150,0.4,1,,,100,200,150,150,4,38,8,150000,4,12,480,0.25,25,25,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,4,,711000
-Altais,fsdf_altais,Battlecruiser,Draconis,fsdf_heatsink_ejector,24,10000,800,8000,,700,300,2,60,20,15,7,6,2400,OMNI,,180,0.4,1.4,,,300,400,200,300,10,30,8,350000,3,12,600,0.25,40,40,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,4,,711000
+Thuban,fsdf_thuban,Frigate,Draconis,fsdf_heatsink_ejector,5,1500,250,2000,,150,40,,125,120,100,60,120,100,OMNI,,100,0.4,1.2,,,10,25,40,25,1,25,10,20000,7,16,260,0.25,5,5,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
+Rastaban,fsdf_rastaban,Light Destroyer,Draconis,fsdf_heatsink_ejector,10,3000,350,2500,,250,70,,75,60,40,25,30,250,OMNI,,120,0.4,1.2,,,40,80,100,90,2,45,9,50000,5,15,360,0.25,10,10,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
+Eltanin,fsdf_eltanin,Cruiser,Draconis,fsdf_heatsink_ejector,14,8000,900,5000,,450,130,,55,40,40,15,25,900,OMNI,,150,0.4,1,,,100,200,150,150,4,38,8,150000,4,12,480,0.25,20,20,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,4,,711000
+Altais,fsdf_altais,Battlecruiser,Draconis,fsdf_heatsink_ejector,24,10000,1000,8000,,700,290,2,40,20,15,7,6,2500,OMNI,,180,0.4,1.2,,,300,400,200,300,10,30,8,350000,3,12,600,0.25,40,40,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,4,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Fighters,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Aldibain,fsdf_aldibain,,Draconis,temporalshell,,200,50,350,,50,0,,200,350,250,90,180,15,NONE,,0,0,0,,,2,2,,,,,,,,,,,,,,,,,,,,,,0,,,,711000
-Nodus,fsdf_nodus,,Draconis,temporalshell,,200,50,350,,50,0,,200,350,250,90,180,25,NONE,,0,0,0,,,2,2,,,,,,,,,,,,,,,,,,,,,,0,,,,711000
+Aldibain,fsdf_aldibain,,Draconis,temporalshell,,200,50,300,,50,0,,200,350,250,90,180,30,NONE,,0,0,0,,,2,2,,,,,,,,,,,,,,,,,,,,,,0,,,,711000
+Nodus,fsdf_nodus,,Draconis,temporalshell,,200,50,300,,50,0,,200,350,250,90,180,30,NONE,,0,0,0,,,2,2,,,,,,,,,,,,,,,,,,,,,,0,,,,711000

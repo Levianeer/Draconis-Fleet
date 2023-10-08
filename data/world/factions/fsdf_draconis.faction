@@ -35,10 +35,6 @@
 			"fsdf_package_bp":10,
 		},
 		"hulls":{
-			"fsdf_thuban":10,
-			"fsdf_rastaban":10,
-			"fsdf_eltanin":10,
-			"fsdf_altais":10,
 			"astral":0,
 			"colossus3":0,
 			"condor":0,
@@ -56,19 +52,13 @@
 	"shipsWhenImporting":{
 		"tags":["base_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
 		"hulls":[
-			"fsdf_thuban",
-			"fsdf_rastaban",
-			"fsdf_eltanin",
-			"fsdf_altais",
+
 		],
 	},
 	"knownShips":{
 		"tags":["base_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
 		"hulls":[
-			"fsdf_thuban",
-			"fsdf_rastaban",
-			"fsdf_eltanin",
-			"fsdf_altais",
+
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
@@ -82,18 +72,15 @@
 		],
 	},
 	"knownFighters":{
-		"tags":["base_bp", "lowtech_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
+		"tags":["fsdf_package_bp"],
 		"fighters":[
-			"fsdf_nova_wing",
-			"broadsword_wing",
-			"warthog_wing",
-			"thunder_wing",
+
 		],
 	},
 	"priorityFighters":{
 		"tags":["fsdf_package_bp"],
 		"fighters":[
-			"fsdf_nova_fighter",
+
 		],
 	},
 	"knownWeapons":{
@@ -164,11 +151,11 @@
 		],
 	},
 	"factionDoctrine":{
-		"warships":5,
+		"warships":3,
 		"carriers":0,
 		"phaseShips":0,
 		
-		"officerQuality":7,
+		"officerQuality":6,
 		"shipQuality":3,
 		"numShips":3,
 		
@@ -209,9 +196,7 @@
 		"encounter_friendly":"music_diktat_encounter_friendly",
 	},
 	"internalComms":"draconis_internal",
-	#"tariffFraction":0.4,
-	#"tollFraction":0.1,
-	#"fineFraction":0.25,
+	
 	"portraits":{
 		"standard_male":[
 			"graphics/portraits/portrait_mercenary01.png",

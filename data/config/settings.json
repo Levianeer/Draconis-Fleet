@@ -2,15 +2,21 @@
 	"designTypeColors":{
 	"Draconis":[130,157,209,255],
 	},
+
 	"graphics":{
 		"blueprint_packages":{
 			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
 		},
+
     "planets":{
       "fsdf_itoron": "graphics/mod/planets/fsdf_itoron.jpg",
       "fsdf_athebyne": "graphics/mod/planets/fsdf_athebyne.jpg",
 	  "fsdf_kori": "graphics/mod/planets/fsdf_kori.jpg",
 	  "fsdf_vorium": "graphics/mod/planets/fsdf_vorium.jpg",
+		},
+
+	"characters":{
+		"fsdf_george":"graphics/portraits/characters/fsdf_george_fletcher.png",
 		}
 	}
 }
