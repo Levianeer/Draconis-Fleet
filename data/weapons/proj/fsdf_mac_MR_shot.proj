@@ -20,10 +20,10 @@
 	"bulletSprite":"graphics/missiles/fsdf_shell_mac.png",
 	"behaviorSpec":{"behavior":"PROXIMITY_FUSE",
 					"shotRangeVariance":0.0,
-					"range":50,
+					"range":25,
 					"explosionSpec":{"duration":0.12f,
-									 "radius":75,
-									 "coreRadius":50, # full damage within core radius - at least equal to proximity fuse range
+									 "radius":50,
+									 "coreRadius":25, # full damage within core radius - at least equal to proximity fuse range
 									 "collisionClass":PROJECTILE_FF,
 									 "collisionClassByFighter":PROJECTILE_FIGHTER,
 									 "particleSizeMin":7.0,

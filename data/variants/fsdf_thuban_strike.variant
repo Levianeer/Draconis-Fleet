@@ -1,19 +1,19 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 6,
-    "fluxVents": 10,
+    "fluxCapacitors": 10,
+    "fluxVents": 7,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
     "hullMods": [
         "hardenedshieldemitter",
-        "fluxdistributor"
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_strike",
     "weaponGroups": [
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0003": "fsdf_mac_100"}
         },

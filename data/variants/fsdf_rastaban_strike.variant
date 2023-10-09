@@ -5,13 +5,18 @@
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
     "hullMods": [
-        "missleracks",
-        "eccm"
+        "hardenedshieldemitter",
+        "targetingunit"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_strike",
     "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "fsdf_mac_120"}
+        },
         {
             "autofire": false,
             "mode": "ALTERNATING",
@@ -21,14 +26,9 @@
             }
         },
         {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "annihilatorpod"}
-        },
-        {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_120"}
+            "weapons": {"WS0006": "ionbeam"}
         },
         {
             "autofire": true,

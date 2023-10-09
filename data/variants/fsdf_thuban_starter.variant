@@ -12,7 +12,7 @@
     "variantId": "fsdf_thuban_starter",
     "weaponGroups": [
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0003": "fsdf_mac_100"}
         },

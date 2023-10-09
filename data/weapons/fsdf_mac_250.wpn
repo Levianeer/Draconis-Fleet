@@ -14,14 +14,14 @@
     RENDER_BARREL_BELOW
   ],
   "turretOffsets": [
-    40.5,
+    30,
     0
   ],
   "turretAngleOffsets": [
-    -0
+    0
   ],
   "hardpointOffsets": [
-    62,
+    51.5,
     0
   ],
   "hardpointAngleOffsets": [
@@ -30,7 +30,7 @@
   "barrelMode": "ALTERNATING",
   "animationType": "MUZZLE_FLASH",
   "muzzleFlashSpec": {
-    "length": 65.0,
+    "length": 65,
     "spread": 15,
     "particleSizeMin": 10,
     "particleSizeRange": 35,

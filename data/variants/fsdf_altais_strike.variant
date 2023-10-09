@@ -39,10 +39,18 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "hveldriver",
-                "WS0004": "hveldriver",
+                "WS0001": "gravitonbeam",
+                "WS0002": "gravitonbeam",
                 "WS0005": "hveldriver",
                 "WS0006": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "heavymauler",
+                "WS0004": "heavymauler"
             }
         },
         {
@@ -55,14 +63,6 @@
                 "WS0010": "lightmg",
                 "WS0011": "lightmg",
                 "WS0012": "lightmg"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "flak",
-                "WS0002": "flak"
             }
         },
         {

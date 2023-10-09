@@ -71,7 +71,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 180,
+      "arc": 220,
       "angle": 45,
       "locations": [102, 11],
       "renderOrderMod": 100
@@ -81,7 +81,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 180,
+      "arc": 220,
       "angle": -45,
       "locations": [102, -11],
       "renderOrderMod": 100

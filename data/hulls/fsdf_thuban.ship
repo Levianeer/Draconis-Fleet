@@ -24,7 +24,7 @@
       "size": "SMALL",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 300,
+      "arc": 240,
       "angle": 0,
       "locations": [-11, -0],
       "renderOrderMod": 200
@@ -34,7 +34,7 @@
       "size": "SMALL",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 300,
+      "arc": 240,
       "angle": 0,
       "locations": [9.5, -0],
       "renderOrderMod": 100
