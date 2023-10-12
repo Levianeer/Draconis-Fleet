@@ -1,12 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 4,
+    "fluxCapacitors": 8,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
     "hullMods": [
-        "hardenedshieldemitter",
-        "targetingunit"
+        "targetingunit",
+        "advancedoptics",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,7 +16,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_120"}
+            "weapons": {"WS0003": "gauss"}
         },
         {
             "autofire": false,

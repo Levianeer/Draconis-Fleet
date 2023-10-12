@@ -3,7 +3,7 @@
     "fluxCapacitors": 20,
     "fluxVents": 20,
     "hullId": "fsdf_rastaban",
-    "hullMods": ["armoredweapons"],
+    "hullMods": ["auxiliarythrusters"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_starter",
@@ -11,28 +11,28 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_mac_120"}
+            "weapons": {"WS0003": "gauss"}
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "swarmer",
-                "WS0005": "swarmer"
+                "WS0004": "atropos",
+                "WS0005": "atropos"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0006": "heavyac"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightac",
-                "WS0002": "lightac"
+                "WS0001": "railgun",
+                "WS0002": "railgun"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "heavymg"}
         }
     ]
 }

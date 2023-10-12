@@ -26,7 +26,7 @@
     "specialForcesPointMult":1.5,
 	"specialForcesSizeMult":1.5,
 
-    "stabilizeCommodities":["food", "hand_weapons", "supplies"],
+    "stabilizeCommodities":["supplies", "hand_weapons"],
     "marketSpawnWeight":2,
 
     "startRelationships":{
@@ -36,8 +36,8 @@
     "morality":"neutral",
     "alignments":{
         "militarist":1.0,
-        "diplomatic":1.0,
-        "corporate":0.2,
+        "diplomatic":0.8,
+        "corporate":0.4,
         "technocratic":0.2,
     },
 	

@@ -1,12 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 13,
+    "fluxCapacitors": 19,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor"
+        "fluxdistributor",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,20 +16,20 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "hveldriver",
-                "WS0007": "hveldriver"
-            }
+            "weapons": {"WS0015": "fsdf_mac_250"}
         },
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0006": "annihilatorpod"}
+            "weapons": {"WS0006": "salamanderpod"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "fsdf_mac_250"}
+            "weapons": {
+                "WS0005": "arbalest",
+                "WS0007": "arbalest"
+            }
         },
         {
             "autofire": true,

@@ -1,7 +1,7 @@
 {
 	"id":"fsdf_400_second_stage",
 	"specClass":"missile",	
-	"missileType":"MISSILE_TWO_STAGE_SECOND_UNGUIDED",
+	"missileType":"MISSILE",
 	"sprite":"graphics/missiles/fsdf_400_second_stage.png",
 	"size":[6,24],
 	"center":[3,12],
@@ -11,12 +11,12 @@
 	"explosionRadius":80, # purely visual
 	"flameoutTime":5.0,
 	"dudProbabilityOnFlameout":0,
-	"reduceDamageWhileFading":false,
+	"reduceDamageWhileFading":true,
 	"noCollisionWhileFading":false,
 	"fizzleOnReachingWeaponRange":false,
 	"engineSpec":{
-					"turnAcc":0,
-					"turnRate":0,
+					"turnAcc":100,
+					"turnRate":70,
 					"acc":0,
 					"dec":0,
 					"maxSpeed":1502},

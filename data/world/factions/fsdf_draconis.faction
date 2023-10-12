@@ -7,8 +7,8 @@
 	"gridUIColor":[130,157,209,75],
 	"brightUIColor":[130,157,209,255],
 	
-	"displayName":"Draconis",
-	"displayNameWithArticle":"the Draconis",
+	"displayName":"Draconis Alliance",
+	"displayNameWithArticle":"the Draconis Alliance",
 	"displayNameLong":"Draconis Defence Alliance",
 	"displayNameLongWithArticle":"the Draconis Defence Alliance",
 	"logo":"graphics/factions/draconis.png",

@@ -12,13 +12,15 @@
   "shieldRadius": 273.5,
   "viewOffset": 0,
   "builtInMods": [
-    "fsdf_Draconis_Fleet",
     "fsdf_Enhanced_Targeting"
+  ],
+  "builtInWings": [
+    "fsdf_drone_ada_improved_wing",
+    "fsdf_drone_ada_improved_wing"
   ],
   "builtInWeapons": {
     "WS0014": "fsdf_400_lrm",
-    "WS0015": "fsdf_400_lrm",
-    "WS0023": "fsdf_lance_7"
+    "WS0015": "fsdf_400_lrm"
   },
   "weaponSlots": [
     {
@@ -138,33 +140,6 @@
       "renderOrderMod": 200
     },
     {
-      "id": "WS0023",
-      "size": "LARGE",
-      "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 0,
-      "angle": 0,
-      "locations": [169.5, -0]
-    },
-    {
-      "id": "WS0024",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [-42, 130]
-    },
-    {
-      "id": "WS0027",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [-42, -130]
-    },
-    {
       "id": "LB 1",
       "size": "LARGE",
       "type": "LAUNCH_BAY",
@@ -195,15 +170,6 @@
       ]
     },
     {
-      "id": "WS0013",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 180,
-      "locations": [-173.5, -0]
-    },
-    {
       "id": "WS0014",
       "size": "LARGE",
       "type": "BUILT_IN",
@@ -226,7 +192,7 @@
       "size": "SMALL",
       "type": "ENERGY",
       "mount": "TURRET",
-      "arc": 190,
+      "arc": 180,
       "angle": 90,
       "locations": [-52, 33],
       "renderOrderMod": 300
@@ -236,10 +202,28 @@
       "size": "SMALL",
       "type": "ENERGY",
       "mount": "TURRET",
-      "arc": 190,
+      "arc": 180,
       "angle": -90,
       "locations": [-52, -33],
       "renderOrderMod": 300
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [-42, 130]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -0,
+      "locations": [-42, -130]
     }
   ],
   "engineSlots": [

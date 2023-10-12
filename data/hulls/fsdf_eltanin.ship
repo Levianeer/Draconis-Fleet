@@ -11,9 +11,6 @@
   "shieldCenter": [0, 0],
   "shieldRadius": 197,
   "viewOffset": 0,
-  "builtInMods": [
-    "fsdf_Draconis_Fleet"
-  ],
   "builtInWeapons": {
     "WS0015": "fsdf_mac_250"
   },
@@ -95,15 +92,6 @@
       "angle": 0,
       "locations": [-19, -0],
       "renderOrderMod": 400
-    },
-    {
-      "id": "WS0011",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 180,
-      "locations": [-114.5, -0]
     },
     {
       "id": "WS0005",

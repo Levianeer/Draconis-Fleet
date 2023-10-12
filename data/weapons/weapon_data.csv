@@ -1,15 +1,15 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
 #Cannons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Mk 10 Cannon,fsdf_mac_100,5,,,700,,400,,10,,,,,,ENERGY,300,,,2,1,0.25,,,,,,950,,,200,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
-Mk 12 Cannon,fsdf_mac_120,5,,,1000,,500,,15,,,,,,ENERGY,500,,,2,2,0.25,,,,,,900,,,400,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
-Mk 25 Cannon,fsdf_mac_250,5,,,1000,,500,,25,25,,,,,HIGH_EXPLOSIVE,500,,,0.5,1,,,,,,,850,,,300,,,"SYSTEM,SHOW_IN_CODEX,PD,PD_ALSO",,,Draconis,,General,,,,,Each shell has a proximity fuse set to explode before impact.,,,,,711000
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#Beams,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-AN/SEQ-7 Lancer,fsdf_lance_7,5,,,1000,2000,,,0,,,,,,ENERGY,,2500,0.05,0.25,0.9,5,,,,,1000000,,,,,,,"SYSTEM,SHOW_IN_CODEX,DANGEROUS",,,Draconis,,Strike,,,,,,,,,,
+Mk 25 3’’ Cannon,fsdf_mac_250,0,,,1000,,375,,100,5,,,,,HIGH_EXPLOSIVE,375,,0,1.5,1,,0,10,5,10,,500,,,400,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Missiles,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-RGM-700 Blackout,fsdf_700_srm_fighter,5,,,700,,5,1500,15,,,,,,FRAGMENTATION,,,,4,1,0.25,,,,,,1000,500,0.5,100,,,"SYSTEM,SHOW_IN_CODEX,DO_NOT_AIM,ANTI_FTR",,,Draconis,,Suppression,Fast,Excellent,,,,,,,TRUE,711000
-RGM-400 Meteor,fsdf_400_lrm,5,,,5000,,1000,,75,,,14,,,KINETIC,,,,4,,,,,,,,1502,116,1.5,50,,,"SYSTEM,GUIDED_POOR,CONSERVE_5",,,Draconis,,General,Extremely Fast,Poor,,,,,,,TRUE,711000
+RGM-700 Blackout,fsdf_700_srm_fighter,0,,,700,,5,1500,5,,,,,,FRAGMENTATION,,,,4,1,0.25,,,,,,1000,500,0.5,100,,,"SYSTEM,SHOW_IN_CODEX,DO_NOT_AIM,ANTI_FTR",,,Draconis,,Suppression,Fast,Excellent,,,,,,,TRUE,711000
+RGM-400 Meteor,fsdf_400_lrm,0,,,2000,,500,,0,,,7,0.5,,ENERGY,300,,0,0.4,1,,,,,,,1502,116,1.5,250,,,"SYSTEM,DIRECT_AIM,CONSERVE_5",,,Draconis,,General,Extremely Fast,Very Poor,,,,,,,TRUE,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#Systems,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Heatsink Ejector,fsdf_heatsink,,,,500,,0,,,,,,,,FRAGMENTATION,,,,0.1,1,,60,60,0,0,,150,500,15,125,,,SYSTEM,,,,,,,,,,,,,,TRUE,711000
+#Drones Weapons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+AN/SEQ-3,fsdf_lance_3,0,,,1200,75,,,0,100,,,,,ENERGY,,40,0,0.25,,,,,,,2400,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
+AN/SEQ-5,fsdf_lance_5,0,,,1400,75,,,0,100,,,,,ENERGY,,40,0,0.25,,,,,,,2400,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
+AN/SEQ-7,fsdf_lance_7,0,,,1600,75,,,0,100,,,,,ENERGY,,40,0,0.25,,,,,,,2400,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#Ship Systems,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+A.D.A Missile Conversion,fsdf_ada_missile,3,,0,2500,,750,,15,0,0,1,,,HIGH_EXPLOSIVE,0,,0,1,1,,0,0,0,,,300,100,12.5,100000,,,"DIRECT_AIM, SYSTEM",restricted,,,,Missile,Medium,Medium,,,,,,,TRUE,711000

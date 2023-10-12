@@ -8,7 +8,7 @@ import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 
 public class fsdf_Enhanced_Targeting extends BaseHullMod {
 
-	public static final float RECOIL_BONUS = 35f;
+	public static final float RECOIL_BONUS = 25f;
 
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 

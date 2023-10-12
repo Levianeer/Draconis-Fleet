@@ -11,11 +11,8 @@
   "shieldCenter": [0, -0],
   "shieldRadius": 80.5,
   "viewOffset": 0,
-  "builtInMods": [
-    "fsdf_Draconis_Fleet"
-  ],
   "builtInWeapons": {
-    "WS0003": "fsdf_mac_100",
+    "WS0003": "hveldriver",
     "WS0006": "blinker_red"
   },
   "weaponSlots": [
@@ -65,15 +62,6 @@
       "arc": 0,
       "angle": 0,
       "locations": [46.5, -17.5]
-    },
-    {
-      "id": "WS0004",
-      "size": "SMALL",
-      "type": "SYSTEM",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": 180,
-      "locations": [-29.5, -0]
     }
   ],
   "engineSlots": [
