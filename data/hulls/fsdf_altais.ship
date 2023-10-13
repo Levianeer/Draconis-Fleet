@@ -228,38 +228,74 @@
   ],
   "engineSlots": [
     {
-      "location": [-218, -12.5],
-      "length": 164,
-      "width": 38,
+      "location": [-216, 29],
+      "length": 102,
+      "width": 26,
       "angle": 180,
-      "contrailSize": 38,
+      "contrailSize": 26,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     },
     {
-      "location": [-218, 12.5],
-      "length": 164,
-      "width": 38,
+      "location": [-216, -29],
+      "length": 102,
+      "width": 26,
       "angle": -180,
-      "contrailSize": 38,
+      "contrailSize": 26,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     },
     {
-      "location": [-216.5, 30],
-      "length": 86,
-      "width": 16,
+      "location": [-211, 41],
+      "length": 64.5,
+      "width": 18,
       "angle": 180,
-      "contrailSize": 16,
+      "contrailSize": 18,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     },
     {
-      "location": [-216.5, -30],
-      "length": 86,
-      "width": 16,
+      "location": [-211, -41],
+      "length": 64.5,
+      "width": 18,
       "angle": -180,
-      "contrailSize": 16,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-219, 18],
+      "length": 117,
+      "width": 26,
+      "angle": 180,
+      "contrailSize": 26,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-219, -18],
+      "length": 117,
+      "width": 26,
+      "angle": -180,
+      "contrailSize": 26,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-220, 6.5],
+      "length": 176,
+      "width": 28,
+      "angle": 180,
+      "contrailSize": 28,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-220, -6.5],
+      "length": 176,
+      "width": 28,
+      "angle": -180,
+      "contrailSize": 28,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     }

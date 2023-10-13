@@ -1,71 +1,51 @@
 {
     "playableFaction":true,
     "corvusCompatible":true,
-    "startingFaction":true,
     
     "rebelFleetSuffix":"Traitors",
-    
-    "asteroidMiningFleetName":"Mining Flotilla",
-    "gasMiningFleetName":"Gas Mining Flotilla",
-    "invasionFleetName":"Assault Fleet",
-    "responseFleetName":"Quick Response Fleet ",
-    "invasionSupportFleetName":"Support Fleet",
-    "defenceFleetName":"Defense Fleet",
-	"noSyncRelations":false,
-	"noStartingContact":false,
 
-    "invasionFleetSizeMod":1,
-	"responseFleetSizeMod":1,
-	"invasionPointMult":1,
+    "marketSpawnWeight":1.5,
 
-	"vengeanceFleetSizeMult":2.0,
-    "vengeanceLevelNames":["Excommunication"],
-    "vengeanceFleetNames":["Quick Reaction Force"],
-    "vengeanceFleetNamesSingle":["a Quick Reaction Force"],
-
-    "specialForcesPointMult":1.5,
-	"specialForcesSizeMult":1.5,
-
-    "stabilizeCommodities":["supplies", "hand_weapons"],
-    "marketSpawnWeight":2,
-
-    "startRelationships":{
-    },
+    "startRelationships":{},
+	"diplomacyPositiveChance":{},
+    "diplomacyNegativeChance":{},
     
     "morality":"neutral",
 
     "alignments":{
+        "corporate":0.5,
+        "diplomatic":1.0,
+        "ideological":0.5,
         "militarist":1.0,
-        "diplomatic":0.8,
-        "corporate":0.4,
-        "technocratic":0.2,
     },
-	
-    "diplomacyTraits":["stalwart", "paranoid", "irredentist", "helps_allies", "dislikes_ai"],
-    
-    "freeMarket":true,
+    "diplomacyTraits":["helps_allies", "irredentist", "paranoid","stalwart"],
 
     # chance of the faction being picked to send a colony expedition. Default 0 (disabled)
-    "colonyExpeditionChance":1,	# baseline expansion behaviour
-    "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
+    "colonyExpeditionChance":1.25,
 
     "specialForcesNamerClass":"exerelin.campaign.intel.specialforces.namer.PlanetNamer",
-    
+
     "startShipsSolo":[
-        ["fsdf_thuban_starter"],
-        ],
+        ["fsdf_thuban_Starter"]
+    ],
     "startShipsCombatSmall":[
-        ["fsdf_thuban_starter","fsdf_rastaban_starter"],
-        ],
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter"]
+    ],
     "startShipsCombatLarge":[
-        ["fsdf_thuban_starter","fsdf_rastaban_starter","fsdf_eltanin_starter"],
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_eltanin_Starter"]
     ],
     "startShipsCarrierLarge":[
-        ["fsdf_thuban_starter","fsdf_rastaban_starter","fsdf_eltanin_starter","fsdf_altais_starter"]
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_eltanin_Starter","fsdf_altais_Starter"]
     ],
     
     "defenceStations":[
-        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]}
+        {"ids":["orbitalstation", "battlestation", "starfortress"], "weight":0.5},
+        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]},
+        {"ids":["orbitalstation_high", "battlestation_high", "starfortress_high"], "weight":0.5},
+    ],
+
+    "startSpecialItems":[
+        [["fsdf_package", "midline_package"]],
     ],
     
     "industrySeeds":[
@@ -75,6 +55,10 @@
     ],
     
     "bonusSeeds":[
-        {"id":"nanoforge_pristine", "count":1}
+        {"id":"nanoforge_pristine", "count":1},
+        {"id":"aiCore_station", "count":1, "mult":0.1},
+        {"id":"aiCore_military", "mult":0.25},
+        {"id":"aiCore_fuelprod", "count":1},
+        {"id":"aiCore_other", "mult":0.5},
     ],
 }

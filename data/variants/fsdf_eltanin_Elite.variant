@@ -6,8 +6,8 @@
     "hullId": "fsdf_eltanin",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor",
-        "stabilizedshieldemitter"
+        "stabilizedshieldemitter",
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],

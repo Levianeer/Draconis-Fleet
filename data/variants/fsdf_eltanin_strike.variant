@@ -1,13 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 19,
+    "fluxCapacitors": 12,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor",
-        "stabilizedshieldemitter"
+        "stabilizedshieldemitter",
+        "advancedoptics"
     ],
     "permaMods": [],
     "sMods": [],
@@ -21,14 +21,14 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0006": "salamanderpod"}
+            "weapons": {"WS0006": "sabotpod"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "arbalest",
-                "WS0007": "arbalest"
+                "WS0005": "phasebeam",
+                "WS0007": "phasebeam"
             }
         },
         {

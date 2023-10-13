@@ -12,17 +12,15 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "hveldriver"}
+            "weapons": {
+                "WS0001": "ioncannon",
+                "WS0002": "irpulse"
+            }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "taclaser"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0002": "railgun"}
+            "weapons": {"WS0003": "railgun"}
         },
         {
             "autofire": true,

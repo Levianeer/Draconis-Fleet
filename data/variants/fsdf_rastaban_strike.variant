@@ -1,12 +1,11 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 8,
+    "fluxCapacitors": 17,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
     "hullMods": [
         "targetingunit",
-        "advancedoptics",
         "stabilizedshieldemitter"
     ],
     "permaMods": [],
@@ -16,27 +15,25 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "gauss"}
+            "weapons": {
+                "WS0003": "hveldriver",
+                "WS0006": "hveldriver"
+            }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "harpoon",
-                "WS0005": "harpoon"
+                "WS0004": "sabot",
+                "WS0005": "sabot"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "ionbeam"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
-                "WS0001": "vulcan",
-                "WS0002": "vulcan"
+                "WS0001": "lrpdlaser",
+                "WS0002": "lrpdlaser"
             }
         }
     ]
