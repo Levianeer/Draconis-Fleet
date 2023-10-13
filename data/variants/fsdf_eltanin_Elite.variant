@@ -1,5 +1,5 @@
 {
-    "displayName": "Strike",
+    "displayName": "Elite",
     "fluxCapacitors": 19,
     "fluxVents": 30,
     "goalVariant": true,
@@ -11,7 +11,7 @@
     ],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_eltanin_Strike",
+    "variantId": "fsdf_eltanin_Elite",
     "weaponGroups": [
         {
             "autofire": true,

@@ -1,4 +1,4 @@
 id,variant,tags,tier,rarity,fleet pts,op cost,formation,range,attackRunRange,attackPositionOffset,num,role,role desc,refit,base value,,,,,,,,,,,,,number
-fsdf_aldibain_wing,fsdf_aldibain_fighter,"fighter5, fighter, fsdf_package_bp",3,,8,18,V,4000,500,700,3,FIGHTER,Stealth Fighter,10,14000,,,,,,,,,,,,,711000
-fsdf_nodus_wing,fsdf_nodus_bomber,"bomber5, bomber, fsdf_package_bp",3,,5,18,V,4000,2000,600,3,BOMBER,Bomber,18,14000,,,,,,,,,,,,,711000
-fsdf_drone_ada_improved_wing,fsdf_drone_ada_improved,"no_drop, no_sell, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, attack_at_an_angle",3,,6,0,BOX,0,600,300,3,SUPPORT,Drone,20,14000,,,,,,,,,,,,,19
+fsdf_aldibain_wing,fsdf_aldibain_Fighter,"fighter5, fighter, fsdf_package_bp",3,,8,18,V,4000,500,700,3,FIGHTER,Stealth Fighter,10,14000,,,,,,,,,,,,,711000
+fsdf_nodus_wing,fsdf_nodus_Bomber,"bomber5, bomber, fsdf_package_bp",3,,5,18,V,4000,2000,600,3,BOMBER,Bomber,18,14000,,,,,,,,,,,,,711000
+fsdf_drone_ada_improved_wing,fsdf_drone_ada_Improved,"no_drop, no_sell, high, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing",3,,6,0,BOX,0,600,300,3,SUPPORT,Drone,20,14000,,,,,,,,,,,,,19

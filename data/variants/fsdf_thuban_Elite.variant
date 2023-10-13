@@ -1,5 +1,5 @@
 {
-    "displayName": "Strike",
+    "displayName": "Elite",
     "fluxCapacitors": 10,
     "fluxVents": 10,
     "goalVariant": true,
@@ -7,7 +7,7 @@
     "hullMods": ["hardenedshieldemitter"],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_thuban_Strike",
+    "variantId": "fsdf_thuban_Elite",
     "weaponGroups": [
         {
             "autofire": true,

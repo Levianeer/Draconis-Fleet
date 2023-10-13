@@ -3,7 +3,7 @@
 	"type":"DRONE_LAUNCHER",
 	"aiType":"DRONE_LAUNCHER_PD",
 
-	"droneVariant":"fsdf_drone_ada_med",
+	"droneVariant":"fsdf_drone_ada_Med",
 	
 	"allowFreeRoam":false,
 	

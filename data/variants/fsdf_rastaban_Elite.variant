@@ -1,12 +1,17 @@
 {
-    "displayName": "Starter",
-    "fluxCapacitors": 20,
+    "displayName": "Elite",
+    "fluxCapacitors": 8,
     "fluxVents": 20,
+    "goalVariant": true,
     "hullId": "fsdf_rastaban",
-    "hullMods": ["auxiliarythrusters"],
+    "hullMods": [
+        "targetingunit",
+        "advancedoptics",
+        "stabilizedshieldemitter"
+    ],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_rastaban_Starter",
+    "variantId": "fsdf_rastaban_Elite",
     "weaponGroups": [
         {
             "autofire": true,
@@ -17,21 +22,21 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "atropos",
-                "WS0005": "atropos"
+                "WS0004": "harpoon",
+                "WS0005": "harpoon"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "heavyac"}
+            "weapons": {"WS0006": "ionbeam"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
+                "WS0001": "vulcan",
+                "WS0002": "vulcan"
             }
         }
     ]

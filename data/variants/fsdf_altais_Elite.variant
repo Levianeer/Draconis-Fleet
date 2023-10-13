@@ -1,17 +1,19 @@
 {
-    "displayName": "Starter",
-    "fluxCapacitors": 36,
+    "displayName": "Elite",
+    "fluxCapacitors": 4,
     "fluxVents": 50,
+    "goalVariant": true,
     "hullId": "fsdf_altais",
     "hullMods": [
-        "dedicated_targeting_core",
-        "expanded_deck_crew",
-        "eccm",
-        "stabilizedshieldemitter"
+        "targetingunit",
+        "autorepair",
+        "fluxbreakers",
+        "stabilizedshieldemitter",
+        "advancedoptics"
     ],
     "permaMods": [],
     "sMods": [],
-    "variantId": "fsdf_altais_Starter",
+    "variantId": "fsdf_altais_Elite",
     "weaponGroups": [
         {
             "autofire": false,
@@ -25,24 +27,32 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0016": "swarmer",
-                "WS0017": "swarmer"
+                "WS0016": "annihilator",
+                "WS0017": "annihilator"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "arbalest",
-                "WS0004": "arbalest"
+                "WS0005": "gravitonbeam",
+                "WS0006": "gravitonbeam"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "ionbeam",
-                "WS0002": "ionbeam"
+                "WS0003": "ionbeam",
+                "WS0004": "ionbeam"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "hveldriver",
+                "WS0002": "hveldriver"
             }
         },
         {
@@ -61,21 +71,13 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "flak",
-                "WS0006": "flak"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0018": "pdlaser",
-                "WS0019": "pdlaser"
+                "WS0018": "lrpdlaser",
+                "WS0019": "lrpdlaser"
             }
         }
     ],
     "wings": [
-        "broadsword_wing",
-        "broadsword_wing"
+        "hoplon_wing",
+        "hoplon_wing"
     ]
 }

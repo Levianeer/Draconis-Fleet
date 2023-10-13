@@ -30,10 +30,10 @@
     "marketSpawnWeight":2,
 
     "startRelationships":{
-
     },
     
     "morality":"neutral",
+
     "alignments":{
         "militarist":1.0,
         "diplomatic":0.8,
@@ -41,7 +41,7 @@
         "technocratic":0.2,
     },
 	
-    "diplomacyTraits":["stalwart", "law_and_order", "irredentist", "helps_allies", "dislikes_ai"],
+    "diplomacyTraits":["stalwart", "paranoid", "irredentist", "helps_allies", "dislikes_ai"],
     
     "freeMarket":true,
 

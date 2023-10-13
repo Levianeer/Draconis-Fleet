@@ -12,7 +12,7 @@
   "shieldRadius": 80.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0003": "hveldriver",
+    "WS0003": "railgun",
     "WS0006": "blinker_red"
   },
   "weaponSlots": [
@@ -38,7 +38,7 @@
     },
     {
       "id": "WS0003",
-      "size": "LARGE",
+      "size": "SMALL",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,

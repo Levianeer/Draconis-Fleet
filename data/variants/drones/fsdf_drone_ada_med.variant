@@ -1,7 +1,7 @@
 {
 	"displayName":"Medium",
 	"hullId":"fsdf_drone_ada_med",
-	"variantId":"fsdf_drone_ada_med",
+	"variantId":"fsdf_drone_ada_Med",
 	"fluxVents":0,
 	"fluxCapacitors":0,
 	"mods":["no_weapon_flux","terminator_core"], # array of strings

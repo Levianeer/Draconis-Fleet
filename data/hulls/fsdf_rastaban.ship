@@ -12,7 +12,7 @@
   "shieldRadius": 118.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0003": "gauss",
+    "WS0003": "hveldriver",
     "WS0007": "blinker_red"
   },
   "weaponSlots": [
@@ -36,7 +36,7 @@
     },
     {
       "id": "WS0003",
-      "size": "LARGE",
+      "size": "MEDIUM",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,

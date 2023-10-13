@@ -1,7 +1,7 @@
 {
 	"displayName":"Improved",
 	"hullId":"fsdf_drone_ada_improved",
-	"variantId":"fsdf_drone_ada_improved",
+	"variantId":"fsdf_drone_ada_Improved",
 	"fluxVents":0,
 	"fluxCapacitors":0,
 	"mods":["no_weapon_flux","terminator_core"], # array of strings
