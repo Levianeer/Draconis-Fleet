@@ -3,6 +3,7 @@
 	"specClass":"beam",
 	"type":"ENERGY",
 	"size":"SMALL",
+	"beamEffect":"com.fs.starfarer.api.impl.combat.GravitonBeamEffect",
 	"turretSprite":"graphics/weapons/tactical_laser_turret.png",
 	"turretGlowSprite":"graphics/weapons/tactical_laser_turret_glow.png",
 	"hardpointSprite":"graphics/weapons/tactical_laser_hardpoint.png",

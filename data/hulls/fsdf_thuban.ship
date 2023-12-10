@@ -13,7 +13,9 @@
   "viewOffset": 0,
   "builtInWeapons": {
     "WS0003": "railgun",
-    "WS0006": "blinker_red"
+    "WS0004": "fsdf_vernier",
+    "WS0006": "blinker_red",
+    "WS0007": "fsdf_vernier"
   },
   "weaponSlots": [
     {
@@ -62,6 +64,24 @@
       "arc": 0,
       "angle": 0,
       "locations": [46.5, -17.5]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": -90,
+      "locations": [-27.5, -20.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": 90,
+      "locations": [-27.5, 20.5]
     }
   ],
   "engineSlots": [

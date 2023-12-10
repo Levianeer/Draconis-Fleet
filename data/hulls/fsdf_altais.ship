@@ -11,16 +11,16 @@
   "shieldCenter": [0, 0],
   "shieldRadius": 273.5,
   "viewOffset": 0,
-  "builtInMods": [
-    "fsdf_Enhanced_Targeting"
-  ],
   "builtInWings": [
-    "fsdf_drone_ada_improved_wing",
     "fsdf_drone_ada_improved_wing"
   ],
   "builtInWeapons": {
+    "WS0013": "fsdf_vernier",
     "WS0014": "fsdf_400_lrm",
-    "WS0015": "fsdf_400_lrm"
+    "WS0015": "fsdf_400_lrm",
+    "WS0020": "fsdf_vernier",
+    "WS0021": "fsdf_vernier",
+    "WS0022": "fsdf_vernier"
   },
   "weaponSlots": [
     {
@@ -224,6 +224,42 @@
       "arc": 5,
       "angle": -0,
       "locations": [-42, -130]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": 90,
+      "locations": [184.5, 24]
+    },
+    {
+      "id": "WS0020",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": -90,
+      "locations": [184.5, -24]
+    },
+    {
+      "id": "WS0021",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-83, -136.5]
+    },
+    {
+      "id": "WS0022",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-83, 136.5]
     }
   ],
   "engineSlots": [

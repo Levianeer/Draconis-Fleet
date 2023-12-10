@@ -1,15 +1,19 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
 #Cannons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Mk 25 3’’ Cannon,fsdf_mac_250,0,,,900,,100,,10,7,,,,,KINETIC,100,,0,1,2,0.3,0,10,5,10,,800,,,30,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
+Mk 25 Cannon,fsdf_mac_250,0,,,900,,375,,10,10,,,,,ENERGY,400,,0,0.75,1,,0,5,1,10,,800,,,75,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,,,711000
+Mk 50 Cannon,fsdf_mac_500,0,,,600,,1200,,10,5,,,,,ENERGY,1200,,0,3,1,,,,,,,1000,,,75,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Missiles,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-RGM-700 Blackout,fsdf_700_srm_fighter,0,,,700,,5,1500,5,,,,,,FRAGMENTATION,,,,4,1,0.25,,,,,,1000,500,0.5,100,,,"SYSTEM,SHOW_IN_CODEX,DO_NOT_AIM,ANTI_FTR",,,Draconis,,Suppression,Fast,Excellent,,,,,,,TRUE,711000
-RGM-400 Meteor,fsdf_400_lrm,0,,,2000,,500,,0,,,7,0.5,,ENERGY,300,,0,0.4,1,,,,,,,1502,116,1.5,250,,,"SYSTEM,DIRECT_AIM,CONSERVE_5",,,Draconis,,General,Extremely Fast,Very Poor,,,,,,,TRUE,711000
+RGM-700 Blackout,fsdf_700_srm_fighter,0,,,700,,5,1500,5,,,,,,FRAGMENTATION,,,,4,1,0.25,,,,,,1000,500,1,100,,,"SYSTEM,SHOW_IN_CODEX,DO_NOT_AIM,ANTI_FTR",,,Draconis,,Suppression,Fast,Excellent,,,,,,,TRUE,711000
+RGM-400 Meteor,fsdf_400_lrm,0,,,2000,,600,,0,,,7,0.5,,ENERGY,300,,0,0.4,1,,,,,,,1500,115,1.5,250,,,"SYSTEM,DIRECT_AIM,CONSERVE_5",,,Draconis,,General,Extremely Fast,Very Poor,,,,,,,TRUE,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#Drones Weapons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-AN/SEQ-3,fsdf_lance_3,0,,,1200,75,,,0,100,,,,,ENERGY,,40,0,0.25,,,,,,,2400,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
-AN/SEQ-5,fsdf_lance_5,0,,,1400,75,,,0,100,,,,,ENERGY,,40,0,0.25,,,,,,,2400,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
-AN/SEQ-7,fsdf_lance_7,0,,,1600,75,,,0,100,,,,,ENERGY,,40,0,0.25,,,,,,,2400,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
+#Drone Weapons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+AN/SEQ-3 (Beam),fsdf_lance_3,0,,,1000,100,,,0,25,,,,,ENERGY,,50,0,0,,,,,,,1000000,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,"Disrupts the target's shields, increasing all shield damage taken by %s for one full-power graviton beam, %s for two, and %s for three or more hitting the shields at the same time.",,,,,
+AN/SEQ-5 (Burst),fsdf_lance_5,0,,,1200,450,,,0,25,,3,3.61,3,ENERGY,,225,0,0,0.11,0.03,,,,,1000000,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
+AN/SEQ-7 (Pulse),fsdf_lance_7,0,,,1400,600,,,0,25,,,,,ENERGY,,300,0,0,0.13,0.22,,,,,1000000,,,,,,,"SYSTEM,PD,PD_ALSO,ANTI_FTR",,,Draconis,,General,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Ship Systems,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-A.D.A Missile Conversion,fsdf_ada_missile,3,,0,2500,,750,,15,0,0,1,,,HIGH_EXPLOSIVE,0,,0,1,1,,0,0,0,,,300,100,12.5,100000,,,"DIRECT_AIM, SYSTEM",restricted,,,,Missile,Medium,Medium,,,,,,,TRUE,711000
+A.D.A Missile Conversion,fsdf_ada_missile,3,,0,2500,,1500,,200,0,0,1,,,HIGH_EXPLOSIVE,0,,0,1,1,,0,0,0,,,300,0,12.5,100000,,,"DIRECT_AIM, SYSTEM",restricted,,,,Missile,Medium,Medium,,,,,,,TRUE,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#Decorative,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,fsdf_vernier,,,,1,1,,,,,,,,,,,,,10,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,

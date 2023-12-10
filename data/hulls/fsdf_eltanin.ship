@@ -12,6 +12,10 @@
   "shieldRadius": 197,
   "viewOffset": 0,
   "builtInWeapons": {
+    "WS0010": "fsdf_vernier",
+    "WS0011": "fsdf_vernier",
+    "WS0012": "fsdf_vernier",
+    "WS0013": "fsdf_vernier",
     "WS0015": "fsdf_mac_250"
   },
   "weaponSlots": [
@@ -111,6 +115,42 @@
       "arc": 5,
       "angle": 0,
       "locations": [115.5, -0]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-2.5, 39.5]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-2.5, -39.5]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": -90,
+      "locations": [-52.5, -43]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 120,
+      "angle": 90,
+      "locations": [-52.5, 43]
     }
   ],
   "engineSlots": [

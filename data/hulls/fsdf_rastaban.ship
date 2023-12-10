@@ -13,7 +13,9 @@
   "viewOffset": 0,
   "builtInWeapons": {
     "WS0003": "hveldriver",
-    "WS0007": "blinker_red"
+    "WS0007": "blinker_red",
+    "WS0008": "fsdf_vernier",
+    "WS0009": "fsdf_vernier"
   },
   "weaponSlots": [
     {
@@ -79,6 +81,24 @@
       "arc": 0,
       "angle": 0,
       "locations": [90.5, -17.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": -90,
+      "locations": [1, -31]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 90,
+      "locations": [1, 31]
     }
   ],
   "engineSlots": [
