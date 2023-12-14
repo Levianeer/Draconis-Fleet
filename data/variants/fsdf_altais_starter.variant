@@ -1,13 +1,13 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 36,
+    "fluxCapacitors": 47,
     "fluxVents": 50,
     "hullId": "fsdf_altais",
     "hullMods": [
-        "dedicated_targeting_core",
-        "expanded_deck_crew",
         "eccm",
-        "stabilizedshieldemitter"
+        "stabilizedshieldemitter",
+        "fluxdistributor",
+        "dedicated_targeting_core"
     ],
     "permaMods": [],
     "sMods": [],
@@ -17,17 +17,22 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0014": "fsdf_400_lrm",
-                "WS0015": "fsdf_400_lrm"
+                "WS0014": "fsdf_400_mrm",
+                "WS0015": "fsdf_400_mrm"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0016": "swarmer",
-                "WS0017": "swarmer"
+                "WS0016": "heatseeker",
+                "WS0017": "heatseeker"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0023": "mark9"}
         },
         {
             "autofire": true,
@@ -62,20 +67,11 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0005": "flak",
-                "WS0006": "flak"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
+                "WS0006": "flak",
                 "WS0018": "pdlaser",
-                "WS0019": "pdlaser"
+                "WS0019": "pdlaser",
+                "WS0024": "flak"
             }
         }
-    ],
-    "wings": [
-        "broadsword_wing",
-        "broadsword_wing"
     ]
 }

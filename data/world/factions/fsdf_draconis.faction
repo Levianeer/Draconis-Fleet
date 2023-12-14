@@ -64,22 +64,21 @@
 	"priorityShips":{
 		"tags":["fsdf_package_bp"],
 		"hulls":[
-			"fsdf_thuban",
-			"fsdf_rastaban",
-			"fsdf_eltanin",
 			"fsdf_altais",
+			"fsdf_alwaid",
+			"fsdf_eltanin",
+			"fsdf_rastaban",
+			"fsdf_thuban",
 		],
 	},
 	"knownFighters":{
 		"tags":["fsdf_package_bp"],
 		"fighters":[
-
 		],
 	},
 	"priorityFighters":{
 		"tags":["fsdf_package_bp"],
 		"fighters":[
-
 		],
 	},
 	"knownWeapons":{

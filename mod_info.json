@@ -2,7 +2,7 @@
 	"id":"fsdf_draconis",
 	"name":"Draconis Fleet",
 	"author":"Levianeer",
-	"version":"2.1.0",
+	"version":"2.2.0",
 	"description":"A faction emerging from the Fafnir system. Operating fast ships and large spinally mounted cannons.",
 	"gameVersion":"0.96a-RC9",
     "dependencies": [

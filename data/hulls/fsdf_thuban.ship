@@ -12,7 +12,7 @@
   "shieldRadius": 80.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0003": "railgun",
+    "WS0003": "fsdf_mk_34",
     "WS0004": "fsdf_vernier",
     "WS0006": "blinker_red",
     "WS0007": "fsdf_vernier"
@@ -40,7 +40,7 @@
     },
     {
       "id": "WS0003",
-      "size": "SMALL",
+      "size": "LARGE",
       "type": "BUILT_IN",
       "mount": "HIDDEN",
       "arc": 0,

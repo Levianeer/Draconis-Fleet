@@ -2,6 +2,7 @@
 	"id":"fsdf_400_second_stage",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
+#	"onHitEffect":"data.scripts.weapons.fsdf_VDam",
 	"sprite":"graphics/missiles/fsdf_400_second_stage.png",
 	"size":[6,24],
 	"center":[3,12],
@@ -9,9 +10,9 @@
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,165,0,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":80, # purely visual
-	"flameoutTime":5.0,
+	"flameoutTime":1.5,
 	"dudProbabilityOnFlameout":0,
-	"reduceDamageWhileFading":true,
+	"reduceDamageWhileFading":false,
 	"noCollisionWhileFading":false,
 	"fizzleOnReachingWeaponRange":false,
 	"engineSpec":{
@@ -19,5 +20,5 @@
 					"turnRate":70,
 					"acc":0,
 					"dec":0,
-					"maxSpeed":1502},
+					"maxSpeed":1500},
 }

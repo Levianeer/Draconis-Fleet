@@ -11,13 +11,10 @@
   "shieldCenter": [0, 0],
   "shieldRadius": 273.5,
   "viewOffset": 0,
-  "builtInWings": [
-    "fsdf_drone_ada_improved_wing"
-  ],
   "builtInWeapons": {
     "WS0013": "fsdf_vernier",
-    "WS0014": "fsdf_400_lrm",
-    "WS0015": "fsdf_400_lrm",
+    "WS0014": "fsdf_400_mrm",
+    "WS0015": "fsdf_400_mrm",
     "WS0020": "fsdf_vernier",
     "WS0021": "fsdf_vernier",
     "WS0022": "fsdf_vernier"
@@ -86,27 +83,27 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 60,
-      "angle": 90,
-      "locations": [-128, 51]
+      "arc": 160,
+      "angle": 135,
+      "locations": [-128, 52]
     },
     {
       "id": "WS0008",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 60,
-      "angle": -90,
-      "locations": [-128, -51]
+      "arc": 160,
+      "angle": -135,
+      "locations": [-128, -52]
     },
     {
       "id": "WS0009",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 70,
-      "angle": 90,
-      "locations": [-146, 45],
+      "arc": 160,
+      "angle": 135,
+      "locations": [-147, 46],
       "renderOrderMod": 100
     },
     {
@@ -114,9 +111,9 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 70,
-      "angle": -90,
-      "locations": [-146, -45],
+      "arc": 160,
+      "angle": -135,
+      "locations": [-147, -46],
       "renderOrderMod": 100
     },
     {
@@ -124,9 +121,9 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 80,
-      "angle": 90,
-      "locations": [-164, 39],
+      "arc": 160,
+      "angle": 135,
+      "locations": [-164, 40],
       "renderOrderMod": 200
     },
     {
@@ -134,9 +131,9 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 80,
-      "angle": -90,
-      "locations": [-164, -39],
+      "arc": 160,
+      "angle": -135,
+      "locations": [-164, -40],
       "renderOrderMod": 200
     },
     {
@@ -192,7 +189,7 @@
       "size": "SMALL",
       "type": "ENERGY",
       "mount": "TURRET",
-      "arc": 180,
+      "arc": 170,
       "angle": 90,
       "locations": [-52, 33],
       "renderOrderMod": 300
@@ -260,6 +257,24 @@
       "arc": 0,
       "angle": 90,
       "locations": [-83, 136.5]
+    },
+    {
+      "id": "WS0023",
+      "size": "LARGE",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 0,
+      "locations": [-80, -0]
+    },
+    {
+      "id": "WS0024",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 220,
+      "angle": 0,
+      "locations": [-46, -0]
     }
   ],
   "engineSlots": [

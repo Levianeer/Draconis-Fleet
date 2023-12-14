@@ -12,7 +12,7 @@
   "shieldRadius": 118.5,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0003": "hveldriver",
+    "WS0003": "fsdf_tac",
     "WS0007": "blinker_red",
     "WS0008": "fsdf_vernier",
     "WS0009": "fsdf_vernier"
@@ -38,12 +38,12 @@
     },
     {
       "id": "WS0003",
-      "size": "MEDIUM",
+      "size": "LARGE",
       "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "mount": "HARDPOINT",
       "arc": 0,
       "angle": 0,
-      "locations": [38, -0]
+      "locations": [38.5, -0]
     },
     {
       "id": "WS0004",
@@ -66,7 +66,7 @@
     {
       "id": "WS0006",
       "size": "MEDIUM",
-      "type": "UNIVERSAL",
+      "type": "ENERGY",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
@@ -80,7 +80,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 0,
-      "locations": [90.5, -17.5]
+      "locations": [67.5, -25.5]
     },
     {
       "id": "WS0008",

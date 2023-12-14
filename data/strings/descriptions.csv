@@ -17,8 +17,11 @@ fsdf_eltanin,SHIP,"The Eltanin-class Cruiser is the zenith of the Draconis fleet
 fsdf_altais,SHIP,"The Altais-class Battlecruiser is the only capital ship of the Draconis Fleet. Built as a larger cruiser and flagship, it has respectable carrier capabilities and acts as a command and control centre for large fleet movements. However, it lacks any large mounts, unlike other capital ships, significantly limiting its firepower.
 
 It does somewhat make up for this with an advanced in-built missile system.",,,
-fsdf_aldibain,SHIP,ADD DESCRIPTION.,,,
-fsdf_nodus,SHIP,ADD DESCRIPTION.,,,
+fsdf_alwaid,SHIP,ADD DESCRIPTION.,,,
+fsdf_drone_ada,SHIP,ADD DESCRIPTION.,,,
+fsdf_400_mrm,WEAPON,ADD DESCRIPTION.,,,
 fsdf_700_srm_fighter,WEAPON,ADD DESCRIPTION.,,,
-fsdf_400_lrm,WEAPON,ADD DESCRIPTION.,,,
-fsdf_mac_250,WEAPON,ADD DESCRIPTION.,,,
+fsdf_mk_34,WEAPON,ADD DESCRIPTION.,,,
+fsdf_mk_32,WEAPON,ADD DESCRIPTION.,,,
+fsdf_mac_41,WEAPON,ADD DESCRIPTION.,,,
+fsdf_tac,WEAPON,ADD DESCRIPTION.,,,

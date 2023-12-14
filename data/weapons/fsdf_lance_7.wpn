@@ -2,7 +2,7 @@
 	"id":"fsdf_lance_7",
 	"specClass":"beam",
 	"type":"ENERGY",
-	"size":"LARGE",
+	"size":"SMALL",
 	"turretSprite":"graphics/weapons/tactical_laser_turret.png",
 	"turretGlowSprite":"graphics/weapons/tactical_laser_turret_glow.png",
 	"hardpointSprite":"graphics/weapons/tactical_laser_hardpoint.png",

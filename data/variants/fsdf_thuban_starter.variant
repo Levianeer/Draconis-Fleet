@@ -9,9 +9,9 @@
     "variantId": "fsdf_thuban_Starter",
     "weaponGroups": [
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0003": "hveldriver"}
+            "weapons": {"WS0003": "fsdf_mk_34"}
         },
         {
             "autofire": true,
