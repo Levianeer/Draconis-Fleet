@@ -11,8 +11,11 @@
   "shieldCenter": [0, 0],
   "shieldRadius": 118.5,
   "viewOffset": 0,
+  "builtInWings": [
+    "fsdf_excalibur_wing"
+  ],
   "builtInWeapons": {
-    "WS0003": "fsdf_tac",
+    "WS0003": "tachyonlance",
     "WS0007": "blinker_red",
     "WS0008": "fsdf_vernier",
     "WS0009": "fsdf_vernier"
@@ -40,10 +43,10 @@
       "id": "WS0003",
       "size": "LARGE",
       "type": "BUILT_IN",
-      "mount": "HARDPOINT",
+      "mount": "HIDDEN",
       "arc": 0,
       "angle": 0,
-      "locations": [38.5, -0]
+      "locations": [37, -0]
     },
     {
       "id": "WS0004",

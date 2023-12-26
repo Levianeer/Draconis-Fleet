@@ -1,24 +1,59 @@
 {
-	"id":"fsdf_lance_7",
-	"specClass":"beam",
-	"type":"ENERGY",
-	"size":"SMALL",
-	"turretSprite":"graphics/weapons/tactical_laser_turret.png",
-	"turretGlowSprite":"graphics/weapons/tactical_laser_turret_glow.png",
-	"hardpointSprite":"graphics/weapons/tactical_laser_hardpoint.png",
-	"hardpointGlowSprite":"graphics/weapons/tactical_laser_hardpoint_glow.png",
-	"turretOffsets":[10, 0],
-	"turretAngleOffsets":[0],
-	"hardpointOffsets":[15, 0],
-	"hardpointAngleOffsets":[0],
-	"fringeColor":[255,128,0,225],
-	"coreColor":[255,255,255,255],
-	"glowColor":[255,165,0,255],
-	"width":13.0,
-	"textureType":ROUGH,
-	"textureScrollSpeed":72.0,
-	"pixelsPerTexel":5.0,
-	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF],
-	"fireSoundOne":"laser_intro",
-	"fireSoundTwo":"laser_loop",
+  "id": "fsdf_lance_7",
+  "specClass": "beam",
+  "type": "ENERGY",
+  "size": "MEDIUM",
+  "beamEffect": "data.scripts.weapons.fsdf_BeamFullFlux",
+  "collisionClass": "RAY",
+  "collisionClassByFighter": "RAY_FIGHTER",
+  "turretSprite": "graphics/weapons/fsdf_lance_turret_base.png",
+  "turretGlowSprite": "graphics/weapons/fsdf_lance_turret_base_glow.png",
+  "hardpointSprite": "graphics/weapons/fsdf_lance_hardpoint_base.png",
+  "hardpointGlowSprite": "graphics/weapons/fsdf_lance_hardpoint_base_glow.png",
+  "glowColor": [
+    255,
+    150,
+    250,
+    235
+  ],
+  "hitGlowRadius": 0,
+  "turretOffsets": [
+    14.5,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    21.5,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "fringeColor": [
+    255,
+    150,
+    250,
+    225
+  ],
+  "coreColor": [
+    255,
+    255,
+    255,
+    255
+  ],
+  "width": 9,
+  "textureType": LASER,
+  "textureScrollSpeed": 72,
+  "pixelsPerTexel": 5,
+  "pierceSet": [
+    PROJECTILE_FF,
+    PROJECTILE_NO_FF,
+    PROJECTILE_FIGHTER,
+    MISSILE_FF,
+    MISSILE_NO_FF
+  ],
+  "fireSoundOne": "hydra_payload_fire",
+  "fireSoundTwo": "ir_autolance_loop"
 }

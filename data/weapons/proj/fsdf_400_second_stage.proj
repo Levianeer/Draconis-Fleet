@@ -2,7 +2,6 @@
 	"id":"fsdf_400_second_stage",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-#	"onHitEffect":"data.scripts.weapons.fsdf_VDam",
 	"sprite":"graphics/missiles/fsdf_400_second_stage.png",
 	"size":[6,24],
 	"center":[3,12],

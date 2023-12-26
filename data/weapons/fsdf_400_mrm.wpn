@@ -2,7 +2,7 @@
   "id": "fsdf_400_mrm",
   "specClass": "projectile",
   "projectileSpecId": "fsdf_400_mrm",
-  "type": "MISSILE",
+  "type": "BALLISTIC",
   "size": "LARGE",
   "turretSprite": "graphics/weapons/fsdf_400_mrm_base.png",
   "hardpointSprite": "graphics/weapons/fsdf_400_mrm_base.png",

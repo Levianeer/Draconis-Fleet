@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 24,
+    "fluxCapacitors": 18,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_altais",
@@ -15,7 +15,7 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0014": "fsdf_400_mrm",
                 "WS0015": "fsdf_400_mrm"
@@ -32,30 +32,36 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0023": "gauss"}
+            "weapons": {"WS0023": "fsdf_mk_16"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "hveldriver",
-                "WS0002": "hveldriver",
-                "WS0003": "hveldriver",
-                "WS0004": "hveldriver",
-                "WS0005": "hveldriver",
-                "WS0006": "hveldriver"
+                "WS0001": "ionbeam",
+                "WS0002": "ionbeam",
+                "WS0003": "fsdf_lance_7",
+                "WS0004": "fsdf_lance_7",
+                "WS0005": "fsdf_lance_7",
+                "WS0006": "fsdf_lance_7"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0007": "fsdf_rim_10",
+                "WS0008": "fsdf_rim_10",
+                "WS0011": "fsdf_rim_10",
+                "WS0012": "fsdf_rim_10"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "vulcan",
-                "WS0008": "vulcan",
                 "WS0009": "vulcan",
                 "WS0010": "vulcan",
-                "WS0011": "vulcan",
-                "WS0012": "vulcan",
                 "WS0024": "flak"
             }
         },

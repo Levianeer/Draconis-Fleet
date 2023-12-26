@@ -1,9 +1,10 @@
 name,id,designation,tech/manufacturer,system id,fleet pts,hitpoints,armor rating,max flux,8/6/5/4%,flux dissipation,ordnance points,fighter bays,max speed,acceleration,deceleration,max turn rate,turn acceleration,mass,shield type,defense id,shield arc,shield upkeep,shield efficiency,phase cost,phase upkeep,min crew,max crew,cargo,fuel,fuel/ly,range,max burn,base value,cr %/day,CR to deploy,peak CR sec,CR loss/sec,supplies/rec,supplies/mo,c/s,c/f,f/s,f/f,crew/s,crew/f,hints,tags,rarity,breakProb,minPieces,maxPieces,travel drive,number
-Thuban,fsdf_thuban,Frigate,Draconis,fsdf_ecm_suite,5,1500,150,3000,,150,40,,150,120,90,60,120,120,FRONT,,140,0.4,0.8,,,10,25,40,25,1,25,10,16000,10,20,180,0.25,5,5,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
-Rastaban,fsdf_rastaban,Light Destroyer,Draconis,fsdf_drone_ada_lite,10,3500,300,6000,,400,80,,90,75,50,35,45,300,FRONT,,120,0.4,1,,,40,80,100,90,2,45,9,45000,5,15,300,0.25,11,11,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
-Alwaid,fsdf_alwaid,Destroyer,Draconis,fsdf_lidararray,10,3500,250,6000,,400,80,,80,70,50,30,30,400,FRONT,,90,0.4,1,,,50,70,80,50,2,25,9,50000,5,15,300,0.25,10,10,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
-Eltanin,fsdf_eltanin,Cruiser,Draconis,fsdf_drone_ada_med,14,7000,500,10000,,600,135,,85,65,45,20,25,1000,FRONT,,160,0.4,0.8,,,120,210,150,150,4,38,8,120000,4,12,480,0.25,20,20,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
-Altais,fsdf_altais,Battlecruiser,Draconis,fsdf_drone_ada_heavy,28,14000,1500,17000,,600,295,,45,20,20,5,5,2500,FRONT,,180,0.4,1,,,400,800,400,450,8,56,8,330000,4,20,600,0.25,40,40,,,,,,,,"fsdf_package_bp, req_military",,0.6,2,4,,711000
+#Ships,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Thuban,fsdf_thuban,Frigate,Draconis,fsdf_ecm_suite,5,1500,150,3000,,150,40,,150,120,90,60,120,120,OMNI,,140,0.4,0.8,,,10,25,40,25,1,25,10,16000,10,20,180,0.25,5,5,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,2,,711000
+Rastaban,fsdf_rastaban,Light Destroyer,Draconis,fsdf_mrm_strike,10,3500,300,6000,,400,80,1,90,75,50,35,45,300,OMNI,,120,0.4,1,,,40,80,100,90,2,45,9,45000,5,15,300,0.25,11,11,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
+Alwaid,fsdf_alwaid,Destroyer,Draconis,fsdf_lidararray,10,3500,250,6000,,400,80,,80,70,50,30,30,400,OMNI,,90,0.4,1,,,50,70,80,50,2,25,9,50000,5,15,300,0.25,10,10,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
+Eltanin,fsdf_eltanin,Cruiser,Draconis,maneuveringjets,14,8000,900,10000,,600,135,,85,65,45,20,25,1000,OMNI,,160,0.4,0.8,,,120,210,150,150,4,38,8,120000,4,12,480,0.25,20,20,,,,,,,,"fsdf_package_bp, req_military",,0.5,2,3,,711000
+Altais,fsdf_altais,Battlecruiser,Draconis,maneuveringjets,28,15000,1500,17000,,700,295,,45,20,20,5,5,2500,OMNI,,180,0.4,1,,,400,800,400,450,8,56,8,330000,4,20,600,0.25,40,40,,,,,,,,"fsdf_package_bp, req_military",,0.6,2,4,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Drones,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-A.D.A,fsdf_drone_ada,,,,,500,25,500,,50,0,,300,500,500,500,500,50,FRONT,,360,0,1,,,0,0,,,,,,,,,,,,,,,,,,,,,,0,,,,711000
+Excalibur MRM,fsdf_rastaban_mrm,,,,,500,100,200,,50,,,300,400,400,200,400,5,NONE,,360,0,1,,,0,0,,,,,,,,,,,,,,,,,,,,,,0,,,,711000

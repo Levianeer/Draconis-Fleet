@@ -1,0 +1,32 @@
+{
+  "hullName": "Excalibur MRM",
+  "hullId": "fsdf_rastaban_mrm",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/missiles/fsdf_400_second_stage.png",
+  "style": "DRACONIS",
+  "height": 40,
+  "width": 10,
+  "center": [5, 20],
+  "collisionRadius": 24.5,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 22.5,
+  "viewOffset": 0,
+  "weaponSlots": [],
+  "engineSlots": [
+    {
+      "location": [-20, 0],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    18.5, -0,
+    -16.5, 2.5,
+    -18.5, -0,
+    -16.5, -2.5
+  ]
+}

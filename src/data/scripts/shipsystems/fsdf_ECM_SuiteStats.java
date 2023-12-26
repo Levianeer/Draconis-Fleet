@@ -10,6 +10,7 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
 import com.fs.starfarer.api.util.Misc;
+import com.fs.starfarer.ui.m;
 
 public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
 
@@ -42,10 +43,9 @@ public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
             if (missile.getSource().getOwner() != ship.getOwner()) {
                 float distance = Misc.getDistance(ship.getLocation(), missile.getLocation());
                 if (distance <= DISABLE_RADIUS) {
-                    missile.flameOut();
-                    missile.setOwner(ship.getOwner());
-
-
+                    missile.setDamageAmount(0);
+                    missile.setOwner(100);
+                    missile.setMissileAI(null);
                     spawnHitParticle(missile.getLocation());
                 }
             }

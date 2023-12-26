@@ -3,7 +3,10 @@
     "fluxCapacitors": 10,
     "fluxVents": 10,
     "hullId": "fsdf_thuban",
-    "hullMods": ["fluxcoil"],
+    "hullMods": [
+        "fluxcoil",
+        "advancedshieldemitter"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_Starter",
@@ -16,15 +19,17 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "ioncannon",
-                "WS0002": "irpulse"
-            }
+            "weapons": {"WS0002": "lightac"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0005": "lightdualmg"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "pdlaser"}
         }
     ]
 }

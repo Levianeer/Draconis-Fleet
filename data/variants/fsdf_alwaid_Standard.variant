@@ -25,18 +25,18 @@
         },
         {
             "autofire": true,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0005": "vulcan",
-                "WS0006": "vulcan"
+                "WS0003": "fsdf_rim_10",
+                "WS0004": "fsdf_rim_10"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "pdburst",
-                "WS0004": "pdburst"
+                "WS0005": "vulcan",
+                "WS0006": "vulcan"
             }
         }
     ]

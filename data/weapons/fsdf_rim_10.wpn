@@ -1,0 +1,62 @@
+{
+  "id": "fsdf_rim_10",
+  "specClass": "projectile",
+  "projectileSpecId": "fsdf_rim_10_srm",
+  "type": "MISSILE",
+  "mountTypeOverride":"BALLISTIC",
+  "size": "SMALL",
+  "turretSprite": "graphics/weapons/fsdf_rim_10_srm_turret_base.png",
+  "hardpointSprite": "graphics/weapons/fsdf_rim_10_srm_hardpoint_base.png",
+  "turretOffsets": [
+    9,
+    4.5,
+    9,
+    -4.5,
+    9,
+    2.5,
+    9,
+    -2.5
+  ],
+  "turretAngleOffsets": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "hardpointOffsets": [
+    11,
+    4.5,
+    11,
+    -4.5,
+    11,
+    2.5,
+    11,
+    -2.5
+  ],
+  "hardpointAngleOffsets": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "SMOKE",
+  "smokeSpec": {
+    "particleSizeMin": 10,
+    "particleSizeRange": 16,
+    "cloudParticleCount": 3,
+    "cloudDuration": 0.9,
+    "cloudRadius": 8,
+    "blowbackParticleCount": 4,
+    "blowbackDuration": 1.1,
+    "blowbackLength": 20,
+    "blowbackSpread": 10,
+    "particleColor": [
+      170,
+      160,
+      150,
+      130
+    ]
+  },
+  "fireSoundTwo": "annihilator_fire"
+}

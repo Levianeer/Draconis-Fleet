@@ -8,15 +8,16 @@
 			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
 		},
 
-    "planets":{
-      "fsdf_itoron": "graphics/mod/planets/fsdf_itoron.jpg",
-      "fsdf_athebyne": "graphics/mod/planets/fsdf_athebyne.jpg",
-	  "fsdf_kori": "graphics/mod/planets/fsdf_kori.jpg",
-	  "fsdf_vorium": "graphics/mod/planets/fsdf_vorium.jpg",
+		"fx":{
+			"trails_trail_smooth":"graphics/magic/fx/base_trail_smooth.png",
+			"trails_trail_zappy":"graphics/magic/fx/base_trail_zap.png",
 		},
 
-	"characters":{
-		"fsdf_george":"graphics/portraits/characters/fsdf_george_fletcher.png",
-		}
+		"planets":{
+			"fsdf_itoron": "graphics/mod/planets/fsdf_itoron.jpg",
+			"fsdf_athebyne": "graphics/mod/planets/fsdf_athebyne.jpg",
+			"fsdf_kori": "graphics/mod/planets/fsdf_kori.jpg",
+			"fsdf_vorium": "graphics/mod/planets/fsdf_vorium.jpg",
+		},
 	}
 }

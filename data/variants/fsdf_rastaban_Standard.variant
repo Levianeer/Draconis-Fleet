@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 18,
+    "fluxCapacitors": 15,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
@@ -13,30 +13,31 @@
     "variantId": "fsdf_rastaban_Standard",
     "weaponGroups": [
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_tac"}
+            "weapons": {"WS0003": "tachyonlance"}
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "harpoon",
-                "WS0005": "harpoon"
+                "WS0004": "swarmer",
+                "WS0005": "swarmer"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "kineticblaster"}
+            "weapons": {"WS0006": "fsdf_lance_7"}
         },
         {
             "autofire": true,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "taclaser",
-                "WS0002": "taclaser"
+                "WS0001": "fsdf_rim_10",
+                "WS0002": "fsdf_rim_10"
             }
         }
-    ]
+    ],
+    "wings": []
 }

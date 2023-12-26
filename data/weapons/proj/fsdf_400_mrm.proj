@@ -1,15 +1,17 @@
 {
 	"id":"fsdf_400_mrm",
 	"specClass":"missile",	
-	"missileType":"MIRV",
+	"missileType":"MISSILE_TWO_STAGE_SECOND_UNGUIDED",
 	"sprite":"graphics/missiles/fsdf_400_mrm.png",
 	"size":[6,31],
 	"center":[3,16],
 	"collisionRadius":28,
 	"collisionClass":"MISSILE_NO_FF",
-	"explosionColor":[255,90,90,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":50, # purely visual
-	"alwaysAccelerate":true,
+	"explosionColor":[255,200,200,235],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":85, # purely visual
+	"flameoutTime":1, # total time from flameout to full fadeout
+	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
+	"fadeTime":0.5, # fadeout duration	
 	"engineSpec":{
 					"turnAcc":600,
 					"turnRate":150,
@@ -21,46 +23,17 @@
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
 						"engineColor":[255,145,75,255],
-						"contrailDuration":0.5,
-						"contrailWidthMult":4,
+						"contrailDuration":.5,
+						"contrailWidthMult":2,
 						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
-						"contrailMinSeg":15, # min segment length, in pixels
+						"contrailMinSeg":5, # min segment length, in pixels
 						"contrailMaxSpeedMult":.0f,
 						"contrailAngularVelocityMult":0.5f,
-						"contrailSpawnDistMult":.75, # how far away from engine it starts
-						"contrailColor":[255,180,50,150],
-						"glowSizeMult":4,
+						"contrailSpawnDistMult":0f, # how far away from engine it starts
+						"contrailColor":[75,75,75,150],
 						"type":"SMOKE" # GLOW or SMOKE; additive or regular blend mode
 					},
 				    "width":4.0,
-				    "length":30.0,
+				    "length":50.0,
 				    "angle":180.0}],
-	"behaviorSpec":{"behavior":"MIRV",
-					"splitRange":5000,
-					"minTimeToSplit":1.5,
-					"canSplitEarly":false,
-					"splitSound":"hurricane_mirv_split",
-					"numShots":1,
-					"damage":500,
-					"damageType":ENERGY,
-					"hitpoints":100000,
-					"arc":0,
-					"spreadInaccuracy":0,
-					"spreadSpeed":0,
-					"spreadSpeedRange":0,
-					"projectileSpec":"fsdf_400_second_stage",
-					"debrisSmall":0,
-					"debrisMedium":1,
-					"debrisLarge":0,
-					"smokeSpec":{"particleSizeMin":5.0,
-								 "particleSizeRange":5.0,
-								 "cloudParticleCount":11,
-								 "cloudDuration":1.0,
-								 "cloudRadius":10.0,
-								 "blowbackParticleCount":0,
-								 "blowbackDuration":0,
-								 "blowbackLength":0,
-								 "blowbackSpread":0,
-								 "particleColor":[100,100,100,200]}
-					}
 }
