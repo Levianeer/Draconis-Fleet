@@ -16,16 +16,15 @@ public class fsdf_MassDamageOnHit implements OnHitEffectPlugin {
 					  Vector2f point, boolean shieldHit, ApplyDamageResultAPI damageResult, CombatEngineAPI engine) {
             if (!shieldHit && target instanceof ShipAPI) {
 
-      // Calculates the modifier. Thanks Owen for the equation <3
       float mass = target.getMass ();
-      float damageModifier = (mass / 2500) + (float)(8.5 / Math.sqrt(mass));
+      float damageModifier = (mass / 2500) + (float)(8.5 / Math.sqrt(mass));  // Calculates the modifier. Thanks Owen for the equation <3
       float damage = projectile.getDamageAmount();
       float newDamage = damage * damageModifier;
 
-            Math.min(damageModifier, 2.0);  // Stops the damage from getting too high or low.
-            Math.max(damageModifier, 0.8);  // Could this cause a crash with 0 mass ships?
+            Math.min(damageModifier, 2.5);  // Upper limit
+            Math.max(damageModifier, 0.5);  // Lower limit
 
-      engine.applyDamage(target, point, newDamage, DamageType.ENERGY, 0, false, false, target, false); // Get location, velocity and deal damage. God this was a pain in the ass to work out.
+      engine.applyDamage(target, point, newDamage, DamageType.ENERGY, 0, false, false, target, false); // Get location, velocity, etc and deal damage
     }
   }
 }

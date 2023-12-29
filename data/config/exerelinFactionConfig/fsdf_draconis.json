@@ -32,10 +32,12 @@
         ["fsdf_thuban_Starter","fsdf_rastaban_Starter"]
     ],
     "startShipsCombatLarge":[
-        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_eltanin_Starter"]
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_eltanin_Starter"],
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_kuma_Standard"]
     ],
     "startShipsCarrierLarge":[
-        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_eltanin_Starter","fsdf_altais_Starter"]
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_eltanin_Starter","fsdf_altais_Starter"],
+        ["fsdf_thuban_Starter","fsdf_rastaban_Starter","fsdf_kuma_Standard","fsdf_altais_Starter"]
     ],
     
     "defenceStations":[

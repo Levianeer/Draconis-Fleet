@@ -61,13 +61,13 @@ public class fsdf_MRM_StrikeStats extends BaseShipSystemScript implements DroneS
 			drone.getEngineController().fadeToOtherColor(this, new Color(0,0,0,0), new Color(0,0,0,0), 1f, 1f);
 
 			
-			float dist = Misc.getDistance(missile.getLocation(), missile.getStart());
-			float jitterFraction = dist / missile.getMaxRange();
-			jitterFraction = Math.max(jitterFraction, missile.getFlightTime() / missile.getMaxFlightTime());
+//			float dist = Misc.getDistance(missile.getLocation(), missile.getStart());
+//			float jitterFraction = dist / missile.getMaxRange();
+//			jitterFraction = Math.max(jitterFraction, missile.getFlightTime() / missile.getMaxFlightTime());
 			
-			missile.setSpriteAlphaOverride(0f);
-			float jitterMax = 1f + 10f * jitterFraction;
-			drone.setJitter(this, new Color(255,100,50, (int)(25 + 50 * jitterFraction)), 1f, 10, 1f, jitterMax);
+//			missile.setSpriteAlphaOverride(0f);
+//			float jitterMax = 1f + 10f * jitterFraction;
+//			drone.setJitter(this, new Color(255,100,50, (int)(25 + 50 * jitterFraction)), 1f, 10, 1f, jitterMax);
 			
 			
 //			if (true && !done && missile.getFlightTime() > 1f) {

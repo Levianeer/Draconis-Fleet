@@ -9,8 +9,8 @@
 		},
 
 		"fx":{
-			"trails_trail_smooth":"graphics/magic/fx/base_trail_smooth.png",
-			"trails_trail_zappy":"graphics/magic/fx/base_trail_zap.png",
+			"magicTrail_smooth":"graphics/magic/fx/base_trail_smooth.png",
+			"magicTrail_zappy":"graphics/magic/fx/base_trail_zap.png",
 		},
 
 		"planets":{

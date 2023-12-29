@@ -2,7 +2,7 @@
 	"id":"fsdf_ecm_suite",
 	"type":"STAT_MOD",
 	"aiType":"CUSTOM",
-	"aiScript":"data.shipsystems.scripts.ai.fsdf_ECM_SuiteAI",
+	"aiScript":"data.scripts.ai.fsdf_ECM_SuiteAI",
 	
 	"statsScript":"data.scripts.shipsystems.fsdf_ECM_SuiteStats",
 

@@ -1,17 +1,18 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
 #Cannons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Burst Autocannon,fsdf_mk_16,3,,7500,1000,,225,,45,15,25,,,,ENERGY,350,,0,0.7,1,,,,,,,1000,,,100,,,,,,Draconis,,General,,,,,,,,,,711000
-Twin Burst Autocannon,fsdf_mk_32,,,,1000,,225,,45,10,,,,,ENERGY,350,,0,1.4,2,0.15,0,5,1,5,,1000,,,200,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,711000
+Burst Autocannon,fsdf_mk_16,3,,7500,1000,,350,,50,15,25,,,,ENERGY,350,,0,0.7,1,0.5,0,5,1,5,,1000,,,100,,,,,,Draconis,,General,,,,,,,,,,711000
+Twin Burst Autocannon,fsdf_mk_32,,,,1000,,500,,100,10,,,,,ENERGY,500,,0,2.8,2,0.5,0,5,1,5,,1000,,,200,,,"SYSTEM,SHOW_IN_CODEX",,,Draconis,,General,,,,,,,"Hits on hull cause internal spalling, dealing damage based on the mass of the target.",,,711000
 Fusillade Cannon,fsdf_mk_34,,,,500,,1400,,200,5,,10,,,ENERGY,1500,,0.25,6,1,,,,,,,1000,,,100,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,Strike,,,,,,,,,,
 Torrent Coilgun,fsdf_mac_41,,,,700,,2000,,200,5,,,,,ENERGY,1000,,1,7.5,1,,,,,,,1000,,,100,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,,Draconis,,Strike,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Missiles,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Meteor MRM,fsdf_400_mrm,,,,1000,,750,,45,0,,7,1,,HIGH_EXPLOSIVE,400,,0,0.4,1,,,,,,,1500,115,1.5,100000,,,"SYSTEM,SHOW_IN_CODEX,DIRECT_AIM,STRIKE,USE_VS_FRIGATES",,,Draconis,,Missile,Extremely Fast,Special,,,Unguided after a brief initial aiming stage. Damage scales based on the velocity of the missile when it impacts.,,,,TRUE,711000
-Wolfpack SRM,fsdf_rim_10,1,,500,700,,100,,15,50,6,20,1,,HIGH_EXPLOSIVE,0,,0,0.5,1,0.25,,,,,,500,100,2,25,,,"DO_NOT_AIM,ANTI_FTR,PD",,,Draconis,,Point Defense,Fast,Excellent,,,,,,,,711000
+Meteor MRM,fsdf_400_mrm,,,,1000,,500,,50,0,,7,1,,HIGH_EXPLOSIVE,300,,0,0.4,1,,,,,,,1500,115,1.5,100000,,,"SYSTEM,SHOW_IN_CODEX,DIRECT_AIM,STRIKE,USE_VS_FRIGATES",,,Draconis,,Missile,Extremely Fast,Special,,,Unguided after a brief initial aiming stage. Damage scales based on the velocity of the missile when it impacts.,,,,TRUE,711000
+Wolfpack SRM,fsdf_rim_10,1,,500,700,,100,,15,50,6,8,1,,HIGH_EXPLOSIVE,0,,0,0.5,1,0.25,,,,,,500,100,2,25,,,"DO_NOT_AIM,ANTI_FTR,PD",,,Draconis,,Point Defense,Fast,Excellent,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Lances,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Burst Lance,fsdf_lance_7,2,,4500,1000,900,,,0,15,13,3,1.5,3,KINETIC,,1150,0,0.005,0.1,0.03,,,,,1000000,,,,,,,,,,Draconis,,General,,,,,,,,,,711000
+Burst Lance,fsdf_lance_7,2,,4500,1000,950,,,0,15,13,3,1.5,3,KINETIC,,1200,0,0.005,0.1,0.03,,,,,1000000,,,,,,,,,,Draconis,,General,,,,,,,Hits on shields deal damage / second as hard flux.,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #System,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,fsdf_vernier,,,,1,1,,,,,,,,,,,,,10,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,
-Excalibur Missile Conversion,fsdf_rastaban_missile,,,0,2500,,750,,15,0,,1,,,HIGH_EXPLOSIVE,0,,0,1,1,,0,0,0,,,300,100,12.5,100000,,,"DIRECT_AIM,SYSTEM,DO_NOT_AIM",restricted,,,,Missile,Fast,Medium,,,,,,,TRUE,711000
+RCS Thrusters (Draconis),fsdf_vernier,,,,1,1,,,,,,,,,,,,,10,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,
+Pusher Plate (Draconis),fsdf_pusherplate,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SYSTEM,pusherplate,,,,,,,,,,,,,,711000
+Excalibur Missile Conversion,fsdf_rastaban_missile,,,0,2500,,1500,,25,0,,1,,,HIGH_EXPLOSIVE,0,,0,1,1,,0,0,0,,,300,100,12.5,100000,,,"DIRECT_AIM,SYSTEM,DO_NOT_AIM",restricted,,,,Missile,Fast,Medium,,,,,,,TRUE,711000

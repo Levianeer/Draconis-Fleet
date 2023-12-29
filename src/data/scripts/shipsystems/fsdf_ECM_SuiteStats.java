@@ -10,12 +10,10 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
 import com.fs.starfarer.api.util.Misc;
-import com.fs.starfarer.ui.m;
 
 public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
 
     private static final float DISABLE_RADIUS = 1000f;
-    private static final float DISPLAY_DURATION = 8f;
 
     private float textTimer = 0f;
     private boolean textDisplayed = false;
@@ -33,7 +31,7 @@ public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
             }
 
             textTimer += Global.getCombatEngine().getElapsedInLastFrame();
-            if (textTimer >= DISPLAY_DURATION) {
+            if (textTimer >= 6) {
                 textDisplayed = false;
                 textTimer = 0f;
             }
@@ -68,7 +66,7 @@ public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
 
     public StatusData getStatusData(int index, State state, float effectLevel) {
         if (index == 0) {
-            return new StatusData("Jamming Enemy Missiles", false);
+            return new StatusData("Jamming Enemy Missiles!", false);
         }
         return null;
     }

@@ -10,14 +10,4 @@
 		"CRUISER":{"sounds":[0], "pitch":1, "volume":0.8},
 		"CAPITAL_SHIP":{"sounds":[0], "pitch":1, "volume":1},
 	},
-	"fsdf_vent_heatsink":{ # played once when a ship starts venting flux
-		"sounds":[
-			{"file":"sounds/sfx_flux/fsdf_vent_heatsink.ogg","pitch":1,"volume":0.5},
-		],
-		"FIGHTER":{"sounds":[0], "pitch":1, "volume":0.4},
-		"FRIGATE":{"sounds":[0], "pitch":1, "volume":0.4},
-		"DESTROYER":{"sounds":[0], "pitch":1, "volume":0.6},
-		"CRUISER":{"sounds":[0], "pitch":1, "volume":0.8},
-		"CAPITAL_SHIP":{"sounds":[0], "pitch":1, "volume":1},
-	},
 }

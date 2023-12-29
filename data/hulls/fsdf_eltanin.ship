@@ -16,7 +16,9 @@
     "WS0011": "fsdf_vernier",
     "WS0012": "fsdf_vernier",
     "WS0013": "fsdf_vernier",
-    "WS0015": "fsdf_mk_32"
+    "WS0014": "fsdf_vernier",
+    "WS0015": "fsdf_mk_32",
+    "WS0016": "fsdf_vernier"
   },
   "weaponSlots": [
     {
@@ -139,7 +141,7 @@
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 0,
       "angle": -90,
       "locations": [-52.5, -43]
     },
@@ -148,9 +150,27 @@
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 0,
       "angle": 90,
       "locations": [-52.5, 43]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [116.5, 25]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [116.5, -25]
     }
   ],
   "engineSlots": [

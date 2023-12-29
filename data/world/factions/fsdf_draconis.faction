@@ -19,9 +19,6 @@
 	},
 	"names":{
 		"old english":1,
-		"world":1,
-		"future":1,
-		"myth":1,
 	},
 	
 	# variantOverrides restricts hulls to listed variants and adjusts their probability
@@ -65,8 +62,8 @@
 		"tags":["fsdf_package_bp"],
 		"hulls":[
 			"fsdf_altais",
-			"fsdf_alwaid",
 			"fsdf_eltanin",
+			"fsdf_kuma",
 			"fsdf_rastaban",
 			"fsdf_thuban",
 		],
@@ -82,7 +79,7 @@
 		],
 	},
 	"knownWeapons":{
-		"tags":["base_bp", "lowtech_bp", "midline_bp", "hightech_bp", "missile_bp"],
+		"tags":["base_bp", "lowtech_bp", "midline_bp", "hightech_bp", "missile_bp", "fsdf_package_bp"],
 		"weapons":[
 			"lightneedler",
 			"hveldriver",
@@ -109,8 +106,11 @@
 		],
 	},
 	"priorityWeapons":{
-		"tags":[],
+		"tags":["fsdf_package_bp"],
 		"weapons":[
+			"fsdf_mk_16",
+			"fsdf_rim_10",
+			"fsdf_lance_7",
 		],
 	},
 	"knownHullMods":{
@@ -258,14 +258,14 @@
 		"tradeSmuggler":"Smuggler",
 		"smallTrader":"Trader",
 		
-		"patrolSmall":"Picket Flotilla",
+		"patrolSmall":"Picket Squadron",
 		"patrolMedium":"Patrol Fleet",
-		"patrolLarge":"Strike Group",
+		"patrolLarge":"Battle Group",
 		
-		"inspectionFleet":"Inspection Fleet",
+		"inspectionFleet":"Inspection Squadron",
 		"taskForce":"Task Force",
 		
-		"foodReliefFleet":"Relief Convoy",
+		"foodReliefFleet":"Relief Division",
 	},
 	"custom":{
 		"offersCommissions":true,
