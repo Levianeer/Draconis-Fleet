@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 20,
+    "fluxCapacitors": 29,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_kuma",
@@ -29,16 +29,17 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "gravitonbeam",
-                "WS0004": "gravitonbeam",
-                "WS0007": "fsdf_lance_7",
-                "WS0013": "fsdf_lance_7"
+                "WS0003": "fsdf_lance_7",
+                "WS0004": "fsdf_lance_7"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0014": "lrpdlaser"}
+            "weapons": {
+                "WS0007": "fsdf_mk_20",
+                "WS0013": "fsdf_mk_20"
+            }
         },
         {
             "autofire": true,
@@ -47,6 +48,11 @@
                 "WS0001": "pdlaser",
                 "WS0002": "pdlaser"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0014": "lrpdlaser"}
         }
     ]
 }

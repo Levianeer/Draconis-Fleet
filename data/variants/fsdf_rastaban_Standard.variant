@@ -21,8 +21,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "annihilator",
-                "WS0005": "annihilator"
+                "WS0004": "harpoon",
+                "WS0005": "harpoon"
             }
         },
         {

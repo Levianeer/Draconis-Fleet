@@ -1,6 +1,6 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 47,
+    "fluxCapacitors": 41,
     "fluxVents": 50,
     "hullId": "fsdf_altais",
     "hullMods": [
@@ -32,22 +32,24 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0023": "mark9"}
+            "weapons": {"WS0023": "hephag"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "arbalest",
-                "WS0004": "arbalest"
+                "WS0005": "ionbeam",
+                "WS0006": "ionbeam"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "ionbeam",
-                "WS0002": "ionbeam"
+                "WS0001": "gravitonbeam",
+                "WS0002": "gravitonbeam",
+                "WS0003": "gravitonbeam",
+                "WS0004": "gravitonbeam"
             }
         },
         {
@@ -59,18 +61,16 @@
                 "WS0009": "lightmg",
                 "WS0010": "lightmg",
                 "WS0011": "lightmg",
-                "WS0012": "lightmg"
+                "WS0012": "lightmg",
+                "WS0024": "flak"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "flak",
-                "WS0006": "flak",
-                "WS0018": "pdlaser",
-                "WS0019": "pdlaser",
-                "WS0024": "flak"
+                "WS0018": "lrpdlaser",
+                "WS0019": "lrpdlaser"
             }
         }
     ]

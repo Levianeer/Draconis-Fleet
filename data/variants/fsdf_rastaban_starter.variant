@@ -1,57 +1,51 @@
 {
-  "variantId": "fsdf_rastaban_Starter",
-  "hullId": "fsdf_rastaban",
-  "displayName": "Starter",
-  "goalVariant": false,
-  "fluxCapacitors": 15,
-  "fluxVents": 20,
-  "quality": 1,
-  "permaMods": [],
-  "hullMods": [
-    "fluxdistributor",
-    "fluxcoil",
-    "blast_doors"
-  ],
-  "weaponGroups": [
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0006": "heavyac"
-      }
-    },
-    {
-      "autofire": false,
-      "mode": "ALTERNATING",
-      "weapons": {
-        "WS0004": "swarmer",
-        "WS0005": "swarmer"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0001": "lightdualac",
-        "WS0002": "lightdualac"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0011": "lightac"
-      }
-    },
-    {
-      "autofire": true,
-      "mode": "LINKED",
-      "weapons": {
-        "WS0003": "lightmg",
-        "WS0010": "lightmg"
-      }
-    }
-  ],
-  "modules": [],
-  "wings": []
+    "displayName": "Starter",
+    "fluxCapacitors": 15,
+    "fluxVents": 20,
+    "hullId": "fsdf_rastaban",
+    "hullMods": [
+        "fluxdistributor",
+        "fluxcoil",
+        "blast_doors"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_rastaban_Starter",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0006": "pulselaser"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "swarmer",
+                "WS0005": "swarmer"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "lightdualac",
+                "WS0002": "lightdualac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0011": "lightac"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "lightmg",
+                "WS0010": "lightmg"
+            }
+        }
+    ],
+    "wings": []
 }

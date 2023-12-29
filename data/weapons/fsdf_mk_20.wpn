@@ -1,0 +1,44 @@
+{
+  "id": "fsdf_mk_20",
+  "specClass": "projectile",
+  "type": "BALLISTIC",
+  "size": "MEDIUM",
+  "turretSprite": "graphics/weapons/mk_20/fsdf_mk_20_turret_recoil_00.png",
+  "turretUnderSprite": "graphics/weapons/arbalest_turret_under.png",
+  "hardpointSprite": "graphics/weapons/mk_20/fsdf_mk_20_turret_recoil_00.png",
+  "hardpointUnderSprite": "graphics/weapons/arbalest_hardpoint_under.png",
+  "turretOffsets": [
+    24,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    36.5,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "MUZZLE_FLASH",
+  "numFrames": 4,
+  "frameRate": 20,
+  "muzzleFlashSpec": {
+    "length": 35,
+    "spread": 5,
+    "particleSizeMin": 10,
+    "particleSizeRange": 16,
+    "particleDuration": 0.15,
+    "particleCount": 12,
+    "particleColor": [
+      255,
+      140,
+      125,
+      200
+    ]
+  },
+  "projectileSpecId": "fsdf_mk_20_shot",
+  "fireSoundTwo": "chaingun_fire"
+}

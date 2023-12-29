@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 7,
+    "fluxCapacitors": 13,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
@@ -25,10 +25,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "fsdf_lance_7",
-                "WS0007": "fsdf_lance_7"
-            }
+            "weapons": {"WS0005": "fsdf_lance_7"}
         },
         {
             "autofire": true,
@@ -44,6 +41,7 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
+                "WS0007": "fsdf_mk_20",
                 "WS0008": "vulcan",
                 "WS0009": "vulcan"
             }

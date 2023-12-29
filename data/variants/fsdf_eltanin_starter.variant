@@ -32,7 +32,10 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0007": "heavyac"}
+            "weapons": {
+                "WS0005": "gravitonbeam",
+                "WS0007": "gravitonbeam"
+            }
         },
         {
             "autofire": true,
@@ -43,11 +46,6 @@
                 "WS0003": "lightmg",
                 "WS0004": "lightmg"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0005": "flak"}
         }
     ]
 }

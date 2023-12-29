@@ -32,6 +32,7 @@
 		"out_of_missiles":[
 			{"text":"$shipNameNoPrefix, is remington, requesting RTB."},
 			{"text":"$shipNameNoPrefix, is remington."},
+			{"text":"$shipNameNoPrefix, remington, requesting RTB."},
 			{"text":"$shipNameNoPrefix, remington."},
 		],
 		"engaged":[
@@ -40,6 +41,7 @@
 			{"text":"$shipNameNoPrefix, merged."},
 			{"text":"$shipNameNoPrefix, merging."},
 			{"text":"$shipNameNoPrefix, fence in."},
+			{"text":"$shipNameNoPrefix, fencing in."},
 			{"text":"$shipNameNoPrefix, bandits comfirmed."},
 			{"text":"$shipNameNoPrefix, bandits."},
 		],
@@ -55,11 +57,12 @@
 			{"text":"$shipNameNoPrefix, pursuing bandit."},
 			{"text":"$shipNameNoPrefix, chasing bandit."},
 			{"text":"$shipNameNoPrefix, hunting bandit."},
+			{"text":"$shipNameNoPrefix, I'm on the bandit."},
 		],
 		"running":[
 			{"text":"$shipNameNoPrefix, we're bugging out."},
 			{"text":"$shipNameNoPrefix, bugging out."},
-			{"text":"$shipNameNoPrefix, abort, abort."},
+			{"text":"$shipNameNoPrefix, abort, abort. Bug out."},
 		],
 		"hull_90":[
 			{"text":"$shipNameNoPrefix, is gadget bent."},
@@ -68,7 +71,6 @@
 			{"text":"$shipNameNoPrefix, is sick."},
 			{"text":"$shipNameNoPrefix, systems bent."},
 			{"text":"$shipNameNoPrefix, systems sick."},
-
 		],
 		"hull_50":[
 			{"text":"$shipNameNoPrefix, battle damage sustained, conducting BDA."},
@@ -77,7 +79,7 @@
 		],
 		"hull_30":[
 			{"text":"$shipNameNoPrefix, we've received major battle damage."},
-			{"text":"Things are getting a little hot in here!"},
+			{"text":"WARCOM, Uh thing's are getting a little hot in here!"},
 		],
 		"overload":[
 			{"text":"$shipNameNoPrefix, requesting immediate support, we've overloaded!"},
@@ -89,14 +91,18 @@
 			{"text":"This is the $shipName, signing off."},
 			{"text":"See you on the other side..."},
 			{"text":"It's been an honour..."},
-			{"text":"I only regret that I have but one life to lose for my home"},
+			{"text":"I only regret that I have but one life to lose for my home."},
 			{"text":"I have done my duty."},
+			{"text":"God save us."},
 		],
 		"victory":[
 			{"text":"$shipNameNoPrefix, is joker, requesting RTB."},
 			{"text":"$shipNameNoPrefix, skosh, requesting RTB."},
 			{"text":"$shipNameNoPrefix, clean, requesting RTB."},
 			{"text":"$shipNameNoPrefix, is winchester, we're RTB."},
+			{"text":"Good job, gentlemen."},
+			{"text":"Time for another medal."},
+			{"text":"Beers on me."},
 		],
 	}
 }

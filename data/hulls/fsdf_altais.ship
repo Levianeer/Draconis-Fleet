@@ -189,7 +189,7 @@
       "size": "SMALL",
       "type": "ENERGY",
       "mount": "TURRET",
-      "arc": 170,
+      "arc": 190,
       "angle": 90,
       "locations": [-52, 33],
       "renderOrderMod": 300
@@ -199,7 +199,7 @@
       "size": "SMALL",
       "type": "ENERGY",
       "mount": "TURRET",
-      "arc": 180,
+      "arc": 190,
       "angle": -90,
       "locations": [-52, -33],
       "renderOrderMod": 300
@@ -263,7 +263,7 @@
       "size": "LARGE",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 200,
+      "arc": 295,
       "angle": 0,
       "locations": [-80, -0]
     },
