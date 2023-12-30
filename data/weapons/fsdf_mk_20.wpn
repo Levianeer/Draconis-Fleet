@@ -1,21 +1,22 @@
 {
   "id": "fsdf_mk_20",
   "specClass": "projectile",
+  "projectileSpecId": "fsdf_mk_20_shot",
   "type": "BALLISTIC",
   "size": "MEDIUM",
   "turretSprite": "graphics/weapons/mk_20/fsdf_mk_20_turret_recoil_00.png",
-  "turretUnderSprite": "graphics/weapons/arbalest_turret_under.png",
+  "turretUnderSprite": "graphics/weapons/fsdf_mk_20_turret_under.png",
   "hardpointSprite": "graphics/weapons/mk_20/fsdf_mk_20_turret_recoil_00.png",
-  "hardpointUnderSprite": "graphics/weapons/arbalest_hardpoint_under.png",
+  "hardpointUnderSprite": "graphics/weapons/fsdf_mk_20_turret_under.png",
   "turretOffsets": [
-    24,
+    22,
     0
   ],
   "turretAngleOffsets": [
     0
   ],
   "hardpointOffsets": [
-    36.5,
+    33.5,
     0
   ],
   "hardpointAngleOffsets": [
@@ -24,7 +25,7 @@
   "barrelMode": "ALTERNATING",
   "animationType": "MUZZLE_FLASH",
   "numFrames": 4,
-  "frameRate": 20,
+  "frameRate": 40,
   "muzzleFlashSpec": {
     "length": 35,
     "spread": 5,
@@ -39,6 +40,5 @@
       200
     ]
   },
-  "projectileSpecId": "fsdf_mk_20_shot",
-  "fireSoundTwo": "chaingun_fire"
+  "fireSoundTwo": "vulcan_cannon_fire"
 }

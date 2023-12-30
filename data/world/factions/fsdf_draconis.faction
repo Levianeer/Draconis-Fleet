@@ -109,12 +109,13 @@
 		"tags":["fsdf_package_bp"],
 		"weapons":[
 			"fsdf_mk_16",
+			"fsdf_mk_20",
 			"fsdf_rim_10",
 			"fsdf_lance_7",
 		],
 	},
 	"knownHullMods":{
-		"tags":["base_bp"],
+		"tags":["base_bp", "fsdf_package_bp"],
 		"hullMods":[
 			"advancedshieldemitter",
 			"turretgyros",
