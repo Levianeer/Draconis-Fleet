@@ -17,7 +17,6 @@
     "WS0012": "fsdf_vernier",
     "WS0013": "fsdf_vernier",
     "WS0014": "fsdf_vernier",
-    "WS0015": "fsdf_mk_32",
     "WS0016": "fsdf_vernier"
   },
   "weaponSlots": [
@@ -92,7 +91,7 @@
     {
       "id": "WS0015",
       "size": "LARGE",
-      "type": "BUILT_IN",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 360,
       "angle": 0,
@@ -102,7 +101,7 @@
     {
       "id": "WS0005",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 270,
       "angle": 0,

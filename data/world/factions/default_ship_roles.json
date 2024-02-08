@@ -13,6 +13,7 @@
 	},
 	"combatMedium":{
 		"fsdf_rastaban_Standard":4,
+		"fsdf_edasich_Standard":4,
 		
 		"fallback":{"combatSmall":1},
 	},
@@ -38,7 +39,8 @@
 		"fallback2":{"carrierLarge":0.5},
 	},
 	"carrierLarge":{
-		
+		"fsdf_alwaid_Standard":4,
+
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},
 	},

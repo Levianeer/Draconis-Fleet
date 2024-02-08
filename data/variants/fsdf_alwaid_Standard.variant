@@ -1,0 +1,76 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 0,
+    "fluxVents": 48,
+    "goalVariant": true,
+    "hullId": "fsdf_alwaid",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_alwaid_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0012": "hurricane"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "annihilatorpod",
+                "WS0002": "annihilatorpod"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0010": "fsdf_strilka",
+                "WS0011": "fsdf_strilka"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0023": "fsdf_rim_10",
+                "WS0024": "fsdf_rim_10"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0017": "fsdf_rim_10",
+                "WS0018": "fsdf_rim_10"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "lrpdlaser",
+                "WS0006": "lrpdlaser",
+                "WS0007": "lrpdlaser",
+                "WS0014": "lrpdlaser"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "fsdf_mk_20",
+                "WS0005": "fsdf_mk_20",
+                "WS0015": "vulcan",
+                "WS0016": "vulcan"
+            }
+        }
+    ],
+    "wings": [
+        "fsdf_aldibain_wing",
+        "fsdf_aldibain_wing",
+        "fsdf_aldibain_wing",
+        "fsdf_aldibain_wing"
+    ]
+}

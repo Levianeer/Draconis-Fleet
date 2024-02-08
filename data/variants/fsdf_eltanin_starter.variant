@@ -1,6 +1,6 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 21,
+    "fluxCapacitors": 2,
     "fluxVents": 30,
     "hullId": "fsdf_eltanin",
     "hullMods": [
@@ -14,7 +14,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "fsdf_mk_32"}
+            "weapons": {"WS0015": "hephag"}
         },
         {
             "autofire": false,
@@ -25,6 +25,7 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
+                "WS0005": "arbalest",
                 "WS0008": "railgun",
                 "WS0009": "railgun"
             }
@@ -32,10 +33,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "gravitonbeam",
-                "WS0007": "gravitonbeam"
-            }
+            "weapons": {"WS0007": "gravitonbeam"}
         },
         {
             "autofire": true,

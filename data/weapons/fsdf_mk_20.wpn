@@ -5,9 +5,7 @@
   "type": "BALLISTIC",
   "size": "MEDIUM",
   "turretSprite": "graphics/weapons/mk_20/fsdf_mk_20_turret_recoil_00.png",
-  "turretUnderSprite": "graphics/weapons/fsdf_mk_20_turret_under.png",
-  "hardpointSprite": "graphics/weapons/mk_20/fsdf_mk_20_turret_recoil_00.png",
-  "hardpointUnderSprite": "graphics/weapons/fsdf_mk_20_turret_under.png",
+  "hardpointSprite": "graphics/weapons/mk_20/fsdf_mk_20_hardpoint_recoil_00.png",
   "turretOffsets": [
     22,
     0
@@ -16,7 +14,7 @@
     0
   ],
   "hardpointOffsets": [
-    33.5,
+    28.5,
     0
   ],
   "hardpointAngleOffsets": [
@@ -25,7 +23,7 @@
   "barrelMode": "ALTERNATING",
   "animationType": "MUZZLE_FLASH",
   "numFrames": 4,
-  "frameRate": 40,
+  "frameRate": 24,
   "muzzleFlashSpec": {
     "length": 35,
     "spread": 5,

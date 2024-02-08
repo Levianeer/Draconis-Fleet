@@ -1,0 +1,38 @@
+{
+  "id": "fsdf_rim_7",
+  "specClass": "projectile",
+  "projectileSpecId": "fsdf_rim_7_srm",
+  "type": "MISSILE",
+  "size": "MEDIUM",
+  "turretSprite": "graphics/weapons/fsdf_rim_7_turret_base.png",
+  "hardpointSprite": "graphics/weapons/fsdf_rim_7_turret_base.png",
+  "turretOffsets": [
+    6,
+    7,
+    6,
+    0,
+    6,
+    -7
+  ],
+  "turretAngleOffsets": [
+    0,
+    0,
+    0
+  ],
+  "hardpointOffsets": [
+    10,
+    7,
+    10,
+    0,
+    10,
+    -7
+  ],
+  "hardpointAngleOffsets": [
+    0,
+    0,
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "NONE",
+  "fireSoundTwo": "amsrm_fire"
+}

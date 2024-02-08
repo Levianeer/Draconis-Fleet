@@ -13,22 +13,17 @@
     "variantId": "fsdf_rastaban_Standard",
     "weaponGroups": [
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0004": "harpoon",
-                "WS0005": "harpoon"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0011": "fsdf_rim_10"}
-        },
-        {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0006": "fsdf_lance_7"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "annihilator",
+                "WS0005": "annihilator"
+            }
         },
         {
             "autofire": true,
@@ -37,6 +32,11 @@
                 "WS0001": "railgun",
                 "WS0002": "railgun"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0011": "fsdf_rim_10"}
         },
         {
             "autofire": true,

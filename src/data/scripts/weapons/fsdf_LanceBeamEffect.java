@@ -29,7 +29,7 @@ public class fsdf_LanceBeamEffect implements BeamEffectPlugin {
             engine.applyDamage(
                 target, //enemy Ship
                 beam.getTo(), //Our 2D vector to the exact world-position
-                (dps * frameTime), //We're dividing the DPS by the time that's passed here.
+                (dps * frameTime * 0.75f), //We're dividing the DPS by the time that's passed here.
                 damType, //Using the damage type here.
                 0f, //No EMP, as EMP already has specific rules.  However EMP could go through shields this way if we wanted it to.
                 false, //Does not bypass shields.

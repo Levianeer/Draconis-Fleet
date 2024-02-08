@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 13,
+    "fluxCapacitors": 21,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_kuma",
@@ -16,8 +16,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0008": "heavymauler",
-                "WS0009": "heavymauler"
+                "WS0008": "arbalest",
+                "WS0009": "arbalest"
             }
         },
         {
@@ -29,12 +29,9 @@
             }
         },
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0001": "fsdf_rim_10",
-                "WS0002": "fsdf_rim_10"
-            }
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0014": "fsdf_strilka"}
         },
         {
             "autofire": true,
@@ -48,14 +45,9 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "fsdf_mk_20",
-                "WS0013": "fsdf_mk_20"
+                "WS0001": "fsdf_rim_10",
+                "WS0002": "fsdf_rim_10"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0014": "pdburst"}
         }
     ]
 }

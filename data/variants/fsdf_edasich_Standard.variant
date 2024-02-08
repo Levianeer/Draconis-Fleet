@@ -1,0 +1,48 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 18,
+    "fluxVents": 20,
+    "goalVariant": true,
+    "hullId": "fsdf_edasich",
+    "hullMods": [
+        "targetingunit",
+        "eccm"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_edasich_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0011": "fsdf_rim_7",
+                "WS0012": "fsdf_rim_7"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "breach",
+                "WS0004": "breach"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "lightac",
+                "WS0002": "lightac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "pdburst",
+                "WS0006": "pdburst"
+            }
+        }
+    ]
+}

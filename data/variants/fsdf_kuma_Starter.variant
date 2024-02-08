@@ -1,11 +1,11 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 30,
+    "fluxCapacitors": 25,
     "fluxVents": 30,
     "hullId": "fsdf_kuma",
     "hullMods": [
-        "fluxdistributor",
-        "turretgyros"
+        "dedicated_targeting_core",
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],
@@ -30,10 +30,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0007": "gravitonbeam",
-                "WS0013": "gravitonbeam"
-            }
+            "weapons": {"WS0014": "hephag"}
         },
         {
             "autofire": true,
@@ -48,8 +45,7 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0001": "pdburst",
-                "WS0002": "pdburst",
-                "WS0014": "pdburst"
+                "WS0002": "pdburst"
             }
         }
     ]

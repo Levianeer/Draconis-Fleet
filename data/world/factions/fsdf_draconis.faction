@@ -48,24 +48,17 @@
 	"shipsWhenImporting":{
 		"tags":["base_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
 		"hulls":[
-
 		],
 	},
 	"knownShips":{
 		"tags":["base_bp", "midline_bp", "hightech_bp", "fsdf_package_bp"],
 		"hulls":[
-
 		],
 	},
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
 		"tags":["fsdf_package_bp"],
 		"hulls":[
-			"fsdf_altais",
-			"fsdf_eltanin",
-			"fsdf_kuma",
-			"fsdf_rastaban",
-			"fsdf_thuban",
 		],
 	},
 	"knownFighters":{
@@ -81,37 +74,11 @@
 	"knownWeapons":{
 		"tags":["base_bp", "lowtech_bp", "midline_bp", "hightech_bp", "missile_bp", "fsdf_package_bp"],
 		"weapons":[
-			"lightneedler",
-			"hveldriver",
-			"heavyneedler",
-			"mjolnir",
-			"multineedler",
-			"breachpod",
-			"sabotpod",
-			"phasecl",
-			"cyclone",
-			"hurricane",
-			"squall",
-			"locust",
-			"pdburst",
-			"amblaster",
-			"phasebeam",
-			"heavyblaster",
-			"heavyburst",
-			"ionpulser",
-			"ionbeam",
-			"plasma",
-			"guardian",
-			"tachyonlance",
 		],
 	},
 	"priorityWeapons":{
 		"tags":["fsdf_package_bp"],
 		"weapons":[
-			"fsdf_mk_16",
-			"fsdf_mk_20",
-			"fsdf_rim_10",
-			"fsdf_lance_7",
 		],
 	},
 	"knownHullMods":{
@@ -150,8 +117,8 @@
 		],
 	},
 	"factionDoctrine":{
-		"warships":5,
-		"carriers":0,
+		"warships":3,
+		"carriers":2,
 		"phaseShips":0,
 		
 		"officerQuality":5,

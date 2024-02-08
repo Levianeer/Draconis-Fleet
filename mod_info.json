@@ -2,7 +2,7 @@
 	"id":"fsdf_draconis",
 	"name":"Draconis Fleet",
 	"author":"Levianeer",
-	"version":"2.6.3",
+	"version":"2.7.0",
 	"description":"A faction emerging from the Fafnir system.",
 	"gameVersion":"0.96a-RC9",
     "dependencies": [
