@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 48,
+    "fluxCapacitors": 9,
+    "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
     "hullMods": ["targetingunit"],
@@ -9,19 +9,6 @@
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",
     "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0012": "hurricane"}
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0001": "annihilatorpod",
-                "WS0002": "annihilatorpod"
-            }
-        },
         {
             "autofire": true,
             "mode": "LINKED",
@@ -31,11 +18,24 @@
             }
         },
         {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0012": "squall"}
+        },
+        {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
                 "WS0023": "fsdf_rim_10",
                 "WS0024": "fsdf_rim_10"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "hveldriver",
+                "WS0002": "hveldriver"
             }
         },
         {

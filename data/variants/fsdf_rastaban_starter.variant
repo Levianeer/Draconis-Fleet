@@ -1,12 +1,11 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 15,
+    "fluxCapacitors": 12,
     "fluxVents": 20,
     "hullId": "fsdf_rastaban",
     "hullMods": [
-        "fluxdistributor",
-        "fluxcoil",
-        "blast_doors"
+        "targetingunit",
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,35 +14,31 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "pulselaser"}
+            "weapons": {"WS0006": "hveldriver"}
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "swarmer",
-                "WS0005": "swarmer"
+                "WS0004": "annihilator",
+                "WS0005": "annihilator"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightdualac",
-                "WS0002": "lightdualac"
+                "WS0001": "railgun",
+                "WS0002": "railgun"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0011": "lightac"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
-                "WS0003": "lightmg",
-                "WS0010": "lightmg"
+                "WS0003": "vulcan",
+                "WS0010": "vulcan",
+                "WS0011": "vulcan"
             }
         }
     ],

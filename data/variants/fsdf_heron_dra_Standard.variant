@@ -1,0 +1,41 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 0,
+    "fluxVents": 5,
+    "goalVariant": true,
+    "hullId": "fsdf_heron_dra",
+    "hullMods": [],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_heron_dra_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "fsdf_rim_10",
+                "WS 002": "fsdf_rim_10"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS 005": "fsdf_mk_20"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 003": "vulcan",
+                "WS 004": "vulcan",
+                "WS 009": "vulcan",
+                "WS 010": "vulcan"
+            }
+        }
+    ],
+    "wings": [
+        "fsdf_aldibain_wing",
+        "fsdf_aldibain_wing",
+        "fsdf_aldibain_wing"
+    ]
+}

@@ -1,12 +1,14 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 18,
+    "fluxCapacitors": 17,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_edasich",
     "hullMods": [
         "targetingunit",
-        "eccm"
+        "eccm",
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],

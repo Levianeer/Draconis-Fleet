@@ -15,6 +15,8 @@
     "WS0013": "fsdf_vernier",
     "WS0014": "fsdf_400_mrm",
     "WS0015": "fsdf_400_mrm",
+    "WS0016": "fsdf_vernier",
+    "WS0017": "fsdf_vernier",
     "WS0020": "fsdf_vernier",
     "WS0021": "fsdf_vernier",
     "WS0022": "fsdf_vernier"
@@ -99,7 +101,7 @@
     {
       "id": "WS0009",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 160,
       "angle": 135,
@@ -109,7 +111,7 @@
     {
       "id": "WS0010",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 160,
       "angle": -135,
@@ -205,40 +207,22 @@
       "renderOrderMod": 300
     },
     {
-      "id": "WS0016",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [-42, 130]
-    },
-    {
-      "id": "WS0017",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [-42, -130]
-    },
-    {
       "id": "WS0013",
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 45,
       "angle": 90,
-      "locations": [184.5, 24]
+      "locations": [184.5, 25]
     },
     {
       "id": "WS0020",
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 45,
       "angle": -90,
-      "locations": [184.5, -24]
+      "locations": [184.5, -25]
     },
     {
       "id": "WS0021",
@@ -247,7 +231,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -90,
-      "locations": [-83, -136.5]
+      "locations": [-83, -137]
     },
     {
       "id": "WS0022",
@@ -256,25 +240,43 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 90,
-      "locations": [-83, 136.5]
+      "locations": [-83, 137]
     },
     {
       "id": "WS0023",
       "size": "LARGE",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 295,
+      "arc": 230,
       "angle": 0,
-      "locations": [-80, -0]
+      "locations": [-76, -0]
     },
     {
       "id": "WS0024",
       "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 220,
+      "arc": 230,
       "angle": 0,
-      "locations": [-46, -0]
+      "locations": [-42, -0]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-38, 130]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-38, -130]
     }
   ],
   "engineSlots": [

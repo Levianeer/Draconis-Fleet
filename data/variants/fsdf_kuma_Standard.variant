@@ -1,12 +1,13 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 21,
+    "fluxCapacitors": 10,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_kuma",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor"
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],

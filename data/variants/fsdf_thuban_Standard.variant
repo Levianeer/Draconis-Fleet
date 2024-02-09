@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 10,
-    "fluxVents": 10,
+    "fluxVents": 8,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
     "hullMods": ["hardenedshieldemitter"],
@@ -17,15 +17,15 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "ioncannon",
-                "WS0002": "irpulse"
-            }
+            "weapons": {"WS0005": "fsdf_rim_10"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "vulcan"}
+            "weapons": {
+                "WS0001": "ioncannon",
+                "WS0002": "irpulse"
+            }
         }
     ]
 }

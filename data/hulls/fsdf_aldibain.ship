@@ -6,77 +6,103 @@
   "style": "DRACONIS",
   "height": 42,
   "width": 32,
-  "center": [16, 20],
-  "collisionRadius": 30,
-  "shieldCenter": [0, -0],
-  "shieldRadius": 22,
+  "center": [16, 12],
+  "collisionRadius": 34.5,
+  "shieldCenter": [8, -0],
+  "shieldRadius": 25,
   "viewOffset": 0,
+  "builtInMods": [
+    "no_weapon_flux"
+  ],
   "weaponSlots": [
     {
-      "id": "WS 001",
+      "id": "WS0002",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "HIDDEN",
-      "arc": 5,
+      "arc": 20,
       "angle": 0,
-      "locations": [5.5, -4.5]
+      "locations": [13.5, -4.5]
     },
     {
-      "id": "WS 002",
+      "id": "WS0003",
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
-      "arc": 5,
+      "arc": 10,
       "angle": 0,
-      "locations": [3, 11.5]
+      "locations": [11, 11.5]
     },
     {
-      "id": "WS 003",
+      "id": "WS0004",
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
-      "arc": 5,
+      "arc": 10,
       "angle": 0,
-      "locations": [3, -11.5]
+      "locations": [11, -11.5]
     },
     {
-      "id": "WS 004",
+      "id": "WS0005",
       "size": "SMALL",
       "type": "SYSTEM",
       "mount": "HIDDEN",
       "arc": 5,
       "angle": 180,
-      "locations": [-10, 0]
+      "locations": [-2, 0]
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 20,
+      "angle": 0,
+      "locations": [13.5, 4.5]
     }
   ],
   "engineSlots": [
     {
-      "location": [-19, 4.5],
-      "length": 32,
-      "width": 9,
+      "location": [-11, 4.5],
+      "length": 20,
+      "width": 6,
       "angle": 180,
-      "contrailSize": 9,
+      "contrailSize": 6,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     },
     {
-      "location": [-19, -4.5],
-      "length": 32,
-      "width": 9,
+      "location": [-11, -4.5],
+      "length": 20,
+      "width": 6,
       "angle": 180,
-      "contrailSize": 9,
+      "contrailSize": 6,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-7, 12],
+      "length": 16,
+      "width": 4,
+      "angle": 180,
+      "contrailSize": 4,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-7, -12],
+      "length": 16,
+      "width": 4,
+      "angle": -180,
+      "contrailSize": 4,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     }
   ],
   "bounds": [
-    -2.5, -7.5,
-    1.5, -13.5,
-    -13.5, -13.5,
-    -18.5, -0,
-    -13.5, 13.5,
-    1.5, 13.5,
-    -2.5, 7.5,
-    21, -0
+    3.5, -14.5,
+    -10.5, -0,
+    3.5, 14.5,
+    29, -0
   ]
 }

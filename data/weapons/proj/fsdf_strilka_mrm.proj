@@ -9,8 +9,8 @@
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,165,0,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":125, # purely visual
-	"engineSpec":{"turnAcc":0,
-				  "turnRate":0,
+	"engineSpec":{"turnAcc":50,
+				  "turnRate":50,
 				  "acc":1000,
 				  "dec":0},
 	"engineSlots":[{"id":"ES1",
@@ -41,7 +41,7 @@
 					"splitSound":"sabot_srm_split",
 					"numShots":5,
 					"damage":100,
-					"emp":0, # needs to match highlight in weapon_data.csv
+					"emp":200, # needs to match highlight in weapon_data.csv
 					"damageType":ENERGY,
 					"hitpoints":400,
 					"evenSpread":true,

@@ -1,11 +1,11 @@
 {
     "displayName": "Starter",
     "fluxCapacitors": 10,
-    "fluxVents": 10,
+    "fluxVents": 7,
     "hullId": "fsdf_thuban",
     "hullMods": [
-        "fluxcoil",
-        "advancedshieldemitter"
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -19,17 +19,15 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0002": "lightac"}
+            "weapons": {
+                "WS0001": "ioncannon",
+                "WS0002": "irpulse"
+            }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "lightdualmg"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0001": "pdlaser"}
+            "weapons": {"WS0005": "vulcan"}
         }
     ]
 }

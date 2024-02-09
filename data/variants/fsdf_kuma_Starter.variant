@@ -1,11 +1,12 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 25,
+    "fluxCapacitors": 22,
     "fluxVents": 30,
     "hullId": "fsdf_kuma",
     "hullMods": [
-        "dedicated_targeting_core",
-        "fluxdistributor"
+        "targetingunit",
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -23,29 +24,29 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0005": "atropos",
-                "WS0006": "atropos"
+                "WS0005": "harpoon",
+                "WS0006": "harpoon"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0014": "hephag"}
+            "weapons": {"WS0014": "hellbore"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "ionbeam",
-                "WS0004": "ionbeam"
+                "WS0003": "hveldriver",
+                "WS0004": "hveldriver"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "pdburst",
-                "WS0002": "pdburst"
+                "WS0001": "vulcan",
+                "WS0002": "vulcan"
             }
         }
     ]

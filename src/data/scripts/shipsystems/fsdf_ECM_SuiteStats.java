@@ -15,7 +15,7 @@ public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
 
     private static final float DISABLE_RADIUS = 1000f;
 
-    private float textTimer = 0f;
+//    private float textTimer = 0f;
     private boolean textDisplayed = false;
 
     public static Color TEXT_COLOR = new Color(200, 200, 200);
@@ -26,15 +26,15 @@ public class fsdf_ECM_SuiteStats extends BaseShipSystemScript {
 
         if (state == State.ACTIVE) {
             if (!textDisplayed) {
-                ship.getFluxTracker().showOverloadFloatyIfNeeded("Active Jamming!", TEXT_COLOR, 1f, true);
+                ship.getFluxTracker().showOverloadFloatyIfNeeded("Jamming!", TEXT_COLOR, 1f, true);
                 textDisplayed = true;
             }
 
-            textTimer += Global.getCombatEngine().getElapsedInLastFrame();
-            if (textTimer >= 6) {
-                textDisplayed = false;
-                textTimer = 0f;
-            }
+//            textTimer += Global.getCombatEngine().getElapsedInLastFrame();
+//            if (textTimer >= 6) {
+//                textDisplayed = false;
+//                textTimer = 0f;
+//            }
         }
 
         for (MissileAPI missile : Global.getCombatEngine().getMissiles()) {

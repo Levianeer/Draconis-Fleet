@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 17,
+    "fluxCapacitors": 29,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_altais",
@@ -19,14 +19,6 @@
             "weapons": {
                 "WS0014": "fsdf_400_mrm",
                 "WS0015": "fsdf_400_mrm"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0016": "harpoon",
-                "WS0017": "harpoon"
             }
         },
         {
@@ -52,8 +44,8 @@
                 "WS0002": "fsdf_lance_7",
                 "WS0003": "fsdf_lance_7",
                 "WS0004": "fsdf_lance_7",
-                "WS0005": "fsdf_lance_7",
-                "WS0006": "fsdf_lance_7"
+                "WS0005": "gravitonbeam",
+                "WS0006": "gravitonbeam"
             }
         },
         {
@@ -69,8 +61,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "pdlaser",
-                "WS0019": "pdlaser"
+                "WS0018": "lrpdlaser",
+                "WS0019": "lrpdlaser"
             }
         }
     ]

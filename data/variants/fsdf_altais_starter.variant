@@ -1,13 +1,12 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 41,
+    "fluxCapacitors": 44,
     "fluxVents": 50,
     "hullId": "fsdf_altais",
     "hullMods": [
-        "eccm",
-        "stabilizedshieldemitter",
-        "fluxdistributor",
-        "dedicated_targeting_core"
+        "targetingunit",
+        "missleracks",
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],
@@ -22,46 +21,38 @@
             }
         },
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0016": "heatseeker",
-                "WS0017": "heatseeker"
-            }
-        },
-        {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0023": "hephag"}
+            "weapons": {"WS0023": "hellbore"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "ionbeam",
-                "WS0006": "ionbeam"
+                "WS0005": "gravitonbeam",
+                "WS0006": "gravitonbeam"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "gravitonbeam",
-                "WS0002": "gravitonbeam",
-                "WS0003": "gravitonbeam",
-                "WS0004": "gravitonbeam"
+                "WS0001": "hveldriver",
+                "WS0002": "hveldriver",
+                "WS0003": "hveldriver",
+                "WS0004": "hveldriver"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "lightmg",
-                "WS0008": "lightmg",
-                "WS0009": "lightmg",
-                "WS0010": "lightmg",
-                "WS0011": "lightmg",
-                "WS0012": "lightmg",
+                "WS0007": "vulcan",
+                "WS0008": "vulcan",
+                "WS0009": "vulcan",
+                "WS0010": "vulcan",
+                "WS0011": "vulcan",
+                "WS0012": "vulcan",
                 "WS0024": "flak"
             }
         },

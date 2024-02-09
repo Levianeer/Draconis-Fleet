@@ -5,10 +5,10 @@
   "type": "BALLISTIC",
   "size": "LARGE",
   "displayArcRadius": 500,
-  "turretSprite": "graphics/weapons/fsdf_lance_turret_base.png",
-  "turretGlowSprite": "graphics/weapons/fsdf_lance_turret_base_glow.png",
-  "hardpointSprite": "graphics/weapons/fsdf_lance_hardpoint_base.png",
-  "hardpointGlowSprite": "graphics/weapons/fsdf_lance_hardpoint_base_glow.png",
+  "turretSprite": "graphics/weapons/fsdf_mac.png",
+  "turretGlowSprite": "graphics/weapons/fsdf_mac_glow.png",
+  "hardpointSprite": "graphics/weapons/fsdf_mac.png",
+  "hardpointGlowSprite": "graphics/weapons/fsdf_mac_glow.png",
   "glowColor": [
     150,
     100,
@@ -16,15 +16,15 @@
     255
   ],
   "turretOffsets": [
-    15,
-    0
+    12,
+    -1
   ],
   "turretAngleOffsets": [
     0
   ],
   "hardpointOffsets": [
-    21.5,
-    0
+    19,
+    -1
   ],
   "hardpointAngleOffsets": [
     0
