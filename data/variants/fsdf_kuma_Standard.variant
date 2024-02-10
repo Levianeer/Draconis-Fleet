@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 12,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_kuma",
@@ -17,8 +17,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0008": "arbalest",
-                "WS0009": "arbalest"
+                "WS0008": "fsdf_lance_7",
+                "WS0009": "fsdf_lance_7"
             }
         },
         {
@@ -38,16 +38,16 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "fsdf_lance_7",
-                "WS0004": "fsdf_lance_7"
+                "WS0001": "fsdf_rim_10",
+                "WS0002": "fsdf_rim_10"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "fsdf_rim_10",
-                "WS0002": "fsdf_rim_10"
+                "WS0003": "fsdf_mk_20",
+                "WS0004": "fsdf_mk_20"
             }
         }
     ]

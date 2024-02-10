@@ -16,8 +16,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0008": "arbalest",
-                "WS0009": "arbalest"
+                "WS0008": "hveldriver",
+                "WS0009": "hveldriver"
             }
         },
         {
@@ -37,16 +37,10 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "hveldriver",
-                "WS0004": "hveldriver"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
                 "WS0001": "vulcan",
-                "WS0002": "vulcan"
+                "WS0002": "vulcan",
+                "WS0003": "flak",
+                "WS0004": "flak"
             }
         }
     ]

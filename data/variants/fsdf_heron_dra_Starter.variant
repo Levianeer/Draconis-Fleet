@@ -1,19 +1,14 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 0,
+    "fluxCapacitors": 13,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "fsdf_heron_dra",
-    "hullMods": [],
+    "hullMods": ["nav_relay"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_heron_dra_Starter",
     "weaponGroups": [
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS 005": "dualflak"}
-        },
         {
             "autofire": true,
             "mode": "LINKED",
@@ -23,19 +18,14 @@
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS 003": "vulcan",
-                "WS 004": "vulcan",
-                "WS 009": "vulcan",
-                "WS 010": "vulcan"
-            }
+            "weapons": {"WS 005": "salamanderpod"}
         }
     ],
     "wings": [
-        "perdition_wing",
-        "perdition_wing",
-        "perdition_wing"
+        "cobra_wing",
+        "cobra_wing",
+        "cobra_wing"
     ]
 }

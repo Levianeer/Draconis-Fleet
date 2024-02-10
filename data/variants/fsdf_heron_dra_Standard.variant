@@ -1,10 +1,10 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 5,
+    "fluxCapacitors": 8,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "fsdf_heron_dra",
-    "hullMods": [],
+    "hullMods": ["nav_relay"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_heron_dra_Standard",
@@ -12,24 +12,19 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS 001": "fsdf_rim_10",
-                "WS 002": "fsdf_rim_10"
-            }
+            "weapons": {"WS 004": "fsdf_rim_10"}
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS 005": "fsdf_mk_20"}
+            "weapons": {"WS 005": "salamanderpod"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS 003": "vulcan",
-                "WS 004": "vulcan",
-                "WS 009": "vulcan",
-                "WS 010": "vulcan"
+                "WS 001": "pdburst",
+                "WS 002": "pdburst"
             }
         }
     ],

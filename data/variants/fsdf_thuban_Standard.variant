@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 10,
-    "fluxVents": 8,
+    "fluxVents": 9,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
     "hullMods": ["hardenedshieldemitter"],

@@ -2,7 +2,6 @@
 	"id":"fsdf_rim_7_srm",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"onFireEffect":"com.fs.starfarer.api.impl.combat.SquallOnFireEffect",
 	"sprite":"graphics/missiles/missile_SRM.png",
 	"size":[6,14],	
 	"center":[3,7],

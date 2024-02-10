@@ -16,16 +16,16 @@
   ],
   "weaponSlots": [
     {
-      "id": "WS0002",
+      "id": "WS0001",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "HIDDEN",
-      "arc": 20,
+      "arc": 5,
       "angle": 0,
-      "locations": [13.5, -4.5]
+      "locations": [29, -0]
     },
     {
-      "id": "WS0003",
+      "id": "WS0002",
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
@@ -34,7 +34,7 @@
       "locations": [11, 11.5]
     },
     {
-      "id": "WS0004",
+      "id": "WS0003",
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
@@ -43,22 +43,13 @@
       "locations": [11, -11.5]
     },
     {
-      "id": "WS0005",
+      "id": "WS0004",
       "size": "SMALL",
       "type": "SYSTEM",
       "mount": "HIDDEN",
       "arc": 5,
       "angle": 180,
       "locations": [-2, 0]
-    },
-    {
-      "id": "WS0001",
-      "size": "SMALL",
-      "type": "BALLISTIC",
-      "mount": "HIDDEN",
-      "arc": 20,
-      "angle": 0,
-      "locations": [13.5, 4.5]
     }
   ],
   "engineSlots": [

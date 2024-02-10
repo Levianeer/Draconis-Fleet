@@ -1,6 +1,6 @@
 {
     "displayName": "Starter",
-    "fluxCapacitors": 12,
+    "fluxCapacitors": 20,
     "fluxVents": 20,
     "hullId": "fsdf_rastaban",
     "hullMods": [
@@ -20,16 +20,16 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "annihilator",
-                "WS0005": "annihilator"
+                "WS0004": "breach",
+                "WS0005": "breach"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
+                "WS0001": "lightac",
+                "WS0002": "lightac"
             }
         },
         {

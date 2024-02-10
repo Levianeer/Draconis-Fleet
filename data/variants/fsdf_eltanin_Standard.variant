@@ -22,23 +22,25 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0007": "fsdf_lance_7"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
-                "WS0001": "fsdf_rim_10",
-                "WS0002": "fsdf_rim_10",
-                "WS0003": "fsdf_rim_10",
-                "WS0004": "fsdf_rim_10"
+                "WS0005": "fsdf_lance_7",
+                "WS0007": "fsdf_lance_7"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "fsdf_mk_20",
+                "WS0001": "fsdf_rim_10",
+                "WS0002": "fsdf_rim_10"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "vulcan",
+                "WS0004": "vulcan",
                 "WS0008": "vulcan",
                 "WS0009": "vulcan"
             }

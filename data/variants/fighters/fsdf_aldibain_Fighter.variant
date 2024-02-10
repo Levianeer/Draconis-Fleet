@@ -10,19 +10,18 @@
   "hullMods": [],
   "weaponGroups": [
     {
-      "autofire": false,
+      "autofire": true,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "lightag",
-        "WS0002": "lightag"
+        "WS0001": "lightag"
       }
     },
     {
       "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0003": "fsdf_200_mrm_fighter",
-        "WS0004": "fsdf_200_mrm_fighter"
+        "WS0002": "fsdf_200_mrm_fighter",
+        "WS0003": "fsdf_200_mrm_fighter"
       }
     }
   ],

@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 19,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
@@ -21,16 +21,16 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "annihilator",
-                "WS0005": "annihilator"
+                "WS0004": "breach",
+                "WS0005": "breach"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
+                "WS0001": "lightac",
+                "WS0002": "lightac"
             }
         },
         {

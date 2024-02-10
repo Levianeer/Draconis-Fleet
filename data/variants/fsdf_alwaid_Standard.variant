@@ -1,10 +1,13 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 9,
+    "fluxCapacitors": 11,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "fluxdistributor"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",
@@ -18,11 +21,6 @@
             }
         },
         {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0012": "squall"}
-        },
-        {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
@@ -34,8 +32,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "hveldriver",
-                "WS0002": "hveldriver"
+                "WS0001": "fsdf_lance_7",
+                "WS0002": "fsdf_lance_7"
             }
         },
         {
@@ -50,10 +48,16 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0004": "lrpdlaser",
                 "WS0006": "lrpdlaser",
-                "WS0007": "lrpdlaser",
-                "WS0014": "lrpdlaser"
+                "WS0007": "lrpdlaser"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "pdlaser",
+                "WS0014": "pdlaser"
             }
         },
         {
