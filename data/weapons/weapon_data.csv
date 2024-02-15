@@ -1,12 +1,16 @@
 name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn rate,OPs,ammo,ammo/sec,reload size,type,energy/shot,energy/second,chargeup,chargedown,burst size,burst delay,min spread,max spread,spread/shot,spread decay/sec,beam speed,proj speed,launch speed,flight time,proj hitpoints,autofireAccBonus,extraArcForAI,hints,tags,groupTag,tech/manufacturer,for weapon tooltip>>,primaryRoleStr,speedStr,trackingStr,turnRateStr,accuracyStr,customPrimary,customPrimaryHL,customAncillary,customAncillaryHL,noDPSInTooltip,number
 Razor CIWS,fsdf_mk_20,0,,1500,500,,75,,0,75,8,2000,,,FRAGMENTATION,5,,0,1,50,0.02,0,4,0.35,20,,1100,,,35,,,"ANTI_FTR,PD,PD_ALSO","pd15, kinetic10, SR, fsdf_package_bp",,Draconis,,Point Defense,,,,,,,,,,711000
-Fusillade Cannon,fsdf_mk_34,,,,400,,2800,,0,30,,40,,,ENERGY,1500,,0.25,10,,,0,0,0,0,,1000,,,100,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,SR_strike_only,Draconis,,Strike,,,,,,,,,,
-Burst Lance,fsdf_lance_7,1,,4500,1000,905,,1310,0,15,13,3,1.5,3,KINETIC,,1150,0,0.005,0.1,0.03,,,,,1000000,,,,,,,,"kinetic15, beam0, LR, fsdf_package_bp",,Draconis,,General,,,,,Hits on shields deal %s damage / second as hard flux.,75%,,,,711000
-Meteor MRM Launcher,fsdf_400_mrm,,,,1000,,400,,50,5,,7,1,,ENERGY,225,,0,0.4,1,,,,,,,1500,115,1.5,100000,,,"SYSTEM,SHOW_IN_CODEX,DIRECT_AIM",,,Draconis,,Missile,Extremely Fast,Special,,,Unguided after a brief initial aiming stage.,,,,TRUE,711000
+Burst Lance,fsdf_lance_7,1,,4500,1000,905,,1310,0,15,13,3,1.5,4,KINETIC,,1150,0,0.005,0.1,0.03,,,,,1000000,,,,,,,,"kinetic15, beam0, LR, fsdf_package_bp",,Draconis,,General,,,,,Hits on shields deal %s damage / second as hard flux.,75%,,,,711000
 Wolfpack SRM Launcher,fsdf_rim_10,0,,750,1000,,250,,5,50,5,160,,,FRAGMENTATION,0,,,2,,,,,,,,600,100,2,50,,,"ANTI_FTR,PD_ONLY","pd15, fsdf_package_bp",,Draconis,,Point Defense,Fast,Excellent,,,,,,,,711000
-Hatchet MRM Launcher,fsdf_200_mrm_fighter,,,,1500,,500,,10,,,2,,,HIGH_EXPLOSIVE,0,,0,10,0,,,,,,,400,50,15,150,,,"SYSTEM,STRIKE,USE_VS_FRIGATES",,,Draconis,,Missile,Fast,Excellent,,,,,,,TRUE,711000
-Saber SRM Launcher,fsdf_rim_7,,,,1500,,50,,10,,,80,,,KINETIC,0,,0,12,10,0.35,,,,,,1000,200,3,75,,,"SYSTEM,DO_NOT_AIM,CONSERVE_3,STRIKE,USE_VS_FRIGATES,MISSILE_SPREAD",,,Draconis,,Suppression,Extremely Fast,Excellent,,,,,,,,711000
 Strilka Gun Launcher,fsdf_strilka,2,,7000,1000,,100,200,10,20,24,,,,ENERGY,250,,0,1,1,,0,5,2.5,5,,500,500,2,400,,,DIRECT_AIM,"energy18, he17, kinetic17, fsdf_package_bp",,Draconis,,General,Extremely Fast,None,,,Submunition hits on armor deal an additional %s damage to armor. This damage is not reduced by armor.,100,,,,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#Built-in,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Fusillade Cannon,fsdf_mk_34,,,,500,,3000,,0,30,,40,,,ENERGY,1500,,0.25,10,,,0,0,0,0,,1000,,,100,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,SR_strike_only,Draconis,,Strike,,,,,,,,,,
+Saber SRM Launcher,fsdf_rim_7,,,,1400,,500,,10,,,6,0.25,3,KINETIC,0,,0,6,3,0.2,,,,,,400,100,6,350,,,"SYSTEM,DO_NOT_AIM,DO_NOT_CONSERVE",,,Draconis,,Anti Shield,Extremely Fast,Excellent,,,,,,,TRUE,711000
+Meteor MRM Launcher,fsdf_400_mrm,,,,1000,,400,,50,5,,7,0.5,7,ENERGY,250,,0,0.4,1,,,,,,,1500,115,1.5,100000,,,"SYSTEM,SHOW_IN_CODEX,DIRECT_AIM",,,Draconis,,Missile,Extremely Fast,Special,,,Unguided after a brief initial aiming stage.,,,,TRUE,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#Fighter,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Hatchet MRM Launcher,fsdf_200_mrm_fighter,,,,1500,,750,,25,,,2,,,HIGH_EXPLOSIVE,0,,0,10,0,,,,,,,350,100,30,150,,,"SYSTEM,STRIKE,USE_VS_FRIGATES",,,Draconis,,Missile,Fast,Excellent,,,,,,,TRUE,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #System,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 RCS Thrusters (Draconis),fsdf_vernier,,,,1,1,,,,,,,,,,,,,10,,,,,,,,,,,,,,SYSTEM,,,,,,,,,,,,,,,

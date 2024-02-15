@@ -28,6 +28,7 @@ import com.fs.starfarer.api.loading.DamagingExplosionSpec;
 import data.scripts.util.MagicRender;
 import data.scripts.util.MagicTargeting;
 
+@SuppressWarnings("deprecation")
 public class fsdf_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
 
     private CombatEngineAPI engine;

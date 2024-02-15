@@ -15,7 +15,7 @@
 	"crest":"graphics/factions/crest_draconis.png",
 	"shipNamePrefix":"DNS",
 	"shipNameSources":{
-		"DRACONIS":10,
+	"DRACONIS":10,
 	},
 	"names":{
 		"old english":1,
@@ -39,9 +39,14 @@
 			"legion":0,
 			"mora":0,
 			"odyssey":0,
-			"prometheus2":0,
 			"shepherd":0,
 			"venture":0,
+			"gremlin":0,
+
+			"dram":0,
+			"phaeton":0,
+			"prometheus":0,
+			"prometheus2":0,
 		},
 	},
 	# ships the faction gets access to when importing S&W out-of-faction
@@ -118,12 +123,12 @@
 	},
 	"factionDoctrine":{
 		"warships":3,
-		"carriers":2,
-		"phaseShips":0,
+		"carriers":3,
+		"phaseShips":1,
 		
-		"officerQuality":5,
-		"shipQuality":2,
-		"numShips":2,
+		"officerQuality":3,
+		"shipQuality":3,
+		"numShips":1,
 		
 		"shipSize":3,
 		

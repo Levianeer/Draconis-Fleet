@@ -14,10 +14,12 @@
   "builtInWeapons": {
     "WS0008": "fsdf_vernier",
     "WS0009": "fsdf_vernier",
+    "WS0013": "fsdf_vernier",
     "WS0019": "fsdf_vernier",
     "WS0020": "fsdf_vernier",
     "WS0021": "fsdf_vernier",
-    "WS0022": "fsdf_vernier"
+    "WS0022": "fsdf_vernier",
+    "WS0025": "fsdf_vernier"
   },
   "weaponSlots": [
     {

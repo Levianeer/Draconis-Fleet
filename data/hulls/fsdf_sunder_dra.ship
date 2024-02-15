@@ -1,0 +1,203 @@
+{
+  "hullName": "Sunder (DNS)",
+  "hullId": "fsdf_sunder_dra",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/ships/fsdf_sunder_dra.png",
+  "style": "DRACONIS",
+  "height": 190,
+  "width": 134,
+  "center": [67, 85],
+  "collisionRadius": 111,
+  "shieldCenter": [11, -0],
+  "shieldRadius": 128,
+  "viewOffset": 100,
+  "builtInMods": [
+    "advancedoptics"
+  ],
+  "builtInWeapons": {
+    "WS0001": "fsdf_vernier",
+    "WS0002": "fsdf_vernier",
+    "WS0003": "fsdf_vernier",
+    "WS0004": "fsdf_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS 002",
+      "size": "MEDIUM",
+      "type": "SYNERGY",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [26.5, 30],
+      "position": [
+        121,
+        50
+      ]
+    },
+    {
+      "id": "WS 003",
+      "size": "LARGE",
+      "type": "ENERGY",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [34.5, 0],
+      "position": [
+        131,
+        0
+      ]
+    },
+    {
+      "id": "WS 004",
+      "size": "MEDIUM",
+      "type": "SYNERGY",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [29.5, -30],
+      "position": [
+        121,
+        -50
+      ]
+    },
+    {
+      "id": "WS 006",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 190,
+      "angle": 75,
+      "locations": [10, 18],
+      "position": [
+        -22,
+        65
+      ]
+    },
+    {
+      "id": "WS 007",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 190,
+      "angle": -75,
+      "locations": [10, -18],
+      "position": [
+        -24,
+        -65
+      ]
+    },
+    {
+      "id": "WS 008",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 270,
+      "angle": 180,
+      "locations": [-50, 0],
+      "position": [
+        -124,
+        0
+      ]
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [4, -51]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 91,
+      "locations": [4, 51]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [32, 48]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [32, -48]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-79, 33],
+      "length": 64,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 64,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-85, 17],
+      "length": 64,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 64,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-85, -17],
+      "length": 64,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 64,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-79, -33],
+      "length": 64,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 64,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    }
+  ],
+  "bounds": [
+    97.5, -11.5,
+    51.5, -28.5,
+    33.5, -16,
+    33.5, -35,
+    11.5, -65.5,
+    -3.5, -18.5,
+    -34, -32.5,
+    -51.5, -25.5,
+    -57.5, -40.5,
+    -77.5, -35.5,
+    -83.5, -11.5,
+    -64, -0,
+    -83.5, 11.5,
+    -77.5, 35.5,
+    -57.5, 40.5,
+    -51.5, 25.5,
+    -34, 32.5,
+    -3.5, 18.5,
+    11.5, 65.5,
+    33.5, 35,
+    33.5, 16,
+    51.5, 28.5,
+    97.5, 11.5,
+    45, -0
+  ]
+}

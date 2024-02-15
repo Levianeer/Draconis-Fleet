@@ -1,4 +1,6 @@
 name,id,flux/second,f/s (base rate),f/s (base cap),flux/use,f/u (base rate),f/u (base cap),cr/u,max uses,regen,charge up,active,down,cooldown,toggle,noDissipation,noHardDissipation,hardFlux,noFiring,noTurning,noStrafing,noAccel,noShield,noVent,isPhaseCloak,tags,icon
 Blackout Jammer,fsdf_ecm_suite,,,,,,0.25,,,,0.5,0.5,0.5,10,,,,,,,,,,,,,graphics/icons/hullsys/quantum_disruptor.png
+Safety Overrides,fsdf_safety_overrides,,,,,,,,,,1,5,1,10,,,,,,,,,,,,,graphics/icons/hullsys/ammo_feeder.png
 Rupture Jammer,fsdf_jammer_suite,,,,,,0.25,,,,0.5,4,0.5,16,,,,,,,,,,,,,graphics/icons/hullsys/quantum_disruptor.png
 Excalibur Strike,fsdf_mrm_strike,,,,,,,,,,0,0.05,0.2,1,,,,,,,,,,,,,graphics/icons/hullsys/drone_pd_high.png
+Plasma Burn,fsdf_microburn,1,,,,,,,2,0.1,0.5,0.5,0.5,,,,,,,,TRUE,TRUE,,,,,graphics/icons/hullsys/burn_drive.png

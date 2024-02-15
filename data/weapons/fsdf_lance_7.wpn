@@ -11,6 +11,7 @@
   "turretGlowSprite": "graphics/weapons/fsdf_lance_turret_base_glow.png",
   "hardpointSprite": "graphics/weapons/fsdf_lance_hardpoint_base.png",
   "hardpointGlowSprite": "graphics/weapons/fsdf_lance_hardpoint_base_glow.png",
+  "interruptibleBurst":false,
   "glowColor": [
     255,
     150,

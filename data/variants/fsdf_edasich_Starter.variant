@@ -2,7 +2,6 @@
     "displayName": "Starter",
     "fluxCapacitors": 17,
     "fluxVents": 20,
-    "goalVariant": true,
     "hullId": "fsdf_edasich",
     "hullMods": [
         "targetingunit",

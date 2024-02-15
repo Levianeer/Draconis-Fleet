@@ -29,21 +29,12 @@
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
-      "arc": 10,
+      "arc": 25,
       "angle": 0,
-      "locations": [11, 11.5]
+      "locations": [13.5, -0]
     },
     {
       "id": "WS0003",
-      "size": "SMALL",
-      "type": "MISSILE",
-      "mount": "HIDDEN",
-      "arc": 10,
-      "angle": 0,
-      "locations": [11, -11.5]
-    },
-    {
-      "id": "WS0004",
       "size": "SMALL",
       "type": "SYSTEM",
       "mount": "HIDDEN",

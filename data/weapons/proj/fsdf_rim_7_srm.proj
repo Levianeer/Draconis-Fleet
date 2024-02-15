@@ -1,21 +1,21 @@
 {
 	"id":"fsdf_rim_7_srm",
-	"specClass":"missile",	
+	"specClass":"missile",
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/missile_SRM.png",
-	"size":[6,14],	
-	"center":[3,7],
-	"collisionRadius":12,
+	"sprite":"graphics/missiles/missile_squall.png",
+	"size":[6,20],	
+	"center":[3,10],
+	"collisionRadius":15,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[200,200,255,235],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":85, # purely visual
 	"flameoutTime":1, # total time from flameout to full fadeout
 	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
 	"fadeTime":0.5, # fadeout duration	
-	"engineSpec":{"turnAcc":1720,
-				  "turnRate":240,
-				  "acc":2500,
-				  "dec":800},			  
+	"engineSpec":{"turnAcc":360,
+				  "turnRate":180,
+				  "acc":1000,
+				  "dec":0},
 	"engineSlots":[{"id":"ES1",
 					"loc":[-9, 0],
 				    "style":"CUSTOM",

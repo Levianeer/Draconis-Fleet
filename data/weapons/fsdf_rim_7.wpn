@@ -7,11 +7,11 @@
   "turretSprite": "graphics/weapons/fsdf_rim_7_turret_base.png",
   "hardpointSprite": "graphics/weapons/fsdf_rim_7_turret_base.png",
   "turretOffsets": [
-    6,
     7,
-    6,
+    7,
+    7,
     0,
-    6,
+    7,
     -7
   ],
   "turretAngleOffsets": [
@@ -20,11 +20,11 @@
     0
   ],
   "hardpointOffsets": [
-    10,
+    12,
     7,
-    10,
+    12,
     0,
-    10,
+    12,
     -7
   ],
   "hardpointAngleOffsets": [
@@ -34,15 +34,22 @@
   ],
   "barrelMode": "ALTERNATING",
   "animationType": "SMOKE",
-  "smokeSpec":{"particleSizeMin":10.0,
-	"particleSizeRange":14.0,
-	"cloudParticleCount":3,
-	"cloudDuration":1.5,
-	"cloudRadius":12.0;
-	"blowbackParticleCount":3,
-	"blowbackDuration":0.45,
-	"blowbackLength":20.0,
-	"blowbackSpread":6.0,
-	"particleColor":[190,180,160,95]},
-  "fireSoundTwo": "annihilator_fire"
+  "smokeSpec": {
+    "particleSizeMin": 10,
+    "particleSizeRange": 16,
+    "cloudParticleCount": 3,
+    "cloudDuration": 0.9,
+    "cloudRadius": 8,
+    "blowbackParticleCount": 4,
+    "blowbackDuration": 1.1,
+    "blowbackLength": 20,
+    "blowbackSpread": 10,
+    "particleColor": [
+      170,
+      160,
+      150,
+      130
+    ]
+  },
+  "fireSoundTwo": "swarmer_fire"
 }

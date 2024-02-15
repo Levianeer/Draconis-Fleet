@@ -2,7 +2,6 @@
     "displayName": "Starter",
     "fluxCapacitors": 13,
     "fluxVents": 0,
-    "goalVariant": true,
     "hullId": "fsdf_heron_dra",
     "hullMods": ["nav_relay"],
     "permaMods": [],
