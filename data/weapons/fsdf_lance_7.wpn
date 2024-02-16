@@ -1,7 +1,7 @@
 {
   "id": "fsdf_lance_7",
   "specClass": "beam",
-  "type": "ENERGY",
+  "type": "BALLISTIC",
   "mountTypeOverride":"HYBRID",
   "size": "MEDIUM",
   "collisionClass": "RAY",

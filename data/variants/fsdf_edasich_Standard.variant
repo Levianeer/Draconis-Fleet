@@ -26,8 +26,16 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "breach",
-                "WS0004": "breach"
+                "WS0003": "harpoon",
+                "WS0004": "harpoon"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "fsdf_rim_10",
+                "WS0006": "fsdf_rim_10"
             }
         },
         {
@@ -36,14 +44,6 @@
             "weapons": {
                 "WS0001": "lightac",
                 "WS0002": "lightac"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "pdburst",
-                "WS0006": "pdburst"
             }
         }
     ]

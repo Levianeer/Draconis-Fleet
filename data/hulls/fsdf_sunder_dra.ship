@@ -11,9 +11,6 @@
   "shieldCenter": [11, -0],
   "shieldRadius": 128,
   "viewOffset": 100,
-  "builtInMods": [
-    "advancedoptics"
-  ],
   "builtInWeapons": {
     "WS0001": "fsdf_vernier",
     "WS0002": "fsdf_vernier",
@@ -24,7 +21,7 @@
     {
       "id": "WS 002",
       "size": "MEDIUM",
-      "type": "SYNERGY",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -37,7 +34,7 @@
     {
       "id": "WS 003",
       "size": "LARGE",
-      "type": "ENERGY",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -50,7 +47,7 @@
     {
       "id": "WS 004",
       "size": "MEDIUM",
-      "type": "SYNERGY",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -63,7 +60,7 @@
     {
       "id": "WS 006",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "COMPOSITE",
       "mount": "TURRET",
       "arc": 190,
       "angle": 75,
@@ -76,7 +73,7 @@
     {
       "id": "WS 007",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "COMPOSITE",
       "mount": "TURRET",
       "arc": 190,
       "angle": -75,

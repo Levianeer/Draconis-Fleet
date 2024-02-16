@@ -22,7 +22,7 @@
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
 						"engineColor":[200,200,255,255],
-						"contrailDuration":.5,
+						"contrailDuration":1.5,
 						"contrailWidthMult":2,
 						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
 						"contrailMinSeg":5, # min segment length, in pixels

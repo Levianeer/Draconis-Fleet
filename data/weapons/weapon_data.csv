@@ -2,7 +2,8 @@ name,id,tier,rarity,base value,range,damage/second,damage/shot,emp,impact,turn r
 Razor CIWS,fsdf_mk_20,0,,1500,500,,75,,0,75,8,2000,,,FRAGMENTATION,5,,0,1,50,0.02,0,4,0.35,20,,1100,,,35,,,"ANTI_FTR,PD,PD_ALSO","pd15, kinetic10, SR, fsdf_package_bp",,Draconis,,Point Defense,,,,,,,,,,711000
 Burst Lance,fsdf_lance_7,1,,4500,1000,905,,1310,0,15,13,3,1.5,4,KINETIC,,1150,0,0.005,0.1,0.03,,,,,1000000,,,,,,,,"kinetic15, beam0, LR, fsdf_package_bp",,Draconis,,General,,,,,Hits on shields deal %s damage / second as hard flux.,75%,,,,711000
 Wolfpack SRM Launcher,fsdf_rim_10,0,,750,1000,,250,,5,50,5,160,,,FRAGMENTATION,0,,,2,,,,,,,,600,100,2,50,,,"ANTI_FTR,PD_ONLY","pd15, fsdf_package_bp",,Draconis,,Point Defense,Fast,Excellent,,,,,,,,711000
-Strilka Gun Launcher,fsdf_strilka,2,,7000,1000,,100,200,10,20,24,,,,ENERGY,250,,0,1,1,,0,5,2.5,5,,500,500,2,400,,,DIRECT_AIM,"energy18, he17, kinetic17, fsdf_package_bp",,Draconis,,General,Extremely Fast,None,,,Submunition hits on armor deal an additional %s damage to armor. This damage is not reduced by armor.,100,,,,711000
+Strilka Gun Launcher,fsdf_strilka,2,,7000,900,,110,200,10,20,24,,,,ENERGY,500,,0,0.9,1,,0,5,2.5,5,,500,500,2,400,,,DIRECT_AIM,"energy18, he17, kinetic17, fsdf_package_bp",,Draconis,,General,Extremely Fast,None,,,Submunition hits on armor deal an additional %s damage to armor. This damage is not reduced by armor.,100,,,,711000
+Glaive-class Torpedo,fsdf_glaive,1,,5000,8000,,7500,,75,10,,2,0.1,2,HIGH_EXPLOSIVE,0,,0,12,1,,0,0,0,0,,400,100,20,100000,,,"STRIKE,DANGEROUS","strike8, rocket3, fsdf_package_bp",,,,Torpedo,Fast,None,,,,,,,TRUE,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Built-in,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Fusillade Cannon,fsdf_mk_34,,,,500,,3000,,0,30,,40,,,ENERGY,1500,,0.25,10,,,0,0,0,0,,1000,,,100,,,"SYSTEM,SHOW_IN_CODEX,STRIKE,USE_VS_FRIGATES",,SR_strike_only,Draconis,,Strike,,,,,,,,,,

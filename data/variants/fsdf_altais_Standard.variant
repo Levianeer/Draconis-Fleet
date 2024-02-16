@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 32,
+    "fluxCapacitors": 26,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_altais",
@@ -40,12 +40,18 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
+                "WS0005": "heavymauler",
+                "WS0006": "heavymauler"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
                 "WS0001": "fsdf_lance_7",
                 "WS0002": "fsdf_lance_7",
                 "WS0003": "fsdf_lance_7",
-                "WS0004": "fsdf_lance_7",
-                "WS0005": "gravitonbeam",
-                "WS0006": "gravitonbeam"
+                "WS0004": "fsdf_lance_7"
             }
         },
         {

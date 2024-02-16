@@ -48,24 +48,12 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0006": "lrpdlaser",
-                "WS0007": "lrpdlaser"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0004": "pdlaser",
-                "WS0014": "pdlaser"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
                 "WS0003": "fsdf_mk_20",
+                "WS0004": "vulcan",
                 "WS0005": "fsdf_mk_20",
+                "WS0006": "vulcan",
+                "WS0007": "vulcan",
+                "WS0014": "vulcan",
                 "WS0015": "vulcan",
                 "WS0016": "vulcan"
             }

@@ -18,7 +18,7 @@
     {
       "id": "WS 001",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -27,7 +27,7 @@
     {
       "id": "WS 002",
       "size": "MEDIUM",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -36,7 +36,7 @@
     {
       "id": "WS 003",
       "size": "SMALL",
-      "type": "UNIVERSAL",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 10,
       "angle": 0,
@@ -45,7 +45,7 @@
     {
       "id": "WS 004",
       "size": "SMALL",
-      "type": "UNIVERSAL",
+      "type": "COMPOSITE",
       "mount": "HARDPOINT",
       "arc": 10,
       "angle": 0,

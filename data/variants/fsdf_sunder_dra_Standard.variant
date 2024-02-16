@@ -1,36 +1,33 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 13,
+    "fluxCapacitors": 16,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_sunder_dra",
-    "hullMods": [
-        "targetingunit",
-        "stabilizedshieldemitter"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_sunder_dra_Standard",
     "weaponGroups": [
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS 003": "hil"}
+            "weapons": {"WS 003": "gauss"}
         },
         {
-            "autofire": true,
-            "mode": "LINKED",
+            "autofire": false,
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS 002": "gravitonbeam",
-                "WS 004": "gravitonbeam"
+                "WS 006": "harpoon",
+                "WS 007": "harpoon"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS 006": "lightneedler",
-                "WS 007": "lightneedler"
+                "WS 002": "heavymauler",
+                "WS 004": "heavymauler"
             }
         },
         {
