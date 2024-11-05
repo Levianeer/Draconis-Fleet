@@ -4,20 +4,21 @@
   "hullSize": "DESTROYER",
   "spriteName": "graphics/ships/fsdf_edasich.png",
   "style": "DRACONIS",
-  "height": 188,
+  "height": 204,
   "width": 94,
   "center": [47, 87],
-  "collisionRadius": 137,
+  "collisionRadius": 154.5,
   "shieldCenter": [0, -0],
-  "shieldRadius": 123.5,
+  "shieldRadius": 144.5,
   "viewOffset": 0,
+  "builtInMods": [
+    "missleracks"
+  ],
   "builtInWeapons": {
     "WS0007": "fsdf_vernier",
     "WS0008": "fsdf_vernier",
     "WS0009": "fsdf_vernier",
     "WS0010": "fsdf_vernier",
-    "WS0011": "fsdf_rim_7",
-    "WS0012": "fsdf_rim_7",
     "WS0013": "fsdf_vernier",
     "WS0014": "fsdf_vernier"
   },
@@ -25,41 +26,41 @@
     {
       "id": "WS0001",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 200,
+      "arc": 235,
       "angle": 0,
-      "locations": [24, 22],
+      "locations": [40, 22],
       "renderOrderMod": 6
     },
     {
       "id": "WS0002",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 200,
+      "arc": 235,
       "angle": -0,
-      "locations": [24, -22],
+      "locations": [40, -22],
       "renderOrderMod": 6
     },
     {
       "id": "WS0003",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [41, 30],
+      "arc": 15,
+      "angle": -0,
+      "locations": [57, 30],
       "renderOrderMod": 3
     },
     {
       "id": "WS0004",
       "size": "SMALL",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [41, -30],
+      "arc": 15,
+      "angle": 0,
+      "locations": [57, -30],
       "renderOrderMod": 3
     },
     {
@@ -67,18 +68,18 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 190,
+      "arc": 230,
       "angle": 90,
-      "locations": [-30, 19]
+      "locations": [-14, 19]
     },
     {
       "id": "WS0006",
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 190,
+      "arc": 230,
       "angle": -90,
-      "locations": [-30, -19]
+      "locations": [-14, -19]
     },
     {
       "id": "WS0007",
@@ -87,7 +88,7 @@
       "mount": "TURRET",
       "arc": 35,
       "angle": 90,
-      "locations": [8, 44]
+      "locations": [24, 44]
     },
     {
       "id": "WS0008",
@@ -96,7 +97,7 @@
       "mount": "TURRET",
       "arc": 35,
       "angle": -90,
-      "locations": [8, -44]
+      "locations": [24, -44]
     },
     {
       "id": "WS0009",
@@ -105,7 +106,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 0,
-      "locations": [101, -14]
+      "locations": [117, -14]
     },
     {
       "id": "WS0010",
@@ -114,25 +115,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -0,
-      "locations": [101, 14]
-    },
-    {
-      "id": "WS0011",
-      "size": "MEDIUM",
-      "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 90,
-      "locations": [-61, 32]
-    },
-    {
-      "id": "WS0012",
-      "size": "MEDIUM",
-      "type": "BUILT_IN",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -90,
-      "locations": [-61, -32]
+      "locations": [117, 14]
     },
     {
       "id": "WS0013",
@@ -141,7 +124,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 90,
-      "locations": [86, 23]
+      "locations": [102, 23]
     },
     {
       "id": "WS0014",
@@ -150,7 +133,61 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": -90,
-      "locations": [86, -23]
+      "locations": [102, -23]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 90,
+      "locations": [-40, 34.5]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -90,
+      "locations": [-40, -34.5]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 90,
+      "locations": [-53, 34.5]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -90,
+      "locations": [-53, -34.5]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 90,
+      "locations": [-66, 34.5]
+    },
+    {
+      "id": "WS0018",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -90,
+      "locations": [-66, -34.5]
     }
   ],
   "engineSlots": [

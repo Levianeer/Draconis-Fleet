@@ -245,11 +245,12 @@
     {
       "id": "WS0023",
       "size": "LARGE",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 230,
       "angle": 0,
-      "locations": [21.5, 0]
+      "locations": [21.5, 0],
+      "renderOrderMod": 500
     },
     {
       "id": "WS0024",

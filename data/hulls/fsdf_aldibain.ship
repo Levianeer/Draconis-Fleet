@@ -22,10 +22,10 @@
       "mount": "HIDDEN",
       "arc": 5,
       "angle": 0,
-      "locations": [20, -0]
+      "locations": [15, 2.5]
     },
     {
-      "id": "WS0003",
+      "id": "WS0004",
       "size": "SMALL",
       "type": "SYSTEM",
       "mount": "HIDDEN",
@@ -38,9 +38,18 @@
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
-      "arc": 25,
+      "arc": 5,
+      "angle": 0,
+      "locations": [10, 11.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
       "angle": -0,
-      "locations": [3.5, -0]
+      "locations": [10, -11.5]
     }
   ],
   "engineSlots": [
@@ -59,24 +68,6 @@
       "width": 6,
       "angle": 180,
       "contrailSize": 6,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
-    },
-    {
-      "location": [-7, 12],
-      "length": 16,
-      "width": 4,
-      "angle": 180,
-      "contrailSize": 4,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
-    },
-    {
-      "location": [-7, -12],
-      "length": 16,
-      "width": 4,
-      "angle": -180,
-      "contrailSize": 4,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
     }

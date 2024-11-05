@@ -2,9 +2,9 @@
 	"id":"fsdf_jammer_suite",
 	"type":"STAT_MOD",
 	"aiType":"CUSTOM",
-	"aiScript":"data.scripts.ai.fsdf_Jammer_SuiteAI",
+	"aiScript":"levianeer.draconis.data.scripts.ai.fsdf_Jammer_SuiteAI",
 	
-	"statsScript":"data.scripts.shipsystems.fsdf_Jammer_SuiteStats",
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_Jammer_SuiteStats",
 
 	"jitterUnderColor":[90,165,255,155],
 	"jitterUnderCopies":25,

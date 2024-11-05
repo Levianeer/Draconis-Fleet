@@ -1,13 +1,14 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 26,
-    "fluxVents": 50,
+    "fluxCapacitors": 0,
+    "fluxVents": 47,
     "goalVariant": true,
     "hullId": "fsdf_altais",
     "hullMods": [
         "targetingunit",
-        "missleracks",
-        "fluxdistributor"
+        "fluxdistributor",
+        "ballistic_rangefinder",
+        "missleracks"
     ],
     "permaMods": [],
     "sMods": [],
@@ -24,25 +25,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0023": "fsdf_strilka"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0007": "fsdf_rim_10",
-                "WS0008": "fsdf_rim_10",
-                "WS0011": "fsdf_rim_10",
-                "WS0012": "fsdf_rim_10"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "heavymauler",
-                "WS0006": "heavymauler"
-            }
+            "weapons": {"WS0023": "fsdf_spear"}
         },
         {
             "autofire": true,
@@ -51,24 +34,34 @@
                 "WS0001": "fsdf_lance_7",
                 "WS0002": "fsdf_lance_7",
                 "WS0003": "fsdf_lance_7",
-                "WS0004": "fsdf_lance_7"
+                "WS0004": "fsdf_lance_7",
+                "WS0005": "fsdf_lance_7",
+                "WS0006": "fsdf_lance_7"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
+                "WS0007": "vulcan",
+                "WS0008": "vulcan",
                 "WS0009": "vulcan",
                 "WS0010": "vulcan",
-                "WS0024": "fsdf_mk_20"
+                "WS0011": "vulcan",
+                "WS0012": "vulcan"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0024": "fsdf_mk_20"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
-                "WS0018": "lrpdlaser",
-                "WS0019": "lrpdlaser"
+                "WS0018": "fsdf_rim_10",
+                "WS0019": "fsdf_rim_10"
             }
         }
     ]

@@ -1,13 +1,10 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 11,
+    "fluxCapacitors": 43,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
-    "hullMods": [
-        "targetingunit",
-        "fluxdistributor"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",
@@ -16,53 +13,42 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0010": "fsdf_strilka",
-                "WS0011": "fsdf_strilka"
+                "WS0014": "fsdf_spear",
+                "WS0015": "fsdf_spear"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0016": "squall"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "fsdf_rim_10",
+                "WS0008": "fsdf_rim_10",
+                "WS0010": "fsdf_rim_10"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0023": "fsdf_rim_10",
-                "WS0024": "fsdf_rim_10"
+                "WS0009": "vulcan",
+                "WS0011": "vulcan"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "fsdf_lance_7",
-                "WS0002": "fsdf_lance_7"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0017": "fsdf_rim_10",
-                "WS0018": "fsdf_rim_10"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0003": "fsdf_mk_20",
-                "WS0004": "vulcan",
-                "WS0005": "fsdf_mk_20",
-                "WS0006": "vulcan",
-                "WS0007": "vulcan",
-                "WS0014": "vulcan",
-                "WS0015": "vulcan",
-                "WS0016": "vulcan"
-            }
+            "weapons": {"WS0012": "fsdf_mk_20"}
         }
     ],
     "wings": [
         "fsdf_aldibain_wing",
         "fsdf_aldibain_wing",
-        "fsdf_aldibain_wing",
-        "fsdf_aldibain_wing"
+        "",
+        ""
     ]
 }

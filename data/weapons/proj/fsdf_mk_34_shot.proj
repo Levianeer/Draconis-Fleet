@@ -2,7 +2,7 @@
 	"id":"fsdf_mk_34_shot",
 	"specClass":"projectile",
 	"spawnType":"BALLISTIC",
-	#"onHitEffect":"data.scripts.weapons.fsdf_MassDamageOnHit",
+	#"onHitEffect":"levianeer.draconis.data.scripts.weapons.fsdf_MassDamageOnHit",
 	"collisionClass":"PROJECTILE_FF",
 	"collisionClassByFighter":"PROJECTILE_FIGHTER",
 	"length":14.0,

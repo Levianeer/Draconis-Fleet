@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 10,
-    "fluxVents": 8,
+    "fluxVents": 9,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
     "hullMods": [
@@ -20,17 +20,17 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "fsdf_rim_10"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {"WS0001": "lightag"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0002": "lightac"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "vulcan"}
         }
     ]
 }

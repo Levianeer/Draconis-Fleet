@@ -13,8 +13,9 @@
       "autofire": true,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "lightag",
-        "WS0002": "fsdf_200_mrm_fighter"
+        "WS0001": "lightmg",
+        "WS0002": "fsdf_dovetail_srm",
+        "WS0003": "fsdf_dovetail_srm"
       }
     },
     {

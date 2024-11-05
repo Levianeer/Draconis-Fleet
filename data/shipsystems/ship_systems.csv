@@ -4,3 +4,4 @@ Safety Overrides,fsdf_safety_overrides,,,,,,,,,,1,5,1,10,,,,,,,,,,,,,graphics/ic
 Rupture Jammer,fsdf_jammer_suite,,,,,,0.25,,,,0.5,4,0.5,16,,,,,,,,,,,,,graphics/icons/hullsys/quantum_disruptor.png
 Excalibur Strike,fsdf_mrm_strike,,,,,,,,,,0,0.05,0.2,1,,,,,,,,,,,,,graphics/icons/hullsys/drone_pd_high.png
 Plasma Burn,fsdf_microburn,1,,,,,,,2,0.1,0.5,0.5,0.5,,,,,,,,TRUE,TRUE,,,,,graphics/icons/hullsys/burn_drive.png
+Accelerated Feeder,fsdf_AcceleratedFeeder,,,,,,,,,,1,5,1,10,,,,,,,,,,,,,graphics/icons/hullsys/ammo_feeder.png

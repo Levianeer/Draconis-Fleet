@@ -2,9 +2,9 @@
 	"id":"fsdf_ecm_suite",
 	"type":"STAT_MOD",
 	"aiType":"CUSTOM",
-	"aiScript":"data.scripts.ai.fsdf_ECM_SuiteAI",
+	"aiScript":"levianeer.draconis.data.scripts.ai.fsdf_ECM_SuiteAI",
 	
-	"statsScript":"data.scripts.shipsystems.fsdf_ECM_SuiteStats",
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_ECM_SuiteStats",
 
 	"jitterUnderColor":[90,165,255,155],
 	"jitterUnderCopies":10,

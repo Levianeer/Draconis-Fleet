@@ -1,20 +1,24 @@
 {
-	"id":"fsdf_draconis",
-	"name":"Draconis Fleet",
-	"author":"Levianeer",
-	"version":"2.9.1",
-	"description":"A faction emerging from the Fafnir system.",
-	"gameVersion":"0.96a-RC9",
-    "dependencies": [
-        {
-            "id": "lw_lazylib",
-            "name": "LazyLib",
-        },
-        {
-            "id": "MagicLib",
-            "name": "MagicLib",
-        },
-    ],
-	"jars":["jars/FSDF.jar"],
-	"modPlugin":"data.scripts.fsdf_ModPlugin",
+  "id": "levianeer_draconis",
+  "name": "Draconis Fleet",
+  "author": "Levianeer",
+  "utility": false,
+  # Using the long version format lets the game correctly compare major/minor/patch versions.
+  "version": { "major": '1', "minor": '0', "patch": '1' },
+  "description": "Starsector Faction Mod.",
+  "gameVersion": "0.97a-RC11",
+  "dependencies": [
+    {
+      "id": "lw_lazylib",
+      "name": "LazyLib",
+      "version": "2.8b"
+    },
+    {
+      "id": "MagicLib",
+      "name": "MagicLib",
+      "version": "1.4.6"
+    }
+  ],
+  "jars": [ "jars/Draconis.jar" ],
+  "modPlugin": "levianeer.draconis.fsdf_ModPlugin"
 }

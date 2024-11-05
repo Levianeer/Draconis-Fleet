@@ -2,11 +2,10 @@
   "id": "fsdf_lance_7",
   "specClass": "beam",
   "type": "BALLISTIC",
-  "mountTypeOverride":"HYBRID",
   "size": "MEDIUM",
   "collisionClass": "RAY",
   "collisionClassByFighter": "RAY_FIGHTER",
-  "beamEffect":"data.scripts.weapons.fsdf_LanceBeamEffect",
+  "beamEffect":"levianeer.draconis.data.scripts.weapons.fsdf_LanceBeamEffect",
   "turretSprite": "graphics/weapons/fsdf_lance_turret_base.png",
   "turretGlowSprite": "graphics/weapons/fsdf_lance_turret_base_glow.png",
   "hardpointSprite": "graphics/weapons/fsdf_lance_hardpoint_base.png",
@@ -56,6 +55,6 @@
     MISSILE_FF,
     MISSILE_NO_FF
   ],
-  "fireSoundOne": "hydra_payload_fire",
-  "fireSoundTwo": "ir_autolance_loop"
+	"playFullFireSoundOne":true,
+	"fireSoundOne":"fsdf_lance_7_fire",
 }

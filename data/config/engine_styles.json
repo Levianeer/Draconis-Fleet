@@ -21,7 +21,7 @@
 	
 	"DRACONIS_FIGHTER": {
 		"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
-		"contrailDuration":1.5,
+		"contrailDuration":0.25,
 		"contrailWidthMult":0.67,
 		"contrailWidthAddedFractionAtEnd":-1f,  # can be negative. makes trail spread out/narrow at the end
 		"contrailMinSeg":5, # min segment length, in pixels

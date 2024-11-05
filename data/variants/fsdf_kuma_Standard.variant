@@ -1,25 +1,21 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 12,
+    "fluxCapacitors": 18,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_kuma",
     "hullMods": [
         "targetingunit",
-        "hardenedshieldemitter",
-        "stabilizedshieldemitter"
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_kuma_Standard",
     "weaponGroups": [
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0008": "fsdf_lance_7",
-                "WS0009": "fsdf_lance_7"
-            }
+            "weapons": {"WS0014": "fsdf_spear"}
         },
         {
             "autofire": false,
@@ -32,22 +28,17 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0014": "fsdf_strilka"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
-                "WS0001": "fsdf_rim_10",
-                "WS0002": "fsdf_rim_10"
+                "WS0003": "fsdf_lance_7",
+                "WS0004": "fsdf_lance_7"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "fsdf_mk_20",
-                "WS0004": "fsdf_mk_20"
+                "WS0001": "vulcan",
+                "WS0002": "vulcan"
             }
         }
     ]

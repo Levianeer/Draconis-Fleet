@@ -1,0 +1,20 @@
+{
+	"AdvancedGunneryControl":{
+    "weaponBlacklist": [
+    ],
+		"suggestedWeaponTags":{
+			"fsdf_rim_10":"PD,PrioMissile,NoFighters", # Wolfpack SRM Launcher
+			"fsdf_mk_20":"AvoidShields,PrioritisePD,PrioMissile,PrioFighter,PrioDense", # Razor Flak Autocannon
+
+			"fsdf_lance_7":"AvoidPhased", # Particle Burst Lance
+			"fsdf_sabre_lrm":"Opportunist", # Sabre LRM Launcher
+			"fsdf_glaive":"Opportunist", # Glaive-class Torpedo
+			"fsdf_strilka":"NoFighters", # Strilka Gun Launcher
+			"fsdf_spear":"NoFighters", # Spear Cannon
+
+			"fsdf_mk_34":"Opportunist,NoFighters", # Fusillade Cannon
+			"fsdf_400_mrm":"Opportunist,NoFighters", # Meteor MRM Launcher
+			"fsdf_dovetail_srm":"Opportunist" # Dovetail SRM Launcher
+		},
+	},
+}
