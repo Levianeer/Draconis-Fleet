@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 19,
+    "fluxCapacitors": 7,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
@@ -13,30 +13,26 @@
     "variantId": "fsdf_rastaban_Standard",
     "weaponGroups": [
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "fsdf_lance_7"}
-        },
-        {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0004": "breach",
-                "WS0005": "breach"
+                "WS0004": "lightag",
+                "WS0005": "lightag"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "lightac",
-                "WS0002": "lightac"
-            }
+            "weapons": {"WS0006": "hveldriver"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0011": "fsdf_rim_10"}
+            "weapons": {
+                "WS0001": "railgun",
+                "WS0002": "railgun",
+                "WS0011": "railgun"
+            }
         },
         {
             "autofire": true,

@@ -22,10 +22,10 @@
       "mount": "HIDDEN",
       "arc": 5,
       "angle": 0,
-      "locations": [20, -0]
+      "locations": [15, 2.5]
     },
     {
-      "id": "WS0003",
+      "id": "WS0004",
       "size": "SMALL",
       "type": "SYSTEM",
       "mount": "HIDDEN",
@@ -38,9 +38,18 @@
       "size": "SMALL",
       "type": "MISSILE",
       "mount": "HIDDEN",
-      "arc": 25,
+      "arc": 5,
+      "angle": 0,
+      "locations": [10, 11.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
       "angle": -0,
-      "locations": [3.5, -0]
+      "locations": [10, -11.5]
     }
   ],
   "engineSlots": [

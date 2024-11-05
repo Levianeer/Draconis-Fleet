@@ -2,7 +2,6 @@
 	"id":"fsdf_strilka_warhead",
 	"specClass":"projectile",
 	"spawnType":"BALLISTIC",
-	"onHitEffect":"data.scripts.weapons.fsdf_StrilkaOnHitEffect",
 	"collisionClass":"PROJECTILE_FIGHTER",
 	"collisionClassByFighter":"PROJECTILE_FIGHTER",
 	"glowColor":[125,170,215,90],

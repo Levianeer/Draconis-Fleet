@@ -11,6 +11,7 @@
   "shieldCenter": [46, -0],
   "shieldRadius": 228,
   "viewOffset": 0,
+  "builtInMods": [],
   "builtInWeapons": {
     "WS0008": "fsdf_vernier",
     "WS0009": "fsdf_vernier",
@@ -88,7 +89,7 @@
     {
       "id": "WS0010",
       "size": "LARGE",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 245,
       "angle": 0,
@@ -150,7 +151,7 @@
     {
       "id": "WS0011",
       "size": "LARGE",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 270,
       "angle": 0,

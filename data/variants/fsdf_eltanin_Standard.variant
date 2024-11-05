@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 17,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
@@ -10,35 +10,34 @@
     "variantId": "fsdf_eltanin_Standard",
     "weaponGroups": [
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0015": "fsdf_strilka"}
-        },
-        {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {"WS0006": "harpoon"}
         },
         {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "annihilatorpod"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "mjolnir"}
+        },
+        {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "fsdf_lance_7",
-                "WS0007": "fsdf_lance_7"
+                "WS0005": "hveldriver",
+                "WS0007": "hveldriver"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "fsdf_rim_10",
-                "WS0002": "fsdf_rim_10"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
                 "WS0003": "vulcan",
                 "WS0004": "vulcan",
                 "WS0008": "vulcan",

@@ -3,9 +3,9 @@
 	"specClass":"missile",	
 	"missileType":"MISSILE_TWO_STAGE_SECOND_UNGUIDED",
 	"sprite":"graphics/missiles/fsdf_400_mrm.png",
-	"size":[6,31],
-	"center":[3,16],
-	"collisionRadius":28,
+	"size":[13,50],
+	"center":[6.5, 25],
+	"collisionRadius":34,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,200,200,235],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":85, # purely visual
@@ -18,7 +18,7 @@
 					"acc":925,
 					"dec":0},
 	"engineSlots":[{"id":"ES1",
-					"loc":[-10, 0],
+					"loc":[-25, -0],
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used

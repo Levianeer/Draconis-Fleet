@@ -245,7 +245,7 @@
     {
       "id": "WS0023",
       "size": "LARGE",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 230,
       "angle": 0,

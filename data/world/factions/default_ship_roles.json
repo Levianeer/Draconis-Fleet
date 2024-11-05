@@ -39,7 +39,6 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"fsdf_heron_dra_Standard":3,
 		
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},

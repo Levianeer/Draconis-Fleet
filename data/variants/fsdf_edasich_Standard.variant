@@ -4,46 +4,45 @@
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_edasich",
-    "hullMods": [
-        "targetingunit",
-        "eccm",
-        "hardenedshieldemitter",
-        "stabilizedshieldemitter"
-    ],
+    "hullMods": ["missile_autoloader"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_edasich_Standard",
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0011": "fsdf_rim_7",
-                "WS0012": "fsdf_rim_7"
+                "WS0003": "lightag",
+                "WS0004": "lightag"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "harpoon",
-                "WS0004": "harpoon"
+                "WS0011": "gorgon",
+                "WS0012": "gorgon",
+                "WS0015": "gorgon",
+                "WS0016": "gorgon",
+                "WS0017": "gorgon",
+                "WS0018": "gorgon"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "fsdf_rim_10",
-                "WS0006": "fsdf_rim_10"
+                "WS0001": "railgun",
+                "WS0002": "railgun"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightac",
-                "WS0002": "lightac"
+                "WS0005": "vulcan",
+                "WS0006": "vulcan"
             }
         }
     ]

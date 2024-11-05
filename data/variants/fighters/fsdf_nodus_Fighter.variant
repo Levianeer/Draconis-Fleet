@@ -10,19 +10,18 @@
   "hullMods": [],
   "weaponGroups": [
     {
-      "autofire": true,
+      "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0001": "lightag"
+        "WS0001": "vulcan",
+        "WS0002": "fsdf_dovetail_srm",
+        "WS0003": "fsdf_dovetail_srm"
       }
     },
     {
       "autofire": false,
       "mode": "LINKED",
-      "weapons": {
-        "WS0002": "fsdf_200_mrm_fighter",
-        "WS0003": "fsdf_200_mrm_fighter"
-      }
+      "weapons": {}
     }
   ],
   "modules": [],

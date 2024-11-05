@@ -3,7 +3,7 @@
 	"type":"STAT_MOD",
 	"aiType":"DRONE_STRIKE",
 	
-	"statsScript":"data.scripts.shipsystems.fsdf_MRM_StrikeStats",
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_MRM_StrikeStats",
 	
 	"canNotCauseOverload":true,
 	"runScriptWhileIdle":true,  # this means unapply() never gets called

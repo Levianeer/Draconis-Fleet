@@ -44,7 +44,7 @@
       "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 135,
+      "arc": 210,
       "angle": 75,
       "locations": [15.5, 32]
     },
@@ -53,7 +53,7 @@
       "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 135,
+      "arc": 210,
       "angle": -75,
       "locations": [15.5, -32]
     },
@@ -76,24 +76,6 @@
       "locations": [8, -56]
     },
     {
-      "id": "WS0008",
-      "size": "MEDIUM",
-      "type": "BALLISTIC",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": 0,
-      "locations": [113, 10]
-    },
-    {
-      "id": "WS0009",
-      "size": "MEDIUM",
-      "type": "BALLISTIC",
-      "mount": "HARDPOINT",
-      "arc": 5,
-      "angle": -0,
-      "locations": [113, -10]
-    },
-    {
       "id": "WS0010",
       "size": "LARGE",
       "type": "DECORATIVE",
@@ -114,9 +96,9 @@
     {
       "id": "WS0014",
       "size": "LARGE",
-      "type": "COMPOSITE",
+      "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 210,
+      "arc": 300,
       "angle": 0,
       "locations": [65.5, -0]
     },

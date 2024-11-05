@@ -1,13 +1,20 @@
 {        
-    "fsdf_mac_fire":{
+    "fsdf_lance_7_fire":{
 		"sounds":[
-	        {"file":"sounds/sfx_wpn_guns/fsdf_mac_fire_01.ogg","pitch":1.0, "volume":0.5},
-	        {"file":"sounds/sfx_wpn_guns/fsdf_mac_fire_02.ogg","pitch":1.0, "volume":0.5},
-		],
-		"FIGHTER":{"sounds":[0], "pitch":1, "volume":0.4},
-		"FRIGATE":{"sounds":[0], "pitch":1, "volume":0.4},
-		"DESTROYER":{"sounds":[0], "pitch":1, "volume":0.6},
-		"CRUISER":{"sounds":[0], "pitch":1, "volume":0.8},
-		"CAPITAL_SHIP":{"sounds":[0], "pitch":1, "volume":1},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.45,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.55,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.5,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.45,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.55,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.5,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.45,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.55,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.5,"volume":0.25},
+	],
+		"FIGHTER":{"sounds":[0], "pitch":0.1, "volume":0.1},
+		"FRIGATE":{"sounds":[0], "pitch":0.2, "volume":0.2},
+		"DESTROYER":{"sounds":[0], "pitch":0.3, "volume":0.3},
+		"CRUISER":{"sounds":[0], "pitch":0.4, "volume":0.4},
+		"CAPITAL_SHIP":{"sounds":[0], "pitch":0.5, "volume":0.5},
 	},
 }

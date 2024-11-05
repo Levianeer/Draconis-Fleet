@@ -1,13 +1,10 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 11,
+    "fluxCapacitors": 33,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
-    "hullMods": [
-        "targetingunit",
-        "fluxdistributor"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",
@@ -16,53 +13,41 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0010": "fsdf_strilka",
-                "WS0011": "fsdf_strilka"
+                "WS0010": "mjolnir",
+                "WS0011": "mjolnir"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "harpoonpod",
+                "WS0002": "harpoonpod"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0023": "fsdf_rim_10",
-                "WS0024": "fsdf_rim_10"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "fsdf_lance_7",
-                "WS0002": "fsdf_lance_7"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0017": "fsdf_rim_10",
-                "WS0018": "fsdf_rim_10"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0003": "fsdf_mk_20",
+                "WS0003": "flak",
                 "WS0004": "vulcan",
-                "WS0005": "fsdf_mk_20",
+                "WS0005": "flak",
                 "WS0006": "vulcan",
                 "WS0007": "vulcan",
                 "WS0014": "vulcan",
                 "WS0015": "vulcan",
-                "WS0016": "vulcan"
+                "WS0016": "vulcan",
+                "WS0017": "vulcan",
+                "WS0018": "vulcan",
+                "WS0023": "vulcan",
+                "WS0024": "vulcan"
             }
         }
     ],
     "wings": [
-        "fsdf_aldibain_wing",
-        "fsdf_aldibain_wing",
-        "fsdf_aldibain_wing",
-        "fsdf_aldibain_wing"
+        "broadsword_wing",
+        "perdition_wing",
+        "perdition_wing",
+        "perdition_wing"
     ]
 }

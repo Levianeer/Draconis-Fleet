@@ -2,10 +2,10 @@
 	"id":"fsdf_rastaban_missile_shot",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/fsdf_400_second_stage.png",
-	"size":[10,40],
-	"center": [5, 20],
-	"collisionRadius": 24.5,
+	"sprite":"graphics/missiles/fsdf_rastaban_drone.png",
+	"size":[34,56],
+	"center": [17, 27.5],
+	"collisionRadius": 36,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[100,100,255,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":150, # purely visual
@@ -14,7 +14,7 @@
 				  "acc":1000,
 				  "dec":500},
 	"engineSlots":[{"id":"ES1",
-					"loc":[-20, 0],
+					"loc":[-27.5, 0],
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used

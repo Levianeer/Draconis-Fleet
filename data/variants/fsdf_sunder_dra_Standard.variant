@@ -1,10 +1,13 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 16,
+    "fluxCapacitors": 6,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_sunder_dra",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "ballistic_rangefinder"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_sunder_dra_Standard",
