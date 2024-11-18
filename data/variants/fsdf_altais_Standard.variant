@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 11,
-    "fluxVents": 50,
+    "fluxCapacitors": 0,
+    "fluxVents": 47,
     "goalVariant": true,
     "hullId": "fsdf_altais",
     "hullMods": [
@@ -25,18 +25,18 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0023": "hellbore"}
+            "weapons": {"WS0023": "fsdf_spear"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "hveldriver",
-                "WS0002": "hveldriver",
-                "WS0003": "hveldriver",
-                "WS0004": "hveldriver",
-                "WS0005": "hveldriver",
-                "WS0006": "hveldriver"
+                "WS0001": "fsdf_lance_7",
+                "WS0002": "fsdf_lance_7",
+                "WS0003": "fsdf_lance_7",
+                "WS0004": "fsdf_lance_7",
+                "WS0005": "fsdf_lance_7",
+                "WS0006": "fsdf_lance_7"
             }
         },
         {
@@ -48,10 +48,20 @@
                 "WS0009": "vulcan",
                 "WS0010": "vulcan",
                 "WS0011": "vulcan",
-                "WS0012": "vulcan",
-                "WS0018": "vulcan",
-                "WS0019": "vulcan",
-                "WS0024": "flak"
+                "WS0012": "vulcan"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0024": "fsdf_mk_20"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "fsdf_rim_10",
+                "WS0019": "fsdf_rim_10"
             }
         }
     ]

@@ -1,10 +1,13 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 17,
+    "fluxCapacitors": 11,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_edasich",
-    "hullMods": ["missile_autoloader"],
+    "hullMods": [
+        "missile_autoloader",
+        "hardenedshieldemitter"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_edasich_Standard",
@@ -13,36 +16,30 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "lightag",
-                "WS0004": "lightag"
+                "WS0003": "railgun",
+                "WS0004": "railgun"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0011": "gorgon",
-                "WS0012": "gorgon",
-                "WS0015": "gorgon",
-                "WS0016": "gorgon",
-                "WS0017": "gorgon",
-                "WS0018": "gorgon"
+                "WS0011": "swarmer",
+                "WS0012": "swarmer",
+                "WS0015": "swarmer",
+                "WS0016": "swarmer",
+                "WS0017": "swarmer",
+                "WS0018": "swarmer"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "vulcan",
-                "WS0006": "vulcan"
+                "WS0001": "lightag",
+                "WS0002": "lightag",
+                "WS0005": "lightag",
+                "WS0006": "lightag"
             }
         }
     ]

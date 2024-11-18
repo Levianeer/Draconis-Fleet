@@ -42,7 +42,6 @@
 			"shepherd":0,
 			"venture":0,
 			"gremlin":0,
-
 			"dram":0,
 			"phaeton":0,
 			"prometheus":0,
@@ -122,9 +121,9 @@
 		],
 	},
 	"factionDoctrine":{
-		"warships":4,
+		"warships":3,
 		"carriers":3,
-		"phaseShips":0,
+		"phaseShips":1,
 		
 		"officerQuality":3,
 		"shipQuality":3,

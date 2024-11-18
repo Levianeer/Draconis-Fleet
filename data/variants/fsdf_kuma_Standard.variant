@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 26,
+    "fluxCapacitors": 18,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_kuma",
@@ -15,7 +15,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0014": "hephag"}
+            "weapons": {"WS0014": "fsdf_spear"}
         },
         {
             "autofire": false,
@@ -29,8 +29,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "hveldriver",
-                "WS0004": "hveldriver"
+                "WS0003": "fsdf_lance_7",
+                "WS0004": "fsdf_lance_7"
             }
         },
         {

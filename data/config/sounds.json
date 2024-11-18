@@ -17,4 +17,14 @@
 		"CRUISER":{"sounds":[0], "pitch":0.4, "volume":0.4},
 		"CAPITAL_SHIP":{"sounds":[0], "pitch":0.5, "volume":0.5},
 	},
+    "fsdf_spear_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_spear_fire_01.ogg","pitch":1.0,"volume":0.25},
+	],
+		"FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.1},
+		"FRIGATE":{"sounds":[0], "pitch":1.0, "volume":0.2},
+		"DESTROYER":{"sounds":[0], "pitch":1.0, "volume":0.3},
+		"CRUISER":{"sounds":[0], "pitch":1.0, "volume":0.4},
+		"CAPITAL_SHIP":{"sounds":[0], "pitch":1.0, "volume":0.5},
+	}
 }

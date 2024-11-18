@@ -70,24 +70,6 @@
       "contrailSize": 6,
       "style": "CUSTOM",
       "styleId": "DRACONIS"
-    },
-    {
-      "location": [-7, 12],
-      "length": 16,
-      "width": 4,
-      "angle": 180,
-      "contrailSize": 4,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
-    },
-    {
-      "location": [-7, -12],
-      "length": 16,
-      "width": 4,
-      "angle": -180,
-      "contrailSize": 4,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
     }
   ],
   "bounds": [
