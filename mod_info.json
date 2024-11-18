@@ -4,7 +4,7 @@
   "author": "Levianeer",
   "utility": false,
   # Using the long version format lets the game correctly compare major/minor/patch versions.
-  "version": { "major": '1', "minor": '0', "patch": '0' },
+  "version": { "major": '1', "minor": '0', "patch": '1' },
   "description": "Starsector Faction Mod.",
   "gameVersion": "0.97a-RC11",
   "dependencies": [
