@@ -5,7 +5,7 @@
 	"graphics":{
 		"misc":{
 			"draconis_luna_icon":"graphics/icons/mod_icon.png",
-		}
+		},
 		"blueprint_packages":{
 			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
 		},
