@@ -1,0 +1,129 @@
+{
+	# should be a copy of "combatSmall", minus variants that are annoying to fight in low numbers
+	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
+	"combatSmallForSmallFleet":{
+		"fsdf_thuban_Standard":1,
+		"fsdf_alruba_Standard":3,
+		
+		"fallback":{"combatSmall":1},
+	},
+	"combatSmall":{
+		"fsdf_thuban_Standard":3,
+		"fsdf_alruba_Standard":1,
+		
+		"fallback":{"combatMedium":0.5},
+	},
+	"combatMedium":{
+		"fsdf_rastaban_Standard":3,
+		"fsdf_errakis_Standard":3,
+
+		"fallback":{"combatSmall":1},
+	},
+	"combatLarge":{
+		"fsdf_eltanin_Standard":3,
+		"fsdf_asuia_Standard":3,
+		
+		"fallback":{"combatMedium":1},
+	},
+	"combatCapital":{
+		"fsdf_altais_Standard":3,
+
+		"fallback":{"combatLarge":1},
+	},
+	"carrierSmall":{
+		
+		"fallback":{"carrierMedium":0.5},
+		"fallback2":{"carrierLarge":0.25},
+	},
+	"carrierMedium":{
+		"fsdf_shaobi_Standard":3,
+
+		"fallback":{"carrierSmall":1},
+		"fallback2":{"carrierLarge":0.5},
+	},
+	"carrierLarge":{
+		"fsdf_alwaid_Standard":3,
+
+		"fallback":{"carrierMedium":1},
+		"fallback2":{"carrierSmall":1},
+	},
+
+	# freighters and such
+	"freighterSmall":{
+
+		"fallback":{"freighterMedium":0.5},
+		"fallback2":{"freighterLarge":0.25},
+	},
+	"freighterMedium":{
+
+		"fallback":{"freighterSmall":1},
+		"fallback2":{"freighterLarge":0.5},
+	},
+	"freighterLarge":{
+
+		"fallback":{"freighterMedium":1},
+		"fallback2":{"freighterSmall":1},
+	},
+	
+	"tankerSmall":{
+
+		"fallback":{"tankerMedium":0.5},
+		"fallback2":{"tankerLarge":0.25},
+	},
+
+	"tankerMedium":{
+
+		"fallback":{"tankerSmall":1},
+		"fallback2":{"tankerLarge":0.5},
+	},
+	"tankerLarge":{
+
+		"fallback":{"tankerMedium":1},
+		"fallback2":{"tankerSmall":1},
+	},
+	
+	"personnelSmall":{
+
+		"fallback":{"personnelMedium":0.5},
+		"fallback2":{"personnelLarge":0.25},
+	},
+	"personnelMedium":{
+
+		"fallback":{"personnelSmall":1},
+		"fallback2":{"personnelLarge":0.5},
+	},
+	"personnelLarge":{
+
+		"fallback":{"personnelMedium":1},
+		"fallback2":{"personnelSmall":1},
+	},
+	
+	"linerSmall":{
+
+		"fallback":{"linerMedium":0.5},
+		"fallback2":{"linerLarge":0.25},
+	},
+	"linerMedium":{
+
+		"fallback":{"linerSmall":1},
+		"fallback2":{"linerLarge":0.5},
+	},
+	"linerLarge":{
+
+		"fallback":{"linerMedium":1},
+		"fallback2":{"linerSmall":1},
+	},
+	
+	# utility ships
+	"tug":{
+
+		"fallback":{"utility":1},
+	},
+	"crig":{
+
+		"fallback":{"utility":1},
+	},
+	"utility":{
+
+	}
+}

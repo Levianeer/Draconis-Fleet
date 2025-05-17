@@ -1,0 +1,29 @@
+{
+	"DRACONIS": {
+		"engineColor":[255,125,25,255],
+		"engineCampaignColor":[200,90,70,255],
+		"contrailParticleSizeMult":10,
+		"contrailParticleDuration":0.09,
+		"contrailParticleFinalSizeMult":3.0,		
+		"contrailMaxSpeedMult":0.30,
+		"contrailAngularVelocityMult":0.30,
+		"contrailColor":[50,50,50,50],
+		"contrailCampaignColor":[200,90,70,75],
+		"engineGlowGlowMult":2,
+		"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+	},
+
+	"DRACONIS_FIGHTER": {
+		"engineColor":[255,125,25,255],
+		"engineCampaignColor":[200,90,70,255],
+		"contrailParticleSizeMult":10,
+		"contrailParticleDuration":0.6,
+		"contrailParticleFinalSizeMult":3.0,		
+		"contrailMaxSpeedMult":0.30,
+		"contrailAngularVelocityMult":0.30,
+		"contrailColor":[50,50,50,50],
+		"contrailCampaignColor":[200,90,70,75],
+		"engineGlowGlowMult":1.5,
+		"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+	}
+}

@@ -1,0 +1,247 @@
+name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sModDesc,sprite
+Missile Guidance Uplink,fsdf_missileuplink,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.fsdf_MissileGuidanceUplink,"This ship utilises a massive, highly advanced phased array antenna for searching and tracking, providing real-time targeting data to the onboard missile guidance systems. Extends the range of missile weapons by %s.",Increases missile weapon range.,,graphics/hullmods/missile_autofactory.png
+Overburdened Tracking Systems,fsdf_overburdenedsystems,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.fsdf_OverburdenedSystems,"This ship has a massive spinally mounted missile silo with a sophisticated forge with it. However, this has led to some prominent design compromises, primarily, the targeting systems have reduced long-range tracking accuracy. Increases missile weapon recharge rate by %s but reduces their range by %s. Also increases the ammo capacity of missile weapons by %s.",Decreases missile weapon range but increases recharge rate and ammo capacity.,,graphics/hullmods/reduced_explosion.png
+Advanced Auto Loaders,fsdf_advancedautoloaders,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.fsdf_AdvancedAutoLoaders,"This ship features an advanced conveyor system that spans the hull, linking each weapon with its internal ammunition storage, allowing for increased loading times and thereby increasing ballistic weapons fire rate by %s.",Increases ballistic weapon fire rate.,,graphics/hullmods/expanded_magazines.png
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+# logistics hullmods,,,,,,,,,,,,,,,,,,,
+Additional Berthing,additional_berthing,0,,,"req_spaceport, merc, standard","Logistics, Requires Dock",3000,TRUE,,,5,10,15,25,com.fs.starfarer.api.impl.hullmods.AdditionalBerthing,"Increases maximum crew capacity by %s/%s/%s/%s, depending on hull size, or by %s, whichever is higher.
+
+For civilian-grade hulls, also increases maintenance supply use by %s.",Increases crew capacity.,"Doubles the crew capacity increase and, for civilian hulls, negates the maintenance cost increase.",graphics/hullmods/berthing.png
+Augmented Drive Field,augmentedengines,1,,,"req_spaceport, merc, standard","Logistics, Requires Dock",8000,,,,8,16,24,40,data.hullmods.AugmentedEngines,Increases maximum burn level by %s.,Increases maximum burn level.,Increases maximum burn level by a further %s.,graphics/hullmods/augmented_drive_field2.png
+Auxiliary Fuel Tanks,auxiliary_fuel_tanks,0,,,"req_spaceport, merc, standard","Logistics, Requires Dock",4000,TRUE,,,5,10,15,25,com.fs.starfarer.api.impl.hullmods.AuxiliaryFuelTanks,"Increases maximum fuel capacity by %s/%s/%s/%s, depending on hull size, or by %s, whichever is higher.
+
+For civilian-grade hulls, also increases maintenance supply use by %s.",Increases fuel capacity.,"Doubles the fuel capacity increase and, for civilian hulls, negates the maintenance cost increase.",graphics/hullmods/fuel_tanks.png
+Efficiency Overhaul,efficiency_overhaul,0,,,"req_spaceport, merc, standard","Logistics, Requires Dock",4000,,,,3,6,9,15,com.fs.starfarer.api.impl.hullmods.EfficiencyOverhaul,"Reduces supply use for maintenance, fuel use, and minimum crew required by %s.
+
+Increases the combat readiness recovery and repair rates by %s. The per-day supply consumption for CR recovery is increased to account for the increased recovery rate, but the total supply cost remains the same.",Reduces ongoing costs and enables more deployments.,"Reduces maintenance cost, fuel use, and minimum crew requirement by a further %s.",graphics/hullmods/efficiency.png
+Expanded Cargo Holds,expanded_cargo_holds,0,,,"req_spaceport, merc, standard","Logistics, Requires Dock",4000,TRUE,,,5,10,15,25,com.fs.starfarer.api.impl.hullmods.ExpandedCargoHolds,"Increases maximum cargo capacity by %s/%s/%s/%s, depending on hull size, or by %s, whichever is higher.
+
+For civilian-grade hulls, also increases maintenance supply use by %s.",Increases cargo capacity.,"Doubles the cargo capacity increase and, for civilian hulls, negates the maintenance cost increase.",graphics/hullmods/expanded_cargo.png
+High Resolution Sensors,hiressensors,2,,,"req_spaceport, merc, standard","Logistics, Requires Dock",9000,,,,4,6,9,15,com.fs.starfarer.api.impl.hullmods.HighResSensors,<Tooltip created in script>,Increases fleet's sensor range.,"Increases the ship's in-combat vision range by %s/%s/%s/%s, based on hull size.",graphics/hullmods/high_res_sensors.png
+Insulated Engine Assembly,insulatedengine,0,,,"engines, defensive, req_spaceport, merc, standard","Engines, Logistics, Defenses, Requires Dock",2500,,,,3,6,9,15,data.hullmods.InsulatedEngines,"Increases the durability of the ship's engines by %s, and the ship's hull integrity by %s.
+
+The ship's sensor profile is also reduced by %s.","Makes engines harder to disable, lowers sensor profile.","Increases engine durability by a further %s, and Increases the sensor profile reduction to %s.",graphics/hullmods/insulated_engine_assembly.png
+Militarized Subsystems,militarized_subsystems,0,,,"req_spaceport, merc, standard","Special, Logistics, Requires Dock",6000,TRUE,,,4,8,12,20,com.fs.starfarer.api.impl.hullmods.MilitarizedSubsystems,"Removes the penalties from a civilian-grade hull, and increases maximum burn level by %s.
+
+Increases minimum crew required by %s.","Removes sensor penalties, increases maximum burn level, increases crew required.",Negates the increased crew requirements.,graphics/hullmods/militarized_subsystems.png
+Solar Shielding,solar_shielding,2,,,"defensive, req_spaceport, merc, standard","Defenses, Logistics, Requires Dock",5000,,,,3,6,9,15,data.hullmods.SolarShielding,"Originally developed by Diktat engineers after spending cycles dealing with the unique conditions of the inner Askonia system. Decreases the effect operating in a solar corona has on combat readiness by %s; also has the same effect against storms in deep hyperspace.
+
+In combat, reduces energy damage taken by %s.",Reduces effect of being in corona and energy damage taken.,Increases the protection from solar coronae and similar hazards to %s.,graphics/hullmods/solar_shielding2.png
+Surveying Equipment,surveying_equipment,1,,,"special, req_spaceport, standard","Logistics, Requires Dock",5000,,,,5,10,15,25,data.hullmods.SurveyingEquipment,"Reduces the heavy machinery and supplies required to perform surveys by %s/%s/%s/%s depending on hull size, down to a minimum of %s for each.",Reduces resource requirements for surveying.,Increases the survey cost reduction by %s.,graphics/hullmods/surveying_equipment.png
+,,,,,,,,,,,,,,,,,,,
+# standard built-in hullmods,,,,,,,,,,,,,,,,,,,
+Terminator Core,terminator_core,,,,,Weapons,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.TerminatorCore,"Gives all point-defense weapons the ability to identify - and ignore - decoy flares. In addition, all weapons get the best possible target leading, regardless of combat readiness, all damage to missiles and fighters is increased by %s, and beam weapon range is increased by %s units.",,,graphics/hullmods/terminator_core.png
+Shared Flux Sink,shared_flux_sink,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.SharedFluxSink,"Handles %s of the flux dissipation of all attached modules. If modules are lost during battle, the extra flux dissipation is redistributed among the remaining modules. Up to %s of this extra dissipation applies to hard flux.",Flux/hard flux dissipation bonus as modules are lost.,,graphics/hullmods/shared_flux_sink.png
+Stealth Minefield,stealth_minefield,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.StealthMinefield,Mines attack enemy ships during battle.,Mines attack enemy ships during battle.,,graphics/hullmods/stealth_mines.png
+Stealth Minefield - Low Tech,stealth_minefield_lt,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.StealthMinefieldLT,Mines attack enemy ships during battle.,Mines attack enemy ships during battle.,,graphics/hullmods/stealth_mines.png
+B-Deck,bdeck,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.BDeck,"Once per combat, when the fighter replacement rate reaches %s, the fighter launch bays are switched over to operate from a ""B-Deck"".
+
+Standby fighters are launched to rapidly bring the wings back up to full strength, and the fighter replacement rate is set to %s.",Launches fresh wing once per combat and replenishes the replacement rate.,,graphics/hullmods/bdeck.png
+Fighter Chassis Storage,chassis_storage,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.FighterChassisStorage,Fighter replacement rate does not go down when fighters are lost.,Fighter replacement rate does not go down.,,graphics/hullmods/expanded_deck_crew.png
+Shield Always On,shield_always_on,,,,,,,,TRUE,TRUE,0,0,0,0,com.fs.starfarer.api.impl.hullmods.ShieldAlwaysOn,,"Forces shield to stay on. Hidden, doesn't need description or icon.",,graphics/hullmods/hardened_shields.png
+Missile Autoforge,missile_reload,,,,codex_require_related,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.PeriodicMissileReload,An autoforge inside the ship periodically fully reloads the magazines of all missile weapons.,Periodically reloads all missile weapons.,,graphics/hullmods/expanded_missile_racks.png
+Shielded Cargo Holds,shielded_holds,2,,,,,,,TRUE,,0,0,0,0,data.hullmods.ShieldedCargoHolds,"Commonly found on ships that can't always rely on shields to protect their cargo from cosmic radiation. Only a few tweaks are needed to have the shielding confound long-range cargo scans, reducing the probability of contraband being detected.",Improves chance to avoid detection of contraband.,,graphics/hullmods/shielded_cargo_hold.png
+Salvage Gantry,repair_gantry,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.campaign.RepairGantry,"Increases the resources gained from salvaging abandoned stations, derelicts, floating hulks, and other such by %s/%s/%s/%s, depending on hull size. Only affects the recovery of common resources such as fuel and supplies, and not rare items like blueprints. In addition, %s of the bonus applies to post-battle salvage.",Increases resources gained from salvage.,,graphics/hullmods/repair_gantry.png
+Phase Field,phasefield,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.PhaseField,"The ship is able to run a low-grade phase field for extended periods of time, reducing its effective sensor profile by %s.",Reduces fleetwide sensor profile.,,graphics/hullmods/phase_field.png
+Flux Shunt,fluxshunt,,,,,,,,TRUE,,0,0,0,0,data.hullmods.FluxShunt,Allows the ship to dissipate hard flux at %s of the normal rate while shields are on.,Allows dissipation of hard flux while shields are up.,,graphics/hullmods/flux_shunt.png
+Civilian-grade Hull,civgrade,,,,,,,,TRUE,,0,0,0,0,data.hullmods.CivGrade,Increases sensor profile by %s. Reduces sensor strength by %s.,"Increases sensor profile, reduces sensor strength.",,graphics/hullmods/civilian_grade.png
+High Maintenance,high_maintenance,,,,,,,,TRUE,,0,0,0,0,data.hullmods.HighMaintenance,Increases the monthly maintenance supply cost by %s.,Increases maintenance cost.,,graphics/hullmods/high_maintenance.png
+Energy Bolt Coherer,coherer,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.EnergyBoltCoherer,<tooltip created in the script>,Increases base range of non-beam energy weapons.,,graphics/hullmods/coherer.png
+Design Compromises,design_compromises,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DesignCompromises,"The ship's performance suffers from competing design priorities, with multiple bleeding-edge projects integrated too late in the design cycle.
+
+The ship's flux dissipation and capacity, even the nominal base values, are reduced by %s.
+
+The range of ballistic weapons is reduced by %s, the rate of fire of missile weapons is reduced by %s, and the flux generation of energy weapons is increased by %s.
+
+On the plus side, extra nanoforge capacity can be brought online more easily, allowing the installation of a %s despite the ship already having a fighter bay, increasing the number of operational fighter bays to %s.","Reduces missile and ballistic weapon range, and flux dissipation / capacity.",,graphics/hullmods/design_compromises.png
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+Monofilament Tow Cable,tow_cable,,,,hide_in_codex,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.campaign.TowCable,"Improves the maximum burn level of the slowest ship in the fleet by 1. Multiple tugs can not be used to speed up the same ship by more than 1.
+
+Can not be used in combat.",Increases burn level of another ship.,,graphics/hullmods/monofilament_cable.png
+Drive Field Stabilizer,drive_field_stabilizer,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DriveFieldStabilizer,"Stabilizes the fleet's drive bubble, increasing the maximum burn of the fleet by %s. The effect of multiple stabilizers is cumulative.
+
+Increases the ship's sensor profile by %s.",Reduces fleetwide fuel use.,,graphics/hullmods/augmented_drive_field.png
+Ground Support Package,ground_support,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.GroundSupport,"Close support weapons and counter-measures for ground defenses. Increases the effective strength of planetary raids by %s, up to the total number of marines in the fleet.",Improves effectiveness of raids.,,graphics/hullmods/ground_support.png
+Advanced Ground Support,advanced_ground_support,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.AdvancedGroundSupport,"Close support weapons and counter-measures for ground defenses. Increases the effective strength of planetary raids by %s, up to the total number of marines in the fleet.",Improves effectiveness of raids.,,graphics/hullmods/ground_support_adv.png
+Delicate Machinery,delicate,,,,,,,,TRUE,,0,0,0,0,data.hullmods.DelicateMachinery,"The ship systems require excessive maintenance and do not stand up well under the rigours of prolonged engagements.
+
+Increases the rate of in-combat CR decay after peak performance time runs out by %s.",Increases CR decay rate after peak time runs out.,,graphics/hullmods/delicate_machinery.png
+Heavy Ballistics Integration,hbi,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.HeavyBallisticsIntegration,Reduces the ordnance point cost of large ballistic weapons by %s.,Reduces ordnance point cost of large ballistic weapons.,,graphics/hullmods/ballistics_integration.png
+Vast Hangar,vast_hangar,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.VastHangar,"The ship has a huge hangar and a commensurate small fleet of support craft.
+
+The number of fighter bays added by Converted Hangar is increased by %s, and its performance matches that of a dedicated fighter bay - all of the penalties and modifiers, including those to the ship's deployment cost, are negated.",Increases the effect of Converted Hangar and removes its penalties.,,graphics/hullmods/vast_hangar.png
+Rugged Construction,rugged,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.RuggedConstruction,"Reduces most negative effects of d-mods by %s. If disabled or destroyed in combat, the ship has a %s chance to avoid new d-mods, and is almost always recoverable after the battle.
+
+In addition, the supply cost to recover from deployment - and to effect repairs if the ship is disabled - is reduced by %s.",Reduces impact of d-mods; ship almost always recoverable if lost.,,graphics/hullmods/rugged_construction.png
+Automated Ship,automated,,,,codex_require_related,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.Automated,"This ship is fully automated, and does not require - and can not take on - any human crew.",Does not require and can not support crew.,,graphics/hullmods/automated.png
+Advanced Targeting Core,advancedcore,,,,,,,,TRUE,,0,0,0,0,data.hullmods.AdvancedTargetingCore,"Extends the range of ballistic and energy weapons by %s. The range of point-defense weapons is only extended by %s.
+
+Precludes the installation of a Dedicated Targeting Core or an Integrated Targeting Unit.",Greatly extends non-missile weapon range.,,graphics/hullmods/advanced_targeting_core.png
+Targeting Supercomputer,supercomputer,,,,,,,,TRUE,,0,0,0,0,data.hullmods.TargetingSupercomputer,"Extends the range of ballistic and energy weapons by %s. The range of point-defense weapons is only extended by %s.
+
+Also increases target-leading accuracy and greatly increases in-combat sensor range.",Greatly extends non-missile weapon range.,,graphics/hullmods/targeting_supercomputer.png
+Experimental Phase Coils,ex_phase_coils,,,,codex_require_related,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.ExperimentalPhaseCoils,Reduces phase cloak cooldown by %s.,Greatly reduces phase cloak cooldown.,,graphics/hullmods/phase_coils_experimental.png
+High Volition Attractor,high_frequency_attractor,,,,codex_require_related,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.combat.BaseHullMod,An experimental modification allowing high-frequency motes to be warped in by the rift core on board the ship.,Launches more powerful high-frequency motes.,,graphics/hullmods/high_volition_attractor.png
+Ablative Armor,ablative_armor,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.AblativeArmor,"An ancient design intended to stop micro-meteorites through sheer volume of material in place, before the advent of ""spaced"" armor.
+
+Reduces the effective armor strength for the damage reduction calculation to %s of its actual value. However, ships of this design tend to carry extremely heavy armor.",Reduces damage reduction by armor.,,graphics/hullmods/ablative_armor.png
+Distributed Fire Control,distributed_fire_control,,,,,,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DistributedFireControl,"Much of the damage that takes weapons offline is to external control runs and power conduits. This ship's weapons are engineered to operate more independently, reducing their exposure to damage by %s and reducing the EMP damage taken by the ship overall by %s.",Increases weapon durability and reduces EMP damage taken.,,graphics/hullmods/distributed_fire_control2.png
+Converted Cargo Bay,converted_bay,1,,,,,,,TRUE,,0,0,0,0,data.hullmods.ConvertedCargoBay,"This ship's cargo hold has been converted to house a pair of fighter bays. The improvised manufactory that produces fighter chassis is unreliable, and most components have minor defects. Fighter speed reduced by %s, and damage taken increased by %s.",Pair of improvised fighter bays.,,graphics/hullmods/converted_hangar.png
+Special Modifications,andrada_mods,,,,"dmod, codex_require_related",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.AndradaMods,"During an inspection of an early prototype, the Supreme Executor was heard to comment unfavorably on exposed conduits running along the passageways, and the danger these must pose to the brave and loyal crew under combat conditions. 
+
+The new chief designer, a loyal officer appointed by the Supreme Executor himself, instructed the forge-programmers to make accommodations for the installation of special blast-proof insulated paneling produced by Sindria itself.
+
+If the passages are a bit narrower, conduits prone to overheating, and flush-set panels somewhat unwieldy to access, the official readiness reports include no criticism of the changes. Everyone agrees in both public and - as the Internal Security Ministry can attest - in private, that the stark grandeur of the Lion's Guard fleet is breathtaking.
+
+Crew casualties in combat are increased by %s. The base flux dissipation rate is reduced by %s, and the repair rate for disabled weapons and engines is reduced by %s.",Reduces the ship's performance.,,graphics/hullmods/special_modifications.png
+Vast Bulk,vastbulk,,,,,,,,TRUE,,0,0,0,0,data.hullmods.VastBulk,"The main body of this structure is vast and is, for practical purposes, capable of absorbing any amount of damage from conventional weapons without being destroyed.",,,graphics/hullmods/vast_bulk.png
+Axial Rotation,axialrotation,,,,,,,,TRUE,,0,0,0,0,data.hullmods.AxialRotation,This structure constantly rotates around its axis.,,,graphics/hullmods/axial_rotation.png
+Anchor Rotation,anchorrotation,,,,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.AnchorRotation,This structure rotates around its anchor attachment point. For station modules only.,,,graphics/hullmods/axial_rotation.png
+Reduced Explosion,reduced_explosion,,,,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.ReducedExplosion,Reduced explosion radius and damage.,,,graphics/hullmods/reduced_explosion.png
+Always Detaches,always_detaches,,,,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.AlwaysDetaches,Always detaches from parent structure when destroyed.,,,graphics/hullmods/detach_always.png
+Never Detaches,never_detaches,,,,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.NeverDetaches,Never detaches from parent structure when destroyed.,,,graphics/hullmods/detach_never.png
+No Weapon Flux,no_weapon_flux,,,,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.NoWeaponFlux,Weapon fire costs no flux. Used on fighters for fine-grained control of effective shield hitpoints.,,,
+Do Not Fire Through,do_not_fire_through,,,,,,,,TRUE,TRUE,0,0,0,0,data.hullmods.DoNotFireThrough,"Weapons on other modules of a station will avoid firing through this module, even though the shots would go over it and not hit.",,,
+Shard Spawner,shard_spawner,,,,,,,,TRUE,TRUE,0,0,0,0,com.fs.starfarer.api.impl.hullmods.ShardSpawner,Spawns shard ships when ship is disabled/destroyed.,,,
+Do Not Back Off,do_not_back_off,,,,,,,,TRUE,TRUE,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DoNotBackOff,Sets DO_NOT_BACK_OFF AIFlag,,,
+,,,,,,,,,,,,,,,,,,,
+# threat stuff,,,,,,,,,,,,,,,,,,,
+Threat Hull,threat_hullmod,,,,"codex_require_related, threat",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.combat.threat.ThreatHullmod,Hidden hullmod for managing the special properties of Threat ships. Description created in script.,,,graphics/hullmods/the_threat.png
+Fragment Swarm,fragment_swarm,,,,"codex_unlockable, fragment, no_drop_salvage","Weapons, Special",30000,,,,6,12,18,30,com.fs.starfarer.api.impl.combat.threat.FragmentSwarmHullmod,"A swarm of Threat fragments roils around the ship, providing a regenerating supply of fragments for fragment-based weapons.
+
+The base number of fragments is %s/%s/%s/%s, and replacement fragments are launched %s/%s/%s/%s times a second, depending on hull size.
+
+This hullmod is required for fragment weapons to function, if the hullmod is not present or there are not enough fragments in the swarm, fragment weapons will be disabled.",A swarm of Threat fragments roils around the ship.,Reduces maximum combat readiness by %s and increases the maintenance cost by %s.,graphics/hullmods/fragment_swarm.png
+Secondary Fabricator,secondary_fabricator,,,,"codex_unlockable, fragment, no_drop_salvage","Weapons, Special",20000,,,,3,6,9,15,com.fs.starfarer.api.impl.combat.threat.SecondaryFabricatorHullmod,Increases the rate at which replacement fragments are launched by %s.,Increases the fragment replacement rate.,Increases the fragment replacement rate by a further %s.,graphics/hullmods/secondary_fabricator.png
+Fragment Coordinator,fragment_coordinator,,,,"codex_unlockable, fragment, no_drop_salvage","Weapons, Special",15000,,,,3,6,9,15,com.fs.starfarer.api.impl.combat.threat.FragmentCoordinatorHullmod,Increases the maximum number of fragments in the ship's fragment swarm by %s.,Increases the size of the fragment swarm around the ship.,Increases the size of the fragment swarm by a further %s.,graphics/hullmods/fragment_coordinator.png
+,,,,,,,,,,,,,,,,,,,
+# shrouded dweller stuff,,,,,,,,,,,,,,,,,,,
+Dweller Hullmod,dweller_hullmod,,,,dweller,,,,TRUE,TRUE,0,0,0,0,com.fs.starfarer.api.impl.combat.dweller.DwellerHullmod,Adds Shrouded Dweller visuals and any custom mechanics. Not visible to the player.,,,
+Shrouded Mantle,shrouded_mantle,,,,"codex_unlockable, shrouded, no_drop_salvage",Special,,,,,3,6,9,15,com.fs.starfarer.api.impl.combat.dweller.ShroudedMantleHullmod,"The ship will attempt to recoil (hopefully) away from danger when taking substantial hull damage.
+
+Crew casualties in combat are increased by %s.",The ship recoils away from damage.,The ship benefits from %s of the healing provided by Hungering Rift.,graphics/hullmods/shrouded_mantle.png
+Shrouded Thunderhead,shrouded_thunderhead,,,,"codex_unlockable, shrouded, no_drop_salvage","Weapons, Special",,,,,5,10,15,25,com.fs.starfarer.api.impl.combat.dweller.ShroudedThunderheadHullmod,<created by script>,The ship fires Rift Lightning bolts at recent targets of its weapons.,,graphics/hullmods/shrouded_thunderhead.png
+Shrouded Lens,shrouded_lens,,,,"codex_unlockable, shrouded, no_drop_salvage",Special,,,,,3,6,9,15,com.fs.starfarer.api.impl.combat.dweller.ShroudedLensHullmod,<created by script>,"The Lens automatically focuses on nearby targets, dealing damage in an area.",,graphics/hullmods/shrouded_lens.png
+,,,,,,,,,,,,,,,,,,,
+# ship skin buffs,,,,,,,,,,,,,,,,,,,
+Fourteenth Battlegroup,fourteenth,,,,,,,,TRUE,,0,0,0,0,data.hullmods.Fourteenth,"This ship is a survivor of the original 14th Domain Battlegroup which founded the Hegemony. It is a prime specimen of the Domain Navy's ""decisive battle"" doctrine, particularly exhibited by a series of radical structural modifications (performed with pre-Collapse industrial methods) which allow the mounting of heavier armor plating by a flat increase of %s standard units, with only a %s reduction in speed and maneuverability. Exceptionally well-tuned energy systems increase flux throughput and capacity by %s over standard examples of this hull.",,,graphics/hullmods/fourteenth.png
+Militarized Hegemony Auxiliary,heg_militarized,,,,hide_in_codex,,,,TRUE,,0,0,0,0,data.hullmods.Militarized,"This ship is - or was - on the Hegemony auxiliary list. Uparmour kits applied at Hegemony Naval yards resulting in no loss of performance for a %s/%s/%s/%s increase in armor strength, depending on hull size. Core power systems have been upgraded to military standards resulting in a %s improvement in overall handling, %s increase in flux capacity, a %s increase in flux dissipation, and an increase of maximum burn level by %s.",,,graphics/hullmods/militarized_hegemony_auxiliary.png
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+# permanent ship debuffs,,,,,,,,,,,,,,,,,,,
+Compromised Armor,comp_armor,,,,"dmod, damage, damageStruct",,,,TRUE,,0,0,0,0,data.hullmods.CompromisedArmor,"This ship's armor has taken major and irreparable damage at some point in the past, or suffered from major errors in the manufacturing process. Armor rating reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/compromised_armor.png
+Compromised Hull,comp_hull,,,,"dmod, damage, damageStruct",,,,TRUE,,0,0,0,0,data.hullmods.CompromisedHull,"This ship's hull has taken major and irreparable damage at some point in the past, or suffered from major errors in the manufacturing process. Hull integrity reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/compromised_hull.png
+Degraded Engines,degraded_engines,,,,"dmod, damage",,,,TRUE,,0,0,0,0,data.hullmods.DegradedEngines,"Whether due to battle damage, manufacturing defects, or cycles of poor maintenance, this ship's engines are suffering from permanently degraded combat performance. 
+
+Top speed and maneuverability in combat reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/degraded_engines.png
+Degraded Drive Field,degraded_drive_field,,,,"dmod, damage, civOnly",,,,TRUE,,0,0,0,0,data.hullmods.DegradedDriveField,"Whether due to battle damage, manufacturing defects, or cycles of poor maintenance, this ship's drive field is suffering from permanently degraded performance. 
+
+Maximum burn level decreased by %s. Sensor profile increased by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/degraded_drivefield.png
+Faulty Power Grid,faulty_grid,,,,"dmod, damage",,,,TRUE,,0,0,0,0,data.hullmods.FaultyPowerGrid,"Whether due to battle damage, manufacturing defects, or cycles of poor maintenance, this ship's power grid will never be capable of achieving peak performance.
+
+Flux capacity reduced by %s. Flux dissipation rate reduced by %s. Sensor profile increased by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/faulty_power_grid.png
+Phase Coil Instability,unstable_coils,,,,"dmod, phaseDamage",,,,TRUE,,0,0,0,0,data.hullmods.PhaseCoilInstability,"The phase coils on this ship are impossible to calibrate properly due to subtle flaws. Reduces the phase-time bonus by %s, reduces the peak performance time by %s, and increases the rate at which combat readiness degrades by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/phase_coil_instability.png
+Structural Damage,comp_structure,,,,"dmod, damageStruct, destroyedDamageAlways",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.CompromisedStructure,"This ship's hull has likely taken extreme damage in the past, possibly to the point of breaking apart. Armor rating reduced by %s, hull integrity reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/structural_damage.png
+Glitched Sensor Array,glitched_sensors,,,,"dmod, damage",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.GlitchedSensorArray,"The ship's sensor array is damaged past any repair short of a complete hull overhaul. Weapon range in combat reduced by %s. Sensor strength reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/glitched_sensor_array.png
+Malfunctioning Comms,malfunctioning_comms,,,,"dmod, fighterBayDamage",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.MalfunctioningComms,"The comm system has suffered serious damage, making punching through battlefield jamming even more of a challenge. Fighter engagement range reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/malfunctioning_comms.png
+Defective Manufactory,defective_manufactory,,,,"dmod, fighterBayDamage",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DefectiveManufactory,"The manufactory that produces fighter chassis is unreliable, and most components have minor defects. Fighter speed reduced by %s, and damage taken increased by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/defective_manufactory.png
+Damaged Flight Deck,damaged_deck,,,,"dmod, fighterBayDamage",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DamagedFlightDeck,"The flight decks on this ship have taken major damage and seriously interfere with normal operation. Time to launch replacement fighters is increased by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/damaged_flight_deck.png
+Unreliable Subsystems,fragile_subsystems,,,,"dmod, damage, peak_time, notPhase",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.FragileSubsystems,"A widespread loss of redundant components reduces peak operating time by %s, and increases the rate at which combat readiness degrades by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/fragile_subsystems.png
+Compromised Storage,comp_storage,,,,"dmod, damage, civOnly",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.CompromisedStorage,"The storage capacity of this ship is significantly degraded. Crew, cargo, and fuel capacity reduced by %s.
+
+Supply cost to recover from deployment reduced by %s.",,,graphics/hullmods/compromised_storage.png
+Increased Maintenance,increased_maintenance,,,,"dmod, damage, civ, notAuto",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.IncreasedMaintenance,"Increases the monthly maintenance supply cost by %s. Increases minimum crew required by %s. Decreases maximum combat readiness by %s.
+
+Supply cost to recover from deployment reduced by %s.","Increases maintenance cost and crew requirements, decreases maximum combat readiness.",,graphics/hullmods/increased_maintenance.png
+Erratic Fuel Injector,erratic_injector,,,,"dmod, damage, civ",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.ErraticInjector,"Increases fuel use by %s and decreases the zero-flux boost by %s su/second.
+
+Supply cost to recover from deployment reduced by %s.",Increases fuel use and decreases the zero-flux boost.,,graphics/hullmods/erratic_injector.png
+Faulty Automated Systems,faulty_auto,,,,"dmod, damage, notAuto",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.FaultyAutomatedSystems,"Increases minimum crew required by %s and decreases maximum combat readiness by %s.
+
+Supply cost to recover from deployment reduced by %s.","Increases minimum crew required, decreases maximum combat readiness.",,graphics/hullmods/faulty_automated_systems.png
+Damaged Weapon Mounts,damaged_mounts,,,,"dmod, damage",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DamagedWeaponMounts,"Reduces weapon turn rate by %s and increases recoil by %s.
+
+Supply cost to recover from deployment reduced by %s.",Reduces weapon turn rate and increases recoil.,,graphics/hullmods/damaged_weapon_mounts.png
+Degraded Life Support,degraded_life_support,,,,"dmod, damage, notAuto",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DegradedLifeSupport,"Decreases maximum crew capacity by %s, and maximum combat readiness by %s.
+
+Supply cost to recover from deployment reduced by %s.",Decreases maximum crew capacity and combat readiness.,,graphics/hullmods/degraded_life_support.png
+Degraded Shields,degraded_shields,,,,"dmod, damage, reqShields",,,,TRUE,,0,0,0,0,com.fs.starfarer.api.impl.hullmods.DegradedShields,"Increases the amount of damage taken by shields by %s.
+
+Supply cost to recover from deployment reduced by %s.",Increases damage taken by shields.,,graphics/hullmods/degraded_shields.png
+,,,,,,,,,,,,,,,,,,,
+Destroyed Weapon Mounts,destroyed_mounts,,,,dmod,,,,TRUE,,0,0,0,0,data.hullmods.DestroyedWeaponMounts,Some of the original weapon mounts on this ship have been damaged beyond repair and can no longer be used.,,,graphics/hullmods/damaged_weapon_mounts.png
+Ill-Advised Modifications,ill_advised,,,,dmod,,,,TRUE,,0,0,0,0,data.hullmods.IllAdvised,"This hull's systems have been drastically modified from spec, likely without certified engineering oversight. Its systems appear to work correctly under routine conditions, but have a significant chance of critical malfunction when stressed.",,,graphics/hullmods/illadvised.png

@@ -1,0 +1,27 @@
+{
+    "defaultChannels":[
+            "draconis_public",
+    ],
+
+    "draconis_public":{
+		"name":"Draconis Infomerical",
+		"logo":"graphics/icons/intel/comms_local64.png",
+		"icon":"graphics/icons/intel/comms_local64.png",
+		"image":"graphics/factions/draconis.png",
+		"sound":"ui_channel_news",
+		"faction":"fsdf_draconis",
+		"type":"News Report",
+		"shortType":"News",
+	},
+	
+	"draconis_internal":{
+		"name":"Draconis Restricted",
+		"logo":"graphics/icons/intel/comms_secure64.png",
+		"icon":"graphics/icons/intel/comms_secure64.png",
+		"image":"graphics/factions/draconis.png",
+		"sound":"ui_channel_comm_secure",
+		"faction":"fsdf_draconis",
+		"type":"Intelligence Report",
+		"shortType":"Intel",
+	},
+}

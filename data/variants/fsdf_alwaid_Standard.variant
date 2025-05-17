@@ -1,0 +1,82 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 14,
+    "fluxVents": 50,
+    "goalVariant": true,
+    "hullId": "fsdf_alwaid",
+    "hullMods": ["eccm"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_alwaid_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "squall",
+                "WS0014": "squall"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "fsdf_bardiche",
+                "WS0006": "fsdf_bardiche",
+                "WS0011": "fsdf_bardiche",
+                "WS0012": "fsdf_bardiche"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "fsdf_halberd",
+                "WS0004": "fsdf_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0025": "mjolnir",
+                "WS0026": "mjolnir"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0027": "fsdf_razorflak",
+                "WS0031": "fsdf_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
+                "WS0007": "vulcan",
+                "WS0008": "vulcan",
+                "WS0029": "vulcan",
+                "WS0030": "vulcan"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0009": "fsdf_swordbreaker",
+                "WS0010": "fsdf_swordbreaker",
+                "WS0028": "fsdf_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "fsdf_aldibain_wing",
+        "fsdf_tianyi_wing",
+        "fsdf_eldsich_wing",
+        "fsdf_eldsich_wing"
+    ]
+}

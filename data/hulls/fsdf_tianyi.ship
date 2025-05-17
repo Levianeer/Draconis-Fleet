@@ -1,0 +1,78 @@
+{
+  "hullName": "Tianyi",
+  "hullId": "fsdf_tianyi",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/fsdf_tianyi.png",
+  "style": "DRACONIS",
+  "height": 44,
+  "width": 36,
+  "center": [18, 21.5],
+  "collisionRadius": 36,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 31.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "no_weapon_flux",
+    "pointdefenseai"
+  ],
+  "builtInWeapons": {
+    "WS0001": "fsdf_radar_dish"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 360,
+      "angle": 0,
+      "locations": [-1.5, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "UNIVERSAL",
+      "mount": "HIDDEN",
+      "arc": 20,
+      "angle": 0,
+      "locations": [12.5, 7]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "UNIVERSAL",
+      "mount": "HIDDEN",
+      "arc": 20,
+      "angle": -0,
+      "locations": [12.5, -7]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-16, 8.5],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-16, -8.5],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    }
+  ],
+  "bounds": [
+    -2.5, -16.5,
+    -20, -7,
+    -11, -0,
+    -20, 7,
+    -2.5, 16.5,
+    21, -0
+  ]
+}

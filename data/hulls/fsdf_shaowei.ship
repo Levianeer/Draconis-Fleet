@@ -1,0 +1,229 @@
+{
+  "hullName": "Shaowei",
+  "hullId": "fsdf_shaowei",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/ships/phase/fsdf_shaowei.png",
+  "style": "DRACONIS",
+  "height": 158,
+  "width": 118,
+  "center": [59, 78],
+  "collisionRadius": 111,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 104,
+  "viewOffset": 0,
+  "builtInMods": [
+    "phasefield",
+    "delicate"
+  ],
+  "builtInWeapons": {
+    "WS0007": "fsdf_vernier",
+    "WS0008": "fsdf_vernier",
+    "WS0009": "fsdf_vernier",
+    "WS0010": "fsdf_vernier",
+    "WS0011": "fsdf_vernier",
+    "WS0012": "fsdf_vernier",
+    "WS0013": "fsdf_vernier",
+    "WS0014": "fsdf_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0002",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [5, 26]
+    },
+    {
+      "id": "WS0003",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [5, -26]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 10,
+      "angle": 0,
+      "locations": [-5.5, 50]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 10,
+      "angle": 0,
+      "locations": [-5.5, -50]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [70.5, -9]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [70.5, 9]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [66.5, -9]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [66.5, 9]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [74.5, -9]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [74.5, 9]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [60, 12.5]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [60, -12.5]
+    },
+    {
+      "id": "WS0015",
+      "size": "MEDIUM",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 0,
+      "locations": [12, -0]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 275,
+      "angle": 0,
+      "locations": [52, -0]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 105,
+      "angle": 180,
+      "locations": [-56, -0]
+    },
+    {
+      "id": "WS0018",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": -135,
+      "locations": [-27, -51]
+    },
+    {
+      "id": "WS0019",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 135,
+      "locations": [-27, 51]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-73.5, -0],
+      "length": 148,
+      "width": 48,
+      "angle": 180,
+      "contrailSize": 24,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    }
+  ],
+  "bounds": [
+    17, -17.5,
+    1.5, -44.5,
+    -11, -57.5,
+    -22.5, -58,
+    -31.5, -41,
+    -44, -44,
+    -52.5, -34,
+    -66.5, -39.5,
+    -76, -31,
+    -67.5, -26,
+    -67.5, 26,
+    -76, 31,
+    -66.5, 39.5,
+    -52.5, 34,
+    -44, 44,
+    -31.5, 41,
+    -22.5, 58,
+    -11, 57.5,
+    1.5, 44.5,
+    17, 17.5,
+    25.5, 17.5,
+    26.5, 24.5,
+    38.5, 17,
+    54, 16.5,
+    54.5, 9.5,
+    76, 7.5,
+    78, 0,
+    76, -7.5,
+    54.5, -9.5,
+    54, -16.5,
+    38.5, -17,
+    26.5, -24.5,
+    25.5, -17.5
+  ]
+}

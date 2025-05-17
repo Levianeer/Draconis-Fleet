@@ -1,0 +1,23 @@
+{
+	"id":"fsdf_mrm_strike",
+	"type":"STAT_MOD",
+	"aiType":"DRONE_STRIKE",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_MRM_StrikeStats",
+	
+	"canNotCauseOverload":true,
+	"runScriptWhileIdle":true,  # this means unapply() never gets called
+	
+	"fadeActivationSoundOnChargedown":false,
+	"useSound":"system_termination_sequence",
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	"aiHints":{
+		"threatRange":2500,
+		"threatAmount":8,
+		"threatAngle":0,
+		"threatArc":360,
+		"threatDamage":750,
+		"threatSpeed":300,
+	}
+}

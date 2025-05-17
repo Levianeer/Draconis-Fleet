@@ -1,0 +1,90 @@
+id,type,text1,text2,text3,text4,text5,notes
+fsdf_draconis,FACTION,"The Draconis Defence Alliance is a military treaty between Athebyne and Itoron, forged in the smouldering aftermath of the Fafnir Civil War. Once a beautiful verdant world, Athebyne now spins barren—its ruin a testament to the war's savagery and the price of peace.
+
+At the centre of the Alliance stands Fleet Admiral Emil August, former commander of Itoron’s infamous 42nd Defence Fleet—the hammer that broke Athebyne’s back. Hailed as a hero by some and a war criminal by others, August assumed control of the Alliance without election, consolidating military power to “preserve peace.” Itoron backs him. Those from Athebyne barely tolerate him.
+
+Under August’s iron-fisted leadership, the Alliance has become a disciplined and lethal force, its ships and soldiers forged in war. Yet its unity is brittle. Political infighting, deep-seated mistrust, and systemic corruption threaten to shatter what little cohesion remains.
+
+Whether the Alliance is a fragile peacekeeping body or a militarised junta depends on who you ask. But all agree on one point: as long as August remains at the helm, the Alliance endures. Barely.",,,,,
+planet_athebyne,CUSTOM,"The ruins of Athebyne. Devasted by the civil war that engulfed the system. Its people are desperately attempting to return it to its former glory, but for now, it's mostly an inhospitable husk, left to mining companies to pick at until the restoration effort makes headway.",,,,,
+planet_itoron,CUSTOM,"The Jewel of Fafnir. A pristine world with a bustling industrial sector and massive farmland. It doesn't have the MIC of Kori, but it boasts a large military presence nonetheless, especially now as the system's last naturally habitable planet.",,,,,
+planet_kori,CUSTOM,Kori is the frigid moon of Itoron. A shining symbol of hope for the Itoron people. Now it houses the largest military-industrial complex in the Fafnir system and the primary headquarters for the Draconis Navy.,,,,,
+planet_vorium,CUSTOM,A typical gas giant; Vorium. Its massive gravity well helps protect the habitable planets of Fafnir.,,,,,
+station_ringport,CUSTOM,"Ring-Port, a former asteroid mining station, has undergone a tumultuous history. Initially seized by anarchists and separatists, it has now fallen under the control of pirates and remnants of the disbanded first fleet who failed to reintegrate. Serves a notorious black market and a haven for marauders, Ring-Port maintains a modest fleet presence, just enough to deter destruction and safeguard its illicit operations.",,,,,
+fsdf_thuban,SHIP,"The Thuban-class corvette was made to be a small and fast ship that sacrificed armour and flexibility for its highly specialized role as a picket ship and advanced electronic warfare platform. While lacking room for more advanced ship systems, the Thuban stands nearly unmatched in its speed and agility while also being able to punch above its weight when needed, thanks to its spinally mounted MAC.
+
+// You have to understand that military procurement isn’t just ask and receive, we had no allies to buy from, and not enough ships sitting around to outfit ourselves with. We HAD to make some drastic decisions. This was one of them, would I have ordered such a huge list of requirements for a picket ship? Probably not.
+
+But we were only halfway through development before we hit a roadblock–there just wasn’t enough space for everything, we had just started fitting in the composite armour and we were struggling, a ship with that many requirements fitting in a damn Corvette? Not possible. So we compromised, we stripped her bare and fit only the essentials, followed by the only two requirements we and command could agree on, the MAC and the ECM suite. Sure, a stiff breeze could rupture the hull, but the manoeuvrability, the speed, the protection from the EWAR kit, the Durendal?
+
+So to answer your question. Nah, I wouldn’t change a thing. After all, we won. //
+
+- Senior engineer Joseph H. Brown on Project ""Icarus"".",,,,,
+fsdf_alruba,SHIP,"The Alruba-class Gunship was the Alliance’s first attempt at independent ship design, modelled after the Brawler-class, the Alruba was up-armoured and up-gunned, at the expense of speed and agility. At the time, this suited command just fine, but now, as doctrine has drastically changed, it finds itself in a lonely position, usually relegated to the docks.",,,,,
+fsdf_rastaban,SHIP,"A close companion to the Thuban, the Rastaban-class light destroyer was designed with speed in mind, purpose-built to head picket fleets. It features a smaller number of mounts and poor protection, but to make up for it, it is equipped with an advanced targeting system used in conjunction with the Excalibur loitering munitions, offsetting the lack of missile mounts and making a brilliant wreck out of anything that lacks a shield.",,,,,
+fsdf_shaobi,SHIP,"In a rare instance of what can only be called a lapse in adult supervision, the Department of Acquisitions & Sustainment let the Marines commission a ship. And, by some stroke of luck, it wasn't cancelled by Command. The Shaobi-class is the result; a heavy modification of the Rastaban; all the effort put into saving space and ensuring it stayed underweight was scrapped. Instead, it has been gutted and replaced with a reasonably large hangar bay and an even larger staging area for Marines.",,,,,
+fsdf_errakis,SHIP,"Purpose-built from the ground up to act as a carrier escort. It works as the ""muscle"" of a carrier strike group, providing essential protection and capabilities that allow the carrier to operate effectively. The Errakis had to compromise on its radar array to meet all the project requirements, however, this was deemed adequate as it was meant to rely on other ships anyway.",,,,,
+fsdf_shaowei,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
+Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
+
+ // FILE INTEGRITY: DEGRADED
+ // ACCESS LEVEL: RESTRICTED
+
+[BEGIN REPORT EXCERPT - DECLASS LV.6]
+ Subject vessel displays anomalous spatial displacement activity inconsistent with standard Alliance doctrine. Records indicate a costly, extended development cycle. Internal memos reference “thermal cascade events” during reentry, with one source describing it as “an electric storm stretched across three dimensions.”
+Primary fleet rollout cancelled. Budgetary excess and field attrition rates unacceptable. Remaining prototypes: status UNKNOWN.
+[WARNING] Multiple attempts to track registry checksum failed — probable phase interference or deliberate masking.
+Classification: Experimental / Suppressed
+[END EXCERPT]
+
+// WARNING: P-SPACE ECHOES DETECTED
+ // VISUAL CONTACT ADVISED AGAINST
+ // REPORT ALL SIGHTINGS TO ARCHIVAL CONTROL",,,,,
+fsdf_eltanin,SHIP,"The venerable Eltanin-class light cruiser has been the primary leader of hybrid fleet operations and one of the most produced ships in the Fafnir system. Meant to serve in hunter-killer teams, the Eltanin was built as a fast and versatile ship, meant for exploitation, singling out and destroying any isolated ships or punching down against destroyers and frigates.",,,,,
+fsdf_asuia,SHIP,"The Asuia-class is a bizarre ship line, it’s a carrier, well-armed and has a surprisingly good shield for a Draconis ship. It bears a heavy resemblance to a classified Tri-Tachyon project. But with the Alliance’s commitment to isolation, it is not known how they would have acquired such tech or how they could produce so many of them. Either way, it makes a remarkably good escort for the larger ships in the Alliance.",,,,,
+fsdf_altais,SHIP,"The Altais-class Battlecruiser is a miracle. It's what happens when the Department of Acquisitions & Sustainment not only listens to their captain’s requests but also doesn’t go over budget and delivers the features promised, truly a once-in-a-lifetime occurrence. The Altais boasts incredible speed for a capital class ship, and an incredible amount of missile-based firepower, which is sorely needed as the Altais is practically made of paper.",,,,,
+fsdf_alwaid,SHIP,"The primary carrier of the Draconis Fleet, the Alwaid is a large, hulking and slow carrier platform. Although it has great firepower, it takes an incredibly long time to get anywhere, which accidentally makes it a very safe ship to serve on, as the action is often over by the time it arrives, or it’s about to end if it hasn’t already.",,,,,
+fsdf_sunsetter,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
+Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
+
+Alert: Vessel exhibits temporal desynchronization beyond Phase Cloak tolerances.
+
+Attempting heuristic classification…
+
+Result: ""Impossible.""
+
+// TEMPORAL ANOMALY DETECTED
+// CRITICAL DOMAIN INFOSEC VIOLATION
+// AUTO-SCRUB INITIATED
+
+… … …
+
+REMAIN CALM.
+DO NOT observe the vessel directly.
+DO NOT engage under any circumstance.
+DO NOT transmit this log.",,,,,
+fsdf_aldibain,SHIP,"The Aldibain-class is a multirole, single-seat, heavy fighter designed to fill the many gaps in the Draconis fleet’s fighter wings; it serves double duty as a fast attack craft, escort and interceptor. It has had a troubled development as it was rushed into service at the start of the civil war but after its teething issues were ironed out, it has become a staple of the Draconis Navy and remains the face of the Alliance’s propaganda department.",,,,,
+fsdf_tianyi,SHIP,"The Tianyi was born not from a need for speed or firepower, but silence—of the enemy’s sensors, comms, targeting arrays, and most importantly missile systems. Commissioned towards the end of the Fafnir civil war, it replaced its missile hardpoints with bulky electronic warfare pods, a dedicated EW suite and an advanced Spaceborne Warning and Control System. The result: a jamming platform disguised as a fighter, able to slice through hostile ECM fields and suppress capital-grade missile targeting systems mid-flight.",,,,,
+fsdf_eldsich,SHIP,"Originally a testbed for a now forgotten space plane program during peacetime, the Eldsich-class has become the primary space bomber for the Alliance, it’s not very versatile and lacks a lot of the capability of the other bombers in the sector, as most of its more advanced features had to be stripped to fit the nuclear armament it carries. However, just one nuclear bomb hitting an unshielded target is catastrophically effective, which to command, is all that matters.",,,,,
+fsdf_rastaban_mrm,SHIP,The Excalibur is an advanced hunter-killer drone. Meant as a way to keep the Rastaban-class Destroyer as light as possible by removing some of the internally mounted missiles from the ship.,,,,,
+fsdf_evasionprotocol,SHIP_SYSTEM,"Dumps Chaff and Flares while redirecting power to the advanced RCS thrusters, rapidly propelling the ship in a given direction.",Movement,,,,
+fsdf_degraded_mine_strike,SHIP_SYSTEM,Teleports a heavy phase mine to the target area. The mine will slowly track nearby enemy ships and explodes a few seconds after its proximity trigger is activated. Can be used while phased.,Offensive,,,,
+fsdf_ecm_suite,SHIP_SYSTEM,"Launches an electronic attack across all relevant wavelengths of the electromagnetic spectrum. Meant to disable and confuse munitions, guided or not.",Special,,,,
+fsdf_ecm_suite_Fighter,SHIP_SYSTEM,"Launches an electronic attack across all relevant wavelengths of the electromagnetic spectrum. Meant to disable and confuse munitions, guided or not.",Special,,,,
+fsdf_esw_suite,SHIP_SYSTEM,Establishes a broad-spectrum electronic attack across all relevant wavelengths of the electromagnetic spectrum. Capable of scrambling the weapon targeting of enemy ships.,Special,,,,
+fsdf_mrm_strike,SHIP_SYSTEM,"Sends a Kill order to one of the Excalibur drones. The drone tracks a nearby target like a missile, dealing massive area damage on impact.",Offensive,,,,
+fsdf_safety_overrides,SHIP_SYSTEM,"Briefly overrides standard safety protocols and operational limits, pushing the ship's core and engines to their extremes. Expect reprimanding and lots of paperwork afterwards.",Special,,,,
+fsdf_temporalshell,SHIP_SYSTEM,"Manipulates the ship’s time flow to significantly enhance combat performance. Activation briefly freezes time. Upon deactivation, time reverts, restoring the ship to its standard operational state.",Movement,"Temporally distorts the ship’s time flow to boost fire rate, flux management, and maneuverability while generating shifting, vivid afterimages.",,Time slows to a halt on board the ship.,
+fsdf_rastaban_missile,WEAPON,"An advanced, semi-autonomous loitering munition that patrols a wide area around its host ship before diving onto targets with surgical precision. Designed for long-duration presence and opportunistic strikes, it excels in chaotic battlespaces. Its range and fuel load make it an incredibly persistent weapon once launched.",,,,,
+fsdf_durendal,WEAPON,"""Sir? It's whispering again...""",- Sgt. Grayson Lyons — 15th Fleet,,,,
+fsdf_durendal_mkii,WEAPON,"""Command says it's a precision weapon. But I’ve seen what happens when the firing vector drifts two degrees mid-charge—it peeled an entire station habitat off its ring. That's not precision. That’s God pointing a finger.""",- Capt. Adrien Vale — Task Group Elbrus,,,,
+fsdf_swordbreaker,WEAPON,"""It makes the CTTs wince whenever we need to unload a salvo. But once you've seen a Reaper torpedo full burn towards you, get intercepted, you quickly forgive the radar saturation.""",- Capt. John Mays — 27th Fleet,,,,
+fsdf_razorflak,WEAPON,"""After the war. We've had countless new adversaries emerge, and they've given us more and more reason to arm every ship with twenty of these. Cover their battlespace in flak, pick through the scrap after.""",- Capt. John Mays — 27th Fleet,,,,
+fsdf_rapier,WEAPON,"""The original design goals intended this to be a ground-based assault gun, but the ole Department of Acquisitions & Sustainment instead got this thing; too big, too complex and too expensive. So they gave it to us instead - And what a gift it was.""",- Capt. John Mays — 27th Fleet,,,,
+fsdf_particlelance,WEAPON,"""Initial reports of a new LASER-based weapon in use by the militia in star system 42-D-b have proven to be false. Testing of an example obtained by intelligence has shown it works on a principle more similar to a particle collider. A stream of heavy particles is accelerated in a series of rings to a high fraction of C before being released towards a target. Energy usage is very high, however effect on shielded targets is promising. Acquired documentation indicates an internal designation of AN/SEQ-7. Recommend further research into the operating principles of the weapon system for independent development.""",- Tri-Tachyon R&D scientist tasked to Project Drakonis,,,,
+fsdf_twinspear,WEAPON,"""We jury-rigged two atomic artillery pieces together to make this. Y'know they were only meant for atmospheric use? But command needed a miracle and nothing says divine intervention like a hundred-kiloton explosion.""",- Capt. John Mays — 27th Fleet,,,,
+fsdf_halberd,WEAPON,"""We call it the 'Sword of Bureaucracy.' Why? Because it's slow, it's heavy, and it takes three forms to authorize a launch. But by God, when that nuke arcs in and kisses a cruiser mid-burn... It's worth it.""",- Capt. John Mays — 27th Fleet,,,,
+fsdf_halberd_fighter,WEAPON,"A relic of a desperate war, this strategic warhead delivers city-cracking yields via an unstable fusion core. Slow, unwieldy, and rare—but when it hits, entire ships vanish in the fireball. Only the mad or the cornered dare load one.",,,,,
+fsdf_bardiche,WEAPON,"""Ten came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+fsdf_mangonel,WEAPON,"""Captured FDR logs indicate HEGINT operatives within force recon suffered severe damage from an unknown weapon while investigating militia technology in star system 42-D-b. An example was obtained following the failed espionage efforts. The delivery mechanism is a rocket with several submunitions, each containing a chamber of plasma gas encased in a high-efficiency piezoelectric shell that superheats gas upon impact, in effect evading the challenges of plasma weapons by eliminating the need for external stabilisation at the cost of terminal effectiveness. Conclusion: Technology is a dead end. No further research is required.""","- Tri-Tachyon R&D report on the MGM-15 ""Mangonel""",,,,
+fsdf_javelin,WEAPON,"""Archaic, outdated and obsolete. But tossing tungsten rods is one of humanity's greatest creations. And talk about cost-effectiveness!""",- Capt. John Mays — 27th Fleet,,,,

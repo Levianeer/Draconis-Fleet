@@ -1,0 +1,50 @@
+{
+  "id": "fsdf_durendal_mkii",
+  "specClass": "projectile",
+  "projectileSpecId": "fsdf_durendal_shot",
+  "type": "BALLISTIC",
+  "size": "LARGE",
+  "turretSprite": "graphics/weapons/fsdf_durendal_turret_mkii_base.png",
+  "turretGunSprite": "graphics/weapons/fsdf_durendal_turret_mkii_recoil.png",
+  "turretUnderSprite": "graphics/weapons/mjolnir_turret_under.png",
+  "hardpointSprite": "graphics/weapons/fsdf_durendal_hardpoint_mkii_base.png",
+  "hardpointGunSprite": "graphics/weapons/fsdf_durendal_hardpoint_mkii_recoil.png",
+  "hardpointUnderSprite": "graphics/weapons/mjolnir_hardpoint_under.png",
+  "visualRecoil": 5,
+  "renderHints": [
+    RENDER_BARREL_BELOW
+  ],
+  "turretOffsets": [
+    35.5,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    38,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "MUZZLE_FLASH",
+  "autocharge": true,
+  "muzzleFlashSpec": {
+    "length": 124,
+    "spread": 24,
+    "particleSizeMin": 24,
+    "particleSizeRange": 48,
+    "particleDuration": 0.5,
+    "particleCount": 24,
+    "particleColor": [
+      255,
+      185,
+      185,
+      255
+    ]
+  },
+  "fireSoundOne": "fsdf_durendal_charge",
+  "fireSoundTwo": "fsdf_durendal_mkii_fire"
+}
