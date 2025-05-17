@@ -1,0 +1,31 @@
+{
+	"id":"fsdf_phase_shunt",
+	"type":"PHASE_CLOAK",
+	"aiType":"PHASE_CLOAK",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_PhaseShuntStats",
+	"runScriptWhilePaused":true, # only for the player's ship
+	"runScriptWhileIdle":true,  # this means unapply() never gets called
+	"blockActionsWhileChargingDown":false,
+	
+	"canNotCauseOverload":true,
+	
+	"phaseHighlight":"_glow1",
+	"phaseDiffuse":"_glow2",
+	
+	"effectColor1":[255,175,255,255],
+	"effectColor2":[255,0,255,150],
+	
+	"clampTurnRateAfter":true,
+	"clampMaxSpeedAfter":true,
+	
+	"soundFilterType":"LOWPASS",
+	"soundFilterGain":0.8,
+	"soundFilterGainHF":0.25,
+	
+	"shipAlpha":1, # handled in stats script
+	
+	"useSound":"energy_lash_activate",
+	"deactivateSound":"energy_lash_fire",
+	"outOfUsesSound":"system_phase_cloak_collision",
+}

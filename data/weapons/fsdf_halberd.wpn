@@ -1,0 +1,48 @@
+{
+  "id": "fsdf_halberd",
+  "specClass": "projectile",
+  "projectileSpecId": "fsdf_halberd_torp",
+  "type": "MISSILE",
+  "size": "SMALL",
+  "displayArcRadius": 1000,
+  "turretSprite": "graphics/weapons/fsdf_halberd_launcher_turret_base.png",
+  "hardpointSprite": "graphics/weapons/fsdf_halberd_launcher_hardpoint_base.png",
+  "renderHints": [
+    RENDER_LOADED_MISSILES
+  ],
+  "turretOffsets": [
+    2,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    13,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "SMOKE",
+  "autocharge": true,
+  "smokeSpec": {
+    "particleSizeMin": 16,
+    "particleSizeRange": 18,
+    "cloudParticleCount": 8,
+    "cloudDuration": 1.5,
+    "cloudRadius": 10,
+    "blowbackParticleCount": 4,
+    "blowbackDuration": 2,
+    "blowbackLength": 22,
+    "blowbackSpread": 15,
+    "particleColor": [
+      125,
+      15,
+      25,
+      105
+    ]
+  },
+  "fireSoundTwo": "fsdf_halberd_fire"
+}

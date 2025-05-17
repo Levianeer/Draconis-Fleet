@@ -1,0 +1,101 @@
+{        
+    "fsdf_particlelance_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.45,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.55,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.5,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.45,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.55,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.5,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.45,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.55,"volume":0.2},
+		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.5,"volume":0.2}
+		],
+	},
+
+	"fsdf_rapier_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_rapier_fire.ogg","pitch":1.0,"volume":0.25}
+		],
+    },
+
+	"fsdf_durendal_charge":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_durendal_charge.ogg","pitch":1.0,"volume":0.7}
+		],
+    },
+
+	"fsdf_durendal_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_durendal_fire.ogg","pitch":1.0,"volume":1.45}
+		],
+    },
+
+	"fsdf_durendal_mkii_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.95},
+		{"file":"sounds/sfx_wpn_guns/fsdf_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.95},
+		{"file":"sounds/sfx_wpn_guns/fsdf_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.95}
+		],
+    },
+
+	"fsdf_javelin_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_missiles/fsdf_javelin_fire.ogg","pitch":1.0,"volume":0.65}
+		],
+    },
+
+	"fsdf_halberd_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_missiles/fsdf_halberd_fire.ogg","pitch":1.0,"volume":0.55}
+		],
+    },
+
+	"fsdf_halberd_explosion":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_missiles/fsdf_halberd_explosion_01.ogg","pitch":1.0,"volume":0.65},
+		{"file":"sounds/sfx_wpn_missiles/fsdf_halberd_explosion_02.ogg","pitch":1.0,"volume":0.65},
+		{"file":"sounds/sfx_wpn_missiles/fsdf_halberd_explosion_03.ogg","pitch":1.0,"volume":0.65},
+		{"file":"sounds/sfx_wpn_missiles/fsdf_halberd_explosion_04.ogg","pitch":1.0,"volume":0.65},
+		{"file":"sounds/sfx_wpn_missiles/fsdf_halberd_explosion_05.ogg","pitch":1.0,"volume":0.65}
+		],
+    },
+
+	"fsdf_razorflak_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_razorflak_fire_01.ogg","pitch":1.0,"volume":0.15},
+		{"file":"sounds/sfx_wpn_guns/fsdf_razorflak_fire_02.ogg","pitch":1.0,"volume":0.15},
+		{"file":"sounds/sfx_wpn_guns/fsdf_razorflak_fire_03.ogg","pitch":1.0,"volume":0.15}
+		],
+    },
+
+	"fsdf_mangonel_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/fsdf_mangonel_fire.ogg","pitch":1.0,"volume":0.65},
+		],
+    },
+
+	"fsdf_bardiche_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_missiles/fsdf_bardiche_fire.ogg","pitch":1.0,"volume":0.7},
+		],
+    },
+
+	"fsdf_swordbreaker_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_missiles/fsdf_swordbreaker_fire.ogg","pitch":1.0,"volume":0.3},
+		],
+    },
+
+	"fsdf_system_ecm_suite_activate":{
+		"sounds":[
+		{"file":"sounds/sfx_systems/fsdf_ecm_suite_activate.ogg","pitch":1.0,"volume":0.65},
+		],
+    },
+
+	"fsdf_chaff_activate":{
+		"sounds":[
+		{"file":"sounds/sfx_systems/fsdf_chaff_activate.ogg","pitch":1.0,"volume":0.1},
+		],
+    }
+}

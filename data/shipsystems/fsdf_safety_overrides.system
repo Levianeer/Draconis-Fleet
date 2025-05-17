@@ -1,0 +1,23 @@
+{
+	"id":"fsdf_safety_overrides",
+	"type":"STAT_MOD",
+	"aiType":"WEAPON_BOOST",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_Safety_OverridesStats",
+	
+	"engineGlowColor":[255,155,155,255],
+	"engineGlowContrailColor":[255,165,165,25],
+	"engineGlowLengthMult":3,
+	"engineGlowWidthMult":1.5,
+	"engineGlowGlowMult":3,
+	
+	"useSound":"system_maneuvering_jets",
+	"loopSound":"system_maneuvering_jets_loop",
+	"outOfUsesSound":"engine_disabled",
+	
+	"aiHints":{
+		"activeSpeedIncrease":50,
+		"burstMovementPotential":0,
+		"averageSpeedIncrease":25,
+	}
+}
