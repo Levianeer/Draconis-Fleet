@@ -1,0 +1,267 @@
+{
+  "hullName": "Eltanin",
+  "hullId": "fsdf_eltanin",
+  "hullSize": "CRUISER",
+  "spriteName": "graphics/ships/fsdf_eltanin.png",
+  "style": "DRACONIS",
+  "height": 272,
+  "width": 142,
+  "center": [71, 136],
+  "collisionRadius": 238,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 197,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "WS0003": "fsdf_vernier",
+    "WS0008": "fsdf_vernier",
+    "WS0010": "fsdf_vernier",
+    "WS0011": "fsdf_vernier",
+    "WS0012": "fsdf_bardiche",
+    "WS0013": "fsdf_bardiche",
+    "WS0014": "fsdf_vernier",
+    "WS0016": "fsdf_vernier",
+    "WS0018": "blinker_red",
+    "WS0019": "blinker_green",
+    "WS0020": "blinker_red",
+    "WS0021": "blinker_green"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 195,
+      "angle": 90,
+      "locations": [-76, 34],
+      "renderOrderMod": 100
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 195,
+      "angle": -90,
+      "locations": [-76, -34],
+      "renderOrderMod": 100
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 275,
+      "angle": 180,
+      "locations": [-114, -0]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 320,
+      "angle": 0,
+      "locations": [54, -0],
+      "renderOrderMod": 300
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 335,
+      "angle": 0,
+      "locations": [106, -0],
+      "renderOrderMod": 100
+    },
+    {
+      "id": "WS0015",
+      "size": "LARGE",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 110,
+      "angle": 0,
+      "locations": [-19, -0],
+      "renderOrderMod": 400
+    },
+    {
+      "id": "WS0005",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 330,
+      "angle": 0,
+      "locations": [86, -0],
+      "renderOrderMod": 200
+    },
+    {
+      "id": "WS0006",
+      "size": "MEDIUM",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [123, -0]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-2.5, 41.5]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-2.5, -41.5]
+    },
+    {
+      "id": "WS0012",
+      "size": "MEDIUM",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-55, -26]
+    },
+    {
+      "id": "WS0013",
+      "size": "MEDIUM",
+      "type": "BUILT_IN",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-55, 26]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [118, 22]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [118, -22]
+    },
+    {
+      "id": "WS0017",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 360,
+      "angle": 180,
+      "locations": [-88, -0]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 65,
+      "angle": 90,
+      "locations": [21, 36]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 65,
+      "angle": -90,
+      "locations": [21, -36]
+    },
+    {
+      "id": "WS0018",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [109.5, 33.5]
+    },
+    {
+      "id": "WS0019",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [109.5, -33.5]
+    },
+    {
+      "id": "WS0020",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-33.5, 68.5]
+    },
+    {
+      "id": "WS0021",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-33.5, -68.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-136, -0],
+      "length": 154,
+      "width": 74,
+      "angle": 180,
+      "contrailSize": 74,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    }
+  ],
+  "bounds": [
+    134.5, -10.5,
+    112.5, -25.5,
+    63.5, -35.5,
+    46, -35.5,
+    41, -28,
+    -12, -44,
+    -21, -67.5,
+    -32.5, -69,
+    -45.5, -34,
+    -61.5, -33.5,
+    -72.5, -45,
+    -113.5, -44.5,
+    -128, -36.5,
+    -132, -12.5,
+    -132, 12.5,
+    -128, 36.5,
+    -113.5, 44.5,
+    -72.5, 45,
+    -61.5, 33.5,
+    -45.5, 34,
+    -32.5, 69,
+    -21, 67.5,
+    -12, 44,
+    41, 28,
+    46, 35.5,
+    63.5, 35.5,
+    112.5, 25.5,
+    134.5, 10.5,
+    130.5, -0
+  ]
+}

@@ -1,0 +1,281 @@
+{
+	"id":"fsdf_draconis",
+	"color":[43,52,69,255],
+	"secondaryUIColor":[255,111,97,255],
+        "secondarySegments":2,
+	
+	"baseUIColor":[130,157,209,255],
+	"darkUIColor":[51,61,82,175],
+	"gridUIColor":[130,157,209,75],
+	"brightUIColor":[130,157,209,255],
+	
+	"showInIntelTab":true,
+	
+	"displayName":"Draconis Alliance",
+	"displayNameWithArticle":"the Draconis Alliance",
+	"displayNameLong":"Draconis Defence Alliance",
+	"displayNameLongWithArticle":"the Draconis Defence Alliance",
+    "personNamePrefixAOrAn":"a",
+    "displayNameIsOrAre":"is",
+	
+	"logo":"graphics/factions/draconis.png",
+	"crest":"graphics/factions/crest_draconis.png",
+	"shipNamePrefix":"DNS",
+	"shipNameSources":{
+	"DRACONIS":10,
+	},
+	
+	"names":{
+		"old english":10,
+	},
+	
+	# variantOverrides restricts hulls to listed variants and adjusts their probability
+	"variantOverrides":{
+	},
+	
+	# multiplier for how often hulls show up in the faction's fleets
+	"hullFrequency":{
+		"tags":{
+			"fsdf_package_bp":10,
+		},
+		"hulls":{
+		},
+	},
+	
+	# ships the faction gets access to when importing S&W out-of-faction
+	# defaults to same as knownShips when empty
+	"shipsWhenImporting":{
+		"tags":[],
+		"hulls":[
+		],
+	},
+	
+	"knownShips":{
+		"tags":["fsdf_package_bp"],
+		"hulls":[
+			"crig",
+			"ox",
+			"buffalo",
+			"colossus",
+			"valkyrie",
+			"dram",
+			"phaeton",
+			"prometheus"
+		],
+	},
+	
+	# listing ships here will make the faction mostly use them even if other hulls become available
+	"priorityShips":{
+		"tags":["fsdf_package_bp"],
+		"hulls":[
+		],
+	},
+	
+	"knownFighters":{
+		"tags":["fsdf_package_bp"],
+		"fighters":[
+		],
+	},
+	
+	"priorityFighters":{
+		"tags":["fsdf_package_bp"],
+		"fighters":[
+		],
+	},
+	
+	"knownWeapons":{
+		"tags":["missile_bp", "fsdf_package_bp"],
+		"weapons":[
+		],
+	},
+	
+	"priorityWeapons":{
+		"tags":["fsdf_package_bp"],
+		"weapons":[
+		],
+	},
+	
+	"knownHullMods":{
+		"tags":["standard", "fsdf_package_bp"],
+		"hullMods":[
+			"advancedshieldemitter",
+			"turretgyros",
+			"armoredweapons",
+			"augmentedengines",
+			"autorepair",
+			"expanded_deck_crew",
+			"magazines",
+			"missleracks",
+			"heavyarmor",
+			"insulatedengine",
+			"targetingunit",
+			"nav_relay",
+			"operations_center",
+			"fluxbreakers",
+			"stabilizedshieldemitter",
+			"surveying_equipment",
+			"efficiency_overhaul",
+			"escort_package",
+			"assault_package",
+			"converted_hangar",
+			"eccm",
+			"ecm",
+			"extendedshieldemitter",
+			"frontemitter",
+			"frontshield",
+			"hardenedshieldemitter",
+			"adaptiveshields",
+			"recovery_shuttles",
+			"hiressensors",
+			"converted_fighterbay",
+		],
+	},
+	
+	"weaponSellFrequency":{
+		"fsdf_wolfpack_srm":10,
+		"fsdf_razor_flak":10,
+		"fsdf_rapier":10,
+		"fsdf_pb_lance":10,
+		"fsdf_twinspear":5,
+		"fsdf_strilka":5,
+		"fsdf_halberd":5,
+		"fsdf_meteor_lrm":5,
+	},
+	
+	"hullmodSellFrequency":{
+		"missleracks":10,
+		"eccm":5,
+	},
+	
+	"factionDoctrine":{
+		"warships":4,
+		"carriers":3,
+		"phaseShips":0,
+		
+		"officerQuality":3,
+		"shipQuality":3,
+		"numShips":3,
+		
+		"shipSize":3,
+		
+		"aggression":3,
+		
+		"combatFreighterProbability":0,
+		"combatFreighterCombatUseFraction":0,
+		"combatFreighterCombatUseFractionWhenPriority":0,
+		"autofitRandomizeProbability":0,
+		
+		"commanderSkillsShuffleProbability":0,
+		"commanderSkills":[
+			"coordinated_maneuvers",	
+			"crew_training",
+			"electronic_warfare",
+			"officer_management",
+			"fighter_uplink",
+			"carrier_group",
+			"flux_regulation",
+		],
+		
+		"officerSkillsShuffleProbability":0f,
+		"officerSkills":[
+			"missile_specialization",
+		],
+	},
+	
+	"illegalCommodities":[
+		"drugs",
+		"organs",
+		"ai_cores",
+	],
+	
+	"music":{
+		"theme":"music_diktat_market_neutral",
+		"market_neutral":"music_diktat_market_neutral",
+		"market_hostile":"music_diktat_market_hostile",
+		"market_friendly":"music_diktat_market_friendly",
+		"encounter_neutral":"music_diktat_encounter_neutral",
+		"encounter_hostile":"music_diktat_encounter_hostile",
+		"encounter_friendly":"music_diktat_encounter_friendly",
+	},
+	
+	"internalComms":"draconis_internal",
+	
+	"portraits":{
+		"standard_male":[
+			"graphics/portraits/portrait_corporate06.png",
+			"graphics/portraits/portrait_hegemony06.png",
+			"graphics/portraits/portrait_league07.png",
+			"graphics/portraits/portrait_mercenary08.png",
+			
+			"graphics/portraits/portrait34.png",
+			"graphics/portraits/portrait43.png",
+			"graphics/portraits/portrait44.png",
+			"graphics/portraits/portrait45.png",
+			"graphics/portraits/portrait46.png",
+			"graphics/portraits/portrait47.png",
+			"graphics/portraits/portrait49.png",
+		],
+		"standard_female":[
+			"graphics/portraits/portrait_corporate06.png",
+			"graphics/portraits/portrait_hegemony06.png",
+			"graphics/portraits/portrait_league07.png",
+			"graphics/portraits/portrait_mercenary08.png",
+			
+			"graphics/portraits/portrait34.png",
+			"graphics/portraits/portrait43.png",
+			"graphics/portraits/portrait44.png",
+			"graphics/portraits/portrait45.png",
+			"graphics/portraits/portrait46.png",
+			"graphics/portraits/portrait47.png",
+			"graphics/portraits/portrait49.png",
+		],
+	},
+	
+	"ranks":{
+		"ranks":{
+			"spaceCommander":{"name":"Chief of Naval Operations"},
+		},
+		"posts":{
+			"patrolCommander":{"name":"Patrol Captain"},
+			"fleetCommander":{"name":"Fleet Captain"},
+			"baseCommander":{"name":"Chief of Base Operations"}
+		},
+	},
+	
+	"custom":{
+		"offersCommissions":true,
+		"engagesInHostilities":true,
+		"buysAICores":true,
+		"AICoreValueMult":1,
+		"AICoreRepMult":3,
+		"buysSurveyData":true,
+		"hostilityImpactOnGrowth":true,
+		"caresAboutAtrocities":true,
+		"punitiveExpeditionData":{
+			"vsCompetitors":true,
+			"vsFreePort":true,
+			"canBombard":true,
+			"territorial":true,
+		},
+		"simulatorData":{
+			"showInSimulator":true,
+		},
+	},	
+	
+	"fleetTypeNames":{
+		"trade":"Commerce Fleet",
+		
+		"tradeLiner":"Transit Convoy",
+		"tradeSmuggler":"Shadow Fleet",
+		"smallTrader":"Resupply Convoy",
+		
+		"patrolSmall":"Picket Squadron",
+		"patrolMedium":"Patrol Fleet",
+		"patrolLarge":"Battle Group",
+		
+		"inspectionFleet":"Inspection Fleet",
+		"taskForce":"Task Force",
+		
+		"foodReliefFleet":"Relief Division",
+	}
+}

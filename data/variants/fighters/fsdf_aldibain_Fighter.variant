@@ -1,0 +1,30 @@
+{
+  "variantId": "fsdf_aldibain_Fighter",
+  "hullId": "fsdf_aldibain",
+  "displayName": "Multirole Fighter",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "lightmg",
+        "WS0002": "lightmg"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "swarmer_fighter"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

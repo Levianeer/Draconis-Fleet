@@ -1,0 +1,117 @@
+{
+    "bountySunsetter":{
+    
+        "trigger_marketFaction_any": ["fsdf_draconis"], # Default: no values. markets of these factions will show the bounty (if other conditions are met).
+        "trigger_playerRelationship_atLeast": {"fsdf_draconis":0.65},
+        "trigger_market_id": ["athebyne"], # Default: no values. Can default to the other preferences if those are defined and the location doesn't exists due to Nexerelin random mode. 
+        "trigger_player_minLevel": 10, # Default: 0. The minimum level of the player.
+        "trigger_min_days_elapsed": 360, # Default: 0. The minimum number of days that must have elapsed.
+        "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
+
+        "job_name": "To Eclispe the Sun",
+        "job_description": "",
+        "job_comm_reply": "",
+        "job_forFaction": "fsdf_draconis",
+        "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
+        "job_credit_reward": 125000,
+        "job_reward_scaling": 1.0,
+        "job_reputation_reward":10,
+        "job_type":"neutralisation",
+        "job_show_type": true,
+        "job_show_captain": true,
+        "job_show_fleet": "flagshipText",
+        "job_show_distance": "vague",
+        "job_show_arrow": false,
+        "job_difficultyDescription": "auto",
+        "job_pick_option": "Accept the bounty.",
+
+        "target_first_name":"Sigma", # Default: randomly selected based on faction.
+        "target_last_name":"Octantis", # Default: randomly selected based on faction.
+        "target_portrait":"fsdf_sigma_octantis", # Default: randomly selected based on faction. Id of the sprite in settings.json/graphics/characters or full file path.
+        "target_gender":"UNDEFINED",
+        "target_rank": "spaceCaptain", # Default: "citizen". Rank from campaign.ids.Ranks [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
+        "target_post": "fleetCommander", # Default: "spacer". Post from campaign.ids.Ranks (yes, Ranks, posts are the bottom half). [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
+        "target_personality": "aggressive", # Default: Randomly selected. Personality from campaign.ids.Personalities ("timid", "cautious", "steady", "aggressive", "reckless")
+        "target_level": 7, # Default: 0. The level of the bounty commander
+        "target_elite_skills":2, # Default: vanilla setting (2 by default). Overrides the regular number of elite skills, set to 0 to not use elite skills.
+        "target_skill_preference": "NO_ENERGY_YES_BALLISTIC_YES_MISSILE_NO_DEFENSE",
+
+        "fleet_name":"[APPARITION]", # Default: no name.
+        "fleet_faction": "omega", # Required. The faction id from [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Factions.html] or a custom faction id.
+        "fleet_composition_faction": "omega", # Default: bounty fleet faction. Used if the extra ships don't match the fleet's faction. For example a pirate fleet of Hegemony deserters. Required for min FP and player adjustment.
+        "fleet_flagship_variant":"fsdf_sunsetter_Standard", # Required. The variant ID to use for the Flagship. Can be a list of variants to choose randomly from: [variant1,variant2,variant3]
+        "fleet_flagship_name":"DNS Pardon Our Dust", # Default: Random.
+        "fleet_flagship_recoverable": true, # Default: false. Whether the flagship will be always recoverable. Allowing this will still let the player fail the bounty if they were not supposed to recover the flagship.
+        "fleet_flagship_autofit": false, # Default: false. Whether the flagship will be autofitted. When false, the Flagship does not receive D-mods or S-mods from the quality override.
+        "fleet_scaling_multiplier": 0, # Default: no scaling. Dynamic reinforcements to match that amount of player fleet DP, set to 0 to ignore.
+        "fleet_min_FP": -1, # Default: no minimum. Minimal total fleet size, set to -1 to ignore.
+        "fleet_composition_quality": 2, # Default: 1, use 2 for no Dmods.
+        "fleet_transponder": false, # Default: true.
+		"fleet_no_retreat": true, # Default: false.
+        "fleet_behavior": "AGGRESSIVE", # Default:"GUARDED". The fleet's behavior on the campaign layer. Options: ["PASSIVE", "GUARDED", "AGGRESSIVE", "ROAMING"].
+
+        "location_distance": "FAR",
+        "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
+        "location_prioritizeUnexplored": true,
+        "location_defaultToAnyEntity": true,
+    },
+
+    "bountyShaowei":{
+    
+        "trigger_marketFaction_any": ["fsdf_draconis"], # Default: no values. markets of these factions will show the bounty (if other conditions are met).
+        "trigger_playerRelationship_atLeast": {"fsdf_draconis":0.95},
+        "trigger_market_id": ["kori"], # Default: no values. Can default to the other preferences if those are defined and the location doesn't exists due to Nexerelin random mode.
+        "trigger_player_minLevel": 15, # Default: 0. The minimum level of the player.
+        "trigger_min_days_elapsed": 360, # Default: 0. The minimum number of days that must have elapsed.
+        "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
+
+        "job_name": "The Storm on the Horizion",
+        "job_description": "",
+        "job_comm_reply": "",
+        "job_forFaction": "fsdf_draconis",
+        "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
+        "job_credit_reward": 500000,
+        "job_reward_scaling": 1.25,
+        "job_reputation_reward":10,
+        "job_type":"neutralisation",
+        "job_show_type": true,
+        "job_show_captain": true,
+        "job_show_fleet": "flagshipText",
+        "job_show_distance": "vague",
+        "job_show_arrow": false,
+        "job_difficultyDescription": "auto",
+        "job_pick_option": "Accept the bounty.",
+
+        "target_first_name":"Sigma", # Default: randomly selected based on faction.
+        "target_last_name":"Octantis", # Default: randomly selected based on faction.
+        "target_portrait":"fsdf_sigma_octantis", # Default: randomly selected based on faction. Id of the sprite in settings.json/graphics/characters or full file path.
+        "target_gender":"UNDEFINED",
+        "target_rank": "spaceCaptain", # Default: "citizen". Rank from campaign.ids.Ranks [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
+        "target_post": "fleetCommander", # Default: "spacer". Post from campaign.ids.Ranks (yes, Ranks, posts are the bottom half). [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
+        "target_personality": "aggressive", # Default: Randomly selected. Personality from campaign.ids.Personalities ("timid", "cautious", "steady", "aggressive", "reckless")
+        "target_level": 7, # Default: 0. The level of the bounty commander
+        "target_elite_skills":2, # Default: vanilla setting (2 by default). Overrides the regular number of elite skills, set to 0 to not use elite skills.
+        "target_skill_preference": "YES_ENERGY_YES_BALLISTIC_NO_MISSILE_NO_DEFENSE",
+
+        "fleet_name":"The Lost R&D Fleet", # Default: no name.
+        "fleet_faction": "omega", # Required. The faction id from [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Factions.html] or a custom faction id.
+        "fleet_composition_faction": "omega", # Default: bounty fleet faction. Used if the extra ships don't match the fleet's faction. For example a pirate fleet of Hegemony deserters. Required for min FP and player adjustment.
+        "fleet_flagship_variant":"fsdf_shaowei_Standard", # Required. The variant ID to use for the Flagship. Can be a list of variants to choose randomly from: [variant1,variant2,variant3]
+        "fleet_flagship_name":"DNS Beyond All Hope", # Default: Random.
+        "fleet_flagship_recoverable": true, # Default: false. Whether the flagship will be always recoverable. Allowing this will still let the player fail the bounty if they were not supposed to recover the flagship.
+        "fleet_flagship_autofit": false, # Default: false. Whether the flagship will be autofitted. When false, the Flagship does not receive D-mods or S-mods from the quality override.
+        "fleet_preset_ships":{"fsdf_shaowei_Standard":9,},
+        "fleet_preset_autofit": false,
+        "fleet_scaling_multiplier": 0, # Default: no scaling. Dynamic reinforcements to match that amount of player fleet DP, set to 0 to ignore.
+        "fleet_min_FP": -1, # Default: no minimum. Minimal total fleet size, set to -1 to ignore.
+        "fleet_composition_quality": 2, # Default: 1, use 2 for no Dmods.
+        "fleet_transponder": false, # Default: true.
+		"fleet_no_retreat": true, # Default: false.
+        "fleet_behavior": "GUARDED", # Default:"GUARDED". The fleet's behavior on the campaign layer. Options: ["PASSIVE", "GUARDED", "AGGRESSIVE", "ROAMING"].
+
+        "location_distance": "CLOSE",
+        "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
+        "location_prioritizeUnexplored": true,
+        "location_defaultToAnyEntity": true,
+    },
+}
