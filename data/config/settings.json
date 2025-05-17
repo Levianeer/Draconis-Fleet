@@ -1,0 +1,32 @@
+{
+	"designTypeColors":{
+	"Draconis":[130,157,209,255],
+	},
+	
+	"graphics":{
+		"misc":{
+			"draconis_luna_icon":"graphics/icons/mod_icon.png",
+		},
+
+		"blueprint_packages":{
+			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
+		},
+
+		"fx":{
+			"fsdf_jammer_ring":"graphics/fx/fsdf_jammer_ring.png",
+			"fsdf_blur_contrail":"graphics/fx/fsdf_blur_contrail.png",
+			"fsdf_shock_contrail":"graphics/fx/fsdf_shock_contrail.png"
+		},
+
+		"planets":{
+			"fsdf_itoron":"graphics/mod/planets/fsdf_itoron.jpg",
+			"fsdf_athebyne":"graphics/mod/planets/fsdf_athebyne.jpg",
+			"fsdf_kori":"graphics/mod/planets/fsdf_kori.jpg",
+			"fsdf_vorium":"graphics/mod/planets/fsdf_vorium.jpg"
+		},
+
+		"characters":{
+			"fsdf_sigma_octantis":"graphics/portraits/characters/fsdf_sigma_octantis.png",
+		},
+	},
+}

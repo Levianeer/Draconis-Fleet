@@ -1,0 +1,17 @@
+{
+	"AdvancedGunneryControl":{
+    "weaponBlacklist": [
+    ],
+	"suggestedWeaponTags":{
+		"fsdf_swordbreaker":"ForceAF,PD",
+		"fsdf_razorflak":"PrioritisePD,PrioMissile,PrioFighter,PrioDense",
+
+		"fsdf_particlelance":"PrioMissile,PrioFighter",
+		"fsdf_mangonel":"NoFighters",
+		"fsdf_twinspear":"Opportunist,NoFighters",
+
+		"fsdf_durendal":"Opportunist",
+		"fsdf_durendal_mkii":"Opportunist",
+		},
+	},
+}

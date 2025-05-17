@@ -1,0 +1,249 @@
+{
+  "hullName": "Shaobi",
+  "hullId": "fsdf_shaobi",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/ships/fsdf_shaobi.png",
+  "style": "DRACONIS",
+  "height": 220,
+  "width": 144,
+  "center": [72, 111.5],
+  "collisionRadius": 140.5,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 130.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "ground_support"
+  ],
+  "builtInWeapons": {
+    "WS0010": "fsdf_vernier",
+    "WS0011": "fsdf_vernier",
+    "WS0012": "fsdf_vernier",
+    "WS0013": "fsdf_vernier",
+    "WS0014": "fsdf_vernier",
+    "WS0015": "fsdf_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 130,
+      "angle": -45,
+      "locations": [-32.5, -51]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 130,
+      "angle": 45,
+      "locations": [-32.5, 51]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [-19.5, -47]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -0,
+      "locations": [-19.5, 47]
+    },
+    {
+      "id": "WS0005",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 195,
+      "angle": 180,
+      "locations": [-60.5, -0]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 195,
+      "angle": 180,
+      "locations": [-93.5, -0]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 180,
+      "angle": 0,
+      "locations": [14.5, -0]
+    },
+    {
+      "id": "WS0008",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 0,
+      "locations": [42.5, -0]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 220,
+      "angle": 0,
+      "locations": [64.5, -0]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-1.5, 58]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-1.5, -58]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-46.5, 65]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-46.5, -65]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [90.5, 12.5]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [90.5, -12.5]
+    },
+    {
+      "id": "LB 1",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY",
+      "mount": "HIDDEN",
+      "arc": 360,
+      "angle": 0,
+      "locations": [
+        -41, 40,
+        -41.5, 27,
+        -35, 26.5
+      ]
+    },
+    {
+      "id": "LB 2",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY",
+      "mount": "HIDDEN",
+      "arc": 360,
+      "angle": 0,
+      "locations": [
+        -41, -26.5,
+        -35, -26.5,
+        -41, -39.5
+      ]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-111, -0],
+      "length": 124,
+      "width": 36,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-97, -27],
+      "length": 58,
+      "width": 24,
+      "angle": 180,
+      "contrailSize": 24,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    },
+    {
+      "location": [-97, 27],
+      "length": 58,
+      "width": 24,
+      "angle": -180,
+      "contrailSize": 24,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS"
+    }
+  ],
+  "bounds": [
+    106.5, -5.5,
+    75.5, -10.5,
+    68.5, -28,
+    54, -17.5,
+    24, -20,
+    -4, -64,
+    -44, -70,
+    -50.5, -62,
+    -56, -30.5,
+    -67.5, -66,
+    -83.5, -70.5,
+    -89, -31.5,
+    -95.5, -26.5,
+    -83, -16.5,
+    -109, -15.5,
+    -109, 15.5,
+    -83, 16.5,
+    -95.5, 26.5,
+    -89, 31.5,
+    -83.5, 70.5,
+    -67.5, 66,
+    -56, 30.5,
+    -50.5, 62,
+    -44, 70,
+    -4, 64,
+    24, 20,
+    54, 17.5,
+    68.5, 28,
+    75.5, 10.5,
+    106.5, 5.5
+  ]
+}
