@@ -16,12 +16,12 @@
 	"bulletSprite":"graphics/missiles/shell_small_yellow.png",
 	"behaviorSpec":{
         "behavior":"PROXIMITY_FUSE",
-        "range":0,
-        "vsMissileRange":45,
+        "range":10,
+        "vsMissileRange":25,
         "explosionSpec":{
             "duration":0.15f,
-            "radius":60,
-            "coreRadius":45,
+            "radius":25,
+            "coreRadius":25,
             "collisionClass":PROJECTILE_FF,
             "collisionClassByFighter":PROJECTILE_FIGHTER,
             "particleSizeMin":5.0,

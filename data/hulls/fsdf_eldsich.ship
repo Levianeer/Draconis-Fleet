@@ -51,7 +51,7 @@
       "angle": 180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_FIGHTER"
     },
     {
       "location": [-12, -6.5],
@@ -60,7 +60,7 @@
       "angle": -180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_FIGHTER"
     }
   ],
   "bounds": [

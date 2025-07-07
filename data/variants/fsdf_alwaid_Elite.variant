@@ -1,0 +1,84 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 36,
+    "hullId": "fsdf_alwaid",
+    "hullMods": [
+        "eccm",
+        "missleracks"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_alwaid_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0025": "fsdf_durendal_mkii",
+                "WS0026": "fsdf_durendal_mkii"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "squall",
+                "WS0014": "squall"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "fsdf_bardiche",
+                "WS0006": "fsdf_bardiche",
+                "WS0011": "fsdf_bardiche",
+                "WS0012": "fsdf_bardiche"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "fsdf_halberd",
+                "WS0004": "fsdf_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_estocflak",
+                "WS0002": "fsdf_estocflak",
+                "WS0007": "fsdf_estocflak",
+                "WS0008": "fsdf_estocflak",
+                "WS0029": "fsdf_estocflak",
+                "WS0030": "fsdf_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0027": "fsdf_razorflak",
+                "WS0031": "fsdf_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0009": "fsdf_swordbreaker",
+                "WS0010": "fsdf_swordbreaker",
+                "WS0028": "fsdf_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "fsdf_aldibain_wing",
+        "fsdf_tianyi_wing",
+        "fsdf_eldsich_wing",
+        "fsdf_eldsich_wing"
+    ]
+}

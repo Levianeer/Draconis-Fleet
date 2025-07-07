@@ -136,6 +136,7 @@
 		"fsdf_razor_flak":10,
 		"fsdf_rapier":10,
 		"fsdf_pb_lance":10,
+		"fsdf_estocflak":10,
 		"fsdf_twinspear":5,
 		"fsdf_strilka":5,
 		"fsdf_halberd":5,
@@ -148,15 +149,15 @@
 	},
 	
 	"factionDoctrine":{
-		"warships":4,
-		"carriers":3,
+		"warships":3,
+		"carriers":2,
 		"phaseShips":0,
 		
-		"officerQuality":3,
-		"shipQuality":3,
+		"officerQuality":4,
+		"shipQuality":2,
 		"numShips":3,
 		
-		"shipSize":3,
+		"shipSize":4,
 		
 		"aggression":3,
 		

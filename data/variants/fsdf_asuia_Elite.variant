@@ -1,0 +1,43 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 30,
+    "goalVariant": false,
+    "hullId": "fsdf_asuia",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_asuia_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "fsdf_mangonel",
+                "WS0020": "fsdf_mangonel"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0002": "fsdf_bardiche"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "hveldriver",
+                "WS0019": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "fsdf_estocflak",
+                "WS0006": "fsdf_estocflak"
+            }
+        }
+    ],
+    "wings": ["fsdf_nodus_wing"]
+}

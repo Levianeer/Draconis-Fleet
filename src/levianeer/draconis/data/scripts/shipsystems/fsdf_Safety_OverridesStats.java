@@ -1,20 +1,40 @@
 package levianeer.draconis.data.scripts.shipsystems;
 
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
+import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class fsdf_Safety_OverridesStats extends BaseShipSystemScript {
 
-	public static final float SPEED_MULT = 50f;
+	private static final Map speed = new HashMap();
+	static {
+		speed.put(ShipAPI.HullSize.FRIGATE, 50f);
+		speed.put(ShipAPI.HullSize.DESTROYER, 40f);
+		speed.put(ShipAPI.HullSize.CRUISER, 30f);
+		speed.put(ShipAPI.HullSize.CAPITAL_SHIP, 20f);
+	}
+
 	public static final float PEAK_MULT = 0.33f;
 	public static final float FLUX_DISSIPATION_MULT = 2f;
-	
-	public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
 
-		stats.getMaxSpeed().modifyFlat(id, SPEED_MULT);
-		stats.getAcceleration().modifyFlat(id, SPEED_MULT * 2f);
-		stats.getDeceleration().modifyFlat(id, SPEED_MULT * 2f);
-		stats.getZeroFluxMinimumFluxLevel().modifyMult(id, 2f);
+	@Override
+	public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
+		ShipAPI ship = null;
+		if (stats.getEntity() instanceof ShipAPI) {
+			ship = (ShipAPI) stats.getEntity();
+		}
+		if (ship == null) return;
+
+		ShipAPI.HullSize hullSize = ship.getHullSize();
+
+		stats.getMaxSpeed().modifyFlat(id, (Float) speed.get(hullSize));
+		stats.getAcceleration().modifyFlat(id, (Float) speed.get(hullSize) * 2f);
+		stats.getDeceleration().modifyFlat(id, (Float) speed.get(hullSize) * 2f);
+		stats.getZeroFluxMinimumFluxLevel().modifyFlat(id, 2f);
+
 		stats.getFluxDissipation().modifyMult(id, FLUX_DISSIPATION_MULT);
 		stats.getPeakCRDuration().modifyMult(id, PEAK_MULT);
 		stats.getVentRateMult().modifyMult(id, 0f);
@@ -35,7 +55,7 @@ public class fsdf_Safety_OverridesStats extends BaseShipSystemScript {
 		
 		if (index == 0) {
 			return new StatusData("safety protocols overridden", false);
-		}		
+		}
 		return null;
 	}
 }

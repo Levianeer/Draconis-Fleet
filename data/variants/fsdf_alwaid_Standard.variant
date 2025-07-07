@@ -1,10 +1,14 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 14,
+    "fluxCapacitors": 8,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
-    "hullMods": ["eccm"],
+    "hullMods": [
+        "eccm",
+        "missleracks",
+        "fluxdistributor"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",
@@ -13,26 +17,26 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0013": "squall",
-                "WS0014": "squall"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "fsdf_bardiche",
-                "WS0006": "fsdf_bardiche",
-                "WS0011": "fsdf_bardiche",
-                "WS0012": "fsdf_bardiche"
+                "WS0013": "hurricane",
+                "WS0014": "hurricane"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "fsdf_halberd",
-                "WS0004": "fsdf_halberd"
+                "WS0011": "sabotpod",
+                "WS0012": "sabotpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "harpoon",
+                "WS0004": "harpoon",
+                "WS0005": "harpoonpod",
+                "WS0006": "harpoonpod"
             }
         },
         {
@@ -47,36 +51,24 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0027": "fsdf_razorflak",
-                "WS0031": "fsdf_razorflak"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
                 "WS0001": "vulcan",
                 "WS0002": "vulcan",
                 "WS0007": "vulcan",
                 "WS0008": "vulcan",
+                "WS0009": "vulcan",
+                "WS0010": "vulcan",
+                "WS0027": "flak",
+                "WS0028": "vulcan",
                 "WS0029": "vulcan",
-                "WS0030": "vulcan"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0009": "fsdf_swordbreaker",
-                "WS0010": "fsdf_swordbreaker",
-                "WS0028": "fsdf_swordbreaker"
+                "WS0030": "vulcan",
+                "WS0031": "flak"
             }
         }
     ],
     "wings": [
-        "fsdf_aldibain_wing",
-        "fsdf_tianyi_wing",
-        "fsdf_eldsich_wing",
-        "fsdf_eldsich_wing"
+        "broadsword_wing",
+        "hoplon_wing",
+        "hoplon_wing",
+        "hoplon_wing"
     ]
 }

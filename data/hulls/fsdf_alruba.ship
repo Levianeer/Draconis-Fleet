@@ -11,7 +11,6 @@
   "shieldCenter": [0, -0],
   "shieldRadius": 92.5,
   "viewOffset": 0,
-  "builtInMods": [],
   "builtInWeapons": {
     "WS0001": "fsdf_vernier",
     "WS0006": "fsdf_vernier",
@@ -184,7 +183,7 @@
       "angle": -180,
       "contrailSize": 11,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-36.5, -28],
@@ -193,34 +192,16 @@
       "angle": 180,
       "contrailSize": 11,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-54, -0],
-      "length": 64,
-      "width": 16,
+      "length": 124,
+      "width": 34,
       "angle": 180,
-      "contrailSize": 16,
+      "contrailSize": 34,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
-    },
-    {
-      "location": [-53, 9.5],
-      "length": 56,
-      "width": 12,
-      "angle": 180,
-      "contrailSize": 12,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
-    },
-    {
-      "location": [-53, -9.5],
-      "length": 56,
-      "width": 12,
-      "angle": -180,
-      "contrailSize": 12,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_PRIMARY"
     }
   ],
   "bounds": [

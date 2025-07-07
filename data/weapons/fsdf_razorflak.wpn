@@ -14,11 +14,11 @@
 	"numFrames":4,
 	"frameRate":24,
 	"muzzleFlashSpec":{
-					"length":35,
-					"spread":5,
-					"particleSizeMin":10,
-					"particleSizeRange":16,
-					"particleDuration":0.15,
+					"length":12,
+					"spread":6,
+					"particleSizeMin":9,
+					"particleSizeRange":9,
+					"particleDuration":0.125,
 					"particleCount":12,
 					"particleColor":[255,140,125,200]
 					},

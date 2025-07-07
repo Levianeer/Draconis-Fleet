@@ -6,8 +6,8 @@ import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
 
 public class fsdf_EvasionProtocolStats extends BaseShipSystemScript {
 
-    private static final float SPEED = 200f;
-    private static final float DELTA = 2000f; // Acceleration and Deceleration
+    private static final float VELOCITY = 200f;
+    private static final float DELTA = 2000f;
 
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         if (state == ShipSystemStatsScript.State.OUT) {
@@ -15,7 +15,7 @@ public class fsdf_EvasionProtocolStats extends BaseShipSystemScript {
             stats.getAcceleration().unmodify(id);
             stats.getDeceleration().unmodify(id);
         } else {
-            stats.getMaxSpeed().modifyFlat(id, SPEED * effectLevel);
+            stats.getMaxSpeed().modifyFlat(id, VELOCITY * effectLevel);
             stats.getAcceleration().modifyFlat(id, DELTA * effectLevel);
             stats.getDeceleration().modifyFlat(id, DELTA * effectLevel);
         }
@@ -29,10 +29,10 @@ public class fsdf_EvasionProtocolStats extends BaseShipSystemScript {
 
     @Override
     public StatusData getStatusData(int index, State state, float effectLevel) {
-        switch (index) {
-            case 0: return new StatusData("increased RCS power", false);
-            case 1: return new StatusData("deploying countermeasures", false);
-            default: return null;
-        }
+        return switch (index) {
+            case 0 -> new StatusData("increased RCS power", false);
+            case 1 -> new StatusData("deploying countermeasures", false);
+            default -> null;
+        };
     }
 }

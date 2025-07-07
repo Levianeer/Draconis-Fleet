@@ -24,6 +24,8 @@ public class fsdf_ESW_SuiteStats extends BaseShipSystemScript {
     private static final float EMP_RADIUS_SCALE = 0.3f;
     private static final float EMP_COOLDOWN = 0.75f; // Minimum delay between EMP arcs per target
 
+    private CombatFleetManagerAPI.AssignmentInfo defendAssignment = null;
+
     private boolean spriteRendered = false;
 
     private final Map<ShipAPI, Float> affectedShips = new HashMap<>();
@@ -88,6 +90,19 @@ public class fsdf_ESW_SuiteStats extends BaseShipSystemScript {
                 }
             }
         }
+        if (ship.getOwner() != 0) {
+            CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
+            CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
+            DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
+            if (member != null) {
+                defendAssignment = taskManager.createAssignment(
+                        CombatAssignmentType.DEFEND,
+                        member,
+                        false
+                );
+                taskManager.giveAssignment(member, defendAssignment, false);
+            }
+        }
     }
 
     @Override
@@ -95,11 +110,22 @@ public class fsdf_ESW_SuiteStats extends BaseShipSystemScript {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null) return;
 
-        for (ShipAPI ship : engine.getShips()) {
-            if (ship.isHulk()) continue;
-            ship.getMutableStats().getBallisticWeaponRangeBonus().unmodify(id);
-            ship.getMutableStats().getEnergyWeaponRangeBonus().unmodify(id);
+        ShipAPI ship = (ShipAPI) stats.getEntity();
+        if (ship == null) return;
+
+        for (ShipAPI s : engine.getShips()) {
+            if (s.isHulk()) continue;
+            s.getMutableStats().getBallisticWeaponRangeBonus().unmodify(id);
+            s.getMutableStats().getEnergyWeaponRangeBonus().unmodify(id);
         }
+
+        if (ship.getOwner() != 0 && defendAssignment != null) {
+            CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
+            CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
+            taskManager.removeAssignment(defendAssignment);
+            defendAssignment = null;
+        }
+
         affectedShips.clear();
         spriteRendered = false;
     }

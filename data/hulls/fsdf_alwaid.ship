@@ -12,6 +12,7 @@
   "shieldRadius": 284,
   "viewOffset": 0,
   "builtInMods": [
+    "hbi",
     "advancedcore"
   ],
   "builtInWeapons": {
@@ -389,7 +390,7 @@
       "angle": -180,
       "contrailSize": 64,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_PRIMARY"
     },
     {
       "location": [-107, 38],
@@ -398,7 +399,7 @@
       "angle": -180,
       "contrailSize": 25,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-107, -38],
@@ -407,7 +408,7 @@
       "angle": 180,
       "contrailSize": 25,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     }
   ],
   "bounds": [

@@ -189,7 +189,7 @@
       "angle": 180,
       "contrailSize": 46,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_PRIMARY"
     },
     {
       "location": [-78.5, 32],
@@ -198,7 +198,7 @@
       "angle": 180,
       "contrailSize": 18,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-78.5, -32],
@@ -207,7 +207,7 @@
       "angle": -180,
       "contrailSize": 18,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     }
   ],
   "bounds": [

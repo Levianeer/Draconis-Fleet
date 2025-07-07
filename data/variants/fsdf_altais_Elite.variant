@@ -1,0 +1,76 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 34,
+    "goalVariant": false,
+    "hullId": "fsdf_altais",
+    "hullMods": ["missleracks"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_altais_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0014": "fsdf_javelin",
+                "WS0015": "fsdf_javelin"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0028": "fsdf_bardiche",
+                "WS0029": "fsdf_bardiche"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0018": "fsdf_halberd",
+                "WS0019": "fsdf_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_rapier",
+                "WS0002": "fsdf_rapier",
+                "WS0003": "fsdf_rapier",
+                "WS0004": "fsdf_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "fsdf_estocflak",
+                "WS0008": "fsdf_estocflak",
+                "WS0009": "fsdf_estocflak",
+                "WS0010": "fsdf_estocflak",
+                "WS0011": "fsdf_estocflak",
+                "WS0024": "fsdf_razorflak",
+                "WS0027": "fsdf_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "fsdf_particlelance",
+                "WS0006": "fsdf_particlelance"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0012": "fsdf_swordbreaker",
+                "WS0023": "fsdf_swordbreaker"
+            }
+        }
+    ]
+}

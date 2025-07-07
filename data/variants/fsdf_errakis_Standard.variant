@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 20,
-    "fluxVents": 12,
+    "fluxCapacitors": 14,
+    "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_errakis",
     "hullMods": [],
@@ -13,27 +13,23 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "heavymauler",
-                "WS0006": "heavymauler"
+                "WS0005": "hveldriver",
+                "WS0006": "hveldriver"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0004": "squall"}
+            "weapons": {"WS0004": "locust"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
+                "WS0001": "vulcan",
                 "WS0002": "vulcan",
                 "WS0003": "vulcan"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0001": "fsdf_swordbreaker"}
         }
     ]
 }

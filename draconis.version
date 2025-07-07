@@ -1,13 +1,13 @@
 {
   "modName": "Draconis Fleet",
-  "modThreadId": "",
+  "modThreadId": "33489",
   "masterVersionFile": "https://raw.githubusercontent.com/Levianeer/Draconis-Fleet/main/draconis.version",
   "changelogURL": "https://raw.githubusercontent.com/Levianeer/Draconis-Fleet/main/changelog.md",
   "directDownloadURL": "https://github.com/Levianeer/Draconis-Fleet/archive/refs/heads/main.zip",
   "modVersion":
     {
       "major": "0",
-      "minor": "1",
+      "minor": "2",
       "patch": "0"
     }
 }

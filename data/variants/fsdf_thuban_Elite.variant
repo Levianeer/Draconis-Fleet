@@ -1,0 +1,31 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 10,
+    "fluxVents": 5,
+    "goalVariant": false,
+    "hullId": "fsdf_thuban",
+    "hullMods": ["fluxdistributor"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_thuban_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "fsdf_durendal"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "railgun",
+                "WS0002": "lightac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "fsdf_estocflak"}
+        }
+    ]
+}

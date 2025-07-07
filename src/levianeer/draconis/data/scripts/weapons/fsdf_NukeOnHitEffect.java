@@ -22,8 +22,26 @@ public class fsdf_NukeOnHitEffect implements OnHitEffectPlugin {
         float damage = projectile.getDamageAmount();
         ShipAPI source = projectile.getSource();
 
+        if (shieldHit) {
+            ShipAPI ship = (ShipAPI) target;
+
+            // 25% bypass
+            float bypassDamage = damage * 0.25f;
+
+            engine.applyDamage(
+                    ship,
+                    point,
+                    bypassDamage,
+                    DamageType.ENERGY,
+                    0f,
+                    true,
+                    false,
+                    source
+            );
+        }
+
         // Spawn damaging explosion
-        engine.spawnDamagingExplosion(createExplosionSpec(damage), source, point);
+        engine.spawnDamagingExplosion(createExplosionSpec(), source, point);
 
         // Spawn visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
@@ -32,15 +50,15 @@ public class fsdf_NukeOnHitEffect implements OnHitEffectPlugin {
         spawnLensFlares(engine, source, point);
     }
 
-    private static DamagingExplosionSpec createExplosionSpec(float damage) {
+    private static DamagingExplosionSpec createExplosionSpec() {
         DamagingExplosionSpec spec = new DamagingExplosionSpec(
                 0.125f,
                 350f,         // max radius
                 250f,               // core radius
-                damage * 0.5f,      // full damage
-                damage * 0.25f,     // min damage
-                CollisionClass.HITS_SHIPS_AND_ASTEROIDS,
-                CollisionClass.HITS_SHIPS_AND_ASTEROIDS,
+                0,      // full damage
+                0,     // min damage
+                CollisionClass.NONE,
+                CollisionClass.NONE,
                 1f,   // particle size
                 5f,  // duration
                 0.1f,// particle count
@@ -48,7 +66,7 @@ public class fsdf_NukeOnHitEffect implements OnHitEffectPlugin {
                 new Color(255, 161, 201, 255),
                 new Color(255, 59, 141, 255)
         );
-        spec.setDamageType(DamageType.ENERGY);
+        spec.setDamageType(DamageType.FRAGMENTATION);
         spec.setSoundSetId("fsdf_halberd_explosion");
         return spec;
     }

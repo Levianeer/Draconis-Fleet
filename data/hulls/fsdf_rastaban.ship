@@ -18,11 +18,9 @@
     "WS0007": "fsdf_vernier",
     "WS0008": "fsdf_vernier",
     "WS0009": "fsdf_vernier",
-    "WS0010": "fsdf_vernier",
     "WS0012": "fsdf_vernier",
     "WS0013": "fsdf_vernier",
     "WS0014": "fsdf_vernier",
-    "WS0015": "fsdf_vernier",
     "WS0017": "fsdf_vernier",
     "WS0018": "fsdf_vernier"
   },
@@ -162,24 +160,6 @@
       "arc": 335,
       "angle": 0,
       "locations": [116, -0]
-    },
-    {
-      "id": "WS0010",
-      "size": "SMALL",
-      "type": "DECORATIVE",
-      "mount": "TURRET",
-      "arc": 0,
-      "angle": 180,
-      "locations": [-67, 42]
-    },
-    {
-      "id": "WS0015",
-      "size": "SMALL",
-      "type": "DECORATIVE",
-      "mount": "TURRET",
-      "arc": 0,
-      "angle": -180,
-      "locations": [-67, -42]
     }
   ],
   "engineSlots": [
@@ -190,7 +170,25 @@
       "angle": 180,
       "contrailSize": 44,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_PRIMARY"
+    },
+    {
+      "location": [-67, 42],
+      "length": 90,
+      "width": 18,
+      "angle": 180,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-67, -42],
+      "length": 90,
+      "width": 18,
+      "angle": -180,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
     }
   ],
   "bounds": [

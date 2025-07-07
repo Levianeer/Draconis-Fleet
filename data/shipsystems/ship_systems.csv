@@ -2,11 +2,12 @@ name,id,flux/second,f/s (base rate),f/s (base cap),flux/use,f/u (base rate),f/u 
 Blackout Jammer,fsdf_ecm_suite,,,,,,,,,,0,0.1,0,3,,,,,,,,,,,,,graphics/icons/hullsys/quantum_disruptor.png
 Blackout Jammer,fsdf_ecm_suite_Fighter,,,,,,,,,,0,0.1,0,3,,,,,,,,,,,,,graphics/icons/hullsys/quantum_disruptor.png
 Excalibur Strike,fsdf_mrm_strike,,,,,,,,,,0,0.05,0.2,1,,,,,,,,,,,,,graphics/icons/hullsys/drone_pd_high.png
-Emergency Power,fsdf_safety_overrides,,,,,,0.25,0.005,,,0,4,3,12,,,,,,,,,,,,,graphics/icons/hullsys/skimmer_degraded.png
+Emergency Power,fsdf_safety_overrides,,,,,,,,,,0.5,7,0.5,7,,,,,,,,,,,,,graphics/icons/hullsys/skimmer_degraded.png
 Pulsar Jammer,fsdf_esw_suite,,,,,,0.2,,,,0,9,0,21,,,,,,,,,,,,,graphics/icons/hullsys/quantum_disruptor.png
 Time Slip,fsdf_temporalshell,,,,,,,,,,3,12,3,6,,,,,,,,,,,,,graphics/icons/hullsys/temporal_shell.png
 Phase Shunt,fsdf_phase_shunt,,,,,,,,,,0.5,,0.5,2,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,,TRUE,defensive,graphics/icons/hullsys/phase_cloak.png
-Degraded Mine Strike,fsdf_degraded_mine_strike,,,,,,0.1,,,,0.25,,0.25,6,,,,,,,,,,,,offensive,graphics/icons/hullsys/mine_strike.png
-Evasion Protocol,fsdf_evasionprotocol,1,,,,,,,3,0.1,0.35,0.5,0.35,0,,,,,,,,,,,,movement,graphics/icons/hullsys/fsdf_evasionprotocol.png
+Phase Mine Strike,fsdf_degraded_mine_strike,,,,,,0.1,,,,0.25,,0.25,6,,,,,,,,,,,,offensive,graphics/icons/hullsys/mine_strike.png
+Evasion Protocol,fsdf_evasionprotocol,1,,,,,,,3,0.1,0.1,0.6,0.1,0,,,,,,,,,TRUE,,,movement,graphics/icons/hullsys/fsdf_evasionprotocol.png
 SR Decoy Launcher,fsdf_flarelauncher,,,,,,0.1,,,,,,,5,,,,,,,,,,,,defensive,graphics/icons/hullsys/flare_launcher.png
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,

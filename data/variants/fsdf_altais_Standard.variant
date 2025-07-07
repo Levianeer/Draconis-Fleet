@@ -1,46 +1,57 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 0,
-    "fluxVents": 40,
+    "fluxVents": 48,
     "goalVariant": true,
     "hullId": "fsdf_altais",
-    "hullMods": ["missleracks"],
+    "hullMods": [
+        "missleracks",
+        "eccm"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_altais_Standard",
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0014": "fsdf_javelin",
-                "WS0015": "fsdf_javelin"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0028": "fsdf_bardiche",
-                "WS0029": "fsdf_bardiche"
+                "WS0014": "squall",
+                "WS0015": "squall"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0018": "fsdf_halberd",
-                "WS0019": "fsdf_halberd"
+                "WS0028": "breachpod",
+                "WS0029": "breachpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0018": "harpoon",
+                "WS0019": "harpoon"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "fsdf_rapier",
-                "WS0002": "fsdf_rapier",
-                "WS0003": "fsdf_rapier",
-                "WS0004": "fsdf_rapier"
+                "WS0001": "hveldriver",
+                "WS0002": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "heavymauler",
+                "WS0004": "heavymauler",
+                "WS0005": "heavymauler",
+                "WS0006": "heavymauler"
             }
         },
         {
@@ -52,24 +63,10 @@
                 "WS0009": "vulcan",
                 "WS0010": "vulcan",
                 "WS0011": "vulcan",
-                "WS0024": "fsdf_razorflak",
+                "WS0012": "vulcan",
+                "WS0023": "vulcan",
+                "WS0024": "flak",
                 "WS0027": "vulcan"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "fsdf_particlelance",
-                "WS0006": "fsdf_particlelance"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0012": "fsdf_swordbreaker",
-                "WS0023": "fsdf_swordbreaker"
             }
         }
     ]

@@ -1,28 +1,28 @@
 package levianeer.draconis.data.scripts.world.systems;
 
-import java.awt.Color;
-
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.JumpPointAPI;
-import com.fs.starfarer.api.campaign.PlanetAPI;
-import com.fs.starfarer.api.campaign.SectorAPI;
-import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.campaign.SectorGeneratorPlugin;
-import com.fs.starfarer.api.campaign.StarSystemAPI;
-import com.fs.starfarer.api.impl.campaign.ids.Terrain;
+import com.fs.starfarer.api.campaign.*;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor;
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
+
 public class fsdf_System implements SectorGeneratorPlugin {
 
         @Override
-        public void generate(SectorAPI sector) { 
+        public void generate(SectorAPI sector) {
                 StarSystemAPI system = sector.createStarSystem("Fafnir");
-                system.getLocation().set(-750,-5250);
+                system.getLocation().set(-750, -5250);
                 system.setBackgroundTextureFilename("graphics/mod/backgrounds/fafnirbg.png");
 
-                // Angle, Size, Distance & Orbit
                 final float asteroidsDistance = 7500f;
                 final float asteroidsOrbit = 460f;
 
@@ -36,27 +36,27 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 final float itoronDistance = 3400f;
                 final float itoronOrbit = 365f;
 
-                        final float koriAngle = 0f;
-                        final float koriSize = 40f;
-                        final float koriDistance = 350f;
-                        final float koriOrbit = 30f;
-
-                        final float jp1Angle = 315f;
-                        final float jp1Distance = 750f;
-                        final float jp1Orbit = 60f;
+                final float koriAngle = 0f;
+                final float koriSize = 40f;
+                final float koriDistance = 350f;
+                final float koriOrbit = 30f;
 
                 final float voriumAngle = 30f;
                 final float voriumSize = 500f;
                 final float voriumDistance = 8800f;
                 final float voriumOrbit = 800f;
 
-                        final float jp2Angle = 360f;
-                        final float jp2Distance = 850f;
-                        final float jp2Orbit = 90f;
-
                 final float pirateStationAngle = 170f;
                 final float pirateStationDistance = 8500f;
                 final float pirateStationOrbit = 460f;
+
+                final float jp1Angle = 315f;
+                final float jp1Distance = 750f;
+                final float jp1Orbit = 60f;
+
+                final float jp2Angle = 360f;
+                final float jp2Distance = 850f;
+                final float jp2Orbit = 90f;
 
                 final float gateAngle = 180f;
                 final float gateDistance = 10000f;
@@ -65,28 +65,26 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 final float arrayDistance = 4100f;
                 final float arrayOrbit = 400f;
 
-                // Fafnir Star
                 PlanetAPI star = system.initStar(
                         "fsdf_fafnir",
-                        "star_yellow",	//ID, type, radius, x coordinate, y coordiante & corona radius
+                        "star_yellow",
                         1000,
                         -750,
                         -5250,
                         500);
-    
-                // Asteroid belt
+
                 system.addAsteroidBelt(
-                        star, // Focus
-                        1000, // Number of entities
-                        asteroidsDistance - 435, // Orbit radius
-                        350, // Width
-                        600, // Minimum and maximum orbit speed
+                        star,
+                        1000,
+                        asteroidsDistance - 435,
+                        350,
+                        600,
                         1200,
                         Terrain.ASTEROID_BELT,
                         "Fafnir's Belt"
                 );
 
-                // Asteroid belt cont. This mess hurts me emotionally, looks pretty though
+                // ASTEROID BELT (I hate this mess)
                 system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance, asteroidsOrbit);
                 system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, asteroidsDistance - 1300, asteroidsOrbit);
                 system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance - 1100, asteroidsOrbit);
@@ -102,89 +100,216 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, asteroidsDistance + 100, asteroidsOrbit);
                 system.addRingBand(star, "misc", "rings_ice0", 256f, 1, Color.white, 256f, asteroidsDistance + 200, asteroidsOrbit);
                 system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, asteroidsDistance + 300, asteroidsOrbit);
-    
-                // Athebyne
-                PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne","barren-bombarded", athebyneAngle, athebyneSize, athebyneDistance, athebyneOrbit);  // ID, focus, name, type, angle, radius, orbit radius & orbit days
+
+                // PLANETS
+
+                PlanetAPI athebyne = system.addPlanet("athebyne", star, "Athebyne",
+                        "barren-bombarded", athebyneAngle, athebyneSize, athebyneDistance, athebyneOrbit);
+                athebyne.setFaction(DRACONIS);
                 athebyne.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_athebyne"));
                 athebyne.setCustomDescriptionId("planet_athebyne");
                 athebyne.applySpecChanges();
-    
-                // Itoron
-                PlanetAPI itoron = system.addPlanet("itoron", star, "Itoron", "terran", itoronAngle, itoronSize, itoronDistance, itoronOrbit);	// ID, focus, name, type, angle, radius, orbit radius & orbit days
+
+                PlanetAPI itoron = system.addPlanet("itoron", star, "Itoron",
+                        "terran", itoronAngle, itoronSize, itoronDistance, itoronOrbit);
+                itoron.setFaction(DRACONIS);
                 itoron.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_itoron"));
                 itoron.setCustomDescriptionId("planet_itoron");
                 itoron.applySpecChanges();
 
-                        // Itoron's Jump Point
-                        JumpPointAPI fsdf_fafnir_jp_1 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_in", "Itoron's Jump Point");
-                        fsdf_fafnir_jp_1.setCircularOrbit(system.getEntityById("itoron"), jp1Angle, jp1Distance, jp1Orbit);   // Focus, angle, orbit radius & orbit days
-                        fsdf_fafnir_jp_1.setStandardWormholeToHyperspaceVisual();
-                        system.addEntity(fsdf_fafnir_jp_1);
-                                
-                        // Kori
-                        PlanetAPI kori = system.addPlanet("kori", itoron, "Kori","frozen", koriAngle, koriSize, koriDistance, koriOrbit);  // ID, focus, name, type, angle, radius, orbit radius & orbit days
-                        kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_kori"));
-                        kori.setCustomDescriptionId("planet_kori");
-                        kori.applySpecChanges();
+                JumpPointAPI jp1 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_in", "Itoron's Jump Point");
+                jp1.setCircularOrbit(itoron, jp1Angle, jp1Distance, jp1Orbit);
+                jp1.setStandardWormholeToHyperspaceVisual();
+                system.addEntity(jp1);
 
-                // Vorium
-                PlanetAPI vorium = system.addPlanet("vorium", star, "Vorium","gas_giant", voriumAngle, voriumSize, voriumDistance, voriumOrbit);  // ID, focus, name, type, angle, radius, orbit radius & orbit days
+                PlanetAPI kori = system.addPlanet("kori", itoron, "Kori",
+                        "frozen", koriAngle, koriSize, koriDistance, koriOrbit);
+                kori.setFaction(DRACONIS);
+                kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_kori"));
+                kori.setCustomDescriptionId("planet_kori");
+                kori.applySpecChanges();
+
+                PlanetAPI vorium = system.addPlanet("vorium", star, "Vorium",
+                        "gas_giant", voriumAngle, voriumSize, voriumDistance, voriumOrbit);
+                vorium.setFaction(DRACONIS);
                 vorium.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "fsdf_vorium"));
                 vorium.setCustomDescriptionId("planet_vorium");
                 vorium.applySpecChanges();
 
-                        // Vorium's Jump Point
-                        JumpPointAPI fsdf_fafnir_jp_2 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_out", "Fringe Jump Point");
-                        fsdf_fafnir_jp_2.setCircularOrbit(system.getEntityById("vorium"), jp2Angle, jp2Distance, jp2Orbit);   // Focus, angle, orbit radius & orbit days
-                        fsdf_fafnir_jp_2.setStandardWormholeToHyperspaceVisual();
-                        system.addEntity(fsdf_fafnir_jp_2);
+                JumpPointAPI jp2 = Global.getFactory().createJumpPoint("fsdf_fafnir_jump_point_out", "Fringe Jump Point");
+                jp2.setCircularOrbit(vorium, jp2Angle, jp2Distance, jp2Orbit);
+                jp2.setStandardWormholeToHyperspaceVisual();
+                system.addEntity(jp2);
 
-                // Pirate Station
-                SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station","Ring-Port Station", "station_lowtech1", "pirates");
-                pirateStation.setCircularOrbitPointingDown(system.getEntityById("fsdf_fafnir"), pirateStationAngle, pirateStationDistance, pirateStationOrbit);   // Focus, angle, orbit radius & orbit days
+                SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station", "Ring-Port Station",
+                        "station_lowtech3", "pirates");
+                pirateStation.setCircularOrbitPointingDown(star, pirateStationAngle, pirateStationDistance, pirateStationOrbit);
                 pirateStation.setCustomDescriptionId("station_ringport");
                 pirateStation.setInteractionImage("illustrations", "pirate_station");
-    
-                // Hyperspace Jump Points
-                system.autogenerateHyperspaceJumpPoints(false,false);
-                
-                // Gate
+
+                system.autogenerateHyperspaceJumpPoints(false, false);
+
                 SectorEntityToken fsdf_fafnir_gate = system.addCustomEntity("fsdf_fafnir_gate",
-                                 "Fafnir Gate",
-                                 "inactive_gate",
-                                 null);
-                fsdf_fafnir_gate.setCircularOrbit(star, gateAngle, gateDistance, gateOrbit); // Focus, angle, orbit radius & orbit days
-    
-                // Buoy
+                        "Fafnir Gate",
+                        "inactive_gate",
+                        null);
+                fsdf_fafnir_gate.setCircularOrbit(star, gateAngle, gateDistance, gateOrbit);
+
                 SectorEntityToken buoy = system.addCustomEntity("fsdf_fafnir_buoy",
-                                 "Fafnir Buoy",
-                                 "nav_buoy_makeshift",
-                                 "fsdf_draconis");
-                buoy.setCircularOrbitPointingDown(star, 60, arrayDistance, arrayOrbit); // Focus, angle, orbit radius & orbit days
-    
-                // Relay
+                        "Fafnir Buoy",
+                        "nav_buoy_makeshift",
+                        "fsdf_draconis");
+                buoy.setCircularOrbitPointingDown(star, 60, arrayDistance, arrayOrbit);
+
                 SectorEntityToken relay = system.addCustomEntity("fsdf_fafnir_relay",
-                                 "Fafnir Relay",
-                                 "comm_relay_makeshift",
-                                 "fsdf_draconis");
-                relay.setCircularOrbitPointingDown(star, 180, arrayDistance, arrayOrbit); // Focus, angle, orbit radius & orbit days
-    
-                // Array
+                        "Fafnir Relay",
+                        "comm_relay_makeshift",
+                        "fsdf_draconis");
+                relay.setCircularOrbitPointingDown(star, 180, arrayDistance, arrayOrbit);
+
                 SectorEntityToken array = system.addCustomEntity("fsdf_fafnir_array",
-                                 "Fafnir Array",
-                                 "sensor_array_makeshift",
-                                 "fsdf_draconis");
-                array.setCircularOrbitPointingDown(star, 300, arrayDistance, arrayOrbit); // Focus, angle, orbit radius & orbit days
-    
-                // Sets up hyperspace editor plugin
+                        "Fafnir Array",
+                        "sensor_array_makeshift",
+                        "fsdf_draconis");
+                array.setCircularOrbitPointingDown(star, 300, arrayDistance, arrayOrbit);
+
+                // MARKETS
+
+                // Athebyne
+                MarketAPI athebyneMarket = Global.getFactory().createMarket("athebyne_market", "Athebyne", 7);
+                athebyneMarket.setPrimaryEntity(athebyne);
+                athebyneMarket.setFactionId(DRACONIS);
+                athebyneMarket.addCondition(Conditions.POPULATION_7);
+                athebyneMarket.addCondition(Conditions.ORE_ULTRARICH);
+                athebyneMarket.addCondition(Conditions.RARE_ORE_RICH);
+                athebyneMarket.addCondition(Conditions.RUINS_VAST);
+                athebyneMarket.addCondition(Conditions.NO_ATMOSPHERE);
+
+                athebyneMarket.addIndustry(Industries.POPULATION);
+                athebyneMarket.addIndustry(Industries.SPACEPORT);
+                athebyneMarket.addIndustry(Industries.MINING);
+                athebyneMarket.addIndustry(Industries.REFINING);
+                athebyneMarket.addIndustry(Industries.FUELPROD);
+                athebyneMarket.addIndustry(Industries.TECHMINING);
+                athebyneMarket.addIndustry(Industries.PATROLHQ);
+                athebyneMarket.addIndustry(Industries.GROUNDDEFENSES);
+
+                athebyneMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
+                athebyneMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
+                athebyneMarket.addSubmarket(Submarkets.SUBMARKET_OPEN);
+                athebyneMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
+                athebyneMarket.setFreePort(false);
+                Global.getSector().getEconomy().addMarket(athebyneMarket, true);
+                athebyne.setMarket(athebyneMarket);
+
+                // Itoron
+                MarketAPI itoronMarket = Global.getFactory().createMarket("itoron_market", "Itoron", 8);
+                itoronMarket.setPrimaryEntity(itoron);
+                itoronMarket.setFactionId(DRACONIS);
+                itoronMarket.addCondition(Conditions.POPULATION_8);
+                itoronMarket.addCondition(Conditions.HABITABLE);
+                itoronMarket.addCondition(Conditions.MILD_CLIMATE);
+                itoronMarket.addCondition(Conditions.FARMLAND_BOUNTIFUL);
+                itoronMarket.addCondition(Conditions.ORGANICS_PLENTIFUL);
+                itoronMarket.addCondition(Conditions.REGIONAL_CAPITAL);
+
+                itoronMarket.addIndustry(Industries.POPULATION);
+                itoronMarket.addIndustry(Industries.MEGAPORT);
+                itoronMarket.addIndustry(Industries.FARMING);
+                itoronMarket.addIndustry(Industries.COMMERCE);
+                itoronMarket.addIndustry(Industries.PATROLHQ);
+                itoronMarket.addIndustry(Industries.GROUNDDEFENSES);
+                itoronMarket.addIndustry(Industries.STARFORTRESS_MID);
+
+                itoronMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
+                itoronMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
+                itoronMarket.addSubmarket(Submarkets.SUBMARKET_OPEN);
+                itoronMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
+                itoronMarket.setFreePort(true);
+                Global.getSector().getEconomy().addMarket(itoronMarket, true);
+                itoron.setMarket(itoronMarket);
+
+                // Kori
+                MarketAPI koriMarket = Global.getFactory().createMarket("kori_market", "Kori", 5);
+                koriMarket.setPrimaryEntity(kori);
+                koriMarket.setFactionId(DRACONIS);
+                koriMarket.addCondition(Conditions.POPULATION_5);
+                koriMarket.addCondition(Conditions.COLD);
+                koriMarket.addCondition(Conditions.OUTPOST);
+                koriMarket.addCondition(Conditions.STEALTH_MINEFIELDS);
+                koriMarket.addCondition(Conditions.RUINS_VAST);
+                koriMarket.addCondition(Conditions.VOLATILES_PLENTIFUL);
+
+                koriMarket.addIndustry(Industries.POPULATION, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                koriMarket.addIndustry(Industries.SPACEPORT, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                koriMarket.addIndustry(Industries.ORBITALWORKS, new ArrayList<>(Arrays.asList(Commodities.GAMMA_CORE, Items.PRISTINE_NANOFORGE)));
+                koriMarket.addIndustry(Industries.HEAVYINDUSTRY, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                koriMarket.addIndustry(Industries.HIGHCOMMAND, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                koriMarket.addIndustry(Industries.HEAVYBATTERIES, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                koriMarket.addIndustry("fsdf_highcommand", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
+
+                koriMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
+                koriMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
+                koriMarket.addSubmarket(Submarkets.SUBMARKET_OPEN);
+                koriMarket.addSubmarket(Submarkets.GENERIC_MILITARY);
+                koriMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
+                koriMarket.setFreePort(false);
+                Global.getSector().getEconomy().addMarket(koriMarket, true);
+                kori.setMarket(koriMarket);
+
+                // Vorium
+                MarketAPI voriumMarket = Global.getFactory().createMarket("vorium_market", "Vorium", 6);
+                voriumMarket.setPrimaryEntity(vorium);
+                voriumMarket.setFactionId(DRACONIS);
+                voriumMarket.addCondition(Conditions.POPULATION_6);
+                voriumMarket.addCondition(Conditions.HIGH_GRAVITY);
+                voriumMarket.addCondition(Conditions.VOLATILES_PLENTIFUL);
+                voriumMarket.addCondition(Conditions.OUTPOST);
+
+                voriumMarket.addIndustry(Industries.POPULATION, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.SPACEPORT, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.MINING, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.HEAVYINDUSTRY, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.HIGHCOMMAND, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.PATROLHQ, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.GROUNDDEFENSES, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+
+                voriumMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
+                voriumMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
+                voriumMarket.addSubmarket(Submarkets.SUBMARKET_OPEN);
+                voriumMarket.addSubmarket(Submarkets.GENERIC_MILITARY);
+                voriumMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
+                voriumMarket.setFreePort(false);
+                Global.getSector().getEconomy().addMarket(voriumMarket, true);
+                vorium.setMarket(voriumMarket);
+
+                // Pirate Station
+                MarketAPI pirateStationMarket = Global.getFactory().createMarket("pirateStation_market", "Ring-Port Station", 5);
+                pirateStationMarket.setPrimaryEntity(pirateStation);
+                pirateStationMarket.setFactionId(Factions.PIRATES);
+                pirateStationMarket.addCondition(Conditions.POPULATION_5);
+                pirateStationMarket.addCondition(Conditions.ORE_SPARSE);
+
+                pirateStationMarket.addIndustry(Industries.POPULATION);
+                pirateStationMarket.addIndustry(Industries.SPACEPORT);
+                pirateStationMarket.addIndustry(Industries.MINING);
+                pirateStationMarket.addIndustry(Industries.GROUNDDEFENSES);
+                pirateStationMarket.addIndustry(Industries.BATTLESTATION);
+
+
+                pirateStationMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
+                pirateStationMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
+                pirateStationMarket.addSubmarket(Submarkets.SUBMARKET_OPEN);
+                pirateStationMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
+                pirateStationMarket.setFreePort(false);
+                Global.getSector().getEconomy().addMarket(pirateStationMarket, true);
+                pirateStation.setMarket(pirateStationMarket);
+
+                // Hyperspace cleanup
                 HyperspaceTerrainPlugin hyperspaceTerrainPlugin = (HyperspaceTerrainPlugin) Misc.getHyperspaceTerrain().getPlugin();
                 NebulaEditor nebulaEditor = new NebulaEditor(hyperspaceTerrainPlugin);
-    
-                // Sets up radiuses in hyperspace of system
                 float minHyperspaceRadius = hyperspaceTerrainPlugin.getTileSize() * 2f;
                 float maxHyperspaceRadius = system.getMaxRadiusInHyperspace();
-    
-                // Hyperstorm-b-gone (around system in hyperspace)
                 nebulaEditor.clearArc(system.getLocation().x, system.getLocation().y, 0, minHyperspaceRadius + maxHyperspaceRadius, 0f, 360f, 0.25f);
         }
 }

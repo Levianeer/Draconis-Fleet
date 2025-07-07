@@ -1,29 +1,65 @@
 {
-	"DRACONIS": {
+	"DRACONIS_PRIMARY":{
 		"engineColor":[255,125,25,255],
 		"engineCampaignColor":[200,90,70,255],
-		"contrailParticleSizeMult":10,
-		"contrailParticleDuration":0.09,
-		"contrailParticleFinalSizeMult":3.0,		
+
+		"contrailParticleSizeMult":1.5,
+		"contrailParticleDuration":2.5,
+		"contrailParticleFinalSizeMult":2,
+
 		"contrailMaxSpeedMult":0.30,
 		"contrailAngularVelocityMult":0.30,
 		"contrailColor":[50,50,50,50],
 		"contrailCampaignColor":[200,90,70,75],
 		"engineGlowGlowMult":2,
-		"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+		"type":"GLOW", # GLOW or SMOKE
+
+		"glowSprite":"graphics/fx/fsdf_engineglow64.png",
+		"glowOutline":"graphics/fx/fsdf_engineflame64.png",
+		"omegaMode":"true",
+		"glowSizeMult":1,
+		"glowAlternateColor":[50,50,255,255]
 	},
 
-	"DRACONIS_FIGHTER": {
+	"DRACONIS_SECONDARY":{
+		"engineColor":[210,195,105,120],
+
+		"contrailParticleSizeMult":5,
+		"contrailParticleDuration":0.15,
+		"contrailParticleFinalSizeMult":3,
+
+		"contrailMaxSpeedMult":0.35,
+		"contrailAngularVelocityMult":0.35,
+		"contrailColor":[120,105,35,50],
+		"engineGlowGlowMult":1.5,
+		"type":"GLOW", # GLOW or SMOKE
+
+		"glowSprite":"graphics/fx/fsdf_engineglow64.png",
+		"glowOutline":"graphics/fx/fsdf_engineflame64.png",
+		"omegaMode":true,
+		"glowSizeMult":1,
+		"glowAlternateColor":[150,75,50,255],
+	},
+
+	"DRACONIS_FIGHTER":{
 		"engineColor":[255,125,25,255],
 		"engineCampaignColor":[200,90,70,255],
-		"contrailParticleSizeMult":10,
-		"contrailParticleDuration":0.6,
-		"contrailParticleFinalSizeMult":3.0,		
+
+		"contrailParticleSizeMult":1.5,
+		"contrailParticleDuration":2.5,
+		"contrailParticleFinalSizeMult":2,
+
 		"contrailMaxSpeedMult":0.30,
 		"contrailAngularVelocityMult":0.30,
 		"contrailColor":[50,50,50,50],
 		"contrailCampaignColor":[200,90,70,75],
 		"engineGlowGlowMult":1.5,
-		"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+		"type":"GLOW", # GLOW or SMOKE
+
+		"glowSprite":"graphics/fx/fsdf_engineglow64.png",
+		"glowOutline":"graphics/fx/fsdf_engineflame64.png",
+		"omegaMode":"true",
+		"glowSizeMult":0.75,
+		"glowAlternateColor":[50,50,255,255]
 	}
 }

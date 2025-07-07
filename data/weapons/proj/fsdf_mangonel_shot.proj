@@ -45,10 +45,10 @@
 					"canSplitEarly":true,
 					"splitSound":"sabot_srm_split",
 					"numShots":6,
-					"damage":100,
+					"damage":250,
 					"impact":25,
-					"emp":0, # needs to match highlight in weapon_data.csv
-					"damageType":HIGH_EXPLOSIVE,
+					"emp":350, # needs to match highlight in weapon_data.csv
+					"damageType":ENERGY,
 					"hitpoints":1000,
 					"evenSpread":true,
 					"arc":10,

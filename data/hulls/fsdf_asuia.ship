@@ -11,9 +11,6 @@
   "shieldCenter": [1, 0],
   "shieldRadius": 135,
   "viewOffset": 0,
-  "builtInMods": [
-    "coherer"
-  ],
   "builtInWeapons": {
     "WS0007": "fsdf_vernier",
     "WS0008": "fsdf_vernier",
@@ -22,8 +19,7 @@
     "WS0011": "fsdf_vernier",
     "WS0012": "fsdf_vernier",
     "WS0013": "fsdf_vernier",
-    "WS0014": "fsdf_vernier",
-    "WS0020": "fsdf_durendal_mkii"
+    "WS0014": "fsdf_vernier"
   },
   "weaponSlots": [
     {
@@ -44,7 +40,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 170,
+      "arc": 70,
       "angle": 0,
       "locations": [56, -34]
     },
@@ -53,7 +49,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 170,
+      "arc": 70,
       "angle": -0,
       "locations": [56, 34]
     },
@@ -188,16 +184,16 @@
       "size": "LARGE",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 30,
       "angle": 0,
       "locations": [-23, 40]
     },
     {
       "id": "WS0020",
       "size": "LARGE",
-      "type": "BUILT_IN",
+      "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 120,
+      "arc": 30,
       "angle": -0,
       "locations": [-23, -40]
     },
@@ -215,7 +211,7 @@
       "size": "MEDIUM",
       "type": "COMPOSITE",
       "mount": "TURRET",
-      "arc": 125,
+      "arc": 30,
       "angle": -0,
       "locations": [-5, 0]
     },
@@ -264,7 +260,7 @@
       "angle": 180,
       "contrailSize": 60,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_PRIMARY"
     },
     {
       "location": [-94, -17],
@@ -273,7 +269,7 @@
       "angle": 180,
       "contrailSize": 60,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_PRIMARY"
     },
     {
       "location": [-86, 49],
@@ -282,7 +278,7 @@
       "angle": 180,
       "contrailSize": 6,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-87, 45],
@@ -291,7 +287,7 @@
       "angle": 180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-90, 35],
@@ -300,7 +296,7 @@
       "angle": 180,
       "contrailSize": 36,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-90, -34],
@@ -309,7 +305,7 @@
       "angle": 180,
       "contrailSize": 36,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-89, -41],
@@ -318,7 +314,7 @@
       "angle": 180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-88, -46],
@@ -327,7 +323,7 @@
       "angle": 180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-88, 42],
@@ -336,7 +332,7 @@
       "angle": 180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-88, -42],
@@ -345,7 +341,7 @@
       "angle": -180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-89, 39],
@@ -354,7 +350,7 @@
       "angle": 180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-89, -39],
@@ -363,7 +359,7 @@
       "angle": -180,
       "contrailSize": 30,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-91.5, 31],
@@ -372,7 +368,7 @@
       "angle": 180,
       "contrailSize": 36,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     },
     {
       "location": [-91.5, -31],
@@ -381,7 +377,7 @@
       "angle": -180,
       "contrailSize": 36,
       "style": "CUSTOM",
-      "styleId": "DRACONIS"
+      "styleId": "DRACONIS_SECONDARY"
     }
   ],
   "bounds": [
