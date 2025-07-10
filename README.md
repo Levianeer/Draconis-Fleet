@@ -8,7 +8,12 @@ _A fractured military coalition born from the ashes of the Fafnir Civil War. Its
 ![Weapons](https://i.imgur.com/SOr6sSe.png)
 
 __Credits:__
-```
 Tartiflette: Anti-missile missile AI script.
-X4: Foundations, Used for some sound effects.
-```
+
+X4: Foundations, Used for some SFX.
+
+Halo: Combat Evolved: Used for some SFX.
+
+Halo: Combat Evolved © Microsoft Corporation. Draconis Fleet was created under Microsoft's "Game Content Usage Rules" using assets from Halo: Combat Evolved, and it is not endorsed by or affiliated with Microsoft.
+
+Terms of Usage https://www.xbox.com/en-US/developers/rules

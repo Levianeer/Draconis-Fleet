@@ -9,14 +9,14 @@
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
 
         "job_name": "To Eclispe the Sun",
-        "job_description": "",
-        "job_comm_reply": "",
+        "job_description": "", # Default: blank. The description shown upon selecting the job.
+        "job_comm_reply": "", # Default: none. The text shown if the player opens comms with the bounty fleet,
         "job_forFaction": "fsdf_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
         "job_credit_reward": 125000,
         "job_reward_scaling": 1.0,
         "job_reputation_reward":10,
-        "job_type":"neutralisation",
+        "job_type":"assassination",
         "job_show_type": true,
         "job_show_captain": true,
         "job_show_fleet": "flagshipText",
@@ -24,6 +24,10 @@
         "job_show_arrow": false,
         "job_difficultyDescription": "auto",
         "job_pick_option": "Accept the bounty.",
+        "job_item_reward": { # Default: no item rewards. Lists special items that will be added to the post-battle loot. First value is the item id, second is the number to give the player.
+            # Using the same syntax as Console Commands, blueprints may be added. ["fighter_bp", "industry_bp", "modspec", "ship_bp", "weapon_bp"]
+            "ship_bp fsdf_sunsetter": 1
+        },
 
         "target_first_name":"Sigma", # Default: randomly selected based on faction.
         "target_last_name":"Octantis", # Default: randomly selected based on faction.
@@ -66,14 +70,14 @@
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
 
         "job_name": "The Storm on the Horizion",
-        "job_description": "",
+        "job_description": "", # Default: blank. The description shown upon selecting the job.
         "job_comm_reply": "",
         "job_forFaction": "fsdf_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
         "job_credit_reward": 500000,
         "job_reward_scaling": 1.25,
         "job_reputation_reward":10,
-        "job_type":"neutralisation",
+        "job_type":"obliteration",
         "job_show_type": true,
         "job_show_captain": true,
         "job_show_fleet": "flagshipText",
@@ -81,6 +85,11 @@
         "job_show_arrow": false,
         "job_difficultyDescription": "auto",
         "job_pick_option": "Accept the bounty.",
+        "job_item_reward": { # Default: no item rewards. Lists special items that will be added to the post-battle loot. First value is the item id, second is the number to give the player.
+            # Using the same syntax as Console Commands, blueprints may be added. ["fighter_bp", "industry_bp", "modspec", "ship_bp", "weapon_bp"]
+            "ship_bp fsdf_shaowei": 1
+        },
+
 
         "target_first_name":"Sigma", # Default: randomly selected based on faction.
         "target_last_name":"Octantis", # Default: randomly selected based on faction.

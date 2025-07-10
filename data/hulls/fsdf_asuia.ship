@@ -272,96 +272,6 @@
       "styleId": "DRACONIS_PRIMARY"
     },
     {
-      "location": [-86, 49],
-      "length": 22,
-      "width": 6,
-      "angle": 180,
-      "contrailSize": 6,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-87, 45],
-      "length": 25,
-      "width": 6,
-      "angle": 180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-90, 35],
-      "length": 35,
-      "width": 8,
-      "angle": 180,
-      "contrailSize": 36,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-90, -34],
-      "length": 35,
-      "width": 8,
-      "angle": 180,
-      "contrailSize": 36,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-89, -41],
-      "length": 25,
-      "width": 6,
-      "angle": 180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-88, -46],
-      "length": 25,
-      "width": 6,
-      "angle": 180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-88, 42],
-      "length": 25,
-      "width": 6,
-      "angle": 180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-88, -42],
-      "length": 25,
-      "width": 6,
-      "angle": -180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-89, 39],
-      "length": 25,
-      "width": 6,
-      "angle": 180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
-      "location": [-89, -39],
-      "length": 25,
-      "width": 6,
-      "angle": -180,
-      "contrailSize": 30,
-      "style": "CUSTOM",
-      "styleId": "DRACONIS_SECONDARY"
-    },
-    {
       "location": [-91.5, 31],
       "length": 35,
       "width": 8,
@@ -372,6 +282,42 @@
     },
     {
       "location": [-91.5, -31],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-85, 49.5],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-85, -49.5],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-89, 40],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-89, -40],
       "length": 35,
       "width": 8,
       "angle": -180,

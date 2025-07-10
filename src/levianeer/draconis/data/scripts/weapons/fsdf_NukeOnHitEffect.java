@@ -25,18 +25,26 @@ public class fsdf_NukeOnHitEffect implements OnHitEffectPlugin {
         if (shieldHit) {
             ShipAPI ship = (ShipAPI) target;
 
-            // 25% bypass
-            float bypassDamage = damage * 0.25f;
+            float bypassDamage = damage * 0.1f;
 
-            engine.applyDamage(
-                    ship,
+            // Deal hull damage directly
+            float newHP = Math.max(0f, ship.getHitpoints() - bypassDamage);
+            ship.setHitpoints(newHP);
+
+            // Show small EMP arc or spark to indicate it pierced
+            engine.spawnEmpArcPierceShields(
+                    projectile.getSource(),
                     point,
-                    bypassDamage,
+                    ship,
+                    ship,
                     DamageType.ENERGY,
                     0f,
-                    true,
-                    false,
-                    source
+                    0f,
+                    1000f,
+                    "system_emp_emitter_impact",
+                    20f,
+                    new Color(255, 100, 255),
+                    new Color(255, 255, 255)
             );
         }
 

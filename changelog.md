@@ -1,3 +1,15 @@
+Version 0.2.1
+- Added new Estoc sfx.
+    - Lowered Estoc firerate.
+    - Increased reload time.
+    - Increased accuracy.
+- Fixed up the MagicLib bounties. Still need descriptions though.
+- Added new sounds to the Estoic flak.
+- Removed AI core spam on Kori and Vorium.
+- Fixed Kori industry.
+- Fixed broke shield pierce mechanic on the Halberd.
+- Removed some extra engines on the Asuia.
+
 Version 0.2.0
 - Added forums link to versioning.
 - Added missing Bardiche descriptions.

@@ -240,12 +240,11 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 koriMarket.addCondition(Conditions.RUINS_VAST);
                 koriMarket.addCondition(Conditions.VOLATILES_PLENTIFUL);
 
-                koriMarket.addIndustry(Industries.POPULATION, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                koriMarket.addIndustry(Industries.SPACEPORT, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                koriMarket.addIndustry(Industries.ORBITALWORKS, new ArrayList<>(Arrays.asList(Commodities.GAMMA_CORE, Items.PRISTINE_NANOFORGE)));
-                koriMarket.addIndustry(Industries.HEAVYINDUSTRY, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                koriMarket.addIndustry(Industries.HIGHCOMMAND, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                koriMarket.addIndustry(Industries.HEAVYBATTERIES, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                koriMarket.addIndustry(Industries.POPULATION);
+                koriMarket.addIndustry(Industries.MEGAPORT);
+                koriMarket.addIndustry(Industries.ORBITALWORKS, new ArrayList<>(List.of(Items.CORRUPTED_NANOFORGE)));
+                koriMarket.addIndustry(Industries.HEAVYBATTERIES);
+                koriMarket.addIndustry(Industries.HIGHCOMMAND);
                 koriMarket.addIndustry("fsdf_highcommand", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
 
                 koriMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
@@ -266,13 +265,13 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 voriumMarket.addCondition(Conditions.VOLATILES_PLENTIFUL);
                 voriumMarket.addCondition(Conditions.OUTPOST);
 
-                voriumMarket.addIndustry(Industries.POPULATION, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                voriumMarket.addIndustry(Industries.SPACEPORT, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                voriumMarket.addIndustry(Industries.MINING, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                voriumMarket.addIndustry(Industries.HEAVYINDUSTRY, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                voriumMarket.addIndustry(Industries.HIGHCOMMAND, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                voriumMarket.addIndustry(Industries.PATROLHQ, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
-                voriumMarket.addIndustry(Industries.GROUNDDEFENSES, new ArrayList<>(List.of(Commodities.GAMMA_CORE)));
+                voriumMarket.addIndustry(Industries.POPULATION);
+                voriumMarket.addIndustry(Industries.SPACEPORT);
+                voriumMarket.addIndustry(Industries.MINING);
+                voriumMarket.addIndustry(Industries.HEAVYINDUSTRY);
+                voriumMarket.addIndustry(Industries.HIGHCOMMAND);
+                voriumMarket.addIndustry(Industries.PATROLHQ);
+                voriumMarket.addIndustry(Industries.GROUNDDEFENSES);
 
                 voriumMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
                 voriumMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
@@ -295,7 +294,6 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 pirateStationMarket.addIndustry(Industries.MINING);
                 pirateStationMarket.addIndustry(Industries.GROUNDDEFENSES);
                 pirateStationMarket.addIndustry(Industries.BATTLESTATION);
-
 
                 pirateStationMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
                 pirateStationMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);

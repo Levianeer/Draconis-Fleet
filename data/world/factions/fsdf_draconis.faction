@@ -153,7 +153,7 @@
 		"carriers":2,
 		"phaseShips":0,
 		
-		"officerQuality":4,
+		"officerQuality":7,
 		"shipQuality":2,
 		"numShips":3,
 		
@@ -164,7 +164,7 @@
 		"combatFreighterProbability":0,
 		"combatFreighterCombatUseFraction":0,
 		"combatFreighterCombatUseFractionWhenPriority":0,
-		"autofitRandomizeProbability":0,
+		"autofitRandomizeProbability":0.125,
 		
 		"commanderSkillsShuffleProbability":0,
 		"commanderSkills":[
