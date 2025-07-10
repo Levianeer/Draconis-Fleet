@@ -1,10 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 25,
     "fluxVents": 30,
-    "goalVariant": true,
     "hullId": "fsdf_asuia",
-    "hullMods": ["targetingunit"],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_asuia_Standard",

@@ -20,8 +20,8 @@
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"fsdf_eltanin_Elite":3,
-		"fsdf_asuia_Elite":3,
+		"fsdf_eltanin_Elite":4,
+		"fsdf_asuia_Elite":2,
 		
 		"fallback":{"combatMedium":1},
 	},

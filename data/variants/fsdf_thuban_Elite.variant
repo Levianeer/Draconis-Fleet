@@ -1,10 +1,10 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 10,
-    "fluxVents": 5,
-    "goalVariant": false,
+    "fluxVents": 9,
+    "goalVariant": true,
     "hullId": "fsdf_thuban",
-    "hullMods": ["fluxdistributor"],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_Elite",

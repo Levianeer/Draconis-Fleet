@@ -1,6 +1,6 @@
 {
-    "displayName": "Sunsetter",
-    "fluxCapacitors": 10,
+    "displayName": "Experimental",
+    "fluxCapacitors": 7,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_sunsetter",
@@ -47,10 +47,14 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0011": "vulcan",
-                "WS0012": "vulcan",
-                "WS0018": "vulcan"
+                "WS0011": "fsdf_estocflak",
+                "WS0012": "fsdf_estocflak"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0018": "fsdf_estocflak"}
         },
         {
             "autofire": true,

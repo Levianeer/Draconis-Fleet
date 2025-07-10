@@ -1,10 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 9,
+    "fluxCapacitors": 17,
     "fluxVents": 20,
-    "goalVariant": true,
     "hullId": "fsdf_shaobi",
-    "hullMods": ["targetingunit"],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_shaobi_Standard",

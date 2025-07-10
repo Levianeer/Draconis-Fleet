@@ -1,10 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 19,
+    "fluxCapacitors": 30,
     "fluxVents": 30,
-    "goalVariant": true,
     "hullId": "fsdf_eltanin",
-    "hullMods": ["targetingunit"],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_eltanin_Standard",
@@ -43,7 +42,7 @@
                 "WS0002": "vulcan",
                 "WS0004": "vulcan",
                 "WS0009": "vulcan",
-                "WS0017": "flak"
+                "WS0017": "dualflak"
             }
         }
     ]

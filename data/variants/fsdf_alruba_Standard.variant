@@ -2,7 +2,6 @@
     "displayName": "Standard",
     "fluxCapacitors": 10,
     "fluxVents": 7,
-    "goalVariant": true,
     "hullId": "fsdf_alruba",
     "hullMods": ["unstable_injector"],
     "permaMods": [],

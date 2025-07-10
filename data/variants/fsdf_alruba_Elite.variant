@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 4,
     "fluxVents": 10,
-    "goalVariant": false,
+    "goalVariant": true,
     "hullId": "fsdf_alruba",
     "hullMods": [],
     "permaMods": [],

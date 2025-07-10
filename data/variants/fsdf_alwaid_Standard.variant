@@ -1,14 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 8,
+    "fluxCapacitors": 38,
     "fluxVents": 50,
-    "goalVariant": true,
     "hullId": "fsdf_alwaid",
-    "hullMods": [
-        "eccm",
-        "missleracks",
-        "fluxdistributor"
-    ],
+    "hullMods": ["fluxdistributor"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",
@@ -43,8 +38,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0025": "mjolnir",
-                "WS0026": "mjolnir"
+                "WS0025": "gauss",
+                "WS0026": "gauss"
             }
         },
         {
@@ -67,8 +62,8 @@
     ],
     "wings": [
         "broadsword_wing",
-        "hoplon_wing",
-        "hoplon_wing",
-        "hoplon_wing"
+        "perdition_wing",
+        "perdition_wing",
+        "perdition_wing"
     ]
 }

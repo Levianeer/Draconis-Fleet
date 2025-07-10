@@ -1,7 +1,7 @@
 {
-    "displayName": "Standard",
+    "displayName": "Experimental",
     "fluxCapacitors": 20,
-    "fluxVents": 2,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "fsdf_shaowei",
     "hullMods": [
@@ -37,10 +37,12 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0016": "vulcan",
-                "WS0017": "vulcan"
-            }
+            "weapons": {"WS0016": "fsdf_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "fsdf_estocflak"}
         }
     ]
 }

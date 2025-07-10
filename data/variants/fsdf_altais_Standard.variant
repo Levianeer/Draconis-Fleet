@@ -2,7 +2,6 @@
     "displayName": "Standard",
     "fluxCapacitors": 0,
     "fluxVents": 48,
-    "goalVariant": true,
     "hullId": "fsdf_altais",
     "hullMods": [
         "missleracks",

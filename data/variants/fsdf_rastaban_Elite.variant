@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 13,
     "fluxVents": 10,
-    "goalVariant": false,
+    "goalVariant": true,
     "hullId": "fsdf_rastaban",
     "hullMods": [
         "targetingunit",

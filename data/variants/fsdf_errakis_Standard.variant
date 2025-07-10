@@ -1,8 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 14,
+    "fluxCapacitors": 20,
     "fluxVents": 20,
-    "goalVariant": true,
     "hullId": "fsdf_errakis",
     "hullMods": [],
     "permaMods": [],
@@ -13,8 +12,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "hveldriver",
-                "WS0006": "hveldriver"
+                "WS0005": "heavyac",
+                "WS0006": "heavyac"
             }
         },
         {

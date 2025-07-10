@@ -1,3 +1,6 @@
+Version 0.2.2
+- Fixed variants setup.
+
 Version 0.2.1
 - Added new Estoc sfx.
     - Lowered Estoc firerate.

@@ -1,10 +1,9 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 10,
-    "fluxVents": 6,
-    "goalVariant": true,
+    "fluxVents": 10,
     "hullId": "fsdf_thuban",
-    "hullMods": ["fluxdistributor"],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_Standard",

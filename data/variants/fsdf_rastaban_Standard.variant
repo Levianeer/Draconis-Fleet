@@ -1,13 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 2,
+    "fluxCapacitors": 10,
     "fluxVents": 20,
-    "goalVariant": true,
     "hullId": "fsdf_rastaban",
-    "hullMods": [
-        "fluxdistributor",
-        "targetingunit"
-    ],
+    "hullMods": ["fluxdistributor"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_Standard",
