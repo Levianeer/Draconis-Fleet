@@ -1,3 +1,23 @@
+Version 0.2.3
+- Added new Heavy Cruiser, Juza-class.
+- Added new Cruiser, Juni-class.
+- Revised the role of the Bardiche missiles.
+- Add a 1 second cooldown to Evasion Protocol ship system.
+- Raised the Estoc's firerate and lowered the damage.
+    - Updated the Estoc texture to make it look a little sharper
+- Lowered Nodus engagement range to something reasonable.
+- Adjusted audio balancing.
+- Buffed the Particle Burst Lance.
+    - Changed the Particle Lance's SFX.
+- Removed the Emergency Power's passive reduction to CR. In it's place I've made it so the system just removes a very small amount of CR on use.
+    - Increased Emergency Power's cooldown.
+- Added back the Asuia's built-in weapon.
+    - Moved the Asuia to a bounty.
+- Reduced the number of chaff/flare fired. Got too laggy in some situations.
+- Reworked the Errakis.
+- Changed fleet doctrine.
+- And a lot more...
+
 Version 0.2.2
 - Fixed variants setup.
 
@@ -7,7 +27,7 @@ Version 0.2.1
     - Increased reload time.
     - Increased accuracy.
 - Fixed up the MagicLib bounties. Still need descriptions though.
-- Added new sounds to the Estoic flak.
+- Added new sounds to the Estoc flak.
 - Removed AI core spam on Kori and Vorium.
 - Fixed Kori industry.
 - Fixed broke shield pierce mechanic on the Halberd.

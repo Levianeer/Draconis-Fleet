@@ -3,30 +3,32 @@
 	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
 	"combatSmallForSmallFleet":{
 		"fsdf_thuban_Elite":1,
-		"fsdf_alruba_Elite":3,
+		"fsdf_alruba_Elite":5,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"fsdf_thuban_Elite":3,
+		"fsdf_thuban_Elite":5,
 		"fsdf_alruba_Elite":1,
 		
 		"fallback":{"combatMedium":0.5},
 	},
 	"combatMedium":{
-		"fsdf_rastaban_Elite":3,
-		"fsdf_errakis_Elite":3,
+		"fsdf_rastaban_Elite":5,
+		"fsdf_errakis_Elite":5,
 
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"fsdf_eltanin_Elite":4,
-		"fsdf_asuia_Elite":2,
+		"fsdf_eltanin_Elite":5,
+		"fsdf_juza_Elite":3,
+		"fsdf_juni_Elite":2,
+		"fsdf_juni_Support":3,
 		
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"fsdf_altais_Elite":3,
+		"fsdf_altais_Elite":5,
 
 		"fallback":{"combatLarge":1},
 	},
@@ -36,13 +38,13 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"fsdf_shaobi_Elite":3,
+		"fsdf_shaobi_Elite":5,
 
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},
 	},
 	"carrierLarge":{
-		"fsdf_alwaid_Elite":3,
+		"fsdf_alwaid_Elite":5,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},

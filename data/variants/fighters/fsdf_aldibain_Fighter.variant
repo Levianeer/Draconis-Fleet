@@ -14,7 +14,8 @@
       "mode": "LINKED",
       "weapons": {
         "WS0001": "lightmg",
-        "WS0002": "lightmg"
+        "WS0002": "lightmg",
+        "WS0005": "swarmer_fighter"
       }
     },
     {

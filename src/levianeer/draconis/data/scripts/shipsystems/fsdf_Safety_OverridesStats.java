@@ -17,7 +17,6 @@ public class fsdf_Safety_OverridesStats extends BaseShipSystemScript {
 		speed.put(ShipAPI.HullSize.CAPITAL_SHIP, 20f);
 	}
 
-	public static final float PEAK_MULT = 0.33f;
 	public static final float FLUX_DISSIPATION_MULT = 2f;
 
 	@Override
@@ -36,7 +35,6 @@ public class fsdf_Safety_OverridesStats extends BaseShipSystemScript {
 		stats.getZeroFluxMinimumFluxLevel().modifyFlat(id, 2f);
 
 		stats.getFluxDissipation().modifyMult(id, FLUX_DISSIPATION_MULT);
-		stats.getPeakCRDuration().modifyMult(id, PEAK_MULT);
 		stats.getVentRateMult().modifyMult(id, 0f);
 	}
 
@@ -47,7 +45,6 @@ public class fsdf_Safety_OverridesStats extends BaseShipSystemScript {
 		stats.getDeceleration().unmodify(id);
 		stats.getZeroFluxMinimumFluxLevel().unmodify(id);
 		stats.getFluxDissipation().unmodify(id);
-		stats.getPeakCRDuration().unmodify(id);
 		stats.getVentRateMult().unmodify(id);
 	}
 

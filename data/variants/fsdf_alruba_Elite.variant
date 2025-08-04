@@ -1,10 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 4,
+    "fluxCapacitors": 5,
     "fluxVents": 10,
     "goalVariant": true,
     "hullId": "fsdf_alruba",
-    "hullMods": [],
+    "hullMods": ["unstable_injector"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alruba_Elite",

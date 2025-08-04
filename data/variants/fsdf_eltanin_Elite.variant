@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 9,
+    "fluxCapacitors": 13,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",
@@ -30,11 +30,6 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0009": "fsdf_estocflak"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
                 "WS0005": "fsdf_rapier",
                 "WS0007": "fsdf_rapier"
@@ -43,9 +38,14 @@
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0017": "fsdf_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
                 "WS0004": "fsdf_estocflak",
-                "WS0017": "fsdf_razorflak"
+                "WS0009": "fsdf_estocflak"
             }
         },
         {

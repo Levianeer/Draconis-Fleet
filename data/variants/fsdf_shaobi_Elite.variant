@@ -33,12 +33,10 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0009": "fsdf_estocflak"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "fsdf_estocflak"}
+            "weapons": {
+                "WS0006": "fsdf_estocflak",
+                "WS0009": "fsdf_estocflak"
+            }
         },
         {
             "autofire": true,
@@ -51,6 +49,6 @@
     ],
     "wings": [
         "fsdf_aldibain_wing",
-        "fsdf_nodus_wing"
+        "fsdf_eldsich_wing"
     ]
 }

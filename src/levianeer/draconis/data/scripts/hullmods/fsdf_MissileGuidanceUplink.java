@@ -6,7 +6,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 
 public class fsdf_MissileGuidanceUplink extends BaseHullMod {
 
-    public static final float RANGE_BONUS = 25f;
+    public static final float RANGE_BONUS = 10f;
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {

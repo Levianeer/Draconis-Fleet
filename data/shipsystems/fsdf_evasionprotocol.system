@@ -12,7 +12,10 @@
 	"engineGlowWidthMult":1.5,
 	"engineGlowGlowMult":3,
 
-	"clampMaxSpeedAfter":true,
+	"flameoutOnImpactChance":0,
+
+	"clampTurnRateAfter":true,
+	"clampMaxSpeedAfter":false,
 
 	"useSound":"system_plasma_burn",
 	"loopSound":"system_plasma_burn_loop",
@@ -20,7 +23,7 @@
 	
 	"aiHints":{
 		"activeSpeedIncrease":0,
-		"burstMovementPotential":300,
-		"averageSpeedIncrease":50,
+		"burstMovementPotential":400,
+		"averageSpeedIncrease":100,
 	}
 }

@@ -1,25 +1,30 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 20,
-    "fluxVents": 20,
+    "fluxVents": 9,
     "hullId": "fsdf_errakis",
-    "hullMods": [],
+    "hullMods": ["eccm"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_errakis_Standard",
     "weaponGroups": [
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "heavyac",
-                "WS0006": "heavyac"
-            }
-        },
-        {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {"WS0004": "locust"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "breachpod",
+                "WS0006": "breachpod"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0018": "hveldriver"}
         },
         {
             "autofire": true,

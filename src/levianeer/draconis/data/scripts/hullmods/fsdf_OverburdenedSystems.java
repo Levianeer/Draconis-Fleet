@@ -7,7 +7,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 public class fsdf_OverburdenedSystems extends BaseHullMod {
 
     public static final float RECHARGE_MULT = 2f;
-    public static final float RANGE_DEBUFF = -35f;
+    public static final float RANGE_DEBUFF = -20f;
     public static final float AMMO_BONUS = 100f;
 
     @Override

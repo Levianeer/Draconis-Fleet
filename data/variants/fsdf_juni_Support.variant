@@ -1,0 +1,67 @@
+{
+    "displayName": "Support",
+    "fluxCapacitors": 18,
+    "fluxVents": 10,
+    "goalVariant": true,
+    "hullId": "fsdf_juni",
+    "hullMods": [
+        "targetingunit",
+        "advancedoptics",
+        "hardenedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_juni_Support",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_rapier",
+                "WS0021": "fsdf_rapier"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "fsdf_bardiche_single",
+                "WS0019": "fsdf_bardiche_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "gravitonbeam",
+                "WS0020": "gravitonbeam"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0050": "ionbeam"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0024": "fsdf_estocflak",
+                "WS0025": "fsdf_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "lrpdlaser",
+                "WS0006": "lrpdlaser"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "fsdf_swordbreaker"}
+        }
+    ]
+}

@@ -176,13 +176,13 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 // MARKETS
 
                 // Athebyne
-                MarketAPI athebyneMarket = Global.getFactory().createMarket("athebyne_market", "Athebyne", 7);
+                MarketAPI athebyneMarket = Global.getFactory().createMarket("athebyne_market", "Athebyne", 6);
                 athebyneMarket.setPrimaryEntity(athebyne);
                 athebyneMarket.setFactionId(DRACONIS);
-                athebyneMarket.addCondition(Conditions.POPULATION_7);
-                athebyneMarket.addCondition(Conditions.ORE_ULTRARICH);
-                athebyneMarket.addCondition(Conditions.RARE_ORE_RICH);
-                athebyneMarket.addCondition(Conditions.RUINS_VAST);
+                athebyneMarket.addCondition(Conditions.POPULATION_6);
+                athebyneMarket.addCondition(Conditions.ORE_RICH);
+                athebyneMarket.addCondition(Conditions.RARE_ORE_ABUNDANT);
+                athebyneMarket.addCondition(Conditions.RUINS_EXTENSIVE);
                 athebyneMarket.addCondition(Conditions.NO_ATMOSPHERE);
 
                 athebyneMarket.addIndustry(Industries.POPULATION);
@@ -203,15 +203,14 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 athebyne.setMarket(athebyneMarket);
 
                 // Itoron
-                MarketAPI itoronMarket = Global.getFactory().createMarket("itoron_market", "Itoron", 8);
+                MarketAPI itoronMarket = Global.getFactory().createMarket("itoron_market", "Itoron", 7);
                 itoronMarket.setPrimaryEntity(itoron);
                 itoronMarket.setFactionId(DRACONIS);
-                itoronMarket.addCondition(Conditions.POPULATION_8);
+                itoronMarket.addCondition(Conditions.POPULATION_7);
                 itoronMarket.addCondition(Conditions.HABITABLE);
                 itoronMarket.addCondition(Conditions.MILD_CLIMATE);
                 itoronMarket.addCondition(Conditions.FARMLAND_BOUNTIFUL);
                 itoronMarket.addCondition(Conditions.ORGANICS_PLENTIFUL);
-                itoronMarket.addCondition(Conditions.REGIONAL_CAPITAL);
 
                 itoronMarket.addIndustry(Industries.POPULATION);
                 itoronMarket.addIndustry(Industries.MEGAPORT);
@@ -225,19 +224,17 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 itoronMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
                 itoronMarket.addSubmarket(Submarkets.SUBMARKET_OPEN);
                 itoronMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
-                itoronMarket.setFreePort(true);
+                itoronMarket.setFreePort(false);
                 Global.getSector().getEconomy().addMarket(itoronMarket, true);
                 itoron.setMarket(itoronMarket);
 
                 // Kori
-                MarketAPI koriMarket = Global.getFactory().createMarket("kori_market", "Kori", 5);
+                MarketAPI koriMarket = Global.getFactory().createMarket("kori_market", "Kori", 6);
                 koriMarket.setPrimaryEntity(kori);
                 koriMarket.setFactionId(DRACONIS);
-                koriMarket.addCondition(Conditions.POPULATION_5);
+                koriMarket.addCondition(Conditions.POPULATION_6);
                 koriMarket.addCondition(Conditions.COLD);
-                koriMarket.addCondition(Conditions.OUTPOST);
-                koriMarket.addCondition(Conditions.STEALTH_MINEFIELDS);
-                koriMarket.addCondition(Conditions.RUINS_VAST);
+                koriMarket.addCondition(Conditions.RUINS_SCATTERED);
                 koriMarket.addCondition(Conditions.VOLATILES_PLENTIFUL);
 
                 koriMarket.addIndustry(Industries.POPULATION);
@@ -257,13 +254,12 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 kori.setMarket(koriMarket);
 
                 // Vorium
-                MarketAPI voriumMarket = Global.getFactory().createMarket("vorium_market", "Vorium", 6);
+                MarketAPI voriumMarket = Global.getFactory().createMarket("vorium_market", "Vorium", 5);
                 voriumMarket.setPrimaryEntity(vorium);
                 voriumMarket.setFactionId(DRACONIS);
-                voriumMarket.addCondition(Conditions.POPULATION_6);
+                voriumMarket.addCondition(Conditions.POPULATION_5);
                 voriumMarket.addCondition(Conditions.HIGH_GRAVITY);
                 voriumMarket.addCondition(Conditions.VOLATILES_PLENTIFUL);
-                voriumMarket.addCondition(Conditions.OUTPOST);
 
                 voriumMarket.addIndustry(Industries.POPULATION);
                 voriumMarket.addIndustry(Industries.SPACEPORT);

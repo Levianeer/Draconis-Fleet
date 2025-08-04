@@ -1,40 +1,30 @@
 package levianeer.draconis.data.scripts.weapons;
 
+import com.fs.starfarer.api.combat.*;
+import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI;
 import org.lwjgl.util.vector.Vector2f;
 
-import com.fs.starfarer.api.combat.CombatEngineAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
-import com.fs.starfarer.api.combat.DamageAPI;
-import com.fs.starfarer.api.combat.DamagingProjectileAPI;
-import com.fs.starfarer.api.combat.MissileAPI;
-import com.fs.starfarer.api.combat.OnFireEffectPlugin;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.combat.listeners.DamageDealtModifier;
+import java.awt.*;
 
-public class fsdf_BardicheOnFireEffect implements OnFireEffectPlugin, DamageDealtModifier {
+public class fsdf_BardicheOnFireEffect implements OnHitEffectPlugin {
 
-    public static float DAMAGE = 50;
+    public void onHit(DamagingProjectileAPI projectile, CombatEntityAPI target,
+                      Vector2f point, boolean shieldHit, ApplyDamageResultAPI damageResult, CombatEngineAPI engine) {
+        if ((float) Math.random() < 0.25f && !shieldHit && target instanceof ShipAPI) {
 
-    protected String weaponId = null;
+            float emp = projectile.getEmpAmount();
+            float dam = 0;
 
-    public void onFire(DamagingProjectileAPI projectile, WeaponAPI weapon, CombatEngineAPI engine) {
-        ShipAPI ship = weapon.getShip();
-        if (!ship.hasListenerOfClass(fsdf_BardicheOnFireEffect.class)) {
-            ship.addListener(this);
-            weaponId = weapon.getId();
+            engine.spawnEmpArc(projectile.getSource(), point, target, target,
+                    DamageType.ENERGY,
+                    dam,
+                    emp, // emp
+                    100000f, // max range
+                    "tachyon_lance_emp_impact",
+                    20f, // thickness
+                    new Color(25,100,155,255),
+                    new Color(255,255,255,255)
+            );
         }
-    }
-
-    public String modifyDamageDealt(Object param, CombatEntityAPI target, DamageAPI damage, Vector2f point, boolean shieldHit) {
-        if (shieldHit && param instanceof MissileAPI) {
-            MissileAPI m = (MissileAPI) param;
-            if (m.getWeaponSpec() != null && m.getWeaponSpec().getWeaponId().equals(weaponId)) {
-                float base = damage.getBaseDamage();
-                damage.setDamage(base + DAMAGE);
-                return "bardiche";
-            }
-        }
-        return null;
     }
 }

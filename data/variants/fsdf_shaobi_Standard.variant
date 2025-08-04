@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 17,
+    "fluxCapacitors": 13,
     "fluxVents": 20,
     "hullId": "fsdf_shaobi",
     "hullMods": [],
@@ -41,7 +41,7 @@
         }
     ],
     "wings": [
-        "broadsword_wing",
+        "hoplon_wing",
         "hoplon_wing"
     ]
 }

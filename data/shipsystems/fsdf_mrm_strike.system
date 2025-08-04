@@ -14,10 +14,10 @@
 	
 	"aiHints":{
 		"threatRange":2500,
-		"threatAmount":8,
+		"threatAmount":10,
 		"threatAngle":0,
 		"threatArc":360,
-		"threatDamage":750,
+		"threatDamage":2500,
 		"threatSpeed":300,
 	}
 }

@@ -50,7 +50,16 @@
       "mount": "HIDDEN",
       "arc": 25,
       "angle": 0,
-      "locations": [6.5, -0]
+      "locations": [9.5, 12]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 25,
+      "angle": 0,
+      "locations": [9.5, -12]
     }
   ],
   "engineSlots": [

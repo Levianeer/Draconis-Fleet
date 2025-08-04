@@ -4,18 +4,18 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 
-public class fsdf_AdvancedAutoLoaders extends BaseHullMod {
+public class fsdf_AdvancedWeaponSystems extends BaseHullMod {
 
-    public static final float ROF_BONUS = 1.25f;
+    public static final float RANGE_BONUS = 10;
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        stats.getBallisticRoFMult().modifyMult(id, ROF_BONUS);
+        stats.getBallisticWeaponRangeBonus().modifyPercent(id, RANGE_BONUS);
     }
 
     @Override
     public String getDescriptionParam(int index, HullSize hullSize) {
-        if (index == 0) return (int) ROF_BONUS + "x";
+        if (index == 0) return "" + (int) RANGE_BONUS + "%";
         return null;
     }
 }

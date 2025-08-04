@@ -11,6 +11,9 @@
   "shieldCenter": [14.5, -0],
   "shieldRadius": 144.5,
   "viewOffset": 0,
+  "builtInMods": [
+	"fsdf_advancedweaponsystems"
+  ],
   "builtInWings": [
     "fsdf_excalibur_wing"
   ],

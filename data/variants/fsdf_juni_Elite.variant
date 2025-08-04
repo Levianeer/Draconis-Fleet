@@ -1,0 +1,66 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 7,
+    "fluxVents": 30,
+    "goalVariant": true,
+    "hullId": "fsdf_juni",
+    "hullMods": [
+        "targetingunit",
+        "missile_autoloader"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_juni_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_rapier",
+                "WS0021": "fsdf_rapier"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0018": "atropos",
+                "WS0019": "atropos"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "fsdf_particlelance",
+                "WS0020": "fsdf_particlelance"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0050": "fsdf_rapier"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0024": "fsdf_estocflak",
+                "WS0025": "fsdf_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "pdlaser",
+                "WS0006": "pdlaser"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "fsdf_swordbreaker"}
+        }
+    ]
+}

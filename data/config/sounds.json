@@ -1,29 +1,23 @@
 {        
     "fsdf_particlelance_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.45,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.55,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_01.ogg","pitch":0.5,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.45,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.55,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_02.ogg","pitch":0.5,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.45,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.55,"volume":0.2},
-		{"file":"sounds/sfx_wpn_energy/rift_explosion_03.ogg","pitch":0.5,"volume":0.2}
+		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_01.ogg","pitch":0.45,"volume":0.5},
+		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_02.ogg","pitch":0.55,"volume":0.5},
+		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_03.ogg","pitch":0.5,"volume":0.5}
 		],
 	},
 
 	"fsdf_longsword_charge":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_charge.ogg","pitch":1.0,"volume":0.25}
+		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_charge.ogg","pitch":1.0,"volume":0.3}
 		],
     },
 
 	"fsdf_longsword_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_fire_01.ogg","pitch":1.0,"volume":0.95},
-		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_fire_02.ogg","pitch":1.0,"volume":0.95},
-		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_fire_03.ogg","pitch":1.0,"volume":0.95}
+		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_fire_01.ogg","pitch":1.0,"volume":0.3},
+		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_fire_02.ogg","pitch":1.0,"volume":0.3},
+		{"file":"sounds/sfx_wpn_energy/fsdf_longsword_fire_03.ogg","pitch":1.0,"volume":0.3}
 		],
     },
 
@@ -92,6 +86,12 @@
 		{"file":"sounds/sfx_wpn_guns/fsdf_estocflak_fire_05.ogg","pitch":1.0,"volume":0.15}
 		],
     },
+
+	"fsdf_explosion_flak":{
+		"sounds":[
+			{"file":"sounds/sfx_impacts/explosion_missile_01.ogg","pitch":0.75,"volume":0.125},
+		],
+	},
 
 	"fsdf_mangonel_fire":{
 		"sounds":[

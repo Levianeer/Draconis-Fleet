@@ -19,7 +19,8 @@
     "WS0011": "fsdf_vernier",
     "WS0012": "fsdf_vernier",
     "WS0013": "fsdf_vernier",
-    "WS0014": "fsdf_vernier"
+    "WS0014": "fsdf_vernier",
+    "WS0020": "fsdf_durendal_mkii"
   },
   "weaponSlots": [
     {
@@ -40,7 +41,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 70,
+      "arc": 130,
       "angle": 0,
       "locations": [56, -34]
     },
@@ -49,7 +50,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 70,
+      "arc": 130,
       "angle": -0,
       "locations": [56, 34]
     },
@@ -168,7 +169,7 @@
       "mount": "HARDPOINT",
       "arc": 8,
       "angle": 0,
-      "locations": [45, -63]
+      "locations": [46, -63]
     },
     {
       "id": "WS0019",
@@ -177,25 +178,25 @@
       "mount": "HARDPOINT",
       "arc": 8,
       "angle": -0,
-      "locations": [45, 63]
+      "locations": [46, 63]
     },
     {
       "id": "WS0003",
       "size": "LARGE",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 30,
+      "arc": 90,
       "angle": 0,
-      "locations": [-23, 40]
+      "locations": [-21, 40]
     },
     {
       "id": "WS0020",
       "size": "LARGE",
-      "type": "BALLISTIC",
+      "type": "BUILT_IN",
       "mount": "TURRET",
-      "arc": 30,
+      "arc": 20,
       "angle": -0,
-      "locations": [-23, -40]
+      "locations": [-21, -40]
     },
     {
       "id": "LB 1",

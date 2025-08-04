@@ -1,0 +1,59 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 5,
+    "fluxVents": 30,
+    "goalVariant": true,
+    "hullId": "fsdf_juza",
+    "hullMods": [
+        "targetingunit",
+        "armoredweapons"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_juza_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "mjolnir",
+                "WS0020": "mjolnir"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_bardiche_single",
+                "WS0021": "fsdf_bardiche_single",
+                "WS0026": "fsdf_bardiche_single",
+                "WS0027": "fsdf_bardiche_single",
+                "WS0028": "fsdf_bardiche_single",
+                "WS0029": "fsdf_bardiche_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "fsdf_rapier",
+                "WS0019": "fsdf_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "vulcan",
+                "WS0006": "vulcan",
+                "WS0024": "fsdf_estocflak",
+                "WS0025": "fsdf_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "fsdf_swordbreaker"}
+        }
+    ]
+}
