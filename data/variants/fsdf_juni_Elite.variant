@@ -1,12 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 7,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 28,
     "goalVariant": true,
     "hullId": "fsdf_juni",
     "hullMods": [
         "targetingunit",
-        "missile_autoloader"
+        "fluxdistributor",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -24,8 +25,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0018": "breach",
-                "WS0019": "breach"
+                "WS0018": "heatseeker",
+                "WS0019": "heatseeker"
             }
         },
         {
@@ -39,7 +40,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0050": "fsdf_rapier"}
+            "weapons": {"WS0050": "gravitonbeam"}
         },
         {
             "autofire": true,
@@ -53,8 +54,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "pdlaser",
-                "WS0006": "pdlaser"
+                "WS0005": "lrpdlaser",
+                "WS0006": "lrpdlaser"
             }
         },
         {

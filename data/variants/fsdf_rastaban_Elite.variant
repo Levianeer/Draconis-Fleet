@@ -1,13 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 4,
+    "fluxCapacitors": 5,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_rastaban",
-    "hullMods": [
-        "targetingunit",
-        "escort_package"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_rastaban_Elite",

@@ -12,8 +12,7 @@
   "shieldRadius": 31.5,
   "viewOffset": 0,
   "builtInMods": [
-    "no_weapon_flux",
-    "pointdefenseai"
+    "no_weapon_flux"
   ],
   "builtInWeapons": {
     "WS0001": "fsdf_radar_dish"

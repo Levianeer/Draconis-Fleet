@@ -12,10 +12,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0007": "fsdf_rapier",
-                "WS0008": "fsdf_rapier"
-            }
+            "weapons": {"WS0007": "fsdf_rapier"}
         },
         {
             "autofire": false,
@@ -28,7 +25,10 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "fsdf_razorflak"}
+            "weapons": {
+                "WS0005": "fsdf_razorflak",
+                "WS0008": "fsdf_razorflak"
+            }
         },
         {
             "autofire": true,

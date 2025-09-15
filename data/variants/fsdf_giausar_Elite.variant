@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 20,
+    "fluxCapacitors": 10,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_giausar",
@@ -18,18 +18,22 @@
             "weapons": {"WS0003": "fsdf_rapier"}
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "fsdf_swordbreaker"}
+            "weapons": {
+                "WS0001": "railgun",
+                "WS0002": "railgun"
+            }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "lightac",
-                "WS0002": "lightac",
-                "WS0004": "lightac"
-            }
+            "weapons": {"WS0004": "fsdf_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "fsdf_swordbreaker"}
         }
     ]
 }

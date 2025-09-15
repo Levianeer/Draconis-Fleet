@@ -1,3 +1,8 @@
+Version 0.3.1
+- Changed weapon stats for Rapier Autocannon and Particle Burst Lance.
+- Updated ship variants to adjust.
+- Updated names and descriptions that were unfinished.
+
 Version 0.3.0
 - Added new Destroyer, Giausar-class.
 - Added a mechanic to Draconis ships, they will now warp out of combat instead of direct retreating.

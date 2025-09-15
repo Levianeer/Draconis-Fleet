@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 17,
     "fluxVents": 20,
     "hullId": "fsdf_rastaban",
     "hullMods": ["fluxdistributor"],
@@ -12,8 +12,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "hveldriver",
-                "WS0011": "hveldriver"
+                "WS0003": "arbalest",
+                "WS0011": "arbalest"
             }
         },
         {
@@ -24,11 +24,15 @@
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0005": "railgun"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
                 "WS0001": "vulcan",
                 "WS0002": "vulcan",
-                "WS0004": "vulcan",
-                "WS0005": "vulcan"
+                "WS0004": "vulcan"
             }
         }
     ],

@@ -44,7 +44,39 @@ fsdf_giausar,SHIP,"The Giausar-class Destroyer was a sister project to the Rasta
 fsdf_eltanin,SHIP,"The venerable Eltanin-class light cruiser has been the primary leader of hybrid fleet operations and one of the most produced ships in the Fafnir system. Meant to serve in hunter-killer teams, the Eltanin was built as a fast and versatile ship, meant for exploitation, singling out and destroying any isolated ships or punching down against destroyers and frigates.",,,,,
 fsdf_juza,SHIP,"The Juza-class Heavy Cruiser was an attempt at creating a well-armoured and mobile cruiser under stringent design constraints, specifically in terms of size. It was mostly successful, thanks in part to the ship's advanced flux management system, which can quickly redirect power between the weapons, armour array, and shields. Although it failed initial trials, command pushed forward with the concept, and after some reworks, it entered service not too long after.",,,,,
 fsdf_juni,SHIP,"The Juni-class Cruiser was developed as a cost-saving measure derived from the Juza-class Heavy Cruiser project. As a result, most of the experimental and expensive systems were gutted in favour of a more reliable and standardised design. It does, however, feature some energy weapon mounts, uncommon for a Draconis Ship.",,,,,
-fsdf_asuia,SHIP,"The Asuia-class is a bizarre ship line, it’s a carrier, well-armed and has a surprisingly good shield for a Draconis ship. It bears a heavy resemblance to a classified Tri-Tachyon project. But with the Alliance’s commitment to isolation, it is not known how they would have acquired such tech or how they could produce so many of them. Either way, it makes a remarkably good escort for the larger ships in the Alliance.",,,,,
+fsdf_asuia,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
+Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
+Alert: Vessel configuration anomaly detected — carrier profile with non-standard armament loadout.
+
+// FILE INTEGRITY: COMPROMISED
+// ACCESS LEVEL: RESTRICTED
+// CROSS-REFERENCE WARNING: TRI-TACHYON ARCHIVES
+
+[BEGIN REPORT EXCERPT - DECLASS LV.7]
+
+Subject: ""Asuia-class"" — designation unconfirmed.
+
+Anomalous carrier variant displaying shield coherence patterns inconsistent with known Draconis Stellar Alliance manufacturing capabilities. Hull geometry bears [DATA EXPUNGED] % similarity to classified Tri-Tachyon prototype schematics.
+
+Intelligence Assessment: CRITICAL DISCREPANCY
+— Alliance maintains strict isolationist doctrine
+— No recorded tech exchange agreements with Tri-Tachyon Corp
+— Production volume suggests established manufacturing infrastructure
+
+Query: How did they get the blueprints?
+Query: How are they producing so many?
+
+Field reports confirm exceptional escort performance metrics. Carrier complement remains active while providing direct fire support — tactically unprecedented for Alliance doctrine.
+
+Recommendation: Immediate investigation into potential intelligence breach.
+
+[ALERT] Tri-Tachyon legal department has been notified of potential IP violation.
+
+[END EXCERPT]
+
+// WARNING: CORPORATE ESPIONAGE SUSPECTED
+// INVESTIGATE ALL PERSONNEL WITH TT-CLEARANCE
+// ARCHIVE ACCESS RESTRICTED PENDING REVIEW",,,,,
 fsdf_altais,SHIP,"The Altais-class Battlecruiser is a miracle. It's what happens when the Department of Acquisitions & Sustainment not only listens to their captain’s requests but also doesn’t go over budget and delivers the features promised, truly a once-in-a-lifetime occurrence. The Altais boasts incredible speed for a capital class ship, and an incredible amount of missile-based firepower, which is sorely needed as the Altais is practically made of paper.",,,,,
 fsdf_alwaid,SHIP,"The primary carrier of the Draconis Fleet, the Alwaid is a large, hulking and slow carrier platform. Although it has great firepower, it takes an incredibly long time to get anywhere, which accidentally makes it a very safe ship to serve on, as the action is often over by the time it arrives, or it’s about to end if it hasn’t already.",,,,,
 fsdf_sunsetter,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
@@ -69,7 +101,7 @@ DO NOT transmit this log.",,,,,
 fsdf_aldibain,SHIP,"The Aldibain-class is a multirole, single-seat, heavy fighter designed to fill the many gaps in the Draconis fleet’s fighter wings; it serves double duty as a fast attack craft, escort and interceptor. It has had a troubled development as it was rushed into service at the start of the civil war but after its teething issues were ironed out, it has become a staple of the Draconis Navy and remains the face of the Alliance’s propaganda department.",,,,,
 fsdf_tianyi,SHIP,"The Tianyi was born not from a need for speed or firepower, but silence—of the enemy’s sensors, comms, targeting arrays, and most importantly missile systems. Commissioned towards the end of the Fafnir civil war, it replaced its missile hardpoints with bulky electronic warfare pods, a dedicated EW suite and an advanced Spaceborne Warning and Control System. The result: a jamming platform disguised as a fighter, able to slice through hostile ECM fields and suppress capital-grade missile targeting systems mid-flight.",,,,,
 fsdf_eldsich,SHIP,"Originally a testbed for a now forgotten space plane program during peacetime, the Eldsich-class has become the primary space bomber for the Alliance, it’s not very versatile and lacks a lot of the capability of the other bombers in the sector, as most of its more advanced features had to be stripped to fit the nuclear armament it carries. However, just one nuclear bomb hitting an unshielded target is catastrophically effective, which to command, is all that matters.",,,,,
-fsdf_nodus,SHIP,"The Nodus-class fighter is an advanced autonomous drone fighter. Its size is a result of its onboard virtual intelligence, which requires extensive computing power. It can only accommodate two small missile launchers.",,,,,
+fsdf_nodus,SHIP,"The Nodus-class fighter-bomber is an advanced man-in-the-loop drone fighter. Its larger size results from an advanced onboard control system, synced to a pilot on its mothership, semi-predicting the linked pilot's orders with little to no delay.",,,,,
 fsdf_rastaban_mrm,SHIP,The Excalibur is an advanced hunter-killer drone. Meant as a way to keep the Rastaban-class Destroyer as light as possible by removing some of the internally mounted missiles from the ship.,,,,,
 fsdf_evasionprotocol,SHIP_SYSTEM,"Dumps Chaff and Flares while redirecting power to the advanced RCS thrusters, rapidly propelling the ship in a given direction.",Movement,,,,
 fsdf_flarelauncher,SHIP_SYSTEM,Dumps Chaff and Flares to confuse the guidance systems of nearby enemy missiles.,,,,,
@@ -80,6 +112,7 @@ fsdf_esw_suite,SHIP_SYSTEM,Establishes a broad-spectrum electronic attack across
 fsdf_mrm_strike,SHIP_SYSTEM,"Sends a Kill order to one of the Excalibur drones. The drone tracks a nearby target like a missile, dealing massive area damage on impact.",Offensive,,,,
 fsdf_safety_overrides,SHIP_SYSTEM,"Briefly overrides standard safety protocols and operational limits, pushing the ship's systems and engines to their extremes. Expect reprimanding and lots of paperwork afterwards.",Special,,,,
 fsdf_temporalshell,SHIP_SYSTEM,"Manipulates the ship’s time flow to significantly enhance combat performance. Activation briefly freezes time. Upon deactivation, time reverts, restoring the ship to its standard operational state.",Movement,"Temporally distorts the ship’s time flow to boost fire rate, flux management, and maneuverability while generating shifting, vivid afterimages.",,Time slows to a halt on board the ship.,
+fsdf_drone_assault,SHIP_SYSTEM,Deploys a squadron of autonomous point-defense drones that maintain formation around the host vessel.,Special,,,,
 fsdf_rastaban_missile,WEAPON,"An advanced, semi-autonomous loitering munition that patrols a wide area around its host ship before diving onto targets with surgical precision. Designed for long-duration presence and opportunistic strikes, it excels in chaotic battlespaces. Its range and fuel load make it an incredibly persistent weapon once launched.",,,,,
 fsdf_durendal,WEAPON,"""Sir? It's whispering again...""",- Sgt. Grayson Lyons — 15th Fleet,,,,
 fsdf_durendal_mkii,WEAPON,"""Command says it's a precision weapon. But I’ve seen what happens when the firing vector drifts two degrees mid-charge—it peeled an entire station habitat off its ring. That's not precision. That’s God pointing a finger.""",- Capt. Adrien Vale — Task Group Elbrus,,,,
@@ -92,9 +125,9 @@ fsdf_twinspear,WEAPON,"""We jury-rigged two atomic artillery pieces together to
 fsdf_halberd,WEAPON,"""We call it the 'Sword of Bureaucracy.' Why? Because it's slow, it's heavy, and it takes three forms to authorize a launch. But by God, when that nuke arcs in and kisses a cruiser mid-burn... It's worth it.""",- Capt. John Mays — 27th Fleet,,,,
 fsdf_halberd_fighter,WEAPON,"A relic of a desperate war, this strategic warhead delivers city-cracking yields via an unstable fusion core. Slow, unwieldy, and rare—but when it hits, entire ships vanish in the fireball. Only the mad or the cornered dare load one.",,,,,
 fsdf_falchion,WEAPON,"An archaic-style guided missile—slow and imprecise, yet capable of delivering a powerful payload. This missile features a large, novel penetrator warhead that provides significant kinetic potential.",,,,,
-fsdf_bardiche,WEAPON,"""Ten came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
-fsdf_bardiche_single,WEAPON,"""Ten came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
-fsdf_bardiche_built-in,WEAPON,"""Ten came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+fsdf_bardiche,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+fsdf_bardiche_single,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+fsdf_bardiche_built-in,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
 fsdf_arquebus,WEAPON,"The Arquebus is a compact, guided missile featuring a conventional warhead, with most of its space allocated to advanced guidance systems and a powerful engine.",,,,,
 fsdf_mangonel,WEAPON,"""Captured FDR logs indicate HEGINT operatives within force recon suffered severe damage from an unknown weapon while investigating militia technology in star system 42-D-b. An example was obtained following the failed espionage efforts. The delivery mechanism is a rocket with several submunitions, each containing a chamber of plasma gas encased in a high-efficiency piezoelectric shell that superheats gas upon impact, in effect evading the challenges of plasma weapons by eliminating the need for external stabilisation at the cost of terminal effectiveness. Conclusion: Technology is a dead end. No further research is required.""","- Tri-Tachyon R&D report on the MGM-15 ""Mangonel""",,,,
 fsdf_javelin,WEAPON,"""Archaic, outdated and obsolete. But tossing tungsten rods is one of humanity's greatest creations. And talk about cost-effectiveness!""",- Capt. John Mays — 27th Fleet,,,,

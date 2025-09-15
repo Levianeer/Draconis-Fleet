@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 11,
+    "fluxCapacitors": 5,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_eltanin",

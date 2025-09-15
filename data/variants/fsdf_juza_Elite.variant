@@ -1,13 +1,10 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 25,
+    "fluxVents": 28,
     "goalVariant": true,
     "hullId": "fsdf_juza",
-    "hullMods": [
-        "targetingunit",
-        "armoredweapons"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_juza_Elite",

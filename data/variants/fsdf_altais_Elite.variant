@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 36,
+    "fluxVents": 25,
     "goalVariant": true,
     "hullId": "fsdf_altais",
     "hullMods": ["missleracks"],
@@ -55,13 +55,13 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "fsdf_estocflak",
-                "WS0008": "fsdf_estocflak",
+                "WS0007": "vulcan",
+                "WS0008": "vulcan",
                 "WS0009": "fsdf_estocflak",
                 "WS0010": "fsdf_estocflak",
                 "WS0011": "fsdf_estocflak",
                 "WS0024": "fsdf_razorflak",
-                "WS0027": "fsdf_estocflak"
+                "WS0027": "vulcan"
             }
         },
         {
