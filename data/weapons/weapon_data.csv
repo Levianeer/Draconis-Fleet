@@ -7,7 +7,7 @@ Twin Spear Cannon,fsdf_twinspear,2,0.8,3000,1000,,650,250,100,10,26,,,,ENERGY,55
 Mangonel Gun Launcher,fsdf_mangonel,3,0.5,3400,900,,1500,350,25,9,20,,,,ENERGY,1500,,,5,,,,,,,,700,700,3,500,,,"DIRECT_AIM,NO_TURN_RATE_BOOST_WHEN_IDLE","he18, fsdf_package_bp",,Draconis,,Anti Armor,Fast,None,,Spread Pattern,Each submunition deals an additional 1000 damage to armor over 10 seconds. This damage is not reduced by armor.,1000 | 10,,,,711000,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #ENERGY,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Particle Burst Lance,fsdf_particlelance,2,0.9,1200,1000,750,,,0,75,13,3,4,4,ENERGY,,763,,0.005,0.1,0.03,,,,,10000000,,,,,,,,"beam16, fsdf_package_bp",,Draconis,,General,,,,,Hits on shields deal %s of damage as hard flux.,50%,,,,711000,,
+Particle Burst Lance,fsdf_particlelance,2,0.9,1200,1000,750,,,0,75,13,3,4,4,HIGH_EXPLOSIVE,,763,,0.005,0.1,0.03,,,,,10000000,,,,,,,,"beam16, fsdf_package_bp",,Draconis,,General,,,,,Hits on shields deal %s of damage as hard flux.,50%,,,,711000,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #MISSILE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Swordbreaker SRM Launcher,fsdf_swordbreaker,1,,300,1200,,300,300,0,150,4,90,,,FRAGMENTATION,0,,,3.25,3,0.75,7,14,14,12,,400,200,7,1,,,"DO_NOT_AIM,PD_ONLY,ANTI_FTR,NO_MANUAL_FIRE,NO_TURN_RATE_BOOST_WHEN_IDLE","pd10, missile0, fsdf_package_bp",,Draconis,,Point Defense (Area),Excelent,Excelent,,,,,,,TRUE,711000,,

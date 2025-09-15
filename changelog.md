@@ -1,3 +1,6 @@
+Version 0.3.2
+- Changed Particle Burst Lance damage type, ENERGY -> HIGH_EXPLOSIVE.
+
 Version 0.3.1
 - Changed weapon stats for Rapier Autocannon and Particle Burst Lance.
 - Updated ship variants to adjust.
