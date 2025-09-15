@@ -12,7 +12,8 @@
   "shieldRadius": 175,
   "viewOffset": 0,
   "builtInMods": [
-    "fsdf_dynamicfluxbuff",
+    "fsdf_retreatdrive",
+	"fsdf_dynamicfluxbuff",
     "heavyarmor"
   ],
   "builtInWeapons": {

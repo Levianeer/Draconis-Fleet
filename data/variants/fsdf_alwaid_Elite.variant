@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 48,
+    "fluxVents": 38,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
     "hullMods": [
@@ -78,7 +78,7 @@
     ],
     "wings": [
         "fsdf_aldibain_wing",
-        "fsdf_eldsich_wing",
+        "fsdf_aldibain_wing",
         "fsdf_eldsich_wing",
         "fsdf_eldsich_wing"
     ]

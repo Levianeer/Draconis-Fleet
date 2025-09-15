@@ -1,4 +1,4 @@
-//by Tartiflette, Anti-missile missile AI: precise and able to randomly choose a target between nearby enemy missiles.
+//By Tartiflette, Anti-missile missile AI: precise and able to randomly choose a target between nearby enemy missiles.
 //feel free to use it, credit is appreciated but not mandatory
 //V2 done
 package levianeer.draconis.data.scripts.ai;

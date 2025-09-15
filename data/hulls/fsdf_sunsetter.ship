@@ -12,7 +12,8 @@
   "shieldRadius": 241.5,
   "viewOffset": 200,
   "builtInMods": [
-    "distributed_fire_control"
+    "fsdf_retreatdrive",
+	"distributed_fire_control"
   ],
   "weaponSlots": [
     {

@@ -1,0 +1,95 @@
+{
+  "hullName": "Assault Drone",
+  "hullId": "fsdf_drone_assault",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/drones/fsdf_drone_assault.png",
+  "style": "DRACONIS",
+  "height": 40,
+  "width": 22,
+  "center": [11, 17],
+  "collisionRadius": 29,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 26.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "no_weapon_flux"
+  ],
+  "builtInWeapons": {
+    "WS0001": "blinker_red",
+    "WS0002": "blinker_green",
+    "WS0008": "fsdf_drone_assault_cover",
+    "WS0009": "fsdf_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-13.5, 3.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-13.5, -3.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "UNIVERSAL",
+      "mount": "HIDDEN",
+      "arc": 65,
+      "angle": 0,
+      "locations": [2.5, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "UNIVERSAL",
+      "mount": "HIDDEN",
+      "arc": 65,
+      "angle": 0,
+      "locations": [2.5, 1]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "UNIVERSAL",
+      "mount": "HIDDEN",
+      "arc": 65,
+      "angle": -0,
+      "locations": [2.5, -1]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [4, -0],
+      "renderOrderMod": 100000
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 170,
+      "angle": 180,
+      "locations": [-15, -0]
+    }
+  ],
+  "engineSlots": [],
+  "bounds": [
+    -7, -7,
+    -7, 8,
+    -15, 0
+  ]
+}

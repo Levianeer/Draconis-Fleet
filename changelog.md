@@ -1,3 +1,17 @@
+Version 0.3.0
+- Added new Destroyer, Giausar-class.
+- Added a mechanic to Draconis ships, they will now warp out of combat instead of direct retreating.
+- Improved a few sprites.
+- Updated a few .proj FXs.
+- Reworked the Twin Spear Cannon.
+- Nerfed the Mangonel Gun Launcher.
+- Nerfed the Eltanin-class Cruiser.
+- Cahnge Eltanin-class Cruiser large mount from Ballistic to Hybrid.
+- Changed the Juza-class Cruiser balance.
+- Added Bardiche missile AI.
+- Limited weapon balance pass.
+- Changed fleet doctrine, again...
+
 Version 0.2.3
 - Added new Heavy Cruiser, Juza-class.
 - Added new Cruiser, Juni-class.

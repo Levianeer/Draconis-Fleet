@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 15,
+    "fluxVents": 19,
     "goalVariant": true,
     "hullId": "fsdf_shaobi",
     "hullMods": [],
@@ -48,7 +48,7 @@
         }
     ],
     "wings": [
-        "fsdf_aldibain_wing",
-        "fsdf_eldsich_wing"
+        "fsdf_tianyi_wing",
+        "fsdf_nodus_wing"
     ]
 }

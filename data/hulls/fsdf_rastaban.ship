@@ -12,6 +12,7 @@
   "shieldRadius": 144.5,
   "viewOffset": 0,
   "builtInMods": [
+	"fsdf_retreatdrive",
 	"fsdf_advancedweaponsystems"
   ],
   "builtInWings": [

@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 42,
+    "fluxVents": 36,
     "goalVariant": true,
     "hullId": "fsdf_altais",
     "hullMods": ["missleracks"],
@@ -40,15 +40,16 @@
                 "WS0001": "fsdf_rapier",
                 "WS0002": "fsdf_rapier",
                 "WS0003": "fsdf_rapier",
-                "WS0004": "fsdf_rapier",
-                "WS0005": "fsdf_particlelance",
-                "WS0006": "fsdf_particlelance"
+                "WS0004": "fsdf_rapier"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0024": "fsdf_razorflak"}
+            "weapons": {
+                "WS0005": "fsdf_particlelance",
+                "WS0006": "fsdf_particlelance"
+            }
         },
         {
             "autofire": true,
@@ -59,6 +60,7 @@
                 "WS0009": "fsdf_estocflak",
                 "WS0010": "fsdf_estocflak",
                 "WS0011": "fsdf_estocflak",
+                "WS0024": "fsdf_razorflak",
                 "WS0027": "fsdf_estocflak"
             }
         },

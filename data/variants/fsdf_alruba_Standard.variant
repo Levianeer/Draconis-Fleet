@@ -1,9 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 10,
-    "fluxVents": 7,
+    "fluxCapacitors": 7,
+    "fluxVents": 10,
     "hullId": "fsdf_alruba",
-    "hullMods": ["unstable_injector"],
+    "hullMods": ["fluxdistributor"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alruba_Standard",
@@ -12,8 +12,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "heavyac",
-                "WS0003": "heavyac"
+                "WS0002": "arbalest",
+                "WS0003": "arbalest"
             }
         },
         {

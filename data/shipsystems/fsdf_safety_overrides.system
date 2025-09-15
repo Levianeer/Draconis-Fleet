@@ -5,7 +5,6 @@
 	
 	"statsScript":"levianeer.draconis.data.scripts.shipsystems.fsdf_Safety_OverridesStats",
 	
-	"engineGlowColor":[205,105,105,255],
 	"engineGlowGlowMult":1.25,
 	
 	"useSound":"system_maneuvering_jets",

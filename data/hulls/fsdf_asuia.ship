@@ -11,6 +11,9 @@
   "shieldCenter": [1, 0],
   "shieldRadius": 135,
   "viewOffset": 0,
+  "builtInMods": [
+    "fsdf_retreatdrive"
+  ],
   "builtInWeapons": {
     "WS0007": "fsdf_vernier",
     "WS0008": "fsdf_vernier",

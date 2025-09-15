@@ -16,14 +16,15 @@
 	"combatMedium":{
 		"fsdf_rastaban_Elite":5,
 		"fsdf_errakis_Elite":5,
+		"fsdf_giausar_Elite":5,
 
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
 		"fsdf_eltanin_Elite":5,
 		"fsdf_juza_Elite":3,
-		"fsdf_juni_Elite":2,
-		"fsdf_juni_Support":3,
+		"fsdf_juni_Elite":1,
+		"fsdf_juni_Support":5,
 		
 		"fallback":{"combatMedium":1},
 	},
@@ -45,6 +46,7 @@
 	},
 	"carrierLarge":{
 		"fsdf_alwaid_Elite":5,
+		"fsdf_alwaid_Support":5,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},

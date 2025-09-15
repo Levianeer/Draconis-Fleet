@@ -1,8 +1,8 @@
 id,variant,tags,tier,rarity,fleet pts,op cost,formation,range,attackRunRange,attackPositionOffset,num,role,role desc,refit,base value,,,,,,,,,,,,,number
-fsdf_excalibur_wing,fsdf_rastaban_mrm,"no_drop, no_sell",0,,0,0,BOX,0,0,0,2,SUPPORT,Loitering Munition,4,0,,,,,,,,,,,,,711000
-fsdf_aldibain_wing,fsdf_aldibain_Fighter,"fsdf_package_bp, fighter, fighter3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",1,,6,14,V,4000,1200,100,4,FIGHTER,Fighter,10,9000,,,,,,,,,,,,,711000
-fsdf_tianyi_wing,fsdf_tianyi_Fighter,"fsdf_package_bp, fighter, fighter3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",3,,6,16,BOX,4000,300,300,2,FIGHTER,Support Fighter,15,12500,,,,,,,,,,,,,
-fsdf_eldsich_wing,fsdf_eldsich_Fighter,"fsdf_package_bp, bomber, bomber3",2,,12,20,CLAW,4000,1200,600,1,BOMBER,Bomber,18,15000,,,,,,,,,,,,,711000
-fsdf_nodus_wing,fsdf_nodus_Fighter,"fsdf_package_bp, interceptor, interceptor3, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, attack_at_an_angle, independent_of_carrier",3,,9,10,V,8000,1000,1000,1,INTERCEPTOR,Fighter Drone,20,17500,,,,,,,,,,,,,711000
+fsdf_excalibur_wing,fsdf_rastaban_mrm,"no_drop, no_sell",0,,0,0,BOX,0,0,0,2,SUPPORT,Loitering Munition,8,0,,,,,,,,,,,,,711000
+fsdf_aldibain_wing,fsdf_aldibain_Fighter,"fsdf_package_bp, fighter, fighter3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",1,,6,14,V,4000,1000,100,4,FIGHTER,Fighter,10,4000,,,,,,,,,,,,,711000
+fsdf_tianyi_wing,fsdf_tianyi_Fighter,"fsdf_package_bp, interceptor, interceptor3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",3,,6,16,BOX,4000,300,300,2,FIGHTER,ECM Fighter,15,5000,,,,,,,,,,,,,
+fsdf_eldsich_wing,fsdf_eldsich_Fighter,"fsdf_package_bp, bomber, bomber5",2,,12,20,CLAW,4000,1200,600,1,BOMBER,Bomber,25,9000,,,,,,,,,,,,,711000
+fsdf_nodus_wing,fsdf_nodus_Fighter,"fsdf_package_bp, bomber, bomber3, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, independent_of_carrier",3,,9,12,V,8000,1500,1000,1,BOMBER,Strike Drone,16,7500,,,,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,

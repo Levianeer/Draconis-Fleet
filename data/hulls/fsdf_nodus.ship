@@ -2,7 +2,7 @@
   "hullName": "Nodus",
   "hullId": "fsdf_nodus",
   "hullSize": "FIGHTER",
-  "spriteName": "graphics/ships/fsdf_nodus.png",
+  "spriteName": "graphics/ships/drones/fsdf_nodus.png",
   "style": "DRACONIS",
   "height": 56,
   "width": 40,
@@ -12,6 +12,8 @@
   "shieldRadius": 40,
   "viewOffset": 0,
   "builtInMods": [
+    "no_weapon_flux",
+    "terminator_core"
   ],
   "weaponSlots": [
     {
@@ -19,18 +21,9 @@
       "size": "MEDIUM",
       "type": "MISSILE",
       "mount": "HIDDEN",
-      "arc": 5,
+      "arc": 20,
       "angle": 0,
-      "locations": [5.5, 7]
-    },
-    {
-      "id": "WS0002",
-      "size": "MEDIUM",
-      "type": "MISSILE",
-      "mount": "HIDDEN",
-      "arc": 5,
-      "angle": -0,
-      "locations": [5.5, -7]
+      "locations": [0, -0]
     },
     {
       "id": "WS0003",
@@ -40,6 +33,15 @@
       "arc": 5,
       "angle": 180,
       "locations": [-9, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 305,
+      "angle": 0,
+      "locations": [30.5, -0]
     }
   ],
   "engineSlots": [

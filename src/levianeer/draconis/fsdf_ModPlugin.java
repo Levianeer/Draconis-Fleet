@@ -9,11 +9,13 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 
 import levianeer.draconis.data.scripts.ai.fsdf_antiMissileAI;
+import levianeer.draconis.data.scripts.ai.fsdf_magicMissileAI;
 import levianeer.draconis.data.scripts.world.fsdf_WorldGen;
 
 public class fsdf_ModPlugin extends BaseModPlugin {
 
     public static final String PD_MISSILE_ID = "fsdf_swordbreaker_shot";
+    public static final String SWARM_MISSILE_ID = "fsdf_bardiche_shot";
 
     @Override
     public void onNewGame() {
@@ -25,6 +27,11 @@ public class fsdf_ModPlugin extends BaseModPlugin {
         switch (missile.getProjectileSpecId()) {
             case PD_MISSILE_ID:
                 return new PluginPick<MissileAIPlugin>(new fsdf_antiMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
+            default:
+        }
+        switch (missile.getProjectileSpecId()) {
+            case SWARM_MISSILE_ID:
+                return new PluginPick<MissileAIPlugin>(new fsdf_magicMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
             default:
         }
         return null;

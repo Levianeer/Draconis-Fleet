@@ -24,8 +24,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0018": "atropos",
-                "WS0019": "atropos"
+                "WS0018": "breach",
+                "WS0019": "breach"
             }
         },
         {

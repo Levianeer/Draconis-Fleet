@@ -13,7 +13,7 @@ public class fsdf_HardFluxBeamEffect implements BeamEffectPlugin {
     public void advance(float amount, CombatEngineAPI engine, BeamAPI beam) {
 
         float frameTime = engine.getElapsedInLastFrame();
-        float hardFluxRatio = 0.25f;    // Hard Flux to total Flux generation
+        float hardFluxRatio = 0.5f;    // Hard Flux to total Flux generation
         CombatEntityAPI target = beam.getDamageTarget();    // Gets the beam's target
 
         // Check if a target exist, if it is a Ship, and if shields are being hit.

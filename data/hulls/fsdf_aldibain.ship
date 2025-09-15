@@ -19,7 +19,7 @@
     {
       "id": "WS0001",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "UNIVERSAL",
       "mount": "HIDDEN",
       "arc": 25,
       "angle": 0,
@@ -37,7 +37,7 @@
     {
       "id": "WS0002",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "UNIVERSAL",
       "mount": "HIDDEN",
       "arc": 25,
       "angle": 0,

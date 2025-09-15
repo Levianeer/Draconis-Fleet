@@ -16,10 +16,10 @@ public class fsdf_DynamicFluxBuff extends BaseHullMod {
     private static final float MIN_DAMAGE_REDUCTION = 0.1f;
     private static final float MAX_DAMAGE_REDUCTION = 0.30f;
 
-    private static final float SYSTEM_COOLDOWN_INCREASE_PERCENT = 1f;
+    private static final float SYSTEM_COOLDOWN_DECREASE_PERCENT = 1.5f;
 
     public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        stats.getSystemRegenBonus().modifyMult(id, 1f + SYSTEM_COOLDOWN_INCREASE_PERCENT);
+        stats.getSystemRegenBonus().modifyMult(id, 1f / (1f + SYSTEM_COOLDOWN_DECREASE_PERCENT));
         stats.getSystemUsesBonus().modifyFlat(id, -1f);
     }
 

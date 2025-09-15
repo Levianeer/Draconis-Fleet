@@ -12,7 +12,8 @@
   "shieldRadius": 104,
   "viewOffset": 0,
   "builtInMods": [
-    "phasefield",
+    "fsdf_retreatdrive",
+	"phasefield",
     "delicate"
   ],
   "builtInWeapons": {

@@ -20,9 +20,9 @@ public class fsdf_BardicheOnFireEffect implements OnHitEffectPlugin {
                     dam,
                     emp, // emp
                     100000f, // max range
-                    "tachyon_lance_emp_impact",
+                    "shock_repeater_emp_impact",
                     20f, // thickness
-                    new Color(25,100,155,255),
+                    new Color(35,105,155,255),
                     new Color(255,255,255,255)
             );
         }

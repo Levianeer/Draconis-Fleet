@@ -10,17 +10,23 @@
   "hardpointSprite": "graphics/weapons/fsdf_bardiche_s_hardpoint_base.png",
   "hardpointUnderSprite": "graphics/weapons/covers/cover_threat_hardpoint_small.png",
   "turretOffsets": [
-    9,
-    0
+    9.5,
+    1.5,
+    9.5,
+    -1.5
   ],
   "turretAngleOffsets": [
+    0,
     0
   ],
   "hardpointOffsets": [
-    15,
-    0
+    16,
+    1.5,
+    16,
+    -1.5
   ],
   "hardpointAngleOffsets": [
+    0,
     0
   ],
   "barrelMode": "ALTERNATING",

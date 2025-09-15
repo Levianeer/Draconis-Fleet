@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 20,
-    "fluxVents": 12,
+    "fluxVents": 6,
     "goalVariant": true,
     "hullId": "fsdf_errakis",
     "hullMods": ["eccm"],

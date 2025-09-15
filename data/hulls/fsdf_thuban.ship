@@ -12,7 +12,8 @@
   "shieldRadius": 80.5,
   "viewOffset": 0,
   "builtInMods": [
-    "ecm"
+    "fsdf_retreatdrive",
+	"ecm"
   ],
   "builtInWeapons": {
     "WS0003": "fsdf_durendal",

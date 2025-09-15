@@ -12,7 +12,8 @@
   "shieldRadius": 290.5,
   "viewOffset": 0,
   "builtInMods": [
-    "fsdf_missileuplink"
+    "fsdf_retreatdrive",
+	"fsdf_missileuplink"
   ],
   "builtInWeapons": {
     "WS0013": "fsdf_vernier",

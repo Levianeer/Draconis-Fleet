@@ -2,13 +2,13 @@
 	"id":"fsdf_arquebus_shot",
 	"specClass":"missile",
 	"missileType":"MISSILE",
-	"sprite":"graphics/missiles/fsdf_mangonel_shot.png",
-	"size":[10,24],	
+	"sprite":"graphics/missiles/fsdf_mangonel_warhead.png",
+	"size":[8,14],
 	"center":[5,12],
-	"collisionRadius":28,
+	"collisionRadius":16,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,165,50,255],  # purely visual, will get a white additively blended core on top of this color
-	"explosionRadius":100, # purely visual
+	"explosionRadius":25, # purely visual
 	"reduceDamageWhileFading":true,
 	"useHitGlowWhenDestroyed":true,
 	"fizzleOnReachingWeaponRange":true,
@@ -17,8 +17,8 @@
 	"flameoutTime":0.5,
 	"noEngineGlowTime":0.5,
 	"fadeTime":0.5,
-	"glowColor":[255,150,100,75],
-	"glowRadius":9,
+	"glowColor":[255,150,150,55],
+	"glowRadius":5,
 	"engineSpec":{"turnAcc":2000,
 				  "turnRate":500,
 				  "acc":2000,
@@ -28,9 +28,9 @@
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
-						"engineColor":[255,145,75,255],
+						"engineColor":[255,150,150,255],
 						"glowSizeMult":0.75,
-						"glowAlternateColor":[255,150,100,255],
+						"glowAlternateColor":[205,255,150,255],
 						"contrailDuration":2,
 						"contrailWidthMult":1,
 						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end

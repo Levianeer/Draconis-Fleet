@@ -24,7 +24,7 @@
 					"particleSizeRange":24,
 					"particleDuration":0.12,
 					"particleCount":12,
-					"particleColor":[255,185,215,215]
+					"particleColor":[255,185,215,215],
 					},
 	"fireSoundTwo":"system_orion_device_explosion",
 	"projectileSpecId":"fsdf_spear_shot",

@@ -12,8 +12,9 @@
   "shieldRadius": 284,
   "viewOffset": 0,
   "builtInMods": [
-    "hbi",
-    "advancedcore"
+    "fsdf_retreatdrive",
+	"advancedcore",
+    "hbi"
   ],
   "builtInWeapons": {
     "WS0015": "fsdf_vernier",

@@ -1,0 +1,81 @@
+{
+    "displayName": "Support",
+    "fluxCapacitors": 37,
+    "fluxVents": 50,
+    "goalVariant": true,
+    "hullId": "fsdf_alwaid",
+    "hullMods": [
+        "eccm",
+        "solar_shielding"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_alwaid_Support",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "squall",
+                "WS0014": "squall"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "pilum",
+                "WS0006": "pilum",
+                "WS0011": "salamanderpod",
+                "WS0012": "salamanderpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "fsdf_halberd",
+                "WS0004": "fsdf_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0025": "fsdf_twinspear"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0026": "fsdf_mangonel"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_estocflak",
+                "WS0002": "fsdf_estocflak",
+                "WS0007": "fsdf_estocflak",
+                "WS0008": "fsdf_estocflak",
+                "WS0027": "fsdf_razorflak",
+                "WS0029": "fsdf_estocflak",
+                "WS0030": "fsdf_estocflak",
+                "WS0031": "fsdf_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0009": "fsdf_swordbreaker",
+                "WS0010": "fsdf_swordbreaker",
+                "WS0028": "fsdf_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "fsdf_aldibain_wing",
+        "fsdf_tianyi_wing",
+        "fsdf_nodus_wing",
+        "fsdf_nodus_wing"
+    ]
+}

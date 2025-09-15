@@ -1,11 +1,11 @@
 {
-	"id":"fsdf_giausar_cover",
+	"id":"fsdf_drone_assault_cover",
 	"specClass":"beam",
 	"type":"DECORATIVE",
 	"size":"SMALL",
 	"showDamageWhenDecorative":true,
 	"renderBelowAllWeapons":false,
-	"turretSprite":"graphics/weapons/decorative/fsdf_giausar_cover.png",
+	"turretSprite":"graphics/weapons/decorative/fsdf_drone_assault_cover.png",
 	"hardpointSprite":"",
 	"turretOffsets":[0,0],
 	"turretAngleOffsets":[0],
