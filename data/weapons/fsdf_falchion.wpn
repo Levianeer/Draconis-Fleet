@@ -26,5 +26,5 @@
 				 "blowbackSpread":10.0,
 				 "particleColor":[0,0,0,0]},
 	"projectileSpecId":"fsdf_falchion_torp",
-	"fireSoundTwo":"neutron_torpedo_fire",
+	"fireSoundTwo":"fsdf_halberd_fire",
 }

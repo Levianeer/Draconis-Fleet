@@ -1,3 +1,8 @@
+Version 0.3.3
+- Updated Draconis faction config.
+- Adjusted weapon and hull frequencies, ship roles, and market industry setup.
+- Minor fixes to sound references and CSV trail data for new weapon effects.
+
 Version 0.3.2
 - Changed Particle Burst Lance damage type, ENERGY -> HIGH_EXPLOSIVE.
 

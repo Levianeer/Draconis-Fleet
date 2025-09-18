@@ -36,9 +36,15 @@
 	# multiplier for how often hulls show up in the faction's fleets
 	"hullFrequency":{
 		"tags":{
-			"fsdf_package_bp":10,
 		},
 		"hulls":{
+			"fsdf_thuban":10,
+			"fsdf_rastaban":10,
+			"fsdf_juza":10,
+			"fsdf_juni":10,
+			"fsdf_altais":10,
+			"fsdf_alwaid":10,
+			"fsdf_shaobi":10
 		},
 	},
 	
@@ -53,14 +59,11 @@
 	"knownShips":{
 		"tags":["fsdf_package_bp"],
 		"hulls":[
+			"hermes",
+			"dram",
+			"mercury",
 			"crig",
 			"ox",
-			"buffalo",
-			"colossus",
-			"valkyrie",
-			"dram",
-			"phaeton",
-			"prometheus"
 		],
 	},
 	
@@ -68,6 +71,11 @@
 	"priorityShips":{
 		"tags":["fsdf_package_bp"],
 		"hulls":[
+			"hermes",
+			"dram",
+			"mercury",
+			"crig",
+			"ox",
 		],
 	},
 	
@@ -102,55 +110,52 @@
 	},
 	
 	"weaponSellFrequency":{
-		"fsdf_wolfpack_srm":10,
-		"fsdf_razor_flak":10,
-		"fsdf_rapier":10,
-		"fsdf_pb_lance":10,
-		"fsdf_estocflak":10,
-		"fsdf_twinspear":10,
-		"fsdf_strilka":10,
-		"fsdf_halberd":10,
-		"fsdf_meteor_lrm":10,
+		"fsdf_wolfpack_srm":5,
+		"fsdf_razor_flak":5,
+		"fsdf_rapier":5,
+		"fsdf_pb_lance":5,
+		"fsdf_estocflak":5,
+		"fsdf_twinspear":5,
+		"fsdf_strilka":5,
+		"fsdf_halberd":5,
+		"fsdf_meteor_lrm":5,
 	},
 	
 	"hullmodSellFrequency":{
-		"missleracks":10,
+		"missleracks":5,
 		"eccm":5,
 	},
 	
 	"factionDoctrine":{
-		"warships":4,
+		"warships":5,
 		"carriers":1,
-		"phaseShips":0,
-		
-		"officerQuality":7,
-		"shipQuality":3,
+		"phaseShips":1,
+
+		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably fair
+		"shipQuality":1,
 		"numShips":3,
-		
-		"shipSize":3,
-		
+
+		"shipSize":5,
+
 		"aggression":3,
 		
-		"combatFreighterProbability":0.1,
-		"combatFreighterCombatUseFraction":0,
-		"combatFreighterCombatUseFractionWhenPriority":0,
-		"autofitRandomizeProbability":0.1,
+		"combatFreighterProbability":0,                   # instead of some portion of the freighters in a fleet
+		"combatFreighterCombatUseFraction":0,             # as part of the normal combat lineup
+		"combatFreighterCombatUseFractionWhenPriority":1, # as part of normal combat lineup, when marked as priority ship
+		"autofitRandomizeProbability":0,
+		"strictComposition":true, # warships/carriers/phase at 1 will be treated as 0, also no random factor
 		
+		"officerSkillsShuffleProbability":0,
+		"officerSkills":[
+			"combat_endurance"
+		],
+
 		"commanderSkillsShuffleProbability":0,
 		"commanderSkills":[
-			"ballistic_mastery",
-			"ordnance_expert",
-			"electronic_warfare",
-			"fighter_uplink",
-			"carrier_group",
-		],
-		
-		"officerSkillsShuffleProbability":0f,
-		"officerSkills":[
-			"crew_training",
 			"officer_training",
-			"missile_specialization",
-		],
+			"hull_restoration",
+			"cybernetic_augmentation"
+		]
 	},
 	
 	"illegalCommodities":[
@@ -170,6 +175,26 @@
 	},
 	
 	"internalComms":"draconis_internal",
+	
+	"barSound":"bar_ambience",
+	
+	"voices":{
+		"LOW":{
+			"spacer":5,
+			"soldier":5,
+			"villain":5
+		},
+		"MEDIUM":{
+			"spacer":5,
+			"soldier":10,
+			"villain":10
+		},
+		"HIGH":{
+			"spacer":1,
+			"soldier":5,
+			"villain":20
+		}
+	},
 	
 	"portraits":{
 		"standard_male":[
@@ -216,11 +241,12 @@
 	},
 	
 	"custom":{
+		"engageWhenEvenStrength":true,
 		"offersCommissions":true,
 		"engagesInHostilities":true,
 		"buysAICores":true,
-		"AICoreValueMult":1,
-		"AICoreRepMult":2,
+		"AICoreValueMult":0.5,
+		"AICoreRepMult":0.75,
 		"buysSurveyData":true,
 		"hostilityImpactOnGrowth":true,
 		"caresAboutAtrocities":true,
@@ -231,13 +257,13 @@
 			"territorial":true,
 		},
 		"simulatorData":{
-			"showInSimulator":true,
-		},
+			"showInSimulatorDevModeOnly":true,
+			"includeCivShipsWithFaction":false,
+		}
 	},	
 	
 	"fleetTypeNames":{
 		"trade":"Commerce Fleet",
-		
 		"tradeLiner":"Transit Convoy",
 		"tradeSmuggler":"Shadow Fleet",
 		"smallTrader":"Resupply Convoy",

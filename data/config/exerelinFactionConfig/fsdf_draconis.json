@@ -2,24 +2,22 @@
     "playableFaction":true,
     "corvusCompatible":true,
 
-    "ngcTooltip":"Disciplined, battle-hardened fleets held together by sheer will and firepower. Peace through strength—if only just.",
-
     "rebelFleetSuffix":"Dissenters",
 
     "directoryUseShortName":true,
     
     "morality":"neutral",
 
-    "diplomacyTraits":["helps_allies", "irredentist", "foreverwar", "lowprofile"],
+    "diplomacyTraits":["helps_allies","irredentist","foreverwar","predatory","lowprofile"],
 
-    "alignments":{"diplomatic":1,"ideological":0.5,"hierarchical":-0.5,"militarist":1.0,},
+	"alignments":{"technocratic":0.25,"militarist":1.0,"diplomatic":0.5,"ideological":0.75},
 
-    "colonyExpeditionChance":0.25,
+	"colonyExpeditionChance":1.25,
     
     "groundBattleSettings":{
-        "attackMult":0.9,
-        "defenseMult":1.1,
-        "moraleDamageTakenMult":0.9,
+        "attackMult":1.0,
+        "defenseMult":1.25,
+        "moraleDamageTakenMult":0.75,
     },
 
     "asteroidMiningFleetName":"Mining Flotilla",

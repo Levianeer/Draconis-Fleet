@@ -1,0 +1,43 @@
+{
+  "id": "fsdf_fragarch",
+  "specClass": "projectile",
+  "projectileSpecId": "fsdf_fragarch_shot",
+  "type": "BALLISTIC",
+  "size": "LARGE",
+  "turretSprite": "graphics/weapons/fsdf_fragarach_turret_base.png",
+  "turretGunSprite": "graphics/weapons/fsdf_fragarach_turret_recoil.png",
+  "turretUnderSprite": "graphics/weapons/mjolnir_turret_under.png",
+  "hardpointSprite": "graphics/weapons/fsdf_fragarach_hardpoint_base.png",
+  "hardpointGunSprite": "graphics/weapons/fsdf_fragarach_hardpoint_recoil.png",
+  "hardpointUnderSprite": "graphics/weapons/mjolnir_hardpoint_under.png",
+  "glowColor":[120,110,185,255],
+  "visualRecoil":5.0,  # the gun sprites are only used if this is non-0
+  "renderHints": [
+    RENDER_BARREL_BELOW
+  ],
+  "turretOffsets": [
+    35.5,
+    0
+  ],
+  "turretAngleOffsets": [
+    0
+  ],
+  "hardpointOffsets": [
+    38,
+    0
+  ],
+  "hardpointAngleOffsets": [
+    0
+  ],
+  "unaffectedByProjectileSpeedBonuses":true,
+  "barrelMode":"ALTERNATING", # or LINKED.  whether barrels fire at the same time or alternate.
+  "animationType":"GLOW_AND_FLASH",  # NONE, GLOW, MUZZLE_FLASH, SMOKE
+  "muzzleFlashSpec":{"length":80.0,   # only used if animationType = MUZZLE_FLASH
+					   "spread":10.0,
+					   "particleSizeMin":15.0,
+					   "particleSizeRange":21.0,
+					   "particleDuration":0.5,
+					   "particleCount":15,
+					  "particleColor":[120,110,185,235]},
+  "fireSoundTwo": "fsdf_durendal_mkii_fire"
+}

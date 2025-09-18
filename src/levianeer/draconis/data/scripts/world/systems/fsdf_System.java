@@ -239,9 +239,9 @@ public class fsdf_System implements SectorGeneratorPlugin {
 
                 koriMarket.addIndustry(Industries.POPULATION);
                 koriMarket.addIndustry(Industries.MEGAPORT);
-                koriMarket.addIndustry(Industries.ORBITALWORKS, new ArrayList<>(List.of(Items.CORRUPTED_NANOFORGE)));
+                koriMarket.addIndustry(Industries.ORBITALWORKS, new ArrayList<>(List.of(Items.PRISTINE_NANOFORGE,Commodities.ALPHA_CORE)));
                 koriMarket.addIndustry(Industries.HEAVYBATTERIES);
-                koriMarket.addIndustry(Industries.HIGHCOMMAND);
+                koriMarket.addIndustry(Industries.HIGHCOMMAND, new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
                 koriMarket.addIndustry("fsdf_highcommand", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
 
                 koriMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
