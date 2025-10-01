@@ -54,7 +54,7 @@
       "size": "SMALL",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 275,
+      "arc": 310,
       "angle": 180,
       "locations": [-114, -0]
     },
@@ -63,7 +63,7 @@
       "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 320,
+      "arc": 330,
       "angle": 0,
       "locations": [54, -0],
       "renderOrderMod": 300
@@ -83,7 +83,7 @@
       "size": "LARGE",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 110,
+      "arc": 295,
       "angle": 0,
       "locations": [-19, -0],
       "renderOrderMod": 400
@@ -166,7 +166,7 @@
       "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
-      "arc": 360,
+      "arc": 330,
       "angle": 180,
       "locations": [-88, -0]
     },
@@ -235,9 +235,9 @@
     },
     {
       "id": "WS0023",
-      "size": "MEDIUM",
-      "type": "BUILT_IN",
-      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
       "arc": 35,
       "angle": -90,
       "locations": [-30, -36]

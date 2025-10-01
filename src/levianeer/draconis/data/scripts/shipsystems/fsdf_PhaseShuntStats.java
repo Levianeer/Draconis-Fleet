@@ -107,10 +107,9 @@ public class fsdf_PhaseShuntStats extends BaseShipSystemScript {
 
 	@Override
 	public void unapply(MutableShipStatsAPI stats, String id) {
-		if (!(stats.getEntity() instanceof ShipAPI)) return;
-		ShipAPI ship = (ShipAPI) stats.getEntity();
+		if (!(stats.getEntity() instanceof ShipAPI ship)) return;
 
-		// Reset all modified stats
+        // Reset all modified stats
 		Global.getCombatEngine().getTimeMult().unmodify(id);
 		stats.getTimeMult().unmodify(id);
 		stats.getMaxSpeed().unmodify(id);
@@ -125,7 +124,7 @@ public class fsdf_PhaseShuntStats extends BaseShipSystemScript {
 		// Reset cloak jitter if applicable
 		ShipSystemAPI cloak = ship.getPhaseCloak();
 		if (cloak == null) cloak = ship.getSystem();
-		if (cloak != null && cloak instanceof PhaseCloakSystemAPI) {
+		if (cloak instanceof PhaseCloakSystemAPI) {
 			((PhaseCloakSystemAPI)cloak).setMinCoilJitterLevel(0f);
 		}
 	}
@@ -350,7 +349,7 @@ public class fsdf_PhaseShuntStats extends BaseShipSystemScript {
 						false
 				);
 			} else {
-				String speedPercentStr = (int) Math.round(getSpeedMult(playerShip, effectLevel) * 100f) + "%";
+				String speedPercentStr = Math.round(getSpeedMult(playerShip, effectLevel) * 100f) + "%";
 				Global.getCombatEngine().maintainStatusForPlayerShip(
 						STATUSKEY2,
 						cloak.getSpecAPI().getIconSpriteName(),

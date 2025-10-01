@@ -1,13 +1,12 @@
 {
     "displayName": "Support",
-    "fluxCapacitors": 7,
-    "fluxVents": 13,
+    "fluxCapacitors": 14,
+    "fluxVents": 30,
     "goalVariant": true,
     "hullId": "fsdf_juni",
     "hullMods": [
         "targetingunit",
-        "advancedoptics",
-        "hardenedshieldemitter"
+        "advancedoptics"
     ],
     "permaMods": [],
     "sMods": [],
@@ -17,16 +16,16 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "fsdf_rapier",
-                "WS0021": "fsdf_rapier"
+                "WS0001": "hveldriver",
+                "WS0021": "hveldriver"
             }
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0018": "fsdf_bardiche_single",
-                "WS0019": "fsdf_bardiche_single"
+                "WS0018": "heatseeker",
+                "WS0019": "heatseeker"
             }
         },
         {
@@ -34,13 +33,9 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0003": "gravitonbeam",
-                "WS0020": "gravitonbeam"
+                "WS0020": "gravitonbeam",
+                "WS0050": "gravitonbeam"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0050": "ionbeam"}
         },
         {
             "autofire": true,

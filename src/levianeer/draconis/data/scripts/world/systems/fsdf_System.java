@@ -10,7 +10,6 @@ import com.fs.starfarer.api.util.Misc;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
@@ -250,7 +249,7 @@ public class fsdf_System implements SectorGeneratorPlugin {
                 koriMarket.addSubmarket(Submarkets.GENERIC_MILITARY);
                 koriMarket.setSurveyLevel(MarketAPI.SurveyLevel.FULL);
                 koriMarket.setFreePort(false);
-                Global.getSector().getEconomy().addMarket(koriMarket, true);
+                Global.getSector().getEconomy().addMarket(koriMarket, false);
                 kori.setMarket(koriMarket);
 
                 // Vorium

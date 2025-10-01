@@ -13,7 +13,8 @@
   "viewOffset": 0,
   "builtInMods": [
     "fsdf_retreatdrive",
-	"ecm"
+    "ecm",
+    "hiressensors"
   ],
   "builtInWeapons": {
     "WS0003": "fsdf_durendal",

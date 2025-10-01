@@ -17,8 +17,7 @@
   "builtInWeapons": {
     "WS0001": "blinker_red",
     "WS0002": "blinker_green",
-    "WS0008": "fsdf_drone_assault_cover",
-    "WS0009": "fsdf_vernier"
+    "WS0008": "fsdf_drone_assault_cover"
   },
   "weaponSlots": [
     {
@@ -75,18 +74,19 @@
       "angle": 0,
       "locations": [4, -0],
       "renderOrderMod": 100000
-    },
-    {
-      "id": "WS0009",
-      "size": "SMALL",
-      "type": "DECORATIVE",
-      "mount": "TURRET",
-      "arc": 170,
-      "angle": 180,
-      "locations": [-15, -0]
     }
   ],
-  "engineSlots": [],
+  "engineSlots": [
+    {
+      "location": [-15, -0],
+      "length": 56,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 16,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
   "bounds": [
     -7, -7,
     -7, 8,

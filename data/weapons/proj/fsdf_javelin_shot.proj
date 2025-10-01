@@ -2,7 +2,7 @@
 	"id":"fsdf_javelin_shot",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"onHitEffect":"levianeer.draconis.data.scripts.weapons.fsdf_JavelinOnHitEffect",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.fsdf_SystemBurnOnHitEffect",
 	"sprite":"graphics/missiles/fsdf_javelin_mrm.png",
 	"size":[13,33],
 	"center":[6, 17],
@@ -20,13 +20,11 @@
 					 "particleDuration":1,
 					 "particleCount":25,
 					 "particleColor":[255,185,155,255]},
-	"flameoutTime":1, # total time from flameout to full fadeout
-	"noCollisionWhileFading":true,
-	"fizzleOnReachingWeaponRange":true,		
-	"noEngineGlowTime":1.0, # time spent without the engine glow being rendered
-	"fadeTime":1.0, # fadeout duration
+	"flameoutTime":0.25, # total time from flameout to full fadeout
+	"armingTime":0.25,
+	"noEngineGlowTime":0.25, # time spent without the engine glow being rendered
+	"fadeTime":0.25, # fadeout duration	
 	"passThroughMissiles":true,
-	"passThroughFighters":true,
 	"engineSpec":{"turnAcc":500,
 				  "turnRate":100,
 				  "acc":750,

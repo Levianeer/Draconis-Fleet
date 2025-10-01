@@ -40,11 +40,10 @@
 		"hulls":{
 			"fsdf_thuban":10,
 			"fsdf_rastaban":10,
-			"fsdf_juza":10,
+			"fsdf_eltanin":10,
 			"fsdf_juni":10,
 			"fsdf_altais":10,
 			"fsdf_alwaid":10,
-			"fsdf_shaobi":10
 		},
 	},
 	
@@ -62,8 +61,7 @@
 			"hermes",
 			"dram",
 			"mercury",
-			"crig",
-			"ox",
+			"crig"
 		],
 	},
 	
@@ -74,8 +72,7 @@
 			"hermes",
 			"dram",
 			"mercury",
-			"crig",
-			"ox",
+			"crig"
 		],
 	},
 	
@@ -127,15 +124,15 @@
 	},
 	
 	"factionDoctrine":{
-		"warships":5,
-		"carriers":1,
+		"warships":4,
+		"carriers":2,
 		"phaseShips":1,
 
-		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably fair
-		"shipQuality":1,
-		"numShips":3,
+		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably ""fair""
+		"shipQuality":2,
+		"numShips":5,
 
-		"shipSize":5,
+		"shipSize":4, # cruiser doctrine
 
 		"aggression":3,
 		

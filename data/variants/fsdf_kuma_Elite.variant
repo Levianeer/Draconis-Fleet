@@ -1,0 +1,75 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 33,
+    "fluxVents": 30,
+    "goalVariant": true,
+    "hullId": "fsdf_kuma",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "fsdf_kuma_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "hil"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0016": "fsdf_bardiche"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "fsdf_halberd",
+                "WS0014": "fsdf_halberd"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "fsdf_fragarch",
+                "WS0002": "fsdf_fragarch"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "ionbeam",
+                "WS0004": "ionbeam"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "lrpdlaser",
+                "WS0006": "lrpdlaser",
+                "WS0007": "fsdf_estocflak",
+                "WS0008": "fsdf_estocflak",
+                "WS0009": "fsdf_estocflak",
+                "WS0010": "fsdf_estocflak",
+                "WS0015": "pdburst"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0011": "fsdf_swordbreaker",
+                "WS0012": "fsdf_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "fsdf_tianyi_wing",
+        "fsdf_tianyi_wing"
+    ]
+}

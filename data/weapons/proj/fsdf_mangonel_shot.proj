@@ -40,22 +40,22 @@
 	"behaviorSpec":{
 					"behavior":"MIRV",
 					"splitRange":700,
-					"splitRangeRange":100,
-					"minTimeToSplit":0.5,
+					"splitRangeRange":350,
+					"minTimeToSplit":0.75,
 					"canSplitEarly":true,
 					"splitSound":"sabot_srm_split",
 					"numShots":6,
-					"damage":250,
+					"damage":200,
 					"impact":25,
 					"emp":350, # needs to match highlight in weapon_data.csv
-					"damageType":ENERGY,
-					"hitpoints":1000,
+					"damageType":HIGH_EXPLOSIVE,
+					"hitpoints":100000,
 					"evenSpread":true,
 					"arc":10,
-					"spreadInaccuracy":4,
+					"spreadInaccuracy":5,
 					"spreadSpeed":1000,
 					"spreadSpeedRange":500,
-					"projectileRange":900, # only needed if not a missile
+					"projectileRange":300, # only needed if not a missile
 					"projectileSpec":"fsdf_mangonel_warhead",
 					"smokeSpec":{
 								"particleSizeMin":20.0,

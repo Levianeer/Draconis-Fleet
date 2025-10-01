@@ -12,13 +12,11 @@ import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.OptionalFleetData;
 import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.RouteData;
 import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.RouteFleetSpawner;
 import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.RouteSegment;
-import com.fs.starfarer.api.impl.campaign.ids.Commodities;
-import com.fs.starfarer.api.impl.campaign.ids.Industries;
-import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
-import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
+import levianeer.draconis.data.campaign.ids.Factions;
 
 import java.util.Random;
 
@@ -30,6 +28,16 @@ public class fsdf_HighCommand extends BaseIndustry implements RouteFleetSpawner,
     private final IntervalUtil tracker = new IntervalUtil(
             Global.getSettings().getFloat("averagePatrolSpawnInterval") * 0.7f,
             Global.getSettings().getFloat("averagePatrolSpawnInterval") * 1.3f);
+
+    @Override
+    public boolean isHidden() {
+        return !market.getFactionId().equals(Factions.DRACONIS);
+    }
+
+    @Override
+    public boolean isFunctional() {
+        return super.isFunctional() && market.getFactionId().equals(Factions.DRACONIS);
+    }
 
     @Override
     public void apply() {

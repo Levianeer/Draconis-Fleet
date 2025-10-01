@@ -17,8 +17,8 @@
   "weaponSlots": [
     {
       "id": "WS0001",
-      "size": "LARGE",
-      "type": "UNIVERSAL",
+      "size": "SMALL",
+      "type": "MISSILE",
       "mount": "HIDDEN",
       "arc": 5,
       "angle": 0,

@@ -3,7 +3,7 @@
     "fluxCapacitors": 10,
     "fluxVents": 10,
     "hullId": "fsdf_thuban",
-    "hullMods": [],
+    "hullMods": ["fluxcoil"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_Standard",
@@ -16,10 +16,12 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "lightac"
-            }
+            "weapons": {"WS0001": "railgun"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0002": "lightag"}
         },
         {
             "autofire": true,

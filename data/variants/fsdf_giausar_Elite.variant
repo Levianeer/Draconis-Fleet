@@ -1,12 +1,12 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 14,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "fsdf_giausar",
     "hullMods": [
         "targetingunit",
-        "ballistic_rangefinder"
+        "unstable_injector"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,7 +15,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "fsdf_rapier"}
+            "weapons": {"WS0003": "ionpulser"}
         },
         {
             "autofire": true,
@@ -28,7 +28,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0004": "fsdf_estocflak"}
+            "weapons": {"WS0004": "vulcan"}
         },
         {
             "autofire": true,

@@ -1,13 +1,10 @@
 {
     "displayName": "Support",
-    "fluxCapacitors": 37,
+    "fluxCapacitors": 43,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
-    "hullMods": [
-        "eccm",
-        "solar_shielding"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Support",

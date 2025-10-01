@@ -8,14 +8,9 @@ import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 
 import java.util.List;
+import java.util.Objects;
 
-public class fsdf_StatusScript implements EveryFrameCombatPlugin {
-
-    private final ShipAPI ship;
-
-    public fsdf_StatusScript(ShipAPI ship) {
-        this.ship = ship;
-    }
+public record fsdf_StatusScript(ShipAPI ship) implements EveryFrameCombatPlugin {
 
     @Override
     public void advance(float amount, List events) {
@@ -71,4 +66,19 @@ public class fsdf_StatusScript implements EveryFrameCombatPlugin {
     public void init(CombatEngineAPI engine) {
         // do nothing
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (fsdf_StatusScript) obj;
+        return Objects.equals(this.ship, that.ship);
+    }
+
+    @Override
+    public String toString() {
+        return "fsdf_StatusScript[" +
+                "ship=" + ship + ']';
+    }
+
 }

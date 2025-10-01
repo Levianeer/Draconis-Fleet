@@ -1,9 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 38,
+    "fluxCapacitors": 33,
     "fluxVents": 50,
     "hullId": "fsdf_alwaid",
-    "hullMods": ["fluxdistributor"],
+    "hullMods": ["dedicated_targeting_core"],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_alwaid_Standard",

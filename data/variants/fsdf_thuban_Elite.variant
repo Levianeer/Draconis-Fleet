@@ -1,10 +1,15 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 10,
-    "fluxVents": 9,
+    "fluxVents": 2,
     "goalVariant": true,
     "hullId": "fsdf_thuban",
-    "hullMods": [],
+    "hullMods": [
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter",
+        "autorepair",
+        "fluxcoil"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "fsdf_thuban_Elite",
@@ -17,15 +22,17 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "lightac"
-            }
+            "weapons": {"WS0002": "lightac"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0005": "fsdf_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "fsdf_swordbreaker"}
         }
     ]
 }

@@ -14,6 +14,7 @@
 
 		"fx":{
 			"fsdf_jammer_ring":"graphics/fx/fsdf_jammer_ring.png",
+			"fsdf_jammer_ring_alt":"graphics/fx/fsdf_jammer_ring_alt.png",
 			"fsdf_blur_contrail":"graphics/fx/fsdf_blur_contrail.png",
 			"fsdf_shock_contrail":"graphics/fx/fsdf_shock_contrail.png"
 		},

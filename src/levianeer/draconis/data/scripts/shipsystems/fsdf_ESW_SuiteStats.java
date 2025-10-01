@@ -38,7 +38,7 @@ public class fsdf_ESW_SuiteStats extends BaseShipSystemScript {
 
         if (state == State.ACTIVE) {
             if (!spriteRendered) {
-                renderECMSprite(ship, RING_RADIUS);
+                renderECMSprite(ship);
                 spriteRendered = true;
             }
         }
@@ -152,10 +152,10 @@ public class fsdf_ESW_SuiteStats extends BaseShipSystemScript {
         }
     }
 
-    private void renderECMSprite(ShipAPI ship, float radius) {
+    private void renderECMSprite(ShipAPI ship) {
         if (ship == null) return;
 
-        float spriteSize = radius * 2f; // Diameter
+        float spriteSize = fsdf_ESW_SuiteStats.RING_RADIUS * 2f; // Diameter
         Vector2f size = new Vector2f(spriteSize + 550, spriteSize + 550);
         Vector2f growthNone = new Vector2f(0f, 0f); // No growth
 

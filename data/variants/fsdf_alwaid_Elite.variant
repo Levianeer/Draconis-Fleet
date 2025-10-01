@@ -1,12 +1,12 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 38,
+    "fluxVents": 43,
     "goalVariant": true,
     "hullId": "fsdf_alwaid",
     "hullMods": [
         "eccm",
-        "missleracks"
+        "targetingunit"
     ],
     "permaMods": [],
     "sMods": [],

@@ -6,8 +6,7 @@
     "hullId": "fsdf_juni",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor",
-        "stabilizedshieldemitter"
+        "advancedoptics"
     ],
     "permaMods": [],
     "sMods": [],
@@ -23,24 +22,20 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0018": "heatseeker",
-                "WS0019": "heatseeker"
+                "WS0018": "fsdf_bardiche_single",
+                "WS0019": "fsdf_bardiche_single"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "fsdf_particlelance",
-                "WS0020": "fsdf_particlelance"
+                "WS0003": "ionbeam",
+                "WS0020": "ionbeam",
+                "WS0050": "fsdf_particlelance"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0050": "gravitonbeam"}
         },
         {
             "autofire": true,

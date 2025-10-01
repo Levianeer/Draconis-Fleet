@@ -19,10 +19,9 @@ public class fsdf_TemporalShellStats extends BaseShipSystemScript {
 
 	@Override
 	public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
-		if (!(stats.getEntity() instanceof ShipAPI))
+		if (!(stats.getEntity() instanceof ShipAPI ship))
 			return;
-		ShipAPI ship = (ShipAPI) stats.getEntity();
-		boolean player = ship == Global.getCombatEngine().getPlayerShip();
+        boolean player = ship == Global.getCombatEngine().getPlayerShip();
 		id += "_" + ship.getId();
 
 		// Create afterimage effect at regular intervals.
@@ -83,10 +82,9 @@ public class fsdf_TemporalShellStats extends BaseShipSystemScript {
 
 	@Override
 	public void unapply(MutableShipStatsAPI stats, String id) {
-		if (!(stats.getEntity() instanceof ShipAPI))
+		if (!(stats.getEntity() instanceof ShipAPI ship))
 			return;
-		ShipAPI ship = (ShipAPI) stats.getEntity();
-		id += "_" + ship.getId();
+        id += "_" + ship.getId();
 
 		Global.getCombatEngine().getTimeMult().unmodify(id);
 		stats.getTimeMult().unmodify(id);
@@ -100,11 +98,11 @@ public class fsdf_TemporalShellStats extends BaseShipSystemScript {
 
 	@Override
 	public StatusData getStatusData(int index, State state, float effectLevel) {
-		switch (index) {
-			case 0: return new StatusData("time flow altered", false);
-			case 1: return new StatusData("enhanced maneuverability", false);
-			default: return null;
-		}
+        return switch (index) {
+            case 0 -> new StatusData("time flow altered", false);
+            case 1 -> new StatusData("enhanced maneuverability", false);
+            default -> null;
+        };
 	}
 
 	// Returns a color that cycles smoothly between teal, blue, pink, and red.

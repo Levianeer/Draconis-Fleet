@@ -6,7 +6,6 @@
 	"size":"MEDIUM",
 	"collisionClass":"RAY",
 	"collisionClassByFighter":"RAY_FIGHTER",
-	"beamEffect":"levianeer.draconis.data.scripts.weapons.fsdf_HardFluxBeamEffect",
 	"turretSprite":"graphics/weapons/fsdf_particlelance_turret_base.png",
 	"turretGlowSprite":"graphics/weapons/fsdf_particlelance_turret_base_glow.png",
 	"hardpointSprite":"graphics/weapons/fsdf_particlelance_hardpoint_base.png",

@@ -2,7 +2,7 @@
 	"id":"fsdf_mangonel_warhead",
 	"specClass":"projectile",
 	"spawnType":"BALLISTIC",
-	"onHitEffect":"com.fs.starfarer.api.impl.combat.DisintegratorEffect",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.fsdf_SystemBurnOnHitEffect",
 	"collisionClass":"PROJECTILE_FIGHTER",
 	"collisionClassByFighter":"PROJECTILE_FIGHTER",
 	"glowColor":[125,170,215,90],

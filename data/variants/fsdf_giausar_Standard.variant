@@ -5,7 +5,8 @@
     "hullId": "fsdf_giausar",
     "hullMods": [
         "fluxdistributor",
-        "extendedshieldemitter"
+        "extendedshieldemitter",
+        "fluxbreakers"
     ],
     "permaMods": [],
     "sMods": [],
@@ -20,8 +21,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
+                "WS0001": "lightac",
+                "WS0002": "lightac"
             }
         },
         {

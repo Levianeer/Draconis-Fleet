@@ -23,7 +23,7 @@
 	"soundFilterGainHF":0.25,
 
 	"fadeActivationSoundOnChargedown":true,
-	"useSound":"system_quantumdisruptor",
+	"useSound":"system_extraction_protocol",
 	"outOfUsesSound":"gun_out_of_ammo",
 	
 	"aiHints":{

@@ -14,7 +14,7 @@
 		{"droneIndex":[0],
 		 "defaultFacing":"MATCH_SHIP_FACING",	# MATCH_DRONE_HEADING, MATCH_SHIP_HEADING, MATCH_SHIP_FACING, AWAY_FROM_SHIP
 		 "faceEnemy":true,
-		 "holdRoamRange":10,
+		 "holdRoamRange":100,
 		 "freeRoamRange":500,
 		 "targetPriority":[MISSILE, FIGHTER, SHIP],
 		 "initialOrbitAngle":45,
@@ -25,7 +25,7 @@
 		{"droneIndex":[1],
 		 "defaultFacing":"MATCH_SHIP_FACING",	# MATCH_DRONE_HEADING, MATCH_SHIP_HEADING, MATCH_SHIP_FACING, AWAY_FROM_SHIP
 		 "faceEnemy":true,
-		 "holdRoamRange":10,
+		 "holdRoamRange":100,
 		 "freeRoamRange":500,
 		 "targetPriority":[MISSILE, FIGHTER, SHIP],
 		 "initialOrbitAngle":315,
@@ -36,7 +36,7 @@
 		{"droneIndex":[2],
 		 "defaultFacing":"MATCH_SHIP_FACING",	# MATCH_DRONE_HEADING, MATCH_SHIP_HEADING, MATCH_SHIP_FACING, AWAY_FROM_SHIP
 		 "faceEnemy":true,
-		 "holdRoamRange":10,
+		 "holdRoamRange":100,
 		 "freeRoamRange":500,
 		 "targetPriority":[MISSILE, FIGHTER, SHIP],
 		 "initialOrbitAngle":135,
@@ -47,7 +47,7 @@
 		{"droneIndex":[3],
 		 "defaultFacing":"MATCH_SHIP_FACING",	# MATCH_DRONE_HEADING, MATCH_SHIP_HEADING, MATCH_SHIP_FACING, AWAY_FROM_SHIP
 		 "faceEnemy":true,
-		 "holdRoamRange":10,
+		 "holdRoamRange":100,
 		 "freeRoamRange":500,
 		 "targetPriority":[MISSILE, FIGHTER, SHIP],
 		 "initialOrbitAngle":225,
