@@ -1,0 +1,56 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 2,
+    "fluxVents": 30,
+    "goalVariant": false,
+    "hullId": "XLII_juza_FSDF",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_juza_Elite_FSDF",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_twinspear",
+                "WS0020": "XLII_twinspear"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_bardiche_single",
+                "WS0021": "XLII_bardiche_single",
+                "WS0026": "XLII_bardiche_single",
+                "WS0027": "XLII_bardiche_single",
+                "WS0028": "XLII_bardiche_single",
+                "WS0029": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_rapier",
+                "WS0019": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "vulcan",
+                "WS0006": "vulcan",
+                "WS0024": "XLII_estocflak",
+                "WS0025": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_swordbreaker"}
+        }
+    ]
+}

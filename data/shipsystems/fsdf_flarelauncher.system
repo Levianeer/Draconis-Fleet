@@ -1,8 +1,0 @@
-{
-	"id":"fsdf_flarelauncher",
-	"type":"WEAPON",
-	"aiType":"FLARE",
-	
-	"weaponDataId":"fsdf_flarelauncher",
-	"outOfUsesSound":"engine_disabled",
-}

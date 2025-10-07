@@ -1,0 +1,19 @@
+{
+	"id":"XLII_safety_overrides",
+	"type":"STAT_MOD",
+	"aiType":"WEAPON_BOOST",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_Safety_OverridesStats",
+	
+	"engineGlowGlowMult":1.25,
+	
+	"useSound":"system_maneuvering_jets",
+	"loopSound":"system_maneuvering_jets_loop",
+	"outOfUsesSound":"engine_disabled",
+	
+	"aiHints":{
+		"activeSpeedIncrease":50,
+		"burstMovementPotential":0,
+		"averageSpeedIncrease":25,
+	}
+}

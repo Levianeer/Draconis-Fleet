@@ -1,5 +1,5 @@
 {
-	"fsdf_itoron":{
+	"XLII_itoron":{
 		"name":"Itoron",
 		"tilt":-25, # left-right (>0 tilts to the left)
 		"pitch":-20, # towards-away from the viewer (>0 pitches towards)
@@ -8,7 +8,7 @@
 		"atmosphereThickness":0.15, # as fraction of radius.  Set to 0 for no atmosphere
 		"atmosphereThicknessMin":40, #  minimum thickness in pixels
 		"atmosphereColor":[90,140,205,150],
-		"texture":"graphics/mod/planets/fsdf_itoron.jpg",
+		"texture":"graphics/mod/planets/XLII_itoron.jpg",
 		"icon":"graphics/warroom/icon_planet.png",
 		"iconColor":[140,170,220,255],
 		"isStar":false,

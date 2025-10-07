@@ -1,0 +1,217 @@
+{
+  "hullName": "Giausar",
+  "hullId": "XLII_giausar",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/ships/XLII_giausar.png",
+  "style": "DRACONIS",
+  "height": 159,
+  "width": 128,
+  "center": [64, 67.5],
+  "collisionRadius": 114.5,
+  "shieldCenter": [14, -0],
+  "shieldRadius": 139,
+  "viewOffset": 0,
+  "builtInMods": [
+    "XLII_retreatdrive"
+  ],
+  "builtInWeapons": {
+    "WS0006": "blinker_red",
+    "WS0007": "blinker_green",
+    "WS0008": "blinker_red",
+    "WS0009": "blinker_green",
+    "WS0010": "XLII_vernier",
+    "WS0011": "XLII_vernier",
+    "WS0012": "XLII_vernier",
+    "WS0013": "XLII_vernier",
+    "WS0014": "XLII_vernier",
+    "WS0015": "XLII_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0003",
+      "size": "MEDIUM",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 310,
+      "angle": 0,
+      "locations": [14.5, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 340,
+      "angle": 0,
+      "locations": [54.5, -0]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 305,
+      "angle": 180,
+      "locations": [-49.5, -0]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [14, 60.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [14, -60.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 180,
+      "locations": [-66, 21.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -180,
+      "locations": [-66, -21.5]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [71.5, 12.5]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [71.5, -12.5]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [44.5, 24]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [44.5, -24]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-48.5, 37]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-48.5, -37]
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 210,
+      "angle": 90,
+      "locations": [-23.5, 29]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 210,
+      "angle": -90,
+      "locations": [-23.5, -29]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-53.5, 27.5],
+      "length": 102,
+      "width": 14,
+      "angle": 180,
+      "contrailSize": 14,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-53.5, -27.5],
+      "length": 102,
+      "width": 14,
+      "angle": -180,
+      "contrailSize": 14,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-67.5, -0],
+      "length": 118,
+      "width": 33,
+      "angle": 180,
+      "contrailSize": 33,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    }
+  ],
+  "bounds": [
+    87, -7.5,
+    69.5, -14.5,
+    9, -24.5,
+    6, -34.5,
+    -3, -37.5,
+    -12, -60,
+    -24, -62.5,
+    -32.5, -36.5,
+    -50, -35.5,
+    -66, -15.5,
+    -66, 15.5,
+    -50, 35.5,
+    -32.5, 36.5,
+    -24, 62.5,
+    -12, 60,
+    -3, 37.5,
+    6, 34.5,
+    9, 24.5,
+    69.5, 14.5,
+    87, 7.5
+  ]
+}

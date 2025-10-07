@@ -1,0 +1,52 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 30,
+    "fluxVents": 9,
+    "goalVariant": true,
+    "hullId": "XLII_juza",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_juza_Strike",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_mangonel",
+                "WS0020": "XLII_mangonel"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "sabot",
+                "WS0021": "sabot",
+                "WS0026": "sabot",
+                "WS0027": "sabot",
+                "WS0028": "sabot",
+                "WS0029": "sabot"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_rapier",
+                "WS0019": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_estocflak",
+                "WS0006": "XLII_estocflak",
+                "WS0015": "XLII_estocflak",
+                "WS0024": "XLII_estocflak",
+                "WS0025": "XLII_estocflak"
+            }
+        }
+    ]
+}
