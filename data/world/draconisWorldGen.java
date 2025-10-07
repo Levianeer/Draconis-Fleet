@@ -22,18 +22,18 @@ public class draconisWorldGen implements SectorGeneratorPlugin {
 		FactionAPI player = sector.getFaction(Factions.PLAYER);
 		FactionAPI diktat = sector.getFaction(Factions.DIKTAT);
 		FactionAPI league = sector.getFaction(Factions.PERSEAN);
-		FactionAPI fsdf_draconis = sector.getFaction("fsdf_draconis");
+		FactionAPI XLII_draconis = sector.getFaction("XLII_draconis");
 
 		// VENGEFUL / HOSTILE / INHOSPITABLE / SUSPICIOUS / NEUTRAL / FAVORABLE / WELCOMING / FRIENDLY / COOPERATIVE
 
-		fsdf_draconis.setRelationship(Factions.HEGEMONY, RepLevel.SUSPICIOUS);
-		fsdf_draconis.setRelationship(Factions.PERSEAN, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.TRITACHYON, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE);
-		fsdf_draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE);
-		fsdf_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.SUSPICIOUS);
-		fsdf_draconis.setRelationship(Factions.DIKTAT, RepLevel.NEUTRAL);
-		fsdf_draconis.setRelationship(Factions.PLAYER, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.HEGEMONY, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.PERSEAN, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.TRITACHYON, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE);
+		XLII_draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE);
+		XLII_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.DIKTAT, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.PLAYER, RepLevel.NEUTRAL);
     }
 }

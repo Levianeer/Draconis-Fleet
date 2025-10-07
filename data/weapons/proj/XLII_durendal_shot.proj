@@ -1,0 +1,20 @@
+{
+	"id":"XLII_durendal_shot",
+	"specClass":"projectile",
+	"spawnType":"BALLISTIC",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_MassDamageOnHit",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"hitGlowRadius":10,
+	"length":14.0,
+	"width":3.0,
+	"fadeTime":0.20,
+	"fringeColor":[255,100,100,255],
+	"coreColor":[255,100,100,255],
+	"glowRadius":5,
+	"textureScrollSpeed":64.0,
+	"pixelsPerTexel":5.0,
+	"passThroughMissiles":true,
+	"passThroughFighters":true,
+	"bulletSprite":"graphics/missiles/XLII_shell_mac.png"
+}

@@ -1,0 +1,85 @@
+{
+    "displayName": "Support",
+    "fluxCapacitors": 0,
+    "fluxVents": 40,
+    "goalVariant": true,
+    "hullId": "XLII_alwaid",
+    "hullMods": [
+        "targetingunit",
+        "missleracks"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_alwaid_Support",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "hydra",
+                "WS0014": "hydra"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0011": "breachpod",
+                "WS0012": "breachpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "XLII_halberd",
+                "WS0004": "XLII_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0025": "XLII_mangonel",
+                "WS0026": "XLII_twinspear"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "hveldriver",
+                "WS0006": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
+                "WS0007": "XLII_estocflak",
+                "WS0008": "XLII_estocflak",
+                "WS0027": "XLII_razorflak",
+                "WS0029": "XLII_estocflak",
+                "WS0030": "vulcan",
+                "WS0031": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0009": "XLII_swordbreaker",
+                "WS0010": "XLII_swordbreaker",
+                "WS0028": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_tianyi_wing",
+        "XLII_tianyi_wing",
+        "XLII_aldibain_wing",
+        "XLII_aldibain_wing"
+    ]
+}

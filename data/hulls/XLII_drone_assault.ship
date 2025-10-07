@@ -1,0 +1,77 @@
+{
+  "hullName": "Assault Drone",
+  "hullId": "XLII_drone_assault",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/drones/XLII_drone_assault.png",
+  "style": "DRACONIS",
+  "height": 40,
+  "width": 22,
+  "center": [11, 17],
+  "collisionRadius": 29,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 26.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "no_weapon_flux"
+  ],
+  "builtInWeapons": {
+    "WS0001": "blinker_red",
+    "WS0002": "blinker_green",
+    "WS0003": "XLII_drone_assault_cover"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-13.5, 3.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-13.5, -3.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [4, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "UNIVERSAL",
+      "mount": "HIDDEN",
+      "arc": 330,
+      "angle": 0,
+      "locations": [4, -0],
+      "renderOrderMod": -10000000
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-15, -0],
+      "length": 56,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 16,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -7, -7,
+    -7, 8,
+    -15, 0
+  ]
+}

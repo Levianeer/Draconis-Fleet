@@ -1,0 +1,27 @@
+{
+	"id":"XLII_razorflak",
+	"specClass":"projectile",
+	"type":"BALLISTIC",
+	"size":"MEDIUM",
+	"turretSprite":"graphics/weapons/mk_20/XLII_razorflak_turret_recoil_00.png",
+	"hardpointSprite":"graphics/weapons/mk_20/XLII_razorflak_hardpoint_recoil_00.png",
+	"turretOffsets":[22,0],
+	"turretAngleOffsets":[0],
+	"hardpointOffsets":[28.5,0],
+	"hardpointAngleOffsets":[0],
+	"barrelMode":"ALTERNATING",
+	"animationType":"MUZZLE_FLASH",
+	"numFrames":4,
+	"frameRate":24,
+	"muzzleFlashSpec":{
+					"length":12,
+					"spread":6,
+					"particleSizeMin":9,
+					"particleSizeRange":9,
+					"particleDuration":0.125,
+					"particleCount":12,
+					"particleColor":[255,140,125,200]
+					},
+	"projectileSpecId":"XLII_razorflak_shot",
+	"fireSoundTwo":"XLII_razorflak_fire"
+}
