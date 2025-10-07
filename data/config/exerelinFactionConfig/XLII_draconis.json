@@ -1,0 +1,84 @@
+{
+    "playableFaction":true,
+    "corvusCompatible":true,
+
+    "rebelFleetSuffix":"Treasonists",
+
+    "directoryUseShortName":true,
+    
+    "morality":"amoral",
+
+    "diplomacyTraits": ["irredentist","foreverwar","paranoid","devious","hates_ai"], # AI!? THAT SHIT IS MINE!!
+
+	"alignments":{"corporate":-0.5,"technocratic":1.0,"militarist":1.0,"diplomatic":0.0,"ideological":-0.5},
+
+    "colonyExpeditionChance":1.25, # One system is just never enough
+    "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
+
+    "groundBattleSettings":{
+        "moraleDamageTakenMult":0.85,
+    },
+
+    "strategyPriorityMults":{
+        "draconisAICoreTarget":2.0,
+    },
+
+    "asteroidMiningFleetName":"Mining Flotilla",
+    "responseFleetName":"Quick Reaction Force",
+    "defenceFleetName":"Defense Fleet",
+    "invasionFleetName":"Invasion Fleet",
+    "invasionSupportFleetName":"Support Fleet",
+
+    "factionIdForHqResponse":"XLII_fortysecond",
+
+	"vengeanceFleetSizeMult":3,
+    "vengeanceLevelNames":["Black Ops","Hunter-Killer","Special Task Force"],
+    "vengeanceFleetNames":["Black Ops","Hunter-Killer","Special Task Force"],
+    "vengeanceFleetNamesSingle":["a Black Ops Fleet","a Hunter-Killer Fleet","a Special Task Force"],
+
+    "specialForcesNamerClass":"exerelin.campaign.intel.specialforces.namer.PlanetNamer",
+    "specialForcesMaxFleets":3,
+    "specialForcesPointMult":1.5,
+	"specialForcesSizeMult":1.5,
+
+    "startShipsSolo":[
+        ["XLII_thuban_Standard"],
+        ["XLII_alruba_Standard"]
+        ],
+        
+    "startShipsCombatSmall":[
+        ["XLII_thuban_Standard","XLII_rastaban_Standard"],
+        ["XLII_alruba_Standard","XLII_errakis_Standard"]
+        ],
+
+    "startShipsCombatLarge":[
+        ["XLII_thuban_Standard","XLII_rastaban_Standard","XLII_eltanin_Standard"],
+        ["XLII_alruba_Standard","XLII_errakis_Standard","XLII_juni_Standard"]
+        ],
+
+    "startShipsCarrierSmall":[
+        ["XLII_thuban_Standard", "XLII_shaobi_Standard"],
+        ["XLII_alruba_Standard", "XLII_shaobi_Standard"]
+        ],
+
+    "startSpecialItems":[
+        [["XLII_package", ""]]
+    ],
+
+    "defenceStations":[
+        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]}
+    ],
+    
+    "industrySeeds":[
+        {"id":"orbitalworks", "mult":0.1},
+        {"id":"militarybase", "mult":0.1}
+    ],
+
+    "bonusSeeds":[
+        {"id":"nanoforge_corrupted", "count":1},
+        {"id":"aiCore_station", "count":2, "mult":0.2},
+        {"id":"aiCore_military", "mult":0.4},
+        {"id":"aiCore_heavyindustry", "count":1},
+        {"id":"aiCore_any", "mult":1.5}
+    ]
+}

@@ -1,13 +1,16 @@
+Version 0.3.5
+- Added some new mechanics to the Sunsetter bounty fight.
+
 Version 0.3.4
 - Introduced the Kuma-class capital ship.
 - Added the Breach Jammer ship system to the Juni-class.
 - Several weapons have been given a "DoT" effect, instead of their old armour stripping effect. (See Manongel Gun Launcher)
 - Added more descriptions.
-- Add/Changed ship variants.
+- Added/Changed ship variants.
 - Improved ship system AI; they should work a lot better now.
 - Removed deprecated weapon effect scripts.
 - Balancing changes to built-in hullmods.
-- Adjusted Sunsetter bountry fight.
+- Adjusted Sunsetter bounty fight.
 - Adjusted faction configs. Again. He can't keep getting away with it!
 - And more...
 

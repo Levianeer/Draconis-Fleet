@@ -1,33 +1,146 @@
 {
 	"designTypeColors":{
 	"Draconis":[130,157,209,255],
+	"XLII Battlegroup":[22,28,39,255],
 	},
 	
+	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
+
+	# ========================================
+	# DRACONIS FLEET HOSTILE ACTIVITY SETTINGS
+	# ========================================
+
+	# --- General Settings ---
+	"draconisMaxFleets": 12,							# Max number of fleets in a single system	#	Default : 12
+	"draconisExpeditionEventFrequency": 10.0,			# Event trigger frequency	#	Default : 10
+
+	# --- Awarded Bonus Settings ---
+	"draconisArmamentsExportBonus": 0.25,				# Production bonus percentage (25% = 0.25)	#	Default : 0.25
+	"draconisDefeatProgressReduction": -15,				# Progress reduction when defeated	#	Default : -15
+
+	# --- Reputation & Commission ---
+	"draconisReputationThreshold": 1.0,					# Required reputation to avoid hostilities	#	Default : 1.0
+
+	# --- Patrol Fleet Settings ---
+	"draconisPatrolDifficultyBase": 4.0,				# Base difficulty for patrol fleets	#	Default : 4.0
+	"draconisPatrolDifficultyMult": 4.0,				# Multiplier for market presence (difficulty = base + presence * mult)	#	Default : 4.0
+
+	# --- Expedition Timing ---
+	"draconisExpeditionPrepDaysMin": 14.0,				# Minimum preparation days before launch	#	Default : 14.0
+	"draconisExpeditionPrepDaysVariance": 14.0,			# Random variance in prep days (0 to variance)	#	Default : 14.0
+	"draconisExpeditionPayloadDaysMin": 27.0,			# Minimum travel/payload days	#	Default : 27.0
+	"draconisExpeditionPayloadDaysVariance": 7.0,		# Random variance in payload days	#	Default : 7.0
+
+	# --- Expedition Fleet Strength ---
+	"draconisExpeditionDifficultyBase": 15.0,			# Base difficulty multiplier	#	Default : 15.0
+	"draconisExpeditionDifficultyMinFactor": 0.6,		# Minimum difficulty factor (70% of base)	#	Default : 0.6
+	"draconisExpeditionDifficultyMaxFactor": 0.4,		# Additional scaling with market presence (up to 50% more)	#	Default : 0.4
+	"draconisExpeditionMinTotalDifficulty": 15.0,		# Minimum total difficulty (won't fire below this)	#	Default : 15.0
+	"draconisExpeditionMaxTotalDifficulty": 100,		# Maximum total difficulty cap	#	Default : 100
+	"draconisExpeditionLeadFleetSize": 10,				# Lead fleet difficulty/size	#	Default : 10
+	"draconisExpeditionFleetSizeMin": 6,				# Min difficulty for additional fleets	#	Default : 6
+	"draconisExpeditionFleetSizeMax": 12,				# Max difficulty for additional fleets	#	Default : 12
+
+	# --- Competition Thresholds ---
+	"draconisMinCompetitorProduction": 4.0,				# Min heavy armaments production to trigger competition	#	Default : 4.0
+	"draconisMinCompetitorMarketSize": 4.0,				# Min market size to be considered a competitor	#	Default : 4.0
+	"draconisProgressPerUnitProdMult": 3.5,				# Progress increase per unit produced	#	Default : 3.5
+	"draconisMagnitudePerUnitProduction": 1.0,			# Magnitude contribution per unit in system	#	Default : 1.0
+	"draconisMaxMagnitude": 3.0,						# Maximum magnitude cap per system	#	Default : 3.0
+
+	# ========================================
+	# DRACONIS FLEET AI CCORE THEFT SETTINGS
+	# ========================================
+
+  "draconisAICoreTargeting": { # For Nexerelin
+		"enabled": true,
+		"scanIntervalDays": 15,
+		"intelDecayDays": 60,
+		"minMarketSize": 4,
+		"vengeancePoints": {
+			"alphaCore": 15,
+			"betaCore": 10,
+			"gammaCore": 5
+		},
+		"stabilityPenalty": 1,
+		"groundDefensePenalty": 0.15
+	},
+
+	"draconisAICoreTheft": { # Configuration for Draconis AI core theft system
+		"factionCoreChances": { # Chance to find/steal cores from factions that should have them lore-wise
+			"tritachyon": { # Tri-Tachyon: High-tech faction, likely to have AI cores
+				"alphaChance": 0.15,
+				"betaChance": 0.35,
+				"gammaChance": 0.50,
+				"minMarketSize": 5
+			},
+			"hegemony": { # Hegemony: Anti-AI but might have captured/confiscated cores
+				"alphaChance": 0.05,
+				"betaChance": 0.20,
+				"gammaChance": 0.40,
+				"minMarketSize": 6
+			},
+			"persean": { # Persean League: Moderate tech level
+				"alphaChance": 0.05,
+				"betaChance": 0.15,
+				"gammaChance": 0.35,
+				"minMarketSize": 5
+			},
+			"diktat": { # Sindrian Diktat: Wealthy, likely to have some cores
+				"alphaChance": 0.08,
+				"betaChance": 0.20,
+				"gammaChance": 0.40,
+				"minMarketSize": 5
+			},
+			"independent": { # Independent: Variable, some might have cores
+				"alphaChance": 0.02,
+				"betaChance": 0.10,
+				"gammaChance": 0.25,
+				"minMarketSize": 5
+			},
+			"player": { # Player always uses actual installed cores, never fallback
+				"alphaChance": 0.0,
+				"betaChance": 0.0,
+				"gammaChance": 0.0,
+				"minMarketSize": 99
+				}
+			},
+		"fallbackBehavior": { # Max cores to generate if none found; prefer real cores if available
+			"maxCoresPerRaid": 3,
+			"preferActualCores": true
+		},
+		"stolenCoreDestination": { # Larger Draconis markets are more likely to receive stolen cores
+			"preferLargeMarkets": true,
+			"marketSizeWeight": 2.0
+		}
+	},
+
 	"graphics":{
+		"intel":{
+			"XLII_ai_found":"graphics/icons/intel/XLII_ai_found.png",
+		},
 		"misc":{
-			"draconis_luna_icon":"graphics/icons/mod_icon.png",
+			"draconis_luna_icon":"graphics/hullmods/crest_draconis.png",
 		},
-
 		"blueprint_packages":{
-			"fsdf_package":"graphics/icons/cargo/fsdf_package_bp.png"
+			"XLII_package":"graphics/icons/cargo/XLII_package_bp.png",
+			"XLII_FSDF_package":"graphics/icons/cargo/XLII_FSDF_package_bp.png"
 		},
-
 		"fx":{
-			"fsdf_jammer_ring":"graphics/fx/fsdf_jammer_ring.png",
-			"fsdf_jammer_ring_alt":"graphics/fx/fsdf_jammer_ring_alt.png",
-			"fsdf_blur_contrail":"graphics/fx/fsdf_blur_contrail.png",
-			"fsdf_shock_contrail":"graphics/fx/fsdf_shock_contrail.png"
+			"XLII_jammer_ring":"graphics/fx/XLII_jammer_ring.png",
+			"XLII_jammer_ring_alt":"graphics/fx/XLII_jammer_ring_alt.png",
+			"XLII_blur_contrail":"graphics/fx/XLII_blur_contrail.png",
+			"XLII_shock_contrail":"graphics/fx/XLII_shock_contrail.png"
 		},
-
 		"planets":{
-			"fsdf_itoron":"graphics/mod/planets/fsdf_itoron.jpg",
-			"fsdf_athebyne":"graphics/mod/planets/fsdf_athebyne.jpg",
-			"fsdf_kori":"graphics/mod/planets/fsdf_kori.jpg",
-			"fsdf_vorium":"graphics/mod/planets/fsdf_vorium.jpg"
+			"XLII_itoron":"graphics/mod/planets/XLII_itoron.jpg",
+			"XLII_athebyne":"graphics/mod/planets/XLII_athebyne.jpg",
+			"XLII_kori":"graphics/mod/planets/XLII_kori.jpg",
+			"XLII_vorium":"graphics/mod/planets/XLII_vorium.jpg"
 		},
-
 		"characters":{
-			"fsdf_sigma_octantis":"graphics/portraits/characters/fsdf_sigma_octantis.png",
-		},
+			"XLII_sigma_octantis":"graphics/portraits/characters/XLII_sigma_octantis.png",
+			"XLII_unknown":"graphics/portraits/characters/XLII_unknown.png",
+		}
 	},
 }

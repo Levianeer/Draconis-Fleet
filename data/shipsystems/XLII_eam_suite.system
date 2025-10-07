@@ -1,0 +1,36 @@
+{
+	"id":"XLII_eam_suite",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_EAM_SuiteAI",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_EAM_SuiteStats",
+
+	"jitterUnderColor":[255,165,90,155],
+	"jitterUnderCopies":10,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":7,
+	"jitterUnderRangeRadiusFraction":0,
+	
+	"jitterColor":[255,165,90,55],
+	"jitterCopies":2,
+	"jitterMinRange":0,
+	"jitterRange":5,
+	"jitterRangeRadiusFraction":0,
+	
+	"soundFilterType":"LOWPASS",
+	"soundFilterGain":0.9,
+	"soundFilterGainHF":0.1,
+
+	"fadeActivationSoundOnChargedown":true,
+	"useSound":"system_extraction_protocol",
+	"deactivateSound":"system_extraction_protocol",
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	"aiHints":{
+		"threatRange":1500,
+		"threatAmount":2,
+		"threatAngle":0,
+		"threatArc":360,
+	}
+}

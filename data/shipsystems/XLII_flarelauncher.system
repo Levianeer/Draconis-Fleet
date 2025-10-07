@@ -1,0 +1,8 @@
+{
+	"id":"XLII_flarelauncher",
+	"type":"WEAPON",
+	"aiType":"FLARE",
+	
+	"weaponDataId":"XLII_flarelauncher",
+	"outOfUsesSound":"engine_disabled",
+}

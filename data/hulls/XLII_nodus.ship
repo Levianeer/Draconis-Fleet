@@ -1,0 +1,73 @@
+{
+  "hullName": "Nodus",
+  "hullId": "XLII_nodus",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/drones/XLII_nodus.png",
+  "style": "DRACONIS",
+  "height": 56,
+  "width": 40,
+  "center": [20, 22.5],
+  "collisionRadius": 46,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 40,
+  "viewOffset": 0,
+  "builtInMods": [
+    "no_weapon_flux",
+    "pointdefenseai"
+  ],
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "MEDIUM",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 20,
+      "angle": 0,
+      "locations": [0, -0]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 5,
+      "angle": 180,
+      "locations": [-9, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 305,
+      "angle": 0,
+      "locations": [30.5, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-20, 7.5],
+      "length": 42,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 10,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-20, -7.5],
+      "length": 42,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 10,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -16.5, -19,
+    -19.5, -0,
+    -16.5, 19,
+    32.5, -0
+  ]
+}

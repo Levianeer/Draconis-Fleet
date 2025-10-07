@@ -1,0 +1,233 @@
+{
+	"id":"XLII_fortysecond",
+
+	"illegalCommodities":["drugs","organs","ai_cores",],
+	
+	"color":[50,60,80,255],
+	"secondaryUIColor":[180,85,45,255],
+        "secondarySegments":2,
+	
+	"baseUIColor":[95,115,140,255],
+		"darkUIColor":[50,60,80,255],
+		"gridUIColor":[95,115,140,50],
+		"brightUIColor":[180,85,45,255],
+	
+	"showInIntelTab":false,
+	
+	"displayName":"XLII Battlegroup",
+		"displayNameWithArticle":"the XLII Battlegroup",
+		
+	"displayNameLong":"Draconis XLII Defence Battlegroup",
+		"displayNameLongWithArticle":"the Draconis XLII Defence Battlegroup",
+	
+	"logo":"graphics/factions/draconis_2.png",
+		"crest":"graphics/factions/crest_draconis_2.png",
+	
+	"shipNamePrefix":"DNS",
+	
+	"shipNameSources":{
+	"DRACONIS":10,
+	},
+	
+	"names":{
+		"old english":10,
+	},
+	
+	# variantOverrides restricts hulls to listed variants and adjusts their probability
+	"variantOverrides":{
+	},
+	
+	# multiplier for how often hulls show up in the faction's fleets
+	"hullFrequency":{
+		"tags":{
+		},
+		"hulls":{
+		},
+	},
+	
+	# ships the faction gets access to when importing S&W out-of-faction
+	# defaults to same as knownShips when empty
+	"shipsWhenImporting":{
+		"tags":[],
+		"hulls":[
+		],
+	},
+	
+	"knownShips":{
+		"tags":[],
+		"hulls":[
+			"XLII_alruba_FSDF",
+			"XLII_shaobi_FSDF",
+			"XLII_errakis_FSDF",
+			"XLII_juza_FSDF",
+			"XLII_alwaid_FSDF",
+			"hermes",
+			"dram",
+			"mercury",
+			"crig"
+		],
+	},
+	
+	# listing ships here will make the faction mostly use them even if other hulls become available
+	"priorityShips":{
+		"tags":[],
+		"hulls":[
+			"XLII_alruba_FSDF",
+			"XLII_shaobi_FSDF",
+			"XLII_errakis_FSDF",
+			"XLII_juza_FSDF",
+			"XLII_alwaid_FSDF",
+			"hermes",
+			"dram",
+			"mercury",
+			"crig"
+		],
+	},
+	
+	"knownFighters":{
+		"tags":["XLII_package_bp"],
+		"fighters":[
+		],
+	},
+	
+	"priorityFighters":{
+		"tags":["XLII_package_bp"],
+		"fighters":[
+		],
+	},
+	
+	"knownWeapons":{
+		"tags":["missile_bp"],
+		"weapons":[
+		],
+	},
+	
+	"priorityWeapons":{
+		"tags":["XLII_package_bp"],
+		"weapons":[
+		],
+	},
+	
+	"knownHullMods":{
+		"tags":["standard", "XLII_package_bp"],
+		"hullMods":[
+		],
+	},
+	
+	"weaponSellFrequency":{
+	},
+	
+	"hullmodSellFrequency":{
+	},
+	
+	"factionDoctrine":{
+		"warships":2,
+		"carriers":4, # Carrier Strike Group Doctrine >:3
+		"phaseShips":1,
+
+		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably ""fair""
+		"shipQuality":1,
+		"numShips":1,
+
+		"shipSize":5,
+
+		"aggression":2,
+		
+		"combatFreighterProbability":0,      				# instead of some portion of the freighters in a fleet
+		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup
+		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
+		"autofitRandomizeProbability":0,
+		"strictComposition":true, # warships/carriers/phase at 1 will be treated as 0, also no random factor
+		
+		"officerSkillsShuffleProbability":0,
+		"officerSkills":[
+			"combat_endurance",
+			"point_defense",
+			"missile_specialization"
+		],
+
+		"commanderSkillsShuffleProbability":0,
+		"commanderSkills":[
+			"officer_training",
+			"hull_restoration",
+			"cybernetic_augmentation"
+		]
+	},
+	
+	"internalComms":"draconis_internal",
+	
+	"barSound":"bar_ambience",
+	
+	"voices":{
+		"LOW":{
+			"spacer":5,
+			"soldier":5,
+			"villain":5
+		},
+		"MEDIUM":{
+			"spacer":5,
+			"soldier":10,
+			"villain":10
+		},
+		"HIGH":{
+			"spacer":1,
+			"soldier":5,
+			"villain":20
+		}
+	},
+	
+	"portraits":{
+		"standard_male":[
+			"graphics/portraits/portrait_corporate06.png",
+			"graphics/portraits/portrait_hegemony06.png",
+			"graphics/portraits/portrait_league07.png",
+			"graphics/portraits/portrait_mercenary08.png",
+			
+			"graphics/portraits/portrait34.png",
+			"graphics/portraits/portrait43.png",
+			"graphics/portraits/portrait44.png",
+			"graphics/portraits/portrait45.png",
+			"graphics/portraits/portrait46.png",
+			"graphics/portraits/portrait47.png",
+			"graphics/portraits/portrait49.png",
+		],
+		"standard_female":[
+			"graphics/portraits/portrait_corporate06.png",
+			"graphics/portraits/portrait_hegemony06.png",
+			"graphics/portraits/portrait_league07.png",
+			"graphics/portraits/portrait_mercenary08.png",
+			
+			"graphics/portraits/portrait34.png",
+			"graphics/portraits/portrait43.png",
+			"graphics/portraits/portrait44.png",
+			"graphics/portraits/portrait45.png",
+			"graphics/portraits/portrait46.png",
+			"graphics/portraits/portrait47.png",
+			"graphics/portraits/portrait49.png",
+		],
+	},
+	
+	"custom":{
+		"allowsTransponderOffTrade":true,
+		"postsNoBounties":true,
+		"engageWhenEvenStrength":true,
+		"offersCommissions":true,
+		"engagesInHostilities":true,
+		"buysAICores":true,
+		"AICoreValueMult":1,
+		"AICoreRepMult":1,
+		"buysSurveyData":true,
+		"hostilityImpactOnGrowth":true,
+		"caresAboutAtrocities":true,
+		"punitiveExpeditionData":{
+			"vsCompetitors":true,
+			"vsFreePort":false,
+			"canBombard":true,
+			"territorial":true,
+		},
+		"simulatorData":{
+			"showInSimulatorDevModeOnly":true,
+			"includeCivShipsWithFaction":false,
+		}
+	},
+}

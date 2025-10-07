@@ -1,0 +1,31 @@
+{
+	"id":"XLII_ecm_suite_Fighter",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_ECM_SuiteAI",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_ECM_SuiteStats",
+
+	"jitterUnderColor":[90,165,255,155],
+	"jitterUnderCopies":10,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":7,
+	"jitterUnderRangeRadiusFraction":0,
+	
+	"jitterColor":[90,165,255,55],
+	"jitterCopies":2,
+	"jitterMinRange":0,
+	"jitterRange":5,
+	"jitterRangeRadiusFraction":0,
+	
+	"soundFilterType":"LOWPASS",
+	"soundFilterGain":0.75,
+	"soundFilterGainHF":0.25,
+
+	"fadeActivationSoundOnChargedown":true,
+	"useSound":"XLII_system_ecm_suite_activate",
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	"aiHints":{
+	}
+}

@@ -2,37 +2,42 @@
 	# should be a copy of "combatSmall", minus variants that are annoying to fight in low numbers
 	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
 	"combatSmallForSmallFleet":{
-		"fsdf_thuban_Elite":5,
-		"fsdf_alruba_Elite":10,
+		"XLII_thuban_Elite":1,
+		"XLII_alruba_Elite":10,
+		"XLII_alruba_Elite_FSDF":1,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"fsdf_thuban_Elite":10,
-		"fsdf_alruba_Elite":5,
+		"XLII_thuban_Elite":10,
+		"XLII_alruba_Elite":1,
+		"XLII_alruba_Elite_FSDF":1,
 		
 		"fallback":{"combatMedium":0.5},
 	},
 	"combatMedium":{
-		"fsdf_rastaban_Elite":10,
-		"fsdf_errakis_Elite":10,
-		"fsdf_giausar_Elite":10,
+		"XLII_rastaban_Elite":10,
+		"XLII_errakis_Elite":10,
+		"XLII_errakis_Elite_FSDF":1,
+		"XLII_giausar_Elite":10,
 
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"fsdf_eltanin_Elite":10,
-		"fsdf_eltanin_Strike":10,
-		"fsdf_juza_Elite":10,
-		"fsdf_juza_Strike":10,
-		"fsdf_juni_Elite":10,
-		"fsdf_juni_Support":10,
+		"XLII_eltanin_Elite":10,
+		"XLII_eltanin_Strike":10,
+		"XLII_juza_Elite":10,
+		"XLII_juza_Strike":10,
+		"XLII_juza_Elite_FSDF":1,
+		"XLII_juza_Strike_FSDF":1,
+		"XLII_juni_Elite":10,
+		"XLII_juni_Support":10,
 		
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"fsdf_altais_Elite":10,
-		"fsdf_kuma_Elite":5,
+		"XLII_altais_Elite":10,
+		"XLII_kuma_Elite":1,
 
 		"fallback":{"combatLarge":1},
 	},
@@ -42,14 +47,21 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"fsdf_shaobi_Elite":10,
+		"XLII_shaobi_Elite":10,
+		"XLII_shaobi_Strike":10,
+		"XLII_shaobi_Elite_FSDF":1,
+		"XLII_shaobi_Strike_FSDF":1,
 
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},
 	},
 	"carrierLarge":{
-		"fsdf_alwaid_Elite":10,
-		"fsdf_alwaid_Support":1,
+		"XLII_alwaid_Elite":10,
+		"XLII_alwaid_Strike":10,
+		"XLII_alwaid_Support":10,
+		"XLII_alwaid_Elite_FSDF":1,
+		"XLII_alwaid_Strike_FSDF":1,
+		"XLII_alwaid_Support_FSDF":1,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},
@@ -123,7 +135,7 @@
 	
 	# utility ships
 	"tug":{
-		"fsdf_kuma_Elite":10,
+		"XLII_kuma_Elite":10,
 		"fallback":{"utility":1},
 	},
 	"crig":{
@@ -131,6 +143,5 @@
 		"fallback":{"utility":1},
 	},
 	"utility":{
-
 	}
 }

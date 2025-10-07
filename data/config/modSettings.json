@@ -3,16 +3,17 @@
     "weaponBlacklist": [
     ],
 	"suggestedWeaponTags":{
-		"fsdf_swordbreaker":"ForceAF,PD",
-		"fsdf_razorflak":"PrioritisePD,PrioMissile,PrioFighter,PrioDense",
+		"XLII_swordbreaker":"ForceAF,PD",
+		"XLII_razorflak":"PrioritisePD,PrioMissile,PrioFighter,PrioDense",
+		"XLII_estocflak":"PrioritisePD,PrioMissile,PrioFighter,PrioDense",
 
-		"fsdf_particlelance":"PrioMissile,PrioFighter",
-		"fsdf_mangonel":"NoFighters",
-		"fsdf_twinspear":"Opportunist,NoFighters",
+		"XLII_particlelance":"PrioMissile,PrioFighter",
+		"XLII_mangonel":"NoFighters",
+		"XLII_twinspear":"Opportunist,NoFighters",
 
-		"fsdf_durendal":"Opportunist",
-		"fsdf_durendal_mkii":"Opportunist",
-		"fsdf_fragarch":"Opportunist",
+		"XLII_durendal":"Opportunist",
+		"XLII_durendal_mkii":"Opportunist",
+		"XLII_fragarch":"Opportunist",
 		},
 	},
 }

@@ -1,0 +1,22 @@
+{
+  "variantId": "XLII_eldsich_Fighter",
+  "hullId": "XLII_eldsich",
+  "displayName": "Long-Range Bomber",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "XLII_halberd_fighter"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

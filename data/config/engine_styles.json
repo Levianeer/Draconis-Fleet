@@ -14,8 +14,8 @@
 		"engineGlowGlowMult":2,
 		"type":"GLOW", # GLOW or SMOKE
 
-		"glowSprite":"graphics/fx/fsdf_engineglow64.png",
-		"glowOutline":"graphics/fx/fsdf_engineflame64.png",
+		"glowSprite":"graphics/fx/XLII_engineglow64.png",
+		"glowOutline":"graphics/fx/XLII_engineflame64.png",
 		"omegaMode":"true",
 		"glowSizeMult":1,
 		"glowAlternateColor":[50,50,255,255]
@@ -34,8 +34,8 @@
 		"engineGlowGlowMult":1.5,
 		"type":"GLOW", # GLOW or SMOKE
 
-		"glowSprite":"graphics/fx/fsdf_engineglow64.png",
-		"glowOutline":"graphics/fx/fsdf_engineflame64.png",
+		"glowSprite":"graphics/fx/XLII_engineglow64.png",
+		"glowOutline":"graphics/fx/XLII_engineflame64.png",
 		"omegaMode":true,
 		"glowSizeMult":1,
 		"glowAlternateColor":[150,75,50,255],
@@ -56,8 +56,8 @@
 		"engineGlowGlowMult":1.5,
 		"type":"GLOW", # GLOW or SMOKE
 
-		"glowSprite":"graphics/fx/fsdf_engineglow64.png",
-		"glowOutline":"graphics/fx/fsdf_engineflame64.png",
+		"glowSprite":"graphics/fx/XLII_engineglow64.png",
+		"glowOutline":"graphics/fx/XLII_engineflame64.png",
 		"omegaMode":"true",
 		"glowSizeMult":0.75,
 		"glowAlternateColor":[50,50,255,255]

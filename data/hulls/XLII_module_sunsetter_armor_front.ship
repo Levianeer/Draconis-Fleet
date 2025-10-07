@@ -1,0 +1,40 @@
+{
+  "hullName": "Armor Module",
+  "hullId": "XLII_module_sunsetter_armor_front",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/ships/sunsetter/XLII_sunsetter_armor_front.png",
+  "style": "DRACONIS",
+  "height": 171,
+  "width": 78,
+  "center": [39, 87],
+  "collisionRadius": 196,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 176,
+  "viewOffset": 0,
+  "builtInMods": [
+    "reduced_explosion",
+    "always_detaches"
+  ],
+  "weaponSlots": [],
+  "engineSlots": [],
+  "bounds": [
+    83, -8.5,
+    72.5, -15.5,
+    -79.5, -37.5,
+    -75, -25.5,
+    -85.5, -14.5,
+    -58.5, -14.5,
+    -52.5, -10.5,
+    3.5, -9,
+    9.5, 0,
+    3.5, 9,
+    -52.5, 10.5,
+    -58.5, 14.5,
+    -85.5, 14.5,
+    -75, 25.5,
+    -79.5, 37.5,
+    72.5, 15.5,
+    83, 8.5,
+    75.5, 0
+  ]
+}

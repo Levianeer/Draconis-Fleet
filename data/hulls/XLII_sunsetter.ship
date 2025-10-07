@@ -1,0 +1,251 @@
+{
+  "hullName": "Sunsetter",
+  "hullId": "XLII_sunsetter",
+  "hullSize": "CAPITAL_SHIP",
+  "spriteName": "graphics/ships/sunsetter/XLII_sunsetter.png",
+  "style": "DRACONIS",
+  "height": 356,
+  "width": 296,
+  "center": [148, 159],
+  "collisionRadius": 306.5,
+  "shieldCenter": [59, -0],
+  "shieldRadius": 241.5,
+  "viewOffset": 200,
+  "builtInMods": [
+    "XLII_retreatdrive",
+    "distributed_fire_control"
+  ],
+  "weaponSlots": [
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "STATION_MODULE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 0,
+      "locations": [19.5, 109],
+      "renderOrderMod": 1000
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "STATION_MODULE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 0,
+      "locations": [19.5, -109],
+      "renderOrderMod": 1000
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "STATION_MODULE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 0,
+      "locations": [178, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "LARGE",
+      "type": "UNIVERSAL",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [114.5, 46],
+      "renderOrderMod": -1000
+    },
+    {
+      "id": "WS0003",
+      "size": "LARGE",
+      "type": "UNIVERSAL",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -0,
+      "locations": [114.5, -46],
+      "renderOrderMod": -1000
+    },
+    {
+      "id": "WS0004",
+      "size": "MEDIUM",
+      "type": "COMPOSITE",
+      "mount": "TURRET",
+      "arc": 150,
+      "angle": 0,
+      "locations": [90, -0]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 160,
+      "angle": 45,
+      "locations": [71, 52]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 160,
+      "angle": -45,
+      "locations": [71, -52]
+    },
+    {
+      "id": "WS0007",
+      "size": "MEDIUM",
+      "type": "COMPOSITE",
+      "mount": "TURRET",
+      "arc": 145,
+      "angle": 45,
+      "locations": [33, 67]
+    },
+    {
+      "id": "WS0008",
+      "size": "MEDIUM",
+      "type": "COMPOSITE",
+      "mount": "TURRET",
+      "arc": 145,
+      "angle": -45,
+      "locations": [33, -67]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 140,
+      "angle": 45,
+      "locations": [-4, 79]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 140,
+      "angle": -45,
+      "locations": [-4, -79]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 145,
+      "locations": [-13, 28]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": -145,
+      "locations": [-13, -28]
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 190,
+      "angle": 0,
+      "locations": [116, -0]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 220,
+      "angle": 0,
+      "locations": [146, -0]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "STATION_MODULE",
+      "mount": "TURRET",
+      "arc": 90,
+      "angle": 0,
+      "locations": [-82, -0]
+    },
+    {
+      "id": "WS0018",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 220,
+      "angle": 0,
+      "locations": [176, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-68, 24],
+      "length": 164,
+      "width": 30,
+      "angle": 180,
+      "contrailSize": 64,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    },
+    {
+      "location": [-68, -24],
+      "length": 164,
+      "width": 30,
+      "angle": -180,
+      "contrailSize": 64,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    }
+  ],
+  "bounds": [
+    120, -11,
+    86, -15,
+    98.5, -25,
+    98.5, -66,
+    21.5, -96.5,
+    -5.5, -124.5,
+    -11.5, -120.5,
+    -1, -106,
+    -15, -102.5,
+    -48, -104.5,
+    -57.5, -99,
+    -52, -94,
+    -76, -94,
+    -85.5, -84,
+    -61, -67,
+    -14.5, -60.5,
+    -4, -40,
+    -53, -40.5,
+    -71.5, -9.5,
+    -99.5, -9.5,
+    -104.5, 0,
+    -99.5, 9.5,
+    -71.5, 9.5,
+    -53, 40.5,
+    -4, 40,
+    -14.5, 60.5,
+    -61, 67,
+    -85.5, 84,
+    -76, 94,
+    -52, 94,
+    -57.5, 99,
+    -48, 104.5,
+    -15, 102.5,
+    -1, 106,
+    -11.5, 120.5,
+    -5.5, 124.5,
+    21.5, 96.5,
+    98.5, 66,
+    98.5, 25,
+    86, 15,
+    120, 11,
+    186.5, 6,
+    186.5, -6
+  ]
+}

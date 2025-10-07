@@ -1,0 +1,282 @@
+{
+	"id":"XLII_draconis",
+	
+	"illegalCommodities":["drugs","organs","ai_cores",],
+	
+	"color":[50,60,80,255],
+	"secondaryUIColor":[180,85,45,255],
+        "secondarySegments":2,
+	
+	"baseUIColor":[95,115,140,255],
+		"darkUIColor":[50,60,80,255],
+		"gridUIColor":[95,115,140,50],
+		"brightUIColor":[180,85,45,255],
+	
+	"showInIntelTab":true,
+	
+	"displayName":"Draconis Alliance",
+		"displayNameWithArticle":"the Draconis Alliance",
+		
+	"displayNameLong":"Draconis Defence Alliance",
+		"displayNameLongWithArticle":"the Draconis Defence Alliance",
+	
+	"logo":"graphics/factions/draconis.png",
+		"crest":"graphics/factions/crest_draconis.png",
+		
+	"shipNamePrefix":"DNS",
+	
+	"shipNameSources":{
+	"DRACONIS":10,
+	},
+	
+	"names":{
+		"old english":10,
+	},
+	
+	# variantOverrides restricts hulls to listed variants and adjusts their probability
+	"variantOverrides":{
+	},
+	
+	# multiplier for how often hulls show up in the faction's fleets
+	"hullFrequency":{
+		"tags":{
+		},
+		"hulls":{
+		},
+	},
+	
+	# ships the faction gets access to when importing S&W out-of-faction
+	# defaults to same as knownShips when empty
+	"shipsWhenImporting":{
+		"tags":[],
+		"hulls":[
+		],
+	},
+	
+	"knownShips":{
+		"tags":["XLII_package_bp"],
+		"hulls":[
+			"hermes",
+			"dram",
+			"mercury",
+			"crig"
+		],
+	},
+	
+	# listing ships here will make the faction mostly use them even if other hulls become available
+	"priorityShips":{
+		"tags":["XLII_package_bp"],
+		"hulls":[
+			"XLII_alruba",
+			"XLII_rastaban",
+			"XLII_shaobi",
+			"XLII_eltanin",
+			"XLII_juza",
+			"XLII_altais",
+			"hermes",
+			"dram",
+			"mercury",
+			"crig"
+		],
+	},
+	
+	"knownFighters":{
+		"tags":["XLII_package_bp"],
+		"fighters":[
+		],
+	},
+	
+	"priorityFighters":{
+		"tags":["XLII_package_bp"],
+		"fighters":[
+		],
+	},
+	
+	"knownWeapons":{
+		"tags":["missile_bp", "XLII_package_bp"],
+		"weapons":[
+		],
+	},
+	
+	"priorityWeapons":{
+		"tags":["XLII_package_bp"],
+		"weapons":[
+		],
+	},
+	
+	"knownHullMods":{
+		"tags":["standard", "XLII_package_bp"],
+		"hullMods":[
+		],
+	},
+	
+	"weaponSellFrequency":{
+		"XLII_wolfpack_srm":5,
+		"XLII_razor_flak":5,
+		"XLII_rapier":5,
+		"XLII_pb_lance":5,
+		"XLII_estocflak":5,
+		"XLII_twinspear":5,
+		"XLII_strilka":5,
+		"XLII_halberd":5,
+		"XLII_meteor_lrm":5,
+	},
+	
+	"hullmodSellFrequency":{
+		"missleracks":5,
+		"eccm":5,
+	},
+	
+	"factionDoctrine":{
+		"warships":4,
+		"carriers":2,
+		"phaseShips":1,
+
+		"officerQuality":2,
+		"shipQuality":2,
+		"numShips":3,
+
+		"shipSize":4, # Cruiser Doctrine >:3
+
+		"aggression":4,
+		
+		"combatFreighterProbability":0.1,      				# instead of some portion of the freighters in a fleet
+		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup
+		"combatFreighterCombatUseFractionWhenPriority":0,   # as part of normal combat lineup, when marked as priority ship
+		"autofitRandomizeProbability":0.1,
+		"strictComposition":true, # warships/carriers/phase at 1 will be treated as 0, also no random factor
+		
+		"officerSkillsShuffleProbability":0,
+		"officerSkills":[
+			"combat_endurance",
+			"missile_specialization",
+			"target_analysis",
+			"field_modulation",
+			"point_defense"
+		],
+
+		"commanderSkillsShuffleProbability":0,
+		"commanderSkills":[
+			"officer_training",
+			"hull_restoration",
+			"cybernetic_augmentation"
+		]
+	},
+	
+	"music":{
+		"theme":"music_diktat_market_neutral",
+		"market_neutral":"music_diktat_market_neutral",
+		"market_hostile":"music_diktat_market_hostile",
+		"market_friendly":"music_diktat_market_friendly",
+		"encounter_neutral":"music_diktat_encounter_neutral",
+		"encounter_hostile":"music_diktat_encounter_hostile",
+		"encounter_friendly":"music_diktat_encounter_friendly",
+	},
+	
+	"internalComms":"draconis_internal",
+	
+	"barSound":"bar_ambience",
+	
+	"voices":{
+		"LOW":{
+			"spacer":5,
+			"soldier":5,
+			"villain":5
+		},
+		"MEDIUM":{
+			"spacer":5,
+			"soldier":10,
+			"villain":10
+		},
+		"HIGH":{
+			"spacer":1,
+			"soldier":5,
+			"villain":20
+		}
+	},
+	
+	"portraits":{
+		"standard_male":[
+			"graphics/portraits/portrait_corporate06.png",
+			"graphics/portraits/portrait_hegemony06.png",
+			"graphics/portraits/portrait_league07.png",
+			"graphics/portraits/portrait_mercenary08.png",
+			
+			"graphics/portraits/portrait34.png",
+			"graphics/portraits/portrait43.png",
+			"graphics/portraits/portrait44.png",
+			"graphics/portraits/portrait45.png",
+			"graphics/portraits/portrait46.png",
+			"graphics/portraits/portrait47.png",
+			"graphics/portraits/portrait49.png",
+		],
+		"standard_female":[
+			"graphics/portraits/portrait_corporate06.png",
+			"graphics/portraits/portrait_hegemony06.png",
+			"graphics/portraits/portrait_league07.png",
+			"graphics/portraits/portrait_mercenary08.png",
+			
+			"graphics/portraits/portrait34.png",
+			"graphics/portraits/portrait43.png",
+			"graphics/portraits/portrait44.png",
+			"graphics/portraits/portrait45.png",
+			"graphics/portraits/portrait46.png",
+			"graphics/portraits/portrait47.png",
+			"graphics/portraits/portrait49.png",
+		],
+	},
+	
+	"ranks":{
+		"ranks":{
+			"factionLeader":{"name":"Fleet Admiral"},
+		},
+		"posts":{
+			"factionLeader":{"name":"Fleet Admiral"},
+			"patrolCommander":{"name":"Commander"},
+			"fleetCommander":{"name":"Rear Admiral"},
+			"baseCommander":{"name":"Chief of Base Operations"}
+		},
+	},
+	
+	"custom":{
+		"allowsTransponderOffTrade":false,
+		"postsNoBounties":false,
+		"engageWhenEvenStrength":true,
+		"offersCommissions":true,
+		"engagesInHostilities":true,
+		"buysAICores":true,
+		"AICoreValueMult":1,
+		"AICoreRepMult":1,
+		"buysSurveyData":true,
+		"hostilityImpactOnGrowth":true,
+		"caresAboutAtrocities":true,
+		"punitiveExpeditionData":{
+			"vsCompetitors":true,
+			"vsFreePort":false,
+			"canBombard":true,
+			"territorial":true,
+		},
+		"simulatorData":{
+			"showInSimulatorDevModeOnly":true,
+			"includeCivShipsWithFaction":false,
+		}
+	},	
+	
+	"fleetTypeNames":{
+		"trade":"Commerce Fleet",
+		"tradeLiner":"Transit Convoy",
+		"tradeSmuggler":"Shadow Picket",
+		"smallTrader":"Resupply Convoy",
+		
+		"patrolSmall":"Picket Squadron",
+		"patrolMedium":"Patrol Fleet",
+		"patrolLarge":"Battlegroup",
+		
+		"shadowFleet":"Shadow Fleet",
+		
+		"inspectionFleet":"Inspection Fleet",
+		"taskForce":"Task Force",
+		
+		"foodReliefFleet":"Relief Division",
+	}
+}

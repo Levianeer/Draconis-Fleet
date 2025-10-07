@@ -1,0 +1,36 @@
+{
+	"id":"XLII_estocflak_shot",
+	"specClass":"projectile",
+	"spawnType":"BALLISTIC_AS_BEAM",
+	"collisionClass":"RAY",
+	"collisionClassByFighter":"RAY_FIGHTER",
+	"hitGlowRadius":12,
+	"length":30.0,
+	"width":3.3,
+	"fadeTime":0.3,
+	"fringeColor":[255,200,70,225],
+	"coreColor":[255,200,200,180],
+	"glowColor":[155,135,100,75],
+	"textureScrollSpeed":64.0,
+	"pixelsPerTexel":5.0,
+	"bulletSprite":"graphics/missiles/shell_small_yellow.png",
+	"behaviorSpec":{
+        "behavior":"PROXIMITY_FUSE",
+        "range":10,
+        "vsMissileRange":25,
+        "explosionSpec":{
+            "duration":0.15f,
+            "radius":25,
+            "coreRadius":25,
+            "collisionClass":PROJECTILE_FF,
+            "collisionClassByFighter":PROJECTILE_FIGHTER,
+            "particleSizeMin":5.0,
+            "particleSizeRange":3.0,
+            "particleDuration":0.01,
+            "particleCount":25,
+            "particleColor":[165,185,185,155],
+            "explosionColor":[155,125,55,25],
+            "sound":"XLII_explosion_flak"
+        }
+    }
+}

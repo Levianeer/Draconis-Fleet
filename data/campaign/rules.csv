@@ -1,0 +1,103 @@
+id,trigger,conditions,script,text,options,notes
+"#RULESET_NAME Draconis",,,,,,
+,,,,,,
+# Fleet Admiral's Store,,,,,,
+XLII_admiral_init,OpenCDE,"$tag:XLII_fleet_admiral_emil","AddText ""Establishing connection..."" buttonText
+ShowPersonVisual","You transmit the comms ID and wait for the system to establish a connection...","1:init_greeting:Continue",
+XLII_admiral_init_greeting,DialogOptionSelected,"$option == init_greeting","FireBest admiralPickGreeting","The comms link establishes after a longer delay than typical military protocols demand. When the image resolves, it's deliberately degraded—encryption artifacts dance across a humanoid silhouette, facial features reduced to suggestions of shadow and light.",,
+XLII_admiral_init_not_commissioned,admiralPickGreeting,,,"""Captain."" The voice carries the flat authority of someone accustomed to being obeyed. ""Your reputation precedes you, but reputation alone doesn't grant clearance for what we discuss here.""
+
+A pause. You sense him consulting something off-screen.
+
+""If you're serious about serving the Draconis Defence Alliance, our diplomatic corps can arrange a commission. Standard channels. Until then..."" The distorted figure makes a gesture that might be dismissive, might be regretful. ""I'm afraid we have nothing further to discuss.""
+
+The link cuts before you can respond.","1:dismiss:End the transmission.",
+XLII_admiral_init_commissioned,admiralPickGreeting,"XLII_HasDraconisCommission",,"""Commander $playerLastName."" The distorted visage tilts slightly, as if examining you through the compression grain. What might be satisfaction colors the modulated voice. ""We've been watching your work."" A beat. ""Impressed, I should say.""
+
+He leans forward slightly, the motion causing the encryption to ripple and distort. ""The Draconis Defence Alliance rewards competence. More importantly, we recognize when someone possesses the tactical acumen we need for what's coming.""
+
+Your command console chimes softly—an incoming data packet, heavily encrypted.","1:XLII_admiral_init_commissionedTrader:Continue",
+XLII_admiral_init_commissionedTrader,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
+$tag:XLII_fleet_admiral_emil",,"""I'm authorized to offer you something off the books,"" he continues. ""The 42nd's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
+
+A calculated pause. The kind that precedes uncomfortable truths.
+
+""There's a nominal fee—some credits and a minor adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_alruba:I'll purchase a Alruba-class Gunship
+2:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier
+3:buy_errakis:I'll purchase a Errakis-class Missile Destroyer
+4:buy_juza:I'll purchase a Juza-class Heavy Cruiser
+5:buy_shaobi:I'll purchase a Shaobi-class Carrier
+6:decline:Perhaps another time",
+XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Elite_FSDF","""The Alruba-class."" A slight nod of approval. The encrypted silhouette shifts, hands moving across what must be a control interface on his end.
+
+""Versatile platform, although rather dated.""
+
+Your tactical display pings—vessel transfer authorization codes scrolling past, each line authenticated with Alliance cryptographic signatures you've never seen before.
+
+""Initiating transfer now."" His tone remains professional, but you detect something beneath it. Respect, perhaps. Or calculation.
+
+A brief pause as the data finalizes.
+
+""Use it well, Commander. The Alliance invests in those who deliver results."" The emphasis on 'deliver' is subtle but unmistakable. ""We'll be watching.""","1:transaction_complete:Continue",
+XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Elite_FSDF","""The Alwaid."" There's a note of genuine approval in his voice now, cutting through the electronic distortion.
+
+The encrypted figure leans back slightly—satisfaction in the posture, if you're reading it correctly through the compression artifacts.
+
+""Some of our finest work. Developmental timeline stretched three years longer than projected—our oversight committee nearly killed the program twice."" A pause. ""They were wrong to doubt it. You have an eye for capability, Commander.""
+
+Your command console lights up with transfer protocols, authorization cascading through multiple security layers. You catch a glimpse of the ship's classification before it blanks out: EXPERIMENTAL - FIELD EVALUATION.
+
+The faintest pause.
+
+""It's yours. Make our engineers proud.""","1:transaction_complete:Continue",
+XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Elite_FSDF","The distorted figure goes still for a moment—not frozen by technical glitch, but genuine pause. Consideration.
+
+""The Errakis-class."" A measured nod, deliberate. ""Formidable vessel. Requires a formidable commander.""
+
+Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
+
+Another pause, longer. The kind of silence that carries weight.
+
+""Transfer complete."" His voice drops slightly—not threat, but emphasis. ""Make it count, Commander. Ships like this... they have a way of attracting attention. The kind that brings everything into sharp focus.""
+
+You get the sense he's not just talking about enemy attention.
+
+""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
+XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Elite_FSDF","""Ah. The Juza."" Something flickers in his expression—appreciation, perhaps. ""Experimental systems, proven results. You know quality when you see it, Commander."" Brief silence. ""Authorization granted.""","1:transaction_complete:Continue",
+XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Elite_FSDF","""The Shaobi-class."" A hint of satisfaction. ""It's exceeded our projections in every trial. That kind of performance in the right hands?"" A pause. ""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
+XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:dismiss:End transmission",
+XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""Understood."" No judgment colors his tone. If anything, there's a note of patience—the kind that suggests he's dealt with cautious commanders before.
+
+The distorted figure settles back slightly.
+
+""The offer stands. When you're ready—whenever that may be—the authorization remains active in your file."" A beat. ""We don't make these offers lightly, Commander. And we don't make them twice to different people.""
+
+""The Alliance remembers those who serve. And..."" The briefest hesitation. ""Also those who serve well."" His hand moves, beginning the process of closing the connection. ""You know how to reach us.""
+
+The link terminates.","1:dismiss:End transmission",
+XLII_admiral_dismiss,DialogOptionSelected,"$option == dismiss","EndConversation","The transmission ends.",,
+"#END Fleet Admiral's Store",,,,,,
+,,,,,,
+# Generic Faction Greetings,,,,,,
+XLII_greetingFriendlyCommission,OpenCommLink,"$faction.id == XLII_draconis
+$faction.friendlyToPlayer
+XLII_HasDraconisCommission","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""Hail, $playerName. I'm $PersonRank $personName—your service record with the $theFaction Navy is impressive. I've heard some flattering nicknames for you. How can we assist?""",,
+XLII_greetingFriendly,OpenCommLink,"$faction.id == XLII_draconis
+$faction.friendlyToPlayer","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""Transponder's recognized, $playerName. $theFaction has no quarrel with independent operators who've proven themselves reliable."" Their eyes flick to a tactical display. ""State your purpose.""",,
+XLII_greetingNeutral,OpenCommLink,"$faction.id == XLII_draconis
+$faction.neutralToPlayer","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""This is $PersonRank $personName of $theFaction Navy. Your IFF reads neutral. That can change very quickly, Captain, so let's keep this brief and professional.""",,
+XLII_greetingHostileWeaker,OpenCommLink,"$faction.id == XLII_draconis
+$faction.hostileToPlayer
+$relativeStrength < 0","$ignorePlayerCommRequests = true 1","""$theFaction Navy to hostile contact: we've fought worse than you in worse conditions. If you're not gone in sixty seconds, we'll add your wreckage to the rest.""","cutCommLink:Cut the comm link",
+XLII_greetingHostileWeakerDefiant,OpenCommLink,"$faction.id == XLII_draconis
+$faction.hostileToPlayer
+$relativeStrength < 0
+$weakerThanPlayerButHolding","$ignorePlayerCommRequests = true 1","""You still talking?"" The officer looks genuinely puzzled. ""We burned Athebyne to ash for less, Captain. What makes you think your $shipOrFleet matters more?""","cutCommLink:Cut the comm link",
+XLII_greetingHostileStronger,OpenCommLink,"$faction.id == XLII_draconis
+$faction.hostileToPlayer
+$relativeStrength >= 0","$ignorePlayerCommRequests = true 1","""$PersonRank $personName, Alliance Navy."" A measured pause. ""You have tactical superiority. We're not disputing that. But Alliance Command tracks every engagement in this sector, and retaliation doctrine doesn't require us to win—just to make you memorable.""","cutCommLink:Cut the comm link",
+"#END Generic Faction Greetings",,,,,,
+
