@@ -5,7 +5,8 @@
       "desc":"Detected high-value AI core installations at hostile colony",
       "classPath":"levianeer.draconis.data.campaign.ai.concerns.DraconisHighValueTargetConcern",
       "module":MILITARY,
-      "tags":["military", "market", "canInvade", "canDeclareWar"],
+      "noAutoGenerate":true,
+      "tags":["military", "market", "canInvade", "canDeclareWar"]
     }
   }
 }

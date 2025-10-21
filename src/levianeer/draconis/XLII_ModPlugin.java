@@ -9,7 +9,9 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
 import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisTargetedRaidMonitor;
+import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
+import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_magicMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
@@ -71,13 +73,21 @@ public class XLII_ModPlugin extends BaseModPlugin {
         Global.getLogger(this.getClass()).info("Initializing Draconis characters");
         XLII_Characters.initializeAllCharacters();
 
-        // Add the crisis event system (separate from AI core acquisition)
-        Global.getLogger(this.getClass()).info("Registering crisis system (DraconisHostileActivityManager)");
+        // Add the crisis event system
+        Global.getLogger(this.getClass()).info("Registering crisis systems");
         Global.getSector().addScript(new DraconisHostileActivityManager());
+        Global.getLogger(this.getClass()).info("  - Hostile Activity Manager");
+
+        Global.getSector().addScript(new DraconisSteelCurtainMonitor());
+        Global.getLogger(this.getClass()).info("  - Steel Curtain Monitor");
 
         // If Nexerelin is present, add the AI core acquisition system
         if (hasNexerelin) {
             Global.getLogger(this.getClass()).info("=== Registering AI Core Acquisition System ===");
+
+            // Scanner - finds high-value AI core targets
+            Global.getSector().addScript(new DraconisSingleTargetScanner());
+            Global.getLogger(this.getClass()).info("  - AI Core Target Scanner");
 
             // Monitor - watches for successful raids against AI core targets
             Global.getSector().addScript(new DraconisTargetedRaidMonitor());

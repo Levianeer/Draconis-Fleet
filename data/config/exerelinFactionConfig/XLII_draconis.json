@@ -20,7 +20,7 @@
     },
 
     "strategyPriorityMults":{
-        "draconisAICoreTarget":1.0,
+        "draconisHighValueTarget":1.0,
     },
 
     "asteroidMiningFleetName":"Mining Flotilla",

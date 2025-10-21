@@ -7,11 +7,9 @@ import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import exerelin.campaign.ai.SAIConstants;
-import exerelin.campaign.ai.StrategicAI;
 import exerelin.campaign.ai.action.StrategicAction;
 import exerelin.campaign.ai.concern.MarketRelatedConcern;
 import exerelin.campaign.ai.concern.StrategicConcern;
-import exerelin.campaign.fleets.InvasionFleetManager;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import org.apache.log4j.Logger;
 
@@ -26,7 +24,9 @@ public class DraconisHighValueTargetConcern extends MarketRelatedConcern {
 
     private static final Logger log = Global.getLogger(DraconisHighValueTargetConcern.class);
 
-    public static final float AI_CORE_VALUE_MULT = 3.0f;
+    // Priority calculation constants
+    public static final float CORE_PRIORITY_MULT = 2.5f;  // Multiplier for AI core value
+    public static final float BASE_VALUE_REDUCTION = 0.1f;  // Reduce market value contribution
 
     @Override
     public boolean generate() {
@@ -49,9 +49,11 @@ public class DraconisHighValueTargetConcern extends MarketRelatedConcern {
 
             log.info("Found flagged high-value target: " + targetMarket.getName());
 
-            // Verify it's a valid target for raids
-            boolean canRaid = InvasionFleetManager.getManager().isValidInvasionOrRaidTarget(
-                    ai.getFaction(), null, targetMarket, null, false);
+            // Verify it's a valid target for raids (custom validation)
+            boolean canRaid = targetMarket.isInEconomy()
+                    && !targetMarket.isHidden()
+                    && targetMarket.getSize() >= 3
+                    && targetMarket.getPrimaryEntity() != null;
 
             if (!canRaid) {
                 log.info("  REJECTED: not a valid raid target");
@@ -78,31 +80,33 @@ public class DraconisHighValueTargetConcern extends MarketRelatedConcern {
             int gammaCount = market.getMemoryWithoutUpdate().getInt(
                     DraconisSingleTargetScanner.TARGET_GAMMA_COUNT_FLAG);
 
-            // Calculate priority (similar to old version)
+            // Calculate priority - AI cores are the primary driver
             int size = market.getSize();
             float marketValue = getMarketValue(market);
             float sd = getSpaceDefenseValue(market);
             float gd = getGroundDefenseValue(market);
 
-            // Base value calculation
-            float valueMod = marketValue / (sd * 2 + gd) / SAIConstants.MARKET_VALUE_DIVISOR;
-            valueMod *= (1 + 0.5f * size / 5);
+            // Small base value from market characteristics
+            float baseValue = marketValue / (sd * 2 + gd) / SAIConstants.MARKET_VALUE_DIVISOR;
+            baseValue *= (1 + 0.5f * size / 5);
+            baseValue *= BASE_VALUE_REDUCTION;  // Reduce base contribution significantly
 
-            // Multiply by AI core value to prioritize
-            valueMod *= (1 + coreValue * AI_CORE_VALUE_MULT);
+            // Primary priority comes from AI cores
+            float corePriority = coreValue * CORE_PRIORITY_MULT;
 
-            log.info(String.format("  Priority: %.2f (base market value with AI core multiplier)", valueMod));
+            log.info(String.format("  Base market value: %.2f", baseValue));
+            log.info(String.format("  AI core priority: %.2f (from %d cores, value %.1f)",
+                    corePriority, alphaCount + betaCount + gammaCount, coreValue));
 
             // Set priority
-            priority.modifyFlat("aiCoreValue", valueMod,
-                    StrategicAI.getString("statDefenseAdjustedValue", true));
-            priority.modifyFlat("aiCoreBonus", coreValue * 10, "AI Core Strategic Value");
+            priority.modifyFlat("baseValue", baseValue, "Market Value");
+            priority.modifyFlat("aiCores", corePriority, "AI Core Strategic Value");
 
             log.info(String.format(">>> CONCERN GENERATED for %s (%s)",
                     market.getName(), market.getFaction().getDisplayName()));
             log.info(String.format("    AI Cores: %d Alpha, %d Beta, %d Gamma (value: %.1f)",
                     alphaCount, betaCount, gammaCount, coreValue));
-            log.info(String.format("    Final priority: %.2f", priority.getModifiedValue()));
+            log.info(String.format("    Total priority: %.2f", priority.getModifiedValue()));
 
             return true;
         }
@@ -158,13 +162,16 @@ public class DraconisHighValueTargetConcern extends MarketRelatedConcern {
         float sd = getSpaceDefenseValue(market);
         float gd = getGroundDefenseValue(market);
 
-        float valueMod = marketValue / (sd * 2 + gd) / SAIConstants.MARKET_VALUE_DIVISOR;
-        valueMod *= (1 + 0.5f * size / 5);
-        valueMod *= (1 + coreValue * AI_CORE_VALUE_MULT);
+        // Small base value from market characteristics
+        float baseValue = marketValue / (sd * 2 + gd) / SAIConstants.MARKET_VALUE_DIVISOR;
+        baseValue *= (1 + 0.5f * size / 5);
+        baseValue *= BASE_VALUE_REDUCTION;
 
-        priority.modifyFlat("aiCoreValue", valueMod,
-                StrategicAI.getString("statDefenseAdjustedValue", true));
-        priority.modifyFlat("aiCoreBonus", coreValue * 10, "AI Core Strategic Value");
+        // Primary priority comes from AI cores
+        float corePriority = coreValue * CORE_PRIORITY_MULT;
+
+        priority.modifyFlat("baseValue", baseValue, "Market Value");
+        priority.modifyFlat("aiCores", corePriority, "AI Core Strategic Value");
 
         log.info(String.format("  Updated priority: %.2f", priority.getModifiedValue()));
 
@@ -184,13 +191,16 @@ public class DraconisHighValueTargetConcern extends MarketRelatedConcern {
         float sd = getSpaceDefenseValue(market);
         float gd = getGroundDefenseValue(market);
 
-        float valueMod = marketValue / (sd * 2 + gd) / SAIConstants.MARKET_VALUE_DIVISOR;
-        valueMod *= (1 + 0.5f * size / 5);
-        valueMod *= (1 + coreValue * AI_CORE_VALUE_MULT);
+        // Small base value from market characteristics
+        float baseValue = marketValue / (sd * 2 + gd) / SAIConstants.MARKET_VALUE_DIVISOR;
+        baseValue *= (1 + 0.5f * size / 5);
+        baseValue *= BASE_VALUE_REDUCTION;
 
-        priority.modifyFlat("aiCoreValue", valueMod,
-                StrategicAI.getString("statDefenseAdjustedValue", true));
-        priority.modifyFlat("aiCoreBonus", coreValue * 10, "AI Core Strategic Value");
+        // Primary priority comes from AI cores
+        float corePriority = coreValue * CORE_PRIORITY_MULT;
+
+        priority.modifyFlat("baseValue", baseValue, "Market Value");
+        priority.modifyFlat("aiCores", corePriority, "AI Core Strategic Value");
     }
 
     @Override
