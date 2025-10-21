@@ -8,8 +8,11 @@ import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.intel.aicore.theft.DraconisAICoreTheftListener;
 
 import java.awt.*;
+import java.util.List;
 
 public class DraconisPunitiveExpedition extends GenericRaidFGI {
+
+    private boolean theftProcessed = false;
 
     public DraconisPunitiveExpedition(GenericRaidParams params) {
         super(params);
@@ -18,6 +21,13 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
             Global.getLogger(this.getClass()).info(
                     "Draconis expedition created targeting " + params.raidParams.allowedTargets.size() + " markets"
             );
+
+            // Log each target for debugging
+            for (MarketAPI target : params.raidParams.allowedTargets) {
+                Global.getLogger(this.getClass()).info(
+                        "  Target: " + target.getName() + " (" + target.getFactionId() + ")"
+                );
+            }
         }
     }
 
@@ -27,72 +37,83 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
     }
 
     public static DraconisPunitiveExpedition get() {
-        return (DraconisPunitiveExpedition) Global.getSector().getIntelManager().getFirstIntel(DraconisPunitiveExpedition.class);
+        return (DraconisPunitiveExpedition) Global.getSector().getIntelManager()
+                .getFirstIntel(DraconisPunitiveExpedition.class);
     }
-
-    // Track state changes
-    private boolean wasSucceeded = false;
-    private boolean wasFailed = false;
-    private boolean completionHandled = false;
 
     @Override
     public void advance(float amount) {
         super.advance(amount);
 
-        // Detect state changes since lifecycle methods aren't called
-        boolean currentSucceeded = isSucceeded();
-        boolean currentFailed = isFailed();
+        // Process AI core theft when raid succeeds
+        if (isSucceeded() && !theftProcessed) {
+            Global.getLogger(this.getClass()).info(
+                    "Expedition succeeded - initiating AI core theft"
+            );
 
-        // Raid just succeeded - Draconis forces won
-        if (currentSucceeded && !wasSucceeded) {
-            Global.getLogger(this.getClass()).info("Draconis expedition succeeded");
-            wasSucceeded = true;
-            handleRaidCompletion();
+            handleRaidSuccess();
+            theftProcessed = true;
         }
 
-        // Raid just failed - Player defeated it
-        if (currentFailed && !wasFailed) {
-            Global.getLogger(this.getClass()).info("Draconis expedition defeated by player");
-            wasFailed = true;
-            handleRaidCompletion();
+        // Grant bonus if raid failed (player defeated it)
+        if (isFailed() && !theftProcessed) {
+            Global.getLogger(this.getClass()).info(
+                    "Expedition defeated by player - granting bonus"
+            );
+
+            if (!DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
+                DraconisFleetHostileActivityFactor.setPlayerDefeatedDraconisAttack();
+                DraconisArmamentsBonus.grantBonus(true);
+            }
+
+            theftProcessed = true;
         }
 
         // Handle reset conditions
-        if (DraconisFleetHostileActivityFactor.meetsResetConditions() && !isEnding() && !isEnded()) {
+        if (DraconisFleetHostileActivityFactor.meetsResetConditions() &&
+                !isEnding() && !isEnded()) {
             endAfterDelay();
         }
     }
 
-    private void handleRaidCompletion() {
-        // Prevent multiple calls
-        if (completionHandled) return;
-        completionHandled = true;
-
-        // If raid FAILED, player defeated the expedition - grant bonus
-        if (isFailed() && !DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
-            DraconisFleetHostileActivityFactor.setPlayerDefeatedDraconisAttack();
-            DraconisArmamentsBonus.grantBonus(true);
-        }
-
-        // If raid SUCCEEDED, Draconis forces won - steal AI cores
-        if (isSucceeded()) {
-            stealAICores();
-        }
-    }
-
-    private void stealAICores() {
-        GenericRaidParams params = this.params;
-
-        if (params == null || params.raidParams == null || params.raidParams.allowedTargets == null) {
-            Global.getLogger(this.getClass()).warn("Cannot access raid targets for AI core theft");
+    private void handleRaidSuccess() {
+        if (params == null) {
+            Global.getLogger(this.getClass()).error("Params is null!");
             return;
         }
 
-        for (MarketAPI target : params.raidParams.allowedTargets) {
-            if (target == null) continue;
+        if (params.raidParams == null) {
+            Global.getLogger(this.getClass()).error("RaidParams is null!");
+            return;
+        }
+
+        List<MarketAPI> targets = params.raidParams.allowedTargets;
+
+        if (targets == null || targets.isEmpty()) {
+            Global.getLogger(this.getClass()).error("No raid targets found!");
+            return;
+        }
+
+        Global.getLogger(this.getClass()).info(
+                "Processing " + targets.size() + " raid targets for AI core theft"
+        );
+
+        for (MarketAPI target : targets) {
+            if (target == null) {
+                Global.getLogger(this.getClass()).warn("Null target in list, skipping");
+                continue;
+            }
 
             boolean isPlayerTarget = target.isPlayerOwned();
-            DraconisAICoreTheftListener.checkAndStealAICores(target, isPlayerTarget, "raid");
+
+            Global.getLogger(this.getClass()).info(
+                    "Stealing AI cores from " + target.getName() +
+                            " (Player owned: " + isPlayerTarget + ")"
+            );
+
+            DraconisAICoreTheftListener.checkAndStealAICores(
+                    target, isPlayerTarget, "raid"
+            );
         }
     }
 

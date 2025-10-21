@@ -1,14 +1,11 @@
 {
-  "concerns": {
-    "draconisAICoreTarget": {
-      "name": "AI Core Acquisition Target",
-      "desc": "High-value AI core installations detected at hostile colony",
-      "classPath": "levianeer.draconis.data.campaign.ai.DraconisAICoreTargetConcern",
-      "module": "MILITARY",
-      "tags": ["canInvade", "canRaid", "canSatBomb", "military", "aggressive"],
-      "cooldownMult": 0.5,
-      "antiRepetitionMult": 0.7,
-      "enabled": true
+  "concerns":{
+    "draconisHighValueTarget":{
+      "name":"High-Value AI Core Target",
+      "desc":"Detected high-value AI core installations at hostile colony",
+      "classPath":"levianeer.draconis.data.campaign.ai.concerns.DraconisHighValueTargetConcern",
+      "module":MILITARY,
+      "tags":["military", "market", "canInvade", "canDeclareWar"],
     }
   }
 }

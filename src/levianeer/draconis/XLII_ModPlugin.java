@@ -7,21 +7,18 @@ import com.fs.starfarer.api.campaign.CampaignPlugin;
 import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-
-import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisRaidMonitor;
+import levianeer.draconis.data.campaign.characters.XLII_Characters;
+import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisTargetedRaidMonitor;
+import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_magicMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
-import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
-import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisAICoreTargetingMonitor;
-import levianeer.draconis.data.campaign.characters.XLII_Characters;
 
 public class XLII_ModPlugin extends BaseModPlugin {
 
     public static final String PD_MISSILE_ID = "XLII_swordbreaker_shot";
     public static final String SWARM_MISSILE_ID = "XLII_bardiche_shot";
 
-    // Nexerelin integration
     private static final String NEXERELIN_MOD_ID = "nexerelin";
     private static boolean hasNexerelin = false;
 
@@ -29,13 +26,12 @@ public class XLII_ModPlugin extends BaseModPlugin {
     public void onApplicationLoad() {
         Global.getLogger(this.getClass()).info("=== Draconis Mod Loading ===");
 
-        // Check if Nexerelin is installed
         hasNexerelin = Global.getSettings().getModManager().isModEnabled(NEXERELIN_MOD_ID);
 
         if (hasNexerelin) {
-            Global.getLogger(this.getClass()).info("Nexerelin detected - AI core theft and targeting systems will be active");
+            Global.getLogger(this.getClass()).info("Nexerelin detected - AI core acquisition system will be enabled");
         } else {
-            Global.getLogger(this.getClass()).info("Nexerelin not detected - using vanilla raid detection only");
+            Global.getLogger(this.getClass()).info("Nexerelin not detected - AI core system will be disabled");
         }
     }
 
@@ -43,8 +39,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
     public void onNewGame() {
         Global.getLogger(this.getClass()).info("=== Draconis Mod: onNewGame() ===");
 
-        // Check if we should run custom sector generation
-        // Skip if Nexerelin is using random sector mode
         boolean skipGeneration = false;
 
         if (hasNexerelin) {
@@ -77,25 +71,24 @@ public class XLII_ModPlugin extends BaseModPlugin {
         Global.getLogger(this.getClass()).info("Initializing Draconis characters");
         XLII_Characters.initializeAllCharacters();
 
-        // Add the persistent manager script for hostile activity
-        Global.getLogger(this.getClass()).info("Registering DraconisHostileActivityManager");
+        // Add the crisis event system (separate from AI core acquisition)
+        Global.getLogger(this.getClass()).info("Registering crisis system (DraconisHostileActivityManager)");
         Global.getSector().addScript(new DraconisHostileActivityManager());
 
-        // If Nexerelin is present, add the AI core targeting system
+        // If Nexerelin is present, add the AI core acquisition system
         if (hasNexerelin) {
-            Global.getLogger(this.getClass()).info("Registering Nexerelin AI core targeting:");
+            Global.getLogger(this.getClass()).info("=== Registering AI Core Acquisition System ===");
 
-            // AI core targeting system (monitors markets and flags them)
-            Global.getSector().addScript(new DraconisAICoreTargetingMonitor());
-            Global.getLogger(this.getClass()).info("  - AI core targeting monitor");
+            // Monitor - watches for successful raids against AI core targets
+            Global.getSector().addScript(new DraconisTargetedRaidMonitor());
+            Global.getLogger(this.getClass()).info("  - Targeted Raid Monitor");
 
-            // Add the raid monitor for AI core theft
-            Global.getLogger(this.getClass()).info("Registering DraconisRaidMonitor");
-            Global.getSector().addScript(new DraconisRaidMonitor());
+            // Note: Concern is registered via strategicAIconfig.json
+            Global.getLogger(this.getClass()).info("  - Strategic AI concern defined in JSON");
 
-            Global.getLogger(this.getClass()).info("Nexerelin Strategic AI integration complete");
+            Global.getLogger(this.getClass()).info("=== AI Core Acquisition System Active ===");
         } else {
-            Global.getLogger(this.getClass()).info("Skipping Nexerelin integration (mod not present)");
+            Global.getLogger(this.getClass()).info("Nexerelin not present - AI core acquisition system disabled");
         }
 
         Global.getLogger(this.getClass()).info("=== Draconis Mod: Game load complete ===");
