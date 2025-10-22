@@ -98,7 +98,7 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
                 tooltip.addPara("You've attracted the hostile attention of the Draconis Alliance.", 0f);
 
                 tooltip.addPara("Draconis strike fleets have been detected in your space, "
-                        + "targeting facilities that compete with their heavy armaments production monopoly.", opad);
+                        + "targeting facilities that compete with their heavy armaments production.", opad);
             }
         };
     }
@@ -154,7 +154,6 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         m.triggerMakeHostile();
         m.triggerMakeNonHostileToFaction(DRACONIS);
         m.triggerMakeNonHostileToFaction(FORTYSECOND);
-        m.triggerMakeNonHostileToFaction(Factions.PIRATES);
         m.triggerMakeNoRepImpact();
         m.triggerFleetAllowLongPursuit();
         m.triggerMakeHostileToAllTradeFleets();
@@ -405,7 +404,6 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         GenericRaidFGI.GenericRaidParams params = new GenericRaidFGI.GenericRaidParams(new Random(random.nextLong()), true);
 
         params.makeFleetsHostile = true;
-
         params.factionId = FORTYSECOND;
         params.source = source;
 

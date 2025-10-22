@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Create .jar">
+    <output-path>D:/Games/Starsector/mods/Draconis-Fleet/jars</output-path>
+    <root id="archive" name="Draconis.jar">
+      <element id="module-output" name="Draconis-Fleet" />
+    </root>
+  </artifact>
+</component>

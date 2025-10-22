@@ -10,6 +10,7 @@ import org.lazywizard.lazylib.VectorUtils;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
+@SuppressWarnings("deprecation")
 public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
 
     //////////////////////

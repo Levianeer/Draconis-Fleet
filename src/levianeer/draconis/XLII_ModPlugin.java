@@ -10,6 +10,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
 import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisTargetedRaidMonitor;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
+import levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreRaidManager;
 import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
 import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
@@ -85,18 +86,31 @@ public class XLII_ModPlugin extends BaseModPlugin {
         if (hasNexerelin) {
             Global.getLogger(this.getClass()).info("=== Registering AI Core Acquisition System ===");
 
-            // Scanner - finds high-value AI core targets
-            Global.getSector().addScript(new DraconisSingleTargetScanner());
-            Global.getLogger(this.getClass()).info("  - AI Core Target Scanner");
+            // Check if already registered (prevents duplicates on save/load)
+            boolean alreadyRegistered = false;
+            for (Object script : Global.getSector().getScripts()) {
+                if (script instanceof DraconisAICoreRaidManager) {
+                    alreadyRegistered = true;
+                    Global.getLogger(this.getClass()).info("AI Core system already registered - skipping");
+                    break;
+                }
+            }
 
-            // Monitor - watches for successful raids against AI core targets
-            Global.getSector().addScript(new DraconisTargetedRaidMonitor());
-            Global.getLogger(this.getClass()).info("  - Targeted Raid Monitor");
+            if (!alreadyRegistered) {
+                // Scanner - finds high-value AI core targets
+                Global.getSector().addScript(new DraconisSingleTargetScanner());
+                Global.getLogger(this.getClass()).info("  - AI Core Target Scanner");
 
-            // Note: Concern is registered via strategicAIconfig.json
-            Global.getLogger(this.getClass()).info("  - Strategic AI concern defined in JSON");
+                // Raid Manager - triggers Shadow Fleet raids on high-value targets
+                Global.getSector().addScript(new DraconisAICoreRaidManager());
+                Global.getLogger(this.getClass()).info("  - AI Core Raid Manager");
 
-            Global.getLogger(this.getClass()).info("=== AI Core Acquisition System Active ===");
+                // Monitor - watches for successful raids and steals AI cores
+                Global.getSector().addScript(new DraconisTargetedRaidMonitor());
+                Global.getLogger(this.getClass()).info("  - Targeted Raid Monitor");
+
+                Global.getLogger(this.getClass()).info("=== AI Core Acquisition System Active ===");
+            }
         } else {
             Global.getLogger(this.getClass()).info("Nexerelin not present - AI core acquisition system disabled");
         }

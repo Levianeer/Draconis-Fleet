@@ -16,7 +16,6 @@
 
 	# --- Awarded Bonus Settings ---
 	"draconisArmamentsExportBonus": 0.25,				# Production bonus percentage (25% = 0.25)	#	Default : 0.25
-	"draconisDefeatProgressReduction": -15,				# Progress reduction when defeated	#	Default : -15
 
 	# --- Reputation & Commission ---
 	"draconisReputationThreshold": 1.0,					# Required reputation to avoid hostilities	#	Default : 1.0
@@ -32,39 +31,28 @@
 	"draconisExpeditionPayloadDaysVariance": 7.0,		# Random variance in payload days	#	Default : 7.0
 
 	# --- Expedition Fleet Strength ---
-	"draconisExpeditionDifficultyBase": 15.0,			# Base difficulty multiplier	#	Default : 15.0
-	"draconisExpeditionDifficultyMinFactor": 0.6,		# Minimum difficulty factor (70% of base)	#	Default : 0.6
-	"draconisExpeditionDifficultyMaxFactor": 0.4,		# Additional scaling with market presence (up to 50% more)	#	Default : 0.4
-	"draconisExpeditionMinTotalDifficulty": 15.0,		# Minimum total difficulty (won't fire below this)	#	Default : 15.0
-	"draconisExpeditionMaxTotalDifficulty": 100,		# Maximum total difficulty cap	#	Default : 100
-	"draconisExpeditionLeadFleetSize": 10,				# Lead fleet difficulty/size	#	Default : 10
-	"draconisExpeditionFleetSizeMin": 6,				# Min difficulty for additional fleets	#	Default : 6
-	"draconisExpeditionFleetSizeMax": 12,				# Max difficulty for additional fleets	#	Default : 12
+	"draconisExpeditionDifficultyBase": 8.0,			# Base difficulty multiplier (reduced from 15)	#	Default : 8.0
+	"draconisExpeditionDifficultyMinFactor": 0.5,		# Minimum difficulty factor	#	Default : 0.5
+	"draconisExpeditionDifficultyMaxFactor": 0.5,		# Additional scaling with market presence	#	Default : 0.5
+	"draconisExpeditionMinTotalDifficulty": 10.0,		# Minimum total difficulty (won't fire below this)	#	Default : 10.0
+	"draconisExpeditionMaxTotalDifficulty": 40,			# Maximum total difficulty cap (like base game)	#	Default : 40
+	"draconisExpeditionLeadFleetSize": 8,				# Lead fleet difficulty/size (reduced from 10)	#	Default : 8
+	"draconisExpeditionFleetSizeMin": 1,				# Min difficulty for additional fleets	#	Default : 1
+	"draconisExpeditionFleetSizeMax": 7,				# Max difficulty for additional fleets (reduced from 9)	#	Default : 7
 
 	# --- Competition Thresholds ---
 	"draconisMinCompetitorProduction": 4.0,				# Min heavy armaments production to trigger competition	#	Default : 4.0
 	"draconisMinCompetitorMarketSize": 4.0,				# Min market size to be considered a competitor	#	Default : 4.0
-	"draconisProgressPerUnitProdMult": 3.5,				# Progress increase per unit produced	#	Default : 3.5
-	"draconisMagnitudePerUnitProduction": 1.0,			# Magnitude contribution per unit in system	#	Default : 1.0
-	"draconisMaxMagnitude": 3.0,						# Maximum magnitude cap per system	#	Default : 3.0
+	"draconisProgressPerUnitProdMult": 0.6,				# Progress increase per unit produced (Tri-Tach uses 0.5)	#	Default : 0.6
+	"draconisMagnitudePerUnitProduction": 0.02,			# Magnitude contribution per unit in system	#	Default : 0.02
+	"draconisMaxMagnitude": 0.5,						# Maximum magnitude cap per system	#	Default : 0.5
 
 	# ========================================
-	# DRACONIS FLEET AI CCORE THEFT SETTINGS
+	# DRACONIS AI CORE THEFT SETTINGS
 	# ========================================
-
-  "draconisAICoreTargeting": { # For Nexerelin
-		"enabled": true,
-		"scanIntervalDays": 15,
-		"intelDecayDays": 60,
-		"minMarketSize": 4,
-		"vengeancePoints": {
-			"alphaCore": 15,
-			"betaCore": 10,
-			"gammaCore": 5
-		},
-		"stabilityPenalty": 1,
-		"groundDefensePenalty": 0.15
-	},
+	# AI Core raids use the same difficulty scaling as punitive expeditions
+	# (draconisExpeditionDifficultyBase, draconisExpeditionDifficultyMinFactor, etc.)
+	# plus a small bonus based on AI core value at the target
 
 	"draconisAICoreTheft": { # Configuration for Draconis AI core theft system
 		"factionCoreChances": { # Chance to find/steal cores from factions that should have them lore-wise
@@ -105,7 +93,7 @@
 				"minMarketSize": 99
 				}
 			},
-		"fallbackBehavior": { # Max cores to generate if none found; prefer real cores if available
+		"fallbackBehavior": { # Fallback enabled - prefer actual cores, generate fallback if none found
 			"maxCoresPerRaid": 3,
 			"preferActualCores": true
 		},

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Draconis-Fleet Mod">
+    <output-path>D:/Games/Starsector/mods/Draconis-Fleet</output-path>
+    <root id="root">
+      <element id="dir-copy" path="$PROJECT_DIR$" />
+    </root>
+  </artifact>
+</component>

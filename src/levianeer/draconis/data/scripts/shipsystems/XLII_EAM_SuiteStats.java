@@ -64,12 +64,21 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         wasOverloaded = isOverloaded;
 
         // Manage visual effect plugin
-        if (systemActive && activePlugin == null) {
-            activePlugin = new RotatingRingPlugin(ship);
-            engine.addLayeredRenderingPlugin(activePlugin);
-        } else if (!systemActive && activePlugin != null) {
-            activePlugin.deactivate();
+        // Check if plugin expired and needs recreation
+        if (activePlugin != null && activePlugin.isExpired()) {
             activePlugin = null;
+        }
+
+        if (systemActive) {
+            if (activePlugin == null) {
+                activePlugin = new RotatingRingPlugin(ship);
+                engine.addLayeredRenderingPlugin(activePlugin);
+            } else {
+                activePlugin.activate(); // Reactivate if it was deactivating
+            }
+        } else if (activePlugin != null) {
+            activePlugin.deactivate();
+            // Don't null it out - let it fade out naturally and get cleaned up when expired
         }
 
         if (!systemActive) {
@@ -286,7 +295,7 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         private static final float ROTATION_SPEED = 5f;
         private static final float FADE_IN_TIME = 0.3f;
         private static final float FADE_OUT_TIME = 0.3f;
-        private static final float SPRITE_SIZE = 3050f;
+        private static final float SPRITE_SIZE = MAX_RANGE * 2f - 100; // Scale with effect range (1500 * 2 = 3000)
         private static final Color SPRITE_COLOR = new Color(255, 105, 90);
         private static final float SPRITE_ALPHA = 155f;
 
@@ -304,6 +313,11 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
                 }
             }
             return sprite;
+        }
+
+        public void activate() {
+            isDeactivating = false;
+            deactivateTime = 0f;
         }
 
         public void deactivate() {
@@ -341,9 +355,8 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
             Vector2f loc = ship.getLocation();
             float scaledSize = SPRITE_SIZE * scale;
 
-            // Viewport culling - generous buffer to prevent pop-in
-            if (!viewport.isNearViewport(loc, scaledSize)) return;
-
+            // No manual viewport culling - let the engine handle it via getRenderRadius()
+            // This prevents the effect from disappearing when partially off-screen
             spr.setSize(scaledSize, scaledSize);
             spr.setAngle(angle);
             spr.setAlphaMult(fadeAlpha * SPRITE_ALPHA);

@@ -3,6 +3,7 @@ package levianeer.draconis.data.campaign.intel.events.crisis;
 import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel;
+import levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreActivityCause;
 
 public class DraconisHostileActivityManager implements EveryFrameScript {
 
@@ -28,11 +29,18 @@ public class DraconisHostileActivityManager implements EveryFrameScript {
 
                 if (existingFactor == null) {
                     DraconisFleetHostileActivityFactor factor = new DraconisFleetHostileActivityFactor(intel);
-                    DraconisFleetStandardActivityCause cause = new DraconisFleetStandardActivityCause(intel);
-                    factor.addCause(cause);
+
+                    // Add standard fleet activity cause
+                    DraconisFleetStandardActivityCause standardCause = new DraconisFleetStandardActivityCause(intel);
+                    factor.addCause(standardCause);
+
+                    // Add AI core acquisition cause
+                    DraconisAICoreActivityCause aiCoreCause = new DraconisAICoreActivityCause(intel);
+                    factor.addCause(aiCoreCause);
+
                     intel.addFactor(factor);
 
-                    Global.getLogger(this.getClass()).info("Draconis hostile activity factor registered");
+                    Global.getLogger(this.getClass()).info("Draconis hostile activity factor registered with AI core cause");
                 }
                 added = true;
             }

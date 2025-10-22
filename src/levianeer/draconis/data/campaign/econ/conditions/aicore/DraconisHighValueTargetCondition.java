@@ -48,8 +48,6 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
 
         float opad = 10f;
 
-        tooltip.addTitle("Priority Acquisition Target", draconis);
-
         tooltip.addPara(
                 "Draconis Alliance intelligence has designated this colony as their highest-priority AI core acquisition target. " +
                         "Deep cover operatives have compromised security protocols and are actively preparing for extraction operations.",
