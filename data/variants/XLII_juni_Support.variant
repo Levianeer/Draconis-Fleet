@@ -24,8 +24,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0018": "heatseeker",
-                "WS0019": "heatseeker"
+                "WS0018": "breach",
+                "WS0019": "breach"
             }
         },
         {

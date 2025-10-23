@@ -295,7 +295,10 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         private static final float ROTATION_SPEED = 5f;
         private static final float FADE_IN_TIME = 0.3f;
         private static final float FADE_OUT_TIME = 0.3f;
-        private static final float SPRITE_SIZE = MAX_RANGE * 2f - 100; // Scale with effect range (1500 * 2 = 3000)
+        // Sprite alignment correction: sprite canvas is 512px radius, but drawn ring is 448px radius
+        // Scale factor: 512/448 = 1.143 to align visual ring with actual effect range
+        private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
+        private static final float SPRITE_SIZE = MAX_RANGE * 2f * SPRITE_ALIGNMENT_SCALE; // Scale with effect range
         private static final Color SPRITE_COLOR = new Color(255, 105, 90);
         private static final float SPRITE_ALPHA = 155f;
 
@@ -376,7 +379,10 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
 
         @Override
         public float getRenderRadius() {
-            return SPRITE_SIZE * 0.5f * scale;
+            // Return the maximum possible extent to prevent premature culling
+            // For a rotating square, diagonal = side * sqrt(2), so radius = side * sqrt(2) / 2
+            // Adding extra margin to ensure visibility during camera movement
+            return (SPRITE_SIZE * 0.707f + 500f) * scale; // sqrt(2)/2 plus safety margin
         }
     }
 }

@@ -155,8 +155,11 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
     private void renderECMSprite(ShipAPI ship) {
         if (ship == null) return;
 
-        float spriteSize = XLII_ESW_SuiteStats.RING_RADIUS * 2f; // Diameter
-        Vector2f size = new Vector2f(spriteSize + 550, spriteSize + 550);
+        // Sprite alignment correction: sprite canvas is 512px radius, but drawn ring is 448px radius
+        // Scale factor: 512/448 = 1.143 to align visual ring with actual effect range
+        float spriteAlignmentScale = 512f / 448f;
+        float spriteSize = XLII_ESW_SuiteStats.RING_RADIUS * 2f * spriteAlignmentScale; // Diameter with alignment correction
+        Vector2f size = new Vector2f(spriteSize, spriteSize);
         Vector2f growthNone = new Vector2f(0f, 0f); // No growth
 
         Color color = new Color(90, 165, 255, 55);
