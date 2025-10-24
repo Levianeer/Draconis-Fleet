@@ -1,4 +1,16 @@
-{        
+{
+	"music":{
+		"music_XLII_draconis_neutral":[
+			{"file":"music_XLII_draconis_neutral.ogg","source":"sounds/music","volume":0.2}
+		],
+		"music_XLII_draconis_hostile":[
+			{"file":"music_XLII_draconis_hostile.ogg","source":"sounds/music","volume":0.2}
+		],
+		"music_XLII_draconis_friendly":[
+			{"file":"music_XLII_draconis_friendly.ogg","source":"sounds/music","volume":0.2}
+		],
+	},
+
     "XLII_particlelance_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_01.ogg","pitch":0.45,"volume":0.5},

@@ -3,7 +3,7 @@
     "fluxCapacitors": 0,
     "fluxVents": 0,
     "hullId": "XLII_module_sunsetter_armor_back",
-    "hullMods": [],
+    "hullMods": ["reduced_explosion"],
     "quality": 0.5,
     "variantId": "XLII_module_sunsetter_armor_back_Standard",
     "weaponGroups": []

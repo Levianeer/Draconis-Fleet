@@ -39,7 +39,6 @@ public class XLII_Safety_OverridesStats extends BaseShipSystemScript {
 	}
 
 	public void unapply(MutableShipStatsAPI stats, String id) {
-
 		stats.getMaxSpeed().unmodify(id);
 		stats.getAcceleration().unmodify(id);
 		stats.getDeceleration().unmodify(id);
@@ -49,7 +48,7 @@ public class XLII_Safety_OverridesStats extends BaseShipSystemScript {
 	}
 
 	public StatusData getStatusData(int index, State state, float effectLevel) {
-		
+
 		if (index == 0) {
 			return new StatusData("safety protocols overridden", false);
 		}

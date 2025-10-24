@@ -154,6 +154,16 @@
 		]
 	},
 	
+	"music":{
+		"theme":"music_XLII_draconis_neutral",
+		"market_neutral":"music_XLII_draconis_neutral",
+		"market_hostile":"music_XLII_draconis_hostile",
+		"market_friendly":"music_XLII_draconis_friendly",
+		"encounter_neutral":"music_XLII_draconis_neutral",
+		"encounter_hostile":"music_XLII_draconis_hostile",
+		"encounter_friendly":"music_XLII_draconis_friendly",
+	},
+	
 	"internalComms":"draconis_internal",
 	
 	"barSound":"bar_ambience",

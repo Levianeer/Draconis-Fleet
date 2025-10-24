@@ -59,6 +59,7 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
     /**
      * Configure fleet during creation to have Shadow Fleet characteristics
      * Sets transponders off and fleet type
+     * Only hostile to the target faction
      */
     @Override
     protected void configureFleet(int size, FleetCreatorMission m) {
@@ -68,14 +69,16 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
 
         m.triggerFleetSetNoFactionInName();
         m.triggerSetPirateFleet();
-        m.triggerMakeHostile();
+
+        // Only make hostile to the target faction
+        if (target != null) {
+            m.triggerMakeHostileToFaction(target.getFactionId());
+        }
+
         m.triggerMakeNonHostileToFaction(DRACONIS);
         m.triggerMakeNonHostileToFaction(FORTYSECOND);
         m.triggerMakeNoRepImpact();
         m.triggerFleetAllowLongPursuit();
-        m.triggerMakeHostileToAllTradeFleets();
-        m.triggerMakeEveryoneJoinBattleAgainst();
-
         m.triggerSetFleetFlag(RAIDER_FLEET);
 
         m.triggerFleetMakeFaster(true, 0, true);

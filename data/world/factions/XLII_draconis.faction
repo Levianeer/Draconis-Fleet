@@ -164,13 +164,13 @@
 	},
 	
 	"music":{
-		"theme":"music_diktat_market_neutral",
-		"market_neutral":"music_diktat_market_neutral",
-		"market_hostile":"music_diktat_market_hostile",
-		"market_friendly":"music_diktat_market_friendly",
-		"encounter_neutral":"music_diktat_encounter_neutral",
-		"encounter_hostile":"music_diktat_encounter_hostile",
-		"encounter_friendly":"music_diktat_encounter_friendly",
+		"theme":"music_XLII_draconis_neutral",
+		"market_neutral":"music_XLII_draconis_neutral",
+		"market_hostile":"music_XLII_draconis_hostile",
+		"market_friendly":"music_XLII_draconis_friendly",
+		"encounter_neutral":"music_XLII_draconis_neutral",
+		"encounter_hostile":"music_XLII_draconis_hostile",
+		"encounter_friendly":"music_XLII_draconis_friendly",
 	},
 	
 	"internalComms":"draconis_internal",

@@ -84,14 +84,17 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
             return;
         }
 
-        // Check cooldown
-        long currentTimestamp = Global.getSector().getClock().getTimestamp();
-        long cooldownEnd = getCooldownEndTimestamp();
+        // Check cooldown using the last raid timestamp
+        long lastRaidTimestamp = getLastRaidTimestamp();
+        if (lastRaidTimestamp > 0) {
+            float daysSinceLastRaid = Global.getSector().getClock().getElapsedDaysSince(lastRaidTimestamp);
+            float cooldownDays = getCooldownDays();
 
-        if (currentTimestamp < cooldownEnd) {
-            float daysRemaining = Global.getSector().getClock().getElapsedDaysSince(cooldownEnd);
-            Global.getLogger(this.getClass()).info("Raid on cooldown - " + Math.abs(daysRemaining) + " days remaining");
-            return;
+            if (daysSinceLastRaid < cooldownDays) {
+                float daysRemaining = cooldownDays - daysSinceLastRaid;
+                Global.getLogger(this.getClass()).info("Raid on cooldown - " + String.format("%.1f", daysRemaining) + " days remaining");
+                return;
+            }
         }
 
         // Check if there's a high-value target
@@ -112,12 +115,12 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
         Global.getLogger(this.getClass()).info("Source market: " + source.getName());
 
-        // Random chance to trigger raid (30% per check)
+        // Random chance to trigger raid (50% per check)
         Random random = new Random();
         float roll = random.nextFloat();
-        Global.getLogger(this.getClass()).info("Random roll: " + roll + " (need <= 0.3)");
+        Global.getLogger(this.getClass()).info("Random roll: " + roll + " (need <= 0.5)");
 
-        if (roll > 0.99f) {
+        if (roll > 0.5f) {
             Global.getLogger(this.getClass()).info("AI Core raid random check failed - no raid this cycle");
             return;
         }
@@ -192,13 +195,49 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     }
 
     /**
+     * Get the timestamp of the last raid
+     */
+    private static long getLastRaidTimestamp() {
+        return Global.getSector().getMemoryWithoutUpdate().getLong(LAST_RAID_TIMESTAMP_KEY);
+    }
+
+    /**
+     * Get the cooldown duration from the stored cooldown end timestamp
+     */
+    private static float getCooldownDays() {
+        // Check if the last raid was a success or failure by looking at the stored cooldown end
+        // We can calculate this from the difference between cooldown end and last raid timestamp
+        long lastRaid = getLastRaidTimestamp();
+        long cooldownEnd = getCooldownEndTimestamp();
+
+        if (lastRaid <= 0 || cooldownEnd <= 0) {
+            return COOLDOWN_SUCCESS_DAYS; // Default to success cooldown
+        }
+
+        // Calculate the cooldown that was set
+        float cooldownSeconds = cooldownEnd - lastRaid;
+        float cooldownDays = Global.getSector().getClock().convertToDays(cooldownSeconds);
+
+        // Return the appropriate value based on which constant it's closer to
+        if (Math.abs(cooldownDays - COOLDOWN_SUCCESS_DAYS) < Math.abs(cooldownDays - COOLDOWN_FAILURE_DAYS)) {
+            return COOLDOWN_SUCCESS_DAYS;
+        } else {
+            return COOLDOWN_FAILURE_DAYS;
+        }
+    }
+
+    /**
      * Start a cooldown period after a raid completes
      * @param success Whether the raid was successful
      */
     public static void startCooldown(boolean success) {
         long currentTimestamp = Global.getSector().getClock().getTimestamp();
         float cooldownDays = success ? COOLDOWN_SUCCESS_DAYS : COOLDOWN_FAILURE_DAYS;
-        long cooldownEnd = currentTimestamp + (long)(cooldownDays * 1000f * 60f * 60f * 24f);
+
+        // Convert days to seconds, then to timestamp units
+        // The timestamp uses internal time units that convertToSeconds() handles
+        float cooldownSeconds = Global.getSector().getClock().convertToSeconds(cooldownDays);
+        long cooldownEnd = currentTimestamp + (long)cooldownSeconds;
 
         Global.getSector().getMemoryWithoutUpdate().set(COOLDOWN_END_TIMESTAMP_KEY, cooldownEnd);
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_TIMESTAMP_KEY, currentTimestamp);
