@@ -96,4 +96,12 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
 
         wasSystemActive = isSystemActive;
     }
+
+    @Override
+    public String getDescriptionParam(int index, HullSize hullSize) {
+        if (index == 0) return "" + (int) Math.round(HULL_RESTORE_PERCENT * 100f) + "%";
+        if (index == 1) return "25%"; // 100% / 4 modules = 25% per module
+        if (index == 2) return "" + (int) Math.round(-COOLDOWN_REDUCTION) + "%";
+        return null;
+    }
 }

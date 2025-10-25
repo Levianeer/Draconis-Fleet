@@ -1,3 +1,57 @@
+Version 0.4.0
+- MAJOR: Complete internal restructuring - renamed all IDs from fsdf_ to XLII_ prefix.
+  - WARNING: This is a breaking change for save compatibility.
+  - All ships, weapons, systems, and variants have been renamed.
+- Added new sub-faction: XLII Battlegroup (Draconis Defence special forces).
+  - New faction with unique fleet compositions and variants.
+  - Added 5 new ship skins (Alruba, Alwaid, Errakis, Juza, Shaobi).
+  - FSDF-specific variants for elite ships.
+- NEW: AI Core Acquisition System (Nexerelin integration).
+  - Draconis will now actively seek and raid markets with AI cores.
+  - New intel events for AI core thefts and targeted raids.
+  - Diplomatic strain system when stealing AI cores.
+  - Steel Curtain market condition for high-security targets.
+  - High Value Target scanner identifies core-rich markets.
+  - Comprehensive raid monitoring and success tracking.
+- Added 3 faction music tracks (friendly, neutral, hostile encounters).
+- Added new character portraits and NPC initialization system.
+- Added campaign rules for ship purchasing and faction interactions.
+- Added commissioned crews bonus (CHM_XLII_draconis hullmod).
+- Rebalanced Sunsetter-class Battleship.
+  - Hull increased: 20,000 → 30,000
+  - Armor reduced: 2,000 → 1,500
+  - Armor modules buffed: 15,000 HP / 1,200 armor (was 12,500 HP / 2,000 armor)
+- Rebalanced Time Slip ship system.
+  - Flux cost: 4 → 3
+  - Cooldown: 10s → 6s
+  - Charges: 2 → 1
+  - Regen time: 10s → 12s
+- Improved Retreat Drive (Draconis warp mechanic).
+  - Now only triggers on Direct Retreat order (prevents accidental warps).
+  - Reduced charge times: Destroyer 8→7s, Cruiser 10→8s, Capital 12→9s.
+  - Fixed critical bugs preventing dead ships from warping.
+  - Added comprehensive safety checks to prevent crashes.
+- Updated Incomprehensible Horrors hull mod description.
+  - Complete rewrite with clear mechanics explanation.
+  - Now shows exact percentages (20% hull restore, 25% per module, 35% cooldown).
+  - No mechanical changes, improved user experience.
+- Added new Halberd Pod variant weapon.
+- Updated faction configuration and fleet doctrines.
+- Improved hostile activity system with crisis management.
+- Enhanced patrol fleet spawning system.
+- Updated Exerelin strategic AI integration.
+- Expanded descriptions for ships, weapons, and systems.
+- Complete README rewrite with new lore (Fafnir Civil War background).
+- Improved sound balancing and audio references.
+- Updated engine styles and visual effects.
+- New icons for intel, markets, and cargo.
+- Added variant diversity for AI fleets.
+- Fixed ship system CSV references after rename.
+- Corrected sound and visual effect paths.
+- Fixed variant loadouts and fleet compositions.
+- Improved stability for warp drive mechanics.
+- And more...
+
 Version 0.3.5
 - Added some new mechanics to the Sunsetter bounty fight.
 

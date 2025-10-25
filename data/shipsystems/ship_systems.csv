@@ -6,7 +6,7 @@ Blackout Jammer,XLII_ecm_suite,1,,,,,,,2,0.05,0,0.1,0,3,,,,,,,,,,,,,graphics/ico
 Blackout Jammer (Fighter),XLII_ecm_suite_Fighter,1,,,,,,,2,0.05,0,0.1,0,3,,,,,,,,,,,,,graphics/icons/hullsys/XLII_ecm_suite.png
 Excalibur Strike,XLII_mrm_strike,,,,,,,,,,0,0.05,0.2,2,,,,,,,,,,,,offensive,graphics/icons/hullsys/drone_pd_high.png
 Emergency Power,XLII_safety_overrides,,,,,,,0.001,,,1,5,1,10,,,,,,,,,,TRUE,,movement,graphics/icons/hullsys/skimmer_degraded.png
-Time Slip,XLII_temporalshell,,,,,,0.25,,,,4,10,2,10,,,,,,,,,,,,,graphics/icons/hullsys/temporal_shell.png
+Time Slip,XLII_temporalshell,,,,,,0.25,,,,3,6,1,12,,,,,,,,,,,,,graphics/icons/hullsys/temporal_shell.png
 Time Dash,XLII_temporaldash,1,,,,,,,,,1,2.5,0.5,3,,,,,,,,,,,,movement,graphics/icons/hullsys/temporal_shell.png
 Phase Shunt,XLII_phase_shunt,,,,,,,,,,0.5,,0.5,3,TRUE,,TRUE,TRUE,TRUE,,,,TRUE,,TRUE,defensive,graphics/icons/hullsys/phase_cloak.png
 Decoy Launcher,XLII_flarelauncher,,,,,,0.1,,,,,,,5,,,,,,,,,,,,defensive,graphics/icons/hullsys/flare_launcher.png

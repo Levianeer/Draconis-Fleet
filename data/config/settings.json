@@ -1,11 +1,4 @@
 {
-	"designTypeColors":{
-	"Draconis":[130,157,209,255],
-	"XLII Battlegroup":[22,28,39,255],
-	},
-	
-	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
-
 	# ========================================
 	# DRACONIS FLEET HOSTILE ACTIVITY SETTINGS
 	# ========================================
@@ -31,19 +24,19 @@
 	"draconisExpeditionPayloadDaysVariance": 7.0,		# Random variance in payload days	#	Default : 7.0
 
 	# --- Expedition Fleet Strength ---
-	"draconisExpeditionDifficultyBase": 8.0,			# Base difficulty multiplier (reduced from 15)	#	Default : 8.0
+	"draconisExpeditionDifficultyBase": 8.0,			# Base difficulty multiplier	#	Default : 8.0
 	"draconisExpeditionDifficultyMinFactor": 0.5,		# Minimum difficulty factor	#	Default : 0.5
 	"draconisExpeditionDifficultyMaxFactor": 0.5,		# Additional scaling with market presence	#	Default : 0.5
 	"draconisExpeditionMinTotalDifficulty": 10.0,		# Minimum total difficulty (won't fire below this)	#	Default : 10.0
-	"draconisExpeditionMaxTotalDifficulty": 40,			# Maximum total difficulty cap (like base game)	#	Default : 40
-	"draconisExpeditionLeadFleetSize": 8,				# Lead fleet difficulty/size (reduced from 10)	#	Default : 8
+	"draconisExpeditionMaxTotalDifficulty": 40,			# Maximum total difficulty cap	#	Default : 40
+	"draconisExpeditionLeadFleetSize": 8,				# Lead fleet difficulty/size	#	Default : 8
 	"draconisExpeditionFleetSizeMin": 1,				# Min difficulty for additional fleets	#	Default : 1
-	"draconisExpeditionFleetSizeMax": 7,				# Max difficulty for additional fleets (reduced from 9)	#	Default : 7
+	"draconisExpeditionFleetSizeMax": 7,				# Max difficulty for additional fleets	#	Default : 7
 
 	# --- Competition Thresholds ---
 	"draconisMinCompetitorProduction": 4.0,				# Min heavy armaments production to trigger competition	#	Default : 4.0
 	"draconisMinCompetitorMarketSize": 4.0,				# Min market size to be considered a competitor	#	Default : 4.0
-	"draconisProgressPerUnitProdMult": 0.6,				# Progress increase per unit produced (Tri-Tach uses 0.5)	#	Default : 0.6
+	"draconisProgressPerUnitProdMult": 0.6,				# Progress increase per unit produced	#	Default : 0.6
 	"draconisMagnitudePerUnitProduction": 0.02,			# Magnitude contribution per unit in system	#	Default : 0.02
 	"draconisMaxMagnitude": 0.5,						# Maximum magnitude cap per system	#	Default : 0.5
 
@@ -61,7 +54,7 @@
 				"betaChance": 0.35,
 				"gammaChance": 0.50,
 				"minMarketSize": 5
-			},
+			}
 			"hegemony": { # Hegemony: Anti-AI but might have captured/confiscated cores
 				"alphaChance": 0.05,
 				"betaChance": 0.20,
@@ -102,6 +95,17 @@
 			"marketSizeWeight": 2.0
 		}
 	},
+
+	"designTypeColors":{
+	"Draconis":[130,157,209,255],
+	"XLII Battlegroup":[22,28,39,255]
+	},
+	
+	# ========================================
+	# DRACONIS GRAPHICS
+	# ========================================
+
+	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
 
 	"graphics":{
 		"intel":{

@@ -19,9 +19,9 @@ public class XLII_RetreatDrive extends BaseHullMod {
     private static final Map<HullSize, Float> CHARGE_TIMES = new EnumMap<>(HullSize.class);
     static {
         CHARGE_TIMES.put(HullSize.FRIGATE, 6f);
-        CHARGE_TIMES.put(HullSize.DESTROYER, 8f);
-        CHARGE_TIMES.put(HullSize.CRUISER, 10f);
-        CHARGE_TIMES.put(HullSize.CAPITAL_SHIP, 12f);
+        CHARGE_TIMES.put(HullSize.DESTROYER, 7f);
+        CHARGE_TIMES.put(HullSize.CRUISER, 8f);
+        CHARGE_TIMES.put(HullSize.CAPITAL_SHIP, 9f);
     }
 
     private static final float CR_LOSS_ON_WARP = 1f;
@@ -40,7 +40,6 @@ public class XLII_RetreatDrive extends BaseHullMod {
         // State variables
         private boolean warpCharging = false;
         private boolean warpExecuting = false;
-        private boolean wasRetreating = false;
         private float chargeProgress = 0f;
         private float soundCooldown = 0f;
         private SoundAPI chargingSound = null;
@@ -69,6 +68,13 @@ public class XLII_RetreatDrive extends BaseHullMod {
 
         @Override
         public void advance(float amount) {
+            // Safety checks: cleanup if ship is invalid, dead, or hulk
+            if (ship == null || !Global.getCombatEngine().isEntityInPlay(ship) ||
+                    ship.isHulk() || !ship.isAlive() || ship.isPiece()) {
+                cleanupModifiers();
+                return;
+            }
+
             if (soundCooldown > 0f) {
                 soundCooldown -= amount;
             }
@@ -90,25 +96,9 @@ public class XLII_RetreatDrive extends BaseHullMod {
         }
 
         private boolean checkShouldRetreat() {
-            // Check for manual retreat order
-            boolean isRetreatingNow = ship.isRetreating();
-            boolean playerRetreatOrder = isRetreatingNow && !wasRetreating;
-            wasRetreating = isRetreatingNow;
-
-            if (playerRetreatOrder) return true;
-
-            // Check for AI retreat assignment
-            CombatEngineAPI engine = Global.getCombatEngine();
-            if (ship.getShipAI() == null || engine == null) return false;
-
-            CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
-            if (fleetManager == null) return false;
-
-            CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(ship.isAlly());
-            if (taskManager == null) return false;
-
-            CombatFleetManagerAPI.AssignmentInfo assignmentInfo = taskManager.getAssignmentFor(ship);
-            return assignmentInfo != null && assignmentInfo.getType() == CombatAssignmentType.RETREAT;
+            // Only trigger on "Direct Retreat", not normal "Retreat"
+            // ShipAPI.isDirectRetreat() returns true only when the ship has been given the "Direct Retreat" order
+            return ship.isDirectRetreat();
         }
 
         private void startWarpCharge() {
@@ -122,6 +112,12 @@ public class XLII_RetreatDrive extends BaseHullMod {
         }
 
         private void handleCharging(float amount) {
+            // Safety check: prevent dead ship from completing charge
+            if (ship.isHulk() || !ship.isAlive()) {
+                cleanupModifiers();
+                return;
+            }
+
             chargeProgress += amount;
             float chargePercent = Math.min(chargeProgress / chargeTime, 1f);
 
@@ -219,6 +215,12 @@ public class XLII_RetreatDrive extends BaseHullMod {
         }
 
         private void handleWarpExecution(float amount) {
+            // Safety check: don't teleport a dead ship
+            if (ship.isHulk() || !ship.isAlive()) {
+                cleanupModifiers();
+                return;
+            }
+
             warpFader.advance(amount);
             ship.setRetreating(true, false);
 
@@ -252,12 +254,18 @@ public class XLII_RetreatDrive extends BaseHullMod {
         }
 
         private void completeWarp() {
+            // Final safety check: only teleport if ship is still alive
+            if (ship.isHulk() || !ship.isAlive()) {
+                cleanupModifiers();
+                return;
+            }
+
             CombatEngineAPI engine = Global.getCombatEngine();
 
             if (engine != null) {
                 CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
                 if (fleetManager != null) {
-                    fleetManager.removeDeployed(ship,true);
+                    fleetManager.removeDeployed(ship, true);
                 }
             }
 
