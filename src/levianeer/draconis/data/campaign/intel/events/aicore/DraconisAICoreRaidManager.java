@@ -16,6 +16,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private boolean factorAdded = false;
     private float checkInterval = 0f;
     private static final float CHECK_DAYS = 30f;  // Check for raid opportunities every 30 days
+    private static final float INITIAL_DELAY_DAYS = 90f;  // Minimum 90 days before first raid can trigger
 
     // Raid cap and cooldown settings
     private static final int MAX_ACTIVE_RAIDS = 1;  // Maximum number of simultaneous raids
@@ -26,6 +27,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private static final String ACTIVE_RAID_COUNT_KEY = "$draconis_activeRaidCount";
     private static final String LAST_RAID_TIMESTAMP_KEY = "$draconis_lastRaidTimestamp";
     private static final String COOLDOWN_END_TIMESTAMP_KEY = "$draconis_cooldownEndTimestamp";
+    private static final String SYSTEM_START_TIMESTAMP_KEY = "$draconis_raidSystemStartTimestamp";
 
     @Override
     public boolean isDone() {
@@ -74,6 +76,25 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
      */
     private void checkForRaidOpportunity() {
         Global.getLogger(this.getClass()).info("=== Checking for AI Core Raid Opportunity ===");
+
+        // Check if initial delay has passed
+        long systemStartTimestamp = getSystemStartTimestamp();
+        if (systemStartTimestamp == 0) {
+            // First time - record the start timestamp
+            long currentTimestamp = Global.getSector().getClock().getTimestamp();
+            Global.getSector().getMemoryWithoutUpdate().set(SYSTEM_START_TIMESTAMP_KEY, currentTimestamp);
+            Global.getLogger(this.getClass()).info("AI Core raid system initialized - 90 day delay started");
+            return;
+        }
+
+        float daysSinceSystemStart = Global.getSector().getClock().getElapsedDaysSince(systemStartTimestamp);
+        if (daysSinceSystemStart < INITIAL_DELAY_DAYS) {
+            float daysRemaining = INITIAL_DELAY_DAYS - daysSinceSystemStart;
+            Global.getLogger(this.getClass()).info(
+                "AI Core raid system on initial delay - " + String.format("%.1f", daysRemaining) + " days remaining"
+            );
+            return;
+        }
 
         // Check raid cap
         int activeRaids = getActiveRaidCount();
@@ -204,6 +225,13 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
      */
     private static long getLastRaidTimestamp() {
         return Global.getSector().getMemoryWithoutUpdate().getLong(LAST_RAID_TIMESTAMP_KEY);
+    }
+
+    /**
+     * Get the timestamp when the raid system started
+     */
+    private static long getSystemStartTimestamp() {
+        return Global.getSector().getMemoryWithoutUpdate().getLong(SYSTEM_START_TIMESTAMP_KEY);
     }
 
     /**

@@ -13,19 +13,35 @@ Version 0.4.0
   - Steel Curtain market condition for high-security targets.
   - High Value Target scanner identifies core-rich markets.
   - Comprehensive raid monitoring and success tracking.
+- IMPROVED: AI Core Raid System - Major reliability overhaul.
+  - Added 90-day initial delay before first raid can trigger (configurable).
+  - Implemented strict engagement requirements: fleet must be in combat AND within 200 units of target.
+  - Added 2-day success delay after engagement conditions are met (configurable, default 12 days).
+  - Minimum 2 days at target before engagement check begins (configurable).
+  - Fleet destruction during success countdown now properly cancels the raid.
+  - Override isFailed() to prevent premature raid failure while success conditions are being met.
+  - Added comprehensive debug logging to track engagement conditions in real-time.
+  - Fixed issue where raids could succeed/fail simultaneously.
+  - Fixed issue where raids could trigger success before fleets actually engaged the target.
+- FIXED: AI Core raids now properly trigger diplomatic strain (Nexerelin integration).
+  - Stolen AI cores now apply negative diplomatic events based on core type.
+  - Alpha Core: -4.8 disposition, Beta Core: -3.2, Gamma Core: -2.0.
+  - Strain applies to both Draconis and the victim faction (bidirectional).
+  - Only applies strain when cores are successfully installed.
+- CLEANUP: Removed unused daysElapsed variable from DraconisAICoreRaidManager.
 - Added 3 faction music tracks (friendly, neutral, hostile encounters).
 - Added new character portraits and NPC initialization system.
 - Added campaign rules for ship purchasing and faction interactions.
 - Added commissioned crews bonus (CHM_XLII_draconis hullmod).
 - Rebalanced Sunsetter-class Battleship.
-  - Hull increased: 20,000 → 30,000
-  - Armor reduced: 2,000 → 1,500
-  - Armor modules buffed: 15,000 HP / 1,200 armor (was 12,500 HP / 2,000 armor)
+  - Hull increased: 20,000 → 30,000.
+  - Armor reduced: 2,000 → 1,500.
+  - Armor modules buffed: 15,000 HP / 1,200 armor (was 12,500 HP / 2,000 armor).
 - Rebalanced Time Slip ship system.
-  - Flux cost: 4 → 3
-  - Cooldown: 10s → 6s
-  - Charges: 2 → 1
-  - Regen time: 10s → 12s
+  - Flux cost: 4 → 3.
+  - Cooldown: 10s → 6s.
+  - Charges: 2 → 1.
+  - Regen time: 10s → 12s.
 - Improved Retreat Drive (Draconis warp mechanic).
   - Now only triggers on Direct Retreat order (prevents accidental warps).
   - Reduced charge times: Destroyer 8→7s, Cruiser 10→8s, Capital 12→9s.
@@ -50,111 +66,116 @@ Version 0.4.0
 - Corrected sound and visual effect paths.
 - Fixed variant loadouts and fleet compositions.
 - Improved stability for warp drive mechanics.
-- And more...
 
 Version 0.3.5
-- Added some new mechanics to the Sunsetter bounty fight.
+- Added new mechanics to the Sunsetter bounty fight.
 
 Version 0.3.4
-- Introduced the Kuma-class capital ship.
-- Added the Breach Jammer ship system to the Juni-class.
-- Several weapons have been given a "DoT" effect, instead of their old armour stripping effect. (See Manongel Gun Launcher)
-- Added more descriptions.
-- Added/Changed ship variants.
-- Improved ship system AI; they should work a lot better now.
+- NEW: Kuma-class capital ship.
+- Added Breach Jammer ship system to the Juni-class.
+- CHANGED: Several weapons now have DoT effect instead of armor stripping.
+  - See Manongel Gun Launcher for example.
+- Added more ship and weapon descriptions.
+- Added/changed ship variants.
+- Improved ship system AI behavior.
 - Removed deprecated weapon effect scripts.
-- Balancing changes to built-in hullmods.
+- Rebalanced built-in hullmods.
 - Adjusted Sunsetter bounty fight.
-- Adjusted faction configs. Again. He can't keep getting away with it!
-- And more...
+- Updated faction configurations.
 
 Version 0.3.3
-- Updated Draconis faction config.
-- Adjusted weapon and hull frequencies, ship roles, and market industry setup.
-- Minor fixes to sound references and CSV trail data for new weapon effects.
+- Updated Draconis faction configuration.
+- Adjusted weapon and hull frequencies.
+- Updated ship roles and market industry setup.
+- Fixed sound references and CSV trail data for weapon effects.
 
 Version 0.3.2
-- Changed Particle Burst Lance damage type, ENERGY -> HIGH_EXPLOSIVE.
+- CHANGED: Particle Burst Lance damage type from ENERGY to HIGH_EXPLOSIVE.
 
 Version 0.3.1
-- Changed weapon stats for Rapier Autocannon and Particle Burst Lance.
-- Updated ship variants to adjust.
-- Updated names and descriptions that were unfinished.
+- Rebalanced Rapier Autocannon and Particle Burst Lance.
+- Updated ship variants accordingly.
+- Finished incomplete names and descriptions.
 
 Version 0.3.0
-- Added new Destroyer, Giausar-class.
-- Added a mechanic to Draconis ships, they will now warp out of combat instead of direct retreating.
-- Improved a few sprites.
-- Updated a few .proj FXs.
-- Reworked the Twin Spear Cannon.
-- Nerfed the Mangonel Gun Launcher.
-- Nerfed the Eltanin-class Cruiser.
-- Cahnge Eltanin-class Cruiser large mount from Ballistic to Hybrid.
-- Changed the Juza-class Cruiser balance.
+- NEW: Giausar-class Destroyer.
+- NEW: Draconis warp retreat mechanic.
+  - Ships now warp out instead of direct retreating.
+- Improved several ship sprites.
+- Updated projectile FX (.proj files).
+- Reworked Twin Spear Cannon.
+- Rebalanced Mangonel Gun Launcher (nerf).
+- Rebalanced Eltanin-class Cruiser (nerf).
+  - Changed large mount from Ballistic to Hybrid.
+- Rebalanced Juza-class Cruiser.
 - Added Bardiche missile AI.
-- Limited weapon balance pass.
-- Changed fleet doctrine, again...
+- General weapon balance pass.
+- Updated fleet doctrine.
 
 Version 0.2.3
-- Added new Heavy Cruiser, Juza-class.
-- Added new Cruiser, Juni-class.
-- Revised the role of the Bardiche missiles.
-- Add a 1 second cooldown to Evasion Protocol ship system.
-- Raised the Estoc's firerate and lowered the damage.
-    - Updated the Estoc texture to make it look a little sharper
-- Lowered Nodus engagement range to something reasonable.
-- Adjusted audio balancing.
-- Buffed the Particle Burst Lance.
-    - Changed the Particle Lance's SFX.
-- Removed the Emergency Power's passive reduction to CR. In it's place I've made it so the system just removes a very small amount of CR on use.
-    - Increased Emergency Power's cooldown.
-- Added back the Asuia's built-in weapon.
-    - Moved the Asuia to a bounty.
-- Reduced the number of chaff/flare fired. Got too laggy in some situations.
-- Reworked the Errakis.
-- Changed fleet doctrine.
-- And a lot more...
+- NEW: Juza-class Heavy Cruiser.
+- NEW: Juni-class Cruiser.
+- Revised Bardiche missile role.
+- Added 1 second cooldown to Evasion Protocol ship system.
+- Rebalanced Estoc weapon.
+  - Increased fire rate, reduced damage.
+  - Updated weapon texture.
+- Reduced Nodus engagement range.
+- Improved audio balancing.
+- Buffed Particle Burst Lance.
+  - Changed weapon SFX.
+- Reworked Emergency Power ship system.
+  - Removed passive CR reduction.
+  - Now consumes small amount of CR on activation.
+  - Increased cooldown.
+- Restored Asuia's built-in weapon.
+  - Moved Asuia to bounty encounter.
+- Reduced chaff/flare count (performance improvement).
+- Reworked Errakis-class ship.
+- Updated fleet doctrine.
 
 Version 0.2.2
-- Fixed variants setup.
+- Fixed ship variant configurations.
 
 Version 0.2.1
-- Added new Estoc sfx.
-  - Lowered Estoc firerate.
+- Added new Estoc SFX.
+  - Reduced fire rate.
   - Increased reload time.
-  - Increased accuracy.
-- Fixed up the MagicLib bounties. Still need descriptions though.
-- Added new sounds to the Estoc flak.
-- Removed AI core spam on Kori and Vorium.
-- Fixed Kori industry.
-- Fixed broke shield pierce mechanic on the Halberd.
-- Removed some extra engines on the Asuia.
+  - Improved accuracy.
+- Updated MagicLib bounties (descriptions still needed).
+- Added new Estoc flak sounds.
+- Removed AI core spam from Kori and Vorium markets.
+- Fixed Kori industry configuration.
+- Fixed Halberd shield pierce mechanic.
+- Removed extra engines from Asuia.
 
 Version 0.2.0
-- Added forums link to versioning.
+- Added forums link to version file.
+- NEW: Nodus fighter drone.
+  - Includes built-in Arquebus SRM Launcher.
+- NEW: Estoc flak cannon (small Razor Flak variant).
 - Added missing Bardiche descriptions.
-  - Added the Nodus drone, a fighter drone.
-  - Added new missile launcher, the Arquebus SRM Launcher, a built-in for the Nodus.
-- Added Estoc flak cannon, a small version of the Razor Flak.
-- Improved Phase Mine FX for the Shaowei.
-- Improved the faction icon/banner.
-- Improved the Mk.II Durendal Cannon sprite.
-  - Improved Pulsar Jammer ship system.
-  - Now issues a defend order when used by the AI, to make them exploit it better.
+- Improved Phase Mine FX for Shaowei.
+- Improved faction icon/banner.
+- Updated Mk.II Durendal Cannon sprite.
+- Improved Pulsar Jammer ship system.
+  - AI now issues defend order when using system.
 - Improved Emergency Power ship system.
-  - Less effective the larger the hullsize.
+  - Scales with hull size (less effective on larger ships).
   - Increased duration and cooldown.
-  - Reduced chargeup and chargedown times.
-- Buffed the Alwaid Battlecarrier.
-- Reduced the Rapier Autocannon's ammo count from 24 to 6.
-  - Increased the Rapier Autocannon's range from 800 to 900.
-- Reduced max engagement range of most fighters
-- Fixed the FX of the Razor Flak's explosions.
-- Fixed some bad wing_data tagging.
-- Reworked Star System generation to avoid using a .json for markets.
-  - Should fix the issue with the Fafnir system markets being owned by two different factions.
-  - Unfortunately, I'm pretty sure this stops the update from being backwards compatible.
-- Improved Engine FX.
+  - Reduced charge-up and charge-down times.
+- Buffed Alwaid Battlecarrier.
+- Rebalanced Rapier Autocannon.
+  - Ammo: 24 → 6.
+  - Range: 800 → 900.
+- Reduced fighter engagement ranges across the board.
+- Fixed Razor Flak explosion FX.
+- Fixed wing_data tagging issues.
+- MAJOR: Reworked star system generation.
+  - No longer uses .json for market definitions.
+  - Fixes Fafnir system dual-faction ownership bug.
+  - WARNING: Not backwards compatible with old saves.
+- Improved engine FX.
 
 Version 0.1.0
-- Initial Release.
+- Initial release.

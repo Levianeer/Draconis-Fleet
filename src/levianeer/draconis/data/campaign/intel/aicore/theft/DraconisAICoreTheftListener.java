@@ -167,6 +167,23 @@ public class DraconisAICoreTheftListener {
 
             int installed = installStolenCores(stolenCores, raidedMarket, isPlayerMarket, actionType);
 
+            // Apply diplomatic strain (Nexerelin integration)
+            if (installed > 0) {
+                int alphaCount = 0;
+                int betaCount = 0;
+                int gammaCount = 0;
+
+                for (String coreId : stolenCores) {
+                    if (coreId.equals(Commodities.ALPHA_CORE)) alphaCount++;
+                    else if (coreId.equals(Commodities.BETA_CORE)) betaCount++;
+                    else if (coreId.equals(Commodities.GAMMA_CORE)) gammaCount++;
+                }
+
+                levianeer.draconis.data.campaign.intel.aicore.diplomacy.DraconisDiplomacyStrain.applyAICoreStrain(
+                        raidedMarket.getFactionId(), alphaCount, betaCount, gammaCount
+                );
+            }
+
             Global.getLogger(DraconisAICoreTheftListener.class).info(
                     "=== AI CORE THEFT COMPLETE ==="
             );
