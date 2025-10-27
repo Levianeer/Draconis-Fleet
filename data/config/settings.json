@@ -54,7 +54,7 @@
 				"betaChance": 0.35,
 				"gammaChance": 0.50,
 				"minMarketSize": 5
-			}
+			},
 			"hegemony": { # Hegemony: Anti-AI but might have captured/confiscated cores
 				"alphaChance": 0.05,
 				"betaChance": 0.20,
@@ -96,14 +96,14 @@
 		}
 	},
 
+    # ========================================
+    # DRACONIS GRAPHICS
+    # ========================================
+
 	"designTypeColors":{
 	"Draconis":[130,157,209,255],
 	"XLII Battlegroup":[22,28,39,255]
 	},
-	
-	# ========================================
-	# DRACONIS GRAPHICS
-	# ========================================
 
 	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
 

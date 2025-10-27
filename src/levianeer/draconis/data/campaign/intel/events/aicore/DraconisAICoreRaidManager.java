@@ -145,6 +145,11 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
         // Increment active raid count
         incrementActiveRaidCount();
+
+        // Start cooldown immediately to prevent multiple raids from triggering
+        // Use a temporary cooldown that will be replaced when the raid actually completes
+        startCooldown(true);
+        Global.getLogger(this.getClass()).info("Temporary cooldown started - will be updated when raid completes");
     }
 
     /**

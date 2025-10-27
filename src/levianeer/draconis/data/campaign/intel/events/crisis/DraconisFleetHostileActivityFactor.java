@@ -443,20 +443,16 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
             totalDifficulty = maxDifficulty;
         }
 
-        int leadFleetSize = Global.getSettings().getInt("draconisExpeditionLeadFleetSize");
-        totalDifficulty -= leadFleetSize;
-        params.fleetSizes.add(leadFleetSize);
-
-        int maxFleets = Global.getSettings().getInt("draconisMaxFleets");
-
-        int fleetSizeMin = Global.getSettings().getInt("draconisExpeditionFleetSizeMin");
-        int fleetSizeMax = Global.getSettings().getInt("draconisExpeditionFleetSizeMax");
-
-        while (totalDifficulty > 0 && params.fleetSizes.size() < maxFleets) {
-            int diff = fleetSizeMin + random.nextInt(fleetSizeMax - fleetSizeMin + 1);
-            params.fleetSizes.add(diff);
-            totalDifficulty -= diff;
+        // Send 1 massive SMOD_3 quality fleet (stealth operation - single coordinated strike)
+        // Fleet size scales with difficulty, 3x larger than old individual fleets
+        int fleetSize = 30; // Base size (3x10)
+        if (totalDifficulty >= 30) {
+            fleetSize = 45; // 3x15
+        } else if (totalDifficulty >= 20) {
+            fleetSize = 36; // 3x12
         }
+
+        params.fleetSizes.add(fleetSize);
 
         Global.getLogger(this.getClass()).info("Total difficulty: " + totalDifficulty);
         Global.getLogger(this.getClass()).info("Fleet count: " + params.fleetSizes.size());

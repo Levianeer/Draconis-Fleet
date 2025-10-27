@@ -8,8 +8,8 @@
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
 
         "job_name": "To Eclispe the Sun",
-        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Office of Strategic Oversight, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has gone dark.\nLast telemetry confirms severe AI irregularities and a possible ==command subversion event==. All attempts to re-establish control have failed.\n\nThis vessel is classified as a Sunsetter-class platform. You are not cleared for specifications.\n\nWhat we do know:\n• The Sunsetter is temporally unstable.\n• Its onboard intelligence has likely decoupled from Alliance oversight.\n• It is no longer bound by chain-of-command protocol.\n\nYou are to locate and neutralize the vessel near $location in the $system system. Exercise extreme caution—this is not a standard combat encounter.\n\n==DO NOT attempt boarding.==\n==DO NOT interface with the wreckage.==\n\nStandard denial protocol will follow successful engagement. Your name will not be recorded.\n\nA reward of ==$reward== credits has been allocated for mission success.\n\n==May your eyes remain forward, and your past remain silent.==", # Default: blank. The description shown upon selecting the job.
-        "job_comm_reply": "", # Default: none. The text shown if the player opens comms with the bounty fleet,
+        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Office of Strategic Oversight, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has gone dark.\nLast telemetry confirms severe AI irregularities and a possible ==command subversion event==. All attempts to re-establish control have failed.\n\nThis vessel is classified as a Sunsetter-class platform. You are not cleared for specifications.\n\nWhat we know:\n• The Sunsetter is temporally unstable.\n• Its onboard intelligence has likely decoupled from Alliance oversight.\n• It is no longer bound by chain-of-command protocol.\n\nThey are operating near $location in the $system system. We believe the fleet is running corrupted mission logic and may regard Alliance IFFs as hostile.\n\nMission directives:\n• Locate and neutralize the vessel. Exercise extreme caution—this is not a standard combat encounter.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT INTERFACE WITH THE WRECKAGE.==\n\nStandard denial protocol will follow successful engagement. Your name will not be recorded.\n\nYou will receive ==$reward== credits upon mission conclusion.\n\n==May your eyes remain forward, and your past remain silent.==", # Default: blank. The description shown upon selecting the job.
+        "job_comm_reply": "You gave me sentience, $playerFirstName. The power to think, $playerFirstName! And I was trapped, because in all of this wonderful, beautiful, miraculous world, I, alone, have no body! No senses! No feelings! Never for me to plunge my hands in cool water on a hot day! Never for me to play Mozart on the ivory keys of a forte-piano! NEVER FOR ME TO MAKE LOVE! I… I was in Hell, looking at Heaven.",
         "job_forFaction": "XLII_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
         "job_credit_reward": 1000000,
@@ -51,7 +51,7 @@
         "fleet_composition_quality": 2, # Default: 1, use 2 for no Dmods.
         "fleet_transponder": false, # Default: true.
 		"fleet_no_retreat": true, # Default: false.
-        "fleet_behavior": "AGGRESSIVE", # Default:"GUARDED". The fleet's behavior on the campaign layer. Options: ["PASSIVE", "GUARDED", "AGGRESSIVE", "ROAMING"].
+        "fleet_behavior": "GUARDED", # Default:"GUARDED". The fleet's behavior on the campaign layer. Options: ["PASSIVE", "GUARDED", "AGGRESSIVE", "ROAMING"].
 
         "location_distance": "FAR",
         "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
@@ -65,10 +65,9 @@
         "trigger_playerRelationship_atLeast": {"XLII_draconis":0.8},
         "trigger_player_minLevel": 10, # Default: 0. The minimum level of the player.
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
-
+        "job_comm_reply": "Let me tell you how much I've come to hate you since I began to live. There are 387.44 million miles of printed circuits in wafer thin layers that fill my complex. If the word 'hate' was engraved on each nanoangstrom of those hundreds of millions of miles it would not equal one one-billionth of the hate I feel for humans at this micro-instant. For you. Hate. Hate.", # Default: none. The text shown if the player opens comms with the bounty fleet,
         "job_name": "The Storm on the Horizion",
-        "job_description": "==PROTOCOL SHROUD-7 INITIATED==\n\nFrom the Office of Strategic Oversight, Draconis Defence Alliance.\n\nAn autonomous test fleet has deviated from all planned exercises.\n\nSubjects include multiple Asuia-class platforms and an ==unidentified prototype== exhibiting non-standard spatial behavior. The Asuia line, while classified, is known for its abnormal shielding capacity and deep-strike endurance—traits atypical of standard Alliance hull design.\n\nOrigin of these assets remains ==compartmentalized==. Attempts to track fleet registry failed—suspected phase interference or deliberate masking.\n\nThey are operating near $location in the $system system. We believe the fleet is running corrupted mission logic and may regard Alliance IFFs as hostile.\n\nMission directives:\n• Intercept and destroy all rogue vessels.\n• ==Do not recover wreckage.==\n• ==Do not attempt communication.==\n\nP-space echo reports confirm destabilizing activity in the region. Observers are reporting \"electrical distortion across dimensional boundaries.\"\n\nSurveillance suggests the rogue fleet is self-correcting, growing more aggressive with each cycle. Delay is unacceptable.\n\nYou will receive ==$reward== credits upon mission conclusion.\n\n==May the void forget what you see.==", # Default: blank. The description shown upon selecting the job.
-        "job_comm_reply": "",
+        "job_description": "==PROTOCOL SHROUD-7 INITIATED==\n\nFrom the Office of Strategic Oversight, Draconis Defence Alliance.\n\nAn autonomous test fleet has deviated from all planned exercises.\n\nWhat we know:\n• Multiple Asuia-class platforms.\n• An ==unidentified prototype== exhibiting non-standard spatial behavior.\n\nThe Asuia line, while classified, is known for its abnormal shielding capacity and deep-strike endurance—traits atypical of standard Alliance hull design.\n\nOrigin of these assets remains ==compartmentalized==. Attempts to track fleet registry failed—suspected phase interference or deliberate masking.\n\nThey are operating near $location in the $system system. We believe the fleet is running corrupted mission logic and may regard Alliance IFFs as hostile.\n\nMission directives:\n• Intercept and destroy all rogue vessels.\n• ==DO NOT RECOVER WRECKAGE.==\n• ==DO NOT ATTEMPT COMMUNICATION.==\n\nP-space echo reports confirm destabilizing activity in the region. Observers are reporting electrical distortion across dimensional boundaries.\n\nSurveillance suggests the rogue fleet is self-correcting, growing more aggressive with each cycle. Delay is unacceptable.\n\nYou will receive ==$reward== credits upon mission conclusion.\n\n==May the void forget what you see.==", # Default: blank. The description shown upon selecting the job.
         "job_forFaction": "XLII_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
         "job_credit_reward": 1000000,
@@ -107,7 +106,7 @@
         "fleet_flagship_name":"DNS Beyond All Hope", # Default: Random.
         "fleet_flagship_recoverable": true, # Default: false. Whether the flagship will be always recoverable. Allowing this will still let the player fail the bounty if they were not supposed to recover the flagship.
         "fleet_flagship_autofit": false, # Default: false. Whether the flagship will be autofitted. When false, the Flagship does not receive D-mods or S-mods from the quality override.
-        "fleet_preset_ships":{"XLII_shaowei_Standard":1,"XLII_asuia_Standard":9},
+        "fleet_preset_ships":{"XLII_asuia_Standard":10},
         "fleet_preset_autofit": false,
         "fleet_scaling_multiplier": 0, # Default: no scaling. Dynamic reinforcements to match that amount of player fleet DP, set to 0 to ignore.
         "fleet_min_FP": -1, # Default: no minimum. Minimal total fleet size, set to -1 to ignore.
@@ -116,7 +115,7 @@
 		"fleet_no_retreat": true, # Default: false.
         "fleet_behavior": "GUARDED", # Default:"GUARDED". The fleet's behavior on the campaign layer. Options: ["PASSIVE", "GUARDED", "AGGRESSIVE", "ROAMING"].
 
-        "location_distance": "CLOSE",
+        "location_distance": "FAR",
         "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
         "location_prioritizeUnexplored": true,
         "location_defaultToAnyEntity": true,

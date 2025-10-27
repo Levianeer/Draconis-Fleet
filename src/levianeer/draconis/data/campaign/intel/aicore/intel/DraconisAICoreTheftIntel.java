@@ -12,28 +12,32 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
 import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 /**
  * Intel notification when Draconis successfully steals AI cores from a market
+ * Now tracks multiple installation locations for a single raid
  */
 public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
 
     private final MarketAPI stolenFromMarket;
-    private final MarketAPI installedAtMarket;
+    private final Map<MarketAPI, Integer> installationLocations; // Market -> number of cores installed there
     private final List<String> stolenCores;
     private final String actionType; // "raid", "invasion", "ground_battle"
     private final long theftDate;
     private final boolean wasPlayerMarket;
 
-    public DraconisAICoreTheftIntel(MarketAPI stolenFrom, MarketAPI installedAt,
-                                    List<String> cores, String actionType, boolean isPlayerMarket) {
+    public DraconisAICoreTheftIntel(MarketAPI stolenFrom,
+                                    Map<MarketAPI, Integer> installations,
+                                    List<String> cores,
+                                    String actionType,
+                                    boolean isPlayerMarket) {
         this.stolenFromMarket = stolenFrom;
-        this.installedAtMarket = installedAt;
-        this.stolenCores = cores;
+        this.installationLocations = new HashMap<>(installations);
+        this.stolenCores = new ArrayList<>(cores);
         this.actionType = actionType;
         this.wasPlayerMarket = isPlayerMarket;
         this.theftDate = Global.getSector().getClock().getTimestamp();
@@ -44,7 +48,7 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
                                    Color tc, float initPad) {
         float pad = 0f;
 
-        FactionAPI draconisFaction = Global.getSector().getFaction(DRACONIS);
+        Global.getSector().getFaction(DRACONIS);
         FactionAPI victimFaction = stolenFromMarket.getFaction();
 
         // Number of cores stolen
@@ -128,22 +132,50 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
             info.addPara("• Gamma Cores: %s", 3f, bad, String.valueOf(gammaCores));
         }
 
-        // Installation location
-        if (installedAtMarket != null) {
+        // Installation locations
+        if (!installationLocations.isEmpty()) {
             info.addSectionHeading("Intelligence Assessment",
                     draconisFaction.getBaseUIColor(),
                     draconisFaction.getDarkUIColor(),
                     com.fs.starfarer.api.ui.Alignment.MID, opad);
 
-            str = "Signals intelligence has detected the stolen AI cores in operation at "
-                    + installedAtMarket.getName() + ", a Draconis facility in the "
-                    + installedAtMarket.getStarSystem().getNameWithLowercaseType()
-                    + ". The cores are reportedly enhancing industrial output and military capabilities.";
+            if (installationLocations.size() == 1) {
+                // Single installation location
+                MarketAPI market = installationLocations.keySet().iterator().next();
+                int count = installationLocations.get(market);
 
-            para = info.addPara(str, opad);
-            para.setHighlight(installedAtMarket.getName(),
-                    installedAtMarket.getStarSystem().getNameWithLowercaseType());
-            para.setHighlightColors(h, h);
+                str = "Signals intelligence has detected the stolen AI core" + (count > 1 ? "s" : "")
+                        + " in operation at " + market.getName()
+                        + ", a Draconis facility in the " + market.getStarSystem().getNameWithLowercaseType()
+                        + ". The core" + (count > 1 ? "s are" : " is") + " reportedly enhancing "
+                        + "industrial output and military capabilities.";
+
+                para = info.addPara(str, opad);
+                para.setHighlight(market.getName(), market.getStarSystem().getNameWithLowercaseType());
+                para.setHighlightColors(h, h);
+            } else {
+                // Multiple installation locations
+                str = "Signals intelligence has detected the stolen AI cores distributed across "
+                        + installationLocations.size() + " Draconis facilities:";
+
+                info.addPara(str, opad);
+
+                for (Map.Entry<MarketAPI, Integer> entry : installationLocations.entrySet()) {
+                    MarketAPI market = entry.getKey();
+                    int count = entry.getValue();
+
+                    String marketInfo = "• " + market.getName() + " (" + market.getStarSystem().getNameWithLowercaseType()
+                            + "): " + count + " core" + (count > 1 ? "s" : "");
+
+                    para = info.addPara(marketInfo, 3f);
+                    para.setHighlight(market.getName(), String.valueOf(count));
+                    para.setHighlightColors(h, h);
+                }
+
+                str = "The cores are reportedly enhancing industrial output and military capabilities across "
+                        + "the Draconis Alliance.";
+                info.addPara(str, opad);
+            }
         }
 
         // Diplomatic impact

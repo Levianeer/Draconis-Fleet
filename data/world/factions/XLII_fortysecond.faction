@@ -126,12 +126,12 @@
 		"phaseShips":1,
 
 		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably ""fair""
-		"shipQuality":1,
-		"numShips":1,
+		"shipQuality":5, # Elite ships for AI core raids
+		"numShips":5,
 
-		"shipSize":5,
+		"shipSize":5, # Maximum size preference (capitals and cruisers)
 
-		"aggression":2,
+		"aggression":5, # Maximum aggression for raids
 		
 		"combatFreighterProbability":0,      				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup

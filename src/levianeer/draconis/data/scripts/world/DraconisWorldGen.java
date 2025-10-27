@@ -1,4 +1,4 @@
-package data.world;
+package levianeer.draconis.data.scripts.world;
 
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.RepLevel;
@@ -6,7 +6,7 @@ import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorGeneratorPlugin;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 
-public class draconisWorldGen implements SectorGeneratorPlugin {
+public class DraconisWorldGen implements SectorGeneratorPlugin {
 	@Override
     public void generate(SectorAPI sector) {
 		initFactionRelationships(sector);
@@ -22,6 +22,7 @@ public class draconisWorldGen implements SectorGeneratorPlugin {
 		FactionAPI player = sector.getFaction(Factions.PLAYER);
 		FactionAPI diktat = sector.getFaction(Factions.DIKTAT);
 		FactionAPI league = sector.getFaction(Factions.PERSEAN);
+		FactionAPI remnant = sector.getFaction(Factions.REMNANTS);
 		FactionAPI XLII_draconis = sector.getFaction("XLII_draconis");
 
 		// VENGEFUL / HOSTILE / INHOSPITABLE / SUSPICIOUS / NEUTRAL / FAVORABLE / WELCOMING / FRIENDLY / COOPERATIVE
@@ -35,5 +36,6 @@ public class draconisWorldGen implements SectorGeneratorPlugin {
 		XLII_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.NEUTRAL);
 		XLII_draconis.setRelationship(Factions.DIKTAT, RepLevel.NEUTRAL);
 		XLII_draconis.setRelationship(Factions.PLAYER, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(Factions.REMNANTS, RepLevel.HOSTILE);
     }
 }

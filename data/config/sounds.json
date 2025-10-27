@@ -53,9 +53,9 @@
 
 	"XLII_durendal_mkii_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.95},
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.95},
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.95}
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.85},
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.85},
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.85}
 		],
     },
 

@@ -12,7 +12,7 @@
 		"contrailColor":[50,50,50,50],
 		"contrailCampaignColor":[200,90,70,75],
 		"engineGlowGlowMult":2,
-		"type":"GLOW", # GLOW or SMOKE
+		"type":"GLOW",
 
 		"glowSprite":"graphics/fx/XLII_engineglow64.png",
 		"glowOutline":"graphics/fx/XLII_engineflame64.png",
@@ -32,13 +32,13 @@
 		"contrailAngularVelocityMult":0.35,
 		"contrailColor":[120,105,35,50],
 		"engineGlowGlowMult":1.5,
-		"type":"GLOW", # GLOW or SMOKE
+		"type":"GLOW",
 
 		"glowSprite":"graphics/fx/XLII_engineglow64.png",
 		"glowOutline":"graphics/fx/XLII_engineflame64.png",
 		"omegaMode":true,
 		"glowSizeMult":1,
-		"glowAlternateColor":[150,75,50,255],
+		"glowAlternateColor":[150,75,50,255]
 	},
 
 	"DRACONIS_FIGHTER":{
@@ -54,7 +54,7 @@
 		"contrailColor":[50,50,50,50],
 		"contrailCampaignColor":[200,90,70,75],
 		"engineGlowGlowMult":1.5,
-		"type":"GLOW", # GLOW or SMOKE
+		"type":"GLOW",
 
 		"glowSprite":"graphics/fx/XLII_engineglow64.png",
 		"glowOutline":"graphics/fx/XLII_engineflame64.png",

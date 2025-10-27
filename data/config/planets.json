@@ -16,5 +16,5 @@
 		"cloudTexture":"graphics/planets/clouds_banded01.png", # omit for no cloud layer
 		"cloudColor":[190,200,220,240],
 		"cloudRotation":9, # degrees/second, optional
-	},
+	}
 }

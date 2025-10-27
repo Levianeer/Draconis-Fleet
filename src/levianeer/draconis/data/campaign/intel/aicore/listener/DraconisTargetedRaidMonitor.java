@@ -78,9 +78,20 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         // Generate ID based on market and timestamp
         String eventId = generateStableEventId(target, "aicore_raid");
 
-        // Try to add to set first
+        // Check if raid is complete FIRST, before checking if we've processed it
+        // This fixes the timing issue where we'd mark it processed before it completes
+        boolean isComplete = raid.isEnded() || raid.isSucceeded() || raid.isFailed();
+
+        if (!isComplete) {
+            // Raid still in progress - don't process yet
+            // Remove from processed set if it was added prematurely
+            processedEvents.remove(eventId);
+            return;
+        }
+
+        // Raid is complete - check if we've already processed this completion
         if (!processedEvents.add(eventId)) {
-            // Already processed, skip silently
+            // Already processed this specific raid completion, skip
             return;
         }
 
@@ -92,36 +103,49 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
                 " | EventID: " + eventId
         );
 
-        // Check if raid is complete
-        if (raid.isEnded() || raid.isSucceeded() || raid.isFailed()) {
-            if (raid.isSucceeded()) {
-                Global.getLogger(this.getClass()).info(
-                        "=========================================="
-                );
-                Global.getLogger(this.getClass()).info(
-                        "=== DRACONIS AI CORE RAID SUCCEEDED ==="
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
-                );
+        // NOTE: DraconisAICoreRaidIntel now handles its own AI core theft
+        // This monitor only needs to log completion for tracking purposes
 
-                handleSuccessfulAction(target, "ai_core_raid");
-            } else if (raid.isFailed()) {
+        if (raid.isSucceeded() || raid.isEnded()) {
+            Global.getLogger(this.getClass()).info(
+                    "=========================================="
+            );
+            Global.getLogger(this.getClass()).info(
+                    "=== DRACONIS AI CORE RAID COMPLETED ==="
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Status: " + (raid.isSucceeded() ? "SUCCEEDED" : "ENDED (treating as success)"));
+            Global.getLogger(this.getClass()).info(
+                    "Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
+            );
+            Global.getLogger(this.getClass()).info(
+                    "AI core theft already handled by raid intel - monitor is just tracking completion"
+            );
+            Global.getLogger(this.getClass()).info(
+                    "=========================================="
+            );
+
+            // Don't call handleSuccessfulAction - raid intel already stole cores
+            // Just clear the target flags if needed
+            boolean wasHighValueTarget = target.getMemoryWithoutUpdate().getBoolean(
+                    DraconisSingleTargetScanner.HIGH_VALUE_TARGET_FLAG
+            );
+
+            if (wasHighValueTarget) {
+                // Flags should already be cleared by raid intel, but double-check
                 Global.getLogger(this.getClass()).info(
-                        "Draconis AI Core raid on " + target.getName() + " FAILED - no cores stolen"
+                        "High-value target flags should already be cleared by raid intel"
                 );
-                // Clear target condition even on failure
-                clearTargetConditionAfterRaid(target);
-            } else if (raid.isEnded()) {
-                Global.getLogger(this.getClass()).info(
-                        "Draconis AI Core raid on " + target.getName() + " ENDED - attempting theft anyway"
-                );
-                handleSuccessfulAction(target, "ai_core_raid");
             }
-        } else {
-            // Raid still in progress - remove from set so we can check again
-            processedEvents.remove(eventId);
+        } else if (raid.isFailed()) {
+            Global.getLogger(this.getClass()).info(
+                    "Draconis AI Core raid on " + target.getName() + " FAILED - no cores stolen"
+            );
+            // Clear target condition even on failure
+            clearTargetConditionAfterRaid(target);
         }
+
+        // Keep event in processed set - raid has been handled
     }
 
     private void checkRaid(NexRaidIntel raid) {
@@ -134,10 +158,18 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         // Generate ID based on market and timestamp
         String eventId = generateStableEventId(target, "raid");
 
-        // MORE DEFENSIVE: Try to add to set first, if already there, skip entirely
-        // This is atomic with HashSet - if it returns false, means it was already there
+        // Check if raid is complete FIRST, before checking if we've processed it
+        boolean isComplete = raid.isEnded() || raid.isSucceeded() || raid.isFailed();
+
+        if (!isComplete) {
+            // Raid still in progress - don't process yet
+            processedEvents.remove(eventId);
+            return;
+        }
+
+        // Raid is complete - check if we've already processed this completion
         if (!processedEvents.add(eventId)) {
-            // Already processed, skip silently
+            // Already processed this specific raid completion, skip
             return;
         }
 
@@ -150,63 +182,59 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
                 " | EventID: " + eventId
         );
 
-        // Check if raid is complete (succeeded or failed)
-        if (raid.isEnded() || raid.isSucceeded() || raid.isFailed()) {
-            // IMPORTANT: Check isSucceeded() FIRST, even if isFailed() is also true
-            // Nexerelin sometimes sets both flags, but success should take priority
-            if (raid.isSucceeded()) {
-                Global.getLogger(this.getClass()).info(
-                        "=========================================="
-                );
-                Global.getLogger(this.getClass()).info(
-                        "=== DRACONIS RAID SUCCEEDED ==="
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Event ID: " + eventId
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Raid faction: " + (raid.getFaction() != null ? raid.getFaction().getDisplayName() : "unknown")
-                );
+        // Process the completed raid
+        // IMPORTANT: Check isSucceeded() FIRST, even if isFailed() is also true
+        // Nexerelin sometimes sets both flags, but success should take priority
+        if (raid.isSucceeded()) {
+            Global.getLogger(this.getClass()).info(
+                    "=========================================="
+            );
+            Global.getLogger(this.getClass()).info(
+                    "=== DRACONIS RAID SUCCEEDED ==="
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Event ID: " + eventId
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Raid faction: " + (raid.getFaction() != null ? raid.getFaction().getDisplayName() : "unknown")
+            );
 
+            handleSuccessfulAction(target, "raid");
+        } else if (raid.isFailed()) {
+            Global.getLogger(this.getClass()).info(
+                    "Draconis raid on " + target.getName() + " FAILED - no cores stolen"
+            );
+            Global.getLogger(this.getClass()).info(
+                    "  Reason check: isEnded=" + raid.isEnded() +
+                    ", isFailed=" + raid.isFailed() +
+                    ", isSucceeded=" + raid.isSucceeded()
+            );
+        } else if (raid.isEnded()) {
+            Global.getLogger(this.getClass()).info(
+                    "Draconis raid on " + target.getName() + " ENDED (no explicit success/fail)"
+            );
+            Global.getLogger(this.getClass()).info(
+                    "  Checking if target still has AI cores to determine actual success..."
+            );
+
+            // WORKAROUND: If raid ended without explicit success/fail,
+            // check if target was marked as high-value and attempt theft anyway
+            boolean wasHighValueTarget = target.getMemoryWithoutUpdate().getBoolean(
+                    DraconisSingleTargetScanner.HIGH_VALUE_TARGET_FLAG
+            );
+
+            if (wasHighValueTarget) {
+                Global.getLogger(this.getClass()).info(
+                        "  High-value target - attempting theft as raid likely completed objectives"
+                );
                 handleSuccessfulAction(target, "raid");
-            } else if (raid.isFailed()) {
-                Global.getLogger(this.getClass()).info(
-                        "Draconis raid on " + target.getName() + " FAILED - no cores stolen"
-                );
-                Global.getLogger(this.getClass()).info(
-                        "  Reason check: isEnded=" + raid.isEnded() +
-                        ", isFailed=" + raid.isFailed() +
-                        ", isSucceeded=" + raid.isSucceeded()
-                );
-            } else if (raid.isEnded()) {
-                Global.getLogger(this.getClass()).info(
-                        "Draconis raid on " + target.getName() + " ENDED (no explicit success/fail)"
-                );
-                Global.getLogger(this.getClass()).info(
-                        "  Checking if target still has AI cores to determine actual success..."
-                );
-
-                // WORKAROUND: If raid ended without explicit success/fail,
-                // check if target was marked as high-value and attempt theft anyway
-                boolean wasHighValueTarget = target.getMemoryWithoutUpdate().getBoolean(
-                        DraconisSingleTargetScanner.HIGH_VALUE_TARGET_FLAG
-                );
-
-                if (wasHighValueTarget) {
-                    Global.getLogger(this.getClass()).info(
-                            "  High-value target - attempting theft as raid likely completed objectives"
-                    );
-                    handleSuccessfulAction(target, "raid");
-                }
             }
-            // Keep event in processed set - raid is finished either way
-        } else {
-            // Raid still in progress - remove from set so we can check again
-            processedEvents.remove(eventId);
         }
+
+        // Keep event in processed set - raid has been handled
     }
 
     private void checkInvasion(InvasionIntel invasion) {
@@ -217,43 +245,47 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
         String eventId = generateStableEventId(target, "invasion");
 
-        // MORE DEFENSIVE: Try to add first
-        if (!processedEvents.add(eventId)) {
-            // Already processed
+        // Check if invasion is complete FIRST, before checking if we've processed it
+        boolean isComplete = invasion.isEnded() || invasion.isSucceeded() || invasion.isFailed();
+
+        if (!isComplete) {
+            // Invasion still in progress - don't process yet
+            processedEvents.remove(eventId);
             return;
         }
 
-        // Check if invasion is complete (succeeded or failed)
-        if (invasion.isEnded() || invasion.isSucceeded() || invasion.isFailed()) {
-            // Only process if succeeded
-            if (invasion.isSucceeded()) {
-                Global.getLogger(this.getClass()).info(
-                        "=========================================="
-                );
-                Global.getLogger(this.getClass()).info(
-                        "=== DRACONIS INVASION SUCCEEDED ==="
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Event ID: " + eventId
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Invasion target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
-                );
-                Global.getLogger(this.getClass()).info(
-                        "Invasion faction: " + (invasion.getFaction() != null ? invasion.getFaction().getDisplayName() : "unknown")
-                );
-
-                handleSuccessfulAction(target, "invasion");
-            } else if (invasion.isFailed()) {
-                Global.getLogger(this.getClass()).info(
-                        "Draconis invasion of " + target.getName() + " failed - no cores stolen"
-                );
-            }
-            // Keep event in processed set - invasion is finished either way
-        } else {
-            // Invasion still in progress - remove from set so we can check again
-            processedEvents.remove(eventId);
+        // Invasion is complete - check if we've already processed this completion
+        if (!processedEvents.add(eventId)) {
+            // Already processed this specific invasion completion, skip
+            return;
         }
+
+        // Process the completed invasion
+        if (invasion.isSucceeded()) {
+            Global.getLogger(this.getClass()).info(
+                    "=========================================="
+            );
+            Global.getLogger(this.getClass()).info(
+                    "=== DRACONIS INVASION SUCCEEDED ==="
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Event ID: " + eventId
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Invasion target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
+            );
+            Global.getLogger(this.getClass()).info(
+                    "Invasion faction: " + (invasion.getFaction() != null ? invasion.getFaction().getDisplayName() : "unknown")
+            );
+
+            handleSuccessfulAction(target, "invasion");
+        } else if (invasion.isFailed()) {
+            Global.getLogger(this.getClass()).info(
+                    "Draconis invasion of " + target.getName() + " failed - no cores stolen"
+            );
+        }
+
+        // Keep event in processed set - invasion has been handled
     }
 
     private void handleSuccessfulAction(MarketAPI target, String actionType) {

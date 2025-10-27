@@ -8,7 +8,11 @@ import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
+import levianeer.draconis.data.campaign.intel.aicore.donation.DraconisAICoreDonationListener;
 import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisTargetedRaidMonitor;
+import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantRaidListener;
+import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantRaidManager;
+import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantTargetScanner;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreRaidManager;
 import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
@@ -108,6 +112,20 @@ public class XLII_ModPlugin extends BaseModPlugin {
                 // Monitor - watches for successful raids and steals AI cores
                 Global.getSector().addScript(new DraconisTargetedRaidMonitor());
                 Global.getLogger(this.getClass()).info("  - Targeted Raid Monitor");
+
+                // Donation Listener - processes player AI core donations
+                Global.getSector().addScript(new DraconisAICoreDonationListener());
+                Global.getLogger(this.getClass()).info("  - AI Core Donation Listener");
+
+                // Remnant Raid System - hunts Remnant installations for AI cores
+                Global.getSector().addScript(new DraconisRemnantTargetScanner());
+                Global.getLogger(this.getClass()).info("  - Remnant Target Scanner");
+
+                Global.getSector().addScript(new DraconisRemnantRaidManager());
+                Global.getLogger(this.getClass()).info("  - Remnant Raid Manager");
+
+                Global.getSector().addScript(new DraconisRemnantRaidListener());
+                Global.getLogger(this.getClass()).info("  - Remnant Raid Listener");
 
                 Global.getLogger(this.getClass()).info("=== AI Core Acquisition System Active ===");
             }

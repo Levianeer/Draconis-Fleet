@@ -1,8 +1,12 @@
 package levianeer.draconis.data.campaign.intel.events.crisis;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Abilities;
 import com.fs.starfarer.api.impl.campaign.intel.group.GenericRaidFGI;
+import com.fs.starfarer.api.impl.campaign.missions.FleetCreatorMission;
+import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithTriggers;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.intel.aicore.theft.DraconisAICoreTheftListener;
@@ -44,6 +48,22 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
     @Override
     public void advance(float amount) {
         super.advance(amount);
+
+        // Keep Go Dark active for entire duration (stealth raid - never reveal)
+        // Transponders stay off, Go Dark stays on throughout preparation, transit, and attack
+        for (CampaignFleetAPI fleet : getFleets()) {
+            // Ensure transponders stay off
+            if (fleet.isTransponderOn()) {
+                fleet.setTransponderOn(false);
+            }
+
+            // Keep Go Dark active at all times
+            if (fleet.getAbility(Abilities.GO_DARK) != null &&
+                !fleet.getAbility(Abilities.GO_DARK).isActive()) {
+                fleet.getAbility(Abilities.GO_DARK).activate();
+                Global.getLogger(this.getClass()).info("Re-activated Go Dark on expedition fleet: " + fleet.getName());
+            }
+        }
 
         // Process AI core theft when raid succeeds
         if (isSucceeded() && !theftProcessed) {
@@ -132,5 +152,49 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
         info.addPara("Intelligence suggests they may also attempt to %s from any colonies they attack.",
                 opad, n, "steal AI cores");
+    }
+
+    /**
+     * Configure fleet quality - all expedition fleets get SMOD_3 (Tri-Tachyon equivalent)
+     */
+    @Override
+    protected void configureFleet(int size, FleetCreatorMission m) {
+        super.configureFleet(size, m);
+
+        // All expedition fleets are elite quality with SMOD_3
+        m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
+
+        Global.getLogger(this.getClass()).info("Set SMOD_3 quality for expedition fleet (size: " + size + ")");
+    }
+
+    /**
+     * Configure spawned fleet to ensure transponders remain off and Go Dark is active
+     * Sets smuggler flag so Go Dark AI keeps the ability active during transit
+     */
+    @Override
+    protected void configureFleet(int size, CampaignFleetAPI fleet) {
+        super.configureFleet(size, fleet);
+
+        // Ensure transponders are off and Go Dark is active for stealth approach
+        if (fleet != null) {
+            fleet.setTransponderOn(false);
+
+            // Mark as smuggler so Go Dark AI keeps ability active when near hostile markets
+            fleet.getMemoryWithoutUpdate().set(com.fs.starfarer.api.impl.campaign.ids.MemFlags.MEMORY_KEY_SMUGGLER, true);
+
+            // Add Go Dark ability if not present
+            if (fleet.getAbility(Abilities.GO_DARK) == null) {
+                fleet.addAbility(Abilities.GO_DARK);
+                Global.getLogger(this.getClass()).info("Added Go Dark ability to expedition fleet: " + fleet.getName());
+            }
+
+            // Activate Go Dark immediately for stealth transit
+            if (fleet.getAbility(Abilities.GO_DARK) != null) {
+                fleet.getAbility(Abilities.GO_DARK).activate();
+                Global.getLogger(this.getClass()).info("Activated Go Dark on expedition fleet: " + fleet.getName());
+            } else {
+                Global.getLogger(this.getClass()).warn("Failed to get Go Dark ability for expedition fleet: " + fleet.getName());
+            }
+        }
     }
 }

@@ -302,66 +302,57 @@ public class DraconisAICoreRaidFactor extends BaseHostileActivityFactor implemen
         params.prepDays = prepDaysMin + random.nextFloat() * prepDaysVariance;
         params.payloadDays = payloadDaysMin + payloadDaysVariance * random.nextFloat();
 
+        // Raid target and behavior configuration
         params.raidParams.where = target.getStarSystem();
-        params.raidParams.type = FGRaidType.SEQUENTIAL;
-        params.raidParams.tryToCaptureObjectives = false;
+        params.raidParams.type = FGRaidType.SEQUENTIAL;  // Sequential like Luddic Path/Diktat
+        params.raidParams.tryToCaptureObjectives = false;  // Don't capture objectives
         params.raidParams.allowedTargets.add(target);
-        params.raidParams.allowNonHostileTargets = true;
-        params.raidParams.setBombardment(BombardType.TACTICAL);
+        params.raidParams.allowNonHostileTargets = true;  // Match base game pattern
+        params.raidParams.setBombardment(BombardType.TACTICAL);  // Tactical bombardment for covert ops
+
+        // Additional raid behavior settings (match base game defaults)
+        params.raidParams.doNotGetSidetracked = true;  // Stay focused on target
 
         params.style = FleetStyle.QUALITY;
+        params.makeFleetsHostile = false;  // Delayed hostility like Tri-Tachyon - made hostile on arrival
 
-        // Use same difficulty scaling as DraconisFleetHostileActivityFactor
+        // Build fleet composition - single MASSIVE Shadow Fleet battlegroup
+        // Note: Quality/officer bonuses are controlled by FleetStyle.QUALITY and faction doctrine
+        //
+        // COMPENSATION STRATEGY: Since we can't set explicit quality/officer bonuses
+        // like XLII_HighCommand does with FleetParamsV3, we use MASSIVE fleet size
+        // combined with maxed-out faction doctrine (shipQuality:5, shipSize:5, numShips:5)
+        // to force the raid system to spawn capital-heavy fleets.
+        //
+        // Shadow Fleet raids are 6-10x larger than standard High Command patrols
+        // Base combat points: 1200-2000 FP (6-10x XLII_HighCommand's 200-300 FP)
+        float baseCombat = Math.round(60f + random.nextFloat() * 40f) * 20f;
+
+        // Scale by market combat fleet size multiplier (minimum 1.0x)
         float fleetSizeMult = source.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).computeEffective(0f);
+        baseCombat *= Math.max(1.0f, fleetSizeMult);
 
-        // Get market presence factor for the target system
-        // Since we don't have access to HostileActivityEventIntel in standalone mode,
-        // we'll calculate a simplified presence factor based on player markets in system
-        float marketPresenceFactor = calculateMarketPresenceFactor(target.getStarSystem());
+        // Add ENORMOUS bonus based on target market size and defenses
+        // Larger markets deserve proportionally massive raid fleets
+        float targetSizeBonus = target.getSize() * 100f;  // 300-900 FP bonus (size 3-9 markets)
+        baseCombat += targetSizeBonus;
 
-        float difficultyBase = Global.getSettings().getFloat("draconisExpeditionDifficultyBase");
-        float difficultyMinFactor = Global.getSettings().getFloat("draconisExpeditionDifficultyMinFactor");
-        float difficultyMaxFactor = Global.getSettings().getFloat("draconisExpeditionDifficultyMaxFactor");
-
-        // Base difficulty using same formula as punitive expeditions
-        float totalDifficulty = fleetSizeMult * difficultyBase * (difficultyMinFactor + difficultyMaxFactor * marketPresenceFactor);
-
-        // Add bonus difficulty based on AI core value (makes high-value targets get bigger raids)
+        // Add OVERWHELMING bonus based on AI core value
+        // High-value targets get the full Shadow Fleet armada
         int alphaCores = target.getMemoryWithoutUpdate().getInt(
                 DraconisSingleTargetScanner.TARGET_ALPHA_COUNT_FLAG);
         int betaCores = target.getMemoryWithoutUpdate().getInt(
                 DraconisSingleTargetScanner.TARGET_BETA_COUNT_FLAG);
-        float coreBonus = (alphaCores * 0.15f) + (betaCores * 0.1f);  // Small bonus for core value
-        totalDifficulty += (totalDifficulty * coreBonus);
+        float coreBonus = (alphaCores * 200f) + (betaCores * 100f);  // 200 FP per Alpha, 100 per Beta
+        baseCombat += coreBonus;
 
-        int minDifficulty = Global.getSettings().getInt("draconisExpeditionMinTotalDifficulty");
-        int maxDifficulty = Global.getSettings().getInt("draconisExpeditionMaxTotalDifficulty");
+        // Cap at extremely high limits - Shadow Fleet brings overwhelming force
+        // Minimum 1200 FP, maximum 4000 FP (enough for 20+ capitals with doctrine bonuses)
+        int fleetSize = Math.round(Math.max(1200f, Math.min(4000f, baseCombat)));
+        params.fleetSizes.add(fleetSize);
 
-        if (totalDifficulty < minDifficulty) {
-            Global.getLogger(DraconisAICoreRaidFactor.class).warn("Raid difficulty too low: " + totalDifficulty);
-            return false;
-        }
-        if (totalDifficulty > maxDifficulty) {
-            totalDifficulty = maxDifficulty;
-        }
-
-        // Build fleet composition
-        int leadFleetSize = Global.getSettings().getInt("draconisExpeditionLeadFleetSize");
-        totalDifficulty -= leadFleetSize;
-        params.fleetSizes.add(leadFleetSize);
-
-        int maxFleets = Global.getSettings().getInt("draconisMaxFleets");
-        int fleetSizeMin = Global.getSettings().getInt("draconisExpeditionFleetSizeMin");
-        int fleetSizeMax = Global.getSettings().getInt("draconisExpeditionFleetSizeMax");
-
-        while (totalDifficulty > 0 && params.fleetSizes.size() < maxFleets) {
-            int diff = fleetSizeMin + random.nextInt(fleetSizeMax - fleetSizeMin + 1);
-            params.fleetSizes.add(diff);
-            totalDifficulty -= diff;
-        }
-
-        Global.getLogger(DraconisAICoreRaidFactor.class).info("Fleet count: " + params.fleetSizes.size());
-        Global.getLogger(DraconisAICoreRaidFactor.class).info("Fleet sizes: " + params.fleetSizes);
+        Global.getLogger(DraconisAICoreRaidFactor.class).info("Fleet count: 1 (single battlegroup)");
+        Global.getLogger(DraconisAICoreRaidFactor.class).info("Fleet size: " + fleetSize);
 
         // Create the raid intel
         DraconisAICoreRaidIntel raid = new DraconisAICoreRaidIntel(params, target);
@@ -388,9 +379,29 @@ public class DraconisAICoreRaidFactor extends BaseHostileActivityFactor implemen
 
         // Determine if the raid was successful
         boolean success = false;
-        if (intel instanceof GenericRaidFGI) {
+        MarketAPI target = null;
+        if (intel instanceof DraconisAICoreRaidIntel) {
+            DraconisAICoreRaidIntel raidIntel = (DraconisAICoreRaidIntel) intel;
+            success = raidIntel.isSucceeded();
+            target = raidIntel.getTarget();
+        } else if (intel instanceof GenericRaidFGI) {
             GenericRaidFGI raidIntel = (GenericRaidFGI) intel;
             success = raidIntel.isSucceeded();
+        }
+
+        // If raid succeeded, steal AI cores from the target
+        if (success && target != null) {
+            Global.getLogger(this.getClass()).info("Raid succeeded - attempting AI core theft from " + target.getName());
+
+            boolean isPlayerMarket = target.isPlayerOwned();
+            levianeer.draconis.data.campaign.intel.aicore.theft.DraconisAICoreTheftListener.checkAndStealAICores(
+                target, isPlayerMarket, "ai_core_raid"
+            );
+
+            // Clear high-value target flags after successful raid
+            levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner.clearTargetAfterRaid(target);
+        } else if (!success) {
+            Global.getLogger(this.getClass()).info("Raid failed - no AI cores will be stolen");
         }
 
         // Decrement active raid count
