@@ -20,8 +20,8 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
     // Raid cap and cooldown settings
     private static final int MAX_ACTIVE_RAIDS = 1;  // Maximum number of simultaneous raids
-    private static final float COOLDOWN_SUCCESS_DAYS = 60f;  // Cooldown after successful raid
-    private static final float COOLDOWN_FAILURE_DAYS = 120f;  // Longer cooldown after failed raid
+    private static final float COOLDOWN_SUCCESS_DAYS = 75f;  // Cooldown after successful raid
+    private static final float COOLDOWN_FAILURE_DAYS = 150f;  // Longer cooldown after failed raid
 
     // Memory keys for persistent data
     private static final String ACTIVE_RAID_COUNT_KEY = "$draconis_activeRaidCount";

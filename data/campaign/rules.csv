@@ -28,43 +28,91 @@ A calculated pause. The kind that precedes uncomfortable truths.
 4:buy_juza:I'll purchase a Juza-class Heavy Cruiser
 5:buy_shaobi:I'll purchase a Shaobi-class Carrier
 6:decline:Perhaps another time",
-XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Elite_FSDF","""The Alruba-class."" A slight nod of approval. The encrypted silhouette shifts, hands moving across what must be a control interface on his end.
+XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Elite_FSDF","""The Alruba. You know, most people look at her now and see a relic—too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
 
-""Versatile platform, although rather dated.""
+Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute—an Alruba. Older model, held together with spite and welder's tape. We had six of them left in the picket line, facing down twice our number.
 
-Your tactical display pings—vessel transfer authorization codes scrolling past, each line authenticated with Alliance cryptographic signatures you've never seen before.
+The captain—Lieutenant Voss, good officer—she kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
 
-""Initiating transfer now."" His tone remains professional, but you detect something beneath it. Respect, perhaps. Or calculation.
+Voss didn't. Reactor breach on the final push.
+
+The Alruba's not fast. Not elegant. But she's honest. She does what you build her to do, and she doesn't quit until she's a debris field. Sometimes that's enough.""
 
 A brief pause as the data finalizes.
 
 ""Use it well, Commander. The Alliance invests in those who deliver results."" The emphasis on 'deliver' is subtle but unmistakable. ""We'll be watching.""","1:transaction_complete:Continue",
-XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Elite_FSDF","""The Alwaid."" There's a note of genuine approval in his voice now, cutting through the electronic distortion.
+XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Elite_FSDF","""The Alwaid-class. I've heard the jokes—'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
 
-The encrypted figure leans back slightly—satisfaction in the posture, if you're reading it correctly through the compression artifacts.
+During the final assault on Athebyne's capital shipyards, we had three Alwaids in the fleet. Heaven's Axiom, the Diligence, and the Eternity. The plan was simple: jump in, launch fighters, establish orbital superiority. Textbook carrier doctrine.
 
-""Some of our finest work. Developmental timeline stretched three years longer than projected—our oversight committee nearly killed the program twice."" A pause. ""They were wrong to doubt it. You have an eye for capability, Commander.""
+The first two battlegroups jumped on schedule. The Eternity's group? Delayed. Drive malfunction—forty minutes late to the fight.
 
-Your command console lights up with transfer protocols, authorization cascading through multiple security layers. You catch a glimpse of the ship's classification before it blanks out: EXPERIMENTAL - FIELD EVALUATION.
+By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
+
+Then the Eternity translated in-system. Two hundred and forty fighters. Every torpedo tube loaded. She didn't win the battle—but she ended it. The enemy scattered. We held the orbitals.
+
+Commander McKinnon—captain of the Eternity—he spent the next month in disciplinary review. I made sure he walked out with a promotion instead. Sometimes arriving late means you arrive when it matters most.
+
+The Alwaid's slow. But when she gets there, she brings everything.""
 
 The faintest pause.
 
 ""It's yours. Make our engineers proud.""","1:transaction_complete:Continue",
-XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Elite_FSDF","The distorted figure goes still for a moment—not frozen by technical glitch, but genuine pause. Consideration.
+XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Elite_FSDF","""The Errakis. Carrier escort. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
 
-""The Errakis-class."" A measured nod, deliberate. ""Formidable vessel. Requires a formidable commander.""
+That became a problem during the push on Athebyne's outer stations.
+
+We had the Milwaukee—an Errakis—assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure—enough to scramble targeting data, not enough to justify pulling back.
+
+The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain N. Holt—good officer, Kori Naval Academy—had a ship full of ordnance and nothing to shoot at.
+
+So he did what the ship was designed to do: he moved in close. Uncomfortably close. Within thirty thousand klicks of the enemy screen, using the carrier's fighters for targeting data and firing on delayed telemetry.
+
+It worked. Barely. The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition fire. But the carrier stayed operational, and the screen held.
+
+Holt put in a formal complaint about the sensor limitations afterward. Command filed it. Nothing changed.
+
+The Errakis does what she's built for. Just don't expect her to do it elegantly.""
 
 Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
 
-Another pause, longer. The kind of silence that carries weight.
-
-""Transfer complete."" His voice drops slightly—not threat, but emphasis. ""Make it count, Commander. Ships like this... they have a way of attracting attention. The kind that brings everything into sharp focus.""
-
-You get the sense he's not just talking about enemy attention.
-
 ""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
-XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Elite_FSDF","""Ah. The Juza."" Something flickers in his expression—appreciation, perhaps. ""Experimental systems, proven results. You know quality when you see it, Commander."" Brief silence. ""Authorization granted.""","1:transaction_complete:Continue",
-XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Elite_FSDF","""The Shaobi-class."" A hint of satisfaction. ""It's exceeded our projections in every trial. That kind of performance in the right hands?"" A pause. ""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
+XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Elite_FSDF","""The Juza-class. Experimental flux management, armoured like a battleship, fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle—when she works.
+
+Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group—my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
+
+Then the Jericho's flux regulators spiked. Total system failure—her shields dropped, her weapons went cold. She was a two-hundred-thousand-tonne paperweight in the middle of a firing line.
+
+Her chief engineer—man named Kovar, stubborn bastard—he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. Three minutes. Do you know what a miracle that is?
+
+By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Kovar kept her running for another six hours before the system burned out for good. We won that engagement.
+
+Kovar didn't make it—reactor overload during the final cooldown sequence. But the Jericho did.
+
+The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
+
+Brief silence.
+
+""Authorization granted.""","1:transaction_complete:Continue",
+XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Elite_FSDF","""The Shaobi. The Marines' favourite toy. Command didn't want to build her—too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
+
+I'll admit, I didn't see the value. Not at first.
+
+Then came the boarding operation at Ring-Port—back when it was still under separatist control. We needed to take the station intact, and orbital bombardment wasn't an option. That meant Marines. Lots of them.
+
+The Shaobi-class Warhound led the assault. Two hundred Marines, full combat load, deployed in under twenty minutes. They hit three docking points simultaneously—precision insertion, no warning.
+
+The captain—Major Hartley, Marine Corps—she coordinated the whole thing from the Warhound's bridge. Ship-to-boarding-craft comms, real-time tactical updates, fire support from the gunship's turrets. It wasn't just a carrier—it was a forward command post with engines.
+
+We took Ring-Port in six hours. Minimal casualties. Hartley got a medal. The Warhound got a reputation.
+
+The Shaobi's not a fleet carrier. She's not meant to be. But if you need boots on a station or a hostile ship, she'll get them there—and bring them home.
+
+Sometimes that's worth more than another fighter wing.""
+
+A pause.
+
+""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
 XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:dismiss:End transmission",
 XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""Understood."" No judgment colors his tone. If anything, there's a note of patience. The distorted figure settles back slightly.
 
@@ -100,7 +148,7 @@ $relativeStrength >= 0","$ignorePlayerCommRequests = true 1","""$PersonRank $per
 "#END Generic Faction Dialogue",,,,,,
 ,,,,,,
 # Generic Commission Dialogue,,,,,,
-CMSNTextRejectHostile_XLII_draconis,CMSNTextRejectHostile,"$faction.id == XLII_draconis",,"""Who the fu - Who is - What - I should kick your fucking ass, who is this?"" There is a brief silence, cut short by the frantic sound of typing. ""Ah, $playerName, I've notified the Department of Internal Security of your presence, leave immediately. Athebyne's scars run deep enough without adding your name to the list.""",,
+CMSNTextRejectHostile_XLII_draconis,CMSNTextRejectHostile,"$faction.id == XLII_draconis",,"""Who the fu - Who is - What - I should kick your fucking ass, who is this?"" There is a brief silence, cut short by the frantic sound of typing. ""Ah, $playerName! I've notified the Department of Internal Security of your presence, leave immediately. Athebyne's scars run deep enough without adding your name to the list.""",,
 CMSNTextHasOther_XLII_draconis,CMSNTextHasOther,"$faction.id == XLII_draconis",,"""Loyalty's a rare commodity out here, and you're fresh out. We've got no room for dual allegiances.""
 
 ""That said, if you're serious about joining, resign from $theOtherCommissionFaction. And we'll gladly put your skills to use in $theFaction.""",,

@@ -10,7 +10,27 @@
 
     "diplomacyTraits": ["irredentist","foreverwar","paranoid","devious","hates_ai"], # AI!? THAT SHIT IS MINE!!
 
-	"alignments":{"corporate":-0.5,"technocratic":1.0,"militarist":1.0,"diplomatic":0.0,"ideological":-0.5},
+    "maxRelationships":{
+        "remnant":-0.51
+    },
+
+    "alignments":{
+        "corporate":-1.0,
+        "technocratic":1.0,
+        "militarist":1.0,
+        "hierarchical":0.5,
+        "ideological":-1.0
+    },
+
+    "diplomacyPositiveChance":{
+        "persean":0.8,
+        "tritachyon":0.8
+    },
+
+    "diplomacyNegativeChance":{
+        "persean":1.2,
+        "tritachyon":1.2
+    },
 
     "colonyExpeditionChance":1.25, # One system is just never enough
     "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
@@ -29,15 +49,15 @@
     "invasionFleetName":"Invasion Fleet",
     "invasionSupportFleetName":"Support Fleet",
 
-    "factionIdForHqResponse":"XLII_fortysecond",
+    #"factionIdForHqResponse":"XLII_draconis",
 
-	"vengeanceFleetSizeMult":3,
-    "vengeanceLevelNames":["Black Ops","Hunter-Killer","Special Task Force"],
-    "vengeanceFleetNames":["Black Ops","Hunter-Killer","Special Task Force"],
-    "vengeanceFleetNamesSingle":["a Black Ops Fleet","a Hunter-Killer Fleet","a Special Task Force"],
+	"vengeanceFleetSizeMult":2,
+    "vengeanceLevelNames":["Recon Picket","Black Ops Fleet","Hunter-Killer Battlegroup"],
+    "vengeanceFleetNames":["Recon Picket","Black Ops Fleet","Hunter-Killer Battlegroup"],
+    "vengeanceFleetNamesSingle":["a Recon Picket","a Black Ops Fleet","a Hunter-Killer Battlegroup"],
 
     "specialForcesNamerClass":"exerelin.campaign.intel.specialforces.namer.PlanetNamer",
-    "specialForcesMaxFleets":3,
+    "specialForcesMaxFleets":2,
     "specialForcesPointMult":1.5,
 	"specialForcesSizeMult":1.5,
 

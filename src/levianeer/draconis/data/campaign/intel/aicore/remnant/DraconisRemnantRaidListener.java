@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
+import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,12 +175,22 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
 
     /**
      * Install recovered cores on Draconis facilities
-     * Reuses the existing theft system infrastructure
+     * Supports both empty industries and core upgrades
      */
     private void installRecoveredCores(List<String> cores) {
-        // Find available Draconis industries
-        List<com.fs.starfarer.api.campaign.econ.Industry> availableIndustries =
-            new ArrayList<>();
+        // Sort cores by priority (Alpha > Beta > Gamma)
+        List<String> sortedCores = new ArrayList<>(cores);
+        sortedCores.sort((a, b) -> {
+            int priorityA = DraconisAICorePriorityManager.getCorePriority(a);
+            int priorityB = DraconisAICorePriorityManager.getCorePriority(b);
+            return Integer.compare(priorityB, priorityA); // Descending order
+        });
+
+        // Find available Draconis industries (empty slots)
+        List<com.fs.starfarer.api.campaign.econ.Industry> availableIndustries = new ArrayList<>();
+
+        // Find upgradeable Draconis industries (lower-tier cores)
+        List<com.fs.starfarer.api.campaign.econ.Industry> upgradeableIndustries = new ArrayList<>();
 
         for (com.fs.starfarer.api.campaign.econ.MarketAPI market :
              Global.getSector().getEconomy().getMarketsCopy()) {
@@ -187,57 +198,82 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
             if (market.isHidden()) continue;
 
             for (com.fs.starfarer.api.campaign.econ.Industry industry : market.getIndustries()) {
-                if (industry.getAICoreId() != null && !industry.getAICoreId().isEmpty()) continue;
                 if (!industry.isFunctional()) continue;
 
-                availableIndustries.add(industry);
+                String currentCore = industry.getAICoreId();
+
+                if (currentCore == null || currentCore.isEmpty()) {
+                    // Empty slot
+                    availableIndustries.add(industry);
+                } else if (!currentCore.equals(Commodities.ALPHA_CORE)) {
+                    // Has a lower-tier core that can be upgraded
+                    upgradeableIndustries.add(industry);
+                }
             }
         }
 
-        if (availableIndustries.isEmpty()) {
+        Global.getLogger(this.getClass()).info(
+            "Found " + availableIndustries.size() + " empty industries and " +
+            upgradeableIndustries.size() + " upgradeable industries"
+        );
+
+        if (availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
             Global.getLogger(this.getClass()).warn(
                 "No available industries for recovered cores!"
             );
             return;
         }
 
-        // Install cores using priority system from theft listener
+        // Install cores using priority system
         int installed = 0;
-        for (String coreId : cores) {
-            if (availableIndustries.isEmpty()) break;
+        for (String coreId : sortedCores) {
+            if (availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) break;
 
-            // Pick best industry for this core type
+            // Pick best industry for this core type (considers both empty and upgradeable)
             com.fs.starfarer.api.campaign.econ.Industry target =
-                pickBestIndustry(availableIndustries, coreId);
+                DraconisAICorePriorityManager.pickTargetIndustryByPriority(
+                    availableIndustries, upgradeableIndustries, coreId
+                );
 
             if (target != null) {
+                // Check if this is an upgrade
+                String displacedCore = null;
+                if (target.getAICoreId() != null && !target.getAICoreId().isEmpty()) {
+                    displacedCore = target.getAICoreId();
+                    Global.getLogger(this.getClass()).info(
+                        "Displacing " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
+                        " from " + target.getCurrentName() + " with better " +
+                        DraconisAICorePriorityManager.getCoreDisplayName(coreId)
+                    );
+                }
+
                 target.setAICoreId(coreId);
+
+                // Remove from appropriate list
                 availableIndustries.remove(target);
+                upgradeableIndustries.remove(target);
+
                 installed++;
 
                 Global.getLogger(this.getClass()).info(
                     "Installed " + coreId + " on " + target.getCurrentName() +
                     " at " + target.getMarket().getName()
                 );
+
+                // If we displaced a core, add it back to the queue for redistribution
+                if (displacedCore != null) {
+                    sortedCores.add(displacedCore);
+                    Global.getLogger(this.getClass()).info(
+                        "Re-queuing displaced " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
+                        " for installation elsewhere"
+                    );
+                }
             }
         }
 
         Global.getLogger(this.getClass()).info(
             "Installed " + installed + " of " + cores.size() + " recovered cores"
         );
-    }
-
-    /**
-     * Pick best industry for a core (simplified version of theft system)
-     */
-    private com.fs.starfarer.api.campaign.econ.Industry pickBestIndustry(
-        List<com.fs.starfarer.api.campaign.econ.Industry> industries, String coreId) {
-
-        if (industries.isEmpty()) return null;
-
-        // Just pick the first suitable one for now
-        // TODO: Could use WeightedRandomPicker like in theft system
-        return industries.get(0);
     }
 
     /**

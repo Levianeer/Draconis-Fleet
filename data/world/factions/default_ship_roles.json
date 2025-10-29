@@ -3,41 +3,40 @@
 	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
 	"combatSmallForSmallFleet":{
 		"XLII_thuban_Elite":1,
-		"XLII_alruba_Elite":10,
-		"XLII_alruba_Elite_FSDF":1,
+		"XLII_alruba_Elite":5,
+		"XLII_alruba_Elite_FSDF":5,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"XLII_thuban_Elite":10,
+		"XLII_thuban_Elite":5,
 		"XLII_alruba_Elite":1,
 		"XLII_alruba_Elite_FSDF":1,
 		
 		"fallback":{"combatMedium":0.5},
 	},
 	"combatMedium":{
-		"XLII_rastaban_Elite":10,
-		"XLII_errakis_Elite":10,
-		"XLII_errakis_Elite_FSDF":1,
-		"XLII_giausar_Elite":10,
+		"XLII_rastaban_Elite":5,
+		"XLII_errakis_Elite":5,
+		"XLII_errakis_Elite_FSDF":5,
+		"XLII_giausar_Elite":1,
 
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"XLII_eltanin_Elite":10,
-		"XLII_eltanin_Strike":10,
-		"XLII_juza_Elite":10,
-		"XLII_juza_Strike":10,
+		"XLII_eltanin_Elite":5,
+		"XLII_eltanin_Strike":5,
+		"XLII_juza_Elite":1,
+		"XLII_juza_Strike":1,
 		"XLII_juza_Elite_FSDF":1,
 		"XLII_juza_Strike_FSDF":1,
-		"XLII_juni_Elite":10,
-		"XLII_juni_Support":10,
+		"XLII_juni_Elite":5,
+		"XLII_juni_Support":5,
 		
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
 		"XLII_altais_Elite":10,
-		"XLII_kuma_Elite":1,
 
 		"fallback":{"combatLarge":1},
 	},
@@ -47,21 +46,21 @@
 		"fallback2":{"carrierLarge":0.25},
 	},
 	"carrierMedium":{
-		"XLII_shaobi_Elite":10,
-		"XLII_shaobi_Strike":10,
-		"XLII_shaobi_Elite_FSDF":1,
-		"XLII_shaobi_Strike_FSDF":1,
+		"XLII_shaobi_Elite":5,
+		"XLII_shaobi_Strike":5,
+		"XLII_shaobi_Elite_FSDF":5,
+		"XLII_shaobi_Strike_FSDF":5,
 
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":0.5},
 	},
 	"carrierLarge":{
-		"XLII_alwaid_Elite":10,
-		"XLII_alwaid_Strike":10,
-		"XLII_alwaid_Support":10,
-		"XLII_alwaid_Elite_FSDF":1,
-		"XLII_alwaid_Strike_FSDF":1,
-		"XLII_alwaid_Support_FSDF":1,
+		"XLII_alwaid_Elite":1,
+		"XLII_alwaid_Strike":1,
+		"XLII_alwaid_Support":1,
+		"XLII_alwaid_Elite_FSDF":5,
+		"XLII_alwaid_Strike_FSDF":5,
+		"XLII_alwaid_Support_FSDF":5,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},

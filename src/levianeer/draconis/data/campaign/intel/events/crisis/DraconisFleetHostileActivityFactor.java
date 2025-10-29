@@ -37,7 +37,6 @@ import java.util.Random;
 
 import levianeer.draconis.data.campaign.ids.FleetTypes;
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
 
 public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFactor
         implements FGIEventListener {
@@ -153,7 +152,6 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         m.triggerSetPirateFleet();
         m.triggerMakeHostile();
         m.triggerMakeNonHostileToFaction(DRACONIS);
-        m.triggerMakeNonHostileToFaction(FORTYSECOND);
         m.triggerMakeNoRepImpact();
         m.triggerFleetAllowLongPursuit();
         m.triggerMakeHostileToAllTradeFleets();
@@ -404,7 +402,7 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         GenericRaidFGI.GenericRaidParams params = new GenericRaidFGI.GenericRaidParams(new Random(random.nextLong()), true);
 
         params.makeFleetsHostile = true;
-        params.factionId = FORTYSECOND;
+        params.factionId = DRACONIS;
         params.source = source;
 
         float prepDaysMin = Global.getSettings().getFloat("draconisExpeditionPrepDaysMin");

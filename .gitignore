@@ -1,6 +1,11 @@
-/.claude/
-/.idea/
-/.run/
-/CLAUDE.md
-/Draconis-Fleet.iml
-/nul
+# IDE configuration files
+.idea/
+.run/
+Draconis-Fleet.iml
+
+# Claude Code configuration
+.claude/
+CLAUDE.md
+
+# System files
+nul

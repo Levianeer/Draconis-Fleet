@@ -1,71 +1,65 @@
 Version 0.4.0
-- MAJOR: Complete internal restructuring - renamed all IDs from fsdf_ to XLII_ prefix.
-  - WARNING: This is a breaking change for save compatibility.
-  - All ships, weapons, systems, and variants have been renamed.
-- Added new sub-faction: XLII Battlegroup (Draconis Defence special forces).
-  - New faction with unique fleet compositions and variants.
-  - Added 5 new ship skins (Alruba, Alwaid, Errakis, Juza, Shaobi).
-  - FSDF-specific variants for elite ships.
-- NEW: AI Core Acquisition System (Nexerelin integration).
-  - Draconis will now actively seek and raid markets with AI cores.
-  - New intel events for AI core thefts and targeted raids.
-  - Diplomatic strain system when stealing AI cores.
-  - Steel Curtain market condition for high-security targets.
-  - High Value Target scanner identifies core-rich markets.
-  - Comprehensive raid monitoring and success tracking.
-- IMPROVED: AI Core Raid System - Major reliability overhaul.
-  - Added 90-day initial delay before first raid can trigger (configurable).
-  - Implemented strict engagement requirements: fleet must be in combat AND within 200 units of target.
-  - Added 2-day success delay after engagement conditions are met (configurable, default 12 days).
-  - Minimum 2 days at target before engagement check begins (configurable).
-  - Fleet destruction during success countdown now properly cancels the raid.
-  - Override isFailed() to prevent premature raid failure while success conditions are being met.
-  - Added comprehensive debug logging to track engagement conditions in real-time.
-  - Fixed issue where raids could succeed/fail simultaneously.
-  - Fixed issue where raids could trigger success before fleets actually engaged the target.
-- FIXED: AI Core raids now properly trigger diplomatic strain (Nexerelin integration).
-  - Stolen AI cores now apply negative diplomatic events based on core type.
-  - Alpha Core: -4.8 disposition, Beta Core: -3.2, Gamma Core: -2.0.
-  - Strain applies to both Draconis and the victim faction (bidirectional).
-  - Only applies strain when cores are successfully installed.
-- CLEANUP: Removed unused daysElapsed variable from DraconisAICoreRaidManager.
-- Added 3 faction music tracks (friendly, neutral, hostile encounters).
-- Added new character portraits and NPC initialization system.
-- Added campaign rules for ship purchasing and faction interactions.
-- Added commissioned crews bonus (CHM_XLII_draconis hullmod).
-- Rebalanced Sunsetter-class Battleship.
-  - Hull increased: 20,000 → 30,000.
-  - Armor reduced: 2,000 → 1,500.
-  - Armor modules buffed: 15,000 HP / 1,200 armor (was 12,500 HP / 2,000 armor).
-- Rebalanced Time Slip ship system.
+- WARNING: Breaking change - NOT compatible with saves from 0.3.5 or earlier.
+  - Complete internal restructuring: all IDs renamed from fsdf_ to XLII_ prefix.
+  - All ships, weapons, systems, and variants have new identifiers.
+
+NEW CONTENT:
+- Added a new Character, the enigmatic Fleet Admiral Emil August!
+- Added new sub-faction: XLII Battlegroup (Draconis Defence Special Forces).
+  - Elite fleet compositions with carrier doctrine.
+  - 5 new special forces ship skins: Alruba, Alwaid, Errakis, Juza, Shaobi (purchased from Emil August!)
+  - XLII-exclusive variants for high-end fleet encounters.
+- Added 3 faction music tracks for dynamic encounter atmosphere.
+  - Unique themes for friendly, neutral, and hostile encounters.
+  - Thanks to the brilliant work of Ed Harrison (with permissions)!
+- Added support for Commissioned Crews.
+- Added Halberd Pod weapon variant.
+
+NEXERELIN INTEGRATION:
+- NEW: AI Core Acquisition System - Draconis actively pursues AI cores.
+  - Faction will identify and raid markets with valuable AI cores.
+  - High Value Target scanner prioritizes core-rich markets.
+  - Steel Curtain market condition marks high-security targets.
+  - New intel events track AI core thefts and targeted raids.
+  - Comprehensive raid monitoring with success/failure tracking.
+  - Strict engagement requirements: combat proximity + minimum dwell time.
+  - Diplomatic strain system based on stolen core value:
+    - Alpha Core: -4.8 disposition
+    - Beta Core: -3.2 disposition
+    - Gamma Core: -2.0 disposition
+  - Bidirectional diplomatic penalties (affects both factions).
+- Enhanced strategic AI behavior and faction interactions.
+- Improved patrol fleet spawning and hostile activity systems.
+
+BALANCE CHANGES:
+- Time Slip system rebalanced for faster cycling.
   - Flux cost: 4 → 3.
   - Cooldown: 10s → 6s.
-  - Charges: 2 → 1.
+  - Charges: 2 → 1 (single powerful use).
   - Regen time: 10s → 12s.
-- Improved Retreat Drive (Draconis warp mechanic).
-  - Now only triggers on Direct Retreat order (prevents accidental warps).
-  - Reduced charge times: Destroyer 8→7s, Cruiser 10→8s, Capital 12→9s.
-  - Fixed critical bugs preventing dead ships from warping.
-  - Added comprehensive safety checks to prevent crashes.
-- Updated Incomprehensible Horrors hull mod description.
-  - Complete rewrite with clear mechanics explanation.
-  - Now shows exact percentages (20% hull restore, 25% per module, 35% cooldown).
-  - No mechanical changes, improved user experience.
-- Added new Halberd Pod variant weapon.
-- Updated faction configuration and fleet doctrines.
-- Improved hostile activity system with crisis management.
-- Enhanced patrol fleet spawning system.
-- Updated Exerelin strategic AI integration.
+- Retreat Drive (Draconis warp mechanic) major improvements.
+  - Now only triggers on Direct Retreat order (you now have the option for a regular retreat).
+  - Faster charge times: Destroyer 8→7s, Cruiser 10→8s, Capital 12→9s.
+  - Fixed bug with disabled ships warping despite being dead.
+  - Added safety checks to prevent crashes during warp.
+
+QUALITY OF LIFE:
+- [REDACTED] hull mod description completely rewritten.
+  - Clear mechanics explanation with exact percentages.
+  - 20% hull restore, 25% per module, 35% cooldown reduction.
+- Campaign rules added for ship purchasing and faction interactions.
 - Expanded descriptions for ships, weapons, and systems.
-- Complete README rewrite with new lore (Fafnir Civil War background).
-- Improved sound balancing and audio references.
+- Complete README rewrite with new Fafnir Civil War lore.
+
+TECHNICAL IMPROVEMENTS:
+- Updated faction configuration and fleet doctrines.
+- Improved sound balancing and audio system integration.
 - Updated engine styles and visual effects.
-- New icons for intel, markets, and cargo.
-- Added variant diversity for AI fleets.
-- Fixed ship system CSV references after rename.
-- Corrected sound and visual effect paths.
+- New icons for intel events, markets, and cargo items.
+- Increased AI fleet variant diversity.
+- Fixed ship system CSV references.
+- Corrected sound and visual effect file paths.
 - Fixed variant loadouts and fleet compositions.
-- Improved stability for warp drive mechanics.
 
 Version 0.3.5
 - Added new mechanics to the Sunsetter bounty fight.

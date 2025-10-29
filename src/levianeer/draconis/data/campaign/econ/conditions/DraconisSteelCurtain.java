@@ -11,8 +11,8 @@ import java.awt.*;
 public class DraconisSteelCurtain extends BaseMarketConditionPlugin {
 
     // Modifier values
-    private static final float GROUND_DEFENSE_BONUS = 0.25f; // +25% ground defenses
-    private static final float ACCESSIBILITY_PENALTY = -0.15f; // -15% accessibility
+    private static final float GROUND_DEFENSE_BONUS = 0.5f; // +50% ground defenses
+    private static final float ACCESSIBILITY_PENALTY = -0.2f; // -20% accessibility
 
     @Override
     public void apply(String id) {

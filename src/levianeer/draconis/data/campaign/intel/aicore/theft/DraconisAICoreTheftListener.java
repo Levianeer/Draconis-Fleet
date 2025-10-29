@@ -5,10 +5,12 @@ import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
+import com.fs.starfarer.api.impl.campaign.ids.Skills;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import levianeer.draconis.data.campaign.intel.aicore.config.DraconisAICoreConfig;
 import levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel;
+import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,23 +71,24 @@ public class DraconisAICoreTheftListener {
 
         List<String> stolenCores = new ArrayList<>();
 
-        // Check for administrator AI core first
-        if (raidedMarket.getAdmin() != null && raidedMarket.getAdmin().getAICoreId() != null) {
-            String adminCoreId = raidedMarket.getAdmin().getAICoreId();
+        // Check for administrator with HYPERCOGNITION (representing Alpha Core integration)
+        if (raidedMarket.getAdmin() != null &&
+            raidedMarket.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) {
+
             Global.getLogger(DraconisAICoreTheftListener.class).info(
                     "  Checking Administrator: " + raidedMarket.getAdmin().getNameString()
             );
             Global.getLogger(DraconisAICoreTheftListener.class).info(
-                    "    AI Core: " + adminCoreId
+                    "    Has HYPERCOGNITION skill (Alpha Core integration detected)"
             );
 
-            stolenCores.add(adminCoreId);
+            stolenCores.add(Commodities.ALPHA_CORE);
 
-            // Simply clear the admin - this is the safe way to remove AI core admins
-            raidedMarket.setAdmin(null);
+            // NOTE: We don't remove the admin or the skill - they keep their experience
+            // This is much more player-friendly than losing trained admins
 
             Global.getLogger(DraconisAICoreTheftListener.class).info(
-                    "    >>> STOLEN: " + adminCoreId + " from Administrator"
+                    "    >>> STOLEN: Alpha Core (admin keeps HYPERCOGNITION skill)"
             );
         }
 
@@ -276,22 +279,26 @@ public class DraconisAICoreTheftListener {
         // Sort cores by priority (Alpha > Beta > Gamma)
         List<String> sortedCores = new ArrayList<>(stolenCores);
         sortedCores.sort((a, b) -> {
-            int priorityA = getCorePriority(a);
-            int priorityB = getCorePriority(b);
+            int priorityA = DraconisAICorePriorityManager.getCorePriority(a);
+            int priorityB = DraconisAICorePriorityManager.getCorePriority(b);
             return Integer.compare(priorityB, priorityA); // Descending order
         });
 
         List<MarketAPI> availableAdminMarkets = findAvailableDraconisAdminMarkets();
         List<Industry> availableIndustries = findAvailableDraconisIndustries();
+        List<Industry> upgradeableIndustries = findUpgradeableDraconisIndustries();
 
         Global.getLogger(DraconisAICoreTheftListener.class).info(
                 "Found " + availableAdminMarkets.size() + " available Draconis markets for administrator installation"
         );
         Global.getLogger(DraconisAICoreTheftListener.class).info(
-                "Found " + availableIndustries.size() + " available Draconis industries for installation"
+                "Found " + availableIndustries.size() + " empty Draconis industries"
+        );
+        Global.getLogger(DraconisAICoreTheftListener.class).info(
+                "Found " + upgradeableIndustries.size() + " upgradeable Draconis industries"
         );
 
-        if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty()) {
+        if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
             Global.getLogger(DraconisAICoreTheftListener.class).error(
                     "NO DRACONIS FACILITIES AVAILABLE! " + stolenCores.size() + " cores will be lost!"
             );
@@ -313,10 +320,10 @@ public class DraconisAICoreTheftListener {
         for (String coreId : sortedCores) {
             boolean installed = false;
 
-            // Try administrator installation first for Alpha cores
+            // Try administrator installation first for Alpha cores (HIGHEST PRIORITY)
             if (coreId.equals(Commodities.ALPHA_CORE) && !availableAdminMarkets.isEmpty()) {
-                MarketAPI targetMarket = pickTargetAdminMarket(availableAdminMarkets);
-                if (targetMarket != null && tryInstallAdminCore(targetMarket, coreId)) {
+                MarketAPI targetMarket = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
+                if (targetMarket != null && DraconisAICorePriorityManager.installAICoreAdmin(targetMarket, coreId, DRACONIS)) {
                     // Track this installation
                     installationMap.put(targetMarket, installationMap.getOrDefault(targetMarket, 0) + 1);
 
@@ -326,18 +333,45 @@ public class DraconisAICoreTheftListener {
                 }
             }
 
-            // If not installed as admin, try industry installation with priority
-            if (!installed && !availableIndustries.isEmpty()) {
-                Industry targetIndustry = pickTargetIndustryByPriority(availableIndustries, coreId);
+            // If not installed as admin, try industry installation with priority (considers both empty and upgradeable)
+            if (!installed && (!availableIndustries.isEmpty() || !upgradeableIndustries.isEmpty())) {
+                Industry targetIndustry = DraconisAICorePriorityManager.pickTargetIndustryByPriority(
+                        availableIndustries, upgradeableIndustries, coreId
+                );
 
-                if (targetIndustry != null && tryInstallCore(targetIndustry, coreId)) {
-                    // Track this installation
-                    MarketAPI market = targetIndustry.getMarket();
-                    installationMap.put(market, installationMap.getOrDefault(market, 0) + 1);
+                if (targetIndustry != null) {
+                    // Check if this is an upgrade - if so, displaced core is returned to pool
+                    String displacedCore = null;
+                    if (targetIndustry.getAICoreId() != null && !targetIndustry.getAICoreId().isEmpty()) {
+                        displacedCore = targetIndustry.getAICoreId();
+                        Global.getLogger(DraconisAICoreTheftListener.class).info(
+                                "Displacing " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
+                                " from " + targetIndustry.getCurrentName() + " with better " +
+                                DraconisAICorePriorityManager.getCoreDisplayName(coreId)
+                        );
+                    }
 
-                    availableIndustries.remove(targetIndustry);
-                    coresInstalled++;
-                    installed = true;
+                    if (tryInstallCore(targetIndustry, coreId)) {
+                        // Track this installation
+                        MarketAPI market = targetIndustry.getMarket();
+                        installationMap.put(market, installationMap.getOrDefault(market, 0) + 1);
+
+                        // Remove from appropriate list
+                        availableIndustries.remove(targetIndustry);
+                        upgradeableIndustries.remove(targetIndustry);
+
+                        coresInstalled++;
+                        installed = true;
+
+                        // If we displaced a core, add it back to the sorted cores list for redistribution
+                        if (displacedCore != null) {
+                            sortedCores.add(displacedCore);
+                            Global.getLogger(DraconisAICoreTheftListener.class).info(
+                                    "Re-queuing displaced " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
+                                    " for installation elsewhere"
+                            );
+                        }
+                    }
                 }
             }
 
@@ -358,9 +392,8 @@ public class DraconisAICoreTheftListener {
     }
 
     /**
-     * Find Draconis markets that can receive administrator AI cores
-     * Excludes Kori (capital world that shouldn't have AI admin for lore reasons)
-     * Will replace existing human admins OR upgrade existing AI core admins
+     * Find Draconis markets that can receive HYPERCOGNITION skill for administrators
+     * Excludes Kori (capital) and markets where admin already has HYPERCOGNITION
      */
     private static List<MarketAPI> findAvailableDraconisAdminMarkets() {
         List<MarketAPI> available = new ArrayList<>();
@@ -369,23 +402,18 @@ public class DraconisAICoreTheftListener {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            // Exclude Kori - the capital should not have an AI administrator
+            // Exclude Kori - the capital should not have AI administrator enhancement
             if ("kori_market".equals(market.getId())) {
                 Global.getLogger(DraconisAICoreTheftListener.class).info(
-                        "Skipping Kori for administrator installation (capital exception)"
+                        "Skipping Kori for administrator enhancement (capital exception)"
                 );
                 continue;
             }
 
-            // Accept markets with:
-            // 1. No admin at all
-            // 2. Human admin (will be replaced)
-            // 3. AI admin with lower-tier core (will be upgraded)
-            // Only skip if already has an Alpha Core admin
+            // Skip if admin already has HYPERCOGNITION
             if (market.getAdmin() != null &&
-                market.getAdmin().getAICoreId() != null &&
-                market.getAdmin().getAICoreId().equals(Commodities.ALPHA_CORE)) {
-                continue; // Already has best possible admin
+                market.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) {
+                continue; // Already enhanced with Alpha Core
             }
 
             available.add(market);
@@ -394,6 +422,9 @@ public class DraconisAICoreTheftListener {
         return available;
     }
 
+    /**
+     * Find Draconis industries WITHOUT AI cores
+     */
     private static List<Industry> findAvailableDraconisIndustries() {
         List<Industry> available = new ArrayList<>();
 
@@ -402,6 +433,7 @@ public class DraconisAICoreTheftListener {
             if (market.isHidden()) continue;
 
             for (Industry industry : market.getIndustries()) {
+                // Only add if NO core installed
                 if (industry.getAICoreId() != null && !industry.getAICoreId().isEmpty()) continue;
                 if (!industry.isFunctional()) continue;
 
@@ -413,237 +445,30 @@ public class DraconisAICoreTheftListener {
     }
 
     /**
-     * Pick a target market for administrator installation
-     * Prefers larger markets
+     * Find Draconis industries WITH lower-tier cores that can be upgraded
      */
-    private static MarketAPI pickTargetAdminMarket(List<MarketAPI> markets) {
-        if (markets.isEmpty()) return null;
+    private static List<Industry> findUpgradeableDraconisIndustries() {
+        List<Industry> upgradeable = new ArrayList<>();
 
-        if (!DraconisAICoreConfig.preferLargeMarkets()) {
-            return markets.get((int)(Math.random() * markets.size()));
-        }
+        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
+            if (!market.getFactionId().equals(DRACONIS)) continue;
+            if (market.isHidden()) continue;
 
-        WeightedRandomPicker<MarketAPI> picker = new WeightedRandomPicker<>();
-        float sizeWeight = DraconisAICoreConfig.getMarketSizeWeight();
+            for (Industry industry : market.getIndustries()) {
+                String currentCore = industry.getAICoreId();
+                // Only add if has a core that could be upgraded
+                if (currentCore == null || currentCore.isEmpty()) continue;
 
-        for (MarketAPI market : markets) {
-            float weight = (float) Math.pow(market.getSize(), sizeWeight);
-            picker.add(market, weight);
-        }
+                // Can't upgrade an Alpha core (it's already the best)
+                if (currentCore.equals(Commodities.ALPHA_CORE)) continue;
 
-        return picker.pick();
-    }
+                if (!industry.isFunctional()) continue;
 
-    /**
-     * Try to install an AI core as administrator on a market
-     * Based on vanilla implementation in CoreLifecyclePluginImpl
-     */
-    private static boolean tryInstallAdminCore(MarketAPI market, String coreId) {
-        try {
-            // Remove existing admin first
-            for (com.fs.starfarer.api.characters.PersonAPI p : market.getPeopleCopy()) {
-                if (com.fs.starfarer.api.impl.campaign.ids.Ranks.POST_ADMINISTRATOR.equals(p.getPostId())) {
-                    market.removePerson(p);
-                    Global.getSector().getImportantPeople().removePerson(p);
-                    market.getCommDirectory().removePerson(p);
-                    Global.getLogger(DraconisAICoreTheftListener.class).info(
-                            "Removed existing administrator: " + p.getNameString()
-                    );
-                    break;
-                }
+                upgradeable.add(industry);
             }
-
-            // Create AI administrator using Starsector's built-in method
-            com.fs.starfarer.api.characters.PersonAPI admin =
-                    Global.getSector().getFaction(DRACONIS).createRandomPerson();
-
-            // Set rank and post
-            admin.setRankId(com.fs.starfarer.api.impl.campaign.ids.Ranks.CITIZEN);
-            admin.setPostId(com.fs.starfarer.api.impl.campaign.ids.Ranks.POST_ADMINISTRATOR);
-
-            // Set AI core ID - MUST be done before setImportanceAndVoice
-            admin.setAICoreId(coreId);
-
-            // Set importance and voice - CRITICAL to prevent OfficerManagerEvent from replacing
-            // This must be called AFTER setAICoreId to properly register as AI admin
-            admin.setImportanceAndVoice(
-                com.fs.starfarer.api.campaign.PersonImportance.MEDIUM,
-                new java.util.Random()
-            );
-
-            // Add skills if Alpha core
-            if (coreId.equals(com.fs.starfarer.api.impl.campaign.ids.Commodities.ALPHA_CORE)) {
-                admin.getStats().setSkillLevel(com.fs.starfarer.api.impl.campaign.ids.Skills.INDUSTRIAL_PLANNING, 1);
-                admin.getStats().setSkillLevel(com.fs.starfarer.api.impl.campaign.ids.Skills.HYPERCOGNITION, 1);
-            }
-
-            // Add to important people BEFORE setting as admin
-            // This ensures OfficerManagerEvent sees the admin as already present
-            Global.getSector().getImportantPeople().addPerson(admin);
-            Global.getSector().getImportantPeople().getData(admin).getLocation().setMarket(market);
-
-            // Add to comm directory BEFORE setting as admin (position 0 = top of list)
-            market.getCommDirectory().addPerson(admin, 0);
-
-            // Add to market people BEFORE setting as admin
-            market.addPerson(admin);
-
-            // Set as market admin - do this AFTER adding to comm directory and market people
-            market.setAdmin(admin);
-
-            // Add the AI core admin condition if not present
-            if (!market.hasCondition(com.fs.starfarer.api.impl.campaign.ids.Conditions.AI_CORE_ADMIN)) {
-                market.addCondition(com.fs.starfarer.api.impl.campaign.ids.Conditions.AI_CORE_ADMIN);
-            }
-
-            // CRITICAL: Mark that this market has an admin to prevent OfficerManagerEvent from replacing it
-            // This is the key to preventing the AI admin from being replaced by a human
-            market.getMemoryWithoutUpdate().set(MemFlags.MARKET_DO_NOT_INIT_COMM_LISTINGS, true);
-
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
-                    "INSTALLED: " + coreId + " as Administrator at " + market.getName() +
-                    " (admin: " + admin.getNameString() + ")"
-            );
-            return true;
-        } catch (Exception e) {
-            Global.getLogger(DraconisAICoreTheftListener.class).error(
-                    "FAILED to install " + coreId + " as administrator at " + market.getName(), e
-            );
-            return false;
-        }
-    }
-
-    /**
-     * Get priority value for core types (higher = more valuable)
-     */
-    private static int getCorePriority(String coreId) {
-        return switch (coreId) {
-            case Commodities.ALPHA_CORE -> 3;
-            case Commodities.BETA_CORE -> 2;
-            case Commodities.GAMMA_CORE -> 1;
-            default -> 0;
-        };
-    }
-
-    /**
-     * Pick target industry based on core type priority
-     * Industry priority order (for each core type):
-     *
-     * Alpha Core priority:
-     * 1. High Command / Military Base (strategic value)
-     * 2. Heavy Industry (production boost)
-     * 3. Fuel Production / Refining (critical resources)
-     * 4. Other industries
-     *
-     * Beta Core priority:
-     * 1. Heavy Industry
-     * 2. Fuel Production / Refining
-     * 3. Light Industry / Orbital Works
-     * 4. Other industries
-     *
-     * Gamma Core priority:
-     * 1. Light Industry
-     * 2. Mining / Farming (resource production)
-     * 3. Other industries
-     */
-    private static Industry pickTargetIndustryByPriority(List<Industry> industries, String coreId) {
-        if (industries.isEmpty()) return null;
-
-        WeightedRandomPicker<Industry> picker = new WeightedRandomPicker<>();
-        float sizeWeight = DraconisAICoreConfig.getMarketSizeWeight();
-
-        for (Industry industry : industries) {
-            float basePriority = getIndustryPriority(industry, coreId);
-            float marketSizeBonus = (float) Math.pow(industry.getMarket().getSize(), sizeWeight * 0.5f);
-            float weight = basePriority * marketSizeBonus;
-
-            picker.add(industry, weight);
         }
 
-        return picker.pick();
-    }
-
-    /**
-     * Get priority weight for an industry based on core type
-     *
-     * UNIFIED PRIORITY ORDER (applies to all core types):
-     * 1. Administrator (handled separately - Alpha cores only)
-     * 2. Orbital Works / Heavy Industry (10.0) - Ship/Equipment production
-     * 3. Population & Infrastructure (9.0) - Population growth
-     * 4. High Command (8.5) - Military command
-     * 5. Megaport (8.0) - Trade hub
-     * 6. Everything else (lower priorities based on industry type)
-     *
-     * Note: Administrator installation is handled separately in installStolenCores()
-     * and only uses Alpha cores.
-     */
-    private static float getIndustryPriority(Industry industry, String coreId) {
-        String industryId = industry.getId().toLowerCase();
-
-        // Tier 1: Production (Orbital Works / Heavy Industry)
-        if (industryId.contains("orbitalworks")) return 10.0f;           // Orbital Works (ship production)
-        if (industryId.contains("heavyindustry")) return 10.0f;          // Heavy Industry (equipment production)
-
-        // Tier 2: Population & Infrastructure
-        if (industryId.contains("population")) return 9.0f;              // Population & Infrastructure
-
-        // Tier 3: High Command
-        if (industryId.contains("xlii_highcommand")) return 8.5f;        // Draconis High Command
-        if (industryId.contains("highcommand")) return 8.5f;             // High Command
-        if (industryId.contains("militarybase")) return 8.3f;            // Military Base (slightly lower)
-
-        // Tier 4: Megaport
-        if (industryId.contains("megaport")) return 8.0f;                // Megaport
-
-        // Tier 5: Other important industries (vary slightly by core type for optimization)
-        if (coreId.equals(Commodities.ALPHA_CORE)) {
-            // Alpha cores: Focus on high-value infrastructure
-            if (industryId.contains("fuelprod")) return 7.5f;            // Fuel Production
-            if (industryId.contains("refining")) return 7.0f;            // Refining
-            if (industryId.contains("waystation")) return 6.5f;          // Waystation
-            if (industryId.contains("lightindustry")) return 6.0f;       // Light Industry
-            if (industryId.contains("mining")) return 5.5f;              // Mining
-            if (industryId.contains("farming")) return 5.0f;             // Farming
-            return 3.0f; // Default for other industries
-        } else if (coreId.equals(Commodities.BETA_CORE)) {
-            // Beta cores: Focus on resource processing
-            if (industryId.contains("fuelprod")) return 7.5f;            // Fuel Production
-            if (industryId.contains("refining")) return 7.5f;            // Refining
-            if (industryId.contains("lightindustry")) return 7.0f;       // Light Industry
-            if (industryId.contains("mining")) return 6.5f;              // Mining
-            if (industryId.contains("farming")) return 6.0f;             // Farming
-            if (industryId.contains("aquaculture")) return 5.5f;         // Aquaculture
-            return 2.0f;
-        } else if (coreId.equals(Commodities.GAMMA_CORE)) {
-            // Gamma cores: Focus on basic resource extraction
-            if (industryId.contains("lightindustry")) return 7.5f;       // Light Industry
-            if (industryId.contains("mining")) return 7.0f;              // Mining
-            if (industryId.contains("farming")) return 7.0f;             // Farming
-            if (industryId.contains("aquaculture")) return 6.5f;         // Aquaculture
-            if (industryId.contains("refining")) return 6.0f;            // Refining
-            if (industryId.contains("commerce")) return 5.0f;            // Commerce
-            return 1.0f;
-        }
-
-        return 1.0f; // Default weight
-    }
-
-    private static Industry pickTargetIndustry(List<Industry> industries) {
-        if (industries.isEmpty()) return null;
-
-        if (!DraconisAICoreConfig.preferLargeMarkets()) {
-            return industries.get((int)(Math.random() * industries.size()));
-        }
-
-        WeightedRandomPicker<Industry> picker = new WeightedRandomPicker<>();
-        float sizeWeight = DraconisAICoreConfig.getMarketSizeWeight();
-
-        for (Industry ind : industries) {
-            float weight = (float) Math.pow(ind.getMarket().getSize(), sizeWeight);
-            picker.add(ind, weight);
-        }
-
-        return picker.pick();
+        return upgradeable;
     }
 
     private static boolean tryInstallCore(Industry industry, String coreId) {
@@ -698,12 +523,7 @@ public class DraconisAICoreTheftListener {
     }
 
     private static String getCoreDisplayName(String coreId) {
-        return switch (coreId) {
-            case Commodities.ALPHA_CORE -> "Alpha Core";
-            case Commodities.BETA_CORE -> "Beta Core";
-            case Commodities.GAMMA_CORE -> "Gamma Core";
-            default -> "AI Core";
-        };
+        return DraconisAICorePriorityManager.getCoreDisplayName(coreId);
     }
 
     private static void sendTheftIntel(List<String> stolenCores,

@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Abilities;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
-import com.fs.starfarer.api.impl.campaign.intel.group.FGAction;
 import com.fs.starfarer.api.impl.campaign.intel.group.GenericRaidFGI;
 import com.fs.starfarer.api.impl.campaign.missions.FleetCreatorMission;
 import com.fs.starfarer.api.util.IntervalUtil;
@@ -13,27 +12,32 @@ import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.ids.FleetTypes;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
 
 /**
  * Custom raid intel for AI Core acquisition raids
- * Uses Shadow Fleet (FORTYSECOND) faction via params
+ * Uses Draconis faction via params
  */
 public class DraconisAICoreRaidIntel extends GenericRaidFGI {
 
     private final MarketAPI target;
     private final IntervalUtil interval = new IntervalUtil(0.1f, 0.3f);
 
-    // Custom win condition tracking
+    // Custom win condition tracking - Spec Ops distraction timer
     private boolean payloadActionStarted = false;
     private boolean customWinConditionMet = false;
     private boolean coresAlreadyStolen = false;
-    private boolean successIntelSent = false;
-    private float timeAtTarget = 0f;
-    private static final float MIN_TIME_AT_TARGET = 2f;
-    private static final float SUCCESS_TRIGGER_DELAY = 12f;  // day delay before triggering success
-    private float successTriggerTimer = 0f;
-    private boolean successConditionsMetWaitingForDelay = false;
+    private float timeInSystem = 0f;
+
+    // Spec ops mission duration
+    private static final float BASE_MISSION_TIME = 30f;
+    private static final float CLOSE_MISSION_TIME = 14f;
+    private static final float PROXIMITY_RANGE = 2000f;
+
+    // Progress notifications (only shown when player is in same system)
+    private boolean notification25Sent = false;
+    private boolean notification50Sent = false;
+    private boolean notification75Sent = false;
+    private boolean notificationCompleteSent = false;
 
     public DraconisAICoreRaidIntel(GenericRaidParams params, MarketAPI target) {
         super(params);
@@ -71,22 +75,35 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
     }
 
     /**
-     * Override failure check to prevent premature failure
-     * Raid should not fail while success conditions are being met or are in progress
+     * Override failure check
+     * Raid only fails if ALL fleets are destroyed while in-system before mission completes
      */
     @Override
     public boolean isFailed() {
-        // If we're actively engaging or waiting for success delay, prevent failure
-        if (successConditionsMetWaitingForDelay) {
-            Global.getLogger(this.getClass()).info(
-                "Raid failure check blocked - success conditions met, waiting for delay to complete"
-            );
-            return false;
-        }
-
         // If we already succeeded, definitely not failed
         if (customWinConditionMet) {
             return false;
+        }
+
+        // During payload action (in-system), check if all fleets destroyed
+        if (payloadActionStarted && isCurrent(PAYLOAD_ACTION)) {
+            boolean allDestroyed = true;
+            for (CampaignFleetAPI fleet : getFleets()) {
+                if (!fleet.isEmpty()) {
+                    allDestroyed = false;
+                    break;
+                }
+            }
+
+            if (allDestroyed) {
+                Global.getLogger(this.getClass()).info(
+                    "=== AI CORE RAID FAILED ==="
+                );
+                Global.getLogger(this.getClass()).info(
+                    "All raid fleets destroyed in-system - mission failed"
+                );
+                return true;
+            }
         }
 
         // Otherwise, use parent's failure logic
@@ -148,159 +165,83 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
         float days = Misc.getDays(amount);
         interval.advance(days);
 
-        // Track custom win condition
-        if (!customWinConditionMet) {
-            // Check if we're at the payload action
-            if (isCurrent(PAYLOAD_ACTION)) {
-                if (!payloadActionStarted) {
-                    payloadActionStarted = true;
-                    timeAtTarget = 0f;
-                    Global.getLogger(this.getClass()).info("AI Core raid PAYLOAD_ACTION started - beginning custom win condition tracking");
-                }
-
-                // Accumulate time at target
-                timeAtTarget += days;
-
-                // Check custom win condition: fleet reached target and spent minimum time engaging
-                if (timeAtTarget >= MIN_TIME_AT_TARGET) {
-                    Global.getLogger(this.getClass()).info(
-                        "=== CHECKING ENGAGEMENT CONDITIONS (after " + String.format("%.2f", timeAtTarget) + " days) ==="
-                    );
-
-                    // Check if at least one fleet is actively engaging the target
-                    boolean hasEngagedFleet = false;
-                    int fleetsChecked = 0;
-                    int emptyFleets = 0;
-                    int wrongSystemFleets = 0;
-                    int notInCombatFleets = 0;
-                    int tooFarFleets = 0;
-
-                    for (CampaignFleetAPI fleet : getFleets()) {
-                        fleetsChecked++;
-
-                        if (fleet.isEmpty()) {
-                            emptyFleets++;
-                            Global.getLogger(this.getClass()).info(
-                                "  Fleet " + fleetsChecked + ": " + fleet.getName() + " - EMPTY (destroyed)"
-                            );
-                            continue;
-                        }
-
-                        if (fleet.getContainingLocation() != target.getContainingLocation()) {
-                            wrongSystemFleets++;
-                            Global.getLogger(this.getClass()).info(
-                                "  Fleet " + fleetsChecked + ": " + fleet.getName() + " - WRONG SYSTEM"
-                            );
-                            continue;
-                        }
-
-                        // Check if fleet is in combat AND near the target market
-                        boolean inCombat = fleet.getBattle() != null;
-                        float distanceToTarget = Misc.getDistance(fleet.getLocation(), target.getPrimaryEntity().getLocation());
-                        boolean veryCloseToTarget = distanceToTarget < 200f; // Very close - actually at the target
-
-                        Global.getLogger(this.getClass()).info(
-                            "  Fleet " + fleetsChecked + ": " + fleet.getName() +
-                            " | Combat: " + inCombat +
-                            " | Distance: " + String.format("%.0f", distanceToTarget) + " units" +
-                            " | Close enough: " + veryCloseToTarget
-                        );
-
-                        // MUST be BOTH in combat AND very close to target (and time requirement already met)
-                        // This ensures fleet is actually engaging the target, not just fighting nearby
-                        if (inCombat && veryCloseToTarget) {
-                            hasEngagedFleet = true;
-                            Global.getLogger(this.getClass()).info(
-                                "  >>> ENGAGEMENT CONDITIONS MET! <<<"
-                            );
-                            break;
-                        } else {
-                            if (!inCombat) notInCombatFleets++;
-                            if (!veryCloseToTarget) tooFarFleets++;
-                        }
-                    }
-
-                    Global.getLogger(this.getClass()).info(
-                        "Engagement check summary: " + fleetsChecked + " total fleets | " +
-                        emptyFleets + " empty | " + wrongSystemFleets + " wrong system | " +
-                        notInCombatFleets + " not in combat | " + tooFarFleets + " too far | " +
-                        "Result: " + (hasEngagedFleet ? "SUCCESS" : "FAILED")
-                    );
-
-                    if (hasEngagedFleet) {
-                        // Mark that success conditions are met, but start delay timer
-                        if (!successConditionsMetWaitingForDelay) {
-                            successConditionsMetWaitingForDelay = true;
-                            successTriggerTimer = 0f;
-                            Global.getLogger(this.getClass()).info(
-                                "=== AI CORE RAID SUCCESS CONDITIONS MET ==="
-                            );
-                            Global.getLogger(this.getClass()).info(
-                                "Time at target: " + String.format("%.2f", timeAtTarget) + " days"
-                            );
-                            Global.getLogger(this.getClass()).info(
-                                "Active fleets at target: confirmed"
-                            );
-                            Global.getLogger(this.getClass()).info(
-                                "Starting " + SUCCESS_TRIGGER_DELAY + " day delay before triggering success..."
-                            );
-                        }
-                    }
-                }
+        // Track spec ops mission timer - simple and reliable!
+        if (!customWinConditionMet && isCurrent(PAYLOAD_ACTION)) {
+            if (!payloadActionStarted) {
+                payloadActionStarted = true;
+                timeInSystem = 0f;
+                Global.getLogger(this.getClass()).info(
+                    "=== SPEC OPS MISSION STARTED ==="
+                );
+                Global.getLogger(this.getClass()).info(
+                    "Fleet providing distraction while spec ops infiltrate " + target.getName()
+                );
+                sendPlayerNotification("Draconis spec ops team infiltrating " + target.getName());
             }
-        }
 
-        // Handle success trigger delay
-        if (successConditionsMetWaitingForDelay && !customWinConditionMet) {
-            // Check if fleet is still viable - cancel success if all fleets are completely destroyed
-            // Don't check location - fleet can leave after accomplishing the mission
-            boolean hasViableFleet = false;
+            // Accumulate time in system
+            timeInSystem += days;
+
+            // Check proximity to target for time bonus
+            boolean isCloseToTarget = false;
             for (CampaignFleetAPI fleet : getFleets()) {
-                // Fleet is viable if it's not empty (still has ships)
-                if (!fleet.isEmpty()) {
-                    hasViableFleet = true;
+                if (fleet.isEmpty()) continue;
+                if (fleet.getContainingLocation() != target.getContainingLocation()) continue;
+
+                float distance = Misc.getDistance(fleet.getLocation(), target.getPrimaryEntity().getLocation());
+                if (distance < PROXIMITY_RANGE) {
+                    isCloseToTarget = true;
                     break;
                 }
             }
 
-            if (!hasViableFleet) {
-                // All fleets completely destroyed - cancel the success countdown
-                successConditionsMetWaitingForDelay = false;
-                successTriggerTimer = 0f;
-                Global.getLogger(this.getClass()).info(
-                    "=== AI CORE RAID FLEET DESTROYED ==="
-                );
-                Global.getLogger(this.getClass()).info(
-                    "All raid fleets completely destroyed during success delay - cancelling success, raid will fail"
-                );
-                // Let the raid fail naturally through parent's failure logic
-                return;
+            // Determine required time (7 days if close, 14 days baseline)
+            float requiredTime = isCloseToTarget ? CLOSE_MISSION_TIME : BASE_MISSION_TIME;
+
+            // Calculate progress percentage
+            float progress = (timeInSystem / requiredTime) * 100f;
+
+            // Send progress notifications (only when player in same system)
+            if (progress >= 25f && !notification25Sent) {
+                notification25Sent = true;
+                sendPlayerNotification("Spec ops progress: 25% complete");
+            }
+            if (progress >= 50f && !notification50Sent) {
+                notification50Sent = true;
+                sendPlayerNotification("Spec ops progress: 50% complete - data extraction underway");
+            }
+            if (progress >= 75f && !notification75Sent) {
+                notification75Sent = true;
+                sendPlayerNotification("Spec ops progress: 75% complete - preparing extraction");
             }
 
-            successTriggerTimer += days;
-
-            if (successTriggerTimer >= SUCCESS_TRIGGER_DELAY) {
+            // Check if mission time complete
+            if (timeInSystem >= requiredTime) {
                 customWinConditionMet = true;
+
                 Global.getLogger(this.getClass()).info(
-                    "=== AI CORE RAID SUCCESS DELAY COMPLETED ==="
+                    "=== SPEC OPS MISSION COMPLETE ==="
                 );
                 Global.getLogger(this.getClass()).info(
-                    "Raid will be considered successful regardless of bombardment mechanics"
+                    "Time in system: " + String.format("%.2f", timeInSystem) + " days"
+                );
+                Global.getLogger(this.getClass()).info(
+                    "Proximity bonus active: " + isCloseToTarget
+                );
+                Global.getLogger(this.getClass()).info(
+                    "AI cores successfully acquired by spec ops team!"
                 );
 
-                // STEAL AI CORES NOW - after delay is complete
+                // Steal AI cores
                 if (!coresAlreadyStolen && target != null) {
                     coresAlreadyStolen = true;
-                    Global.getLogger(this.getClass()).info(
-                        "Success delay complete - proceeding with AI core theft from " + target.getName()
-                    );
 
                     boolean isPlayerMarket = target.isPlayerOwned();
                     levianeer.draconis.data.campaign.intel.aicore.theft.DraconisAICoreTheftListener.checkAndStealAICores(
                         target, isPlayerMarket, "ai_core_raid"
                     );
 
-                    // Clear high-value target flags after theft
+                    // Clear high-value target flags
                     levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner.clearTargetAfterRaid(target);
 
                     Global.getLogger(this.getClass()).info(
@@ -308,18 +249,21 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
                     );
                 }
 
-                // Send intel update notification when raid succeeds (only once)
-                if (!successIntelSent) {
-                    successIntelSent = true;
-                    Global.getLogger(this.getClass()).info(
-                        "Sending intel update notification for successful AI core raid"
-                    );
+                // Notify player
+                if (!notificationCompleteSent) {
+                    notificationCompleteSent = true;
+                    sendPlayerNotification("Spec ops mission complete - AI cores secured!");
                     sendUpdateIfPlayerHasIntel(new Object(), false);
                 }
             } else {
-                Global.getLogger(this.getClass()).info(
-                    "Success delay in progress: " + String.format("%.2f", successTriggerTimer) + "/" + SUCCESS_TRIGGER_DELAY + " days"
-                );
+                // Log progress periodically
+                if (timeInSystem % 2f < days) { // Every ~2 days
+                    Global.getLogger(this.getClass()).info(
+                        "Spec ops progress: " + String.format("%.1f", progress) + "% " +
+                        "(" + String.format("%.1f", timeInSystem) + "/" + String.format("%.1f", requiredTime) + " days)" +
+                        (isCloseToTarget ? " [PROXIMITY BONUS ACTIVE]" : "")
+                    );
+                }
             }
         }
 
@@ -363,6 +307,74 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
     }
 
     /**
+     * Send notification to player only if they're in the same system as the target
+     */
+    private void sendPlayerNotification(String message) {
+        if (Global.getSector().getPlayerFleet() == null) return;
+        if (target == null) return;
+
+        // Only notify if player is in same system as target
+        if (Global.getSector().getPlayerFleet().getContainingLocation() == target.getContainingLocation()) {
+            Global.getSector().getCampaignUI().addMessage(
+                message,
+                Misc.getTextColor()
+            );
+        }
+    }
+
+    /**
+     * Override bullet points to explain the spec ops win condition
+     */
+    @Override
+    protected void addNonUpdateBulletPoints(com.fs.starfarer.api.ui.TooltipMakerAPI info,
+                                           java.awt.Color tc, Object param,
+                                           ListInfoMode mode, float initPad) {
+        // Call parent to add standard info (ETA, targeting, etc.)
+        super.addNonUpdateBulletPoints(info, tc, param, mode, initPad);
+
+        // Add spec ops mission progress if raid is in progress
+        if (payloadActionStarted && !customWinConditionMet && isCurrent(PAYLOAD_ACTION)) {
+            java.awt.Color h = Misc.getHighlightColor();
+
+            // Check proximity bonus status
+            boolean isCloseToTarget = false;
+            for (CampaignFleetAPI fleet : getFleets()) {
+                if (fleet.isEmpty()) continue;
+                if (fleet.getContainingLocation() != target.getContainingLocation()) continue;
+
+                float distance = Misc.getDistance(fleet.getLocation(), target.getPrimaryEntity().getLocation());
+                if (distance < PROXIMITY_RANGE) {
+                    isCloseToTarget = true;
+                    break;
+                }
+            }
+
+            float requiredTime = isCloseToTarget ? CLOSE_MISSION_TIME : BASE_MISSION_TIME;
+            float progress = (timeInSystem / requiredTime) * 100f;
+            int daysRemaining = (int) Math.ceil(requiredTime - timeInSystem);
+
+            // Main progress bullet
+            String progressText = "Spec ops infiltration: %s complete";
+            info.addPara(progressText, 3f, tc, h,
+                        String.format("%.0f", progress) + "%");
+
+            // Time remaining
+            String timeText = "Estimated %s until extraction";
+            String daysText = daysRemaining + " " + (daysRemaining == 1 ? "day" : "days");
+            info.addPara(timeText, 0f, tc, h, daysText);
+
+            // Proximity bonus status
+            if (isCloseToTarget) {
+                info.addPara("Fleet proximity bonus: Active", 0f, tc,
+                           Misc.getPositiveHighlightColor(), "Active");
+            } else {
+                String proximityText = "Fleet within 2000 units of target reduces mission time to 14 days";
+                info.addPara(proximityText, 0f, Misc.getGrayColor(), h, "2000 units", "14 days");
+            }
+        }
+    }
+
+    /**
      * Configure fleet during creation to have Shadow Fleet characteristics
      * Sets fleet type and behavior flags
      * Uses delayed hostility - fleets become hostile on arrival, not during transit
@@ -380,9 +392,8 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
         // NOTE: Not making hostile during creation - delayed until arrival (like Tri-Tachyon)
         // Hostility is set in the raid action when they reach the target
 
-        // Ensure friendly to Draconis and Shadow Fleet
+        // Ensure friendly to Draconis
         m.triggerMakeNonHostileToFaction(DRACONIS);
-        m.triggerMakeNonHostileToFaction(FORTYSECOND);
 
         // No reputation impact from combat (covert ops)
         m.triggerMakeNoRepImpact();

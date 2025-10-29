@@ -18,7 +18,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin {
 
     private static final float STABILITY_PENALTY = 1f;
-    private static final float GROUND_DEFENSE_PENALTY = -0.15f;
+    private static final float GROUND_DEFENSE_PENALTY = -0.2f;
 
     @Override
     public void apply(String id) {

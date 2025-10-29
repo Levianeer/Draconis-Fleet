@@ -121,8 +121,8 @@
 	},
 	
 	"factionDoctrine":{
-		"warships":2,
-		"carriers":4, # Carrier Strike Group Doctrine >:3
+		"warships":3, # Carrier Strike
+		"carriers":3, # Group Doctrine >:3
 		"phaseShips":1,
 
 		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably ""fair""
@@ -131,7 +131,7 @@
 
 		"shipSize":5, # Maximum size preference (capitals and cruisers)
 
-		"aggression":5, # Maximum aggression for raids
+		"aggression":3,
 		
 		"combatFreighterProbability":0,      				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup

@@ -138,7 +138,7 @@
 
 		"shipSize":4, # Cruiser Doctrine >:3
 
-		"aggression":4,
+		"aggression":2,
 		
 		"combatFreighterProbability":0.1,      				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup

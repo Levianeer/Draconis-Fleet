@@ -30,7 +30,6 @@ import java.awt.*;
 import java.util.Random;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
 
 /**
  * Hostile activity factor for AI Core acquisition raids
@@ -62,7 +61,7 @@ public class DraconisAICoreRaidFactor extends BaseHostileActivityFactor implemen
         if (getProgress(intel) <= 0) {
             return Misc.getGrayColor();
         }
-        return Global.getSector().getFaction(FORTYSECOND).getBaseUIColor();
+        return Global.getSector().getFaction(DRACONIS).getBaseUIColor();
     }
 
     @Override
@@ -132,7 +131,7 @@ public class DraconisAICoreRaidFactor extends BaseHostileActivityFactor implemen
     public void addBulletPointForEvent(HostileActivityEventIntel intel, EventStageData stage,
                                        TooltipMakerAPI info, ListInfoMode mode,
                                        boolean isUpdate, Color tc, float initPad) {
-        Color c = Global.getSector().getFaction(FORTYSECOND).getBaseUIColor();
+        Color c = Global.getSector().getFaction(DRACONIS).getBaseUIColor();
         info.addPara("Shadow Fleet AI core acquisition raid imminent", initPad, tc, c, "Shadow Fleet");
     }
 
@@ -172,7 +171,7 @@ public class DraconisAICoreRaidFactor extends BaseHostileActivityFactor implemen
         label.setHighlight("stolen AI cores", "enhancing");
         label.setHighlightColors(Misc.getNegativeHighlightColor(), Misc.getHighlightColor());
 
-        addBorder(info, Global.getSector().getFaction(FORTYSECOND).getBaseUIColor());
+        addBorder(info, Global.getSector().getFaction(DRACONIS).getBaseUIColor());
     }
 
     @Override
@@ -290,7 +289,7 @@ public class DraconisAICoreRaidFactor extends BaseHostileActivityFactor implemen
         GenericRaidFGI.GenericRaidParams params = new GenericRaidFGI.GenericRaidParams(
                 new Random(random.nextLong()), true);
 
-        params.factionId = FORTYSECOND;  // Shadow Fleet faction
+        params.factionId = DRACONIS;
         params.source = source;
 
         // Use same timing as hostile activity expeditions

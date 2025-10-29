@@ -41,21 +41,21 @@
 
 	"XLII_durendal_charge":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_charge.ogg","pitch":1.0,"volume":0.7}
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_charge.ogg","pitch":1.0,"volume":0.75}
 		],
     },
 
 	"XLII_durendal_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_fire.ogg","pitch":1.0,"volume":1.45}
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_fire.ogg","pitch":1.0,"volume":1.75}
 		],
     },
 
 	"XLII_durendal_mkii_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.85},
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.85},
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.85}
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.5},
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.5},
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.5}
 		],
     },
 

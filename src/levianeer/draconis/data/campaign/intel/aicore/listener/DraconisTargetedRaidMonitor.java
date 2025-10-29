@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Set;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
 
 /**
  * Monitors Draconis raids and invasions
@@ -340,7 +339,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         try {
             if (raid.getFaction() != null) {
                 String factionId = raid.getFaction().getId();
-                return DRACONIS.equals(factionId) || FORTYSECOND.equals(factionId);
+                return DRACONIS.equals(factionId);
             }
         } catch (Exception e) {
             Global.getLogger(this.getClass()).warn("Error checking raid faction", e);
@@ -352,7 +351,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         try {
             if (invasion.getFaction() != null) {
                 String factionId = invasion.getFaction().getId();
-                return DRACONIS.equals(factionId) || FORTYSECOND.equals(factionId);
+                return DRACONIS.equals(factionId);
             }
         } catch (Exception e) {
             Global.getLogger(this.getClass()).warn("Error checking invasion faction", e);

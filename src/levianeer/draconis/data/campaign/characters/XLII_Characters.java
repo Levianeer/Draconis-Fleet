@@ -53,6 +53,7 @@ public class XLII_Characters {
 
         // Set skills
         admiral.getStats().setSkillLevel(Skills.INDUSTRIAL_PLANNING, 1);
+        admiral.getStats().setSkillLevel(Skills.HYPERCOGNITION, 1);
 
         // Market
         koriMarket.addPerson(admiral);

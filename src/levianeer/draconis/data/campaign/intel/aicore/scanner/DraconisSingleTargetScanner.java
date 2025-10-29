@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
 
 /**
  * Scans all markets periodically and marks the SINGLE most valuable AI core target
@@ -279,7 +278,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
 
     private boolean isDraconisMarket(MarketAPI market) {
         String factionId = market.getFactionId();
-        return DRACONIS.equals(factionId) || FORTYSECOND.equals(factionId);
+        return DRACONIS.equals(factionId);
     }
 
     private static class CoreData {

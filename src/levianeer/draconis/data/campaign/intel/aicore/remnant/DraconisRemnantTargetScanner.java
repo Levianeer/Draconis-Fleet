@@ -21,7 +21,7 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
     public static final String LAST_RAID_DAY_FLAG = "$draconis_lastRemnantRaidDay";
 
     private static final float SCAN_INTERVAL = 60f; // Scan every 60 days
-    private static final float COOLDOWN_AFTER_RAID = 240f; // 240 day cooldown after raiding a system
+    private static final float COOLDOWN_AFTER_RAID = 120f; // 120 day cooldown after raiding a system
 
     private float daysSinceLastScan = 0f;
 
@@ -48,7 +48,6 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
 
     /**
      * Simply pick a Remnant system that isn't on cooldown
-     * No pretense of "scanning" - we just know where Remnant systems are
      */
     private void scanForRemnantTargets() {
         // Clear previous target
