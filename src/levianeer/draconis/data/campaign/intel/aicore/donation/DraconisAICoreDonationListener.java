@@ -11,8 +11,10 @@ import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriority
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
@@ -164,67 +166,108 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         int installed = 0;
         Map<MarketAPI, List<String>> installationMap = new HashMap<>();
 
-        for (String coreId : coresToInstall) {
-            boolean coreInstalled = false;
+        // Process cores in rounds to handle displaced cores without ConcurrentModificationException
+        List<String> remainingCores = new ArrayList<>(coresToInstall);
+        int maxRounds = 100; // Safety limit to prevent infinite loops
+        int round = 0;
 
-            // Try administrator installation first for Alpha cores (HIGHEST PRIORITY)
-            if (coreId.equals(Commodities.ALPHA_CORE) && !availableAdminMarkets.isEmpty()) {
-                MarketAPI targetMarket = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
-                if (targetMarket != null && DraconisAICorePriorityManager.installAICoreAdmin(targetMarket, coreId, DRACONIS)) {
-                    installationMap.computeIfAbsent(targetMarket, k -> new ArrayList<>()).add(coreId);
-                    availableAdminMarkets.remove(targetMarket);
-                    installed++;
-                    coreInstalled = true;
-                    Global.getLogger(this.getClass()).info(
-                            "Installed " + coreId + " as administrator at " + targetMarket.getName()
-                    );
-                }
-            }
+        while (!remainingCores.isEmpty() && round < maxRounds) {
+            round++;
+            List<String> displacedCores = new ArrayList<>();
+            List<String> failedCores = new ArrayList<>();
 
-            // If not installed as admin, try industry installation
-            if (!coreInstalled && (!availableIndustries.isEmpty() || !upgradeableIndustries.isEmpty())) {
-                Industry targetIndustry = DraconisAICorePriorityManager.pickTargetIndustryByPriority(
-                        availableIndustries, upgradeableIndustries, coreId
-                );
+            // Track industries and markets to remove AFTER the loop to avoid ConcurrentModificationException
+            Set<Industry> industriesToRemove = new HashSet<>();
+            Set<MarketAPI> marketsToRemove = new HashSet<>();
 
-                if (targetIndustry != null) {
-                    // If this is an upgrade, remove displaced core from the industry
-                    String displacedCore = null;
-                    if (targetIndustry.getAICoreId() != null && !targetIndustry.getAICoreId().isEmpty()) {
-                        displacedCore = targetIndustry.getAICoreId();
+            int installedThisRound = 0;
+
+            for (String coreId : remainingCores) {
+                boolean coreInstalled = false;
+
+                // Try administrator installation first for Alpha cores (HIGHEST PRIORITY)
+                if (coreId.equals(Commodities.ALPHA_CORE) && !availableAdminMarkets.isEmpty()) {
+                    MarketAPI targetMarket = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
+                    if (targetMarket != null && DraconisAICorePriorityManager.installAICoreAdmin(targetMarket, coreId, DRACONIS)) {
+                        installationMap.computeIfAbsent(targetMarket, k -> new ArrayList<>()).add(coreId);
+                        marketsToRemove.add(targetMarket);
+                        installed++;
+                        installedThisRound++;
+                        coreInstalled = true;
                         Global.getLogger(this.getClass()).info(
-                                "Displacing " + displacedCore + " from " + targetIndustry.getCurrentName() +
-                                " with better " + coreId
+                                "Installed " + coreId + " as administrator at " + targetMarket.getName()
                         );
                     }
+                }
 
-                    if (tryInstallCore(targetIndustry, coreId)) {
-                        MarketAPI market = targetIndustry.getMarket();
-                        installationMap.computeIfAbsent(market, k -> new ArrayList<>()).add(coreId);
+                // If not installed as admin, try industry installation
+                if (!coreInstalled && (!availableIndustries.isEmpty() || !upgradeableIndustries.isEmpty())) {
+                    Industry targetIndustry = DraconisAICorePriorityManager.pickTargetIndustryByPriority(
+                            availableIndustries, upgradeableIndustries, coreId
+                    );
 
-                        // Remove from appropriate list
-                        availableIndustries.remove(targetIndustry);
-                        upgradeableIndustries.remove(targetIndustry);
-
-                        installed++;
-                        coreInstalled = true;
-
-                        // If we displaced a core, add it back to the donation queue for redistribution
-                        if (displacedCore != null) {
-                            coresToInstall.add(displacedCore);
+                    if (targetIndustry != null) {
+                        // If this is an upgrade, remove displaced core from the industry
+                        String displacedCore = null;
+                        if (targetIndustry.getAICoreId() != null && !targetIndustry.getAICoreId().isEmpty()) {
+                            displacedCore = targetIndustry.getAICoreId();
                             Global.getLogger(this.getClass()).info(
-                                    "Re-queuing displaced " + displacedCore + " for installation elsewhere"
+                                    "Displacing " + displacedCore + " from " + targetIndustry.getCurrentName() +
+                                    " with better " + coreId
                             );
+                        }
+
+                        if (tryInstallCore(targetIndustry, coreId)) {
+                            MarketAPI market = targetIndustry.getMarket();
+                            installationMap.computeIfAbsent(market, k -> new ArrayList<>()).add(coreId);
+
+                            // Mark for removal after loop completes
+                            industriesToRemove.add(targetIndustry);
+
+                            installed++;
+                            installedThisRound++;
+                            coreInstalled = true;
+
+                            // If we displaced a core, collect it for the next round
+                            if (displacedCore != null) {
+                                displacedCores.add(displacedCore);
+                                Global.getLogger(this.getClass()).info(
+                                        "Re-queuing displaced " + displacedCore + " for installation elsewhere"
+                                );
+                            }
                         }
                     }
                 }
+
+                if (!coreInstalled) {
+                    failedCores.add(coreId);
+                }
             }
 
-            if (!coreInstalled) {
-                Global.getLogger(this.getClass()).warn(
-                        "Could not install " + coreId + " - no suitable facilities available"
-                );
+            // NOW safe to remove industries and markets after iteration completes
+            availableAdminMarkets.removeAll(marketsToRemove);
+            availableIndustries.removeAll(industriesToRemove);
+            upgradeableIndustries.removeAll(industriesToRemove);
+
+            // Prepare for next round: only process displaced cores
+            remainingCores.clear();
+            remainingCores.addAll(displacedCores);
+
+            // If nothing was installed this round and we have failed cores, stop to prevent infinite loop
+            if (installedThisRound == 0 && !failedCores.isEmpty()) {
+                for (String failedCore : failedCores) {
+                    Global.getLogger(this.getClass()).warn(
+                            "Could not install " + failedCore + " - no suitable facilities available"
+                    );
+                }
+                break;
             }
+        }
+
+        if (round >= maxRounds) {
+            Global.getLogger(this.getClass()).error(
+                    "Core installation exceeded maximum rounds - potential infinite loop prevented"
+            );
         }
 
         Global.getLogger(this.getClass()).info(

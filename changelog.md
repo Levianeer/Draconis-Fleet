@@ -1,3 +1,8 @@
+Version 0.4.1 (Save-compatible with 0.4.0)
+- Fixed ConcurrentModificationException crash in AI Core Donation system when displacing lower-tier cores.
+  - Core installation now processes in rounds to safely handle displaced cores.
+  - Added infinite loop protection with maximum round limit.
+
 Version 0.4.0
 - WARNING: Breaking change - NOT compatible with saves from 0.3.5 or earlier.
   - Complete internal restructuring: all IDs renamed from fsdf_ to XLII_ prefix.
