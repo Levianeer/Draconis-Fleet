@@ -317,7 +317,10 @@ public class DraconisAICoreTheftListener {
         int coresInstalled = 0;
         Map<MarketAPI, Integer> installationMap = new HashMap<>(); // Track where cores were installed
 
-        for (String coreId : sortedCores) {
+        // Use index-based loop to allow dynamic additions during iteration
+        int coreIndex = 0;
+        while (coreIndex < sortedCores.size()) {
+            String coreId = sortedCores.get(coreIndex);
             boolean installed = false;
 
             // Try administrator installation first for Alpha cores (HIGHEST PRIORITY)
@@ -380,6 +383,8 @@ public class DraconisAICoreTheftListener {
                         "Could not install " + coreId + " - no suitable facilities available"
                 );
             }
+
+            coreIndex++;
         }
 
         // Send single intel notification if any cores were successfully stolen

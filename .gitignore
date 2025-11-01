@@ -12,3 +12,4 @@ nul
 
 # Build output - track the jar file for distribution
 # The jars/ directory contains the compiled mod jar
+out/

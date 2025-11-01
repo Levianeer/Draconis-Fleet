@@ -1,3 +1,8 @@
+Version 0.4.2 (Save-compatible with 0.4.0)
+- Fixed ConcurrentModificationException crash in AI Core Acquisition system during core redistribution.
+  - Replaced for-each loop with index-based iteration to safely handle displaced cores.
+  - Resolves crash when raiding markets with multiple AI cores.
+
 Version 0.4.1 (Save-compatible with 0.4.0)
 - Fixed ConcurrentModificationException crash in AI Core Donation system when displacing lower-tier cores.
   - Core installation now processes in rounds to safely handle displaced cores.
