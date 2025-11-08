@@ -1,3 +1,11 @@
+Version 0.4.3 (Save-compatible with 0.4.0)
+- I may of missed some things... >.>
+- Fixed multiple ConcurrentModificationException crashes in AI Core systems.
+  - Added defensive collection copying when iterating over market industries.
+  - Affects AI Core Theft, Remnant Raids, Donations, and Activity tracking systems.
+  - Prevents crashes in multi-threaded campaign environment.
+  - Files modified: DraconisAICoreTheftListener, DraconisRemnantRaidListener, DraconisAICoreDonationListener, DraconisAICoreActivityCause.
+
 Version 0.4.2 (Save-compatible with 0.4.0)
 - Fixed ConcurrentModificationException crash in AI Core Acquisition system during core redistribution.
   - Replaced for-each loop with index-based iteration to safely handle displaced cores.

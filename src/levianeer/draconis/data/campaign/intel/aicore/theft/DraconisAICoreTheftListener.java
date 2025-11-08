@@ -92,9 +92,10 @@ public class DraconisAICoreTheftListener {
             );
         }
 
-        List<Industry> industries = raidedMarket.getIndustries();
+        // Defensive copy to prevent ConcurrentModificationException
+        List<Industry> industries = new ArrayList<>(raidedMarket.getIndustries());
 
-        if (industries == null || industries.isEmpty()) {
+        if (industries.isEmpty()) {
             Global.getLogger(DraconisAICoreTheftListener.class).info(
                     "No industries on market"
             );
@@ -437,7 +438,8 @@ public class DraconisAICoreTheftListener {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            for (Industry industry : market.getIndustries()) {
+            // Defensive copy to prevent ConcurrentModificationException
+            for (Industry industry : new ArrayList<>(market.getIndustries())) {
                 // Only add if NO core installed
                 if (industry.getAICoreId() != null && !industry.getAICoreId().isEmpty()) continue;
                 if (!industry.isFunctional()) continue;
@@ -459,7 +461,8 @@ public class DraconisAICoreTheftListener {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            for (Industry industry : market.getIndustries()) {
+            // Defensive copy to prevent ConcurrentModificationException
+            for (Industry industry : new ArrayList<>(market.getIndustries())) {
                 String currentCore = industry.getAICoreId();
                 // Only add if has a core that could be upgraded
                 if (currentCore == null || currentCore.isEmpty()) continue;

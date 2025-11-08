@@ -12,6 +12,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.util.Misc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
@@ -111,8 +112,8 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
             total += admin;
         }
 
-        // Check industry AI cores
-        for (Industry ind : market.getIndustries()) {
+        // Check industry AI cores (defensive copy to prevent ConcurrentModificationException)
+        for (Industry ind : new ArrayList<>(market.getIndustries())) {
             String core = ind.getAICoreId();
             if (Commodities.ALPHA_CORE.equals(core)) {
                 total += alpha;

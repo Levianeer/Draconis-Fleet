@@ -197,7 +197,8 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            for (com.fs.starfarer.api.campaign.econ.Industry industry : market.getIndustries()) {
+            // Defensive copy to prevent ConcurrentModificationException
+            for (com.fs.starfarer.api.campaign.econ.Industry industry : new ArrayList<>(market.getIndustries())) {
                 if (!industry.isFunctional()) continue;
 
                 String currentCore = industry.getAICoreId();

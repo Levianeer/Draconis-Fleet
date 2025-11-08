@@ -324,7 +324,8 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            for (Industry industry : market.getIndustries()) {
+            // Defensive copy to prevent ConcurrentModificationException
+            for (Industry industry : new ArrayList<>(market.getIndustries())) {
                 // Only add if NO core installed
                 if (industry.getAICoreId() != null && !industry.getAICoreId().isEmpty()) continue;
                 // Skip if not functional
@@ -347,7 +348,8 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            for (Industry industry : market.getIndustries()) {
+            // Defensive copy to prevent ConcurrentModificationException
+            for (Industry industry : new ArrayList<>(market.getIndustries())) {
                 // Only add if has a core that could be upgraded
                 String currentCore = industry.getAICoreId();
                 if (currentCore == null || currentCore.isEmpty()) continue;
