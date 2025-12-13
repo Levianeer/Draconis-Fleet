@@ -1,3 +1,22 @@
+Version 0.5.1 (Save-compatible with 0.5.0)
+BUG FIXES:
+- Fixed AI Core Fleet Scaling system not properly assigning cores to spawned fleets.
+  - PREVIOUS BUG: System only processed fleets when standing down at bases, but fleets despawned in that state.
+  - FIX: Removed standing down requirement - fleets now receive cores immediately when spawned (any assignment).
+  - Added periodic recheck system (configurable interval, default: 120 days) to handle:
+    - Coverage percentage increases as game progresses (30% → 70% → 100%).
+    - Replacing AI cores lost in combat.
+    - Filling new empty officer slots.
+- Fixed AI Core distribution using incorrect cycle thresholds.
+  - PREVIOUS BUG: Thresholds assumed relative cycles (0-100), but Starsector campaigns start at cycle ~206.
+  - This caused fleets to immediately receive endgame AI cores (Alpha/Beta) instead of early-game Gamma cores.
+  - FIX: Updated cycle thresholds to absolute values (206-306) to properly track campaign progression.
+  - Settings.json updated with clear documentation of absolute cycle numbers.
+- Fixed AI Core Theft intel incorrectly reporting self-theft after successful colony capture.
+  - PREVIOUS BUG: When Draconis captured a colony, theft system would still trigger and create intel saying "Draconis stole from Draconis".
+    - Trust Nobody Not Even Yourself...
+  - FIX: Added faction ownership check - theft is now skipped if target market is already Draconis-owned.
+
 Version 0.5.0
 BUG FIXES:
 - Reorganised the AI Raids/Colony Crisis, should be less of a mess.

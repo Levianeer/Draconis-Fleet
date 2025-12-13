@@ -105,13 +105,13 @@
 	},
 	
 	"factionDoctrine":{
-		"warships":3, # Carrier Strike
-		"carriers":3, # Group Doctrine >:3
+		"warships":3,
+		"carriers":4, # Carrier Strike Group Doctrine >:3
 		"phaseShips":1,
 
-		"officerQuality":7, # most officers are veterans of the fafnir civil war, so this is probably ""fair""
+		"officerQuality":7, # Most officers are veterans of the Fafnir civil war
 		"shipQuality":5, # Elite ships for AI core raids
-		"numShips":5,
+		"numShips":5, # US Military defence budget
 
 		"shipSize":5, # Maximum size preference (capitals and cruisers)
 

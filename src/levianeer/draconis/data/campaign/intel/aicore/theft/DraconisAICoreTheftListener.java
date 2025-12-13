@@ -29,6 +29,14 @@ public class DraconisAICoreTheftListener {
             return;
         }
 
+        // Don't steal from our own facilities!
+        if (raidedMarket.getFactionId().equals(DRACONIS)) {
+            Global.getLogger(DraconisAICoreTheftListener.class).info(
+                    "Skipping AI core theft - market is now Draconis-owned: " + raidedMarket.getName()
+            );
+            return;
+        }
+
         // Check if we already stole from this market today
         long currentDay = Global.getSector().getClock().getDay();
         String lastTheftKey = "$draconis_lastTheftDay";

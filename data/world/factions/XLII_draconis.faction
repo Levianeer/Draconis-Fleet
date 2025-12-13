@@ -123,7 +123,7 @@
 
 		"officerQuality":1, # Shouldn't technically be this low, however it's better for balance given the AI Cores they will eventually have
 		"shipQuality":3,
-		"numShips":3,
+		"numShips":4,
 
 		"shipSize":4, # Cruiser Doctrine >:3
 

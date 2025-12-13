@@ -27,7 +27,8 @@ import java.util.Random;
 public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private static final Logger log = Global.getLogger(DraconisAICoreFleetInflater.class);
 
-    private static final String MEMORY_KEY = "$draconisAICoreScaling_processed";
+    private static final String MEMORY_KEY = "$draconisAICoreScaling_processed"; // DEPRECATED: Old boolean key for save compatibility
+    private static final String MEMORY_KEY_TIMESTAMP = "$draconisAICoreScaling_lastProcessed"; // New timestamp-based key
     private static final float CHECK_INTERVAL = 30.0f; // Check every 30 days (once per month)
 
     private float daysElapsed = 0f;
@@ -114,9 +115,26 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         // Don't process stations (orbital stations, mining stations, etc.)
         if (fleet.isStationMode()) return false;
 
-        // Check if already processed (skip this check in test mode to allow re-processing)
-        if (!config.isTestModeActive() && fleet.getMemoryWithoutUpdate().getBoolean(MEMORY_KEY)) {
-            return false;
+        // Check reprocess timing (skip this check in test mode to allow re-processing)
+        if (!config.isTestModeActive()) {
+            float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
+
+            // Check if we have a timestamp from when fleet was last processed
+            if (fleet.getMemoryWithoutUpdate().contains(MEMORY_KEY_TIMESTAMP)) {
+                float lastProcessed = fleet.getMemoryWithoutUpdate().getFloat(MEMORY_KEY_TIMESTAMP);
+                float timeSinceLastCheck = currentTime - lastProcessed;
+
+                // Don't reprocess if not enough time has passed
+                if (timeSinceLastCheck < config.getRecheckIntervalDays()) {
+                    return false;
+                }
+            }
+            // SAVE COMPATIBILITY: Migrate old boolean key to timestamp
+            else if (fleet.getMemoryWithoutUpdate().getBoolean(MEMORY_KEY)) {
+                // Fleet was processed in old system - set timestamp to now and skip this time
+                fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
+                return false;
+            }
         }
 
         // Only process Draconis and Forty-Second fleets
@@ -126,10 +144,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         }
 
         // Only process military/combat fleets
-        if (!isMilitaryFleet(fleet)) return false;
-
-        // Only process fleets that are currently at a base/station
-        return isFleetAtBase(fleet);
+        return isMilitaryFleet(fleet);
     }
 
     /**
@@ -176,9 +191,13 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     }
 
     /**
+     * DEPRECATED: No longer used - fleets are now processed on spawn, not when standing down
+     *
      * Check if fleet is currently at a base/station (for resupply/refit)
      * AI cores are only installed when fleets return to base
      */
+    @Deprecated
+    @SuppressWarnings("unused")
     private boolean isFleetAtBase(CampaignFleetAPI fleet) {
         // Check if fleet is orbiting a market (station/planet)
         com.fs.starfarer.api.campaign.ai.FleetAssignmentDataAPI assignment = fleet.getCurrentAssignment();
@@ -198,8 +217,9 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         // Find all ships without officers (empty captain slots)
         List<FleetMemberAPI> emptySlots = new ArrayList<>();
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-            // Skip fighter wings
+            // Skip silly stuff
             if (member.isFighterWing()) continue;
+            if (member.isCivilian()) continue;
 
             // Only process ships without assigned officers
             PersonAPI captain = member.getCaptain();
@@ -220,7 +240,8 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         // If no empty slots, mark as processed and return
         if (emptySlots.isEmpty()) {
-            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY, true);
+            float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
+            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
             return;
         }
 
@@ -231,7 +252,8 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         int slotsToFill = Math.round(emptySlots.size() * coveragePercent);
 
         if (slotsToFill <= 0) {
-            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY, true);
+            float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
+            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
             return;
         }
 
@@ -267,8 +289,9 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
             }
         }
 
-        // Mark fleet as processed
-        fleet.getMemoryWithoutUpdate().set(MEMORY_KEY, true);
+        // Mark fleet as processed with current timestamp
+        float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
+        fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
 
         // Log assignment
         if (coresAssigned > 0) {

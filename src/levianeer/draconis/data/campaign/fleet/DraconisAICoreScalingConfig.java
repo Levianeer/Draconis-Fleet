@@ -18,15 +18,17 @@ public class DraconisAICoreScalingConfig {
     // System settings
     private boolean enabled = true;
     private float testCycleOverride = -1f; // For testing: override actual game cycle (-1 = disabled)
+    private float recheckIntervalDays = 120f; // How often to recheck fleets for new empty slots
 
     // Cycle thresholds for scaling curve
-    private float earlyGameEnd = 5f;      // No AI cores before this
-    private float midGameStart = 5f;      // Start adding AI cores
-    private float midGameEnd = 20f;       // Increasing AI core usage
-    private float lateGameStart = 20f;    // More AI cores
-    private float lateGameEnd = 50f;      // Heavy AI core usage
-    private float endGameStart = 50f;     // Very heavy usage
-    private float endGameEnd = 100f;      // Maximum saturation
+    // NOTE: These are absolute cycle numbers (campaigns start at ~206)
+    private float earlyGameEnd = 211f;      // No AI cores before this (206+5)
+    private float midGameStart = 211f;      // Start adding AI cores (206+5)
+    private float midGameEnd = 226f;        // Increasing AI core usage (206+20)
+    private float lateGameStart = 226f;     // More AI cores (206+20)
+    private float lateGameEnd = 256f;       // Heavy AI core usage (206+50)
+    private float endGameStart = 256f;      // Very heavy usage (206+50)
+    private float endGameEnd = 306f;        // Maximum saturation (206+100)
 
     // Coverage percentages (how many empty slots to fill)
     private float coverageEarlyGame = 0f;     // 0% at cycle 1-5
@@ -55,17 +57,18 @@ public class DraconisAICoreScalingConfig {
 
             enabled = settings.optBoolean("enabled", true);
             testCycleOverride = (float) settings.optDouble("testCycleOverride", -1.0);
+            recheckIntervalDays = (float) settings.optDouble("recheckIntervalDays", 120.0);
 
             // Load cycle thresholds
             JSONObject thresholds = settings.optJSONObject("cycleThresholds");
             if (thresholds != null) {
-                earlyGameEnd = (float) thresholds.optDouble("earlyGameEnd", 5.0);
-                midGameStart = (float) thresholds.optDouble("midGameStart", 5.0);
-                midGameEnd = (float) thresholds.optDouble("midGameEnd", 20.0);
-                lateGameStart = (float) thresholds.optDouble("lateGameStart", 20.0);
-                lateGameEnd = (float) thresholds.optDouble("lateGameEnd", 50.0);
-                endGameStart = (float) thresholds.optDouble("endGameStart", 50.0);
-                endGameEnd = (float) thresholds.optDouble("endGameEnd", 100.0);
+                earlyGameEnd = (float) thresholds.optDouble("earlyGameEnd", 211.0);
+                midGameStart = (float) thresholds.optDouble("midGameStart", 211.0);
+                midGameEnd = (float) thresholds.optDouble("midGameEnd", 226.0);
+                lateGameStart = (float) thresholds.optDouble("lateGameStart", 226.0);
+                lateGameEnd = (float) thresholds.optDouble("lateGameEnd", 256.0);
+                endGameStart = (float) thresholds.optDouble("endGameStart", 256.0);
+                endGameEnd = (float) thresholds.optDouble("endGameEnd", 306.0);
             }
 
             // Load coverage percentages
@@ -234,5 +237,12 @@ public class DraconisAICoreScalingConfig {
      */
     public boolean isTestModeActive() {
         return testCycleOverride >= 0;
+    }
+
+    /**
+     * Get the interval (in days) between fleet rechecks
+     */
+    public float getRecheckIntervalDays() {
+        return recheckIntervalDays;
     }
 }

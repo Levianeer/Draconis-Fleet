@@ -125,24 +125,26 @@
 
 	"draconisAICoreScaling": {
 		"enabled": true,						# Enable/disable AI core fleet scaling	#	Default : true
-		"testCycleOverride": -1,				# DEBUG: Override game cycle for testing (-1 = disabled, 0-100 = test at that cycle)	#	Default : -1
+		"testCycleOverride": -1,				# DEBUG: Override game cycle for testing (-1 = disabled, X = test at that cycle)	#	Default : -1
+		"recheckIntervalDays": 120.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 120.0
 
 		# Cycle thresholds defining the scaling curve
+		# NOTE: Starsector campaigns start at cycle ~206, so these are absolute cycle numbers
 		"cycleThresholds": {
-			"earlyGameEnd": 1.0,				# No AI cores before this cycle	#	Default : 5.0
-			"midGameStart": 1.0,				# Start adding AI cores	#	Default : 5.0
-			"midGameEnd": 3.0,					# Transition point	#	Default : 20.0
-			"lateGameStart": 3.0,				# More AI cores begin appearing	#	Default : 20.0
-			"lateGameEnd": 6.0,                 # Heavy AI core usage	#	Default : 50.0
-			"endGameStart": 6.0,				# Very heavy usage begins	#	Default : 50.0
-			"endGameEnd": 10.0					# Maximum saturation	#	Default : 100.0
+			"earlyGameEnd": 211.0,				# No AI cores before this cycle (206+5)	#	Default : 211.0
+			"midGameStart": 211.0,				# Start adding AI cores (206+5)	#	Default : 211.0
+			"midGameEnd": 226.0,				# Transition point (206+20)	#	Default : 226.0
+			"lateGameStart": 226.0,				# More AI cores begin appearing (206+20)	#	Default : 226.0
+			"lateGameEnd": 256.0,				# Heavy AI core usage (206+50)	#	Default : 256.0
+			"endGameStart": 256.0,				# Very heavy usage begins (206+50)	#	Default : 256.0
+			"endGameEnd": 306.0					# Maximum saturation (206+100)	#	Default : 306.0
 		},
 
 		# Coverage percentages (how many empty officer slots to fill with AI cores)
 		"coveragePercentages": {
-			"earlyGame": 0.0,					# 0% at cycles 1-5	#	Default : 0.0
-			"midGame": 0.30,					# 30% at cycle 20	#	Default : 0.30
-			"lateGame": 0.70,					# 70% at cycle 50	#	Default : 0.70
+			"earlyGame": 0.0,					# 0% at cycles 1-5		#	Default : 0.0
+			"midGame": 0.30,					# 30% at cycle 20		#	Default : 0.30
+			"lateGame": 0.70,					# 70% at cycle 50		#	Default : 0.70
 			"endGame": 1.0						# 100% at cycle 100+	#	Default : 1.0
 		},
 
