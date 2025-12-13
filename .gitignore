@@ -1,9 +1,3 @@
-# IDE configuration files
-.idea/
-.run/
-.github
-Draconis-Fleet.iml
-
 # Claude Code configuration
 .claude/
 CLAUDE.md

@@ -1,0 +1,49 @@
+name: GitHub Release
+
+on:
+  # Triggers the workflow on pushing to main branch
+  push:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set Variables
+        run: |
+          # Extract version from mod_info.json
+          MAJOR=$(grep -Po '"major":\s*\K[0-9]+' mod_info.json)
+          MINOR=$(grep -Po '"minor":\s*\K[0-9]+' mod_info.json)
+          PATCH=$(grep -Po '"patch":\s*\K[0-9]+' mod_info.json)
+          echo "VERSION=v${MAJOR}.${MINOR}.${PATCH}" >> $GITHUB_ENV
+
+          # Extract latest version section from changelog
+          awk '/^Version / && NR > 1 {exit} {print}' changelog.md > release_notes.txt
+
+      - name: Create Mod Zipfile
+        run: |
+          cd ./.github/workflows/
+          chmod +x ./runner.sh
+          ./runner.sh
+          
+      - name: Publish Release on GitHub
+        uses: "ncipollo/release-action@v1.12.0"
+        with:
+          allowUpdates: true
+          name: ${{ env.VERSION }}
+          tag: ${{ env.VERSION }}
+          bodyFile: release_notes.txt
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: ".github/workflows/artifacts/*"
