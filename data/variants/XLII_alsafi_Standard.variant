@@ -1,0 +1,42 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 10,
+    "fluxVents": 0,
+    "hullId": "XLII_alsafi",
+    "hullMods": [
+        "expanded_cargo_holds",
+        "auxiliary_fuel_tanks"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_alsafi_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "lightmg",
+                "WS0002": "lightmg",
+                "WS0003": "lightdualmg",
+                "WS0004": "lightdualmg",
+                "WS0007": "lightdualmg"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0008": "heatseeker",
+                "WS0009": "heatseeker"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "vulcan",
+                "WS0006": "vulcan"
+            }
+        }
+    ]
+}

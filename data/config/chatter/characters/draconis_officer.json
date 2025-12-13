@@ -1,0 +1,121 @@
+{
+  "name": "Draconis Officer",
+  "personalities": ["steady","cautious","timid"],
+  "gender": ["m", "f", "n"],
+  "chance": 25.0,
+  "talkativeness": 1.0,
+  "categoryTags": ["original"],
+
+  "lines": {
+    "start": [
+      {"text": "All stations, this is the Captain. Set General Quarters. Commence combat operations."},
+      {"text": "TAO reports weapons hot, systems green. Ready to engage on your order."},
+      {"text": "Battle stations manned and ready. Standing by for weapons release."},
+      {"text": "Ship is at General Quarters, combat systems fully operational. Awaiting your command."},
+      {"text": "All stations report ready for action. Combat watch closed up."}
+    ],
+
+    "start_boss": [
+      {"text": "High-value target designated ALPHA. All weapons train on that contact. Priority engagement."},
+      {"text": "Capital ship contact bearing, classified high-threat. Weapons tight until PID confirmed."},
+      {"text": "Flag-level hostile confirmed. Bringing the full broadside to bear."},
+      {"text": "That's the primary threat. All batteries, this is our fight."}
+    ],
+
+    "engaged": [
+      {"text": "Weapons free, weapons free. Engaging hostile contacts."},
+      {"text": "Batteries released. Commence fire, commence fire."},
+      {"text": "Target locked. Birds away."},
+      {"text": "Range closing. Opening fire with all available weapons."},
+      {"text": "Positive ID, hostile. You are cleared hot. Shoot."}
+    ],
+
+    "pursuing": [
+      {"text": "Target is running. Pursuing at flank speed, maintain firing solution."},
+      {"text": "Hostile attempting to break contact. Negative, closing to knife-fight range."},
+      {"text": "Pursuit course. Do not let them disengage."},
+      {"text": "They're turning away. Press the attack, keep them in the envelope."}
+    ],
+
+    "running": [
+      {"text": "Executing tactical withdrawal. Screening units cover our pullout."},
+      {"text": "Combat effectiveness reduced. Disengaging per doctrine."},
+      {"text": "We're taking heavy fire. Break contact, reform at rally point."},
+      {"text": "Captain orders tactical retrograde. All units acknowledge withdrawal."}
+    ],
+
+    "hull_90": [
+      {"text": "Minor hull hit, port quarter. Damage negligible, continuing the engagement."},
+      {"text": "Took a round, armor held. No impact on combat capability."},
+      {"text": "Light damage forward. DC parties respond, maintain fire."},
+      {"text": "Hit confirmed, superficial. Weapons and propulsion nominal."}
+    ],
+
+    "hull_50": [
+      {"text": "Hull integrity fifty percent. We're hurt but still in the fight."},
+      {"text": "Multiple hits amidships. Damage control, prioritize magazines and VLS."},
+      {"text": "Heavy damage. Requesting screening support to remain engaged."},
+      {"text": "Fifty percent structure remaining. Guns still answering bells."},
+      {"text": "Significant structural damage. Continuing offensive operations."}
+    ],
+
+    "hull_30": [
+      {"text": "Critical hull damage! Multiple frames failing. Prepare to abandon ship if ordered!"},
+      {"text": "Losing integrity fast! All damage control parties, maximum effort!"},
+      {"text": "Hull failing in multiple sections! Brace for impact, brace!"},
+      {"text": "We're coming apart! All hands to escape pods, stand by!"},
+      {"text": "Catastrophic damage! Reactor scram, abandon ship, abandon ship!"}
+    ],
+
+    "need_help": [
+      {"text": "Any unit this net, this is $shipNameNoPrefix, heavily engaged, multiple hostiles, require immediate assistance."},
+      {"text": "Taking heavy fire from multiple vectors. Request relief force now."},
+      {"text": "This is $shipNameNoPrefix, under concentrated fire, need support at this time."},
+      {"text": "We are in contact, outnumbered. Any friendly unit, vector to my position."}
+    ],
+
+    "retreat": [
+      {"text": "All units, execute immediate withdrawal to phase line Delta. Acknowledge."},
+      {"text": "Break contact. Tactical withdrawal, cover each other."},
+      {"text": "Fleet order: disengage and reform. Cease fire, maximize distance."},
+      {"text": "We're pulling out. Screen the withdrawal, then follow."}
+    ],
+
+    "out_of_missiles": [
+      {"text": "VLS cells empty. Switching to five-inch and energy batteries."},
+      {"text": "Missile expenditure complete. Continuing with guns, close the range."},
+      {"text": "Ordnance expended. Transitioning to gun engagement."},
+      {"text": "No missiles remaining. Going to knives."}
+    ],
+
+    "overload": [
+      {"text": "Flux critical! Emergency vent  -  weapons temporarily offline!"},
+      {"text": "Overload cascade! Forced vent in three… two…"},
+      {"text": "Capacitors spiking  -  dropping shields to vent!"},
+      {"text": "Flux overload! All hands brace for vent!"}
+    ],
+
+    "death": [
+      {"text": "Reactor criticality… abandon ship… abandon ship…"},
+      {"text": "She's breaking up… give 'em hell for us…"},
+      {"text": "This is $shipNameNoPrefix… we are lost… avenge us…"},
+      {"text": "Core breach… it's been an honor serving with you…"},
+      {"text": "Mayday, mayday… $shipNameNoPrefix is sinking…"}
+    ],
+
+    "victory": [
+      {"text": "All contacts neutralized. Area secured."},
+      {"text": "Threats eliminated. Good work, crew."},
+      {"text": "Hostiles destroyed. Secure from general quarters."},
+      {"text": "Battlespace is ours. Standing by for further orders."},
+      {"text": "Enemy force neutralized. Resume patrol posture."}
+    ],
+
+    "victory_boss": [
+      {"text": "High-value target destroyed. Major objective complete."},
+      {"text": "Capital ship kill confirmed. Damn fine shooting."},
+      {"text": "Primary threat eliminated. Log that one for the wardroom tonight."},
+      {"text": "Flag-level hostile sunk. The fleet owes this crew."}
+    ]
+  }
+}

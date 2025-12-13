@@ -1,0 +1,47 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 5,
+    "fluxVents": 3,
+    "goalVariant": true,
+    "hullId": "XLII_alruba_mk2",
+    "hullMods": ["missleracks"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_alruba_mk2_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "XLII_rapier",
+                "WS0003": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "breach",
+                "WS0005": "breach"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0015": "XLII_bardiche_single",
+                "WS0016": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "XLII_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0006": "XLII_swordbreaker"}
+        }
+    ]
+}

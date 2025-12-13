@@ -54,58 +54,47 @@
 	},
 	
 	"knownShips":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_ship_bp"],
 		"hulls":[
 			"hermes",
-			"dram",
-			"mercury",
 			"crig"
 		],
 	},
 	
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_ship_bp"],
 		"hulls":[
-			"XLII_alruba",
-			"XLII_rastaban",
-			"XLII_shaobi",
-			"XLII_eltanin",
-			"XLII_juza",
-			"XLII_altais",
-			"hermes",
-			"dram",
-			"mercury",
-			"crig"
+			"XLII_alsafi"
 		],
 	},
 	
 	"knownFighters":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_fighter_bp"],
 		"fighters":[
 		],
 	},
 	
 	"priorityFighters":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_fighter_bp"],
 		"fighters":[
 		],
 	},
 	
 	"knownWeapons":{
-		"tags":["missile_bp", "XLII_package_bp"],
+		"tags":["missile_bp", "XLII_weapon_bp"],
 		"weapons":[
 		],
 	},
 	
 	"priorityWeapons":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_weapon_bp"],
 		"weapons":[
 		],
 	},
 	
 	"knownHullMods":{
-		"tags":["standard", "XLII_package_bp"],
+		"tags":["standard"],
 		"hullMods":[
 		],
 	},
@@ -132,8 +121,8 @@
 		"carriers":2,
 		"phaseShips":1,
 
-		"officerQuality":2,
-		"shipQuality":2,
+		"officerQuality":1, # Shouldn't technically be this low, however it's better for balance given the AI Cores they will eventually have
+		"shipQuality":3,
 		"numShips":3,
 
 		"shipSize":4, # Cruiser Doctrine >:3
@@ -258,7 +247,7 @@
 		},
 		"simulatorData":{
 			"showInSimulatorDevModeOnly":true,
-			"includeCivShipsWithFaction":false,
+			"includeCivShipsWithFaction":true,
 		}
 	},	
 	

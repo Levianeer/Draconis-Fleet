@@ -1,3 +1,5 @@
+[![Download](https://img.shields.io/github/downloads/Levianeer/Draconis-Fleet/total?label=Download)](https://github.com/Levianeer/Draconis-Fleet/releases)
+
 ### Requires [MagicLib](https://fractalsoftworks.com/forum/index.php?topic=25868) and [LazyLib](https://fractalsoftworks.com/forum/index.php?topic=5444).
 
 __Overview:__<br>

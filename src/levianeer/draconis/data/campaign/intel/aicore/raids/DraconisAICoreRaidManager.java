@@ -1,27 +1,32 @@
-package levianeer.draconis.data.campaign.intel.events.aicore;
+package levianeer.draconis.data.campaign.intel.aicore.raids;
 
 import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
+import org.apache.log4j.Logger;
 
 import java.util.Random;
 
+import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
+
 /**
- * Manages AI Core raid hostile activity factor and triggers raids
+ * Manages independent AI Core raids against NPC factions
+ * Player markets are handled by the colony crisis system
+ * Triggers Shadow Fleet raids on non-player markets with AI cores every 30 days
  */
 public class DraconisAICoreRaidManager implements EveryFrameScript {
+    private static final Logger log = Global.getLogger(DraconisAICoreRaidManager.class);
 
-    private boolean factorAdded = false;
     private float checkInterval = 0f;
     private static final float CHECK_DAYS = 30f;  // Check for raid opportunities every 30 days
     private static final float INITIAL_DELAY_DAYS = 90f;  // Minimum 90 days before first raid can trigger
 
     // Raid cap and cooldown settings
     private static final int MAX_ACTIVE_RAIDS = 1;  // Maximum number of simultaneous raids
-    private static final float COOLDOWN_SUCCESS_DAYS = 75f;  // Cooldown after successful raid
-    private static final float COOLDOWN_FAILURE_DAYS = 150f;  // Longer cooldown after failed raid
+    private static final float COOLDOWN_SUCCESS_DAYS = 90f;  // Cooldown after successful raid
+    private static final float COOLDOWN_FAILURE_DAYS = 180f;  // Longer cooldown after failed raid
 
     // Memory keys for persistent data
     private static final String ACTIVE_RAID_COUNT_KEY = "$draconis_activeRaidCount";
@@ -41,27 +46,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
     @Override
     public void advance(float amount) {
-        // Try to register factor with Hostile Activity if available (optional integration)
-        if (!factorAdded) {
-            HostileActivityEventIntel intel = HostileActivityEventIntel.get();
-
-            if (intel != null) {
-                DraconisAICoreRaidFactor existingFactor = (DraconisAICoreRaidFactor)
-                        intel.getFactorOfClass(DraconisAICoreRaidFactor.class);
-
-                if (existingFactor == null) {
-                    DraconisAICoreRaidFactor factor = new DraconisAICoreRaidFactor(intel);
-                    intel.addFactor(factor);
-
-                    Global.getLogger(this.getClass()).info("AI Core Raid factor registered with Hostile Activity");
-                }
-            } else {
-                Global.getLogger(this.getClass()).info("Hostile Activity not yet active - raids will trigger independently");
-            }
-            factorAdded = true;
-        }
-
-        // Check periodically if we should trigger a raid (independent of Hostile Activity)
+        // Check periodically if we should trigger a raid (independent system)
         float days = Global.getSector().getClock().convertToDays(amount);
         checkInterval += days;
 
@@ -75,7 +60,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
      * Check if conditions are right to trigger an AI core raid
      */
     private void checkForRaidOpportunity() {
-        Global.getLogger(this.getClass()).info("=== Checking for AI Core Raid Opportunity ===");
+        log.info("Draconis: === Checking for AI Core Raid Opportunity ===");
 
         // Check if initial delay has passed
         long systemStartTimestamp = getSystemStartTimestamp();
@@ -83,25 +68,22 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
             // First time - record the start timestamp
             long currentTimestamp = Global.getSector().getClock().getTimestamp();
             Global.getSector().getMemoryWithoutUpdate().set(SYSTEM_START_TIMESTAMP_KEY, currentTimestamp);
-            Global.getLogger(this.getClass()).info("AI Core raid system initialized - 90 day delay started");
+            log.info("Draconis: AI Core raid system initialized - 90 day delay started");
             return;
         }
 
         float daysSinceSystemStart = Global.getSector().getClock().getElapsedDaysSince(systemStartTimestamp);
         if (daysSinceSystemStart < INITIAL_DELAY_DAYS) {
             float daysRemaining = INITIAL_DELAY_DAYS - daysSinceSystemStart;
-            Global.getLogger(this.getClass()).info(
-                "AI Core raid system on initial delay - " + String.format("%.1f", daysRemaining) + " days remaining"
-            );
+            log.info("Draconis: AI Core raid system on initial delay - " + String.format("%.1f", daysRemaining) + " days remaining");
             return;
         }
 
         // Check raid cap
         int activeRaids = getActiveRaidCount();
-        Global.getLogger(this.getClass()).info("Active raids: " + activeRaids + "/" + MAX_ACTIVE_RAIDS);
-
+        log.info("Draconis: Active raids: " + activeRaids + "/" + MAX_ACTIVE_RAIDS);
         if (activeRaids >= MAX_ACTIVE_RAIDS) {
-            Global.getLogger(this.getClass()).info("Raid cap reached - cannot start new raid");
+            log.info("Draconis: Raid cap reached - cannot start new raid");
             return;
         }
 
@@ -110,10 +92,9 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         if (lastRaidTimestamp > 0) {
             float daysSinceLastRaid = Global.getSector().getClock().getElapsedDaysSince(lastRaidTimestamp);
             float cooldownDays = getCooldownDays();
-
             if (daysSinceLastRaid < cooldownDays) {
                 float daysRemaining = cooldownDays - daysSinceLastRaid;
-                Global.getLogger(this.getClass()).info("Raid on cooldown - " + String.format("%.1f", daysRemaining) + " days remaining");
+                log.info("Draconis: Raid on cooldown - " + String.format("%.1f", daysRemaining) + " days remaining");
                 return;
             }
         }
@@ -121,56 +102,61 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         // Check if there's a high-value target
         MarketAPI target = getHighValueTarget();
         if (target == null) {
-            Global.getLogger(this.getClass()).info("No high-value AI core target available - skipping raid check");
+            log.info("Draconis: No high-value AI core target available - skipping raid check");
             return;
         }
 
-        Global.getLogger(this.getClass()).info("High-value target found: " + target.getName());
+        log.info("Draconis: High-value target found: " + target.getName());
+
+        // Skip player-owned markets - those are handled by the colony crisis system
+        if (target.isPlayerOwned()) {
+            log.info("Draconis: Target is player-owned - handled by colony crisis system, skipping");
+            return;
+        }
 
         // Get Draconis source market
         MarketAPI source = DraconisAICoreRaidFactor.getDraconisSource();
         if (source == null) {
-            Global.getLogger(this.getClass()).info("No Draconis source market available for raid - skipping");
+            log.info("Draconis: No Draconis source market available for raid - skipping");
             return;
         }
 
-        Global.getLogger(this.getClass()).info("Source market: " + source.getName());
+        log.info("Draconis: Source market: " + source.getName());
 
-        // Random chance to trigger raid (50% per check)
+        // Check if Draconis is hostile enough to the target faction (rep <= 0)
+        FactionAPI draconisFaction = Global.getSector().getFaction(DRACONIS);
+        FactionAPI targetFaction = target.getFaction();
+        float rep = draconisFaction.getRelationship(targetFaction.getId());
+
+        if (rep > -0.75f) {
+            log.info("Draconis: Skipping AI core raid - not hostile to " +
+                targetFaction.getDisplayName() + " (rep: " + String.format("%.2f", rep) + ", need <= -0.75)");
+            return;
+        }
+
+        log.info("Draconis: Reputation check passed: " +
+            String.format("%.2f", rep) + " (hostile to " + targetFaction.getDisplayName() + ")");
+
+        // Random chance to trigger raid (30% per check)
         Random random = new Random();
         float roll = random.nextFloat();
-        Global.getLogger(this.getClass()).info("Random roll: " + roll + " (need <= 0.5)");
+        log.info("Draconis: Random roll: " + roll + " (need <= 0.5)");
 
-        if (roll > 0.5f) {
-            Global.getLogger(this.getClass()).info("AI Core raid random check failed - no raid this cycle");
+        if (roll > 0.3f) {
+            log.info("Draconis: AI Core raid random check failed - no raid this cycle");
             return;
         }
 
-        // Try to get the Hostile Activity factor if it exists
-        HostileActivityEventIntel intel = HostileActivityEventIntel.get();
-        DraconisAICoreRaidFactor factor = null;
-
-        if (intel != null) {
-            factor = (DraconisAICoreRaidFactor) intel.getFactorOfClass(DraconisAICoreRaidFactor.class);
-        }
-
-        // If we have a factor (Hostile Activity integration), use it
-        if (factor != null) {
-            Global.getLogger(this.getClass()).info("Triggering AI Core raid via Hostile Activity on " + target.getName());
-            factor.startRaid(source, target, random);
-        } else {
-            // Otherwise, create a standalone raid
-            Global.getLogger(this.getClass()).info("Triggering standalone AI Core raid on " + target.getName());
-            DraconisAICoreRaidFactor.createStandaloneRaid(source, target, random);
-        }
+        // Create standalone raid with listener
+        // Listener will handle AI core theft on success and cooldown management
+        log.info("Draconis: Triggering AI Core raid on " + target.getName());
+        DraconisAICoreRaidFactor.createStandaloneRaid(source, target, random);
 
         // Increment active raid count
+        // Listener will decrement when raid completes (success or failure)
         incrementActiveRaidCount();
 
-        // Start cooldown immediately to prevent multiple raids from triggering
-        // Use a temporary cooldown that will be replaced when the raid actually completes
-        startCooldown(true);
-        Global.getLogger(this.getClass()).info("Temporary cooldown started - will be updated when raid completes");
+        log.info("Draconis: Raid created - listener will manage completion and cooldown");
     }
 
     /**
@@ -199,7 +185,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private static void incrementActiveRaidCount() {
         int current = getActiveRaidCount();
         Global.getSector().getMemoryWithoutUpdate().set(ACTIVE_RAID_COUNT_KEY, current + 1);
-        Global.getLogger(DraconisAICoreRaidManager.class).info("Active raid count increased to " + (current + 1));
+        log.info("Draconis: Active raid count increased to " + (current + 1));
     }
 
     /**
@@ -209,7 +195,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         int current = getActiveRaidCount();
         if (current > 0) {
             Global.getSector().getMemoryWithoutUpdate().set(ACTIVE_RAID_COUNT_KEY, current - 1);
-            Global.getLogger(DraconisAICoreRaidManager.class).info("Active raid count decreased to " + (current - 1));
+            log.info("Draconis: Active raid count decreased to " + (current - 1));
         }
     }
 
@@ -275,9 +261,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         Global.getSector().getMemoryWithoutUpdate().set(COOLDOWN_END_TIMESTAMP_KEY, cooldownEnd);
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_TIMESTAMP_KEY, currentTimestamp);
 
-        Global.getLogger(DraconisAICoreRaidManager.class).info(
-                "Raid cooldown started: " + cooldownDays + " days (" + (success ? "success" : "failure") + ")"
-        );
+        log.info("Draconis: Raid cooldown started: " + cooldownDays + " days (" + (success ? "success" : "failure") + ")");
     }
 
     /**
@@ -285,6 +269,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
      */
     public static void clearCooldown() {
         Global.getSector().getMemoryWithoutUpdate().unset(COOLDOWN_END_TIMESTAMP_KEY);
-        Global.getLogger(DraconisAICoreRaidManager.class).info("Raid cooldown cleared");
+        log.info("Draconis: Raid cooldown cleared");
     }
 }

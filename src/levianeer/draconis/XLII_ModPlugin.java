@@ -8,43 +8,75 @@ import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
+import org.apache.log4j.Logger;
 import levianeer.draconis.data.campaign.intel.aicore.donation.DraconisAICoreDonationListener;
 import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisTargetedRaidMonitor;
 import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantRaidListener;
 import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantRaidManager;
 import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantTargetScanner;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
-import levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreRaidManager;
+import levianeer.draconis.data.campaign.intel.aicore.raids.DraconisAICoreRaidManager;
 import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
 import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
+import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
+import levianeer.draconis.data.campaign.fleet.DraconisAICoreScalingConfig;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_magicMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
 
+@SuppressWarnings("unused")
 public class XLII_ModPlugin extends BaseModPlugin {
 
+    private static final Logger log = Global.getLogger(XLII_ModPlugin.class);
     public static final String PD_MISSILE_ID = "XLII_swordbreaker_shot";
     public static final String SWARM_MISSILE_ID = "XLII_bardiche_shot";
-
     private static final String NEXERELIN_MOD_ID = "nexerelin";
     private static boolean hasNexerelin = false;
 
+    // Raid system toggles
+    private static boolean enableAICoreRaids = true;
+    private static boolean enableRemnantRaids = true;
+
+    // AI Core Fleet Scaling toggle
+    private static boolean enableAICoreFleetScaling = true;
+
     @Override
     public void onApplicationLoad() {
-        Global.getLogger(this.getClass()).info("=== Draconis Mod Loading ===");
-
+        log.info("Draconis: === Mod Loading ===");
         hasNexerelin = Global.getSettings().getModManager().isModEnabled(NEXERELIN_MOD_ID);
 
+        // Load raid system toggles from settings
+        try {
+            enableAICoreRaids = Global.getSettings().getBoolean("draconisEnableAICoreRaids");
+            log.info("Draconis: AI Core Raids: " + (enableAICoreRaids ? "ENABLED" : "DISABLED"));
+        } catch (Exception e) {
+            log.warn("Draconis: Failed to load draconisEnableAICoreRaids setting, defaulting to true", e);
+            enableAICoreRaids = true;
+        }
+
+        try {
+            enableRemnantRaids = Global.getSettings().getBoolean("draconisEnableRemnantRaids");
+            log.info("Draconis: Remnant Raids: " + (enableRemnantRaids ? "ENABLED" : "DISABLED"));
+        } catch (Exception e) {
+            log.warn("Draconis: Failed to load draconisEnableRemnantRaids setting, defaulting to true", e);
+            enableRemnantRaids = true;
+        }
+
+        // Load AI Core Fleet Scaling config (initializes singleton)
+        DraconisAICoreScalingConfig config = DraconisAICoreScalingConfig.getInstance();
+        enableAICoreFleetScaling = config.isEnabled();
+        log.info("Draconis: AI Core Fleet Scaling: " + (enableAICoreFleetScaling ? "ENABLED" : "DISABLED"));
+
         if (hasNexerelin) {
-            Global.getLogger(this.getClass()).info("Nexerelin detected - AI core acquisition system will be enabled");
+            log.info("Draconis: Nexerelin detected - AI core acquisition system will be enabled");
         } else {
-            Global.getLogger(this.getClass()).info("Nexerelin not detected - AI core system will be disabled");
+            log.info("Draconis: Nexerelin not detected - AI core system will be disabled");
         }
     }
 
     @Override
     public void onNewGame() {
-        Global.getLogger(this.getClass()).info("=== Draconis Mod: onNewGame() ===");
+        log.info("Draconis: === onNewGame() ===");
 
         boolean skipGeneration = false;
 
@@ -54,86 +86,99 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
             if (isRandomSector) {
                 skipGeneration = true;
-                Global.getLogger(this.getClass()).info(
-                        "Nexerelin random sector detected - skipping custom sector generation"
-                );
+                log.info("Draconis: Nexerelin random sector detected - skipping custom sector generation");
             }
         }
 
         if (!skipGeneration) {
-            Global.getLogger(this.getClass()).info("Generating custom Draconis sector");
+            log.info("Draconis: Generating custom sector");
             new XLII_WorldGen().generate(Global.getSector());
-            Global.getLogger(this.getClass()).info("Sector generation complete");
+            log.info("Draconis: Sector generation complete");
         }
     }
 
     @Override
     public void onGameLoad(boolean newGame) {
         super.onGameLoad(newGame);
-
-        Global.getLogger(this.getClass()).info("=== Draconis Mod: onGameLoad() ===");
-        Global.getLogger(this.getClass()).info("New game: " + newGame);
+        log.info("Draconis: === onGameLoad() ===");
+        log.info("Draconis: New game: " + newGame);
 
         // Initialize Draconis characters
-        Global.getLogger(this.getClass()).info("Initializing Draconis characters");
+        log.info("Draconis: Initializing characters");
         XLII_Characters.initializeAllCharacters();
 
         // Add the crisis event system
-        Global.getLogger(this.getClass()).info("Registering crisis systems");
+        log.info("Draconis: Registering crisis systems");
         Global.getSector().addScript(new DraconisHostileActivityManager());
-        Global.getLogger(this.getClass()).info("  - Hostile Activity Manager");
-
+        log.info("Draconis:   - Hostile Activity Manager");
         Global.getSector().addScript(new DraconisSteelCurtainMonitor());
-        Global.getLogger(this.getClass()).info("  - Steel Curtain Monitor");
+        log.info("Draconis:   - Steel Curtain Monitor");
+
+        // Add AI Core Fleet Scaling system
+        if (enableAICoreFleetScaling) {
+            log.info("Draconis: Registering AI Core Fleet Scaling");
+            Global.getSector().addScript(new DraconisAICoreFleetInflater());
+            log.info("Draconis:   - AI Core Fleet Inflater");
+        } else {
+            log.info("Draconis: AI Core Fleet Scaling DISABLED by settings");
+        }
 
         // If Nexerelin is present, add the AI core acquisition system
         if (hasNexerelin) {
-            Global.getLogger(this.getClass()).info("=== Registering AI Core Acquisition System ===");
+            log.info("Draconis: === Registering AI Core Acquisition System ===");
 
             // Check if already registered (prevents duplicates on save/load)
+            // Check for DraconisAICoreDonationListener since it's always registered regardless of toggles
             boolean alreadyRegistered = false;
             for (Object script : Global.getSector().getScripts()) {
-                if (script instanceof DraconisAICoreRaidManager) {
+                if (script instanceof DraconisAICoreDonationListener) {
                     alreadyRegistered = true;
-                    Global.getLogger(this.getClass()).info("AI Core system already registered - skipping");
+                    log.info("Draconis: AI Core system already registered - skipping");
                     break;
                 }
             }
 
             if (!alreadyRegistered) {
-                // Scanner - finds high-value AI core targets
-                Global.getSector().addScript(new DraconisSingleTargetScanner());
-                Global.getLogger(this.getClass()).info("  - AI Core Target Scanner");
+                // AI Core Raids on Faction Markets
+                if (enableAICoreRaids) {
+                    log.info("Draconis: === Registering AI Core Raid System ===");
+                    // Scanner - finds high-value AI core targets
+                    Global.getSector().addScript(new DraconisSingleTargetScanner());
+                    log.info("Draconis:   - AI Core Target Scanner");
+                    // Raid Manager - triggers Shadow Fleet raids on high-value targets
+                    Global.getSector().addScript(new DraconisAICoreRaidManager());
+                    log.info("Draconis:   - AI Core Raid Manager");
+                    // Monitor - watches for successful raids and steals AI cores
+                    Global.getSector().addScript(new DraconisTargetedRaidMonitor());
+                    log.info("Draconis:   - Targeted Raid Monitor");
+                } else {
+                    log.info("Draconis: AI Core Raids DISABLED by settings");
+                }
 
-                // Raid Manager - triggers Shadow Fleet raids on high-value targets
-                Global.getSector().addScript(new DraconisAICoreRaidManager());
-                Global.getLogger(this.getClass()).info("  - AI Core Raid Manager");
-
-                // Monitor - watches for successful raids and steals AI cores
-                Global.getSector().addScript(new DraconisTargetedRaidMonitor());
-                Global.getLogger(this.getClass()).info("  - Targeted Raid Monitor");
-
-                // Donation Listener - processes player AI core donations
+                // Donation Listener - processes player AI core donations (always enabled)
                 Global.getSector().addScript(new DraconisAICoreDonationListener());
-                Global.getLogger(this.getClass()).info("  - AI Core Donation Listener");
+                log.info("Draconis:   - AI Core Donation Listener");
 
                 // Remnant Raid System - hunts Remnant installations for AI cores
-                Global.getSector().addScript(new DraconisRemnantTargetScanner());
-                Global.getLogger(this.getClass()).info("  - Remnant Target Scanner");
+                if (enableRemnantRaids) {
+                    log.info("Draconis: === Registering Remnant Raid System ===");
+                    Global.getSector().addScript(new DraconisRemnantTargetScanner());
+                    log.info("Draconis:   - Remnant Target Scanner");
+                    Global.getSector().addScript(new DraconisRemnantRaidManager());
+                    log.info("Draconis:   - Remnant Raid Manager");
+                    Global.getSector().addScript(new DraconisRemnantRaidListener());
+                    log.info("Draconis:   - Remnant Raid Listener");
+                } else {
+                    log.info("Draconis: Remnant Raids DISABLED by settings");
+                }
 
-                Global.getSector().addScript(new DraconisRemnantRaidManager());
-                Global.getLogger(this.getClass()).info("  - Remnant Raid Manager");
-
-                Global.getSector().addScript(new DraconisRemnantRaidListener());
-                Global.getLogger(this.getClass()).info("  - Remnant Raid Listener");
-
-                Global.getLogger(this.getClass()).info("=== AI Core Acquisition System Active ===");
+                log.info("Draconis: === AI Core Acquisition System Configuration Complete ===");
             }
         } else {
-            Global.getLogger(this.getClass()).info("Nexerelin not present - AI core acquisition system disabled");
+            log.info("Draconis: Nexerelin not present - AI core acquisition system disabled");
         }
 
-        Global.getLogger(this.getClass()).info("=== Draconis Mod: Game load complete ===");
+        log.info("Draconis: === Game load complete ===");
     }
 
     @Override

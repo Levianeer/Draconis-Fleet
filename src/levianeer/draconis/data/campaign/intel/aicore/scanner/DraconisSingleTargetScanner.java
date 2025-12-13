@@ -53,10 +53,10 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         daysElapsed = 0f;
 
         if (firstScan) {
-            log.info("=== DRACONIS AI CORE SCANNER: FIRST SCAN ===");
+            log.info("Draconis: === DRACONIS AI CORE SCANNER: FIRST SCAN ===");
             firstScan = false;
         } else {
-            log.info("=== DRACONIS AI CORE SCANNER: PERIODIC SCAN ===");
+            log.info("Draconis: === DRACONIS AI CORE SCANNER: PERIODIC SCAN ===");
         }
 
         scanAndMarkBestTarget();
@@ -123,23 +123,13 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
 
             float value = calculateValue(cores);
             candidates.add(new MarketCandidate(market, cores, value));
-
-            log.info(String.format("  Candidate: %s (%s, size %d) - %d cores (A:%d B:%d G:%d), value: %.1f",
-                    market.getName(),
-                    market.getFaction().getDisplayName(),
-                    market.getSize(),
-                    cores.totalCores,
-                    cores.alphaCores,
-                    cores.betaCores,
-                    cores.gammaCores,
-                    value));
         }
 
-        log.info(String.format("Scan summary: %d total markets | Skipped: %d Draconis, %d small, %d hidden, %d friendly, %d no cores | %d valid candidates",
-                totalMarkets, skippedDraconis, skippedSmall, skippedHidden, skippedFriendly, skippedNoCores, candidates.size()));
+        log.info(String.format("Draconis: Scanned %d markets, found %d valid AI core targets",
+                totalMarkets, candidates.size()));
 
         if (candidates.isEmpty()) {
-            log.info("No valid AI core targets found - clearing any existing target");
+            log.info("Draconis: No valid AI core targets found - clearing any existing target");
             clearCurrentTarget();
             return;
         }
@@ -148,23 +138,23 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         candidates.sort((a, b) -> Float.compare(b.value, a.value));
 
         // Log top 5 candidates
-        log.info("Top candidates by value:");
+        log.info("Draconis: Top candidates by value:");
         for (int i = 0; i < Math.min(5, candidates.size()); i++) {
             MarketCandidate candidate = candidates.get(i);
-            log.info(String.format("  %d. %s - value %.1f (%d cores)",
+            log.info(String.format("Draconis:   %d. %s - value %.1f (%d cores)",
                     i + 1, candidate.market.getName(), candidate.value, candidate.cores.totalCores));
         }
 
         MarketCandidate bestCandidate = candidates.get(0);
 
-        log.info(String.format(">>> BEST TARGET: %s - %d cores (value: %.1f)",
+        log.info(String.format("Draconis: >>> BEST TARGET: %s - %d cores (value: %.1f)",
                 bestCandidate.market.getName(),
                 bestCandidate.cores.totalCores,
                 bestCandidate.value));
 
         // Clear old target if different
         if (currentTarget != null && currentTarget != bestCandidate.market) {
-            log.info("Clearing old target: " + currentTarget.getName());
+            log.info("Draconis: Clearing old target: " + currentTarget.getName());
             clearMarketFlags(currentTarget);
         }
 
@@ -221,19 +211,12 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         // Add condition
         if (!market.hasCondition("draconis_high_value_target")) {
             market.addCondition("draconis_high_value_target");
-            log.info("Added 'Draconis Priority Target' condition to " + market.getName());
+            log.info("Draconis: Added 'Draconis Priority Target' condition to " + market.getName());
         }
 
-        log.info(String.format("Marked %s as high-value target:", market.getName()));
-        log.info(String.format("  Value: %.1f | Cores: %d Alpha, %d Beta, %d Gamma",
+        log.info(String.format("Draconis: Marked %s as high-value target:", market.getName()));
+        log.info(String.format("Draconis:   Value: %.1f | Cores: %d Alpha, %d Beta, %d Gamma",
                 value, cores.alphaCores, cores.betaCores, cores.gammaCores));
-
-        if (!cores.industries.isEmpty()) {
-            log.info("  Industries with AI cores:");
-            for (String industryName : cores.industries) {
-                log.info("    - " + industryName);
-            }
-        }
     }
 
     private void clearCurrentTarget() {
@@ -252,7 +235,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
 
         if (market.hasCondition("draconis_high_value_target")) {
             market.removeCondition("draconis_high_value_target");
-            log.info("Removed 'Draconis Priority Target' condition from " + market.getName());
+            log.info("Draconis: Removed 'Draconis Priority Target' condition from " + market.getName());
         }
     }
 
@@ -261,8 +244,8 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
      * Called by DraconisTargetedRaidMonitor
      */
     public static void clearTargetAfterRaid(MarketAPI market) {
-        log.info("=== CLEARING TARGET AFTER SUCCESSFUL RAID ===");
-        log.info("Market: " + market.getName());
+        log.info("Draconis: === CLEARING TARGET AFTER SUCCESSFUL RAID ===");
+        log.info("Draconis: Market: " + market.getName());
 
         market.getMemoryWithoutUpdate().unset(HIGH_VALUE_TARGET_FLAG);
         market.getMemoryWithoutUpdate().unset(TARGET_CORE_VALUE_FLAG);
@@ -272,7 +255,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
 
         if (market.hasCondition("draconis_high_value_target")) {
             market.removeCondition("draconis_high_value_target");
-            log.info("Removed condition - scanner will select new target on next cycle");
+            log.info("Draconis: Removed condition - scanner will select new target on next cycle");
         }
     }
 

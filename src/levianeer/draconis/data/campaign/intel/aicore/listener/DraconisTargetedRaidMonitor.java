@@ -6,8 +6,10 @@ import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import exerelin.campaign.intel.invasion.InvasionIntel;
 import exerelin.campaign.intel.raid.NexRaidIntel;
+import levianeer.draconis.data.campaign.intel.aicore.raids.DraconisAICoreRaidIntel;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import levianeer.draconis.data.campaign.intel.aicore.theft.DraconisAICoreTheftListener;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,10 +23,11 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * Steals AI cores from any successfully raided/invaded market
  */
 public class DraconisTargetedRaidMonitor implements EveryFrameScript {
+    private static final Logger log = Global.getLogger(DraconisTargetedRaidMonitor.class);
 
     private final Set<String> processedEvents = new HashSet<>();
     private float checkInterval = 0f;
-    private static final float CHECK_FREQUENCY = 0.1f; // Check every 0.1 days
+    private static final float CHECK_FREQUENCY = 7f; // Check every 7 days
 
     @Override
     public boolean isDone() {
@@ -50,8 +53,8 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
         for (IntelInfoPlugin intel : intelList) {
             // Check for Draconis AI Core raids
-            if (intel instanceof levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreRaidIntel) {
-                checkAICoreRaid((levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreRaidIntel) intel);
+            if (intel instanceof DraconisAICoreRaidIntel) {
+                checkAICoreRaid((DraconisAICoreRaidIntel) intel);
             }
             // Check for Nexerelin raids
             else if (intel instanceof NexRaidIntel) {
@@ -65,12 +68,12 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
         // Cleanup old IDs periodically
         if (processedEvents.size() > 200) {
-            Global.getLogger(this.getClass()).info("Clearing processed events cache");
+            log.info("Draconis: Clearing processed events cache");
             processedEvents.clear();
         }
     }
 
-    private void checkAICoreRaid(levianeer.draconis.data.campaign.intel.events.aicore.DraconisAICoreRaidIntel raid) {
+    private void checkAICoreRaid(DraconisAICoreRaidIntel raid) {
         MarketAPI target = raid.getTarget();
         if (target == null) return;
 
@@ -94,8 +97,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
             return;
         }
 
-        Global.getLogger(this.getClass()).info(
-                "Checking AI Core raid on " + target.getName() +
+        log.info("Draconis: Checking AI Core raid on " + target.getName() +
                 " | Succeeded: " + raid.isSucceeded() +
                 " | Failed: " + raid.isFailed() +
                 " | Ended: " + raid.isEnded() +
@@ -106,23 +108,12 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         // This monitor only needs to log completion for tracking purposes
 
         if (raid.isSucceeded() || raid.isEnded()) {
-            Global.getLogger(this.getClass()).info(
-                    "=========================================="
-            );
-            Global.getLogger(this.getClass()).info(
-                    "=== DRACONIS AI CORE RAID COMPLETED ==="
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Status: " + (raid.isSucceeded() ? "SUCCEEDED" : "ENDED (treating as success)"));
-            Global.getLogger(this.getClass()).info(
-                    "Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
-            );
-            Global.getLogger(this.getClass()).info(
-                    "AI core theft already handled by raid intel - monitor is just tracking completion"
-            );
-            Global.getLogger(this.getClass()).info(
-                    "=========================================="
-            );
+            log.info("Draconis: ==========================================");
+            log.info("Draconis: === DRACONIS AI CORE RAID COMPLETED ===");
+            log.info("Draconis: Status: " + (raid.isSucceeded() ? "SUCCEEDED" : "ENDED (treating as success)"));
+            log.info("Draconis: Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")");
+            log.info("Draconis: AI core theft already handled by raid intel - monitor is just tracking completion");
+            log.info("Draconis: ==========================================");
 
             // Don't call handleSuccessfulAction - raid intel already stole cores
             // Just clear the target flags if needed
@@ -132,14 +123,10 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
             if (wasHighValueTarget) {
                 // Flags should already be cleared by raid intel, but double-check
-                Global.getLogger(this.getClass()).info(
-                        "High-value target flags should already be cleared by raid intel"
-                );
+                log.info("Draconis: High-value target flags should already be cleared by raid intel");
             }
         } else if (raid.isFailed()) {
-            Global.getLogger(this.getClass()).info(
-                    "Draconis AI Core raid on " + target.getName() + " FAILED - no cores stolen"
-            );
+            log.info("Draconis: AI Core raid on " + target.getName() + " FAILED - no cores stolen");
             // Clear target condition even on failure
             clearTargetConditionAfterRaid(target);
         }
@@ -173,8 +160,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         }
 
         // DETAILED LOGGING: Log raid state for debugging
-        Global.getLogger(this.getClass()).info(
-                "Checking raid on " + target.getName() +
+        log.info("Draconis: Checking raid on " + target.getName() +
                 " | Succeeded: " + raid.isSucceeded() +
                 " | Failed: " + raid.isFailed() +
                 " | Ended: " + raid.isEnded() +
@@ -185,39 +171,22 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         // IMPORTANT: Check isSucceeded() FIRST, even if isFailed() is also true
         // Nexerelin sometimes sets both flags, but success should take priority
         if (raid.isSucceeded()) {
-            Global.getLogger(this.getClass()).info(
-                    "=========================================="
-            );
-            Global.getLogger(this.getClass()).info(
-                    "=== DRACONIS RAID SUCCEEDED ==="
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Event ID: " + eventId
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Raid faction: " + (raid.getFaction() != null ? raid.getFaction().getDisplayName() : "unknown")
-            );
+            log.info("Draconis: ==========================================");
+            log.info("Draconis: === DRACONIS RAID SUCCEEDED ===");
+            log.info("Draconis: Event ID: " + eventId);
+            log.info("Draconis: Raid target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")");
+            log.info("Draconis: Raid faction: " + (raid.getFaction() != null ? raid.getFaction().getDisplayName() : "unknown"));
 
             handleSuccessfulAction(target, "raid");
         } else if (raid.isFailed()) {
-            Global.getLogger(this.getClass()).info(
-                    "Draconis raid on " + target.getName() + " FAILED - no cores stolen"
-            );
-            Global.getLogger(this.getClass()).info(
-                    "  Reason check: isEnded=" + raid.isEnded() +
+            log.info("Draconis: Draconis raid on " + target.getName() + " FAILED - no cores stolen");
+            log.info("Draconis:   Reason check: isEnded=" + raid.isEnded() +
                     ", isFailed=" + raid.isFailed() +
                     ", isSucceeded=" + raid.isSucceeded()
             );
         } else if (raid.isEnded()) {
-            Global.getLogger(this.getClass()).info(
-                    "Draconis raid on " + target.getName() + " ENDED (no explicit success/fail)"
-            );
-            Global.getLogger(this.getClass()).info(
-                    "  Checking if target still has AI cores to determine actual success..."
-            );
+            log.info("Draconis: Draconis raid on " + target.getName() + " ENDED (no explicit success/fail)");
+            log.info("Draconis:   Checking if target still has AI cores to determine actual success...");
 
             // WORKAROUND: If raid ended without explicit success/fail,
             // check if target was marked as high-value and attempt theft anyway
@@ -226,9 +195,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
             );
 
             if (wasHighValueTarget) {
-                Global.getLogger(this.getClass()).info(
-                        "  High-value target - attempting theft as raid likely completed objectives"
-                );
+                log.info("Draconis:   High-value target - attempting theft as raid likely completed objectives");
                 handleSuccessfulAction(target, "raid");
             }
         }
@@ -261,27 +228,15 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
         // Process the completed invasion
         if (invasion.isSucceeded()) {
-            Global.getLogger(this.getClass()).info(
-                    "=========================================="
-            );
-            Global.getLogger(this.getClass()).info(
-                    "=== DRACONIS INVASION SUCCEEDED ==="
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Event ID: " + eventId
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Invasion target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")"
-            );
-            Global.getLogger(this.getClass()).info(
-                    "Invasion faction: " + (invasion.getFaction() != null ? invasion.getFaction().getDisplayName() : "unknown")
-            );
+            log.info("Draconis: ==========================================");
+            log.info("Draconis: === DRACONIS INVASION SUCCEEDED ===");
+            log.info("Draconis: Event ID: " + eventId);
+            log.info("Draconis: Invasion target: " + target.getName() + " (" + target.getFaction().getDisplayName() + ")");
+            log.info("Draconis: Invasion faction: " + (invasion.getFaction() != null ? invasion.getFaction().getDisplayName() : "unknown"));
 
             handleSuccessfulAction(target, "invasion");
         } else if (invasion.isFailed()) {
-            Global.getLogger(this.getClass()).info(
-                    "Draconis invasion of " + target.getName() + " failed - no cores stolen"
-            );
+            log.info("Draconis: Draconis invasion of " + target.getName() + " failed - no cores stolen");
         }
 
         // Keep event in processed set - invasion has been handled
@@ -296,14 +251,10 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         );
 
         if (wasHighValueTarget) {
-            Global.getLogger(this.getClass()).info(
-                    ">>> TARGET WAS MARKED AS HIGH-VALUE - PRIORITY THEFT <<<"
-            );
+            log.info("Draconis: >>> TARGET WAS MARKED AS HIGH-VALUE - PRIORITY THEFT <<<");
         }
 
-        Global.getLogger(this.getClass()).info(
-                "Attempting AI core theft from " + target.getName()
-        );
+        log.info("Draconis: Attempting AI core theft from " + target.getName());
 
         // Steal AI cores
         DraconisAICoreTheftListener.checkAndStealAICores(
@@ -313,14 +264,10 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         // Clear high-value target flags if applicable
         if (wasHighValueTarget) {
             DraconisSingleTargetScanner.clearTargetAfterRaid(target);
-            Global.getLogger(this.getClass()).info(
-                    "Cleared high-value target flags - scanner will select new target"
-            );
+            log.info("Draconis: Cleared high-value target flags - scanner will select new target");
         }
 
-        Global.getLogger(this.getClass()).info(
-                "=========================================="
-        );
+        log.info("Draconis: ==========================================");
     }
 
     /**
@@ -342,7 +289,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
                 return DRACONIS.equals(factionId);
             }
         } catch (Exception e) {
-            Global.getLogger(this.getClass()).warn("Error checking raid faction", e);
+            log.warn("Draconis: Error checking raid faction", e);
         }
         return false;
     }
@@ -354,7 +301,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
                 return DRACONIS.equals(factionId);
             }
         } catch (Exception e) {
-            Global.getLogger(this.getClass()).warn("Error checking invasion faction", e);
+            log.warn("Draconis: Error checking invasion faction", e);
         }
         return false;
     }
@@ -370,9 +317,7 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
         if (wasHighValueTarget) {
             DraconisSingleTargetScanner.clearTargetAfterRaid(market);
-            Global.getLogger(this.getClass()).info(
-                    "Cleared high-value target condition from " + market.getName() + " after raid"
-            );
+            log.info("Draconis: Cleared high-value target condition from " + market.getName() + " after raid");
         }
     }
 }

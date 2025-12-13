@@ -126,7 +126,7 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
         }
 
         int total = 0;
-        float prodProgressMult = Global.getSettings().getFloat("draconisProgressPerUnitProdMult");
+        float prodProgressMult = Global.getSettings().getFloat("draconisCompetitionProgressRate");
         List<CompetitorData> comp = computePlayerCompetitionData();
 
         Global.getLogger(this.getClass()).info("=== Computing Progress ===");
@@ -152,8 +152,8 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
         List<CompetitorData> comp = computePlayerCompetitionData();
         float mag = 0f;
 
-        float perUnitMagnitude = Global.getSettings().getFloat("draconisMagnitudePerUnitProduction");
-        float maxMagnitude = Global.getSettings().getFloat("draconisMaxMagnitude");
+        float perUnitMagnitude = Global.getSettings().getFloat("draconisCompetitionMagnitude");
+        float maxMagnitude = Global.getSettings().getFloat("draconisCompetitionMaxMagnitude");
 
         for (CompetitorData data : comp) {
             for (MarketAPI market : data.competitorProducers) {

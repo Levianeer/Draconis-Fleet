@@ -4,7 +4,7 @@ id,trigger,conditions,script,text,options,notes
 # Fleet Admiral's Store,,,,,,
 XLII_admiral_init,OpenCDE,"$tag:XLII_fleet_admiral_emil","AddText ""Establishing connection..."" buttonText
 ShowPersonVisual","You transmit the comms ID and wait for the system to establish a connection...","1:init_greeting:Continue",
-XLII_admiral_init_greeting,DialogOptionSelected,"$option == init_greeting","FireBest admiralPickGreeting","The comms link establishes after a longer delay than typical military protocols demand. When the image resolves, it's deliberately degraded—encryption artifacts dance across a humanoid silhouette, facial features reduced to suggestions of shadow and light.",,
+XLII_admiral_init_greeting,DialogOptionSelected,"$option == init_greeting","FireBest admiralPickGreeting","The comms link establishes after a longer delay than typical military protocols demand. When the image resolves, it's deliberately degraded - encryption artifacts dance across a humanoid silhouette, facial features reduced to suggestions of shadow and light.",,
 XLII_admiral_init_not_commissioned,admiralPickGreeting,,,"""Captain."" The voice carries the flat authority of someone accustomed to being obeyed. ""Your reputation precedes you, but reputation alone doesn't grant clearance for what we discuss here.""
 
 A pause. You sense him consulting something off-screen.
@@ -16,23 +16,23 @@ XLII_admiral_init_commissioned,admiralPickGreeting,"XLII_HasDraconisCommission",
 
 He leans forward slightly, the motion causing the encryption to ripple and distort. ""The Draconis Defence Alliance rewards competence. More importantly, we recognize when someone possesses the tactical acumen we need for what's coming.""
 
-Your command console chimes softly—an incoming data packet, heavily encrypted.","1:XLII_admiral_init_commissionedTrader:Continue",
+Your command console chimes softly - an incoming data packet, heavily encrypted.","1:XLII_admiral_init_commissionedTrader:Continue",
 XLII_admiral_init_commissionedTrader,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
 $tag:XLII_fleet_admiral_emil",,"""I'm authorized to offer you something off the books,"" he continues. ""The 42nd's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
 
 A calculated pause. The kind that precedes uncomfortable truths.
 
-""There's a nominal fee—some credits and a minor adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_alruba:I'll purchase a Alruba-class Gunship
+""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_alruba:I'll purchase a Alruba-class Gunship
 2:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier
 3:buy_errakis:I'll purchase a Errakis-class Missile Destroyer
 4:buy_juza:I'll purchase a Juza-class Heavy Cruiser
 5:buy_shaobi:I'll purchase a Shaobi-class Carrier
 6:decline:Perhaps another time",
-XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Elite_FSDF","""The Alruba. You know, most people look at her now and see a relic—too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
+XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Elite_FSDF","""The Alruba. You know, most people look at her now and see a relic - too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
 
-Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute—an Alruba. Older model, held together with spite and welder's tape. We had six of them left in the picket line, facing down twice our number.
+Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. Older model, held together with spite and welder's tape. We had six of them left in the picket line, facing down twice our number.
 
-The captain—Lieutenant Voss, good officer—she kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
+The captain - Lieutenant Voss, good officer - she kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
 
 Voss didn't. Reactor breach on the final push.
 
@@ -41,17 +41,17 @@ The Alruba's not fast. Not elegant. But she's honest. She does what you build he
 A brief pause as the data finalizes.
 
 ""Use it well, Commander. The Alliance invests in those who deliver results."" The emphasis on 'deliver' is subtle but unmistakable. ""We'll be watching.""","1:transaction_complete:Continue",
-XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Elite_FSDF","""The Alwaid-class. I've heard the jokes—'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
+XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Elite_FSDF","""The Alwaid-class. I've heard the jokes - 'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
 
 During the final assault on Athebyne's capital shipyards, we had three Alwaids in the fleet. Heaven's Axiom, the Diligence, and the Eternity. The plan was simple: jump in, launch fighters, establish orbital superiority. Textbook carrier doctrine.
 
-The first two battlegroups jumped on schedule. The Eternity's group? Delayed. Drive malfunction—forty minutes late to the fight.
+The first two battlegroups jumped on schedule. The Eternity's group? Delayed. Drive malfunction - forty minutes late to the fight.
 
 By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
 
-Then the Eternity translated in-system. Two hundred and forty fighters. Every torpedo tube loaded. She didn't win the battle—but she ended it. The enemy scattered. We held the orbitals.
+Then the Eternity translated in-system. Two hundred and forty fighters. Every torpedo tube loaded. She didn't win the battle - but she ended it. The enemy scattered. We held the orbitals.
 
-Commander McKinnon—captain of the Eternity—he spent the next month in disciplinary review. I made sure he walked out with a promotion instead. Sometimes arriving late means you arrive when it matters most.
+Commander McKinnon - captain of the Eternity - he spent the next month in disciplinary review. I made sure he walked out with a promotion instead. Sometimes arriving late means you arrive when it matters most.
 
 The Alwaid's slow. But when she gets there, she brings everything.""
 
@@ -62,9 +62,9 @@ XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_Buy
 
 That became a problem during the push on Athebyne's outer stations.
 
-We had the Milwaukee—an Errakis—assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure—enough to scramble targeting data, not enough to justify pulling back.
+We had the Milwaukee - an Errakis - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to scramble targeting data, not enough to justify pulling back.
 
-The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain N. Holt—good officer, Kori Naval Academy—had a ship full of ordnance and nothing to shoot at.
+The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain N. Holt - good officer, Kori Naval Academy - had a ship full of ordnance and nothing to shoot at.
 
 So he did what the ship was designed to do: he moved in close. Uncomfortably close. Within thirty thousand klicks of the enemy screen, using the carrier's fighters for targeting data and firing on delayed telemetry.
 
@@ -77,36 +77,36 @@ The Errakis does what she's built for. Just don't expect her to do it elegantly.
 Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
 
 ""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
-XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Elite_FSDF","""The Juza-class. Experimental flux management, armoured like a battleship, fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle—when she works.
+XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Elite_FSDF","""The Juza-class. Experimental flux management, armoured like a battleship, fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle - when she works.
 
-Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group—my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
+Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
 
-Then the Jericho's flux regulators spiked. Total system failure—her shields dropped, her weapons went cold. She was a two-hundred-thousand-tonne paperweight in the middle of a firing line.
+Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. She was a two-hundred-thousand-tonne paperweight in the middle of a firing line.
 
-Her chief engineer—man named Kovar, stubborn bastard—he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. Three minutes. Do you know what a miracle that is?
+Her chief engineer - man named Kovar, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. Three minutes. Do you know what a miracle that is?
 
 By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Kovar kept her running for another six hours before the system burned out for good. We won that engagement.
 
-Kovar didn't make it—reactor overload during the final cooldown sequence. But the Jericho did.
+Kovar didn't make it - reactor overload during the final cooldown sequence. But the Jericho did.
 
 The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
 
 Brief silence.
 
 ""Authorization granted.""","1:transaction_complete:Continue",
-XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Elite_FSDF","""The Shaobi. The Marines' favourite toy. Command didn't want to build her—too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
+XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Elite_FSDF","""The Shaobi. The Marines' favourite toy. Command didn't want to build her - too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
 
 I'll admit, I didn't see the value. Not at first.
 
-Then came the boarding operation at Ring-Port—back when it was still under separatist control. We needed to take the station intact, and orbital bombardment wasn't an option. That meant Marines. Lots of them.
+Then came the boarding operation at Ring-Port - back when it was still under separatist control. We needed to take the station intact, and orbital bombardment wasn't an option. That meant Marines. Lots of them.
 
-The Shaobi-class Warhound led the assault. Two hundred Marines, full combat load, deployed in under twenty minutes. They hit three docking points simultaneously—precision insertion, no warning.
+The Shaobi-class Warhound led the assault. Two hundred Marines, full combat load, deployed in under twenty minutes. They hit three docking points simultaneously - precision insertion, no warning.
 
-The captain—Major Hartley, Marine Corps—she coordinated the whole thing from the Warhound's bridge. Ship-to-boarding-craft comms, real-time tactical updates, fire support from the gunship's turrets. It wasn't just a carrier—it was a forward command post with engines.
+The captain - Major Hartley, Marine Corps - she coordinated the whole thing from the Warhound's bridge. Ship-to-boarding-craft comms, real-time tactical updates, fire support from the gunship's turrets. It wasn't just a carrier - it was a forward command post with engines.
 
 We took Ring-Port in six hours. Minimal casualties. Hartley got a medal. The Warhound got a reputation.
 
-The Shaobi's not a fleet carrier. She's not meant to be. But if you need boots on a station or a hostile ship, she'll get them there—and bring them home.
+The Shaobi's not a fleet carrier. She's not meant to be. But if you need boots on a station or a hostile ship, she'll get them there - and bring them home.
 
 Sometimes that's worth more than another fighter wing.""
 
@@ -157,11 +157,11 @@ CMSNTextSuitedPart1_XLII_draconis,CMSNTextSuitedPart1,"$faction.id == XLII_draco
 
 ""Accepting a commission is a serious matter, however. You will be required to fight enemies of $theFaction. You'll be able to resign your commission at any time, though I don't imagine doing so would win you any friends.""",,
 CMSNTextSuitedPart2_XLII_draconis,CMSNTextSuitedPart2,"$faction.id == XLII_draconis",,"""So, how about it? Still want to sign on?""",,
-CMSNTextWelcomePart1_XLII_draconis,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated—Draconis blue on your scopes now.""",,
+CMSNTextWelcomePart1_XLII_draconis,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated - Draconis blue on your scopes now.""",,
 CMSNTextWelcomePart2_XLII_draconis,CMSNTextWelcomePart2,"$faction.id == XLII_draconis",,"""Anything else I can do for you?""",,
 CMSNTextChangeMind_XLII_draconis,CMSNTextChangeMind,"$faction.id == XLII_draconis",,"""Cold feet already?"" $personName raises an eyebrow. ""The Sector's full of fence-sitters who think twice when the guns start barking. Fafnir's ghosts don't suffer the hesitant, neither do we. Application withdrawn. If you grow a spine, our doors aren't barred... Yet.""",,
 CMSNResignAskToConfirm_XLII_draconis,CMSNResignAskToConfirm,"$faction.id == XLII_draconis",,"""Resign? After we stamped your papers and handed you the keys to our armory? Commander, that's not how the Alliance works."" $personFirstName pauses their typing to face you. ""$TheFaction needs anyone it can get, and turning your back on us won't be forgotten.""",,
 CMSNResignConfirmed_XLII_draconis,CMSNResignConfirmed,"$faction.id == XLII_draconis",,"$personFirstName sighs dramatically. ""Fine. Resignation accepted, effective immediately. Your IFF's wiped, access codes revoked.""",,
-CMSNResignCancelled_XLII_draconis,CMSNResignCancelled,"$faction.id == XLII_draconis",,"""Wise choice, Lieutenant. Knew you had the spine for it. Oath renewed—no hard feelings, just hard lessons.""",,
+CMSNResignCancelled_XLII_draconis,CMSNResignCancelled,"$faction.id == XLII_draconis",,"""Wise choice, Lieutenant. Knew you had the spine for it. Oath renewed - no hard feelings, just hard lessons.""",,
 "#END Generic Commission Dialogue",,,,,,
 

@@ -13,6 +13,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Abilities;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
+import org.apache.log4j.Logger;
 
 import java.util.Random;
 
@@ -23,6 +24,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * Sends task forces to engage Remnant defenses and recover technology
  */
 public class DraconisRemnantRaidManager implements EveryFrameScript {
+    private static final Logger log = Global.getLogger(DraconisRemnantRaidManager.class);
 
     private static final float CHECK_INTERVAL = 45f; // Check every 45 days
     private static final float RAID_CHANCE = 0.5f; // 50% chance to raid when target available
@@ -56,8 +58,8 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
     private void considerRemnantRaid() {
         // Check if there's already an active raid fleet
         if (hasActiveRaidFleet()) {
-            Global.getLogger(this.getClass()).info(
-                "Active raid fleet already exists - skipping raid check"
+            log.info(
+                "Draconis: Active raid fleet already exists - skipping raid check"
             );
             return;
         }
@@ -66,21 +68,21 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
         StarSystemAPI target = DraconisRemnantTargetScanner.getCurrentTarget();
 
         if (target == null) {
-            Global.getLogger(this.getClass()).info(
-                "No Remnant target available - skipping raid check"
+            log.info(
+                "Draconis: No Remnant target available - skipping raid check"
             );
             return;
         }
 
-        Global.getLogger(this.getClass()).info(
-            "Remnant target found: " + target.getName()
+        log.info(
+            "Draconis: Remnant target found: " + target.getName()
         );
 
         // Random chance to trigger raid
         Random random = new Random();
         if (random.nextFloat() > RAID_CHANCE) {
-            Global.getLogger(this.getClass()).info(
-                "Raid check failed (chance: " + (RAID_CHANCE * 100) + "%)"
+            log.info(
+                "Draconis: Raid check failed (chance: " + (RAID_CHANCE * 100) + "%)"
             );
             return;
         }
@@ -88,13 +90,13 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
         // Find a Draconis source market for the fleet
         com.fs.starfarer.api.campaign.econ.MarketAPI source = getDraconisSource();
         if (source == null) {
-            Global.getLogger(this.getClass()).info(
-                "No Draconis source market available for raid"
+            log.info(
+                "Draconis: No Draconis source market available for raid"
             );
             return;
         }
 
-        Global.getLogger(this.getClass()).info("Source market: " + source.getName());
+        log.info("Draconis: Source market: " + source.getName());
 
         // Spawn raid fleet
         spawnRemnantRaidFleet(source, target);
@@ -102,14 +104,26 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
 
     /**
      * Check if there's already an active raid fleet
+     * Checks globally across all star systems and hyperspace
      */
     private boolean hasActiveRaidFleet() {
-        // Check all fleets in the sector
-        for (CampaignFleetAPI fleet : Global.getSector().getCurrentLocation().getFleets()) {
+        // Check all fleets across all star systems
+        for (StarSystemAPI system : Global.getSector().getStarSystems()) {
+            for (CampaignFleetAPI fleet : system.getFleets()) {
+                if (fleet.getMemoryWithoutUpdate().getBoolean("$draconis_remnantRaid")) {
+                    return true;
+                }
+            }
+        }
+
+        // Also check hyperspace
+        com.fs.starfarer.api.campaign.LocationAPI hyperspace = Global.getSector().getHyperspace();
+        for (CampaignFleetAPI fleet : hyperspace.getFleets()) {
             if (fleet.getMemoryWithoutUpdate().getBoolean("$draconis_remnantRaid")) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -150,10 +164,10 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
      */
     private void spawnRemnantRaidFleet(com.fs.starfarer.api.campaign.econ.MarketAPI source,
                                        StarSystemAPI target) {
-        Global.getLogger(this.getClass()).info("========================================");
-        Global.getLogger(this.getClass()).info("=== SPAWNING REMNANT RAID FLEET ===");
-        Global.getLogger(this.getClass()).info("Source: " + source.getName());
-        Global.getLogger(this.getClass()).info("Target: " + target.getName());
+        log.info("Draconis: ========================================");
+        log.info("Draconis: === SPAWNING REMNANT RAID FLEET ===");
+        log.info("Draconis: Source: " + source.getName());
+        log.info("Draconis: Target: " + target.getName());
 
         // Calculate fleet strength based on priority
         float priority = target.getMemoryWithoutUpdate().getFloat(
@@ -168,8 +182,8 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
         float freighterFP = 30f;  // Small freighter contingent
         float tankerFP = 20f;     // Fuel for long-range operations
 
-        Global.getLogger(this.getClass()).info("Fleet points: " + fleetPoints);
-        Global.getLogger(this.getClass()).info("Freighter FP: " + freighterFP + ", Tanker FP: " + tankerFP);
+        log.info("Draconis: Fleet composition: " + (int)fleetPoints + " FP combat, " +
+                 (int)freighterFP + " FP freighter, " + (int)tankerFP + " FP tanker");
 
         // Create fleet parameters
         FleetParamsV3 params = new FleetParamsV3(
@@ -198,8 +212,8 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
         CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
 
         if (fleet == null) {
-            Global.getLogger(this.getClass()).error(
-                "Failed to create Remnant raid fleet!"
+            log.error(
+                "Draconis: Failed to create Remnant raid fleet!"
             );
             return;
         }
@@ -252,25 +266,18 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
             "returning to " + source.getName()
         );
 
-        // Assignment 4: Orbit base briefly
-        fleet.addAssignment(
-            com.fs.starfarer.api.campaign.FleetAssignment.ORBIT_PASSIVE,
-            sourceEntity,
-            5f,
-            "standing down"
-        );
-
-        // Assignment 5: Despawn
+        // Assignment 4: Despawn at base (cores delivered during this phase)
         fleet.addAssignment(
             com.fs.starfarer.api.campaign.FleetAssignment.GO_TO_LOCATION_AND_DESPAWN,
             sourceEntity,
-            1000f
+            1000f,
+            "standing down"
         );
 
-        Global.getLogger(this.getClass()).info("Fleet spawned successfully");
-        Global.getLogger(this.getClass()).info("Fleet strength: " + fleet.getFleetPoints() + " FP");
-        Global.getLogger(this.getClass()).info("Officers: " + fleet.getCommander().getStats().getOfficerNumber().getModifiedInt());
-        Global.getLogger(this.getClass()).info("========================================");
+        log.info("Draconis: Fleet spawned successfully");
+        log.info("Draconis: Fleet strength: " + fleet.getFleetPoints() + " FP");
+        log.info("Draconis: Officers: " + fleet.getCommander().getStats().getOfficerNumber().getModifiedInt());
+        log.info("Draconis: ========================================");
 
         // Notify player if they're in the area
         if (shouldPlayerKnowAboutRaid(source, target)) {
@@ -303,6 +310,8 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
      * Handles AI core acquisition and delivery
      */
     private static class RemnantRaidFleetBehavior implements EveryFrameScript {
+        private static final Logger log = Global.getLogger(RemnantRaidFleetBehavior.class);
+
         private final CampaignFleetAPI fleet;
         private FleetAssignment lastAssignment = null;
         private boolean coresAcquired = false;
@@ -361,15 +370,15 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
                 // Note: AI cores are now acquired when transitioning to return phase
                 // (in handleAssignmentChange), not during patrol
             }
-            // During ORBIT_PASSIVE at base, check for AI core delivery
-            else if (assignmentType == FleetAssignment.ORBIT_PASSIVE) {
+            // During GO_TO_LOCATION_AND_DESPAWN at base, deliver AI cores
+            else if (assignmentType == FleetAssignment.GO_TO_LOCATION_AND_DESPAWN) {
                 // Return to passive state
                 if (!fleet.getMemoryWithoutUpdate().getBoolean(MemFlags.FLEET_IGNORES_OTHER_FLEETS)) {
                     fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true);
                     fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_ALLOW_LONG_PURSUIT);
                 }
 
-                // Deliver AI cores if we have them and we're at base
+                // Deliver AI cores if we have them (only do this once)
                 if (coresAcquired && hasAICoresInCargo()) {
                     deliverAICores();
                 }
@@ -386,19 +395,19 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
 
         private void handleAssignmentChange(FleetAssignment from, FleetAssignment to) {
             if (to == FleetAssignment.PATROL_SYSTEM) {
-                Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                    "Raid fleet entering patrol phase in target system"
+                log.info(
+                    "Draconis: Raid fleet entering patrol phase in target system"
                 );
             } else if (from == FleetAssignment.PATROL_SYSTEM && to == FleetAssignment.GO_TO_LOCATION) {
                 // Fleet survived patrol and is returning - acquire cores now
                 if (!coresAcquired) {
-                    Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                        "Raid fleet survived patrol and is returning - acquiring AI cores"
+                    log.info(
+                        "Draconis: Raid fleet survived patrol and is returning - acquiring AI cores"
                     );
                     acquireAICores();
                 }
-                Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                    "Raid fleet transitioning to return journey. Cores acquired: " + coresAcquired
+                log.info(
+                    "Draconis: Raid fleet transitioning to return journey. Cores acquired: " + coresAcquired
                 );
             }
         }
@@ -430,21 +439,12 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
             // Add cores to cargo
             if (alphaCount > 0) {
                 cargo.addCommodity(Commodities.ALPHA_CORE, alphaCount);
-                Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                    "Fleet acquired " + alphaCount + " Alpha AI core(s)"
-                );
             }
             if (betaCount > 0) {
                 cargo.addCommodity(Commodities.BETA_CORE, betaCount);
-                Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                    "Fleet acquired " + betaCount + " Beta AI core(s)"
-                );
             }
             if (gammaCount > 0) {
                 cargo.addCommodity(Commodities.GAMMA_CORE, gammaCount);
-                Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                    "Fleet acquired " + gammaCount + " Gamma AI core(s)"
-                );
             }
 
             // Make AI cores lootable if player defeats the fleet
@@ -466,8 +466,10 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
                 extraSalvage, fleet.getMemoryWithoutUpdate(), -1
             );
 
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "AI cores added to fleet extra salvage - guaranteed loot if fleet is defeated"
+            int totalCores = alphaCount + betaCount + gammaCount;
+            log.info(
+                "Draconis: Fleet acquired " + totalCores + " AI cores (" + alphaCount + " Alpha, " +
+                betaCount + " Beta, " + gammaCount + " Gamma) - added to extra salvage"
             );
 
             coresAcquired = true;
@@ -475,7 +477,6 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
 
             // Notify player if they can see the fleet
             if (shouldPlayerSeeFleet()) {
-                int totalCores = alphaCount + betaCount + gammaCount;
                 Global.getSector().getCampaignUI().addMessage(
                     "Draconis expedition fleet has secured AI cores from Remnant forces (" +
                     totalCores + " core" + (totalCores > 1 ? "s" : "") + ")",
@@ -505,8 +506,8 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
             int gammaDelivered = (int) cargo.getCommodityQuantity(Commodities.GAMMA_CORE);
 
             if (alphaDelivered == 0 && betaDelivered == 0 && gammaDelivered == 0) {
-                Global.getLogger(RemnantRaidFleetBehavior.class).warn(
-                    "Fleet marked as having cores but none found in cargo - possibly stolen by player/pirates"
+                log.warn(
+                    "Draconis: Fleet marked as having cores but none found in cargo - possibly stolen by player/pirates"
                 );
                 return;
             }
@@ -518,23 +519,9 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
 
             int totalCores = alphaDelivered + betaDelivered + gammaDelivered;
 
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "===================================================="
-            );
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "=== AI CORES SUCCESSFULLY DELIVERED ==="
-            );
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "Alpha cores: " + alphaDelivered
-            );
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "Beta cores: " + betaDelivered
-            );
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "Gamma cores: " + gammaDelivered
-            );
-            Global.getLogger(RemnantRaidFleetBehavior.class).info(
-                "===================================================="
+            log.info(
+                "Draconis: === AI CORES DELIVERED === Alpha: " + alphaDelivered + ", Beta: " +
+                betaDelivered + ", Gamma: " + gammaDelivered + " (Total: " + totalCores + ")"
             );
 
             // Notify player

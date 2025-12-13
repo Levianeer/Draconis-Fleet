@@ -414,11 +414,12 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         params.payloadDays = payloadDaysMin + payloadDaysVariance * random.nextFloat();
 
         params.raidParams.where = system;
-        params.raidParams.type = FGRaidType.SEQUENTIAL;
+        // Use default FGRaidType.CONCURRENT (don't override to SEQUENTIAL - causes raid failures)
         params.raidParams.tryToCaptureObjectives = false;
         params.raidParams.allowedTargets.add(target);
         params.raidParams.allowNonHostileTargets = true;
         params.raidParams.setBombardment(BombardType.TACTICAL);
+        // doNotGetSidetracked defaults to true, no need to set it
 
         params.style = FleetStyle.QUALITY;
 
@@ -442,13 +443,9 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         }
 
         // Send 1 massive SMOD_3 quality fleet (stealth operation - single coordinated strike)
-        // Fleet size scales with difficulty, 3x larger than old individual fleets
-        int fleetSize = 30; // Base size (3x10)
-        if (totalDifficulty >= 30) {
-            fleetSize = 45; // 3x15
-        } else if (totalDifficulty >= 20) {
-            fleetSize = 36; // 3x12
-        }
+        // Fleet size scales proportionally with totalDifficulty (like Remnant Ordo fleets)
+        // Scales from ~90-110 FP at minimum difficulty to ~450-550 FP at maximum difficulty
+        int fleetSize = (int)(totalDifficulty * 9) + random.nextInt(Math.max(1, (int)(totalDifficulty * 2)));
 
         params.fleetSizes.add(fleetSize);
 

@@ -1,7 +1,7 @@
 id,type,text1,text2,text3,text4,text5,notes
-XLII_draconis,FACTION,"The Draconis Defence Alliance is a military treaty between Athebyne and Itoron, forged in the smouldering aftermath of the Fafnir Civil War. Once a beautiful verdant world, Athebyne now spins barren—its ruin a testament to the war's savagery and the price of peace.
+XLII_draconis,FACTION,"The Draconis Defence Alliance is a military treaty between Athebyne and Itoron, forged in the smouldering aftermath of the Fafnir Civil War. Once a beautiful verdant world, Athebyne now spins barren - its ruin a testament to the war's savagery and the price of peace.
 
-At the centre of the Alliance stands Fleet Admiral Emil August, former commander of Itoron’s infamous 42nd Defence Fleet—the hammer that broke Athebyne’s back. Hailed as a hero by some and a war criminal by others, August assumed control of the Alliance without election, consolidating military power to “preserve peace.” Itoron backs him. Those from Athebyne barely tolerate him.
+At the centre of the Alliance stands Fleet Admiral Emil August, former commander of Itoron’s infamous 42nd Defence Fleet - the hammer that broke Athebyne’s back. Hailed as a hero by some and a war criminal by others, August assumed control of the Alliance without election, consolidating military power to “preserve peace.” Itoron backs him. Those from Athebyne barely tolerate him.
 
 Under August’s iron-fisted leadership, the Alliance has become a disciplined and lethal force, its ships and soldiers forged in war. Yet its unity is brittle. Political infighting, deep-seated mistrust, and systemic corruption threaten to shatter what little cohesion remains.
 
@@ -11,85 +11,89 @@ planet_athebyne,CUSTOM,"The ruins of Athebyne. Devasted by the civil war that en
 planet_itoron,CUSTOM,"The Jewel of Fafnir. A pristine world with a bustling industrial sector and massive farmland. It doesn't have the MIC of Kori, but it boasts a large military presence nonetheless, especially now as the system's last naturally habitable planet.",,,,,
 planet_kori,CUSTOM,Kori is the frigid moon of Itoron. A shining symbol of hope for the Itoron people. Now it houses the largest military-industrial complex in the Fafnir system and the primary headquarters for the Draconis Navy.,,,,,
 planet_vorium,CUSTOM,A typical gas giant; Vorium. Its massive gravity well helps protect the habitable planets of Fafnir.,,,,,
+planet_nidhogg,CUSTOM,"Nidhogg is a scorched, tidally-locked world caught in Fafnir's gravitational embrace. One hemisphere bakes under eternal daylight while the other freezes in perpetual night. Early surveys detected trace deposits of rare metals in the twilight zone, though extraction has proven economically unviable. The Alliance maintains automated sensor stations in low orbit to monitor solar activity.",,,,,
+planet_shard,CUSTOM,"A small, cratered moon trapped in Athebyne's orbit - likely a fragment torn loose during the orbital bombardment that devastated the planet below. Geologists theorize it was once part of Athebyne's crust. The surface is pockmarked with impact scars and coated in a thin layer of irradiated regolith. It serves as a grim reminder of the war's brutality.",,,,,
+planet_nidus,CUSTOM,"Nidus is a barren, airless moon orbiting close to Itoron. Its surface is rich in silicates and heavy metals, making it a valuable source of raw materials for Kori's shipyards. Several automated mining operations dot the equatorial region, feeding a steady stream of ore to processing facilities in orbit.",,,,,
+planet_genam,CUSTOM,"Genam is a small frozen moon in distant orbit around Itoron. Its surface is covered in water ice and methane frost, with deep cryovolcanic rifts scarring the northern hemisphere. The Alliance maintains a small research outpost monitoring seismic activity and testing cold-weather survival equipment.",,,,,
+planet_ancalagon,CUSTOM,"The largest of Vorium's moons, Ancalagon is a frozen world wrapped in nitrogen ice and shadowed by the gas giant's bulk. Subsurface oceans are theorized to exist beneath the thick ice crust. The Alliance operates several volatiles extraction platforms on the surface, harvesting ammonia and methane for industrial use.",,,,,
+planet_tiamat,CUSTOM,"Tiamat is a dense, metallic moon with a surface composition of iron and silicate rock. Its proximity to Vorium subjects it to intense tidal heating, creating a patchwork of molten lava flows across the otherwise barren landscape. Mining operations focus on extracting high-grade ores from cooled magma chambers.",,,,,
+planet_talon,CUSTOM,"Talon is a small, irregularly-shaped moonlet likely captured by Vorium's gravity well millions of years ago. Its composition suggests it originated from the outer asteroid belt. The Alliance uses it as a waystation for deep-space patrols, with a small refueling depot built into a natural crater.",,,,,
+planet_jormungandr,CUSTOM,"Jormungandr is a massive ice giant orbiting at the edge of the habitable system. Its pale blue atmosphere is wracked by storms that dwarf anything seen on terrestrial worlds, with wind speeds exceeding fifteen hundred kilometers per hour. The planet serves as a navigational landmark for vessels transitioning to and from hyperspace.",,,,,
+planet_hel,CUSTOM,"Hel is a frozen moon locked in synchronous orbit around Jormungandr. Its surface is scarred by deep canyons and jagged ice ridges formed by tidal stresses. The Alliance maintains an automated listening post in the southern polar region, monitoring deep-space communications and tracking hyperspace anomalies.",,,,,
+planet_niflheim,CUSTOM,"Niflheim is a dark, frozen world perpetually shadowed by Jormungandr's bulk. Surface temperatures barely reach fifty Kelvin, and the ice crust is composed of frozen nitrogen and methane. Cryovolcanic activity creates slow-moving nitrogen geysers that erupt unpredictably. No permanent installations exist - only occasional survey missions.",,,,,
+planet_ladon,CUSTOM,"Ladon is a distant dwarf planet drifting through the outer darkness beyond Jormungandr's orbit. Its surface is a frozen wasteland of nitrogen ice and methane frost, utterly lifeless and hostile. The Alliance classifies it as a strategic observation point, with rumors of a covert intelligence facility buried deep beneath the ice.",,,,,
+planet_vritra,CUSTOM,"Vritra is a lonely dwarf planet following a highly elliptical orbit that takes it far beyond the outer system's edge. Its composition is similar to Ladon's, though spectral analysis suggests higher concentrations of organic compounds. Some believe it harbors remnants of pre-collapse Domain research installations, though no evidence has been confirmed.",,,,,
 station_ringport,CUSTOM,"Ring-Port, a former asteroid mining station, has undergone a tumultuous history. Initially seized by anarchists and separatists, it has now fallen under the control of pirates and remnants of the disbanded first fleet who failed to reintegrate. Serves a notorious black market and a haven for marauders, Ring-Port maintains a modest fleet presence, just enough to deter destruction and safeguard its illicit operations.",,,,,
-XLII_thuban,SHIP,"// You have to understand that military procurement isn't just ask and receive. We had no allies to buy from, and not enough ships sitting around to outfit ourselves with. The 42nd was bleeding hulls faster than we could patch them, and Command was screaming for picket coverage—something fast enough to screen the battle line and tough enough to jam incoming ordnance. We HAD to make some drastic decisions. This was one of them.
+XLII_thuban,SHIP,"The Thuban-class corvette is the Alliance's premier picket ship - fast, fragile, and almost invisible on sensors. Built around a spinally mounted Durendal railgun and an advanced electronic warfare suite, the Thuban trades armour and shielding for speed, jamming capability, and a punch far above its weight class.
 
-Would I have ordered such a huge list of requirements for a picket ship? Probably not. Advanced EWAR suite, spinal MAC, composite armour, autonomous targeting, the works. They wanted a Cruiser's capabilities in a Corvette's frame. Madness.
+Born from desperate necessity during the Fafnir Civil War, the design philosophy is simple: don't get hit. Thuban crews rely on electronic countermeasures to spoof incoming ordnance and blind enemy fire control systems rather than armour to absorb damage. In the right hands, the corvette is untouchable. In the wrong hands, it's a coffin with an engine.
 
-We were only halfway through development before we hit a roadblock. There just wasn't enough space for everything. We had just started fitting in the composite armour and we were struggling—a ship with that many requirements fitting in a damn Corvette? Not possible. The mass projections were underwater before we even mounted the Durendal.
+The Thuban remains a staple of Alliance picket fleets, screening capital ships and coordinating electronic warfare coverage across entire battlespaces.",,,,,
+XLII_alruba,SHIP,"The Alruba-class gunship was the Alliance's first attempt at independent ship design - a heavily armoured, heavily armed brawler built for the close-range slugging matches that defined the early civil war. Based on the Brawler-class template, the Alruba trades speed and agility for firepower and staying power.
 
-So we compromised. Stripped her bare and fit only the essentials, followed by the only two requirements we and Command could agree on: the MAC and the ECM suite. The Durendal railgun gives her punch—enough to crack destroyer-grade hulls at range if you're patient and the targeting solution's clean. The EWAR package? Best in class. She can spoof missiles, blind fire control, make herself a ghost on every sensor from here to Athebyne.
+Once the backbone of Alliance assault operations, the Alruba now finds itself a relic of obsolete doctrine. Modern Alliance tactics favour standoff engagement and electronic warfare, leaving the slow, armour-focused gunship without a clear role. Most Alrubas sit mothballed in Kori's shipyards, occasionally deployed for convoy escort or station assault where their durability still matters.
 
-Sure, a stiff breeze could rupture the hull. No armour to speak of, shields are paper, and if you take a direct hit from anything heavier than point defence, you're floating scrap. But the manoeuvrability? The speed? The protection from the EWAR kit? She's untouchable if you fly her right. Picket duty isn't about slugging it out—it's about screening, jamming, and getting the hell out before the hammer drops.
+Crews joke that the safest berth in the fleet is aboard an Alruba - because you'll never see combat.",,,,,
+XLII_alruba_mk2,SHIP,"The Alruba Mk.II is a refit programme born from pragmatism - an attempt to drag mothballed gunships back into operational relevance. With the original Alrubas gathering ice at Kori, Acquisitions & Sustainment authorised a conversion project: strip the ballistic mounts, install vertical launch cells, and bring the old girl in line with modern doctrine.
 
-The crews call her a deathtrap. Command calls her a force multiplier. I call her exactly what she needed to be.
+She's still slow, still armoured like a bunker, but now she can contribute to saturation strikes from standoff range instead of lumbering into knife-fighting distance. The missile integration isn't elegant - hastily welded cells replacing purpose-built hardpoints - and maintenance crews curse the jury-rigged power routing. But it works.
 
-So to answer your question: Nah, I wouldn't change a thing.
+Every hull pulled from mothballs is one fewer new destroyer that needs building. For convoy escort and garrison duty, where her armour still matters and her speed doesn't, the Alruba Mk.II fills a role nothing else in the fleet wants.",,,,,
+XLII_rastaban,SHIP,"The Rastaban-class light destroyer leads Alliance picket fleets with precision and speed. Designed alongside its smaller cousin the Thuban, the Rastaban sacrifices protection for an advanced targeting system and the Excalibur loitering munitions package - smart ordnance that hunts and kills unshielded targets with surgical efficiency.
 
-After all, we won. //
+Fast enough to dictate engagement range and with the Excalibur can outperform ships twice her size, the Rastaban excels at coordinating rapid-response groups and eliminating isolated targets before they can respond. Against anything with its shields down, she's a surgeon.
 
-- Senior engineer Joseph H. Brown on Project ""Icarus"".",,,,,
-XLII_alruba,SHIP,"// Admiral,
+The trade-off is survivability. Rastaban captains learn to fight from the edge of engagement envelopes, relying on speed and standoff range rather than armour to stay alive.",,,,,
+XLII_shaobi,SHIP,"The Shaobi-class light carrier is what happens when Marines are allowed to commission warships - a Rastaban-class hull gutted and rebuilt as a mobile firebase. The advanced targeting suite and Excalibur systems are gone, replaced by hangar bays, staging areas, and drop pod tubes sufficient for a reinforced Marine company.
 
-You asked about the Alrubas. Short answer: they're gathering dust.
+Slower than its destroyer origins suggest but cheap enough to risk in forward deployment, the Shaobi excels at rapid boarding actions and planetary raids. Fleet command treats it as organic Marine support for cruiser task groups, while the Marines themselves view it as proof that Acquisitions & Sustainment occasionally listens.
 
-When we designed her—what, eight years ago now?—we were desperate for anything that could take a hit and keep shooting. The Brawler-class template gave us something to work from, and we ran with it. Up-armoured the hull, added another pair of weapon mounts, reinforced the superstructure. She was a brute, slower than a drunken freighter, but she could absorb punishment that would've vaporised a Thuban and still return fire.
+The class has proven particularly effective in anti-piracy operations around Ring-Port, where its combination of strike craft and Marine assault capability fills a tactical niche nothing else in the fleet can match.",,,,,
+XLII_errakis,SHIP,"The Errakis-class missile destroyer serves one purpose: keeping carriers alive. Purpose-built as the muscle of carrier strike groups, the Errakis mounts an obscene number of vertical launch cells and coordinates saturation strikes with embarked fighter wings to overwhelm enemy defences.
 
-Command loved it. Back then, we were fighting close-range slugging matches over Athebyne's orbitals. The Alruba fit the doctrine perfectly—close the distance, weather the storm, hammer them until something breaks. We built thirty-seven of them before the war ended.
+The cost of that firepower was the radar array. The Errakis relies on other ships - Eltanin-class screens, the carrier's combat information centre - for targeting data. This dependency would be a vulnerability in any other role, but in a carrier group, it's doctrine.
 
-Then you changed everything.
+Crews joke that Errakis postings are boring - no flashy solo kills, no desperate last stands. Just formation flying, missile launches, and going home. Boring wins wars.",,,,,
+XLII_giausar,SHIP,"The Giausar-class destroyer is the Alliance's dedicated point defence platform - a shield built to protect fleet formations from fighters, missiles, and anything else too small or too fast for capital weapons to track. Her sophisticated PD drone network, managed by an onboard nanoforge that can fabricate replacements mid-engagement, provides defensive coverage that scales with sustained combat.
 
-New doctrine came down: speed, standoff engagement, electronic warfare, missile saturation. Suddenly, a gunship that manoeuvres like a cargo hauler and has to close to knife-fighting range became a liability. The Thuban and Rastaban programmes took priority—fast, fragile, lethal at range. Everything the Alruba isn't.
+Built alongside the Rastaban under the ""Constellation"" initiative, the Giausar trades offensive capability for defensive utility. Minimal anti-ship armament, slow to manoeuvre, but thick enough armour to weather incoming fire while her drones do the work. Send her out alone and she's a liability. Embed her in a battle line, and she's worth her tonnage in fuel.
 
-Now they sit in the yards at Kori, tied to mooring stations, gathering ice. Crews don't want them. Captains don't request them. Last I checked, maybe five are on active patrol—border stations, convoy escort, the assignments nobody fights over. The rest? Mothballed.
+The Giausar doesn't win battles. She keeps the ships that do alive long enough to fight them.",,,,,
+XLII_alsafi,SHIP,"A hybrid tanker and cargo hauler built to destroyer specifications, the Alsafi-class was designed to keep fast-moving hunter-killer groups supplied without the need for vulnerable convoy escorts or return trips to port.
 
-Here's the thing: they're still perfectly good ships. Solid construction, reliable systems, heavy armour by current standards. In the right engagement—boarding actions, station assault, close support—an Alruba would perform beautifully. But we don't fight those battles anymore. We kill from twenty thousand klicks with Excalibur munitions and EWAR jamming.
+Fuel capacity is modest compared to dedicated tankers, and cargo space falls short of what a proper freighter might offer. Yet the Alsafi's destroyer-grade engines allow it to flee engagements that would doom slower logistics vessels, a tradeoff its crews consider more than fair.
 
-Scrap value's decent. Alternatively, we could refit them—gut the interior, add missile batteries, upgrade the drive section. But that's expensive, and at that point, we're better off building new Rastabans.
+Few volunteer for logistics duty, but fewer still request transfers once they've served aboard an Alsafi. The work is unglamorous, but the ship tends to bring its crew home.",,,,,
+XLII_eltanin,SHIP,"The venerable Eltanin-class light cruiser is the backbone of the Alliance fleet - fast, flexible, and produced in greater numbers than any other cruiser in the Fafnir system. Designed for hunter-killer doctrine, the Eltanin leads hybrid fleet operations, exploits gaps in enemy formations, and punishes anything smaller than itself with extreme prejudice.
 
-Third option: sell them. Plenty of independent colonies would kill for a ship that tough. Let them be someone else's problem.
+Speed is her greatest asset. The Eltanin outpaces most cruisers and keeps pace with destroyer squadrons, allowing her to dictate engagement range against anything that isn't packing capital-grade engines. Paired with a respectable missile loadout and electronic warfare suite, she excels at isolating and destroying stragglers.
 
-Your call, Admiral. But they can't sit in the yards forever. //
+The caveat is in the name: *light* cruiser. Get her into a slugging match with anything heavier and those thin plates start to matter. The Eltanin's role is exploitation, not attrition.",,,,,
+XLII_juza,SHIP,"The Juza-class heavy cruiser is a technical marvel built on compromise. Designed under stringent size constraints, the Juza features an advanced flux management system that rapidly redirects power between weapons, armour arrays, and shields - allowing her to shift combat roles on the fly.
 
- - Commander Keiko Miura, Acquisitions & Sustainment",,,,,
-XLII_rastaban,SHIP,"// The Rastaban-class light destroyer—Icarus's older, slightly more responsible sibling. Built by the same contractors who gave us the Thuban, the Rastaban was meant to answer a simple question: what if we took that corvette concept and made it lead the picket fleets instead of just being part of them?
+The system nearly killed its first test crew. Initial trials saw power distribution networks strobing, hull plating superheating, and capacitors blowing under aggressive cycling. Three months of reworks added redundancies and slowed the cycle time, producing a ship that's adaptable rather than elegant.
 
-So they scaled her up. Not much—just enough to mount an advanced targeting suite and cram in the Excalibur loitering munitions package. The philosophy stayed the same: speed over protection, precision over volume of fire. Command wanted a ship that could coordinate fast-response groups, identify targets at range, and send smart ordnance downrange before the enemy even knew they were painted.
+In fleet engagements, the Juza fills gaps - brawler one moment, fire support the next. Crews either love her or hate her. There's no middle ground when your deck lighting flickers every time you redirect power.",,,,,
+XLII_juni,SHIP,"The Juni-class cruiser is what happens when accountants redesign a warship. Derived from the Juza-class after that project nearly bankrupted three shipyards, the Juni strips out experimental systems in favour of reliability and standardisation. No flux management tricks, no exotic components - just conventional plating, standard power distribution, and parts you can actually source.
 
-She's lean. Fewer hardpoints than you'd expect on a destroyer, armour that'll make you nervous if you think about it too long. But that targeting system? Beautiful piece of kit. Locks acquisition faster than anything else in the fleet, feeds telemetry to the Excaliburs, and those munitions do the rest. Against unshielded targets—frigates, older destroyers, anything caught with its shields cycling—she's a surgeon. Clean kills, minimal ammunition expenditure.
+What the Juni lacks in sophistication, she makes up for in sustainability. Energy weapon mounts - unusual for Alliance ships - allow her to maintain pressure when missile stocks run low, and her conventional systems mean maintenance crews can actually keep her operational without waiting months for Kori to fabricate replacements.
 
-The trade-off? If something closes range or your shields fail, you're in trouble. Rastaban captains learn to fight from the edge of engagement envelopes, using speed and standoff range to survive. It's not a brawler. Never was meant to be. //
+She's not flashy. She doesn't win awards. But the Juni does her job, stays in the fight, and doesn't bankrupt the repair budget.",,,,,
+XLII_altais,SHIP,"The Altais-class battlecruiser is a miracle of procurement - a ship that delivered exactly what was promised, on budget, with all features intact. Fleet command wanted speed and firepower in a capital hull. What they got was a battlecruiser that fights like a heavyweight boxer with a flyweight's footwork.
 
-- Captain Zhao, 15th Picket Squadron",,,,,
-XLII_shaobi,SHIP,"// In what can only be described as a bureaucratic anomaly, the Department of Acquisitions & Sustainment approved a Marine-commissioned vessel. How this survived the budget committee, Command review, and didn't get sacrificed to patch holes in the Altais production line remains one of the system's great mysteries.
+Thirty-six launch cells provide enough missile capacity to shred a battle line before enemy solutions lock. Acceleration curves put some light cruisers to shame. Combined with full EWAR integration, the Altais is a fleet killer that strikes and repositions before the enemy can respond.
 
-The Shaobi-class light carrier is the result—a Rastaban-class destroyer that's been comprehensively gutted and rebuilt to Marine specifications. Every weight-saving measure that made the Rastaban fast and lethal? Gone. The advanced targeting suite? Stripped. The Excalibur loitering munition system? Relocated to make room for what Marines apparently consider ""adequate"" hangar space.
+The cost is protection. Armour is a joke, shields are merely adequate, and sustained fire from anything heavier than a destroyer means counting hull breaches in double digits. Fly her like an Eltanin with delusions of grandeur - hit hard, stay mobile, never trade blows.",,,,,
+XLII_alwaid,SHIP,"The Alwaid-class battlecarrier is the primary carrier of the Draconis fleet - a massive, hulking fortress designed to anchor battlespaces rather than chase them. Dual hangar complexes run the length of her spine, cycling four full strike wings simultaneously through an electromagnetic launch system reverse-engineered from captured Tri-Tachyon technology.
 
-What you get instead is a reasonably large hangar bay—enough for two full squadrons of strike craft—and a massive staging area that can comfortably house a reinforced Marine company with full combat load. Armoury, briefing spaces, drop pod tubes, the works. The Marines even convinced someone to install dedicated fabrication bays for ordnance and repair drones. It's practically a mobile firebase.
+She moves like a station with delusions of mobility. Triple redundant drive housings and oversized radiators couldn't overcome the mass of her armour belt, dedicated EMALS reactor, and weapons grid. But the Alwaid doesn't need speed - her strike craft are fast, her escorts are fast, and she projects power across an entire battlespace from the centre of the formation.
 
-The trade-off? She's slower than the Rastaban by a significant margin, and the protection's marginal at best. But here's the thing—it works. Fast enough to keep pace with cruiser formations, cheap enough to risk in forward deployment, and purpose-built for the kind of rapid boarding actions and planetary raids that have become our bread and butter since Ring-Port started acting up.
+Fleet crews joke about arriving late to engagements. By the time the Alwaid reaches the fight, she *is* the fight.",,,,,
+XLII_kuma,SHIP,"The Kuma-class battleship is the Alliance's most controversial ship - a glass cannon originally designed for colony escort duty, now repurposed as a long-range artillery platform. Her massive solar array and skeletal frame provide exceptional flux dissipation at the cost of armour that barely qualifies as plating.
 
-Fleet's still adapting doctrine around her. Some captains love having organic Marine support attached to their task groups. Others think we're trying to reinvent the Alwaid on a destroyer budget. The Marines, naturally, are insufferable about the whole thing.
+Initial trials were nearly catastrophic. Simulated frigate squadrons breached the outer hull in under two minutes during combat exercises. But someone noticed the flux numbers, and the Kuma found new purpose: keep the shields up, position at standoff range, and turn anything without capital-grade protection into expanding debris.
 
-Admiral Torres signed off on a second production run last month. Make of that what you will. //
-
-- Commander Sarah Okonkwo, Fleet Integration Office",,,,,
-XLII_errakis,SHIP,"// You want to know why the Errakis works? Because it knows what it is.
-Purpose-built from the keel up as carrier muscle, the Errakis-class doesn't pretend to be a fleet flagship or a lone wolf hunter. It's the shield and spear of a carrier strike group—nothing more, nothing less. While the Alwaid lumbers into position and the fighters do their dance, the Errakis sits in the middle distance and makes damn sure nothing gets close enough to matter.
-
-The missile loadout is obscene. Vertical launch cells packed stem to stern, enough ordnance to swamp anything short of a battlecruiser's point defence network. Doctrine calls for saturation strikes coordinated with the carrier's fighter wings—the Errakis softens the target, the strike craft finish it. In practice? It works. The 42nd Battlegroup proved that during the Athebyne campaign when a three-ship Errakis division turned a rebel cruiser squadron into expanding debris clouds in under four minutes.
-
-The compromise? The radar array. Command wanted everything—long-range tracking, fire control redundancy, independent operations capability. Engineering said pick two. So we picked the VLS and the datalink suite, and the Errakis got a perfectly adequate sensor package instead. It relies on the Eltanin-class screen ships and the carrier's combat information centre for targeting data, which sounds like a vulnerability until you realise that's exactly how carrier groups are supposed to work anyway.
-
-Some captains hate that dependency. They want the autonomy, the glory of independent operations. Those captains don't get Errakis-class postings. The ones who do understand something fundamental: in a carrier strike group, you're never alone. The datalink means you see what the group sees, and when you ripple-fire a full salvo, you're not just one destroyer—you're the fist of the entire formation.
-
-Is it the fastest ship in the fleet? No. The Rastaban and Altais have it beat. Is it the toughest? Not even close—look to the Juza for that. But what it is is reliable. It shows up, it does the job, and it keeps the carrier alive to launch another strike.
-
-The joke in the fleet is that Errakis crews have boring careers—they never get the flashy solo kills or the desperate last stands. They just sit in formation, launch missiles, and go home.
-
-Boring works. Boring wins wars. //
-
- - Captain Johanna Vex, XLII Battlegroup Operations",,,,,
+The crews hate her - maintenance is constant, and everyone knows one lucky hit means evacuation. But paired with Eltanin screens and Giausar PD support, the Kuma's firepower speaks for itself. Just don't let those shields drop.",,,,,
 XLII_shaowei,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
 Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
 
@@ -99,62 +103,16 @@ Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
 [BEGIN REPORT EXCERPT - DECLASS LV.6]
  Subject vessel displays anomalous spatial displacement activity inconsistent with standard Alliance doctrine. Records indicate a costly, extended development cycle. Internal memos reference “thermal cascade events” during reentry, with one source describing it as “an electric storm stretched across three dimensions.”
 Primary fleet rollout cancelled. Budgetary excess and field attrition rates unacceptable. Remaining prototypes: status UNKNOWN.
-[WARNING] Multiple attempts to track registry checksum failed — probable phase interference or deliberate masking.
+[WARNING] Multiple attempts to track registry checksum failed  -  probable phase interference or deliberate masking.
 Classification: Experimental / Suppressed
 [END EXCERPT]
 
 // WARNING: P-SPACE ECHOES DETECTED
  // VISUAL CONTACT ADVISED AGAINST
  // REPORT ALL SIGHTINGS TO ARCHIVAL CONTROL",,,,,
-XLII_giausar,SHIP,"// The Giausar-class destroyer was a sister project to the Rastaban, commissioned from the same military corporation under the ambitious ""Constellation"" initiative. While the Rastaban hunted targets at range, the Giausar was purpose-built as a dedicated Point Defence platform—the shield to its sister's sword.
-
-Designed from the keel up to screen larger fleet elements, the Giausar features a relatively advanced PD drone network managed by a sophisticated onboard nanoforge. The system can fabricate replacement drones mid-engagement, maintaining defensive coverage even during sustained combat operations. It's an elegant solution to the age-old problem of ammunition expenditure in extended fleet actions.
-
-In practice, the Giausar excels at what it was designed to do: sit in formation and swat down anything smaller than a frigate. Missile saturation strikes? Not on her watch. Fighter wings? Target practice for the drone swarm. The ship's networked defence grid integrates seamlessly with fleet battle management systems, making it a force multiplier in task group operations.
-
-The trade-offs, however, are substantial. To accommodate the drone bays and nanoforge infrastructure, the Giausar sacrificed offensive punch and independent operational capability. She's got minimal anti-ship armament—enough to ward off opportunistic raiders, but nothing that'll threaten a proper warship. Thick armour, sure, but slow to manoeuvre. Send her out alone and she's a liability. Embed her in a battle line, and she's worth her weight in fuel. //
-
-- Lieutenant Commander Harlow, 7th Destroyer Squadron",,,,,
-XLII_eltanin,SHIP,"// The Eltanin-class light cruiser. If the Alliance has a backbone, it's this ship.
-
-Built in the lead-up to the war when we still thought we could outmanoeuvre problems instead of having to glass them from orbit, the Eltanin was designed around a simple concept: fast, flexible, lethal. Hunter-killer doctrine, back when that meant something beyond ""throw missiles at it until it stops moving."" She's meant to lead hybrid operations—coordinate the destroyers, exploit gaps in enemy formations, single out stragglers, and punish anything smaller than herself.
-
-And she does it well. Too well, maybe. We've produced more Eltanins than any other cruiser in the system, and you'll find them everywhere—picket duty, patrol groups, carrier escorts, even solo reconnaissance runs when command gets creative with the risk assessments. Versatile doesn't begin to cover it.
-
-The speed's her greatest asset. She'll outpace most cruisers and keep pace with destroyer squadrons without breaking a sweat. Pair that with a respectable missile loadout and decent electronic warfare suite, and you've got a ship that can dictate engagement range against anything that isn't packing capital-grade engines. She punches down beautifully—destroyers and frigates don't stand a chance if they're caught isolated.
-
-But here's the thing: the Eltanin's a light cruiser. Emphasis on light. Get her into a slugging match with anything heavier and those thin plates start to matter. She's not built to trade blows with battlecruisers or hold the line against concentrated fire. Her role is exploitation, not attrition.
-
-Still, after a decade of service and more battle honours than I can count, the Eltanin's earned her reputation. Reliable. Adaptable. The kind of ship you're glad to have on your wing when things go sideways.
-
-Just don't expect miracles. She's a cruiser, not a battleship. //
-
- - Anonymous, Fleet Survey Compilation, Post-War Analysis Group",,,,,
-XLII_juza,SHIP,"// The Juza was supposed to be our answer to everything—speed, firepower, protection—all wrapped up in a cruiser hull that wouldn't bankrupt the fleet. Command wanted a ship that could hold the line and still chase down stragglers. What they got was a technical marvel that damn near killed its first crew.
-
-The problem wasn't the concept. The flux management system is genuinely brilliant—reroutes power faster than anything else in the fleet. Shields buckling under fire? Pull from the weapons. Need to punch through? Dump everything into the mass drivers and pray your armour holds. On paper, it was perfect. In practice, during initial trials, the system had a nasty habit of cycling too aggressively. Hull plating would superheat, capacitors would blow, and the power distribution network would strobe like a broken light fixture.
-
-We lost three months to reworks. Engineering stripped out half the automation, added redundancies, slowed the cycle time. It wasn't elegant, but it worked. Command, to their credit, didn't scrap the project—they'd already committed too much political capital, and the 42nd Defence Fleet needed hulls yesterday.
-
-The Juza that entered service is a compromise. She's not as nimble as the Eltanin, not as tough as a proper battlecruiser, but she's adaptable. In a fleet engagement, that flux system lets her shift roles on the fly—brawler one moment, fire support the next. Crews either love her or hate her. There's no middle ground when your ship can dump power so fast the deck lighting flickers. //
-
-- Senior Design Lead, Project Juza, Kori Naval Yards, Pre-Treaty Period",,,,,
-XLII_juni,SHIP,"// After the Juza nearly bankrupted three yards and killed a test crew, Acquisitions & Sustainment did what they do best—panicked and demanded a cheaper version. The Juni-class is what happens when accountants get involved in ship design. Strip out the flux management system. Gut the experimental armour array. Standardise the power grid. Make it boring.
-
-And you know what? It worked.
-
-The Juni doesn't have her older sister's party tricks, but she also doesn't strobe her lighting every time you fire the main battery. She's got conventional plating, a standard power distribution network, and components you can actually source without waiting six months for Kori to fabricate replacements. Maintenance crews love her. She's predictable. She's boring. She doesn't try to kill you.
-
-What's interesting—and this caught everyone off guard—is the energy weapon integration. We'd stripped so much mass out of the design that we had displacement to spare, and missile stocks were getting tight during the final push. Someone in Ordnance suggested we try captured beam mounts from a Tri-Tachyon wreck. Command approved it as a field trial, figuring if it didn't work, we'd just weld over the hardpoints.
-
-Turns out, energy weapons pair well with our doctrine. Most Draconis ships burn through missiles fast—strike hard, rearm, strike again. The Juni can sustain. Her beams won't alpha-strike a target into scrap, but they'll keep pressure on while the Rastabans reload, and they don't care about EWAR. No guidance to jam, no munitions to intercept. Just raw thermal output.
-
-She's not flashy. She won't win any awards. But the Juni does her job, stays in the fight, and doesn't bankrupt the repair budget. After the Juza's development hell, that's a goddamn miracle. //
-
-- Fleet Procurement Office, Post-War Assessment, Itoron Naval Command",,,,,
 XLII_asuia,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
 Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
-Alert: Vessel configuration anomaly detected — carrier profile with non-standard armament loadout.
+Alert: Vessel configuration anomaly detected  -  carrier profile with non-standard armament loadout.
 
 // FILE INTEGRITY: COMPROMISED
 // ACCESS LEVEL: RESTRICTED
@@ -162,19 +120,19 @@ Alert: Vessel configuration anomaly detected — carrier profile with non-standa
 
 [BEGIN REPORT EXCERPT - DECLASS LV.7]
 
-Subject: ""Asuia-class"" — designation unconfirmed.
+Subject: ""Asuia-class""  -  designation unconfirmed.
 
 Anomalous carrier variant displaying shield coherence patterns inconsistent with known Draconis Stellar Alliance manufacturing capabilities. Hull geometry bears [DATA EXPUNGED] % similarity to classified Tri-Tachyon prototype schematics.
 
 Intelligence Assessment: CRITICAL DISCREPANCY
-— Alliance maintains strict isolationist doctrine
-— No recorded tech exchange agreements with Tri-Tachyon Corp
-— Production volume suggests established manufacturing infrastructure
+ -  Alliance maintains strict isolationist doctrine
+ -  No recorded tech exchange agreements with Tri-Tachyon Corp
+ -  Production volume suggests established manufacturing infrastructure
 
 Query: How did they get the blueprints?
 Query: How are they producing so many?
 
-Field reports confirm exceptional escort performance metrics. Carrier complement remains active while providing direct fire support — tactically unprecedented for Alliance doctrine.
+Field reports confirm exceptional escort performance metrics. Carrier complement remains active while providing direct fire support  -  tactically unprecedented for Alliance doctrine.
 
 Recommendation: Immediate investigation into potential intelligence breach.
 
@@ -185,72 +143,6 @@ Recommendation: Immediate investigation into potential intelligence breach.
 // WARNING: CORPORATE ESPIONAGE SUSPECTED
 // INVESTIGATE ALL PERSONNEL WITH TT-CLEARANCE
 // ARCHIVE ACCESS RESTRICTED PENDING REVIEW",,,,,
-XLII_altais,SHIP,"// I've been in this navy long enough to know that when Acquisitions & Sustainment promises you something, you're getting half of it, twice the weight, and three years late. So when they told us the Altais-class would hit thirty-two percent above standard capital acceleration and mount a full missile grid without compromise, I laughed in their faces.
-
-Then the trials data came back.
-
-She's real. All of it. The Altais is the fastest capital ship we've ever fielded, bar none—acceleration curves that put some light cruisers to shame. Command wanted a ship that could reposition during an engagement, exploit gaps, hammer enemy formations before they could respond. What they got was a battlecruiser that fights like a heavyweight with a flyweight's footwork.
-
-The missile doctrine's perfect for it. Thirty-six Sabre launch cells, full EWAR integration, targeting solutions that make the Eltanins look archaic. You can dump enough ordnance to shred a battle line before they've locked solutions. Combined with that speed? It's a fleet killer.
-
-Here's the part Acquisitions left off the spec sheets: she's made of tissue paper and good intentions.
-
-I'm not exaggerating. The Altais sacrifices damn near everything for that speed and firepower. Armour's a joke—barely enough plating to stop debris. Shields are adequate at best. Take a sustained barrage from anything heavier than a destroyer, and you're counting hull breaches in the double digits. We lost the Vanguard in the Kori skirmishes because her captain got cocky, thought speed would save him. It didn't.
-
-You fly an Altais like you're piloting an Eltanin with delusions of grandeur. Hit hard, reposition, never let them pin you. The second you trade blows with a proper battleship, you're done. But if you use her right—stay mobile, strike from range, exploit that ungodly acceleration—nothing in the sector can catch you, and nothing you catch survives.
-
-It's a miracle they actually built what they promised.
-
-It's a nightmare if you forget what they didn't. //
-
-- Commander Torres, XLII Battlegroup Operations",,,,,
-XLII_alwaid,SHIP,"// They call her slow. They joke about the Alwaid arriving fashionably late to every engagement. I've heard the gallows humour from the destroyer crews—""safest posting in the fleet is carrier duty, the fight's over before you get there.""
-
-They're not wrong. But they don't understand why.
-
-When Command greenlit the Alwaid project three years into the rebuilding effort, we had two directives: maximum strike capacity and operational endurance. Nothing about speed. The 42nd had learned the hard way during the war that carriers don't hunt—they anchor. You build your battlespace around them, not the other way around.
-
-So we built her massive. Dual hangar complexes running the length of her spine, capable of cycling four full strike wings simultaneously. We integrated an electromagnetic launch system—salvaged Tri-Tach tech we reverse-engineered from a derelict we found drifting near Vorium. Took eight months just to get the capacitors stable. Command was breathing down our necks the whole time, threatening to scrap the project and go with conventional catapults.
-
-But the EMALS worked. Sort of. It cuts launch times by forty percent and requires half the deck crew of the old magnetic rails. The trade-off? The system draws so much power that we had to install a dedicated reactor just to keep it fed. That reactor, plus the armour belt Command insisted on after the Athebyne fiasco, plus the weapons grid—she ended up massing nearly twice what the initial projections called for.
-Hence the speed. Or lack thereof.
-
-The propulsion engineers did what they could. Triple redundant drive housings, oversized radiators, the works. She still moves like a station with delusions of mobility. But here's what the critics miss: the Alwaid doesn't need to be fast. Her strike craft are fast. Her escorts are fast. She sits in the centre of a fleet formation like a fortress and projects power across an entire battlespace.
-
-During the shakedown trials off Kori, we watched her coordinate a simultaneous strike across three different vectors while her point defence network swatted down everything the OPFOR threw at us. The Giausar-class destroyers screening her didn't fire a shot—the Alwaid's own defensive suite handled it. Command wanted a mobile firebase. That's exactly what they got.
-
-Sure, she's a nightmare to reposition. Takes nearly an hour to spin up her drives from cold. But once she's on station? You'd need a battlegroup to shift her.
-
-The Marines love her. Plenty of room for their gear, dedicated staging bays, even a full medical wing. The pilots complain about the EMALS—say the launch sequence feels ""wrong"" compared to the old rails. They'll get used to it. They always do.
-
-Would I have designed her differently if I'd known how the doctrine would shift toward fast-response strike groups? Maybe. But then I look at the footage from the Ring-Port interdiction last year—Alwaid sitting at the gravity well's edge, calmly launching wave after wave while her escorts danced through the debris field. The pirates never got within weapons range.
-
-She's not elegant. She's not quick. But she's exactly what we needed.
-
-They joke about her being late to the party. Fine. Let them joke. By the time she arrives, she is the party. //
-
-- Senior Naval Architect Kaida Okonkwo, Kori Naval Yards",,,,,
-XLII_kuma,SHIP,"// Vance,
-
-You asked for my honest take on the Kuma-class. Here it is: she's a nightmare wrapped in a compromise, held together by wishful thinking and Admiral Torres' stubbornness.
-
-Command greenlit this beast during the final months of the war—original brief was colony escort duty, deep space endurance, mobile command platform for the exodus fleets nobody wanted to talk about. The engineers built exactly what was asked: massive solar arrays, skeletal frame, enough reactor capacity to run a small station. What they didn't build was armour. Or redundant structural supports. Or anything resembling battlefield survivability.
-
-Initial trials nearly scrapped the entire project. First combat exercise, simulated frigate squadron breached the outer hull in under two minutes. The superstructure buckled. We lost power to three weapon sections. Torres nearly had an aneurysm.
-
-But here's the thing—someone in Acquisitions noticed the flux dissipation numbers. That oversized solar array and exposed frame? Perfect heat sink. All those weapon hardpoints meant for defensive turrets? Refit them with long-range mass drivers and missile batteries, and suddenly you've got something interesting.
-
-She's a glass cannon, no question. Paper-thin armour, fragile as hell, slow to manoeuvre. But keep the shields up, position her at standoff range, and the Kuma will turn anything without a capital-grade shield array into expanding debris. We're talking coordinated saturation strikes at ranges most battleships can't even target. Combined with our EWAR doctrine, she's devastating in fleet actions—provided someone else tanks the incoming fire.
-
-Current deployment has them paired with Eltanin-class screens and Giausar-class PD support. It works. Not elegant, but it works. The crews hate her—maintenance is constant, and everyone knows one lucky hit to the superstructure means evacuation. But the firepower numbers don't lie.
-Torres was right about one thing: keep those shields up. Because if they drop, you're not floating scrap in thirty seconds.
-You're vapour in fifteen.
-
-Recommend keeping Kuma-class deployments to fleet actions only. No solo patrols, no rapid response. She's an artillery platform, not a ship of the line. Treat her like one, and she'll do the job. Send her charging in like the Altais, and you'll be writing condolence letters.
-
-Your call. //
-
-- Captain Reeves, Capital Ship Division, DDA Fleet Command",,,,,
 XLII_sunsetter,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
 Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
 
@@ -271,7 +163,7 @@ DO NOT observe the vessel directly.
 DO NOT engage under any circumstance.
 DO NOT transmit this log.",,,,,
 XLII_aldibain,SHIP,"The Aldibain-class is a multirole, single-seat, heavy fighter designed to fill the many gaps in the Draconis fleet’s fighter wings; it serves double duty as a fast attack craft, escort and interceptor. It has had a troubled development as it was rushed into service at the start of the civil war but after its teething issues were ironed out, it has become a staple of the Draconis Navy and remains the face of the Alliance’s propaganda department.",,,,,
-XLII_tianyi,SHIP,"The Tianyi was born not from a need for speed or firepower, but silence—of the enemy’s sensors, comms, targeting arrays, and most importantly missile systems. Commissioned towards the end of the Fafnir civil war, it replaced its missile hardpoints with bulky electronic warfare pods, a dedicated EW suite and an advanced Spaceborne Warning and Control System. The result: a jamming platform disguised as a fighter, able to slice through hostile ECM fields and suppress capital-grade missile targeting systems mid-flight.",,,,,
+XLII_tianyi,SHIP,"The Tianyi was born not from a need for speed or firepower, but silence - of the enemy’s sensors, comms, targeting arrays, and most importantly missile systems. Commissioned towards the end of the Fafnir civil war, it replaced its missile hardpoints with bulky electronic warfare pods, a dedicated EW suite and an advanced Spaceborne Warning and Control System. The result: a jamming platform disguised as a fighter, able to slice through hostile ECM fields and suppress capital-grade missile targeting systems mid-flight.",,,,,
 XLII_eldsich,SHIP,"Originally a testbed for a now forgotten space plane program during peacetime, the Eldsich-class has become the primary space bomber for the Alliance, it’s not very versatile and lacks a lot of the capability of the other bombers in the sector, as most of its more advanced features had to be stripped to fit the nuclear armament it carries. However, just one nuclear bomb hitting an unshielded target is catastrophically effective, which to command, is all that matters.",,,,,
 XLII_nodus,SHIP,"The Nodus-class fighter-bomber is an advanced man-in-the-loop drone fighter. Its larger size results from an advanced onboard control system, synced to a pilot on its mothership, semi-predicting the linked pilot's orders with little to no delay.",,,,,
 XLII_rastaban_mrm,SHIP,The Excalibur is an advanced hunter-killer drone. Meant as a way to keep the Rastaban-class Destroyer as light as possible by removing some of the internally mounted missiles from the ship.,,,,,
@@ -301,22 +193,22 @@ XLII_temporalshell,SHIP_SYSTEM,"Manipulates the ship’s time flow to significan
 XLII_temporaldash,SHIP_SYSTEM,"Manipulates the ship’s time flow to significantly enhance combat performance. Activation briefly freezes time. Upon deactivation, time reverts, restoring the ship to its standard operational state.",Movement,"Temporally distorts the ship’s time flow to boost fire rate, flux management, and maneuverability while generating shifting, vivid afterimages.",,Time slows to a halt on board the ship.,
 XLII_drone_assault,SHIP_SYSTEM,Deploys a squadron of autonomous point-defense drones that maintain formation around the host vessel.,Special,,,,
 XLII_rastaban_missile,WEAPON,"An advanced, semi-autonomous loitering munition that patrols a wide area around its host ship before diving onto targets with surgical precision. Designed for long-duration presence and opportunistic strikes, it excels in chaotic battlespaces. Its range and fuel load make it an incredibly persistent weapon once launched.",,,,,
-XLII_durendal,WEAPON,"""Sir? It's whispering again...""",- Sgt. Grayson Lyons — 15th Fleet,,,,
-XLII_durendal_mkii,WEAPON,"""Command says it's a precision weapon. But I’ve seen what happens when the firing vector drifts two degrees mid-charge—it peeled an entire station habitat off its ring. That's not precision. That’s God pointing a finger.""",- Capt. Adrien Vale — Task Group Elbrus,,,,
-XLII_fragarch,WEAPON,"""Engineering keeps screaming about thermal overloads every time we fire this thing. Half the ship goes dark for three seconds while the capacitors recharge. But when you watch that tungsten rod turn a destroyer's bow section into molten slag... Worth every blown fuse.""",- Chief Gunner Rodriguez — 8th Fleet,,,,
-XLII_swordbreaker,WEAPON,"""It makes the CTTs wince whenever we need to unload a salvo. But once you've seen a Reaper torpedo full burn towards you, get intercepted, you quickly forgive the radar saturation.""",- Capt. John Mays — 27th Fleet,,,,
-XLII_estocflak,WEAPON,"""After the war. We've had countless new adversaries emerge, and they've given us more and more reason to arm every ship with twenty of these. Cover their battlespace in flak, pick through the scrap after.""",- Capt. John Mays — 27th Fleet,,,,
-XLII_razorflak,WEAPON,"""They say it's the last line of defence. That’s true enough—by the time it speaks, everything else has failed. I’ve stood under that chatter though, watched it stitch the dark full of tracers. It doesn’t guarantee survival. But it does promise you won’t go quiet.""",- Capt. Adrien Vale — Task Group Elbrus,,,,
-XLII_rapier,WEAPON,"""The original design goals intended this to be a ground-based assault gun, but the ole Department of Acquisitions & Sustainment instead got this thing; too big, too complex and too expensive. So they gave it to us instead - And what a gift it was.""",- Capt. John Mays — 27th Fleet,,,,
+XLII_durendal,WEAPON,"""Sir? It's whispering again...""",- Sgt. Grayson Lyons  -  15th Fleet,,,,
+XLII_durendal_mkii,WEAPON,"""Command says it's a precision weapon. But I’ve seen what happens when the firing vector drifts two degrees mid-charge - it peeled an entire station habitat off its ring. That's not precision. That’s God pointing a finger.""",- Capt. Adrien Vale  -  Task Group Elbrus,,,,
+XLII_fragarch,WEAPON,"""Engineering keeps screaming about thermal overloads every time we fire this thing. Half the ship goes dark for three seconds while the capacitors recharge. But when you watch that tungsten rod turn a destroyer's bow section into molten slag... Worth every blown fuse.""",- Chief Gunner Rodriguez  -  8th Fleet,,,,
+XLII_swordbreaker,WEAPON,"""It makes the CTTs wince whenever we need to unload a salvo. But once you've seen a Reaper torpedo full burn towards you, get intercepted, you quickly forgive the radar saturation.""",- Capt. John Mays  -  27th Fleet,,,,
+XLII_estocflak,WEAPON,"""After the war. We've had countless new adversaries emerge, and they've given us more and more reason to arm every ship with twenty of these. Cover their battlespace in flak, pick through the scrap after.""",- Capt. John Mays  -  27th Fleet,,,,
+XLII_razorflak,WEAPON,"""They say it's the last line of defence. That’s true enough - by the time it speaks, everything else has failed. I’ve stood under that chatter though, watched it stitch the dark full of tracers. It doesn’t guarantee survival. But it does promise you won’t go quiet.""",- Capt. Adrien Vale  -  Task Group Elbrus,,,,
+XLII_rapier,WEAPON,"""The original design goals intended this to be a ground-based assault gun, but the ole Department of Acquisitions & Sustainment instead got this thing; too big, too complex and too expensive. So they gave it to us instead - And what a gift it was.""",- Capt. John Mays  -  27th Fleet,,,,
 XLII_particlelance,WEAPON,"""Initial reports of a new LASER-based weapon in use by the militia in star system 42-D-b have proven to be false. Testing of an example obtained by intelligence has shown it works on a principle more similar to a particle collider. A stream of heavy particles is accelerated in a series of rings to a high fraction of C before being released towards a target. Energy usage is very high, however effect on unshielded targets is promising. Acquired documentation indicates an internal designation of AN/SEQ-7. Recommend further research into the operating principles of the weapon system for independent development.""",- Tri-Tachyon R&D scientist tasked to Project Drakonis,,,,
-XLII_twinspear,WEAPON,"""We jury-rigged two atomic artillery pieces together to make this. Y'know they were only meant for atmospheric use? But command needed a miracle and nothing says divine intervention like a hundred-kiloton explosion.""",- Capt. John Mays — 27th Fleet,,,,
-XLII_halberd,WEAPON,"""We call it the 'Sword of Bureaucracy.' Why? Because it's slow, it's heavy, and it takes three forms to authorize a launch. But by God, when that nuke arcs in and kisses a cruiser mid-burn... It's worth it.""",- Capt. John Mays — 27th Fleet,,,,
-XLII_halberd_pod,WEAPON,"""We call it the 'Sword of Bureaucracy.' Why? Because it's slow, it's heavy, and it takes three forms to authorize a launch. But by God, when that nuke arcs in and kisses a cruiser mid-burn... It's worth it.""",- Capt. John Mays — 27th Fleet,,,,
-XLII_halberd_fighter,WEAPON,"A relic of a desperate war, this strategic warhead delivers city-cracking yields via an unstable fusion core. Slow, unwieldy, and rare—but when it hits, entire ships vanish in the fireball. Only the mad or the cornered dare load one.",,,,,
+XLII_twinspear,WEAPON,"""We jury-rigged two atomic artillery pieces together to make this. Y'know they were only meant for atmospheric use? But command needed a miracle and nothing says divine intervention like a hundred-kiloton explosion.""",- Capt. John Mays  -  27th Fleet,,,,
+XLII_halberd,WEAPON,"""We call it the 'Sword of Bureaucracy.' Why? Because it's slow, it's heavy, and it takes three forms to authorize a launch. But by God, when that nuke arcs in and kisses a cruiser mid-burn... It's worth it.""",- Capt. John Mays  -  27th Fleet,,,,
+XLII_halberd_pod,WEAPON,"""We call it the 'Sword of Bureaucracy.' Why? Because it's slow, it's heavy, and it takes three forms to authorize a launch. But by God, when that nuke arcs in and kisses a cruiser mid-burn... It's worth it.""",- Capt. John Mays  -  27th Fleet,,,,
+XLII_halberd_fighter,WEAPON,"A relic of a desperate war, this strategic warhead delivers city-cracking yields via an unstable fusion core. Slow, unwieldy, and rare - but when it hits, entire ships vanish in the fireball. Only the mad or the cornered dare load one.",,,,,
 XLII_arquebus,WEAPON,"The Arquebus is a compact, guided missile featuring a conventional warhead, with most of its space allocated to advanced guidance systems and a powerful engine.",,,,,
-XLII_falchion,WEAPON,"An archaic-style guided missile—slow and imprecise, yet capable of delivering a powerful payload. This missile features a large, novel penetrator warhead that provides significant kinetic potential.",,,,,
-XLII_bardiche,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
-XLII_bardiche_single,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
-XLII_bardiche_built-in,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore—they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+XLII_falchion,WEAPON,"An archaic-style guided missile - slow and imprecise, yet capable of delivering a powerful payload. This missile features a large, novel penetrator warhead that provides significant kinetic potential.",,,,,
+XLII_bardiche,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore - they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+XLII_bardiche_single,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore - they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
+XLII_bardiche_built-in,WEAPON,"""Five came at once. I watched them curve around the prow, almost lazy in their approach. They weren’t fast anymore - they didn’t have to be. Our armour had already given way. The first three gutted the CIC. The rest... I don’t know. I woke up in a lifeboat, and the ship was gone.""","- Excerpt from psych eval, Crewman First Class R. Tennant",,,,
 XLII_mangonel,WEAPON,"""Captured FDR logs indicate HEGINT operatives within force recon suffered severe damage from an unknown weapon while investigating militia technology in star system 42-D-b. An example was obtained following the failed espionage efforts. The delivery mechanism is a rocket with several submunitions, each containing a chamber of plasma gas encased in a high-efficiency piezoelectric shell that superheats gas upon impact, in effect evading the challenges of plasma weapons by eliminating the need for external stabilisation at the cost of terminal effectiveness. Conclusion: Technology is a dead end. No further research is required.""","- Tri-Tachyon R&D report on the MGM-15 ""Mangonel""",,,,
-XLII_javelin,WEAPON,"""Archaic, outdated and obsolete. But tossing tungsten rods is one of humanity's greatest creations. And talk about cost-effectiveness!""",- Capt. John Mays — 27th Fleet,,,,
+XLII_javelin,WEAPON,"""Archaic, outdated and obsolete. But tossing tungsten rods is one of humanity's greatest creations. And talk about cost-effectiveness!""",- Capt. John Mays  -  27th Fleet,,,,

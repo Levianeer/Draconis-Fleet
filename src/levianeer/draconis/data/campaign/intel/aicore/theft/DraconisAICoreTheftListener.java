@@ -29,7 +29,7 @@ public class DraconisAICoreTheftListener {
             return;
         }
 
-        // BULLETPROOF PROTECTION: Check if we already stole from this market today
+        // Check if we already stole from this market today
         long currentDay = Global.getSector().getClock().getDay();
         String lastTheftKey = "$draconis_lastTheftDay";
         long lastTheftDay = raidedMarket.getMemoryWithoutUpdate().getLong(lastTheftKey);

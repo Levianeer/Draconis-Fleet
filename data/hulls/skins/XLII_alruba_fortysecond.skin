@@ -1,11 +1,12 @@
 {
-	"baseHullId":"XLII_juza",
-	"skinHullId":"XLII_juza_FSDF",
-	"hullName":"Juza (XLII)",
+	"baseHullId":"XLII_alruba",
+	"skinHullId":"XLII_alruba_fortysecond",
+	"hullName":"Alruba (XLII)",
 	"descriptionPrefix":"Custom to the Itoron's XLII Defence Fleet, this ship has undergone extensive modifications, specifically the installation of radar-absorbing materials and an advanced radar suite tailored to the 42nd's specifications. This is a vessel rarely seen outside of Fafnir.",
-	"tags":["XLII_FSDF_package_bp","no_dealer","codex_unlockable"],
+	"tags":["XLII_fortysecond_bp","no_dealer","codex_unlockable"],
 	"tech":"XLII Battlegroup",
-	"spriteName":"graphics/ships/XLII_juza_FSDF.png",
+	"fpMod":1,
+	"spriteName":"graphics/ships/XLII_alruba_fortysecond.png",
 	"builtInMods":["XLII_fortysecond"],
 	"baseValueMult":2.0,
 }

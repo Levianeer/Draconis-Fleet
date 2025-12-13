@@ -8,7 +8,7 @@
 		],
 		"music_XLII_draconis_friendly":[
 			{"file":"music_XLII_draconis_friendly.ogg","source":"sounds/music","volume":0.2}
-		],
+		]
 	},
 
     "XLII_particlelance_fire":{
@@ -16,13 +16,13 @@
 		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_01.ogg","pitch":0.45,"volume":0.5},
 		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_02.ogg","pitch":0.55,"volume":0.5},
 		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_03.ogg","pitch":0.5,"volume":0.5}
-		],
+		]
 	},
 
 	"XLII_longsword_charge":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_energy/XLII_longsword_charge.ogg","pitch":1.0,"volume":0.3}
-		],
+		]
     },
 
 	"XLII_longsword_fire":{
@@ -30,25 +30,25 @@
 		{"file":"sounds/sfx_wpn_energy/XLII_longsword_fire_01.ogg","pitch":1.0,"volume":0.3},
 		{"file":"sounds/sfx_wpn_energy/XLII_longsword_fire_02.ogg","pitch":1.0,"volume":0.3},
 		{"file":"sounds/sfx_wpn_energy/XLII_longsword_fire_03.ogg","pitch":1.0,"volume":0.3}
-		],
+		]
     },
 
 	"XLII_rapier_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_guns/XLII_rapier_fire.ogg","pitch":1.0,"volume":0.25}
-		],
+		]
     },
 
 	"XLII_durendal_charge":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_guns/XLII_durendal_charge.ogg","pitch":1.0,"volume":0.75}
-		],
+		]
     },
 
 	"XLII_durendal_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_guns/XLII_durendal_fire.ogg","pitch":1.0,"volume":1.75}
-		],
+		]
     },
 
 	"XLII_durendal_mkii_fire":{
@@ -56,19 +56,19 @@
 		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.5},
 		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.5},
 		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.5}
-		],
+		]
     },
 
 	"XLII_javelin_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_missiles/XLII_javelin_fire.ogg","pitch":1.0,"volume":0.65}
-		],
+		]
     },
 
 	"XLII_halberd_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_missiles/XLII_halberd_fire.ogg","pitch":1.0,"volume":0.55}
-		],
+		]
     },
 
 	"XLII_halberd_explosion":{
@@ -78,7 +78,7 @@
 		{"file":"sounds/sfx_wpn_missiles/XLII_halberd_explosion_03.ogg","pitch":1.0,"volume":0.65},
 		{"file":"sounds/sfx_wpn_missiles/XLII_halberd_explosion_04.ogg","pitch":1.0,"volume":0.65},
 		{"file":"sounds/sfx_wpn_missiles/XLII_halberd_explosion_05.ogg","pitch":1.0,"volume":0.65}
-		],
+		]
     },
 
 	"XLII_razorflak_fire":{
@@ -86,7 +86,7 @@
 		{"file":"sounds/sfx_wpn_guns/XLII_razorflak_fire_01.ogg","pitch":1.0,"volume":0.15},
 		{"file":"sounds/sfx_wpn_guns/XLII_razorflak_fire_02.ogg","pitch":1.0,"volume":0.15},
 		{"file":"sounds/sfx_wpn_guns/XLII_razorflak_fire_03.ogg","pitch":1.0,"volume":0.15}
-		],
+		]
     },
 
 	"XLII_estocflak_fire":{
@@ -96,42 +96,42 @@
 		{"file":"sounds/sfx_wpn_guns/XLII_estocflak_fire_03.ogg","pitch":1.0,"volume":0.15},
 		{"file":"sounds/sfx_wpn_guns/XLII_estocflak_fire_04.ogg","pitch":1.0,"volume":0.15},
 		{"file":"sounds/sfx_wpn_guns/XLII_estocflak_fire_05.ogg","pitch":1.0,"volume":0.15}
-		],
+		]
     },
 
 	"XLII_explosion_flak":{
 		"sounds":[
-			{"file":"sounds/sfx_impacts/explosion_missile_01.ogg","pitch":0.75,"volume":0.125},
-		],
+			{"file":"sounds/sfx_impacts/explosion_missile_01.ogg","pitch":0.75,"volume":0.125}
+		]
 	},
 
 	"XLII_mangonel_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_mangonel_fire.ogg","pitch":1.0,"volume":0.65},
-		],
+		{"file":"sounds/sfx_wpn_guns/XLII_mangonel_fire.ogg","pitch":1.0,"volume":0.65}
+		]
     },
 
 	"XLII_bardiche_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_missiles/XLII_bardiche_fire.ogg","pitch":1.0,"volume":0.7},
-		],
+		{"file":"sounds/sfx_wpn_missiles/XLII_bardiche_fire.ogg","pitch":1.0,"volume":0.7}
+		]
     },
 
 	"XLII_swordbreaker_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_missiles/XLII_swordbreaker_fire.ogg","pitch":1.0,"volume":0.3},
-		],
+		{"file":"sounds/sfx_wpn_missiles/XLII_swordbreaker_fire.ogg","pitch":1.0,"volume":0.3}
+		]
     },
 
 	"XLII_system_ecm_suite_activate":{
 		"sounds":[
-		{"file":"sounds/sfx_systems/XLII_ecm_suite_activate.ogg","pitch":1.0,"volume":0.65},
-		],
+		{"file":"sounds/sfx_systems/XLII_ecm_suite_activate.ogg","pitch":1.0,"volume":0.65}
+		]
     },
 
 	"XLII_chaff_activate":{
 		"sounds":[
-		{"file":"sounds/sfx_systems/XLII_chaff_activate.ogg","pitch":1.0,"volume":0.1},
-		],
+		{"file":"sounds/sfx_systems/XLII_chaff_activate.ogg","pitch":1.0,"volume":0.1}
+		]
     }
 }

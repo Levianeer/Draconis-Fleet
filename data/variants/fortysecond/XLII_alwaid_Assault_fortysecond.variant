@@ -1,31 +1,30 @@
 {
-    "displayName": "Support",
-    "fluxCapacitors": 0,
-    "fluxVents": 40,
-    "goalVariant": false,
-    "hullId": "XLII_alwaid_FSDF",
+    "displayName": "Assault",
+    "fluxCapacitors": 7,
+    "fluxVents": 50,
+    "hullId": "XLII_alwaid_fortysecond",
     "hullMods": [
-        "targetingunit",
-        "missleracks"
+        "eccm",
+        "targetingunit"
     ],
     "permaMods": [],
     "sMods": [],
-    "variantId": "XLII_alwaid_Support_FSDF",
+    "variantId": "XLII_alwaid_Assault_fortysecond",
     "weaponGroups": [
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0013": "hydra",
-                "WS0014": "hydra"
+                "WS0013": "squall",
+                "WS0014": "squall"
             }
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0011": "breachpod",
-                "WS0012": "breachpod"
+                "WS0011": "XLII_bardiche",
+                "WS0012": "XLII_bardiche"
             }
         },
         {
@@ -37,49 +36,43 @@
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0025": "XLII_mangonel",
-                "WS0026": "XLII_twinspear"
+                "WS0005": "XLII_bardiche",
+                "WS0006": "XLII_bardiche"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0025": "XLII_fragarch",
+                "WS0026": "XLII_fragarch"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "hveldriver",
-                "WS0006": "hveldriver"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "vulcan",
-                "WS0002": "vulcan",
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
                 "WS0007": "XLII_estocflak",
                 "WS0008": "XLII_estocflak",
+                "WS0009": "vulcan",
+                "WS0010": "vulcan",
                 "WS0027": "XLII_razorflak",
+                "WS0028": "XLII_estocflak",
                 "WS0029": "XLII_estocflak",
                 "WS0030": "vulcan",
                 "WS0031": "XLII_razorflak"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0009": "XLII_swordbreaker",
-                "WS0010": "XLII_swordbreaker",
-                "WS0028": "XLII_swordbreaker"
-            }
         }
     ],
     "wings": [
-        "XLII_tianyi_wing",
-        "XLII_tianyi_wing",
         "XLII_aldibain_wing",
-        "XLII_aldibain_wing"
+        "XLII_nodus_wing",
+        "XLII_nodus_wing",
+        "XLII_nodus_wing"
     ]
 }

@@ -1,13 +1,12 @@
 {
-    "displayName": "Elite",
+    "displayName": "Assault",
     "fluxCapacitors": 1,
     "fluxVents": 10,
-    "goalVariant": false,
-    "hullId": "XLII_alruba_FSDF",
+    "hullId": "XLII_alruba_fortysecond",
     "hullMods": [],
     "permaMods": [],
     "sMods": [],
-    "variantId": "XLII_alruba_Elite_FSDF",
+    "variantId": "XLII_alruba_Assault_fortysecond",
     "weaponGroups": [
         {
             "autofire": false,
@@ -21,16 +20,16 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0004": "XLII_bardiche_single",
-                "WS0005": "XLII_bardiche_single"
+                "WS0015": "lightag",
+                "WS0016": "lightag"
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0015": "lightag",
-                "WS0016": "lightag"
+                "WS0004": "XLII_estocflak",
+                "WS0005": "XLII_estocflak"
             }
         }
     ]

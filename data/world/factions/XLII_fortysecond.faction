@@ -54,62 +54,46 @@
 	},
 	
 	"knownShips":{
-		"tags":[],
+		"tags":["XLII_fortysecond_bp"],
 		"hulls":[
-			"XLII_alruba_FSDF",
-			"XLII_shaobi_FSDF",
-			"XLII_errakis_FSDF",
-			"XLII_juza_FSDF",
-			"XLII_alwaid_FSDF",
-			"hermes",
-			"dram",
-			"mercury",
-			"crig"
+			"XLII_alsafi"
 		],
 	},
 	
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":[],
+		"tags":["XLII_fortysecond_bp"],
 		"hulls":[
-			"XLII_alruba_FSDF",
-			"XLII_shaobi_FSDF",
-			"XLII_errakis_FSDF",
-			"XLII_juza_FSDF",
-			"XLII_alwaid_FSDF",
-			"hermes",
-			"dram",
-			"mercury",
-			"crig"
+			"XLII_alsafi"
 		],
 	},
 	
 	"knownFighters":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_fighter_bp"],
 		"fighters":[
 		],
 	},
 	
 	"priorityFighters":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_fighter_bp"],
 		"fighters":[
 		],
 	},
 	
 	"knownWeapons":{
-		"tags":["missile_bp"],
+		"tags":["missile_bp", "XLII_weapon_bp"],
 		"weapons":[
 		],
 	},
 	
 	"priorityWeapons":{
-		"tags":["XLII_package_bp"],
+		"tags":["XLII_weapon_bp"],
 		"weapons":[
 		],
 	},
 	
 	"knownHullMods":{
-		"tags":["standard", "XLII_package_bp"],
+		"tags":["standard"],
 		"hullMods":[
 		],
 	},

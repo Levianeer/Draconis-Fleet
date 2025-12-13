@@ -107,7 +107,7 @@ public class XLII_RetreatDrive extends BaseHullMod {
             ship.setRetreating(false, false);
 
             // Visual and audio feedback
-            ship.getFluxTracker().showOverloadFloatyIfNeeded("Calculating Jump...", WARP_COLOR, 4f, true);
+            ship.getFluxTracker().showOverloadFloatyIfNeeded("Calculating drive...", WARP_COLOR, 4f, true);
             chargingSound = Global.getSoundPlayer().playSound(CHARGE_WARP_ID, 1f, 1f, ship.getLocation(), ship.getVelocity());
         }
 
@@ -193,7 +193,7 @@ public class XLII_RetreatDrive extends BaseHullMod {
             playWarpSounds();
             spawnWarpFlash();
             spawnWarpLightningStorm();
-            ship.getFluxTracker().showOverloadFloatyIfNeeded("Jump!", WHITE, 2f, true);
+            ship.getFluxTracker().showOverloadFloatyIfNeeded("Emergency jump!", WHITE, 2f, true);
         }
 
         private void playWarpSounds() {

@@ -7,6 +7,7 @@ import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,9 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * Simulates successful engagements without needing to track individual battles
  */
 public class DraconisRemnantRaidListener implements EveryFrameScript {
+    private static final Logger log = Global.getLogger(DraconisRemnantRaidListener.class);
 
-    private static final float CHECK_INTERVAL = 7f; // Check every 7 days for core recovery
+    private static final float CHECK_INTERVAL = 14f; // Check every 14 days for core recovery
     private float checkTimer = 0f;
 
     @Override
@@ -90,11 +92,11 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
      * Process core recovery for a raid fleet in a Remnant system
      */
     private void processRaidFleetCoreRecovery(CampaignFleetAPI fleet, StarSystemAPI system) {
-        Global.getLogger(this.getClass()).info("========================================");
-        Global.getLogger(this.getClass()).info("=== DRACONIS REMNANT RAID - CORE RECOVERY ===");
-        Global.getLogger(this.getClass()).info("Fleet: " + fleet.getName());
-        Global.getLogger(this.getClass()).info("System: " + system.getName());
-        Global.getLogger(this.getClass()).info("Fleet strength: " + (int)fleet.getFleetPoints() + " FP");
+        log.info("Draconis: ========================================");
+        log.info("Draconis: === DRACONIS REMNANT RAID - CORE RECOVERY ===");
+        log.info("Draconis: Fleet: " + fleet.getName());
+        log.info("Draconis: System: " + system.getName());
+        log.info("Draconis: Fleet strength: " + fleet.getFleetPoints() + " FP");
 
         // Mark recovery time
         long currentDay = Global.getSector().getClock().getDay();
@@ -103,17 +105,14 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         // Generate cores based on fleet strength (represents successful battles over time)
         List<String> recoveredCores = generateCoresFromRaid(fleet);
 
-        Global.getLogger(this.getClass()).info("Cores recovered: " + recoveredCores.size());
-        for (String core : recoveredCores) {
-            Global.getLogger(this.getClass()).info("  - " + core);
-        }
+        log.info("Draconis: Cores recovered: " + recoveredCores.size());
 
         if (!recoveredCores.isEmpty()) {
             installRecoveredCores(recoveredCores);
 
             // Mark system as raided
             DraconisRemnantTargetScanner.markSystemAsRaided(system);
-            Global.getLogger(this.getClass()).info("Marked " + system.getName() + " as raided");
+            log.info("Draconis: Marked " + system.getName() + " as raided");
         }
 
         // Notify player if appropriate
@@ -128,7 +127,7 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
             );
         }
 
-        Global.getLogger(this.getClass()).info("========================================");
+        log.info("Draconis: ========================================");
     }
 
     /**
@@ -138,12 +137,11 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
     private List<String> generateCoresFromRaid(CampaignFleetAPI fleet) {
         List<String> cores = new ArrayList<>();
 
-        int fleetStrength = (int) fleet.getFleetPoints();
+        int fleetStrength = fleet.getFleetPoints();
 
         // Alpha cores: rare, only from strong fleets
         if (fleetStrength > 150 && Math.random() < 0.25) {
             cores.add(Commodities.ALPHA_CORE);
-            Global.getLogger(this.getClass()).info("Generated Alpha Core (strong fleet)");
         }
 
         // Beta cores: uncommon
@@ -151,7 +149,6 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         for (int i = 0; i < betaRolls; i++) {
             if (Math.random() < 0.3) {
                 cores.add(Commodities.BETA_CORE);
-                Global.getLogger(this.getClass()).info("Generated Beta Core");
             }
         }
 
@@ -160,14 +157,12 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         for (int i = 0; i < gammaRolls; i++) {
             if (Math.random() < 0.45) {
                 cores.add(Commodities.GAMMA_CORE);
-                Global.getLogger(this.getClass()).info("Generated Gamma Core");
             }
         }
 
         // Minimum guarantee: at least 1 gamma core
         if (cores.isEmpty()) {
             cores.add(Commodities.GAMMA_CORE);
-            Global.getLogger(this.getClass()).info("Generated minimum Gamma Core");
         }
 
         return cores;
@@ -213,14 +208,14 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
             }
         }
 
-        Global.getLogger(this.getClass()).info(
-            "Found " + availableIndustries.size() + " empty industries and " +
+        log.info(
+            "Draconis: Found " + availableIndustries.size() + " empty industries and " +
             upgradeableIndustries.size() + " upgradeable industries"
         );
 
         if (availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            Global.getLogger(this.getClass()).warn(
-                "No available industries for recovered cores!"
+            log.warn(
+                "Draconis: No available industries for recovered cores!"
             );
             return;
         }
@@ -241,8 +236,8 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
                 String displacedCore = null;
                 if (target.getAICoreId() != null && !target.getAICoreId().isEmpty()) {
                     displacedCore = target.getAICoreId();
-                    Global.getLogger(this.getClass()).info(
-                        "Displacing " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
+                    log.info(
+                        "Draconis: Displacing " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
                         " from " + target.getCurrentName() + " with better " +
                         DraconisAICorePriorityManager.getCoreDisplayName(coreId)
                     );
@@ -256,24 +251,19 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
 
                 installed++;
 
-                Global.getLogger(this.getClass()).info(
-                    "Installed " + coreId + " on " + target.getCurrentName() +
-                    " at " + target.getMarket().getName()
-                );
-
                 // If we displaced a core, add it back to the queue for redistribution
                 if (displacedCore != null) {
                     sortedCores.add(displacedCore);
-                    Global.getLogger(this.getClass()).info(
-                        "Re-queuing displaced " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
+                    log.info(
+                        "Draconis: Re-queuing displaced " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
                         " for installation elsewhere"
                     );
                 }
             }
         }
 
-        Global.getLogger(this.getClass()).info(
-            "Installed " + installed + " of " + cores.size() + " recovered cores"
+        log.info(
+            "Draconis: Installed " + installed + " of " + cores.size() + " recovered cores"
         );
     }
 

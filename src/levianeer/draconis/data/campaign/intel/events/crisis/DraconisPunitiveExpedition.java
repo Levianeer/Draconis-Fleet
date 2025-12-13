@@ -10,11 +10,13 @@ import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithTriggers;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.intel.aicore.theft.DraconisAICoreTheftListener;
+import org.apache.log4j.Logger;
 
 import java.awt.*;
 import java.util.List;
 
 public class DraconisPunitiveExpedition extends GenericRaidFGI {
+    private static final Logger log = Global.getLogger(DraconisPunitiveExpedition.class);
 
     private boolean theftProcessed = false;
 
@@ -22,14 +24,14 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
         super(params);
 
         if (params != null && params.raidParams != null && params.raidParams.allowedTargets != null) {
-            Global.getLogger(this.getClass()).info(
-                    "Draconis expedition created targeting " + params.raidParams.allowedTargets.size() + " markets"
+            log.info(
+                    "Draconis: Draconis expedition created targeting " + params.raidParams.allowedTargets.size() + " markets"
             );
 
             // Log each target for debugging
             for (MarketAPI target : params.raidParams.allowedTargets) {
-                Global.getLogger(this.getClass()).info(
-                        "  Target: " + target.getName() + " (" + target.getFactionId() + ")"
+                log.info(
+                        "Draconis:   Target: " + target.getName() + " (" + target.getFactionId() + ")"
                 );
             }
         }
@@ -49,26 +51,10 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
     public void advance(float amount) {
         super.advance(amount);
 
-        // Keep Go Dark active for entire duration (stealth raid - never reveal)
-        // Transponders stay off, Go Dark stays on throughout preparation, transit, and attack
-        for (CampaignFleetAPI fleet : getFleets()) {
-            // Ensure transponders stay off
-            if (fleet.isTransponderOn()) {
-                fleet.setTransponderOn(false);
-            }
-
-            // Keep Go Dark active at all times
-            if (fleet.getAbility(Abilities.GO_DARK) != null &&
-                !fleet.getAbility(Abilities.GO_DARK).isActive()) {
-                fleet.getAbility(Abilities.GO_DARK).activate();
-                Global.getLogger(this.getClass()).info("Re-activated Go Dark on expedition fleet: " + fleet.getName());
-            }
-        }
-
         // Process AI core theft when raid succeeds
         if (isSucceeded() && !theftProcessed) {
-            Global.getLogger(this.getClass()).info(
-                    "Expedition succeeded - initiating AI core theft"
+            log.info(
+                    "Draconis: Expedition succeeded - initiating AI core theft"
             );
 
             handleRaidSuccess();
@@ -77,8 +63,8 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
         // Grant bonus if raid failed (player defeated it)
         if (isFailed() && !theftProcessed) {
-            Global.getLogger(this.getClass()).info(
-                    "Expedition defeated by player - granting bonus"
+            log.info(
+                    "Draconis: Expedition defeated by player - granting bonus"
             );
 
             if (!DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
@@ -98,36 +84,36 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
     private void handleRaidSuccess() {
         if (params == null) {
-            Global.getLogger(this.getClass()).error("Params is null!");
+            log.error("Draconis: Params is null!");
             return;
         }
 
         if (params.raidParams == null) {
-            Global.getLogger(this.getClass()).error("RaidParams is null!");
+            log.error("Draconis: RaidParams is null!");
             return;
         }
 
         List<MarketAPI> targets = params.raidParams.allowedTargets;
 
         if (targets == null || targets.isEmpty()) {
-            Global.getLogger(this.getClass()).error("No raid targets found!");
+            log.error("Draconis: No raid targets found!");
             return;
         }
 
-        Global.getLogger(this.getClass()).info(
-                "Processing " + targets.size() + " raid targets for AI core theft"
+        log.info(
+                "Draconis: Processing " + targets.size() + " raid targets for AI core theft"
         );
 
         for (MarketAPI target : targets) {
             if (target == null) {
-                Global.getLogger(this.getClass()).warn("Null target in list, skipping");
+                log.warn("Draconis: Null target in list, skipping");
                 continue;
             }
 
             boolean isPlayerTarget = target.isPlayerOwned();
 
-            Global.getLogger(this.getClass()).info(
-                    "Stealing AI cores from " + target.getName() +
+            log.info(
+                    "Draconis: Stealing AI cores from " + target.getName() +
                             " (Player owned: " + isPlayerTarget + ")"
             );
 
@@ -164,37 +150,24 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
         // All expedition fleets are elite quality with SMOD_3
         m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
 
-        Global.getLogger(this.getClass()).info("Set SMOD_3 quality for expedition fleet (size: " + size + ")");
+        log.info("Draconis: Set SMOD_3 quality for expedition fleet (size: " + size + ")");
     }
 
     /**
-     * Configure spawned fleet to ensure transponders remain off and Go Dark is active
-     * Sets smuggler flag so Go Dark AI keeps the ability active during transit
+     * Configure spawned fleet
+     * Adds marines for ground raid capability
      */
     @Override
     protected void configureFleet(int size, CampaignFleetAPI fleet) {
         super.configureFleet(size, fleet);
 
-        // Ensure transponders are off and Go Dark is active for stealth approach
         if (fleet != null) {
-            fleet.setTransponderOn(false);
-
-            // Mark as smuggler so Go Dark AI keeps ability active when near hostile markets
-            fleet.getMemoryWithoutUpdate().set(com.fs.starfarer.api.impl.campaign.ids.MemFlags.MEMORY_KEY_SMUGGLER, true);
-
-            // Add Go Dark ability if not present
-            if (fleet.getAbility(Abilities.GO_DARK) == null) {
-                fleet.addAbility(Abilities.GO_DARK);
-                Global.getLogger(this.getClass()).info("Added Go Dark ability to expedition fleet: " + fleet.getName());
-            }
-
-            // Activate Go Dark immediately for stealth transit
-            if (fleet.getAbility(Abilities.GO_DARK) != null) {
-                fleet.getAbility(Abilities.GO_DARK).activate();
-                Global.getLogger(this.getClass()).info("Activated Go Dark on expedition fleet: " + fleet.getName());
-            } else {
-                Global.getLogger(this.getClass()).warn("Failed to get Go Dark ability for expedition fleet: " + fleet.getName());
-            }
+            // Add marines for ground raid capability
+            // getRaidStr() = fleet.getCargo().getMaxPersonnel() * 0.25f (per MarketCMD.getRaidStr)
+            // Scale marines with fleet FP to ensure meaningful raid strength
+            int marineCount = Math.max(size * 20, 100);  // ~20 marines per FP, minimum 100
+            fleet.getCargo().addMarines(marineCount);
+            log.info("Draconis: Added " + marineCount + " marines to expedition fleet (size: " + size + " FP)");
         }
     }
 }

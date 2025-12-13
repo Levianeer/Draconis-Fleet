@@ -48,6 +48,6 @@ public class DraconisSteelCurtain extends BaseMarketConditionPlugin {
         String text = "Ground defense strength: " + defenseBonus + ", Accessibility: " + accessPenalty;
         LabelAPI label = tooltip.addPara(text, opad);
         label.setHighlight(defenseBonus, accessPenalty);
-        label.setHighlightColors(h, n);
+        label.setHighlightColors(h, h);
     }
 }

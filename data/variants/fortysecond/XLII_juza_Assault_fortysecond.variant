@@ -1,32 +1,31 @@
 {
-    "displayName": "Elite",
-    "fluxCapacitors": 2,
-    "fluxVents": 30,
-    "goalVariant": false,
-    "hullId": "XLII_juza_FSDF",
+    "displayName": "Assault",
+    "fluxCapacitors": 21,
+    "fluxVents": 20,
+    "hullId": "XLII_juza_fortysecond",
     "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
-    "variantId": "XLII_juza_Elite_FSDF",
+    "variantId": "XLII_juza_Assault_fortysecond",
     "weaponGroups": [
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_twinspear",
-                "WS0020": "XLII_twinspear"
+                "WS0003": "mjolnir",
+                "WS0020": "mjolnir"
             }
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "XLII_bardiche_single",
-                "WS0021": "XLII_bardiche_single",
-                "WS0026": "XLII_bardiche_single",
-                "WS0027": "XLII_bardiche_single",
-                "WS0028": "XLII_bardiche_single",
-                "WS0029": "XLII_bardiche_single"
+                "WS0001": "harpoon",
+                "WS0021": "harpoon",
+                "WS0026": "harpoon",
+                "WS0027": "harpoon",
+                "WS0028": "harpoon",
+                "WS0029": "harpoon"
             }
         },
         {
@@ -43,14 +42,10 @@
             "weapons": {
                 "WS0005": "vulcan",
                 "WS0006": "vulcan",
+                "WS0015": "XLII_estocflak",
                 "WS0024": "XLII_estocflak",
                 "WS0025": "XLII_estocflak"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_swordbreaker"}
         }
     ]
 }

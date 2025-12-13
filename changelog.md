@@ -1,10 +1,90 @@
+Version 0.5.0
+BUG FIXES:
+- Reorganised the AI Raids/Colony Crisis, should be less of a mess.
+- Fixed critical infinite loop bug in AI Core Donation system.
+  - PREVIOUS BUG: Cores of the same tier would displace each other infinitely, causing 20+ second freezes and only admin positions receiving cores.
+  - REDESIGNED: Core installation now processes by strict tier order (Alpha → Beta → Gamma).
+  - Each tier has three phases: admin positions (Alpha only), empty industry slots, then upgrades of lower-tier cores.
+  - Added proper upgrade validation using canUpgradeCore() - same-tier "upgrades" are now prevented.
+  - Removed displaced core re-queuing logic - displaced cores are consumed by the upgrade (realistic behavior).
+  - Improved upgrade weighting from 80% to 95% to make higher-tier cores more competitive when displacing lower-tier cores.
+- Fixed Colony Crisis event not ending properly when defeated.
+- Added condition to AI Core raids, the Fleet must actually survive to steal AI Cores.
+
+NEW CONTENT:
+- NEW: Alsafi-class Destroyer - Civilian-grade transport destroyer.
+- NEW: Alruba Mk.II-class Frigate - Advanced upgrade of the original Alruba.
+- NEW: "High Orbit" Mission - Engage Hegemony forces at Kori Station.
+- NEW: Combat Chatter Support - Voice lines for Draconis crews.
+  - Three personalities: Loyalist, Officer, and Veteran.
+- NEW: Lore document "Draconis Lore.pdf" - Comprehensive background on the Draconis Alliance.
+- NEW: Progressive difficulty scaling system - Draconis gains more and better AI Core officers as the game progresses to supplement their forces.
+
+FACTION CHANGES:
+- Renamed XLII Battlegroup sub-faction for clarity and lore consistency.
+  - Updated all ship skins: alruba_FSDF → alruba_fortysecond (and alwaid, errakis, juza, shaobi).
+  - Renamed variants from FSDF to fortysecond naming convention.
+  - Updated blueprint package: XLII_FSDF_package → XLII_fortysecond_package.
+  - All sprites and configuration files updated to match new naming.
+
+BALANCE CHANGES:
+- Rebalanced Altais-class Battlecruiser for improved flux management and doctrine alignment:
+  - Hull mod: Expanded Missiles Racks → Targeting Unit.
+  - Flux vents increased: 39 → 50.
+  - Flux capacitors increased: 0 → 4.
+  - Large missile weapons: Halberd Pods (alternating) → Bardiche (linked).
+  - Medium missile weapons: Bardiche Singles (linked) → Sabots (alternating).
+  - Improved sustained combat capability with better flux stats.
+
+- Missile Guidance Uplink → Missile Control Matrix (comprehensive rework):
+  - RENAMED: Missile Guidance Uplink is now Missile Control Matrix.
+  - NEW: Slowly regenerates ammunition for large missile weapons.
+    - Reload interval scales with weapon rate of fire and max ammo.
+    - Formula ensures reload is always slower than fire rate.
+    - Higher max ammo weapons reload individual missiles faster.
+  - NEW: Increases missile health by +50%.
+  - Updated icon to missile autofactory graphic.
+  - Description emphasizes phased array targeting and autoforge fabrication.
+
+- XLII Fleet hull mod significantly enhanced with passive missile defense:
+  - NEW: Integrated electronic warfare suite provides area missile defense.
+  - Defense range = (collision radius × 3) + hull size bonus.
+    - Frigate: +200 range bonus
+    - Destroyer: +150 range bonus
+    - Cruiser: +50 range bonus
+    - Capital: +0 range bonus (base range only)
+  - Each hostile missile within range has 50% chance to be affected.
+  - Effects: Either jam and disable missile OR convert to friendly control and retarget.
+    - Jammed missiles: Disabled, damage set to 0, flamed out (blue particle effect).
+    - Converted missiles: Ownership changed, retargeted at original firing ship, ECCM applied, extended flight time (green particle effect).
+  - Only affects guided missiles for conversion; unguided missiles are always jammed.
+  - Disabled when ship is overloaded, venting, phased, or retreating.
+  - Missiles are processed once to avoid repeated dice rolls.
+  - Description updated to reflect new defensive capabilities.
+
+- Removed starting AI core from Kori's High Command facility.
+
+MINOR IMPROVEMENTS:
+- AI Core system code reorganization for better maintainability:
+  - Moved AI core raid classes from intel/events/aicore/ to intel/aicore/raids/.
+  - Improved package structure and separation of concerns.
+  - Files moved: DraconisAICoreActivityCause, DraconisAICoreRaidFactor, DraconisAICoreRaidIntel, DraconisAICoreRaidManager.
+- Mod plugin logging improvements:
+  - Implemented proper Log4j Logger instead of direct Global.getLogger() calls.
+  - Improved startup logging with clear mod initialization status.
+  - Better error handling with try-catch blocks and fallback values.
+- NEW: Configuration toggles for raid systems:
+  - Added draconisEnableAICoreRaids setting (default: true).
+  - Added draconisEnableRemnantRaids setting (default: true).
+  - Settings loaded from settings.json with fallback on errors.
+  - Status logged during mod initialization.
+
 Version 0.4.3 (Save-compatible with 0.4.0)
 - I may of missed some things... >.>
 - Fixed multiple ConcurrentModificationException crashes in AI Core systems.
   - Added defensive collection copying when iterating over market industries.
   - Affects AI Core Theft, Remnant Raids, Donations, and Activity tracking systems.
   - Prevents crashes in multi-threaded campaign environment.
-  - Files modified: DraconisAICoreTheftListener, DraconisRemnantRaidListener, DraconisAICoreDonationListener, DraconisAICoreActivityCause.
 
 Version 0.4.2 (Save-compatible with 0.4.0)
 - Fixed ConcurrentModificationException crash in AI Core Acquisition system during core redistribution.

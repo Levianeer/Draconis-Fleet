@@ -13,6 +13,7 @@ import com.fs.starfarer.api.util.Misc;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class XLII_BuyShip extends BaseCommandPlugin {
 
     @Override

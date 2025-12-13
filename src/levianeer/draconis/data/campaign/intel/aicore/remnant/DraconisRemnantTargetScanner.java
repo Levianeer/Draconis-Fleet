@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * Prioritizes systems with multiple Remnant stations or special installations
  */
 public class DraconisRemnantTargetScanner implements EveryFrameScript {
+    private static final Logger log = Global.getLogger(DraconisRemnantTargetScanner.class);
 
     public static final String REMNANT_TARGET_FLAG = "$draconis_remnantTarget";
     public static final String TARGET_PRIORITY_FLAG = "$draconis_remnantPriority";
@@ -84,8 +86,8 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         float priority = calculateSystemPriority(selectedTarget, findRemnantStations(selectedTarget));
         markSystemAsTarget(selectedTarget, priority);
 
-        Global.getLogger(this.getClass()).info(
-            "Selected Remnant raid target: " + selectedTarget.getName() +
+        log.info(
+            "Draconis: Selected Remnant raid target: " + selectedTarget.getName() +
             " (priority: " + String.format("%.1f", priority) + ")"
         );
     }
@@ -205,8 +207,8 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         system.getMemoryWithoutUpdate().set(LAST_RAID_DAY_FLAG, currentDay);
         system.getMemoryWithoutUpdate().unset(REMNANT_TARGET_FLAG);
 
-        Global.getLogger(DraconisRemnantTargetScanner.class).info(
-            "Marked " + system.getName() + " as raided (cooldown until day " +
+        log.info(
+            "Draconis: Marked " + system.getName() + " as raided (cooldown until day " +
             (currentDay + COOLDOWN_AFTER_RAID) + ")"
         );
     }
