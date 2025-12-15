@@ -24,39 +24,54 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addBriefingItem("Achieve a decisive victory to deter future Hegemony interference");
 
 		// Set up the player's fleet - Admiral August's Draconis Strike Fleet
-		// Flagship: Elite capital ship
-        api.addToFleet(FleetSide.PLAYER, "XLII_altais_Elite", FleetMemberType.SHIP, "DNS Kori's Wrath", true);
+        // Flagship
+        api.addToFleet(FleetSide.PLAYER, "XLII_altais_Elite", FleetMemberType.SHIP, "Kori's Wrath", true);
+
+        // Capital ships
+        api.addToFleet(FleetSide.PLAYER, "XLII_dziban_Elite", FleetMemberType.SHIP, "Abstract Endurance", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_alwaid_Elite", FleetMemberType.SHIP, "Apostle’s Creed", false);
 
         // Cruiser line
-        api.addToFleet(FleetSide.PLAYER, "XLII_juni_Elite", FleetMemberType.SHIP, "DNS Defiant", false);
-        api.addToFleet(FleetSide.PLAYER, "XLII_eltanin_Elite", FleetMemberType.SHIP, "DNS Steadfast Resolve", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_eltanin_Elite", FleetMemberType.SHIP, "Steadfast Resolve", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_juni_Elite", FleetMemberType.SHIP, "Defiant", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_juza_Elite", FleetMemberType.SHIP, "Atlas", false);
 
         // Destroyer screen
-		api.addToFleet(FleetSide.PLAYER, "XLII_giausar_Elite", FleetMemberType.SHIP, "DNS Iron Curtain", false);
-		api.addToFleet(FleetSide.PLAYER, "XLII_shaobi_Strike", FleetMemberType.SHIP, "DNS Thunderbolt", false);
-		api.addToFleet(FleetSide.PLAYER, "XLII_errakis_Elite", FleetMemberType.SHIP, "DNS Vengeance", false);
+		api.addToFleet(FleetSide.PLAYER, "XLII_giausar_Elite", FleetMemberType.SHIP, "Iron Curtain", false);
+		api.addToFleet(FleetSide.PLAYER, "XLII_errakis_Elite", FleetMemberType.SHIP, "Vengeance", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_rastaban_Elite", FleetMemberType.SHIP, "Calcutta", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_shaobi_Strike", FleetMemberType.SHIP, "Thunderbolt", false);
 
 		// Fast frigate support
-		api.addToFleet(FleetSide.PLAYER, "XLII_thuban_Elite", FleetMemberType.SHIP, "DNS Swift Justice", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_alruba_Elite", FleetMemberType.SHIP, "Swift Justice", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_alruba_mk2_Elite", FleetMemberType.SHIP, "Dark Was the Night", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_thuban_Elite", FleetMemberType.SHIP, "Do You Feel Lucky?", false);
 
 		// Set up the enemy fleet - Hegemony Compliance Battlegroup
-		// Flagship: Capital ship
-		api.addToFleet(FleetSide.ENEMY, "onslaught_Elite", FleetMemberType.SHIP, "ISS Hegemon's Will", false);
+		// Flagship
+		api.addToFleet(FleetSide.ENEMY, "onslaught_Elite", FleetMemberType.SHIP, "Hegemon's Will", false);
+
+        // Capital ships
+        api.addToFleet(FleetSide.ENEMY, "legion_Strike", FleetMemberType.SHIP, "Babylonian", false);
+        api.addToFleet(FleetSide.ENEMY, "legion_Strike", FleetMemberType.SHIP, "All Of Our Hopes", false);
 
 		// Cruiser line
-		api.addToFleet(FleetSide.ENEMY, "dominator_Assault", FleetMemberType.SHIP, "ISS Joseph", false);
-        api.addToFleet(FleetSide.ENEMY, "dominator_Assault", FleetMemberType.SHIP, "ISS Enforcer", false);
-		api.addToFleet(FleetSide.ENEMY, "falcon_Attack", FleetMemberType.SHIP, "ISS Compliance", false);
-		api.addToFleet(FleetSide.ENEMY, "falcon_Attack", FleetMemberType.SHIP, "ISS Authority", false);
+		api.addToFleet(FleetSide.ENEMY, "dominator_Assault", FleetMemberType.SHIP, "Joseph", false);
+        api.addToFleet(FleetSide.ENEMY, "dominator_Assault", FleetMemberType.SHIP, "Enforcer", false);
+        api.addToFleet(FleetSide.ENEMY, "eagle_Assault", FleetMemberType.SHIP, "Voyageur", false);
+        api.addToFleet(FleetSide.ENEMY, "eagle_Assault", FleetMemberType.SHIP, "Home Away", false);
+		api.addToFleet(FleetSide.ENEMY, "falcon_Attack", FleetMemberType.SHIP, "Compliance", false);
+		api.addToFleet(FleetSide.ENEMY, "falcon_Attack", FleetMemberType.SHIP, "Authority", false);
 
 		// Destroyer screen
-		api.addToFleet(FleetSide.ENEMY, "hammerhead_Balanced", FleetMemberType.SHIP, "ISS Retribution", false);
-		api.addToFleet(FleetSide.ENEMY, "enforcer_Balanced", FleetMemberType.SHIP, "ISS Lawbringer", false);
-		api.addToFleet(FleetSide.ENEMY, "sunder_Assault", FleetMemberType.SHIP, "ISS Storm", false);
+		api.addToFleet(FleetSide.ENEMY, "hammerhead_Balanced", FleetMemberType.SHIP, "Retribution", false);
+        api.addToFleet(FleetSide.ENEMY, "hammerhead_Balanced", FleetMemberType.SHIP, "Bright Tide", false);
+		api.addToFleet(FleetSide.ENEMY, "enforcer_Balanced", FleetMemberType.SHIP, "Lawbringer", false);
+		api.addToFleet(FleetSide.ENEMY, "sunder_Assault", FleetMemberType.SHIP, "Storm", false);
 
 		// Picket frigates
-		api.addToFleet(FleetSide.ENEMY, "lasher_CS", FleetMemberType.SHIP, "ISS Watchful", false);
-		api.addToFleet(FleetSide.ENEMY, "wolf_CS", FleetMemberType.SHIP, "ISS Guardian", false);
+		api.addToFleet(FleetSide.ENEMY, "lasher_CS", FleetMemberType.SHIP, "Watchful", false);
+		api.addToFleet(FleetSide.ENEMY, "wolf_CS", FleetMemberType.SHIP, "Guardian", false);
 
 		// Set up the map - Kori High Orbit
 		float width = 10000f;
@@ -72,9 +87,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
 		// Add asteroid/debris field for tactical cover
 		// Positioned to the side, not blocking main engagement area
-		api.addAsteroidField(minX + 3000, minY + height / 2, 45, 6000f, 20f, 70f, 80);
+		api.addAsteroidField(minX + 3000, minY + height / 2, 45, 6000f, 20f, 70f, 40);
 
 		// Additional smaller debris field
-		api.addAsteroidField(minX + width - 4000, minY + height / 2, -30, 5000f, 15f, 60f, 60);
+		api.addAsteroidField(minX + width - 4000, minY + height / 2, -30, 5000f, 15f, 60f, 20);
 	}
 }

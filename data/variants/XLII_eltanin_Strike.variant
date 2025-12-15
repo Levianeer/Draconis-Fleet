@@ -1,13 +1,10 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 2,
+    "fluxCapacitors": 14,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_eltanin",
-    "hullMods": [
-        "targetingunit",
-        "fluxdistributor"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_eltanin_Strike",
@@ -26,9 +23,9 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_fragarch"}
+            "weapons": {"WS0015": "XLII_twinspear"}
         },
         {
             "autofire": true,

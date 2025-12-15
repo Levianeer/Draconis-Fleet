@@ -1,9 +1,12 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 21,
-    "fluxVents": 20,
+    "fluxCapacitors": 4,
+    "fluxVents": 30,
     "hullId": "XLII_juza_fortysecond",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "fluxdistributor"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juza_Assault_fortysecond",
@@ -32,19 +35,19 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_rapier",
-                "WS0019": "XLII_rapier"
+                "WS0005": "vulcan",
+                "WS0006": "vulcan",
+                "WS0015": "vulcan",
+                "WS0024": "XLII_estocflak",
+                "WS0025": "XLII_estocflak"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "vulcan",
-                "WS0006": "vulcan",
-                "WS0015": "XLII_estocflak",
-                "WS0024": "XLII_estocflak",
-                "WS0025": "XLII_estocflak"
+                "WS0018": "heavymg",
+                "WS0019": "heavymg"
             }
         }
     ]

@@ -56,7 +56,7 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
     private float calculateMissileThreats() {
         Vector2f shipLoc = ship.getLocation();
         // Fighters have reduced ECM range when they use this system
-        float disableRadius = ship.isFighter() ? 500f : 1000f;
+        float disableRadius = ship.isFighter() ? 250f : 1000f;
 
         int threateningMissiles = 0;
         float totalThreatValue = 0f;

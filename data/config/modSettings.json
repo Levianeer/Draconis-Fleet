@@ -3,17 +3,25 @@
     "weaponBlacklist": [
     ],
 	"suggestedWeaponTags":{
-		"XLII_swordbreaker":"ForceAF,PD",
-		"XLII_razorflak":"PrioritisePD,PrioMissile,PrioFighter,PrioDense",
-		"XLII_estocflak":"PrioritisePD,PrioMissile,PrioFighter,PrioDense",
-
-		"XLII_particlelance":"PrioMissile,PrioFighter",
+		"XLII_estocflak":"PD",
+		"XLII_razorflak":"PD",
+		"XLII_rapier":"TargetShields",
+		"XLII_twinspear":"Hold(Flx>90%)",
 		"XLII_mangonel":"NoFighters",
-		"XLII_twinspear":"Opportunist,NoFighters",
-
-		"XLII_durendal":"Opportunist",
-		"XLII_durendal_mkii":"Opportunist",
-		"XLII_fragarch":"Opportunist"
+		"XLII_fragarch":"Hold(Flx>90%)",
+		"XLII_durendal":"NoFighters",
+		"XLII_durendal_mkii":"NoFighters",
+		"XLII_particlelance":"Hold(Flx>90%)",
+		"XLII_swordbreaker":"ForceAF,PD,ConservePDAmmo",
+		"XLII_bardiche_single":"TargetPhase",
+		"XLII_bardiche_built-in":"TargetPhase",
+		"XLII_bardiche":"TargetPhase",
+		"XLII_halberd":"Opportunist",
+		"XLII_halberd_fighter":"Opportunist",
+		"XLII_halberd_pod":"Opportunist",
+		"XLII_javelin":"AvoidShields",
+		"XLII_arquebus":"Fighter",
+		"XLII_falchion":"TargetShields",
 		}
 	}
 }

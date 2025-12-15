@@ -33,7 +33,7 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
         // Calculate effective disable radius
         float effectiveDisableRadius = DISABLE_RADIUS;
         if (ship.isFighter()) {
-            effectiveDisableRadius = DISABLE_RADIUS * 0.5f;
+            effectiveDisableRadius = DISABLE_RADIUS * 0.25f;
         }
 
         // When system is active, show the text and render the sprite

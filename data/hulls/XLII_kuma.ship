@@ -17,8 +17,6 @@
     "solar_shielding"
   ],
   "builtInWeapons": {
-    "WS0001": "XLII_fragarch",
-    "WS0002": "XLII_fragarch",
     "WS0018": "XLII_vernier",
     "WS0019": "XLII_vernier",
     "WS0020": "XLII_vernier",
@@ -44,7 +42,7 @@
     {
       "id": "WS0001",
       "size": "LARGE",
-      "type": "BUILT_IN",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 180,
       "angle": 85,
@@ -53,7 +51,7 @@
     {
       "id": "WS0002",
       "size": "LARGE",
-      "type": "BUILT_IN",
+      "type": "HYBRID",
       "mount": "TURRET",
       "arc": 180,
       "angle": -85,
@@ -80,7 +78,7 @@
     {
       "id": "WS0005",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 180,
       "angle": 85,
@@ -89,7 +87,7 @@
     {
       "id": "WS0006",
       "size": "SMALL",
-      "type": "HYBRID",
+      "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 180,
       "angle": -85,
@@ -188,7 +186,7 @@
     {
       "id": "WS0017",
       "size": "LARGE",
-      "type": "UNIVERSAL",
+      "type": "MISSILE",
       "mount": "HARDPOINT",
       "arc": 10,
       "angle": 0,

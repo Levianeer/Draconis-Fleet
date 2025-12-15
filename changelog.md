@@ -1,3 +1,51 @@
+Version 0.5.2 (Save-compatible with 0.5.1)
+
+NEW CONTENT:
+- NEW: Dziban-class Battlecruiser - Long-range fire support battlecruiser.
+
+BALANCE CHANGES:
+- Rebalanced Kuma-class Battleship for greater weapon loadout flexibility:
+  - Large turrets no longer have built-in Fragarach railguns (changed from BUILT_IN to HYBRID mounts).
+  - Small wing turrets changed from HYBRID to BALLISTIC type.
+  - Rear hardpoint changed from UNIVERSAL to MISSILE type.
+  - Max flux reduced: 25000 → 22500.
+  - Flux dissipation reduced: 2250 → 1600.
+  - Shield arc increased: 180 → 240.
+  - Shield efficiency increased: 1.4 → 1.2.
+  - Max speed reduced: 50 → 45.
+  - Acceleration increased: 5 → 12.
+  - Deceleration increased: 10 → 12.
+  - Turn acceleration increased: 4 → 6.
+- Giausar-class OP reduced: 18 → 10.
+- Shaobi-class now classified as combat carrier (added COMBAT tag).
+- Eltanin-class OP increased: 14 → 16.
+- Altais-class ordnance points increased: 280 → 305.
+- Rebalanced Twin Spear Cannon for reduced alpha strike capability (now fits more as a disabler):
+  - Damage per shot reduced: 650 → 400.
+  - EMP damage per shot increased: 250 → 500.
+  - Turn rate reduced: 10 → 9.
+  - OP increased: 26 → 28.
+  - Flux cost increased: 550 → 700.
+  - Min Spread increased: 1 → 2.
+  - Max Spread increased: 5 → 8.
+- Fragarach Railgun OP increased: 28 → 30.
+- Mangonel Gun Launcher turn rate increased: 9 → 12.
+- Swordbreaker SRM Launcher missile health increased: 1 → 25.
+- Bardiche MRM Launcher (all variants) missile health increased: 50 → 100.
+- Halberd-class Torpedo ammo reduced: 3 → 2, OP reduced: 12 → 8.
+- Halberd-class Torpedo Pod ammo increased: 4 → 6, OP reduced: 14 → 12.
+- Arquebus SRM Launcher flight time increased: 3.75 → 5.
+- Falchion-class Torpedo missile health reduced: 1000 → 500.
+- ECM Suite (Tianyi-class Fighter) range reduced: 500 → 250 to prevent excessive area denial.
+
+ADVANCED GUNNERY CONTROL IMPROVEMENTS:
+- Significantly expanded weapon AI tag support for better integration with Advanced Gunnery Control mod.
+
+MINOR IMPROVEMENTS:
+- Added more ships to the mission High Orbit.
+- Added Dziban-class to title screen rotation.
+- Updated fleet composition tables to include new battlecruiser.
+
 Version 0.5.1 (Save-compatible with 0.5.0)
 BUG FIXES:
 - Fixed AI Core Fleet Scaling system not properly assigning cores to spawned fleets.

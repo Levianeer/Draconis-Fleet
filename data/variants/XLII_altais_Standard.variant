@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 49,
+    "fluxCapacitors": 24,
+    "fluxVents": 50,
     "hullId": "XLII_altais",
     "hullMods": [
         "eccm",
