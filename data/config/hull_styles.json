@@ -10,7 +10,8 @@
 		"shieldInnerColor":[125,125,255,75],
 		"fluxVentCoreColor":[255,255,255,255],
 		"fluxVentFringeColor":[125,0,155,255],
-		"engineLoopSet":"engine_loop",
+
+		"engineLoopSet":"draconis_engine_loop",
 		"engineAccelerateSet":"engine_accelerate",
 		"empLoopSet":"emp_loop",
 		"fluxLoopSet":"flux_loop",
@@ -19,6 +20,7 @@
 		"shieldLowerSet":"shield_lower",
 		"shieldRaiseSet":"shield_raise",
 		"explosionShipSet":"explosion_ship",
+		
 		"damageDecalSheet":"graphics/damage/damage_decal_sheet_base.png",
 		"damageDecalGlowSheet":"graphics/damage/damage_decal_sheet_glow.png",
 		

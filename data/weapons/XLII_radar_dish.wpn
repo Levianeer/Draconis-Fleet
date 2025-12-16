@@ -4,7 +4,7 @@
 	"type":"DECORATIVE",
 	"size":"SMALL",
 	"everyFrameEffect":"levianeer.draconis.data.scripts.weapons.XLII_RadarDishSpin",
-	"showDamageWhenDecorative":false,
+	"showDamageWhenDecorative":true,
 	"renderBelowAllWeapons":false,
 	"turretSprite":"graphics/weapons/radar/XLII_tianyi_radar.png",
 	"hardpointSprite":"",

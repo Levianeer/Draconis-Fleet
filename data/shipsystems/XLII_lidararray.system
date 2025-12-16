@@ -1,0 +1,15 @@
+{
+	"id":"XLII_lidararray",
+	"type":"STAT_MOD",
+	"aiType":"LIDAR_ARRAY",
+	
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_LidarArrayStats",
+
+	"runScriptWhileIdle":true, # unapply() never gets called
+		
+	"fadeActivationSoundOnChargedown":true,
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	"aiHints":{
+	}
+}

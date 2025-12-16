@@ -1,3 +1,19 @@
+Version 0.5.3 (Save-compatible with 0.5.2)
+
+BALANCE CHANGES:
+- Rebalanced Dziban:
+  - Changed vanilla Lidar ship system to custom one.
+    - Reduces max speed and acceleration/deceleration when used
+  - Max speed increased: 50 → 60.
+  - Acceleration increased: 20 → 25.
+  - Deceleration increased: 15 → 20.
+  - Max turn rate reduced: 12 → 11.
+  - Turn acceleration reduced: 12 → 11.
+
+MINOR IMPROVEMENTS:
+ - Updated some hardpoint weapon sprites to better fit their mounts.
+ - Added unique engine SFXs.
+
 Version 0.5.2 (Save-compatible with 0.5.1)
 
 NEW CONTENT:

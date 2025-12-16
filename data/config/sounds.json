@@ -11,6 +11,22 @@
 		]
 	},
 
+	"draconis_engine_loop":{
+            "sounds":[
+                {"file":"sounds/sfx_engines/engine_draconis_00_fighter.ogg","pitch":1.0,"volume":0.5}, 
+                {"file":"sounds/sfx_engines/engine_draconis_01_frigate.ogg","pitch":1.0,"volume":0.5}, 
+                {"file":"sounds/sfx_engines/engine_draconis_02_destroyer.ogg","pitch":1.0,"volume":0.5},
+                {"file":"sounds/sfx_engines/engine_draconis_03_cruiser.ogg","pitch":1.0,"volume":0.5},
+                {"file":"sounds/sfx_engines/engine_draconis_04_capital.ogg","pitch":1.0,"volume":0.5},
+            ],
+        "DRACONIS_ENGINE":{"sounds":[0,1,2,3,4], "pitch":1.0, "volume":1.0},
+        "FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.4},
+        "FRIGATE":{"sounds":[1], "pitch":1.0, "volume":0.7},
+        "DESTROYER":{"sounds":[2], "pitch":1.0, "volume":0.7},
+        "CRUISER":{"sounds":[3], "pitch":1.0, "volume":0.7},
+        "CAPITAL_SHIP":{"sounds":[4], "pitch":1.0, "volume":1.0},
+	},
+
     "XLII_particlelance_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_energy/plasma_cannon_fire_01.ogg","pitch":0.45,"volume":0.5},

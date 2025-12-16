@@ -17,8 +17,8 @@
     "distributed_fire_control"
   ],
   "builtInWeapons": {
-    "WS0007": "lidardish",
-    "WS0008": "lidardish",
+    "WS0007": "XLII_lidardish",
+    "WS0008": "XLII_lidardish",
     "WS0016": "XLII_vernier",
     "WS0017": "XLII_vernier",
     "WS0018": "XLII_vernier",
