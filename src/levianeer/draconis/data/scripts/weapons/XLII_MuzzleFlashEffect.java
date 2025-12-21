@@ -1,27 +1,53 @@
 package levianeer.draconis.data.scripts.weapons;
 
-import java.awt.Color;
-
-import org.lwjgl.util.vector.Vector2f;
-
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
-import com.fs.starfarer.api.combat.DamagingProjectileAPI;
-import com.fs.starfarer.api.combat.OnFireEffectPlugin;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.combat.*;
+import com.fs.starfarer.api.combat.EmpArcEntityAPI.EmpArcParams;
 import com.fs.starfarer.api.loading.MuzzleFlashSpec;
 import com.fs.starfarer.api.loading.ProjectileWeaponSpecAPI;
+import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
+import org.lwjgl.util.vector.Vector2f;
 
-public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin {
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-    // Configuration parameters
+public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWeaponEffectPlugin {
+
+    // Configuration parameters - Muzzle Flash
     private static final float BACKWARDS_OFFSET_DISTANCE = 25f; // Distance behind the weapon
     private static final float MUZZLE_FLASH_LENGTH = 50f;
     private static final int PARTICLE_COUNT = 25;
     private static final float SPREAD = 35f; // Degrees of spread for the backwards flash
     private static final float SIZE_MULTIPLIER = 1.0f;
+
+    // Configuration parameters - Lightning Arc Trail
+    private static final float ARC_INTERVAL_MIN = 0.2f; // Minimum time between arc spawns (seconds)
+    private static final float ARC_INTERVAL_MAX = 0.3f; // Maximum time between arc spawns (seconds)
+    private static final float ARC_THICKNESS = 20f;
+    private static final float ARC_CORE_WIDTH = 10f;
+    private static final Color ARC_COLOR = new Color(120, 110, 185, 255); // Match weapon glow color
+    private static final Color ARC_CORE_COLOR = new Color(255, 255, 255, 255);
+    private static final float ARC_SPEED = 100000f; // Visual speed of arc animation
+    private static final float MIN_ARC_DISTANCE = 100f; // Minimum distance traveled before spawning arc
+
+    // Tracking data for fired projectiles
+    protected static class TrackedProjectile {
+        public DamagingProjectileAPI projectile;
+        public Vector2f lastArcPosition;
+        public IntervalUtil arcInterval;
+
+        public TrackedProjectile(DamagingProjectileAPI proj) {
+            this.projectile = proj;
+            this.lastArcPosition = new Vector2f(proj.getLocation());
+            this.arcInterval = new IntervalUtil(ARC_INTERVAL_MIN, ARC_INTERVAL_MAX);
+            this.arcInterval.randomize(); // Start at random point in interval
+        }
+    }
+
+    protected List<TrackedProjectile> trackedProjectiles = new ArrayList<>();
 
     public XLII_MuzzleFlashEffect() {
     }
@@ -60,6 +86,137 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin {
                 1.5f, // Velocity multiplier
                 15f   // Additional velocity
         );
+
+        // Track projectile for lightning arc trail effect
+        trackedProjectiles.add(new TrackedProjectile(projectile));
+    }
+
+    @Override
+    public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon) {
+        // Skip during fast time advance (e.g., during campaign tactical pause)
+        if (engine != null && engine.isInFastTimeAdvance()) {
+            return;
+        }
+
+        List<TrackedProjectile> toRemove = new ArrayList<>();
+
+        for (TrackedProjectile tracked : trackedProjectiles) {
+            DamagingProjectileAPI proj = tracked.projectile;
+
+            // Check if projectile should be removed from tracking
+            if (proj == null || proj.didDamage() || proj.isFading() || !Objects.requireNonNull(engine).isEntityInPlay(proj)) {
+                // Spawn final arc to ensure complete coverage before removing
+                spawnFinalArc(engine, weapon, tracked, proj);
+                toRemove.add(tracked);
+                continue;
+            }
+
+            // Advance the arc spawn interval
+            tracked.arcInterval.advance(amount);
+
+            // Check if it's time to spawn an arc
+            if (tracked.arcInterval.intervalElapsed()) {
+                Vector2f currentPos = new Vector2f(proj.getLocation());
+                float distanceTraveled = Misc.getDistance(tracked.lastArcPosition, currentPos);
+
+                // Only spawn arc if projectile has traveled minimum distance
+                if (distanceTraveled >= MIN_ARC_DISTANCE) {
+                    spawnLightningArc(engine, weapon.getShip(), tracked.lastArcPosition, currentPos);
+                    tracked.lastArcPosition = currentPos;
+                }
+            }
+        }
+
+        // Remove dead/finished projectiles
+        trackedProjectiles.removeAll(toRemove);
+    }
+
+    /**
+     * Spawns a final arc to close any gap between the last arc position and the projectile's final position.
+     * This ensures complete visual coverage up to the weapon's max range.
+     */
+    protected void spawnFinalArc(CombatEngineAPI engine, WeaponAPI weapon, TrackedProjectile tracked, DamagingProjectileAPI proj) {
+        if (engine == null || weapon == null || tracked == null) {
+            return;
+        }
+
+        // Get the projectile's final position (if still valid)
+        Vector2f finalPos = null;
+        if (proj != null && proj.getLocation() != null) {
+            finalPos = new Vector2f(proj.getLocation());
+        } else if (tracked.lastArcPosition != null) {
+            // If projectile is null, use last known position
+            finalPos = tracked.lastArcPosition;
+        }
+
+        if (finalPos == null) {
+            return;
+        }
+
+        // Calculate the distance from last arc spawn to final position
+        float distanceToFinal = Misc.getDistance(tracked.lastArcPosition, finalPos);
+
+        // Only spawn final arc if there's a meaningful gap
+        // Use a lower threshold than MIN_ARC_DISTANCE to ensure we catch smaller gaps
+        if (distanceToFinal >= MIN_ARC_DISTANCE * 0.5f) {
+            ShipAPI ship = weapon.getShip();
+            if (ship != null) {
+                spawnLightningArc(engine, ship, tracked.lastArcPosition, finalPos);
+            }
+        }
+    }
+
+    /**
+     * Spawns a lightning arc from one position to another, creating a trail effect
+     */
+    protected void spawnLightningArc(CombatEngineAPI engine, ShipAPI ship, Vector2f from, Vector2f to) {
+        if (engine == null || ship == null || from == null || to == null) {
+            return;
+        }
+
+        float dist = Misc.getDistance(from, to);
+        if (dist < 1f) {
+            return; // Arc too short, skip
+        }
+
+        // Configure arc visual parameters
+        EmpArcParams params = new EmpArcParams();
+        params.segmentLengthMult = 10f;
+        params.zigZagReductionFactor = 0.08f;
+        params.fadeOutDist = 50f;
+        params.minFadeOutMult = 10f;
+        params.flickerRateMult = 0.3f;
+
+        // Configure bright spot parameters for visual effect
+        float fraction = Math.min(0.33f, 300f / dist);
+        params.brightSpotFullFraction = fraction;
+        params.brightSpotFadeFraction = fraction;
+
+        // Calculate arc animation duration based on distance
+        params.movementDurOverride = Math.max(0.05f, dist / ARC_SPEED);
+
+        // Spawn the arc visual (null anchors = absolute world position, won't rotate with ship)
+        EmpArcEntityAPI arc = engine.spawnEmpArcVisual(
+                from,
+                null,
+                to,
+                null,
+                ARC_THICKNESS,
+                ARC_COLOR,
+                ARC_CORE_COLOR,
+                params
+        );
+
+        // Configure arc appearance
+        arc.setCoreWidthOverride(ARC_CORE_WIDTH);
+        arc.setRenderGlowAtStart(false);
+        arc.setFadedOutAtStart(true);
+        arc.setSingleFlickerMode(true);
+
+        // Play lightning sound effect at midpoint of arc
+        Vector2f soundPoint = Vector2f.add(from, to, new Vector2f());
+        soundPoint.scale(0.5f);
+        Global.getSoundPlayer().playSound("abyssal_glare_lightning", 1f, 0.8f, soundPoint, new Vector2f());
     }
 
     /**

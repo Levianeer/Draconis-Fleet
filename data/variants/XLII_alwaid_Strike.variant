@@ -2,7 +2,6 @@
     "displayName": "Strike",
     "fluxCapacitors": 0,
     "fluxVents": 50,
-    "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
         "targetingunit",

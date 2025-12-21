@@ -1,9 +1,25 @@
-Version 0.5.3 (Save-compatible with 0.5.2)
+Version 0.5.4 (Save-compatible with 0.5.3)
+BUG FIXES:
+- Fixed issue with Admiral August not selling the rights ships, stingy bastard.
 
+BALANCE CHANGES:
+- Rebalanced Aldibain:
+  - Reduced OP cost: 14 → 9.
+- Rebalanced Tianyi:
+    - Reduced OP cost: 16 → 14.
+- Rebalanced Arquebus SRM Launcher.
+  - Reduced range: 1500 → 1000.
+  - Reduced burst size: 2 → 1.
+
+MINOR IMPROVEMENTS:
+- Add FXs to the Fragarch Railgun.
+- Changed .variant files.
+
+Version 0.5.3 (Save-compatible with 0.5.2)
 BALANCE CHANGES:
 - Rebalanced Dziban:
   - Changed vanilla Lidar ship system to custom one.
-    - Reduces max speed and acceleration/deceleration when used
+    - Reduces max speed and acceleration/deceleration when used.
   - Max speed increased: 50 → 60.
   - Acceleration increased: 20 → 25.
   - Deceleration increased: 15 → 20.
@@ -15,7 +31,6 @@ MINOR IMPROVEMENTS:
  - Added unique engine SFXs.
 
 Version 0.5.2 (Save-compatible with 0.5.1)
-
 NEW CONTENT:
 - NEW: Dziban-class Battlecruiser - Long-range fire support battlecruiser.
 

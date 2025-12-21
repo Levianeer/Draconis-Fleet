@@ -29,10 +29,14 @@
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0001": "XLII_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_estocflak",
-                "WS0002": "XLII_estocflak",
-                "WS0003": "XLII_estocflak"
+                "WS0002": "lightdualmg",
+                "WS0003": "lightdualmg"
             }
         }
     ]

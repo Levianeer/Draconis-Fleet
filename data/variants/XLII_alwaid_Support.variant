@@ -2,7 +2,6 @@
     "displayName": "Support",
     "fluxCapacitors": 0,
     "fluxVents": 30,
-    "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
         "targetingunit",

@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 13,
+    "fluxVents": 14,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
@@ -35,9 +35,13 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0003": "irautolance",
-                "WS0020": "irautolance",
-                "WS0050": "XLII_particlelance"
+                "WS0020": "irautolance"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0050": "XLII_rapier"}
         },
         {
             "autofire": true,

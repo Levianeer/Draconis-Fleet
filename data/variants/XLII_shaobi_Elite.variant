@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 3,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "XLII_shaobi",

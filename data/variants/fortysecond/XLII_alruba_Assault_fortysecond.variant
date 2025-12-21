@@ -1,6 +1,6 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 3,
     "fluxVents": 10,
     "hullId": "XLII_alruba_fortysecond",
     "hullMods": [],
@@ -20,16 +20,16 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0015": "lightag",
-                "WS0016": "lightag"
+                "WS0004": "XLII_bardiche_single",
+                "WS0005": "XLII_bardiche_single"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0004": "XLII_estocflak",
-                "WS0005": "XLII_estocflak"
+                "WS0015": "lightac",
+                "WS0016": "lightac"
             }
         }
     ]

@@ -1,13 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 0,
+    "fluxCapacitors": 14,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_eltanin",
-    "hullMods": [
-        "targetingunit",
-        "fluxdistributor"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_eltanin_Elite",
@@ -15,7 +12,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0006": "salamanderpod"}
+            "weapons": {"WS0006": "breach"}
         },
         {
             "autofire": false,
@@ -26,36 +23,34 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_fragarch"}
+            "weapons": {"WS0015": "XLII_twinspear"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "hveldriver",
-                "WS0007": "hveldriver"
+                "WS0005": "XLII_rapier",
+                "WS0007": "XLII_rapier"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightmg",
-                "WS0002": "lightmg",
-                "WS0009": "lightdualmg"
+                "WS0004": "XLII_estocflak",
+                "WS0009": "XLII_estocflak",
+                "WS0017": "XLII_razorflak"
             }
         },
         {
             "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0017": "XLII_razorflak"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0004": "XLII_swordbreaker"}
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker",
+                "WS0002": "XLII_swordbreaker"
+            }
         }
     ]
 }

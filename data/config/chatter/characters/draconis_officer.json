@@ -64,7 +64,7 @@
       {"text": "Losing integrity fast! All damage control parties, maximum effort!"},
       {"text": "Hull failing in multiple sections! Brace for impact, brace!"},
       {"text": "We're coming apart! All hands to escape pods, stand by!"},
-      {"text": "Catastrophic damage! Reactor scram, abandon ship, abandon ship!"}
+      {"text": "Hull failing - We're coming apart! Be ready to abandon ship!"}
     ],
 
     "need_help": [
@@ -100,6 +100,7 @@
       {"text": "She's breaking up… give 'em hell for us…"},
       {"text": "This is $shipNameNoPrefix… we are lost… avenge us…"},
       {"text": "Core breach… it's been an honor serving with you…"},
+      {"text": "Catastrophic damage! Reactor scram, abandon ship, abandon ship!"},
       {"text": "Mayday, mayday… $shipNameNoPrefix is sinking…"}
     ],
 

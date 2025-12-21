@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 47,
+    "fluxCapacitors": 43,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_kuma",
@@ -31,8 +31,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_mangonel",
-                "WS0002": "XLII_mangonel"
+                "WS0001": "XLII_twinspear",
+                "WS0002": "XLII_twinspear"
             }
         },
         {
@@ -58,10 +58,10 @@
             "weapons": {
                 "WS0005": "XLII_estocflak",
                 "WS0006": "XLII_estocflak",
-                "WS0007": "XLII_estocflak",
-                "WS0008": "XLII_estocflak",
-                "WS0009": "XLII_estocflak",
-                "WS0010": "XLII_estocflak"
+                "WS0007": "lightdualmg",
+                "WS0008": "lightdualmg",
+                "WS0009": "lightdualmg",
+                "WS0010": "lightdualmg"
             }
         }
     ],

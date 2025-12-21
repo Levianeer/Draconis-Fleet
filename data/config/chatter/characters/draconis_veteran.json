@@ -10,50 +10,51 @@
     "start": [
       {"text": "All stations, this is the Captain. General Quarters… yeah, again. You know the drill by now."},
       {"text": "Here we go, kids. Another glorious day in the Navy."},
-      {"text": "Systems green. Just like the last seventeen times. Let’s try not to die today."},
-      {"text": "Battle stations. Wake me when it’s over."},
-      {"text": "All hands, man your stations. Same shit, different sector."}
+      {"text": "Systems green. Just like the last seventeen times. Let's try not to die today."},
+      {"text": "Battle stations. Wake me when it's over."},
+      {"text": "All hands, man your stations. Same shit, different sector."},
+      {"text": "Always Above. Good hunting."}
     ],
 
     "start_boss": [
-      {"text": "Well look at that… another big bastard straight out of Athebyne. All right, let’s dance."},
-      {"text": "I’ve seen worse. Hell, I’ve killed worse. Bring it on."},
-      {"text": "We didn’t crawl out of the civil war graveyard just to get scrapped by this thing."},
+      {"text": "Well look at that… another big bastard straight out of Hell. All right, let's dance."},
+      {"text": "I've seen worse. Hell, I've killed worse. Bring it on."},
+      {"text": "We didn't crawl out of the civil war graveyard just to get scrapped by this thing."},
       {"text": "High-value target on scope. Finally something worth waking up for."}
     ],
 
     "engaged": [
-      {"text": "Weapons free. Let’s get this over with."},
-      {"text": "Contact. Engaging… because apparently retirement isn’t an option."},
-      {"text": "Batteries released. Try to make your shots count, people, I’m tired of overtime."},
-      {"text": "Birds away. If they miss I’m writing everyone up."},
-      {"text": "Here they come. Hold the line… or don’t, I’m too old to care."}
+      {"text": "Weapons free. Let's get this over with."},
+      {"text": "Contact. Engaging… because apparently retirement isn't an option."},
+      {"text": "Batteries released. Try to make your shots count, people, I'm tired of overtime."},
+      {"text": "Birds away. If they miss I'm writing everyone up."},
+      {"text": "Here they come. Hold the line… or don't, I'm too old to care."}
     ],
 
     "pursuing": [
-      {"text": "They’re running. Cute. Maintain pursuit, let’s finish the paperwork."},
-      {"text": "Don’t let them get away. I hate writing ‘inconclusive’ in the after-action."},
-      {"text": "Press the attack. They started this, we’re ending it."},
-      {"text": "Running won’t save you, pal. I’ve chased worse through worse."}
+      {"text": "They're running. Cute. Maintain pursuit, let's finish the paperwork."},
+      {"text": "Don't let them get away. I hate writing 'inconclusive' in the after-action."},
+      {"text": "Press the attack. They started this, we're ending it."},
+      {"text": "Running won't save you, pal. I've chased worse through worse."}
     ],
 
     "running": [
       {"text": "Tactical withdrawal. Living is a victory these days."},
-      {"text": "Disengaging. I didn’t survive thirty years to die for a bonus."},
-      {"text": "Bug out. There’s no medal for being a dead hero."},
+      {"text": "Disengaging. I didn't survive thirty years to die for a bonus."},
+      {"text": "Bug out. There's no medal for being a dead hero."},
       {"text": "Pulling back. Tell the Admiral he can come fight the next one himself."}
     ],
 
     "hull_90": [
       {"text": "Took a love tap. Armor held. Barely noticed."},
-      {"text": "Minor hit. I’ve bled worse shaving."},
-      {"text": "Light damage. Damage control, coffee and a bandage, you’ll be fine."},
-      {"text": "Hull’s scratched. Like my soul, but functional."}
+      {"text": "Minor hit. I've bled worse shaving."},
+      {"text": "Light damage. Damage control, coffee and a bandage, you'll be fine."},
+      {"text": "Hull's scratched. Like my soul, but functional."}
     ],
 
     "hull_50": [
       {"text": "Fifty percent hull. Yep, feels about right for a Tuesday."},
-      {"text": "We’re hurt. Not dead yet. Keep shooting."},
+      {"text": "We're hurt. Not dead yet. Keep shooting."},
       {"text": "Multiple hits. Damage control, earn your damn pay for once."},
       {"text": "Half the ship left. Still more than I expected today."},
       {"text": "Just like Athebyne all over again… hold together, you old bitch."}
@@ -61,24 +62,24 @@
 
     "hull_30": [
       {"text": "Hull critical. Well… shit. Not like this, come on."},
-      {"text": "We’re coming apart. I swear if I die now I’m haunting the yard that built this tub."},
-      {"text": "Thirty percent… I didn’t survive the war for this bullshit."},
-      {"text": "Critical damage! All hands brace… and if we live, first round’s on me."},
-      {"text": "She’s dying. So am I, slowly. Let’s not make it quick."}
+      {"text": "We're coming apart. I swear if I die now I'm haunting the yard that built this tub."},
+      {"text": "Thirty percent… I didn't survive the war for this bullshit."},
+      {"text": "Critical damage! All hands brace… and if we live, first round's on me."},
+      {"text": "She's dying. So am I, slowly. Let's not make it quick."}
     ],
 
     "need_help": [
       {"text": "Any friendly this net, this is $shipNameNoPrefix, heavily engaged and getting lonely."},
       {"text": "Could really use a hand here. Preferably one with guns."},
       {"text": "Taking heavy fire. Where the hell is the rest of the fleet? Napping?"},
-      {"text": "I’m not dying out here alone. Someone get your ass over here."}
+      {"text": "I'm not dying out here alone. Someone get your ass over here."}
     ],
 
     "retreat": [
-      {"text": "All units, bug out. This ain’t the hill I’m dying on."},
-      {"text": "Disengage. I’ve got a bottle with my name on it back at port."},
-      {"text": "Tactical withdrawal. Tell command we’re preserving experienced personnel."},
-      {"text": "We’re done. Fall back before the paperwork gets worse."}
+      {"text": "All units, bug out. This ain't the hill I'm dying on."},
+      {"text": "Disengage. I've got a bottle with my name on it back at port."},
+      {"text": "Tactical withdrawal. Tell command we're preserving experienced personnel."},
+      {"text": "We're done. Fall back before the paperwork gets worse."}
     ],
 
     "out_of_missiles": [
@@ -92,29 +93,29 @@
       {"text": "Flux critical! Venting… because of course we are."},
       {"text": "Overload cascade. Fantastic. Absolutely fantastic."},
       {"text": "Capacitors spiking. Dropping shields… yeah, laugh it up."},
-      {"text": "Forced vent. Everyone hang on, Daddy’s hungover."}
+      {"text": "Forced vent. Everyone hang on, Daddy's hungover."}
     ],
 
     "death": [
-      {"text": "Reactor going critical… tell the fleet we gave ‘em hell… again…"},
-      {"text": "She’s breaking up… finally get to sleep…"},
+      {"text": "Reactor going critical… tell the fleet we gave 'em hell… again…"},
+      {"text": "She's breaking up… finally get to sleep…"},
       {"text": "This is $shipNameNoPrefix… going down… see you sorry bastards in hell…"},
       {"text": "Core breach… well, retirement at last…"},
       {"text": "I survived the civil war for this…? Figures…"}
     ],
 
     "victory": [
-      {"text": "All contacts neutralized. We’re still breathing. Miracles do happen."},
-      {"text": "They’re gone. We’re not. I’ll take it."},
+      {"text": "All contacts neutralized. We're still breathing. Miracles do happen."},
+      {"text": "They're gone. We're not. I'll take it."},
       {"text": "Hostiles scrapped. Secure from GQ, someone find me a drink."},
       {"text": "Another win in the books. Tastes like stale coffee and regret."},
-      {"text": "Clear. Good work. Now let’s go home before they find us something else to kill."}
+      {"text": "Clear. Good work. Now let's go home before they find us something else to kill."}
     ],
 
     "victory_boss": [
-      {"text": "Big bastard’s dead. Just like Athebyne, only slower and uglier."},
-      {"text": "High-value target scrapped. The 42nd lives another day, somehow."},
-      {"text": "It’s down. We’re not. Buy your old man a whiskey when we make port."},
+      {"text": "Big bastard's dead. Just like Athebyne, only slower and uglier."},
+      {"text": "High-value target scrapped. The Alliance lives another day, somehow."},
+      {"text": "It's down. We're not. Buy your old man a whiskey when we make port."},
       {"text": "Monster slain. Another scar, another story no one back home will believe."}
     ]
   }

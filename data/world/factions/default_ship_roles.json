@@ -28,11 +28,8 @@
 	},
 	"combatLarge":{
 		"XLII_eltanin_Elite":5,
-		"XLII_eltanin_Strike":5,
 		"XLII_juza_Elite":1,
-		"XLII_juza_Strike":1,
 		"XLII_juni_Elite":5,
-		"XLII_juni_Support":5,
 		
 		"XLII_juza_Assault_fortysecond":1,
 
@@ -51,7 +48,6 @@
 	},
 	"carrierMedium":{
 		"XLII_shaobi_Elite":5,
-		"XLII_shaobi_Strike":5,
 
 		"XLII_shaobi_Assault_fortysecond":1,
 
@@ -60,8 +56,6 @@
 	},
 	"carrierLarge":{
 		"XLII_alwaid_Elite":1,
-		"XLII_alwaid_Strike":1,
-		"XLII_alwaid_Support":1,
 
 		"XLII_alwaid_Assault_fortysecond":1,
 
@@ -112,7 +106,6 @@
 	},
 	"personnelMedium":{
 		"XLII_shaobi_Elite":10,
-		"XLII_shaobi_Strike":10,
 
 		"fallback":{"personnelSmall":1},
 		"fallback2":{"personnelLarge":0.5},

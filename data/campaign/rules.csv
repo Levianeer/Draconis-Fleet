@@ -28,7 +28,7 @@ A calculated pause. The kind that precedes uncomfortable truths.
 4:buy_juza:I'll purchase a Juza-class Heavy Cruiser
 5:buy_shaobi:I'll purchase a Shaobi-class Carrier
 6:decline:Perhaps another time",
-XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Elite_FSDF","""The Alruba. You know, most people look at her now and see a relic - too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
+XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Assault_fortysecond","""The Alruba. You know, most people look at her now and see a relic - too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
 
 Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. Older model, held together with spite and welder's tape. We had six of them left in the picket line, facing down twice our number.
 
@@ -41,7 +41,7 @@ The Alruba's not fast. Not elegant. But she's honest. She does what you build he
 A brief pause as the data finalizes.
 
 ""Use it well, Commander. The Alliance invests in those who deliver results."" The emphasis on 'deliver' is subtle but unmistakable. ""We'll be watching.""","1:transaction_complete:Continue",
-XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Elite_FSDF","""The Alwaid-class. I've heard the jokes - 'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
+XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Assault_fortysecond","""The Alwaid-class. I've heard the jokes - 'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
 
 During the final assault on Athebyne's capital shipyards, we had three Alwaids in the fleet. Heaven's Axiom, the Diligence, and the Eternity. The plan was simple: jump in, launch fighters, establish orbital superiority. Textbook carrier doctrine.
 
@@ -58,7 +58,7 @@ The Alwaid's slow. But when she gets there, she brings everything.""
 The faintest pause.
 
 ""It's yours. Make our engineers proud.""","1:transaction_complete:Continue",
-XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Elite_FSDF","""The Errakis. Carrier escort. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
+XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Assault_fortysecond","""The Errakis. Carrier escort. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
 
 That became a problem during the push on Athebyne's outer stations.
 
@@ -77,7 +77,7 @@ The Errakis does what she's built for. Just don't expect her to do it elegantly.
 Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
 
 ""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
-XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Elite_FSDF","""The Juza-class. Experimental flux management, armoured like a battleship, fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle - when she works.
+XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Assault_fortysecond","""The Juza-class. Experimental flux management, armoured like a battleship, fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle - when she works.
 
 Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
 
@@ -94,7 +94,7 @@ The Juza's temperamental. High-maintenance. But if you've got a crew that knows 
 Brief silence.
 
 ""Authorization granted.""","1:transaction_complete:Continue",
-XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Elite_FSDF","""The Shaobi. The Marines' favourite toy. Command didn't want to build her - too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
+XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Assault_fortysecond","""The Shaobi. The Marines' favourite toy. Command didn't want to build her - too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
 
 I'll admit, I didn't see the value. Not at first.
 

@@ -1,7 +1,7 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 0,
-    "fluxVents": 19,
+    "fluxCapacitors": 4,
+    "fluxVents": 20,
     "hullId": "XLII_shaobi_fortysecond",
     "hullMods": [],
     "permaMods": [],
@@ -35,9 +35,13 @@
             "weapons": {
                 "WS0001": "vulcan",
                 "WS0002": "vulcan",
-                "WS0006": "XLII_estocflak",
-                "WS0009": "XLII_estocflak"
+                "WS0006": "XLII_estocflak"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0009": "lightdualmg"}
         }
     ],
     "wings": [

@@ -2,7 +2,6 @@
     "displayName": "Strike",
     "fluxCapacitors": 14,
     "fluxVents": 30,
-    "goalVariant": true,
     "hullId": "XLII_eltanin",
     "hullMods": ["targetingunit"],
     "permaMods": [],

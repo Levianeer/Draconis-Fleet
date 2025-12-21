@@ -8,95 +8,98 @@
 
   "lines": {
     "start": [
-      {"text": "All stations, this is the Captain. Weapons hot, blood ready. Let’s carve our name into their hulls."},
-      {"text": "General Quarters, General Quarters! The 42nd wakes hungry today, boys!"},
+      {"text": "All stations, this is the Captain. Weapons hot, blood ready. Let's carve our name into their hulls."},
+      {"text": "General Quarters, General Quarters! Wake hungry, boys!"},
       {"text": "Power to all batteries. Today the Alliance drinks deep."},
-      {"text": "Admiral August is watching. Make him smile."},
+      {"text": "The ole five-star is watching. Make him proud."},
       {"text": "I want their screams on an open channel. Commence firing."}
     ],
 
     "start_boss": [
       {"text": "Look at the size of that magnificent bastard. Finally, something worth killing!"},
-      {"text": "That thing thinks it’s the apex predator? I’m about to teach it a lesson in pain."},
+      {"text": "That thing thinks it's the apex predator? I'm about to teach it a lesson in pain."},
       {"text": "Athebyne was just practice. This is the real sermon. All batteries - crucify it."},
-      {"text": "For the glory of the Alliance! I want its reactor core as a trophy!"}
+      {"text": "I want its reactor core as a trophy!"}
     ],
 
     "engaged": [
       {"text": "Weapons free! Weapons free! Tear their fucking hearts out!"},
       {"text": "Batteries released - give me maximum rate, I want them bleeding from every seam!"},
-      {"text": "There we go… smell that? That’s fear. Birds away - paint the void with their debris!"},
-      {"text": "You dare fire on the 42nd? I’m going to wear your captain’s spine as a necklace!"},
+      {"text": "There we go… smell that? That's fear. Birds away - paint the void with their debris!"},
+      {"text": "You dare fire on the 42nd? I'm going to wear your captain's spine as a necklace!"},
+      {"text": "Ever ask yourself how this part of the sector gets so fucked up all the time?"},
       {"text": "All guns, rapid fire! Make them regret waking up this cycle!"}
     ],
 
     "pursuing": [
-      {"text": "They’re running! Chase them down - nobody escapes the 42nd’s judgment!"},
+      {"text": "They're running! Chase them down - nobody escapes!"},
       {"text": "Pursuit course, flank speed! I want to taste their engine wash!"},
-      {"text": "Run all you want, prey - I haven’t had my fun yet!"},
+      {"text": "Run all you want, prey - I haven't had my fun yet!"},
       {"text": "Close the distance! Ram them if you have to - I want their bridge on my prize!"}
     ],
 
     "running": [
-      {"text": "Negative! We do not retreat! …Fine. Tactical withdrawal - but we’re coming back to burn their worlds for this."},
-      {"text": "Disengaging… I’ll remember every single one of you that made me do this."},
+      {"text": "Negative! We do not retreat! …Fine. Tactical withdrawal - but we're coming back to burn their worlds for this."},
+      {"text": "Disengaging… I'll remember every single one of you that made me do this."},
       {"text": "Pulling back. Mark these coordinates. Their gravesite."},
-      {"text": "Breaking contact. This isn’t fear - it’s me giving them a head start to hell."}
+      {"text": "WHO ORDERED THE RETREAT!? ...Fine, breaking contact."},
+      {"text": "Breaking contact. This isn't fear - it's me giving them a head start to hell."}
     ],
 
     "hull_90": [
       {"text": "They scratched us! Ha! That tickles. Return fire tenfold!"},
-      {"text": "Minor hit. Good. Now I’m angry."},
-      {"text": "Armor penetration? Cute. Keep shooting - I’m just getting warmed up."},
+      {"text": "Minor hit. Good. Now I'm angry."},
+      {"text": "Armor penetrated? Cute. Keep shooting - I'm just getting warmed up."},
       {"text": "A love bite. Give them one back, with interest."}
     ],
 
     "hull_50": [
       {"text": "Half hull left? Perfect - less weight, more rage. Press the attack!"},
-      {"text": "We’re bleeding… good. Blood makes the deck slippery for boarding parties."},
-      {"text": "Fifty percent? That’s still fifty percent more than they’re going to have in a minute!"},
+      {"text": "We're bleeding… good. Blood makes the deck slippery for boarding parties."},
+      {"text": "Fifty percent? That's still fifty percent more than they're going to have in a minute!"},
+      {"text": "Plug the holes! We're pushing the attack!"},
       {"text": "Damage control - patch it with enemy wreckage if you have to. We are NOT slowing down!"}
     ],
 
     "hull_30": [
       {"text": "Hull critical! Excellent! Now we fight like cornered gods!"},
-      {"text": "She’s dying - so let’s take the whole damn fleet with us!"},
-      {"text": "Thirty percent? That’s thirty percent more than enough to ram their bridge!"},
-      {"text": "Reactor’s singing the death song - I love this part! All power to forward guns!"},
-      {"text": "If we go down, we go down as legends! For Admiral August! FOR THE ALLIANCE!"}
+      {"text": "She's dying - so let's take the whole damn fleet with us!"},
+      {"text": "Thirty percent? That's thirty percent more than enough to ram their bridge!"},
+      {"text": "Reactor's singing the death song - I love this part! All power to forward guns!"},
+      {"text": "If we go down, we go down as legends! FOR THE ALLIANCE!"}
     ],
 
     "need_help": [
       {"text": "All Alliance ships this net - get in here and taste this glory with me!"},
       {"text": "I need more wolves on this kill! Vector to my position now!"},
-      {"text": "Brothers of the 42nd, the feast is ready - come claim your share!"},
-      {"text": "Where’s my pack? This prey is too big for one set of jaws!"}
+      {"text": "Brothers, the feast is ready - come claim your share!"},
+      {"text": "Where's my pack? This prey is too big for one set of jaws!"}
     ],
 
     "retreat": [
-      {"text": "All units - this fight is beneath us now. Withdraw. We’ll hunt them another day."},
+      {"text": "All units - this fight is beneath us now. Withdraw. We'll hunt them another day."},
       {"text": "Break off. I want them alive… so I can kill them slowly next time."},
-      {"text": "Tactical withdrawal. Let them think they’ve won. The reckoning will be beautiful."},
-      {"text": "Pulling out. Save your ammo - we’re coming back with friends."}
+      {"text": "Tactical withdrawal. Let them think they've won. The reckoning will be beautiful."},
+      {"text": "Pulling out. Save your ammo - we're coming back with friends."}
     ],
 
     "out_of_missiles": [
       {"text": "VLS dry. Fine. Time to get intimate. All ahead full - ramming speed!"},
       {"text": "Missiles gone? Good. Now we use the guns like men."},
       {"text": "Out of birds. Switch to main batteries - I want to see their faces when we gut them."},
-      {"text": "No more missiles? Then we do this the old 42nd way - teeth and fury."}
+      {"text": "No more missiles? Then we do this the old way - teeth and fury."}
     ],
 
     "overload": [
       {"text": "Flux critical! Beautiful! Vent it - let them see our war-face!"},
       {"text": "Overload cascade - yes! Ride the lightning, you glorious bastards!"},
-      {"text": "Capacitors screaming! That’s the sound of the Alliance ascending!"},
+      {"text": "Capacitors screaming! That's the sound of the Alliance ascending!"},
       {"text": "Forced vent! Watch them flinch when we come out the other side burning!"}
     ],
 
     "death": [
       {"text": "Reactor breach… ha… tell August… I died… THRIVING…"},
-      {"text": "She’s going up… taking half the sector with me… worth it…"},
+      {"text": "She's going up… taking half the sector with me… worth it…"},
       {"text": "This is the Captain… going to meet the enemy in hell… save me a seat at their table…"},
       {"text": "Core critical… glory… to the Alliance… glory… to me…"},
       {"text": "If I die… I die the apex predator… see you in the void…"}
@@ -104,17 +107,17 @@
 
     "victory": [
       {"text": "All contacts neutralized. The void is ours. I am pleased."},
-      {"text": "They’re dead. I’m not. Another perfect day."},
+      {"text": "They're dead. I'm not. Another perfect day."},
       {"text": "Enemy scrapped. Someone mount their bridge on my ready room bulkhead."},
-      {"text": "Field clear. The 42nd’s legend grows - and I’m still hungry."},
+      {"text": "Field clear. Our legend grows - and I'm still hungry."},
       {"text": "Victory. Fafnir, your blade sings true through us."}
     ],
 
     "victory_boss": [
       {"text": "The beast is dead! I have its heart! The Alliance will feast tonight!"},
       {"text": "Major target destroyed. Tell the Admiral his favorite mad dog just bagged a dragon."},
-      {"text": "It’s down, bleeding, broken - by my hand. The galaxy will speak my name in fear."},
-      {"text": "Look upon your killer, corpse. The 42nd has spoken - and the void itself kneels."}
+      {"text": "It's down, bleeding, broken - by my hand. The galaxy will speak my name in fear."},
+      {"text": "Look upon your killer, corpse. The Alliance has spoken - and the void itself kneels."}
     ]
   }
 }

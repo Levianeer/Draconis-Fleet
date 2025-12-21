@@ -2,6 +2,7 @@
   "id": "XLII_fragarch",
   "specClass": "projectile",
   "projectileSpecId": "XLII_fragarch_shot",
+  "everyFrameEffect":"levianeer.draconis.data.scripts.weapons.XLII_MuzzleFlashEffect",
   "type": "BALLISTIC",
   "size": "LARGE",
   "turretSprite": "graphics/weapons/XLII_fragarach_turret_base.png",
