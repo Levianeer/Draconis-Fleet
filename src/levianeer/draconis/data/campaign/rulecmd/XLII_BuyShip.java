@@ -24,7 +24,6 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         String variantId = params.get(0).getString(memoryMap);
         String factionId = "XLII_draconis";
-        float repCost = -0.05f; // -5 reputation = -0.05f
         float minRep = 0.5f; // Minimum reputation floor
 
         // Get the ship's base value dynamically by creating a temporary fleet member
@@ -39,6 +38,9 @@ public class XLII_BuyShip extends BaseCommandPlugin {
             dialog.getTextPanel().addPara("Error: Could not find ship variant '" + variantId + "'.");
             return false;
         }
+
+        // Calculate reputation cost based on hull size
+        float repCost = getReputationCostByHullSize(tempMember);
 
         // Check if player has enough credits
         if (Global.getSector().getPlayerFleet().getCargo().getCredits().get() < cost) {
@@ -75,5 +77,20 @@ public class XLII_BuyShip extends BaseCommandPlugin {
         Global.getSector().getPlayerFleet().getFleetData().addFleetMember(tempMember);
 
         return true;
+    }
+
+    /**
+     * Calculate reputation cost based on ship hull size.
+     * @param member The fleet member to calculate cost for
+     * @return Negative reputation cost (e.g., -0.01f for frigates)
+     */
+    private float getReputationCostByHullSize(FleetMemberAPI member) {
+        return switch (member.getHullSpec().getHullSize()) {
+            case FRIGATE -> -0.01f;         // 1 reputation point
+            case DESTROYER -> -0.02f;       // 2 reputation points
+            case CRUISER -> -0.03f;         // 3 reputation points
+            case CAPITAL_SHIP -> -0.04f;    // 4 reputation points
+            default -> -0.01f;              // Default to frigate cost
+        };
     }
 }

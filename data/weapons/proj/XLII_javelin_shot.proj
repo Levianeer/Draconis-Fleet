@@ -9,9 +9,18 @@
 	"collisionClass":"PROJECTILE_NO_FF",
 	"explosionColor":[255,200,200,235],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":85, # purely visual
-	"flameoutTime":1.0, # total time from flameout to full fadeout
+	"reduceDamageWhileFading":true,
+	"fizzleOnReachingWeaponRange":true,
+	"dudProbabilityOnFlameout":0,
+	"armingTime":0,
+	"flameoutTime":0.5, # total time from flameout to full fadeout
 	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
 	"fadeTime":0.5, # fadeout duration	
+	"passThroughMissiles":true,
+	"engineSpec":{"turnAcc":720,
+				  "turnRate":180,
+				  "acc":1800,
+				  "dec":0},
 	"explosionSpec":{"duration":0.1f, # not visual
 					 "radius":0,
 					 "coreRadius":0, # full damage within core radius
@@ -22,11 +31,6 @@
 					 "particleDuration":1,
 					 "particleCount":25,
 					 "particleColor":[255,185,155,255]},
-	"passThroughMissiles":true,
-	"engineSpec":{"turnAcc":720,
-				  "turnRate":320,
-				  "acc":1800,
-				  "dec":0},
 	"engineSlots":[{"id":"ES1",
 					"loc":[-16, 0],
 				    "style":"CUSTOM",

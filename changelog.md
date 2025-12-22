@@ -1,3 +1,15 @@
+Version 0.5.5 (Save-compatible with 0.5.4)
+BUG FIXES:
+- Removed some random values that were in ship_data.csv.
+
+BALANCE CHANGES:
+- Rebalanced Javelin MLRS:
+  - Changed mauravbility to make it usable on rear facing mounts.
+  - Added proper fading when reaching weapon range.
+- Changed how XLII ships are costed:
+  - REP cost is now 1/2/3/4 based on hull size.
+  - Credit cost is still 2* the original hull.
+
 Version 0.5.4 (Save-compatible with 0.5.3)
 BUG FIXES:
 - Fixed issue with Admiral August not selling the rights ships, stingy bastard.
