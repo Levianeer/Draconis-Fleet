@@ -1,3 +1,7 @@
+Version 0.5.6 (Save-compatible with 0.5.5)
+BUG FIXES:
+- Forgot to add the DO_NOT_AIM tag for the Javelin.
+
 Version 0.5.5 (Save-compatible with 0.5.4)
 BUG FIXES:
 - Removed some random values that were in ship_data.csv.
