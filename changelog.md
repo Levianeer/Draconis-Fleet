@@ -1,3 +1,8 @@
+Version 0.5.8 (Save-compatible with 0.5.7)
+BUG FIXES:
+- Forgot to add the updated default_ship_roles.json.
+- Changed some of the military market tags.
+
 Version 0.5.7 (Save-compatible with 0.5.6)
 NEW CONTENT:
 - NEW: Aldhibah-class Frigate - Fast attack frigate based off of the Wolf-class.

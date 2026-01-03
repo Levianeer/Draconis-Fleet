@@ -3,23 +3,23 @@
 		"XLII_thuban_Elite":1,
 		"XLII_alruba_Elite":1,
 
-		"XLII_alruba_mk2_Elite":2,
-		"XLII_alruba_mk2_Support":2,
+		"XLII_alruba_mk2_Elite":1,
+		"XLII_alruba_mk2_Support":1,
 
-		"XLII_aldhibah_Elite":2,
+		"XLII_aldhibah_Elite":1,
 		"XLII_aldhibah_Strike":1,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"XLII_thuban_Elite":2,
-		"XLII_alruba_Elite":0.5,
+		"XLII_thuban_Elite":1,
+		"XLII_alruba_Elite":1,
 
 		"XLII_alruba_mk2_Elite":1,
 		"XLII_alruba_mk2_Support":1,
 
 		"XLII_aldhibah_Elite":1,
-		"XLII_aldhibah_Strike":2,
+		"XLII_aldhibah_Strike":1,
 
 		"XLII_alruba_Assault_fortysecond":1,
 		
@@ -28,7 +28,7 @@
 	"combatMedium":{
 		"XLII_rastaban_Elite":1,
 		"XLII_errakis_Elite":1,
-		"XLII_giausar_Elite":0.5,
+		"XLII_giausar_Elite":1,
 
 		"XLII_errakis_Assault_fortysecond":1,
 
@@ -36,7 +36,7 @@
 	},
 	"combatLarge":{
 		"XLII_eltanin_Elite":1,
-		"XLII_juza_Elite":0.5,
+		"XLII_juza_Elite":1,
 		"XLII_juni_Elite":1,
 		
 		"XLII_juza_Assault_fortysecond":1,
@@ -44,8 +44,8 @@
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"XLII_altais_Elite":2,
-		"XLII_dziban_Elite":0.5,
+		"XLII_altais_Elite":1,
+		"XLII_dziban_Elite":1,
 
 		"fallback":{"combatLarge":1},
 	},
@@ -63,7 +63,7 @@
 		"fallback2":{"carrierLarge":1},
 	},
 	"carrierLarge":{
-		"XLII_alwaid_Elite":2,
+		"XLII_alwaid_Elite":1,
 
 		"XLII_alwaid_Assault_fortysecond":1,
 
