@@ -6,7 +6,7 @@ NEW CONTENT:
 BALANCE CHANGES:
 - Evasion Protocol ship system no longer lowers shields when active.
 - Rebalanced Juni:
-  - Increased Shield Sfficiency: 1.4 → 1.2.
+  - Increased Shield Efficiency: 1.4 → 1.2.
 - Rebalanced Thuban:
   - Reduced Cost: 20000 → 18000.
 - Rebalanced Alruba MK.I:
@@ -44,7 +44,7 @@ PROGRESSIVE DIFFICULTY ADJUSTMENTS:
 MINOR IMPROVEMENTS:
 - Updated the old MagicLib Bounty descriptions, finally.
 - Updated ship variants across the fleet to fit OP changes.
-- Reowrked of Breach Jammer AI, should be MUCH better now.
+- Reworked of Breach Jammer AI, should be MUCH better now.
 
 Version 0.5.6 (Save-compatible with 0.5.5)
 BUG FIXES:
