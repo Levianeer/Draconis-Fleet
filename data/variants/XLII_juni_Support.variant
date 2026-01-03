@@ -1,12 +1,13 @@
 {
     "displayName": "Support",
-    "fluxCapacitors": 14,
-    "fluxVents": 30,
+    "fluxCapacitors": 7,
+    "fluxVents": 24,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
         "targetingunit",
-        "advancedoptics"
+        "advancedoptics",
+        "hardenedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],

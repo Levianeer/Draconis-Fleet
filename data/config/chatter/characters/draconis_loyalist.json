@@ -2,7 +2,7 @@
   "name": "Draconis Loyalist",
   "personalities": ["reckless","aggressive"],
   "gender": ["m", "f", "n"],
-  "chance": 25.0,
+  "chance": 33.33,
   "talkativeness": 1.2,
   "categoryTags": ["original"],
 

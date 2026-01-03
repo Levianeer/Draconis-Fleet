@@ -1,8 +1,8 @@
 {
   "name": "Draconis Officer",
-  "personalities": ["steady","cautious","timid"],
+  "personalities": ["steady","cautious"],
   "gender": ["m", "f", "n"],
-  "chance": 25.0,
+  "chance": 33.33,
   "talkativeness": 1.0,
   "categoryTags": ["original"],
 

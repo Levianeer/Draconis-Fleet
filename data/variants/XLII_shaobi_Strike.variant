@@ -1,7 +1,8 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 5,
-    "fluxVents": 10,
+    "fluxCapacitors": 0,
+    "fluxVents": 20,
+    "goalVariant": true,
     "hullId": "XLII_shaobi",
     "hullMods": [],
     "permaMods": [],
@@ -11,7 +12,10 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0007": "XLII_rapier"}
+            "weapons": {
+                "WS0007": "XLII_rapier",
+                "WS0008": "XLII_rapier"
+            }
         },
         {
             "autofire": false,
@@ -24,10 +28,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_razorflak",
-                "WS0008": "XLII_razorflak"
-            }
+            "weapons": {"WS0005": "XLII_razorflak"}
         },
         {
             "autofire": true,
@@ -47,7 +48,7 @@
         }
     ],
     "wings": [
-        "XLII_tianyi_wing",
+        "XLII_aldibain_wing",
         "XLII_eldsich_wing"
     ]
 }

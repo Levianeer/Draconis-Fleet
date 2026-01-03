@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 43,
-    "fluxVents": 0,
+    "fluxCapacitors": 17,
+    "fluxVents": 40,
     "goalVariant": true,
     "hullId": "XLII_kuma",
     "hullMods": ["targetingunit"],
@@ -28,19 +28,19 @@
             }
         },
         {
-            "autofire": true,
-            "mode": "LINKED",
+            "autofire": false,
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "XLII_twinspear",
-                "WS0002": "XLII_twinspear"
+                "WS0001": "XLII_longsword",
+                "WS0002": "XLII_longsword"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_rapier",
-                "WS0004": "XLII_rapier"
+                "WS0003": "XLII_particlelance",
+                "WS0004": "XLII_particlelance"
             }
         },
         {

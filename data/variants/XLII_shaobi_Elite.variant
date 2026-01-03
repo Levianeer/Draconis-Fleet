@@ -12,7 +12,10 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0007": "XLII_rapier"}
+            "weapons": {
+                "WS0007": "XLII_rapier",
+                "WS0008": "XLII_rapier"
+            }
         },
         {
             "autofire": false,
@@ -25,10 +28,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_razorflak",
-                "WS0008": "XLII_razorflak"
-            }
+            "weapons": {"WS0005": "XLII_razorflak"}
         },
         {
             "autofire": true,

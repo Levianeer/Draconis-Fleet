@@ -126,18 +126,18 @@
 	"draconisAICoreScaling": {
 		"enabled": true,						# Enable/disable AI core fleet scaling	#	Default : true
 		"testCycleOverride": -1,				# DEBUG: Override game cycle for testing (-1 = disabled, X = test at that cycle)	#	Default : -1
-		"recheckIntervalDays": 120.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 120.0
+		"recheckIntervalDays": 60.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 60.0
 
 		# Cycle thresholds defining the scaling curve
 		# NOTE: Starsector campaigns start at cycle ~206, so these are absolute cycle numbers
 		"cycleThresholds": {
 			"earlyGameEnd": 211.0,				# No AI cores before this cycle (206+5)	#	Default : 211.0
 			"midGameStart": 211.0,				# Start adding AI cores (206+5)	#	Default : 211.0
-			"midGameEnd": 226.0,				# Transition point (206+20)	#	Default : 226.0
-			"lateGameStart": 226.0,				# More AI cores begin appearing (206+20)	#	Default : 226.0
-			"lateGameEnd": 256.0,				# Heavy AI core usage (206+50)	#	Default : 256.0
-			"endGameStart": 256.0,				# Very heavy usage begins (206+50)	#	Default : 256.0
-			"endGameEnd": 306.0					# Maximum saturation (206+100)	#	Default : 306.0
+			"midGameEnd": 216.0,				# Transition point (206+10)	#	Default : 216.0
+			"lateGameStart": 216.0,				# More AI cores begin appearing (206+10)	#	Default : 216.0
+			"lateGameEnd": 236.0,				# Heavy AI core usage (206+30)	#	Default : 236.0
+			"endGameStart": 236.0,				# Very heavy usage begins (206+30)	#	Default : 236.0
+			"endGameEnd": 256.0					# Maximum saturation (206+50)	#	Default : 256.0
 		},
 
 		# Coverage percentages (how many empty officer slots to fill with AI cores)
@@ -150,33 +150,44 @@
 
 		# Core type distribution weights (interpolated between milestones)
 		"coreTypeWeights": {
-			"earlyMidGame": {					# Cycles 5-20: Only Gamma cores
+			"earlyMidGame": {					# Only Gamma cores
 				"gamma": 1.0,
 				"beta": 0.0,
 				"alpha": 0.0
 			},
-			"midGame": {						# Cycle 20: Still only Gamma
+			"midGame": {						# Still only Gamma
 				"gamma": 0.9,
 				"beta": 0.1,
 				"alpha": 0.0
 			},
-			"midLateGame": {					# Cycles 20-50: Mostly Gamma, some Beta
+			"midLateGame": {					# Mostly Gamma, some Beta
 				"gamma": 0.75,
 				"beta": 0.2,
 				"alpha": 0.05
 			},
-			"lateGame": {						# Cycles 50-100: Mix of all types
+			"lateGame": {						# Mix of all types
 				"gamma": 0.5,
 				"beta": 0.4,
 				"alpha": 0.1
 			},
-			"endGame": {						# Cycle 100+: Full distribution
+			"endGame": {						# Full distribution
 				"gamma": 0.35,
 				"beta": 0.5,
 				"alpha": 0.15
 			}
 		}
 	},
+
+	# ========================================
+	# ARTILLERY SUPPORT SYSTEM
+	# ========================================
+	# Ships with the Artillery Support Platform hull mod can provide off-map fire support
+	# when kept in fleet reserves during combat
+
+	"draconisArtilleryVolleyCooldown": 15.0,		# Seconds between volleys (on top of halved weapon fire rate)	#	Default : 15.0
+	"draconisArtilleryCRDrainPerVolley": 0.5,		# Combat Readiness % lost per volley (0.5 = 0.5%)	#	Default : 0.5
+	"draconisArtillerySpawnDistance": 1750.0,		# Distance from map edge where projectiles spawn	#	Default : 1750.0
+	"draconisArtilleryRangeMultiplier": 50.0,		# Range multiplier for artillery projectiles (near-infinite)	#	Default : 50.0
 
     # ========================================
     # DRACONIS GRAPHICS

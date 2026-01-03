@@ -51,6 +51,6 @@
       235
     ]
   },
-  "fireSoundTwo": "XLII_durendal_mkii_fire",
-  "unaffectedByProjectileSpeedBonuses": true
+  "unaffectedByProjectileSpeedBonuses":true,
+  "fireSoundTwo": "XLII_durendal_mkii_fire"
 }

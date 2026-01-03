@@ -1,3 +1,51 @@
+Version 0.5.7 (Save-compatible with 0.5.6)
+NEW CONTENT:
+- NEW: Aldhibah-class Frigate - Fast attack frigate based off of the Wolf-class.
+- NEW: Longsword Autocannon - Large ballistic weapon for sustained anti-shield firepower.
+
+BALANCE CHANGES:
+- Evasion Protocol ship system no longer lowers shields when active.
+- Rebalanced Juni:
+  - Increased Shield Sfficiency: 1.4 → 1.2.
+- Rebalanced Thuban:
+  - Reduced Cost: 20000 → 18000.
+- Rebalanced Alruba MK.I:
+  - Reduced DP: 8 → 6.
+- Rebalanced Particle Burst Lance:
+  - Reduced flux/s: 1250 → 1000.
+- Rebalanced Estoc Flak Cannon:
+  - Reduced OP cost: 5 → 4.
+- Rebalanced all Bardiche MRM variants:
+  - Increased EMP damage: 250 → 500 (all variants).
+  - Micro Bardiche: Reduced OP cost: 5 → 4, increased max ammo: 50 → 100.
+  - Bardiche: Reduced OP cost: 10 → 8, increased max ammo: 200 → 400.
+
+NEXERELIN CHANGES:
+- Reworked diplomacy stuff:
+  - Most major factions now start at a negative relationship.
+- Increased colony expansion rate.
+- Buffed ground combat effectiveness:
+  - Added +25% attack multiplier.
+  - Added +25% defense multiplier.
+- Special forces adjustments:
+  - Reduced special forces size multiplier: 4 → 2. Was a little silly.
+  - Implemented custom Roman numeral naming system for special forces fleets.
+
+PROGRESSIVE DIFFICULTY ADJUSTMENTS:
+- Accelerated AI core scaling timeline for faster mid/late-game progression:
+  - Mid-game transition: cycle 226 → 216 (5-10 cycles instead of 5-20).
+  - Late-game start: cycle 226 → 216.
+  - Late-game peak: cycle 256 → 236 (30 cycles instead of 50).
+  - End-game start: cycle 256 → 236.
+  - Maximum saturation: cycle 306 → 256 (50 cycles total instead of 100).
+- Recheck interval for AI core assignment shortened: 120 days → 60 days.
+  - Note: Settings adjustable in data/config/settings.json.
+
+MINOR IMPROVEMENTS:
+- Updated the old MagicLib Bounty descriptions, finally.
+- Updated ship variants across the fleet to fit OP changes.
+- Reowrked of Breach Jammer AI, should be MUCH better now.
+
 Version 0.5.6 (Save-compatible with 0.5.5)
 BUG FIXES:
 - Forgot to add the DO_NOT_AIM tag for the Javelin.

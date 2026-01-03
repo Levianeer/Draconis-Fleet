@@ -1,0 +1,42 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 10,
+    "fluxVents": 10,
+    "goalVariant": true,
+    "hullId": "XLII_aldhibah",
+    "hullMods": [
+        "unstable_injector",
+        "extendedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_aldhibah_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 004": "phasebeam"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS 005": "sabot_single",
+                "WS 006": "sabot_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "lightac",
+                "WS 003": "lightac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS 001": "XLII_estocflak"}
+        }
+    ]
+}

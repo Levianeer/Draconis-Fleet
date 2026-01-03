@@ -1,25 +1,33 @@
 {
-	# should be a copy of "combatSmall", minus variants that are annoying to fight in low numbers
-	# for example, no Hyperions or fast beam-based kiting loadouts, or ships with damper field
 	"combatSmallForSmallFleet":{
-		"XLII_thuban_Elite":0.5,
-		"XLII_alruba_Elite":2,
-		"XLII_alruba_mk2_Elite":5,
+		"XLII_thuban_Elite":1,
+		"XLII_alruba_Elite":1,
+
+		"XLII_alruba_mk2_Elite":1,
+		"XLII_alruba_mk2_Support":1,
+
+		"XLII_aldhibah_Elite":1,
+		"XLII_aldhibah_Strike":1,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"XLII_thuban_Elite":5,
-		"XLII_alruba_Elite":0.5,
-		"XLII_alruba_mk2_Elite":2.5,
+		"XLII_thuban_Elite":1,
+		"XLII_alruba_Elite":1,
+
+		"XLII_alruba_mk2_Elite":1,
+		"XLII_alruba_mk2_Support":1,
+
+		"XLII_aldhibah_Elite":1,
+		"XLII_aldhibah_Strike":1,
 
 		"XLII_alruba_Assault_fortysecond":1,
 		
-		"fallback":{"combatMedium":0.5},
+		"fallback":{"combatMedium":1},
 	},
 	"combatMedium":{
-		"XLII_rastaban_Elite":5,
-		"XLII_errakis_Elite":5,
+		"XLII_rastaban_Elite":1,
+		"XLII_errakis_Elite":1,
 		"XLII_giausar_Elite":1,
 
 		"XLII_errakis_Assault_fortysecond":1,
@@ -27,32 +35,32 @@
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"XLII_eltanin_Elite":5,
+		"XLII_eltanin_Elite":1,
 		"XLII_juza_Elite":1,
-		"XLII_juni_Elite":5,
+		"XLII_juni_Elite":1,
 		
 		"XLII_juza_Assault_fortysecond":1,
 
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
-		"XLII_altais_Elite":10,
+		"XLII_altais_Elite":1,
 		"XLII_dziban_Elite":1,
 
 		"fallback":{"combatLarge":1},
 	},
 	"carrierSmall":{
 		
-		"fallback":{"carrierMedium":0.5},
-		"fallback2":{"carrierLarge":0.25},
+		"fallback":{"carrierMedium":1},
+		"fallback2":{"carrierLarge":0.11},
 	},
 	"carrierMedium":{
-		"XLII_shaobi_Elite":5,
+		"XLII_shaobi_Elite":1,
 
 		"XLII_shaobi_Assault_fortysecond":1,
 
 		"fallback":{"carrierSmall":1},
-		"fallback2":{"carrierLarge":0.5},
+		"fallback2":{"carrierLarge":1},
 	},
 	"carrierLarge":{
 		"XLII_alwaid_Elite":1,
@@ -66,14 +74,14 @@
 	# freighters and such
 	"freighterSmall":{
 
-		"fallback":{"freighterMedium":0.5},
-		"fallback2":{"freighterLarge":0.25},
+		"fallback":{"freighterMedium":1},
+		"fallback2":{"freighterLarge":0.11},
 	},
 	"freighterMedium":{
-		"XLII_alsafi_Hybrid":10,
+		"XLII_alsafi_Hybrid":1,
 
 		"fallback":{"freighterSmall":1},
-		"fallback2":{"freighterLarge":0.5},
+		"fallback2":{"freighterLarge":1},
 	},
 	"freighterLarge":{
 
@@ -83,15 +91,15 @@
 	
 	"tankerSmall":{
 
-		"fallback":{"tankerMedium":0.5},
-		"fallback2":{"tankerLarge":0.25},
+		"fallback":{"tankerMedium":1},
+		"fallback2":{"tankerLarge":0.11},
 	},
 
 	"tankerMedium":{
-		"XLII_alsafi_Hybrid":10,
+		"XLII_alsafi_Hybrid":1,
 
 		"fallback":{"tankerSmall":1},
-		"fallback2":{"tankerLarge":0.5},
+		"fallback2":{"tankerLarge":1},
 	},
 	"tankerLarge":{
 
@@ -101,14 +109,14 @@
 	
 	"personnelSmall":{
 
-		"fallback":{"personnelMedium":0.5},
-		"fallback2":{"personnelLarge":0.25},
+		"fallback":{"personnelMedium":1},
+		"fallback2":{"personnelLarge":0.11},
 	},
 	"personnelMedium":{
-		"XLII_shaobi_Elite":10,
+		"XLII_shaobi_Elite":1,
 
 		"fallback":{"personnelSmall":1},
-		"fallback2":{"personnelLarge":0.5},
+		"fallback2":{"personnelLarge":1},
 	},
 	"personnelLarge":{
 
@@ -118,7 +126,7 @@
 	
 	# utility ships
 	"tug":{
-		"XLII_kuma_Elite":10,
+		"XLII_kuma_Elite":1,
 		"fallback":{"utility":1},
 	},
 	"crig":{
@@ -126,6 +134,6 @@
 		"fallback":{"utility":1},
 	},
 	"utility":{
-		"XLII_kuma_Elite":2,
+		"XLII_kuma_Elite":1,
 	}
 }

@@ -13,11 +13,11 @@
 
 	"draconis_engine_loop":{
             "sounds":[
-                {"file":"sounds/sfx_engines/engine_draconis_00_fighter.ogg","pitch":1.0,"volume":0.5}, 
-                {"file":"sounds/sfx_engines/engine_draconis_01_frigate.ogg","pitch":1.0,"volume":0.5}, 
-                {"file":"sounds/sfx_engines/engine_draconis_02_destroyer.ogg","pitch":1.0,"volume":0.5},
-                {"file":"sounds/sfx_engines/engine_draconis_03_cruiser.ogg","pitch":1.0,"volume":0.5},
-                {"file":"sounds/sfx_engines/engine_draconis_04_capital.ogg","pitch":1.0,"volume":0.5},
+                {"file":"sounds/sfx_engines/engine_draconis_00_fighter.ogg","pitch":1.0,"volume":0.7}, 
+                {"file":"sounds/sfx_engines/engine_draconis_01_frigate.ogg","pitch":1.0,"volume":0.7}, 
+                {"file":"sounds/sfx_engines/engine_draconis_02_destroyer.ogg","pitch":1.0,"volume":0.7},
+                {"file":"sounds/sfx_engines/engine_draconis_03_cruiser.ogg","pitch":1.0,"volume":0.7},
+                {"file":"sounds/sfx_engines/engine_draconis_04_capital.ogg","pitch":1.0,"volume":0.7},
             ],
         "DRACONIS_ENGINE":{"sounds":[0,1,2,3,4], "pitch":1.0, "volume":1.0},
         "FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.4},
@@ -37,15 +37,15 @@
 
 	"XLII_longsword_charge":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/XLII_longsword_charge.ogg","pitch":1.0,"volume":0.3}
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_charge.ogg","pitch":1.0,"volume":0.15}
 		]
     },
 
 	"XLII_longsword_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/XLII_longsword_fire_01.ogg","pitch":1.0,"volume":0.3},
-		{"file":"sounds/sfx_wpn_energy/XLII_longsword_fire_02.ogg","pitch":1.0,"volume":0.3},
-		{"file":"sounds/sfx_wpn_energy/XLII_longsword_fire_03.ogg","pitch":1.0,"volume":0.3}
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":0.65,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":0.65,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":0.65,"volume":0.1}
 		]
     },
 

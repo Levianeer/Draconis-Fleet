@@ -1,6 +1,6 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 12,
+    "fluxCapacitors": 14,
     "fluxVents": 30,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": ["targetingunit"],

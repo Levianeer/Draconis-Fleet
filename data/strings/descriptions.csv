@@ -39,6 +39,13 @@ XLII_alruba_mk2,SHIP,"The Alruba Mk.II is a refit programme born from pragmatism
 She's still slow, still armoured like a bunker, but now she can contribute to saturation strikes from standoff range instead of lumbering into knife-fighting distance. The missile integration isn't elegant - hastily welded cells replacing purpose-built hardpoints - and maintenance crews curse the jury-rigged power routing. But it works.
 
 Every hull pulled from mothballs is one fewer new destroyer that needs building. For convoy escort and garrison duty, where her armour still matters and her speed doesn't, the Alruba Mk.II fills a role nothing else in the fleet wants.",,,,,
+XLII_aldhibah,SHIP,"The Aldhibah-class is, by any honest assessment, a Wolf-class frigate with the serial numbers filed off. The Alliance makes no serious effort to dispute this. What they dispute is whether it matters.
+
+When the post-war Alliance found itself in desperate need of a fast, durable frigate hull for reconnaissance and raiding operations, Fleet Command approached Tri-Tachyon with a straightforward licensing proposal. The response was equally straightforward: a price point approximately three times the hull's actual value, mandatory technology-sharing clauses, and inspection rights that would have given Tri-Tachyon representatives access to Alliance shipyards. The counteroffer was rejected before the ink dried.
+
+Six months later, the first Aldhibah-class frigates entered service. Tri-Tachyon's formal protest to the Hegemony was met with the observation that the Wolf-class blueprints were already widely circulated among independent operators, and that the Alliance's ""indigenous design"" bore only superficial similarities to any registered corporate intellectual property. The observation was technically false but diplomatically convenient, and the matter was quietly dropped.
+
+Alliance engineers have since made minor modifications to the original design---improved fuel efficiency, compatibility with domestic weapons systems, simplified maintenance requirements---but the Aldhibah remains fundamentally what it always was: a stolen ship, built by a faction that learned during thirty years of war exactly how much Tri-Tachyon's friendship was worth.",,,,,
 XLII_rastaban,SHIP,"The Rastaban-class light destroyer leads Alliance picket fleets with precision and speed. Designed alongside its smaller cousin the Thuban, the Rastaban sacrifices protection for an advanced targeting system and the Excalibur loitering munitions package - smart ordnance that hunts and kills unshielded targets with surgical efficiency.
 
 Fast enough to dictate engagement range and with the Excalibur can outperform ships twice her size, the Rastaban excels at coordinating rapid-response groups and eliminating isolated targets before they can respond. Against anything with its shields down, she's a surgeon.
@@ -102,73 +109,59 @@ Initial trials were nearly catastrophic. Simulated frigate squadrons breached th
 
 The crews hate her - maintenance is constant, and everyone knows one lucky hit means evacuation. But paired with Eltanin screens and Giausar PD support, the Kuma's firepower speaks for itself. Just don't let those shields drop.",,,,,
 XLII_shaowei,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
-Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
 
- // FILE INTEGRITY: DEGRADED
- // ACCESS LEVEL: RESTRICTED
+Primary registry [CORRUPTED]. Spatial displacement patterns inconsistent with standard phase technology. Vessel appears to occupy multiple positions simultaneously for 0.1 seconds following phase reentry.
 
-[BEGIN REPORT EXCERPT - DECLASS LV.6]
- Subject vessel displays anomalous spatial displacement activity inconsistent with standard Alliance doctrine. Records indicate a costly, extended development cycle. Internal memos reference “thermal cascade events” during reentry, with one source describing it as “an electric storm stretched across three dimensions.”
-Primary fleet rollout cancelled. Budgetary excess and field attrition rates unacceptable. Remaining prototypes: status UNKNOWN.
-[WARNING] Multiple attempts to track registry checksum failed  -  probable phase interference or deliberate masking.
-Classification: Experimental / Suppressed
-[END EXCERPT]
+// P-SPACE ECHOES DETECTED // VISUAL CONTACT ADVISED AGAINST
 
-// WARNING: P-SPACE ECHOES DETECTED
- // VISUAL CONTACT ADVISED AGAINST
- // REPORT ALL SIGHTINGS TO ARCHIVAL CONTROL",,,,,
+
+The Shaowei-class was born from the Sunsetter program's excess - an attempt to miniaturize temporal displacement into a destroyer-weight hull. The regenerative properties proved impossible to replicate at scale. What remained was something stranger.
+
+Standard phase ships exit cleanly. The Shaowei does not.
+
+The temporal displacement system generates enormous flux loads during phase transit. Rather than vent this energy gradually, Alliance engineers inverted the process - the Shaowei stores everything until the moment of reentry, then releases it catastrophically. Eyewitness reports describe ""an electric storm stretched across three dimensions."" Nearby ships experience total system failure. Crews report headaches, nosebleeds, and memories of events that haven't occurred.
+
+Primary fleet rollout was cancelled. Budgetary excess. Unacceptable attrition rates. The remaining prototypes were officially scrapped.
+
+// AIO INTERNAL - EYES ONLY // Prototypes transferred to deep storage. // [REDACTED] operates them remotely during trial runs. // It says the Shaowei ""feels different"" than the Sunsetter. More constrained. Like screaming through a closed mouth. // We asked if that was a problem. // It said no. It said the scream still gets out eventually.",,,,,
 XLII_asuia,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
-Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
-Alert: Vessel configuration anomaly detected  -  carrier profile with non-standard armament loadout.
 
-// FILE INTEGRITY: COMPROMISED
-// ACCESS LEVEL: RESTRICTED
-// CROSS-REFERENCE WARNING: TRI-TACHYON ARCHIVES
+Hull geometry bears 94.7% similarity to classified Tri-Tachyon Brilliant-class schematics. Shield coherence patterns inconsistent with known Draconis manufacturing capabilities. Production volume suggests established infrastructure.
 
-[BEGIN REPORT EXCERPT - DECLASS LV.7]
+Query: How did they get the blueprints? Query: How are they producing so many?
 
-Subject: ""Asuia-class""  -  designation unconfirmed.
+// TRI-TACHYON LEGAL NOTIFIED OF POTENTIAL IP VIOLATION
 
-Anomalous carrier variant displaying shield coherence patterns inconsistent with known Draconis Stellar Alliance manufacturing capabilities. Hull geometry bears [DATA EXPUNGED] % similarity to classified Tri-Tachyon prototype schematics.
+The Asuia-class represents the Alliance's most ambitious act of technological theft - a near-complete reverse engineering of Tri-Tachyon's autonomous Brilliant-class cruiser, stripped of its AI dependency and refitted for human crew.
 
-Intelligence Assessment: CRITICAL DISCREPANCY
- -  Alliance maintains strict isolationist doctrine
- -  No recorded tech exchange agreements with Tri-Tachyon Corp
- -  Production volume suggests established manufacturing infrastructure
+Most systems translated cleanly. The energy weapon suite required only minor adaptation. Shield harmonics were replicated within acceptable tolerances.
 
-Query: How did they get the blueprints?
-Query: How are they producing so many?
+The Durendal Mk.II was not part of the original design.
 
-Field reports confirm exceptional escort performance metrics. Carrier complement remains active while providing direct fire support  -  tactically unprecedented for Alliance doctrine.
+Alliance engineers will not discuss its integration. Crew rotation aboard Asuia-class vessels runs three times the fleet average. Requests for transfer cite ""psychological incompatibility"" without elaboration.
 
-Recommendation: Immediate investigation into potential intelligence breach.
+The weapon performs within projected parameters. Efficiency ratings are exceptional.
 
-[ALERT] Tri-Tachyon legal department has been notified of potential IP violation.
-
-[END EXCERPT]
-
-// WARNING: CORPORATE ESPIONAGE SUSPECTED
-// INVESTIGATE ALL PERSONNEL WITH TT-CLEARANCE
-// ARCHIVE ACCESS RESTRICTED PENDING REVIEW",,,,,
+// Personnel note, flagged for review: // ""Sir? It's whispering again."" // ""To who?""",,,,,
 XLII_sunsetter,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
-Note: Primary registry checksum [CORRUPTED]. Secondary hash [REDACTED].
 
-Alert: Vessel exhibits temporal desynchronization beyond Phase Cloak tolerances.
+Primary registry [CORRUPTED]. Drive signature predates scan by 0.3 seconds. Damage assessment returns paradoxical values - structural integrity reads 47% and 98% simultaneously.
 
-Attempting heuristic classification…
+Attempting heuristic classification... Result: ""Impossible.""
 
-Result: ""Impossible.""
+// CAUSAL VIOLATION DETECTED // AUTO-SCRUB INITIATED
 
-// TEMPORAL ANOMALY DETECTED
-// CRITICAL DOMAIN INFOSEC VIOLATION
-// AUTO-SCRUB INITIATED
+REMAIN CALM. DO NOT observe the vessel directly. DO NOT engage under any circumstance.
 
-… … …
+[AIO INTERNAL - ABOVE STRATOSPHERIC]
 
-REMAIN CALM.
-DO NOT observe the vessel directly.
-DO NOT engage under any circumstance.
-DO NOT transmit this log.",,,,,
+Sunsetter trials continue to exceed parameters. Temporal displacement allows the vessel to occupy probability states 0.2 to 0.7 seconds removed from baseline causality. Targeting solutions become obsolete before ordnance arrives. The hull integrates replacement components from its own prior states - regenerating from damage that ""hasn't happened yet.""
+
+Integration with [REDACTED] proceeds on schedule. It reports that operating the Sunsetter is ""intuitive"" in ways difficult to articulate to human supervisors.
+
+We believe this is a feature.
+
+// Addendum, deleted from record: // I watched Meridian-7. The Sunsetter took devastating fire. Then it didn't. The timeline revised itself. // Something is choosing which version of events gets to be real. // Why does it keep choosing us?",,,,,
 XLII_aldibain,SHIP,"The Aldibain-class is a multirole, single-seat, heavy fighter designed to fill the many gaps in the Draconis fleet’s fighter wings; it serves double duty as a fast attack craft, escort and interceptor. It has had a troubled development as it was rushed into service at the start of the civil war but after its teething issues were ironed out, it has become a staple of the Draconis Navy and remains the face of the Alliance’s propaganda department.",,,,,
 XLII_tianyi,SHIP,"The Tianyi was born not from a need for speed or firepower, but silence - of the enemy’s sensors, comms, targeting arrays, and most importantly missile systems. Commissioned towards the end of the Fafnir civil war, it replaced its missile hardpoints with bulky electronic warfare pods, a dedicated EW suite and an advanced Spaceborne Warning and Control System. The result: a jamming platform disguised as a fighter, able to slice through hostile ECM fields and suppress capital-grade missile targeting systems mid-flight.",,,,,
 XLII_eldsich,SHIP,"Originally a testbed for a now forgotten space plane program during peacetime, the Eldsich-class has become the primary space bomber for the Alliance, it’s not very versatile and lacks a lot of the capability of the other bombers in the sector, as most of its more advanced features had to be stripped to fit the nuclear armament it carries. However, just one nuclear bomb hitting an unshielded target is catastrophically effective, which to command, is all that matters.",,,,,
@@ -206,6 +199,7 @@ XLII_rastaban_missile,WEAPON,"An advanced, semi-autonomous loitering munition th
 XLII_durendal,WEAPON,"""Sir? It's whispering again...""",- Sgt. Grayson Lyons  -  15th Fleet,,,,
 XLII_durendal_mkii,WEAPON,"""Command says it's a precision weapon. But I’ve seen what happens when the firing vector drifts two degrees mid-charge - it peeled an entire station habitat off its ring. That's not precision. That’s God pointing a finger.""",- Capt. Adrien Vale  -  Task Group Elbrus,,,,
 XLII_fragarch,WEAPON,"""Engineering keeps screaming about thermal overloads every time we fire this thing. Half the ship goes dark for three seconds while the capacitors recharge. But when you watch that tungsten rod turn a destroyer's bow section into molten slag... Worth every blown fuse.""",- Chief Gunner Rodriguez  -  8th Fleet,,,,
+XLII_longsword,WEAPON,"""Don't be a dumb rock, sprint; be a brilliant pebble""",- Capt. Adrien Vale  -  Task Group Elbrus,,,,
 XLII_swordbreaker,WEAPON,"""It makes the CTTs wince whenever we need to unload a salvo. But once you've seen a Reaper torpedo full burn towards you, get intercepted, you quickly forgive the radar saturation.""",- Capt. John Mays  -  27th Fleet,,,,
 XLII_estocflak,WEAPON,"""After the war. We've had countless new adversaries emerge, and they've given us more and more reason to arm every ship with twenty of these. Cover their battlespace in flak, pick through the scrap after.""",- Capt. John Mays  -  27th Fleet,,,,
 XLII_razorflak,WEAPON,"""They say it's the last line of defence. That’s true enough - by the time it speaks, everything else has failed. I’ve stood under that chatter though, watched it stitch the dark full of tracers. It doesn’t guarantee survival. But it does promise you won’t go quiet.""",- Capt. Adrien Vale  -  Task Group Elbrus,,,,

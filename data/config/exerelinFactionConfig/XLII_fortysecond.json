@@ -1,0 +1,30 @@
+{
+    "playableFaction":false,
+    "corvusCompatible":true,
+    "spawnAsFactionId":"XLII_draconis",
+    "rebelFleetSuffix":"Treasonists",
+    "startRelationships":{"XLII_draconis":1},
+    
+    "responseFleetName":"Quick Reaction Force",
+    
+    "morality":"amoral",
+    
+    "startShipsSolo":[
+        ["XLII_alruba_Assault_fortysecond"]
+    ],
+        
+    "startShipsCombatSmall":[
+        ["XLII_alruba_Assault_fortysecond","XLII_shaobi_Assault_fortysecond"]
+    ],
+
+    "startShipsCombatLarge":[
+        ["XLII_alruba_Assault_fortysecond","XLII_shaobi_Assault_fortysecond","XLII_juza_Assault_fortysecond"]
+    ],
+    
+    "startSpecialItems":[
+        [["XLII_ship_package",""]],
+        [["XLII_weapon_package",""]],
+        [["XLII_fighter_package",""]],
+        [["XLII_fortysecond_package",""]]
+    ],
+}

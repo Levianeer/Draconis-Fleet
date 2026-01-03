@@ -1,7 +1,7 @@
 {
   "id": "XLII_estocflak",
   "specClass": "projectile",
-  "projectileSpecId": "XLII_razorflak_shot",
+  "projectileSpecId": "XLII_estocflak_shot",
   "type": "BALLISTIC",
   "size": "SMALL",
   "turretSprite": "graphics/weapons/XLII_estocflak_turret_base.png",

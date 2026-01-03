@@ -1,0 +1,19 @@
+{
+	"id":"XLII_longsword_shot",
+	"specClass":"projectile",
+	"spawnType":"BALLISTIC",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"hitGlowRadius":20,
+	"length":28.0,
+	"width":6.0,
+	"fadeTime":0.20,
+	"fringeColor":[255,100,100,255],
+	"coreColor":[255,100,100,255],
+	"glowRadius":20,
+	"textureScrollSpeed":64.0,
+	"pixelsPerTexel":5.0,
+	"passThroughMissiles":true,
+	"passThroughFighters":true,
+	"bulletSprite":"graphics/missiles/XLII_shell_mac.png"
+}

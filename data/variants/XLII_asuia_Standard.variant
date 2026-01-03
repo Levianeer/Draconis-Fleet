@@ -1,0 +1,45 @@
+{
+    "displayName": "Experimental",
+    "fluxCapacitors": 19,
+    "fluxVents": 30,
+    "goalVariant": true,
+    "hullId": "XLII_asuia",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_asuia_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "XLII_mangonel"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0002": "XLII_bardiche"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0020": "XLII_durendal_mkii"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_rapier",
+                "WS0019": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_estocflak",
+                "WS0006": "XLII_estocflak"
+            }
+        }
+    ],
+    "wings": ["XLII_nodus_wing"]
+}

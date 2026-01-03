@@ -25,5 +25,6 @@
 	"pixelsPerTexel":50,
 	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF],
 	"playFullFireSoundOne":true,
+	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
 	"fireSoundOne":"XLII_particlelance_fire",
 }

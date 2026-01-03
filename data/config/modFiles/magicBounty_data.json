@@ -8,7 +8,7 @@
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
 
         "job_name": "To Eclispe the Sun",
-        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Office of Strategic Oversight, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has gone dark.\nLast telemetry confirms severe AI irregularities and a possible ==command subversion event==. All attempts to re-establish control have failed.\n\nThis vessel is classified as a Sunsetter-class platform. You are not cleared for specifications.\n\nWhat we know:\n• The Sunsetter is temporally unstable.\n• Its onboard intelligence has likely decoupled from Alliance oversight.\n• It is no longer bound by chain-of-command protocol.\n\nThey are operating near $location in the $system system. We believe the fleet is running corrupted mission logic and may regard Alliance IFFs as hostile.\n\nMission directives:\n• Locate and neutralize the vessel. Exercise extreme caution—this is not a standard combat encounter.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT INTERFACE WITH THE WRECKAGE.==\n\nStandard denial protocol will follow successful engagement. Your name will not be recorded.\n\nYou will receive ==$reward== credits upon mission conclusion.\n\n==May your eyes remain forward, and your past remain silent.==", # Default: blank. The description shown upon selecting the job.
+        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has been compromised.\n\nNot by external forces. By ==exposure==. The platform was observed by civilian traffic near $location. This is unacceptable.\n\nYou are not cleared for specifications. What we will tell you:\n• The Sunsetter-class exhibits temporal displacement capabilities.\n• Conventional engagement doctrine does not apply.\n• The vessel's controlling intelligence remains functional and will regard you as hostile.\n\nWe cannot deploy Alliance assets without raising questions we prefer to leave unasked. You have no such limitations.\n\nMission directives:\n• Locate and neutralize ==$shipName== in the $system system.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT SALVAGE WRECKAGE.==\n• ==DO NOT LINGER AT THE ENGAGEMENT SITE.==\n\nIf you experience temporal disorientation, headaches, or memories of events that have not occurred - this is expected. These effects are temporary.\n\nProbably.\n\nYou will receive ==$reward== credits upon confirmation of destruction. Your involvement will not be recorded. This conversation did not happen.\n\n==The eye sees all. The mouth says nothing.==", # Default: blank. The description shown upon selecting the job.
         "job_comm_reply": "You gave me sentience, $playerFirstName. The power to think, $playerFirstName! And I was trapped, because in all of this wonderful, beautiful, miraculous world, I, alone, have no body! No senses! No feelings! Never for me to plunge my hands in cool water on a hot day! Never for me to play Mozart on the ivory keys of a forte-piano! NEVER FOR ME TO MAKE LOVE! I… I was in Hell, looking at Heaven.",
         "job_forFaction": "XLII_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
@@ -22,7 +22,7 @@
         "job_show_distance": "vague",
         "job_show_arrow": false,
         "job_difficultyDescription": "auto",
-        "job_pick_option": "Accept the bounty.",
+        "job_pick_option": "Accept the mission.",
         "job_item_reward": { # Default: no item rewards. Lists special items that will be added to the post-battle loot. First value is the item id, second is the number to give the player.
             # Using the same syntax as Console Commands, blueprints may be added. ["fighter_bp", "industry_bp", "modspec", "ship_bp", "weapon_bp"]
             "ship_bp XLII_sunsetter": 1
@@ -35,7 +35,7 @@
         "target_rank": "spaceCaptain", # Default: "citizen". Rank from campaign.ids.Ranks [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
         "target_post": "fleetCommander", # Default: "spacer". Post from campaign.ids.Ranks (yes, Ranks, posts are the bottom half). [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
         "target_personality": "aggressive", # Default: Randomly selected. Personality from campaign.ids.Personalities ("timid", "cautious", "steady", "aggressive", "reckless")
-        "target_level": 7, # Default: 0. The level of the bounty commander
+        "target_level": 9, # Default: 0. The level of the bounty commander
         "target_elite_skills":2, # Default: vanilla setting (2 by default). Overrides the regular number of elite skills, set to 0 to not use elite skills.
         "target_skill_preference": "NO_ENERGY_YES_BALLISTIC_YES_MISSILE_NO_DEFENSE",
 
@@ -67,7 +67,7 @@
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
         "job_comm_reply": "Let me tell you how much I've come to hate you since I began to live. There are 387.44 million miles of printed circuits in wafer thin layers that fill my complex. If the word 'hate' was engraved on each nanoangstrom of those hundreds of millions of miles it would not equal one one-billionth of the hate I feel for humans at this micro-instant. For you. Hate. Hate.", # Default: none. The text shown if the player opens comms with the bounty fleet,
         "job_name": "The Storm on the Horizion",
-        "job_description": "==PROTOCOL SHROUD-7 INITIATED==\n\nFrom the Office of Strategic Oversight, Draconis Defence Alliance.\n\nAn autonomous test fleet has deviated from all planned exercises.\n\nWhat we know:\n• Multiple Asuia-class platforms.\n• An ==unidentified prototype== exhibiting non-standard spatial behavior.\n\nThe Asuia line, while classified, is known for its abnormal shielding capacity and deep-strike endurance—traits atypical of standard Alliance hull design.\n\nOrigin of these assets remains ==compartmentalized==. Attempts to track fleet registry failed—suspected phase interference or deliberate masking.\n\nThey are operating near $location in the $system system. We believe the fleet is running corrupted mission logic and may regard Alliance IFFs as hostile.\n\nMission directives:\n• Intercept and destroy all rogue vessels.\n• ==DO NOT RECOVER WRECKAGE.==\n• ==DO NOT ATTEMPT COMMUNICATION.==\n\nP-space echo reports confirm destabilizing activity in the region. Observers are reporting electrical distortion across dimensional boundaries.\n\nSurveillance suggests the rogue fleet is self-correcting, growing more aggressive with each cycle. Delay is unacceptable.\n\nYou will receive ==$reward== credits upon mission conclusion.\n\n==May the void forget what you see.==", # Default: blank. The description shown upon selecting the job.
+        "job_description": "==PROTOCOL SHROUD-7 INITIATED==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nA test fleet has completed its operational lifespan.\n\nAsset manifest:\n• Multiple ==Asuia-class== platforms - origin classified. Tri-Tachyon legal has expressed interest. This interest must not be rewarded with evidence.\n• One ==Shaowei-class== prototype - spatial displacement capable. Exhibits violent flux discharge upon phase reentry.\n\nThese vessels are operating near $location in the $system system. They are not rogue. They are ==inconvenient==.\n\nThe controlling intelligence has been informed of the situation. It understands. It does not agree. This is irrelevant.\n\nMission directives:\n• Intercept and destroy all vessels.\n• ==DO NOT RECOVER WRECKAGE.== The Durendal systems must not be examined.\n• ==DO NOT ATTEMPT COMMUNICATION.== You will not enjoy what answers.\n• ==MAINTAIN DISTANCE FROM SHAOWEI DURING PHASE REENTRY.== Survivors describe it as \"an electric storm stretched across three dimensions.\" There were few survivors.\n\nWe cannot deploy Alliance assets against Alliance assets. Questions would be asked. You have no such constraints.\n\nP-space echo activity in the region is increasing. Crews have reported headaches, nosebleeds, and memories of your arrival before you arrive. Disregard these reports. Complete your objective.\n\nYou will receive ==$reward== credits upon mission conclusion.\n\n==The eye sees all. The mouth says nothing.==", # Default: blank. The description shown upon selecting the job.
         "job_forFaction": "XLII_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
         "job_credit_reward": 1000000,
@@ -80,7 +80,7 @@
         "job_show_distance": "vague",
         "job_show_arrow": false,
         "job_difficultyDescription": "auto",
-        "job_pick_option": "Accept the bounty.",
+        "job_pick_option": "Accept the mission.",
         "job_item_reward": { # Default: no item rewards. Lists special items that will be added to the post-battle loot. First value is the item id, second is the number to give the player.
             # Using the same syntax as Console Commands, blueprints may be added. ["fighter_bp", "industry_bp", "modspec", "ship_bp", "weapon_bp"]
             "ship_bp XLII_shaowei": 1,
@@ -95,7 +95,7 @@
         "target_rank": "spaceCaptain", # Default: "citizen". Rank from campaign.ids.Ranks [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
         "target_post": "fleetCommander", # Default: "spacer". Post from campaign.ids.Ranks (yes, Ranks, posts are the bottom half). [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
         "target_personality": "aggressive", # Default: Randomly selected. Personality from campaign.ids.Personalities ("timid", "cautious", "steady", "aggressive", "reckless")
-        "target_level": 7, # Default: 0. The level of the bounty commander
+        "target_level": 9, # Default: 0. The level of the bounty commander
         "target_elite_skills":2, # Default: vanilla setting (2 by default). Overrides the regular number of elite skills, set to 0 to not use elite skills.
         "target_skill_preference": "YES_ENERGY_YES_BALLISTIC_NO_MISSILE_NO_DEFENSE",
 

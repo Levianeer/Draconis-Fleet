@@ -1,0 +1,41 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 9,
+    "fluxVents": 10,
+    "hullId": "XLII_aldhibah",
+    "hullMods": [
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_aldhibah_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 004": "pulselaser"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS 005": "swarmer",
+                "WS 006": "swarmer"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS 001": "ioncannon"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "pdlaser",
+                "WS 003": "pdlaser"
+            }
+        }
+    ]
+}

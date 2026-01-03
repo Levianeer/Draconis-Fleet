@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 10,
-    "fluxVents": 2,
+    "fluxVents": 3,
     "goalVariant": true,
     "hullId": "XLII_thuban",
     "hullMods": [

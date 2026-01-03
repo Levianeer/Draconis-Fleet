@@ -1,0 +1,199 @@
+{
+  "hullName": "Aldhibah",
+  "hullId": "XLII_aldhibah",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/ships/XLII_aldhibah.png",
+  "style": "DRACONIS",
+  "height": 96,
+  "width": 52,
+  "center": [26, 42],
+  "collisionRadius": 80,
+  "shieldCenter": [7, 0],
+  "shieldRadius": 70,
+  "viewOffset": 50,
+  "builtInMods": [
+    "XLII_retreatdrive"
+  ],
+  "builtInWeapons": {
+    "WS0003": "XLII_vernier",
+    "WS0004": "XLII_vernier",
+    "WS0005": "XLII_vernier",
+    "WS0006": "XLII_vernier",
+    "WS0007": "XLII_vernier",
+    "WS0008": "XLII_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS 001",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 150,
+      "angle": 0,
+      "locations": [9, -0]
+    },
+    {
+      "id": "WS 002",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": 90,
+      "locations": [-14, 11]
+    },
+    {
+      "id": "WS 003",
+      "size": "SMALL",
+      "type": "HYBRID",
+      "mount": "TURRET",
+      "arc": 200,
+      "angle": -90,
+      "locations": [-14, -11]
+    },
+    {
+      "id": "WS 004",
+      "size": "MEDIUM",
+      "type": "ENERGY",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [45, -0]
+    },
+    {
+      "id": "WS 005",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [12, 19]
+    },
+    {
+      "id": "WS 006",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": -0,
+      "locations": [12, -19]
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 25,
+      "angle": 100,
+      "locations": [5, 10]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 25,
+      "angle": -100,
+      "locations": [5, -10]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-23, 23]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-23, -23]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [42, 15]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [42, -15]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [54, 11]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [54, -11]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-42, -0],
+      "length": 86,
+      "width": 22,
+      "angle": 180,
+      "contrailSize": 22,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    },
+    {
+      "location": [-37, 14.5],
+      "length": 64,
+      "width": 18,
+      "angle": 180,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-37, -14.5],
+      "length": 64,
+      "width": 18,
+      "angle": -180,
+      "contrailSize": 18,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    }
+  ],
+  "bounds": [
+    52.5, -12.5,
+    19.5, -14.5,
+    19.5, -23.5,
+    -5.5, -23.5,
+    -7.5, -19.5,
+    -28.5, -19.5,
+    -34.5, -16.5,
+    -40.5, -0,
+    -34.5, 16.5,
+    -28.5, 19.5,
+    -7.5, 19.5,
+    -5.5, 23.5,
+    19.5, 23.5,
+    19.5, 14.5,
+    52.5, 12.5
+  ]
+}

@@ -23,3 +23,9 @@ trails_fragarch_3,XLII_fragarch_shot,XLII_shock_contrail,10,0.1,0,0.4,7,3,"[120,
 trails_fragarch_4,XLII_fragarch_shot,XLII_shock_contrail,10,0.1,0,0.4,7,3,"[120,120,255]","[180,190,255]",0.4,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,15,80,0.4,0,0,200,true,false
 trails_fragarch_glow,XLII_fragarch_shot,XLII_blur_contrail,10,0,0.05,0.03,60,30,"[120,120,255]","[100,100,25]",0.5,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,0,0,0,0,0,0,false,false
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+trails_longsword_1,XLII_longsword_shot,XLII_shock_contrail,35,0.1,0,0.8,14,6,"[120,120,255]","[180,190,255]",0.6,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,15,80,0.6,0,0,90,true,false
+trails_longsword_2,XLII_longsword_shot,XLII_shock_contrail,35,0.1,0,0.8,14,6,"[120,120,255]","[180,190,255]",0.6,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,15,80,0.4,0,0,90,true,false
+trails_longsword_glow,XLII_longsword_shot,XLII_blur_contrail,35,0,0.05,0.15,30,15,"[255,120,120]","[25,100,100]",0.7,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,0,0,0,0,0,0,false,false
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,

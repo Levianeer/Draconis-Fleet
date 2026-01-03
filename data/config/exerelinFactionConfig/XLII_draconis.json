@@ -10,36 +10,16 @@
 
     "diplomacyTraits": ["irredentist","foreverwar","paranoid","devious","hates_ai"], # AI!? THAT SHIT IS MINE!!
 
-    "maxRelationships":{
-        "remnant":-0.51
-    },
+    "alignments":{"corporate":-1.0,"technocratic":-1.0,"militarist":1.0,"hierarchical":0.5,"ideological":-1.0},
 
-    "alignments":{
-        "corporate":-1.0,
-        "technocratic":-1.0,
-        "militarist":1.0,
-        "hierarchical":1.0,
-        "ideological":-1.0
-    },
+    "maxRelationships":{"remnant":-0.51,"tritachyon":-0.51,"persean":-0.51},
 
-    "diplomacyPositiveChance":{
-        "persean":0.8,
-        "tritachyon":0.6,
-        "luddic_church":0.6,
-        "diableavionics":0.6,
-    },
-
-    "diplomacyNegativeChance":{
-        "persean":1.2,
-        "tritachyon":1.4,
-        "luddic_church":1.4,
-        "diableavionics":1.4,
-    },
-
-    "colonyExpeditionChance":1.2, # One system is just never enough
+    "colonyExpeditionChance":1.5, # We were born to inherit the stars.
     "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
 
     "groundBattleSettings":{
+        "attackMult":1.25,
+        "defenseMult":1.25,
         "moraleDamageTakenMult":0.8,
     },
 
@@ -49,39 +29,43 @@
     "invasionFleetName":"Invasion Fleet",
     "invasionSupportFleetName":"Support Fleet",
 
+    "factionIdForHqResponse":"XLII_fortysecond",
+	"specialForcesSizeMult":2,
+    "specialForcesNamerClass":"levianeer.draconis.data.campaign.intel.specialforces.namer.DraconisRomanNumeralNamer",
+
 	"vengeanceFleetSizeMult":2,
     "vengeanceLevelNames":["Recon Picket","Black Ops Fleet","Hunter-Killer Battlegroup"],
     "vengeanceFleetNames":["Recon Picket","Black Ops Fleet","Hunter-Killer Battlegroup"],
     "vengeanceFleetNamesSingle":["a Recon Picket","a Black Ops Fleet","a Hunter-Killer Battlegroup"],
 
-    "factionIdForHqResponse":"XLII_fortysecond",
-    "specialForcesNamerClass":"exerelin.campaign.intel.specialforces.namer.PlanetNamer",
-    "specialForcesPointMult":0.5,
-	"specialForcesSizeMult":4,
-
     "startShipsSolo":[
         ["XLII_thuban_Standard"],
-        ["XLII_alruba_Standard"]
+        ["XLII_alruba_Standard"],
+        ["XLII_aldhibah_Standard"]
         ],
         
     "startShipsCombatSmall":[
         ["XLII_thuban_Standard","XLII_rastaban_Standard"],
-        ["XLII_alruba_Standard","XLII_errakis_Standard"]
+        ["XLII_alruba_Standard","XLII_errakis_Standard"],
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard"]
         ],
 
     "startShipsCombatLarge":[
+        ["XLII_alruba_Standard","XLII_errakis_Standard","XLII_juni_Standard"],
         ["XLII_thuban_Standard","XLII_rastaban_Standard","XLII_eltanin_Standard"],
-        ["XLII_alruba_Standard","XLII_errakis_Standard","XLII_juni_Standard"]
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_juza_Standard"]
         ],
 
     "startShipsCarrierSmall":[
         ["XLII_thuban_Standard", "XLII_shaobi_Standard"],
-        ["XLII_alruba_Standard", "XLII_shaobi_Standard"]
+        ["XLII_alruba_Standard", "XLII_shaobi_Standard"],
+        ["XLII_aldhibah_Standard", "XLII_shaobi_Standard"]
         ],
 
     "startShipsTradeSmall":[
         ["XLII_thuban_Standard", "XLII_rastaban_Standard", "XLII_alsafi_Standard"],
-        ["XLII_alruba_Standard", "XLII_errakis_Standard", "XLII_alsafi_Standard"]
+        ["XLII_alruba_Standard", "XLII_errakis_Standard", "XLII_alsafi_Standard"],
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_alsafi_Standard"]
         ],
 
     "startSpecialItems":[
