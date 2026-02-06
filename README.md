@@ -1,4 +1,4 @@
-### Requires [MagicLib](https://fractalsoftworks.com/forum/index.php?topic=25868) and [LazyLib](https://fractalsoftworks.com/forum/index.php?topic=5444).
+### Requires [LazyLib](https://fractalsoftworks.com/forum/index.php?topic=5444), [GraphicsLib](https://fractalsoftworks.com/forum/index.php?topic=10982) and [MagicLib](https://fractalsoftworks.com/forum/index.php?topic=25868).
 
 __Overview:__<br>
 The Draconis Defence Alliance is a military junta risen from the ashes of civil war. They sell weapons to anyone with credits and maintain a powerful fleet for a faction of their size. Their motives remain unclear.
