@@ -12,7 +12,7 @@
   "shieldRadius": 284,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_retreatdrive",
+    "XLII_draconishull",
     "hbi"
   ],
   "builtInWeapons": {
@@ -163,7 +163,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [65, 129]
+      "locations": [62, 129]
     },
     {
       "id": "WS0012",
@@ -172,7 +172,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [65, -129]
+      "locations": [62, -129]
     },
     {
       "id": "WS0013",

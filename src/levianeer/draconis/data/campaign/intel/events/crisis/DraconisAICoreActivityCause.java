@@ -41,13 +41,21 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
     public static List<AICoreData> computePlayerAICoreData() {
         List<AICoreData> result = new ArrayList<>();
 
+        float minThreshold = Global.getSettings().getFloat("draconisMinAICoreThreshold");
+
         // Scan all player markets for AI cores
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (!Factions.PLAYER.equals(market.getFactionId())) continue;
 
             AICoreData data = scanMarketCores(market);
             if (data.totalCores > 0) {
-                result.add(data);
+                // Calculate weighted cores: Alpha=3, Beta=2, Gamma=1
+                float weightedCores = (data.alphaCores * 3f) + (data.betaCores * 2f) + (data.gammaCores * 1f);
+
+                // Only add markets that meet the minimum threshold
+                if (weightedCores >= minThreshold) {
+                    result.add(data);
+                }
             }
         }
 
@@ -103,27 +111,12 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
                 tooltip.addPara("Your use of AI cores has drawn the attention of the Draconis Alliance. "
                         + "They view these strategic assets as worth acquiring through military force.", 0f);
 
-                List<AICoreData> coreData = computePlayerAICoreData();
-                if (!coreData.isEmpty()) {
-                    tooltip.addSpacer(opad);
-                    tooltip.addPara("Markets with AI cores:", opad);
+                int minThreshold = (int) Global.getSettings().getFloat("draconisMinAICoreThreshold");
 
-                    for (AICoreData data : coreData) {
-                        tooltip.addPara("  " + data.market.getName() + ": " +
-                                data.alphaCores + " Alpha, " +
-                                data.betaCores + " Beta, " +
-                                data.gammaCores + " Gamma",
-                                2f, tc, h,
-                                data.alphaCores + " Alpha",
-                                data.betaCores + " Beta",
-                                data.gammaCores + " Gamma");
-                    }
-                }
-
-                tooltip.addPara("Removing AI cores from your colonies will reduce Draconis interest. "
-                        + "Alternatively, obtaining a commission with the Draconis Alliance and achieving "
-                        + "Cooperative reputation will grant you honorary membership status and end hostilities.", opad,
-                        h, "Removing AI cores", "commission", "Cooperative");
+                tooltip.addPara("Event progress increases with AI core usage. "
+                                + "Keeping the total value of %s below %s per colony will avoid "
+                                + "antagonizing the Draconis Alliance. ", opad,
+                        h, "AI cores", "" + minThreshold);
             }
         };
     }
@@ -167,7 +160,10 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
 
     @Override
     public float getMagnitudeContribution(com.fs.starfarer.api.campaign.StarSystemAPI system) {
-        if (getProgress() <= 0) return 0f;
+        if (getProgress() <= 0) {
+            log.info("Draconis: AI Core magnitude for " + system.getName() + ": 0 (progress is 0)");
+            return 0f;
+        }
 
         float mag = 0f;
         float perCoreMagnitude = Global.getSettings().getFloat("draconisAICoreMagnitude");
@@ -177,12 +173,18 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
             if (data.market.getContainingLocation() == system) {
                 // Weighted magnitude: Alpha=3, Beta=2, Gamma=1
                 float weightedCores = (data.alphaCores * 3f) + (data.betaCores * 2f) + (data.gammaCores * 1f);
-                mag += weightedCores * perCoreMagnitude;
+                float contribution = weightedCores * perCoreMagnitude;
+                mag += contribution;
+                log.info("Draconis:     " + data.market.getName() + " cores (A:" + data.alphaCores +
+                        " B:" + data.betaCores + " G:" + data.gammaCores + ") -> magnitude: " + contribution);
             }
         }
 
-        if (mag > maxMagnitude) mag = maxMagnitude;
+        boolean capped = mag > maxMagnitude;
+        if (capped) mag = maxMagnitude;
         mag = Math.round(mag * 100f) / 100f;
+
+        log.info("Draconis: AI Core magnitude for " + system.getName() + ": " + mag + (capped ? " (CAPPED)" : ""));
 
         return mag;
     }

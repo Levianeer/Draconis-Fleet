@@ -1,0 +1,30 @@
+{
+	"tips":[
+		{"freq":0, "tip":"Set the 'freq' values to zero, or delete the tips.json file to remove these!"},
+
+		{"freq":0.6, "tip":"[Draconis] The XLII Battlegroup answers solely to the Alliance Intelligence Office - the AIO, or simply 'the Office'."},
+		{"freq":0.6, "tip":"[Draconis] The Office micromanages Kori's bureaucracy. Missing persons reports? They handle those too."},
+		{"freq":0.6, "tip":"[Draconis] Athebyne's irradiated ruins fund their own reconstruction through mineral exports. The irony is not lost on its inhabitants."},
+		{"freq":0.6, "tip":"[Draconis] AIO operatives are best identified by their utter lack of identification."},
+		{"freq":0.5, "tip":"[Draconis] Post-Collapse, Itoron and Athebyne settled resource disputes through tense negotiation."},
+		{"freq":0.6, "tip":"[Draconis] The Fafnir Civil War erupted when Athebyne raiders ambushed Itoron's Kori mining convoys."},
+		{"freq":0.6, "tip":"[Draconis] Three brutal decades defined the Civil War, culminating in the orbital annihilation of Athebyne."},
+		{"freq":0.6, "tip":"[Draconis] From the ashes rose the Draconis Defence Alliance: a stratocracy forged in emergency, never rescinded."},
+		{"freq":0.6, "tip":"[Draconis] Ring-Port harbors the ghosts of Athebyne's First Fleet - pirates who bleed Alliance convoys for old grudges."},
+		{"freq":0.5, "tip":"[Draconis] The Alliance's expeditionary detachments hunt [REDACTED] wrecks, harvesting cores for frontline integration."},
+		{"freq":0.6, "tip":"[Draconis] Officially, the AIO runs counterintelligence. Unofficially: R&D, AI trials, and quiet purges."},
+		{"freq":0.6, "tip":"[Draconis] Athebyne survives on Itoron's food and supplies - a lifeline laced with resentment."},
+		{"freq":0.6, "tip":"[Draconis] Kori's corrupted nanoforge churns out ships - often flawed, but relentless."},
+		{"freq":0.5, "tip":"[Draconis] Captain Emil August's XLII Fleet shattered Athebyne in 72 hours of unrelenting bombardment."},
+		{"freq":0.5, "tip":"[Draconis] August personally executed Athebyne's demagogue aboard a Tri-Tachyon phase ship. No trial was held."},
+		{"freq":0.5, "tip":"[Draconis] Itoron's agri-world bounty once fed both planets. Now, it sustains a fragile peace."},
+		{"freq":0.5, "tip":"[Draconis] Vorium's moons and Athebyne's irradiated quarries fuel Kori's military industry."},
+		{"freq":0.5, "tip":"[Draconis] Tri-Tachyon's 'frosty' relations mask deeper ties - scarred by war profiteering, or so the Sector believes."},
+		{"freq":0.4, "tip":"[Draconis] Unmarked freighters from the Core Worlds dock at Kori under stellar eclipses. Their manifests? Blank."},
+		{"freq":0.4, "tip":"[Draconis] Tri-Tachyon data-slates leave Fafnir heavy with 'testbed' prototypes. Plausible deniability thrives in the Rift."},
+		{"freq":0.4, "tip":"[Draconis] When Hegemony patrols probe too deep, Tri-Tachyon 'observers' suddenly recall urgent diplomatic relations with the DDA."},
+		{"freq":0.5, "tip":"[Draconis] Fleet Admiral August rules from a bunker deep within Kori, purging threats real and imagined. Succession? Unspoken."},
+		{"freq":0.5, "tip":"[Draconis] Athebyne's youth drift to the Luddic Path or Ring-Port raiders - old wounds fester in the glow of ruins."},
+		{"freq":0.5, "tip":"[Draconis] AIO wetwork ensures Tri-Tachyon's 'gifts' stay buried: AI trials, unstable weapons, etc. Desperate to maintain whatever you call Tri-Tachyon's and the DDA's relationship."}
+	]
+}

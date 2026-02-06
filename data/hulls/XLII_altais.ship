@@ -12,8 +12,8 @@
   "shieldRadius": 290.5,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_retreatdrive",
-	"XLII_missileuplink"
+    "XLII_draconishull",
+    "XLII_missileuplink"
   ],
   "builtInWeapons": {
     "WS0013": "XLII_vernier",
@@ -291,7 +291,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [17, -114]
+      "locations": [14, -114]
     },
     {
       "id": "WS0029",
@@ -300,7 +300,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": -0,
-      "locations": [17, 114]
+      "locations": [14, 114]
     },
     {
       "id": "WS0023",

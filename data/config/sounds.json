@@ -19,12 +19,108 @@
                 {"file":"sounds/sfx_engines/engine_draconis_03_cruiser.ogg","pitch":1.0,"volume":0.7},
                 {"file":"sounds/sfx_engines/engine_draconis_04_capital.ogg","pitch":1.0,"volume":0.7},
             ],
-        "DRACONIS_ENGINE":{"sounds":[0,1,2,3,4], "pitch":1.0, "volume":1.0},
+        "DRACONIS":{"sounds":[0,1,2,3,4], "pitch":1.0, "volume":1.0},
         "FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.4},
         "FRIGATE":{"sounds":[1], "pitch":1.0, "volume":0.7},
         "DESTROYER":{"sounds":[2], "pitch":1.0, "volume":0.7},
         "CRUISER":{"sounds":[3], "pitch":1.0, "volume":0.7},
         "CAPITAL_SHIP":{"sounds":[4], "pitch":1.0, "volume":1.0},
+	},
+
+	"draconis_engine_accelerate":{
+            "sounds":[
+                {"file":"sounds/sfx_engines/engine_boost_04_dweller.ogg","pitch":1.0,"volume":0.25}
+            ],
+        "DRACONIS":{"sounds":[0], "pitch":1.0, "volume":1.0},
+        "FIGHTER":{"sounds":[0], "pitch":1.0, "volume":1.0},
+        "FRIGATE":{"sounds":[0], "pitch":1.0, "volume":1.0},
+        "DESTROYER":{"sounds":[0], "pitch":1.0, "volume":1.0},
+        "CRUISER":{"sounds":[0], "pitch":1.0, "volume":1.0},
+        "CAPITAL_SHIP":{"sounds":[0], "pitch":1.0, "volume":1.0},
+	},
+
+	"draconis_flux_loop":{
+		"sounds":[
+			{"file":"sounds/sfx_flux/flux_flush_loop.ogg","pitch":1,"volume":0.8},
+			{"file":"sounds/sfx_shields/flux_lightning_loop.ogg","pitch":1,"volume":0.5},
+		],
+		"DRACONIS":{"sounds":[0,1], "pitch":1.0, "volume":1.0},
+		"FIGHTER":{"sounds":[0,1], "pitch":1.0, "volume":0.4},
+		"FRIGATE":{"sounds":[0,1], "pitch":1.0, "volume":0.7},
+		"DESTROYER":{"sounds":[0,1], "pitch":1.0, "volume":0.8},
+		"CRUISER":{"sounds":[0,1], "pitch":1.0, "volume":0.9},
+		"CAPITAL_SHIP":{"sounds":[0,1], "pitch":1.0, "volume":1.0},
+	},
+
+	"draconis_emp_loop":{
+		"sounds":[
+			{"file":"sounds/sfx_shields/shields_burnout_loop.ogg","pitch":1,"volume":0.6},
+			{"file":"sounds/sfx_shields/flux_lightning_loop.ogg","pitch":1,"volume":0.5},
+		],
+		"DRACONIS":{"sounds":[0,1], "pitch":1.0, "volume":1.0},
+		"FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.4},
+		"FRIGATE":{"sounds":[0,1], "pitch":1.0, "volume":0.7},
+		"DESTROYER":{"sounds":[0,1], "pitch":1.0, "volume":0.8},
+		"CRUISER":{"sounds":[0,1], "pitch":1.0, "volume":0.9},
+		"CAPITAL_SHIP":{"sounds":[0,1], "pitch":1.0, "volume":1.0},
+	},
+
+	"draconis_vent_flux":{
+		"sounds":[
+			{"file":"sounds/sfx_flux/flux_vent.ogg","pitch":1.0,"volume":0.35},
+		],
+		"DRACONIS":{"sounds":[0], "pitch":0.7, "volume":1.0},
+		"FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.4},
+		"FRIGATE":{"sounds":[0], "pitch":1.0, "volume":0.7},
+		"DESTROYER":{"sounds":[0], "pitch":1.0, "volume":0.8},
+		"CRUISER":{"sounds":[0], "pitch":1.0, "volume":0.9},
+		"CAPITAL_SHIP":{"sounds":[0], "pitch":1.0, "volume":1.0},
+	},
+
+	"draconis_shield_burnout":{
+		"sounds":[
+			{"file":"sounds/sfx_shields/XLII_overload_start_0.ogg","pitch":1,"volume":0.15},
+			{"file":"sounds/sfx_shields/XLII_overload_start_1.ogg","pitch":1,"volume":0.15},
+			{"file":"sounds/sfx_shields/XLII_overload_start_2.ogg","pitch":1,"volume":0.12}
+		],
+		"DRACONIS":{"sounds":[0,1,2], "pitch":1.0, "volume":1},
+		"FIGHTER":{"sounds":[0,1,2], "pitch":1.0, "volume":0.4},
+		"FRIGATE":{"sounds":[0,1,2], "pitch":1.0, "volume":0.7},
+		"DESTROYER":{"sounds":[0,1,2], "pitch":1.0, "volume":0.8},
+		"CRUISER":{"sounds":[0,1,2], "pitch":1.0, "volume":0.9},
+		"CAPITAL_SHIP":{"sounds":[0,1,2], "pitch":1.0, "volume":1},
+	},
+
+	"draconis_explosion_ship":{
+		"sounds":[
+			{"file":"sounds/sfx_impacts/explosion_03_fighter.ogg","pitch":1,"volume":1.0},
+			{"file":"sounds/sfx_impacts/XLII_explosion_0.ogg","pitch":1,"volume":0.2},
+			{"file":"sounds/sfx_impacts/XLII_explosion_1.ogg","pitch":1,"volume":0.2},
+			{"file":"sounds/sfx_impacts/XLII_explosion_2.ogg","pitch":1,"volume":0.2},
+			{"file":"sounds/sfx_impacts/XLII_explosion_3.ogg","pitch":1,"volume":0.2},
+			{"file":"sounds/sfx_impacts/XLII_explosion_4.ogg","pitch":1,"volume":0.2},
+			],
+		"DRACONIS":{"sounds":[1,2,3,4,5], "pitch":1, "volume":1},
+		"FIGHTER":{"sounds":[0], "pitch":1, "volume":1.0},
+		"FRIGATE":{"sounds":[0,1,3,4], "pitch":1.0, "volume":0.5},
+		"DESTROYER":{"sounds":[0,1,3,4], "pitch":1.0, "volume":0.5},
+		"CRUISER":{"sounds":[0,1,3,4], "pitch":1.0, "volume":0.75},
+		"CAPITAL_SHIP":{"sounds":[0,1,3,4], "pitch":1.0, "volume":1.0},		
+	},
+
+    "draconis_venting_or_overloaded":{
+		"sounds":[
+		{"file":"sounds/sfx_shields/XLII_overload_loop_0.ogg","pitch":1.0,"volume":0.2},
+		{"file":"sounds/sfx_shields/XLII_overload_loop_1.ogg","pitch":1.0,"volume":0.2},
+		{"file":"sounds/sfx_shields/XLII_overload_loop_2.ogg","pitch":1.0,"volume":0.2}
+		]
+	},
+
+    "XLII_sovnyalance_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_energy/XLII_sovnyalance_fire_0.ogg","pitch":1.0,"volume":0.25},
+		{"file":"sounds/sfx_wpn_energy/XLII_sovnyalance_fire_1.ogg","pitch":1.0,"volume":0.25}
+		]
 	},
 
     "XLII_particlelance_fire":{
@@ -35,17 +131,21 @@
 		]
 	},
 
-	"XLII_longsword_charge":{
+    "XLII_cestus_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_charge.ogg","pitch":1.0,"volume":0.15}
+		{"file":"sounds/sfx_wpn_guns/XLII_cestus_fire_01.ogg","pitch":0.75,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_cestus_fire_02.ogg","pitch":0.75,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_cestus_fire_03.ogg","pitch":0.75,"volume":0.1}
 		]
-    },
+	},
 
 	"XLII_longsword_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":0.65,"volume":0.1},
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":0.65,"volume":0.1},
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":0.65,"volume":0.1}
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":0.75,"volume":0.085},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":0.75,"volume":0.085},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":0.75,"volume":0.085},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_04.ogg","pitch":0.75,"volume":0.085},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_05.ogg","pitch":0.75,"volume":0.085}
 		]
     },
 
@@ -63,21 +163,21 @@
 
 	"XLII_durendal_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_fire.ogg","pitch":1.0,"volume":1.75}
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_fire.ogg","pitch":1.0,"volume":1.8}
 		]
     },
 
 	"XLII_durendal_mkii_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.5},
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.5},
-		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.5}
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_01.ogg","pitch":1.0,"volume":0.35},
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.35},
+		{"file":"sounds/sfx_wpn_guns/XLII_durendal_mkii_fire_03.ogg","pitch":1.0,"volume":0.35}
 		]
     },
 
-	"XLII_javelin_fire":{
+	"XLII_pike_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_missiles/XLII_javelin_fire.ogg","pitch":1.0,"volume":0.65}
+		{"file":"sounds/sfx_wpn_missiles/XLII_pike_fire.ogg","pitch":1.0,"volume":0.65}
 		]
     },
 

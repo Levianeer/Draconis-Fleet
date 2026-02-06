@@ -1,11 +1,11 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 10,
+    "fluxCapacitors": 1,
     "fluxVents": 10,
     "goalVariant": true,
     "hullId": "XLII_aldhibah",
     "hullMods": [
-        "unstable_injector",
+        "missleracks",
         "extendedshieldemitter"
     ],
     "permaMods": [],
@@ -15,28 +15,28 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS 004": "phasebeam"}
+            "weapons": {"WS 004": "heavyblaster"}
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS 005": "sabot_single",
-                "WS 006": "sabot_single"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS 002": "lightac",
-                "WS 003": "lightac"
+                "WS 005": "sabot",
+                "WS 006": "sabot"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS 001": "XLII_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS 002": "XLII_swordbreaker",
+                "WS 003": "XLII_swordbreaker"
+            }
         }
     ]
 }

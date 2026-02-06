@@ -6,7 +6,8 @@
     "hullId": "XLII_aldhibah",
     "hullMods": [
         "targetingunit",
-        "advancedoptics"
+        "advancedoptics",
+        "extendedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -19,10 +20,10 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS 005": "XLII_bardiche_single",
-                "WS 006": "XLII_bardiche_single"
+                "WS 005": "sabot_single",
+                "WS 006": "sabot_single"
             }
         },
         {

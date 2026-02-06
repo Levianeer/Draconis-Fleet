@@ -9,6 +9,11 @@ import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
+import com.fs.starfarer.api.ui.TooltipMakerAPI;
+import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.scripts.XLII_MistCloudsPlugin;
+import org.apache.log4j.Logger;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -21,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class XLII_FortySecond extends BaseHullMod {
+
+    private static final Logger log = Global.getLogger(XLII_FortySecond.class);
 
     // Ready for pain? 'bout to make it RAIN
     private static final Map<HullSize, Float> combatMag = new HashMap<>();
@@ -63,6 +70,11 @@ public class XLII_FortySecond extends BaseHullMod {
 
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null || engine.isPaused()) return;
+
+        // Register Mist Clouds plugin once per combat (check engine custom data)
+        if (!engine.getCustomData().containsKey("XLII_MIST_CLOUDS_PLUGIN")) {
+            registerMistCloudsPlugin(engine);
+        }
 
         // Disable missile defense when ship is in abnormal states
         if (ship.getFluxTracker().isOverloaded() ||  // Ship is overloaded (can't use systems)
@@ -199,6 +211,20 @@ public class XLII_FortySecond extends BaseHullMod {
         );
     }
 
+    /**
+     * Register the Mist Clouds combat plugin once per battle
+     */
+    private void registerMistCloudsPlugin(CombatEngineAPI engine) {
+        try {
+            XLII_MistCloudsPlugin plugin = new XLII_MistCloudsPlugin();
+            engine.addPlugin(plugin);
+            engine.getCustomData().put("XLII_MIST_CLOUDS_PLUGIN", plugin);
+            log.info("Draconis: Mist Clouds plugin registered successfully");
+        } catch (Exception e) {
+            log.error("Draconis: Failed to register Mist Clouds plugin: " + e.getMessage(), e);
+        }
+    }
+
     @Override
     public String getDescriptionParam(int index, HullSize hullSize) {
         if (index == 0) return "" + combatMag.get(HullSize.FRIGATE).intValue();
@@ -208,5 +234,75 @@ public class XLII_FortySecond extends BaseHullMod {
         if (index == 4) return Math.round((1f - PROFILE_MULT) * 100f) + "%";
         if (index == 5) return Math.round(MISSILE_AFFECT_CHANCE * 100f) + "%";
         return null;
+    }
+
+    @Override
+    public boolean shouldAddDescriptionToTooltip(HullSize hullSize, ShipAPI ship, boolean isForModSpec) {
+        return false;
+    }
+
+    @Override
+    public void addPostDescriptionSection(TooltipMakerAPI tooltip, HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
+        float opad = 10f;
+        Color h = Misc.getHighlightColor();
+        Color t = Misc.getTextColor();
+
+        tooltip.addPara("Ships equipped with XLII Battlegroup avionics and tactical systems gain advanced capabilities.", opad);
+
+        tooltip.addSectionHeading("Sensors & Detection", Alignment.MID, opad);
+        tooltip.addPara("Sight radius increased by %s/%s/%s/%s. Sensor profile reduced by %s.",
+                opad, h,
+                combatMag.get(HullSize.FRIGATE).intValue() + "",
+                combatMag.get(HullSize.DESTROYER).intValue() + "",
+                combatMag.get(HullSize.CRUISER).intValue() + "",
+                combatMag.get(HullSize.CAPITAL_SHIP).intValue() + "",
+                Math.round((1f - PROFILE_MULT) * 100f) + "%");
+
+        tooltip.addSectionHeading("Missile Defense", Alignment.MID, opad);
+        tooltip.addPara("Has %s chance to affect incoming missiles within range. Affected missiles are either %s (neutralized) or %s (retargeted to their source). Only guided missiles can be converted.",
+                opad, h,
+                Math.round(MISSILE_AFFECT_CHANCE * 100f) + "%",
+                "jammed",
+                "converted");
+
+        tooltip.addPara("The defense's range scales with hull size, multiplied by %s/%s/%s/%s.",
+                opad, h,
+                missileDefenseRange.get(HullSize.FRIGATE).intValue() + "x",
+                missileDefenseRange.get(HullSize.DESTROYER).intValue() + "x",
+                missileDefenseRange.get(HullSize.CRUISER).intValue() + "x",
+                missileDefenseRange.get(HullSize.CAPITAL_SHIP).intValue() + "x");
+
+        tooltip.addSectionHeading("Nanomist Unit", Alignment.MID, opad);
+        tooltip.addPara("Fitting XLII Battlegroup doctrine, multiple large cruise missiles are deployed in a circuit formation behind engagement lines - these missiles are then sent targets periodically during combat.",
+                opad, h);
+
+        tooltip.addPara("Deploys SLAP-ER Cruise Missiles that spread tactical nanomist swarms throughout combat. Clouds have %s radius and fade after 60 - 90 seconds.",
+                opad, h,
+                "1200",
+                "60",
+                "90"
+                );
+
+        tooltip.addPara("Allied ships in clouds gain %s hull repair per second when below maximum hull. Enemy ships suffer %s hull damage per second. Total healing or damage per ship is capped at %s hull points or %s of maximum hull, whichever is higher. Phased ships are immune to mist damage.",
+                opad, h,
+                "+0.5%",
+                "-0.5%",
+                "2000",
+                "50%");
+
+        tooltip.addPara("SLAP-ER missile deployment requires a minimum of %s XLII ships in the fleet AND a minimum of %s total deployment points. Both thresholds must be met for missiles to spawn.",
+                opad, h,
+                "25%",
+                "50");
+    }
+
+    @Override
+    public int getDisplaySortOrder() {
+        return 1;
+    }
+
+    @Override
+    public int getDisplayCategoryIndex() {
+        return 0;
     }
 }

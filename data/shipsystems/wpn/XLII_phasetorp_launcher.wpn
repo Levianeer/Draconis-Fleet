@@ -1,0 +1,16 @@
+{
+	"id":"XLII_phasetorp_launcher",
+	"specClass":"projectile",
+	"projectileSpecId":"XLII_phasetorp",
+	"type":"SYSTEM",
+	"size":"SMALL",
+	"displayArcRadius":1500,
+	"turretSprite":"",
+	"hardpointSprite":"",
+	"turretOffsets":[0,0,0,0,0,0],
+	"turretAngleOffsets":[0,0,0],
+	"hardpointOffsets":[0,0,0,0,0,0],
+	"hardpointAngleOffsets":[0,0,0],
+	"barrelMode":"ALTERNATING",
+	"animationType":"NONE"
+}

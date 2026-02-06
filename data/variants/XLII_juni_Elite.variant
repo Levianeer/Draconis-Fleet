@@ -5,10 +5,10 @@
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
-        "targetingunit",
         "missile_autoloader",
         "magazines",
-        "hardenedshieldemitter"
+        "hardenedshieldemitter",
+        "dedicated_targeting_core"
     ],
     "permaMods": [],
     "sMods": [],

@@ -285,7 +285,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
 
         // Show notification to player
         if (installed > 0) {
-            showDonationNotification(installed, installationMap);
+            showDonationNotification();
         }
     }
 
@@ -392,15 +392,9 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
     /**
      * Show notification to player about donated cores being utilized
      */
-    private void showDonationNotification(int coresInstalled, Map<MarketAPI, List<String>> installationMap) {
-        StringBuilder message = new StringBuilder();
-        message.append("Your donated AI cores have been put to use by Draconis Alliance forces. ");
-        message.append(coresInstalled).append(" core").append(coresInstalled > 1 ? "s" : "");
-        message.append(" installed across ").append(installationMap.size());
-        message.append(" facilit").append(installationMap.size() > 1 ? "ies" : "y").append(".");
-
+    private void showDonationNotification() {
         Global.getSector().getCampaignUI().addMessage(
-                message.toString(),
+                "Your donated AI cores have been put to use by Draconis Alliance forces.",
                 com.fs.starfarer.api.util.Misc.getPositiveHighlightColor()
         );
 

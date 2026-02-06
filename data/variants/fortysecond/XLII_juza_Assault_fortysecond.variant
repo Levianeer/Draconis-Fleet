@@ -1,39 +1,43 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 14,
+    "fluxCapacitors": 1,
     "fluxVents": 30,
     "hullId": "XLII_juza_fortysecond",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "fluxdistributor",
+        "armoredweapons"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juza_Assault_fortysecond",
     "weaponGroups": [
         {
-            "autofire": true,
-            "mode": "LINKED",
+            "autofire": false,
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "XLII_mangonel",
-                "WS0020": "XLII_mangonel"
+                "WS0003": "XLII_longsword",
+                "WS0020": "XLII_longsword"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "harpoon",
-                "WS0021": "harpoon",
-                "WS0026": "harpoon",
-                "WS0027": "harpoon",
-                "WS0028": "harpoon",
-                "WS0029": "harpoon"
+                "WS0001": "breach",
+                "WS0021": "breach",
+                "WS0026": "breach",
+                "WS0027": "breach",
+                "WS0028": "breach",
+                "WS0029": "breach"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_rapier",
-                "WS0019": "XLII_rapier"
+                "WS0018": "XLII_particlelance",
+                "WS0019": "XLII_particlelance"
             }
         },
         {

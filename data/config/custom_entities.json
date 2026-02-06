@@ -1,0 +1,49 @@
+{
+	"XLII_fafnir_gate":{
+		"defaultName":"Destroyed Gate",
+		"nameInText":"destroyed gate",
+		"aOrAn":"an",
+		"defaultRadius":120,
+		"interactionImage":"graphics/illustrations/dead_gate.jpg",
+		"icon":"graphics/icons/gate0.png",
+		"iconWidth":20,
+		"iconHeight":20,
+		"sprite":"graphics/stations/XLII_destroyed_gate.png",
+		"spriteWidth":192,
+		"spriteHeight":192,
+		"renderShadow":true,
+		"useLightColor":true,
+		"showInCampaign":true,
+		"showIconOnMap":true,
+		"showNameOnMap":true,
+		"scaleNameWithZoom":false,
+		"scaleIconWithZoom":true,
+		"nameColor":[70,200,255,255],
+		"nameShadowColor":[0,0,0,255],
+		"renderCircleIndicator":true,
+		"renderCircleIndicatorSelectionFlash":true,
+		"customDescriptionId":"XLII_fafnir_gate",
+		"tags":["has_interaction_dialog", "neutrino"],
+		"layers":[STATIONS, BELOW_STATIONS]
+	},
+	"XLII_rift_inner_corona":{
+		"defaultName":"",
+		"defaultRadius":2000,
+		"coronaTexture":"graphics/backgrounds/hyperspace_corona.png",
+		"coronaSize":4000,
+		"coronaColor":[180,40,120,180],
+		"showInCampaign":false,
+		"showIconOnMap":false,
+		"showNameOnMap":false
+	},
+	"XLII_rift_outer_corona":{
+		"defaultName":"",
+		"defaultRadius":2000,
+		"coronaTexture":"graphics/backgrounds/hyperspace_corona.png",
+		"coronaSize":4500,
+		"coronaColor":[120,40,180,120],
+		"showInCampaign":false,
+		"showIconOnMap":false,
+		"showNameOnMap":false
+	}
+}

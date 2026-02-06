@@ -1,13 +1,12 @@
 {
     "displayName": "Support",
-    "fluxCapacitors": 7,
-    "fluxVents": 24,
+    "fluxCapacitors": 11,
+    "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
         "targetingunit",
-        "advancedoptics",
-        "hardenedshieldemitter"
+        "advancedoptics"
     ],
     "permaMods": [],
     "sMods": [],
@@ -23,10 +22,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0018": "breach",
-                "WS0019": "breach"
+                "WS0018": "XLII_bardiche_single",
+                "WS0019": "XLII_bardiche_single"
             }
         },
         {
@@ -34,9 +33,13 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0003": "gravitonbeam",
-                "WS0020": "gravitonbeam",
-                "WS0050": "gravitonbeam"
+                "WS0020": "gravitonbeam"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0050": "ionbeam"}
         },
         {
             "autofire": true,

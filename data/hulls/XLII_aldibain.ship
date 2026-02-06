@@ -12,7 +12,8 @@
   "shieldRadius": 26,
   "viewOffset": 0,
   "builtInMods": [
-    "no_weapon_flux"
+    "no_weapon_flux",
+    "insulatedengine"
   ],
   "weaponSlots": [
     {
@@ -32,15 +33,6 @@
       "arc": 5,
       "angle": 180,
       "locations": [-1.5, -0]
-    },
-    {
-      "id": "WS0002",
-      "size": "SMALL",
-      "type": "UNIVERSAL",
-      "mount": "HIDDEN",
-      "arc": 25,
-      "angle": 0,
-      "locations": [13.5, -3.5]
     },
     {
       "id": "WS0003",

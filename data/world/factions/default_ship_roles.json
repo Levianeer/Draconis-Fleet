@@ -1,10 +1,11 @@
 {
 	"combatSmallForSmallFleet":{
-		"XLII_thuban_Elite":1,
-		"XLII_alruba_Elite":1,
+		"XLII_thuban_Elite":0.5,
+
+		"XLII_alruba_Elite":2,
+		"XLII_alruba_Assault_fortysecond":0,
 
 		"XLII_alruba_mk2_Elite":1,
-		"XLII_alruba_mk2_Support":1,
 
 		"XLII_aldhibah_Elite":1,
 		"XLII_aldhibah_Strike":1,
@@ -12,40 +13,51 @@
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
-		"XLII_thuban_Elite":1,
-		"XLII_alruba_Elite":1,
+		"XLII_thuban_Elite":2,
+
+		"XLII_alruba_Elite":0.5,
+		"XLII_alruba_Assault_fortysecond":0,
 
 		"XLII_alruba_mk2_Elite":1,
-		"XLII_alruba_mk2_Support":1,
 
 		"XLII_aldhibah_Elite":1,
 		"XLII_aldhibah_Strike":1,
 
-		"XLII_alruba_Assault_fortysecond":1,
-		
 		"fallback":{"combatMedium":1},
 	},
 	"combatMedium":{
 		"XLII_rastaban_Elite":1,
-		"XLII_errakis_Elite":1,
-		"XLII_giausar_Elite":1,
 
-		"XLII_errakis_Assault_fortysecond":1,
+		"XLII_errakis_Elite":1,
+		"XLII_errakis_Assault_fortysecond":0,
+
+		"XLII_giausar_Elite":0.25,
+		
+		"XLII_shaowei_Elite":0.1,
 
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
 		"XLII_eltanin_Elite":1,
-		"XLII_juza_Elite":1,
-		"XLII_juni_Elite":1,
+		"XLII_eltanin_Strike":1,
 		
-		"XLII_juza_Assault_fortysecond":1,
+		"XLII_eltanin_mk2_Elite":0.25,
+
+		"XLII_juni_Elite":1,
+		"XLII_juni_Support":1,
+
+		"XLII_juza_Elite":1,
+		"XLII_juza_Strike":1,
+		"XLII_juza_Overdriven":0.25,
+		"XLII_juza_Assault_fortysecond":0,
 
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{
 		"XLII_altais_Elite":1,
-		"XLII_dziban_Elite":1,
+		"XLII_altais_Strike":1,
+
+		"XLII_dziban_Elite":0.25,
 
 		"fallback":{"combatLarge":1},
 	},
@@ -56,16 +68,16 @@
 	},
 	"carrierMedium":{
 		"XLII_shaobi_Elite":1,
-
-		"XLII_shaobi_Assault_fortysecond":1,
+		"XLII_shaobi_Assault_fortysecond":0,
 
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":1},
 	},
 	"carrierLarge":{
 		"XLII_alwaid_Elite":1,
-
-		"XLII_alwaid_Assault_fortysecond":1,
+		"XLII_alwaid_Strike":1,
+		
+		"XLII_alwaid_Assault_fortysecond":0,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1},
@@ -84,11 +96,27 @@
 		"fallback2":{"freighterLarge":1},
 	},
 	"freighterLarge":{
+		"XLII_eltanin_mk2_Elite":1,
 
 		"fallback":{"freighterMedium":1},
 		"fallback2":{"freighterSmall":1},
 	},
 	
+	# hybrid ships with good combat and cargo capacity
+	"combatFreighterSmall":{
+
+		"fallback":{"freighterSmall":1},
+	},
+	"combatFreighterMedium":{
+
+		"fallback":{"combatFreighterSmall":1},
+	},
+	"combatFreighterLarge":{
+		"XLII_eltanin_mk2_Elite":1,
+		
+		"fallback":{"combatFreighterMedium":1},
+	},
+
 	"tankerSmall":{
 
 		"fallback":{"tankerMedium":1},
@@ -119,6 +147,7 @@
 		"fallback2":{"personnelLarge":1},
 	},
 	"personnelLarge":{
+		"XLII_eltanin_mk2_Elite":1,
 
 		"fallback":{"personnelMedium":1},
 		"fallback2":{"personnelSmall":1},
@@ -127,6 +156,7 @@
 	# utility ships
 	"tug":{
 		"XLII_kuma_Elite":1,
+
 		"fallback":{"utility":1},
 	},
 	"crig":{
@@ -135,5 +165,7 @@
 	},
 	"utility":{
 		"XLII_kuma_Elite":1,
+		
+		"XLII_eltanin_mk2_Elite":0.5,
 	}
 }

@@ -1,12 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 17,
+    "fluxCapacitors": 15,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
         "eccm",
-        "targetingunit"
+        "dedicated_targeting_core",
+        "turretgyros"
     ],
     "permaMods": [],
     "sMods": [],
@@ -14,34 +15,34 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0013": "squall",
-                "WS0014": "squall"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0011": "typhoon",
-                "WS0012": "typhoon"
+                "WS0013": "XLII_bardiche_large",
+                "WS0014": "XLII_bardiche_large"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_bardiche_single",
-                "WS0004": "XLII_bardiche_single"
+                "WS0011": "XLII_bardiche",
+                "WS0012": "XLII_bardiche"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0005": "XLII_halberd_pod",
-                "WS0006": "XLII_halberd_pod"
+                "WS0003": "XLII_halberd",
+                "WS0004": "XLII_halberd"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_bardiche",
+                "WS0006": "XLII_bardiche"
             }
         },
         {

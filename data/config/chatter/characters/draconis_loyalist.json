@@ -2,8 +2,8 @@
   "name": "Draconis Loyalist",
   "personalities": ["reckless","aggressive"],
   "gender": ["m", "f", "n"],
-  "chance": 33.33,
-  "talkativeness": 1.2,
+  "chance": 30.0,
+  "talkativeness": 1.0,
   "categoryTags": ["original"],
 
   "lines": {
@@ -12,30 +12,55 @@
       {"text": "General Quarters, General Quarters! Wake hungry, boys!"},
       {"text": "Power to all batteries. Today the Alliance drinks deep."},
       {"text": "The ole five-star is watching. Make him proud."},
-      {"text": "I want their screams on an open channel. Commence firing."}
+      {"text": "I want their screams on an open channel. Commence firing."},
+      {"text": "General Quarters, General Quarters! All hands man your battle stations! This is not a drill - this is a GIFT."},
+      {"text": "TAO reports multiple contacts. Finally. Set Condition One throughout the ship - I want every gun hot and every soul hungry."},
+      {"text": "All stations, Captain has the conn. Today we remind the Sector why they fear Draconis."},
+      {"text": "Combat, Bridge - I have the picture. It's beautiful. Weapons release authority is mine. Let's paint."},
+      {"text": "Tally multiple hostiles. All ahead flank, bring us to knife-fight range - I want to see their faces."},
+      {"text": "Set EMCON Alpha and run silent. They don't know we're here yet. I want the first salvo to feel like God's fist."}
     ],
 
     "start_boss": [
       {"text": "Look at the size of that magnificent bastard. Finally, something worth killing!"},
       {"text": "That thing thinks it's the apex predator? I'm about to teach it a lesson in pain."},
       {"text": "Athebyne was just practice. This is the real sermon. All batteries - crucify it."},
-      {"text": "I want its reactor core as a trophy!"}
+      {"text": "I want its reactor core as a trophy!"},
+      {"text": "Contact classified CAPITAL. TAO, designate hostile track as Sierra One and paint it for the whole fleet - that kill is MINE."},
+      {"text": "Now THAT'S a worthy sacrifice to the void. All batteries train on the flagship - I want coordinated fire, maximum rate."},
+      {"text": "CIC confirms capital-class hostile. Good. I was worried today would be boring. All stations, weapons free on Sierra One."},
+      {"text": "Tally one big bastard, bearing two-seven-zero. This is what we trained for, people. Press to merge - show them what Fafnir breeds."}
     ],
 
     "engaged": [
       {"text": "Weapons free! Weapons free! Tear their fucking hearts out!"},
       {"text": "Batteries released - give me maximum rate, I want them bleeding from every seam!"},
       {"text": "There we go… smell that? That's fear. Birds away - paint the void with their debris!"},
-      {"text": "You dare fire on the 42nd? I'm going to wear your captain's spine as a necklace!"},
+      {"text": "You dare fire on US? I'm going to wear your captain's spine as a necklace!"},
       {"text": "Ever ask yourself how this part of the sector gets so fucked up all the time?"},
-      {"text": "All guns, rapid fire! Make them regret waking up this cycle!"}
+      {"text": "All guns, rapid fire! Make them regret waking up this cycle!"},
+      {"text": "Merged! Guns, guns, guns! All batteries, sustained fire - light them up!"},
+      {"text": "In the envelope! Weapons free, weapons free! Let them feel Alliance steel!"},
+      {"text": "Contact, contact! Hostile is engaging - GOOD. I was hoping they'd fight back."},
+      {"text": "We're in the merge and I am ALIVE! TAO, continuous fire - don't let them breathe!"},
+      {"text": "Hostile is maneuvering. Cute. Track and engage - show them what cornered prey looks like."},
+      {"text": "Birds away, birds away! That's right, RUN from it - it won't help!"},
+      {"text": "They're shooting back! Finally, someone with spine! All stations, return fire - make it PERSONAL."},
+      {"text": "Roger, engaging. Helm, close the range - I want to see the fear in their viewports."},
+      {"text": "Tally hostile, twelve o'clock! Fox three, fox three! Swallow THAT, you bastards!"},
+      {"text": "In the knife fight now! This is where we LIVE, people! Pour it on!"}
     ],
 
     "pursuing": [
       {"text": "They're running! Chase them down - nobody escapes!"},
       {"text": "Pursuit course, flank speed! I want to taste their engine wash!"},
       {"text": "Run all you want, prey - I haven't had my fun yet!"},
-      {"text": "Close the distance! Ram them if you have to - I want their bridge on my prize!"}
+      {"text": "Close the distance! Ram them if you have to - I want their bridge on my prize!"},
+      {"text": "Contact is bugging out! Negative, you don't get to leave. All ahead flank - run them down!"},
+      {"text": "Hostile is extending. Cute. Helm, pursuit course. I didn't give them permission to die anywhere but here."},
+      {"text": "No joy on the runner - wait, tally! There you are. Guns, track and fire when in envelope."},
+      {"text": "They think distance will save them. It won't. It just gives me time to savor this."},
+      {"text": "Contact retrograde, bearing one-eight-five. TAO, I want a firing solution before they hit the hyper limit. They're not leaving."}
     ],
 
     "running": [
@@ -43,14 +68,24 @@
       {"text": "Disengaging… I'll remember every single one of you that made me do this."},
       {"text": "Pulling back. Mark these coordinates. Their gravesite."},
       {"text": "WHO ORDERED THE RETREAT!? ...Fine, breaking contact."},
-      {"text": "Breaking contact. This isn't fear - it's me giving them a head start to hell."}
+      {"text": "Breaking contact. This isn't fear - it's me giving them a head start to hell."},
+      {"text": "All stations, be advised - executing tactical withdrawal. This isn't retreat. This is me deciding when you die."},
+      {"text": "Bug out, bug out. Break contact and regroup at rally point. I'll remember every one of their faces."},
+      {"text": "Going defensive. Helm, get us out of the envelope. We'll be back with friends."},
+      {"text": "Retrograde, all units. The math doesn't work today - but it will tomorrow, and I'll collect the debt with interest."},
+      {"text": "Break, break - all stations disengage. I'm not dying for a bad position. I'm dying for a GLORIOUS one, and this ain't it."}
     ],
 
     "hull_90": [
       {"text": "They scratched us! Ha! That tickles. Return fire tenfold!"},
       {"text": "Minor hit. Good. Now I'm angry."},
       {"text": "Armor penetrated? Cute. Keep shooting - I'm just getting warmed up."},
-      {"text": "A love bite. Give them one back, with interest."}
+      {"text": "A love bite. Give them one back, with interest."},
+      {"text": "Damage report: superficial. That tickled. Return fire - show them what a REAL hit looks like."},
+      {"text": "Minor hit, forward quarter. Armor integrity holding. Is that the best you've got? Pathetic."},
+      {"text": "DC reports damage negligible. Good. I was starting to think they weren't even trying."},
+      {"text": "They scratched the paint. TAO, add that ship to the priority queue - I take that personally."},
+      {"text": "Hull breach sealed, section twelve. Barely felt it. GUNS - make them regret waking up today."}
     ],
 
     "hull_50": [
@@ -58,7 +93,13 @@
       {"text": "We're bleeding… good. Blood makes the deck slippery for boarding parties."},
       {"text": "Fifty percent? That's still fifty percent more than they're going to have in a minute!"},
       {"text": "Plug the holes! We're pushing the attack!"},
-      {"text": "Damage control - patch it with enemy wreckage if you have to. We are NOT slowing down!"}
+      {"text": "Damage control - patch it with enemy wreckage if you have to. We are NOT slowing down!"},
+      {"text": "Fifty percent hull. We're bleeding, but so are they. Damage control, keep her fighting - we're not done yet."},
+      {"text": "Material condition degraded but combat-effective. Pain is just the void's way of saying hello. Press the attack!"},
+      {"text": "Heavy damage amidships. Multiple casualties. Their mistake - now my crew has something personal to fight for."},
+      {"text": "DC teams, maximum effort! I don't care if you're holding the bulkhead together with your bare hands - this ship FIGHTS."},
+      {"text": "We've taken hits. Good. Bleeding makes the victory sweeter. All stations maintain fire!"},
+      {"text": "CIC's half-dark and I can smell burning. Perfect. Now we fight like our ancestors - angry and cornered."}
     ],
 
     "hull_30": [
@@ -66,35 +107,61 @@
       {"text": "She's dying - so let's take the whole damn fleet with us!"},
       {"text": "Thirty percent? That's thirty percent more than enough to ram their bridge!"},
       {"text": "Reactor's singing the death song - I love this part! All power to forward guns!"},
-      {"text": "If we go down, we go down as legends! FOR THE ALLIANCE!"}
+      {"text": "Kill me, Kill me, KILL ME! - Put your fucking gun in my mouth and pull the fucking trigger!"},
+      {"text": "Hull critical! All hands, this is the Captain - we're dying, so let's take the whole damn fleet with us!"},
+      {"text": "Thirty percent and falling. Outstanding. RAMMING SPEED - if I'm meeting the void, I'm bringing company!"},
+      {"text": "Catastrophic damage! DC, abandon your stations and man the guns - we're past saving, but they aren't past killing!"},
+      {"text": "She's breaking apart beneath me and I've never felt more alive! All power to forward batteries!"},
+      {"text": "Reactor warning, hull failing - THIS IS WHERE LEGENDS ARE MADE! All hands, maximum rate of fire until she splits!"},
+      {"text": "We're dead already. The only question is how many we drag down with us. MAKE IT COUNT!"}
     ],
 
     "need_help": [
       {"text": "All Alliance ships this net - get in here and taste this glory with me!"},
       {"text": "I need more wolves on this kill! Vector to my position now!"},
       {"text": "Brothers, the feast is ready - come claim your share!"},
-      {"text": "Where's my pack? This prey is too big for one set of jaws!"}
+      {"text": "Where's my pack? This prey is too big for one set of jaws!"},
+      {"text": "Any Alliance unit this net, this is $shipNameNoPrefix - I've got a target-rich environment and I'm running out of hull. Get over here and share the glory!"},
+      {"text": "Request immediate support, my position! Not because I need saving - because there's too much killing for one ship!"},
+      {"text": "All stations, $shipNameNoPrefix is heavily engaged. I'm having the time of my life, but I could use more guns on this party!"},
+      {"text": "Flash traffic - require assistance! These bastards think they've got me cornered. Prove them right, then prove them DEAD."},
+      {"text": "Brothers, sisters - vector to my beacon! The hunt is good here and I need more wolves!"}
     ],
 
     "retreat": [
       {"text": "All units - this fight is beneath us now. Withdraw. We'll hunt them another day."},
       {"text": "Break off. I want them alive… so I can kill them slowly next time."},
       {"text": "Tactical withdrawal. Let them think they've won. The reckoning will be beautiful."},
-      {"text": "Pulling out. Save your ammo - we're coming back with friends."}
+      {"text": "Pulling out. Save your ammo - we're coming back with friends."},
+      {"text": "All units, this is $shipNameNoPrefix - disengage and withdraw to rally point. We're not running. We're reloading."},
+      {"text": "Break contact on my mark. Mark. Let them think they've won - the look on their faces when we come back will be worth it."},
+      {"text": "Bug out, all ships. Preserve your hulls and your hatred. We'll need both tomorrow."},
+      {"text": "Fleet withdrawal, execute. I want every captain to memorize their faces. This isn't over - it's intermission."},
+      {"text": "All stations RTB. Ammunition and vengeance need resupply. We'll be back."}
     ],
 
     "out_of_missiles": [
       {"text": "VLS dry. Fine. Time to get intimate. All ahead full - ramming speed!"},
       {"text": "Missiles gone? Good. Now we use the guns like men."},
       {"text": "Out of birds. Switch to main batteries - I want to see their faces when we gut them."},
-      {"text": "No more missiles? Then we do this the old way - teeth and fury."}
+      {"text": "No more missiles? Then we do this the old way - teeth and fury."},
+      {"text": "Winchester on all missile systems. Outstanding - now we close to gun range like REAL sailors!"},
+      {"text": "VLS reports empty. TAO, shift to guns. I wanted to get personal anyway."},
+      {"text": "Missiles expended, switching to kinetics. This is the part I've been waiting for."},
+      {"text": "Winchester, winchester. No more birds. Helm, all ahead flank - we're doing this with teeth and tungsten."},
+      {"text": "Out of smart weapons. Time for dumb violence. Close the range!"}
     ],
 
     "overload": [
       {"text": "Flux critical! Beautiful! Vent it - let them see our war-face!"},
       {"text": "Overload cascade - yes! Ride the lightning, you glorious bastards!"},
       {"text": "Capacitors screaming! That's the sound of the Alliance ascending!"},
-      {"text": "Forced vent! Watch them flinch when we come out the other side burning!"}
+      {"text": "Forced vent! Watch them flinch when we come out the other side burning!"},
+      {"text": "Flux critical! Emergency vent in three - two - one - WATCH THEM FLINCH!"},
+      {"text": "Capacitors redlined! Dropping shields to vent - and we're coming out of this hotter than we went in!"},
+      {"text": "Overload cascade! Engineering, ride it! Ride it like a war hymn!"},
+      {"text": "Going defensive - forced vent! The ship's screaming and so am I! This is BEAUTIFUL!"},
+      {"text": "Flux spike! Venting hard! Anyone who fires on us during this is going to regret it for the rest of their very short life!"}
     ],
 
     "death": [
@@ -102,7 +169,13 @@
       {"text": "She's going up… taking half the sector with me… worth it…"},
       {"text": "This is the Captain… going to meet the enemy in hell… save me a seat at their table…"},
       {"text": "Core critical… glory… to the Alliance… glory… to me…"},
-      {"text": "If I die… I die the apex predator… see you in the void…"}
+      {"text": "If I die… I die the apex predator… see you in the void…"},
+      {"text": "Core breach... reactor critical... all hands, it's been an honor... NOW WATCH ME BURN LIKE A STAR..."},
+      {"text": "She's going up... tell August... tell him I died... with my finger on the trigger..."},
+      {"text": "This is $shipNameNoPrefix... we are... lost... but we took... so many with us..."},
+      {"text": "Abandon ship... abandon... no. NO. All hands stay at your guns... we fire until the void takes us..."},
+      {"text": "Reactor scram failed... this is it... glory to the Alliance... glory to the HUNT..."},
+      {"text": "Breaking up... I can see the stars through the hull... beautiful... see you in hell, you bastards... save me a seat..."}
     ],
 
     "victory": [
@@ -110,14 +183,25 @@
       {"text": "They're dead. I'm not. Another perfect day."},
       {"text": "Enemy scrapped. Someone mount their bridge on my ready room bulkhead."},
       {"text": "Field clear. Our legend grows - and I'm still hungry."},
-      {"text": "Victory. Fafnir, your blade sings true through us."}
+      {"text": "Victory. Fafnir, your blade sings true through us."},
+      {"text": "All contacts splashed. Battlespace sanitized. I need a cigarette and a new target list."},
+      {"text": "Secure from General Quarters. That was... adequate. Find me something harder next time."},
+      {"text": "Hostile force neutralized. Tally the kills - I want names and tonnage for the ready room wall."},
+      {"text": "Area clear. We're still breathing, they're not. Another successful sermon. Always Above."},
+      {"text": "Combat complete. All stations, damage and ammo report - we're not done until I say we're done."},
+      {"text": "Threats eliminated. Someone crack open the good stuff - the void drank deep today, and so shall we."}
     ],
 
     "victory_boss": [
       {"text": "The beast is dead! I have its heart! The Alliance will feast tonight!"},
       {"text": "Major target destroyed. Tell the Admiral his favorite mad dog just bagged a dragon."},
       {"text": "It's down, bleeding, broken - by my hand. The galaxy will speak my name in fear."},
-      {"text": "Look upon your killer, corpse. The Alliance has spoken - and the void itself kneels."}
+      {"text": "Look upon your killer, corpse. The Alliance has spoken - and the void itself kneels."},
+      {"text": "Capital ship SPLASHED! Sierra One is debris! Log that kill - flag-grade, personal, MINE."},
+      {"text": "High-value target destroyed. That's a trophy kill, people. Fleet's gonna hear about this one."},
+      {"text": "The beast is dead by Alliance hands. TAO, confirm the kill and broadcast it wide - let the Sector know."},
+      {"text": "Flagship down! That's what happens when you face ME! Mark coordinates for salvage - I want a piece of that hull on my wall."},
+      {"text": "Primary target eliminated. They sent their best and we turned it into scrap. Today was a GOOD day."}
     ]
   }
 }

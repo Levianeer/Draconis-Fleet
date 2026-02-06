@@ -1,4 +1,5 @@
 {
+    # This is meant to be an endgame faction in the same way the Remnants are, but feel free to nerf them if you don't like that.
     "playableFaction":true,
     "corvusCompatible":true,
 
@@ -6,44 +7,51 @@
 
     "directoryUseShortName":true,
     
-    "morality":"amoral",
+    "morality":"amoral", # There is def an arguement for evil
 
-    "diplomacyTraits": ["irredentist","foreverwar","paranoid","devious","hates_ai"], # AI!? THAT SHIT IS MINE!!
+    "diplomacyTraits": ["stalwart","irredentist","lowprofile","devious"],
 
-    "alignments":{"corporate":-1.0,"technocratic":-1.0,"militarist":1.0,"hierarchical":0.5,"ideological":-1.0},
+    "maxRelationships":{"remnant":-0.51,"luddic_church":-0.1,"luddic_path":-0.4},
+    "diplomacyPositiveChance":{"luddic_church":0.8,"luddic_path":0.4,"tritachyon":1.2},
+    "diplomacyNegativeChance":{"luddic_church":1.2,"luddic_path":2.0,"tritachyon":0.8},
 
-    "maxRelationships":{"remnant":-0.51,"tritachyon":-0.51,"persean":-0.51},
-
-    "colonyExpeditionChance":1.5, # We were born to inherit the stars.
+    "alignments":{
+        "militarist":1,
+        "technocratic":1,
+        "hierarchical":0.5,
+    },
+    
+    "colonyExpeditionChance":2.0,
     "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
 
     "groundBattleSettings":{
-        "attackMult":1.25,
-        "defenseMult":1.25,
-        "moraleDamageTakenMult":0.8,
+        "defenseMult":1.5,
+        "moraleDamageTakenMult":0.5
     },
 
     "asteroidMiningFleetName":"Mining Flotilla",
+    "miningVariantsOrWings":["XLII_alsafi_Hybrid", "XLII_eltanin_mk2_Elite"],
+
     "responseFleetName":"Quick Reaction Force",
     "defenceFleetName":"Defense Fleet",
     "invasionFleetName":"Invasion Fleet",
     "invasionSupportFleetName":"Support Fleet",
+    "stationName":"SATCOM",
 
-    "factionIdForHqResponse":"XLII_fortysecond",
-	"specialForcesSizeMult":2,
+	"specialForcesSizeMult":1.5,
     "specialForcesNamerClass":"levianeer.draconis.data.campaign.intel.specialforces.namer.DraconisRomanNumeralNamer",
 
-	"vengeanceFleetSizeMult":2,
-    "vengeanceLevelNames":["Recon Picket","Black Ops Fleet","Hunter-Killer Battlegroup"],
-    "vengeanceFleetNames":["Recon Picket","Black Ops Fleet","Hunter-Killer Battlegroup"],
-    "vengeanceFleetNamesSingle":["a Recon Picket","a Black Ops Fleet","a Hunter-Killer Battlegroup"],
+	"vengeanceFleetSizeMult":1.5,
+    "vengeanceLevelNames":["AIO Surveillance Detachment","AIO Interdiction Group","AIO Strike Battlegroup"],
+    "vengeanceFleetNames":["AIO Surveillance Detachment","AIO Interdiction Group","AIO Strike Battlegroup"],
+    "vengeanceFleetNamesSingle":["an AIO Surveillance Detachment","an AIO Interdiction Group","an AIO Strike Battlegroup"],
 
     "startShipsSolo":[
         ["XLII_thuban_Standard"],
         ["XLII_alruba_Standard"],
         ["XLII_aldhibah_Standard"]
         ],
-        
+
     "startShipsCombatSmall":[
         ["XLII_thuban_Standard","XLII_rastaban_Standard"],
         ["XLII_alruba_Standard","XLII_errakis_Standard"],
@@ -67,6 +75,8 @@
         ["XLII_alruba_Standard", "XLII_errakis_Standard", "XLII_alsafi_Standard"],
         ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_alsafi_Standard"]
         ],
+
+    "startShipsSuper":[["XLII_shaowei_Standard"]],
 
     "startSpecialItems":[
         [["XLII_ship_package",""]],

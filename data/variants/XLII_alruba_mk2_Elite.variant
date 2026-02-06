@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 8,
-    "fluxVents": 3,
+    "fluxCapacitors": 9,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_alruba_mk2",
     "hullMods": ["missleracks"],
@@ -19,16 +19,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0004": "breach",
-                "WS0005": "breach"
-            }
-        },
-        {
-            "autofire": false,
             "mode": "LINKED",
             "weapons": {
+                "WS0004": "XLII_bardiche_single",
+                "WS0005": "XLII_bardiche_single",
                 "WS0015": "XLII_bardiche_single",
                 "WS0016": "XLII_bardiche_single"
             }
@@ -36,12 +30,12 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "XLII_estocflak"}
+            "weapons": {"WS0006": "XLII_estocflak"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "XLII_swordbreaker"}
+            "weapons": {"WS0001": "XLII_swordbreaker"}
         }
     ]
 }

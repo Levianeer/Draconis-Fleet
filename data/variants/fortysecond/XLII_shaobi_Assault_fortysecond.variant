@@ -1,7 +1,7 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 7,
-    "fluxVents": 20,
+    "fluxCapacitors": 0,
+    "fluxVents": 15,
     "hullId": "XLII_shaobi_fortysecond",
     "hullMods": [],
     "permaMods": [],
@@ -18,10 +18,10 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "XLII_bardiche_single",
-                "WS0004": "XLII_bardiche_single"
+                "WS0003": "XLII_halberd",
+                "WS0004": "XLII_halberd"
             }
         },
         {
@@ -35,13 +35,9 @@
             "weapons": {
                 "WS0001": "vulcan",
                 "WS0002": "vulcan",
-                "WS0006": "XLII_estocflak"
+                "WS0006": "XLII_estocflak",
+                "WS0009": "XLII_estocflak"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0009": "lightdualmg"}
         }
     ],
     "wings": [

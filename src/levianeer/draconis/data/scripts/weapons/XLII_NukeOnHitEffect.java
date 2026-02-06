@@ -3,6 +3,8 @@ package levianeer.draconis.data.scripts.weapons;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI;
 import com.fs.starfarer.api.loading.DamagingExplosionSpec;
+import org.dark.shaders.distortion.DistortionShader;
+import org.dark.shaders.distortion.RippleDistortion;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 import org.magiclib.util.MagicLensFlare;
@@ -56,6 +58,9 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
 
         // Sharp lens flares
         spawnLensFlares(engine, source, point);
+
+        // Nuclear shockwave distortion ring
+        spawnNuclearShockwave(engine, point);
     }
 
     private static DamagingExplosionSpec createExplosionSpec() {
@@ -127,5 +132,27 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
                     new Color(255, 255, 255)
             );
         }
+    }
+
+    private static void spawnNuclearShockwave(CombatEngineAPI engine, Vector2f point) {
+        // GraphicsLib radial distortion ring (nuclear shockwave effect)
+        float startSize = 75f;
+        float finalSize = 450f;
+        float intensity = 150f;
+        float duration = 0.8f;
+        float expansionTime = 0.7f;
+        float fadeTime = 1.2f;
+
+        Vector2f zeroVel = new Vector2f(0, 0);
+
+        RippleDistortion ripple = new RippleDistortion(point, zeroVel);
+        ripple.setSize(finalSize);
+        ripple.setIntensity(intensity);
+        ripple.setFrameRate(60f / duration); // 50 fps animation
+        ripple.fadeInSize(expansionTime); // Rapidly expanding wavefront
+        ripple.fadeOutIntensity(fadeTime); // Fading distortion
+        ripple.setSize(startSize); // Reset to starting size after setting final size
+
+        DistortionShader.addDistortion(ripple);
     }
 }

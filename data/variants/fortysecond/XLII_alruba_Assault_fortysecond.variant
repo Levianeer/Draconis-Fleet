@@ -1,7 +1,7 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 5,
-    "fluxVents": 10,
+    "fluxCapacitors": 0,
+    "fluxVents": 7,
     "hullId": "XLII_alruba_fortysecond",
     "hullMods": [],
     "permaMods": [],
@@ -18,10 +18,10 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0004": "XLII_bardiche_single",
-                "WS0005": "XLII_bardiche_single"
+                "WS0004": "XLII_halberd",
+                "WS0005": "XLII_halberd"
             }
         },
         {

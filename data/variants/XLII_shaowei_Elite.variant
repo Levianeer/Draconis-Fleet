@@ -1,0 +1,45 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 20,
+    "fluxVents": 1,
+    "goalVariant": true,
+    "hullId": "XLII_shaowei",
+    "hullMods": [
+        "adaptive_coils",
+        "hardened_subsystems"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_shaowei_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "amblaster",
+                "WS0005": "amblaster"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0002": "typhoon",
+                "WS0003": "typhoon"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0016": "XLII_swordbreaker",
+                "WS0017": "XLII_swordbreaker"
+            }
+        }
+    ]
+}

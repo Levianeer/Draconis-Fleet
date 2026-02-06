@@ -27,7 +27,7 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
     private static final Logger log = Global.getLogger(DraconisHighValueTargetCondition.class);
 
     private static final float STABILITY_PENALTY = 1f;
-    private static final float GROUND_DEFENSE_PENALTY = -0.2f;
+    private static final float GROUND_DEFENSE_PENALTY = -0.25f;
 
     // Validation interval - check every 7 days (same as scanner interval)
     private static final float CHECK_INTERVAL_DAYS = 7f;
@@ -215,34 +215,10 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
         float opad = 10f;
 
         tooltip.addPara(
-                "Draconis Alliance intelligence has designated this colony as their highest-priority AI core acquisition target. " +
+                "The Alliance Intelligence office has designated this colony as their highest-priority AI core acquisition target. " +
                         "Deep cover operatives have compromised security protocols and are actively preparing for extraction operations.",
                 opad, draconis
         );
-
-        // Show target details if available
-        if (market.getMemoryWithoutUpdate().contains(DraconisSingleTargetScanner.TARGET_CORE_VALUE_FLAG)) {
-            float strategicValue = market.getMemoryWithoutUpdate().getFloat(
-                    DraconisSingleTargetScanner.TARGET_CORE_VALUE_FLAG);
-            int alphaCount = market.getMemoryWithoutUpdate().getInt(
-                    DraconisSingleTargetScanner.TARGET_ALPHA_COUNT_FLAG);
-            int betaCount = market.getMemoryWithoutUpdate().getInt(
-                    DraconisSingleTargetScanner.TARGET_BETA_COUNT_FLAG);
-            int gammaCount = market.getMemoryWithoutUpdate().getInt(
-                    DraconisSingleTargetScanner.TARGET_GAMMA_COUNT_FLAG);
-            int totalCores = alphaCount + betaCount + gammaCount;
-
-            tooltip.addPara(
-                    "Intelligence assessment: %s AI cores confirmed (Alpha: %s, Beta: %s, Gamma: %s). " +
-                            "Combined strategic value: %s.",
-                    opad, h,
-                    String.valueOf(totalCores),
-                    String.valueOf(alphaCount),
-                    String.valueOf(betaCount),
-                    String.valueOf(gammaCount),
-                    String.format("%.0f", strategicValue)
-            );
-        }
 
         tooltip.addPara(
                 "Infiltration operations have degraded defensive readiness, reducing effective ground defenses by %s.",
@@ -254,11 +230,6 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
                 "The population is aware of the increased threat level, causing elevated civil unrest and reducing stability by %s.",
                 opad, n,
                 String.format("-%d", (int)STABILITY_PENALTY)
-        );
-
-        tooltip.addPara(
-                "A Draconis raid fleet may be dispatched at any time to seize these assets.",
-                opad, Misc.getNegativeHighlightColor()
         );
     }
 }

@@ -41,6 +41,9 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         this.actionType = actionType;
         this.wasPlayerMarket = isPlayerMarket;
         this.theftDate = Global.getSector().getClock().getTimestamp();
+
+        // Start expiration timer
+        endAfterDelay();
     }
 
     @Override
@@ -104,32 +107,6 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
             para.setHighlight(getActionTypeDisplay(), stolenFromMarket.getName(),
                     victimFaction.getDisplayName(), "extracted AI cores");
             para.setHighlightColors(bad, h, victimFaction.getBaseUIColor(), bad);
-        }
-
-        // Stolen cores section
-        info.addSectionHeading("Confirmed Stolen Assets",
-                draconisFaction.getBaseUIColor(),
-                draconisFaction.getDarkUIColor(),
-                com.fs.starfarer.api.ui.Alignment.MID, opad);
-
-        int alphaCores = 0;
-        int betaCores = 0;
-        int gammaCores = 0;
-
-        for (String coreId : stolenCores) {
-            if (coreId.contains("alpha")) alphaCores++;
-            else if (coreId.contains("beta")) betaCores++;
-            else if (coreId.contains("gamma")) gammaCores++;
-        }
-
-        if (alphaCores > 0) {
-            info.addPara("• Alpha Cores: %s", 3f, bad, String.valueOf(alphaCores));
-        }
-        if (betaCores > 0) {
-            info.addPara("• Beta Cores: %s", 3f, bad, String.valueOf(betaCores));
-        }
-        if (gammaCores > 0) {
-            info.addPara("• Gamma Cores: %s", 3f, bad, String.valueOf(gammaCores));
         }
 
         // Installation locations
@@ -202,21 +179,6 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
             para.setHighlight(victimFaction.getDisplayName(), "major provocation");
             para.setHighlightColors(victimFaction.getBaseUIColor(), bad);
         }
-
-        // Strategic implications
-        info.addSectionHeading("Strategic Implications",
-                draconisFaction.getBaseUIColor(),
-                draconisFaction.getDarkUIColor(),
-                com.fs.starfarer.api.ui.Alignment.MID, opad);
-
-        str = "The successful acquisition of these AI cores strengthens Draconis technological capabilities "
-                + "while simultaneously degrading " + victimFaction.getDisplayName() + " industrial output. "
-                + "This operation demonstrates the effectiveness of Draconis intelligence gathering "
-                + "and special operations capabilities.";
-
-        para = info.addPara(str, opad);
-        para.setHighlight("strengthens", "degrading", victimFaction.getDisplayName());
-        para.setHighlightColors(h, bad, victimFaction.getBaseUIColor());
 
         // Days ago timestamp
         if (theftDate > 0) {
@@ -342,7 +304,17 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
 
     @Override
     protected float getBaseDaysAfterEnd() {
-        return 30; // Keep intel around for a month
+        return 21; // Keep intel around for 3 weeks
+    }
+
+    /**
+     * Check if this intel is older than the expiration period
+     * Used for cleanup of intel that didn't expire properly in old versions
+     * @return true if intel should be expired
+     */
+    public boolean isExpired() {
+        float daysSinceTheft = Global.getSector().getClock().getElapsedDaysSince(theftDate);
+        return daysSinceTheft > getBaseDaysAfterEnd();
     }
 
     @Override

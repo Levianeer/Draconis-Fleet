@@ -1,0 +1,48 @@
+{
+    "displayName": "Unstable",
+    "fluxCapacitors": 0,
+    "fluxVents": 26,
+    "hullId": "XLII_asuia",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "do_not_back_off"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_asuia_Unstable",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "vpdriver"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0002": "sabotpod"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0020": "XLII_durendal_mkii"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "hveldriver",
+                "WS0019": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker",
+                "WS0006": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": ["lux_wing"]
+}

@@ -1,0 +1,9 @@
+{
+	# The Rift - Custom hyperspace terrain around Fafnir
+	"XLII_rift":{
+		"plugin":"levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin",
+		"musicSuppression":0.5,
+		# Use hyperspace storm sound for atmospheric effect
+		"loopOne":"terrain_hyperspace_storm"
+	}
+}

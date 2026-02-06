@@ -4,19 +4,18 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
-import levianeer.draconis.data.scripts.XLII_StatusScript;
 
 import java.awt.*;
 
 public class XLII_DynamicFluxBuff extends BaseHullMod {
 
-    private static final float MIN_DAMAGE_BONUS = 0f;
-    private static final float MAX_DAMAGE_BONUS = 0.2f;
+    public static final float MIN_DAMAGE_BONUS = 0f;
+    public static final float MAX_DAMAGE_BONUS = 0.5f;
 
-    private static final float MIN_DAMAGE_REDUCTION = 0.1f;
-    private static final float MAX_DAMAGE_REDUCTION = 0.30f;
+    public static final float MIN_DAMAGE_REDUCTION = 0.1f;
+    public static final float MAX_DAMAGE_REDUCTION = 0.4f;
 
-    private static final float SYSTEM_COOLDOWN_DECREASE_PERCENT = 1.5f;
+    private static final float SYSTEM_COOLDOWN_DECREASE_PERCENT = 1f; // x+1 = %
 
     public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {
         stats.getSystemRegenBonus().modifyMult(id, 1f / (1f + SYSTEM_COOLDOWN_DECREASE_PERCENT));
@@ -31,11 +30,11 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
 
         if (ship.getCustomData().get("XLII_CustomStatusData") == null) {
             ship.setCustomData("XLII_CustomStatusData", true);
-            Global.getCombatEngine().addPlugin(new XLII_StatusScript(ship));
+            Global.getCombatEngine().addPlugin(new XLII_DynamicFluxBuffStatusScript(ship));
         }
 
         float fluxLevel = ship.getFluxTracker().getFluxLevel();
-        float scaledFluxLevel = Math.min(fluxLevel / 0.9f, 1f);
+        float scaledFluxLevel = Math.min(fluxLevel / 0.8f, 1f);
 
         // Buffs
         float damageBonus = MIN_DAMAGE_BONUS + (MAX_DAMAGE_BONUS - MIN_DAMAGE_BONUS) * scaledFluxLevel;
@@ -66,16 +65,18 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
         stats.getShieldDamageTakenMult().unmodify("XLII_DynamicBuffStat");
         stats.getArmorDamageTakenMult().unmodify("XLII_DynamicBuffStat");
         stats.getHullDamageTakenMult().unmodify("XLII_DynamicBuffStat");
+        stats.getEmpDamageTakenMult().unmodify("XLII_DynamicBuffStat");
 
         if (damageReduction > 0f) {
             stats.getShieldDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
             stats.getArmorDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
             stats.getHullDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
+            stats.getEmpDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
         }
 
         // FX
-        Color jitterUnderColor = new Color(255, 165, 90, 155);
-        Color jitterColor = new Color(255, 165, 90, 55);
+        Color jitterUnderColor = new Color(255,165,90,155);
+        Color jitterColor = new Color(255,165,90,55);
 
         ship.setJitterUnder(
                 this,
@@ -98,11 +99,11 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
 
     @Override
     public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
-        if (index == 0) return "0%"; // Min offense
-        if (index == 1) return "20%"; // Max offense
-        if (index == 2) return "10%"; // Min defense
-        if (index == 3) return "30%"; // Max defense
-        if (index == 4) return "100%"; // Cooldown Increase
+        if (index == 0) return Math.round(MIN_DAMAGE_BONUS * 100f) + "%"; // Min offense
+        if (index == 1) return Math.round(MAX_DAMAGE_BONUS * 100f) + "%"; // Max offense
+        if (index == 2) return Math.round(MIN_DAMAGE_REDUCTION * 100f) + "%"; // Min defense
+        if (index == 3) return Math.round(MAX_DAMAGE_REDUCTION * 100f) + "%"; // Max defense
+        if (index == 4) return Math.round(SYSTEM_COOLDOWN_DECREASE_PERCENT * 100f) + "%"; // Cooldown Increase
         return null;
     }
 }

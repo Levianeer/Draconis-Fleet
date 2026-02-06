@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 16,
+    "fluxCapacitors": 28,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "XLII_dziban",
@@ -15,10 +15,10 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "XLII_fragarch",
-                "WS0002": "XLII_fragarch"
+                "WS0001": "XLII_longsword",
+                "WS0002": "XLII_longsword"
             }
         },
         {

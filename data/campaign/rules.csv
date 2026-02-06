@@ -1,10 +1,12 @@
 id,trigger,conditions,script,text,options,notes
 "#RULESET_NAME Draconis",,,,,,
 ,,,,,,
-# Fleet Admiral's Store,,,,,,
-XLII_admiral_init,OpenCDE,"$tag:XLII_fleet_admiral_emil","AddText ""Establishing connection..."" buttonText
-ShowPersonVisual","You transmit the comms ID and wait for the system to establish a connection...","1:init_greeting:Continue",
-XLII_admiral_init_greeting,DialogOptionSelected,"$option == init_greeting","FireBest admiralPickGreeting","The comms link establishes after a longer delay than typical military protocols demand. When the image resolves, it's deliberately degraded - encryption artifacts dance across a humanoid silhouette, facial features reduced to suggestions of shadow and light.",,
+# Fleet Admiral's Store,,,,,,"convDefaultGreeting"
+XLII_admiral_init_greeting,OpenCDE,"$isPerson
+$postId == factionLeader
+$tag:XLII_fleet_admiral_emil","AddText ""Establishing connection..."" buttonText
+FireBest admiralPickGreeting
+ShowPersonVisual","You transmit the comms ID and wait for the system to establish a connection. However, the comms link establishes after a longer delay than typical military protocols demand. When the image resolves, it's deliberately degraded - encryption artifacts dance across a humanoid silhouette, facial features reduced to suggestions of shadow and light.","1:init:Continue",
 XLII_admiral_init_not_commissioned,admiralPickGreeting,,,"""Captain."" The voice carries the flat authority of someone accustomed to being obeyed. ""Your reputation precedes you, but reputation alone doesn't grant clearance for what we discuss here.""
 
 A pause. You sense him consulting something off-screen.
@@ -12,88 +14,52 @@ A pause. You sense him consulting something off-screen.
 ""If you're serious about serving the Draconis Defence Alliance, our diplomatic corps can arrange a commission. Standard channels. Until then..."" The distorted figure makes a gesture that might be dismissive, might be regretful. ""I'm afraid we have nothing further to discuss.""
 
 The link cuts before you can respond.","1:dismiss:End the transmission.",
-XLII_admiral_init_commissioned,admiralPickGreeting,"XLII_HasDraconisCommission",,"""Commander $playerLastName."" The distorted visage tilts slightly, as if examining you through the compression grain. What might be satisfaction colors the modulated voice. ""We've been watching your work."" A beat. ""Impressed, I should say.""
+XLII_admiral_init_commissioned,admiralPickGreeting,"XLII_HasDraconisCommission","XLII_CalculateShipCost XLII_alruba_Assault_fortysecond alruba
+XLII_CalculateShipCost XLII_alwaid_Assault_fortysecond alwaid
+XLII_CalculateShipCost XLII_errakis_Assault_fortysecond errakis
+XLII_CalculateShipCost XLII_juza_Assault_fortysecond juza
+XLII_CalculateShipCost XLII_shaobi_Assault_fortysecond shaobi
+XLII_CalculateShipCost XLII_grumium_wing grumium","""Commander $playerLastName."" The distorted visage tilts slightly, as if examining you through the compression grain. What might be satisfaction colors the modulated voice. ""We've been watching your work."" A beat. ""Impressed, I should say.""
 
 He leans forward slightly, the motion causing the encryption to ripple and distort. ""The Draconis Defence Alliance rewards competence. More importantly, we recognize when someone possesses the tactical acumen we need for what's coming.""
 
 Your command console chimes softly - an incoming data packet, heavily encrypted.","1:XLII_admiral_init_commissionedTrader:Continue",
 XLII_admiral_init_commissionedTrader,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
-$tag:XLII_fleet_admiral_emil",,"""I'm authorized to offer you something off the books,"" he continues. ""The 42nd's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
+$tag:XLII_fleet_admiral_emil",,"""I'm authorized to offer you something off the books,"" he continues. ""The XLII's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
 
 A calculated pause. The kind that precedes uncomfortable truths.
 
-""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_alruba:I'll purchase a Alruba-class Gunship
-2:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier
-3:buy_errakis:I'll purchase a Errakis-class Missile Destroyer
-4:buy_juza:I'll purchase a Juza-class Heavy Cruiser
-5:buy_shaobi:I'll purchase a Shaobi-class Carrier
-6:decline:Perhaps another time",
+""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_grumium:I'll purchase a Grumium Bomber Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
+2:buy_alruba:I'll purchase a Alruba-class Gunship ($XLII_cost_credits_formatted_alruba credits, $XLII_cost_rep_alruba rep)
+3:buy_shaobi:I'll purchase a Shaobi-class Carrier ($XLII_cost_credits_formatted_shaobi credits, $XLII_cost_rep_shaobi rep)
+4:buy_errakis:I'll purchase a Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
+5:buy_juza:I'll purchase a Juza-class Heavy Cruiser ($XLII_cost_credits_formatted_juza credits, $XLII_cost_rep_juza rep)
+6:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
+7:decline:Perhaps another time",
+XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""The Grumium-class. Already a fossil when our engineers stripped her down and turned her into a bomber. Sluggish turns, avionics that throw fits if you look at them wrong. But those Backsword torpedoes? They don't need finesse - just a straight line to the target.""
+
+""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
+
+""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+
+""Reyes brought three back, including his own. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+
+A brief pause as the data finalizes.
+
+""Use it well, Commander. The Alliance expects results.""","1:transaction_complete:Continue",
 XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Assault_fortysecond","""The Alruba. You know, most people look at her now and see a relic - too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
 
 Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. Older model, held together with spite and welder's tape. We had six of them left in the picket line, facing down twice our number.
 
-The captain - Lieutenant Voss, good officer - she kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
+The captain - Lieutenant Walker, good officer - she kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
 
-Voss didn't. Reactor breach on the final push.
+Walker didn't. Reactor breach on the final push.
 
 The Alruba's not fast. Not elegant. But she's honest. She does what you build her to do, and she doesn't quit until she's a debris field. Sometimes that's enough.""
 
 A brief pause as the data finalizes.
 
 ""Use it well, Commander. The Alliance invests in those who deliver results."" The emphasis on 'deliver' is subtle but unmistakable. ""We'll be watching.""","1:transaction_complete:Continue",
-XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Assault_fortysecond","""The Alwaid-class. I've heard the jokes - 'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
-
-During the final assault on Athebyne's capital shipyards, we had three Alwaids in the fleet. Heaven's Axiom, the Diligence, and the Eternity. The plan was simple: jump in, launch fighters, establish orbital superiority. Textbook carrier doctrine.
-
-The first two battlegroups jumped on schedule. The Eternity's group? Delayed. Drive malfunction - forty minutes late to the fight.
-
-By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
-
-Then the Eternity translated in-system. Two hundred and forty fighters. Every torpedo tube loaded. She didn't win the battle - but she ended it. The enemy scattered. We held the orbitals.
-
-Commander McKinnon - captain of the Eternity - he spent the next month in disciplinary review. I made sure he walked out with a promotion instead. Sometimes arriving late means you arrive when it matters most.
-
-The Alwaid's slow. But when she gets there, she brings everything.""
-
-The faintest pause.
-
-""It's yours. Make our engineers proud.""","1:transaction_complete:Continue",
-XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Assault_fortysecond","""The Errakis. Carrier escort. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
-
-That became a problem during the push on Athebyne's outer stations.
-
-We had the Milwaukee - an Errakis - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to scramble targeting data, not enough to justify pulling back.
-
-The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain N. Holt - good officer, Kori Naval Academy - had a ship full of ordnance and nothing to shoot at.
-
-So he did what the ship was designed to do: he moved in close. Uncomfortably close. Within thirty thousand klicks of the enemy screen, using the carrier's fighters for targeting data and firing on delayed telemetry.
-
-It worked. Barely. The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition fire. But the carrier stayed operational, and the screen held.
-
-Holt put in a formal complaint about the sensor limitations afterward. Command filed it. Nothing changed.
-
-The Errakis does what she's built for. Just don't expect her to do it elegantly.""
-
-Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
-
-""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
-XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Assault_fortysecond","""The Juza-class. Experimental flux management, armoured like a battleship, fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle - when she works.
-
-Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
-
-Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. She was a two-hundred-thousand-tonne paperweight in the middle of a firing line.
-
-Her chief engineer - man named Kovar, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. Three minutes. Do you know what a miracle that is?
-
-By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Kovar kept her running for another six hours before the system burned out for good. We won that engagement.
-
-Kovar didn't make it - reactor overload during the final cooldown sequence. But the Jericho did.
-
-The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
-
-Brief silence.
-
-""Authorization granted.""","1:transaction_complete:Continue",
 XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Assault_fortysecond","""The Shaobi. The Marines' favourite toy. Command didn't want to build her - too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
 
 I'll admit, I didn't see the value. Not at first.
@@ -113,16 +79,153 @@ Sometimes that's worth more than another fighter wing.""
 A pause.
 
 ""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
-XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:dismiss:End transmission",
-XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""Understood."" No judgment colors his tone. If anything, there's a note of patience. The distorted figure settles back slightly.
+XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Assault_fortysecond","""The Errakis. Carrier escort. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
 
-""The offer stands. When you're ready, whenever that may be, the authorization remains active in your file."" A beat. ""We don't make these offers lightly, Commander. And we don't make them twice to different people.""
+That became a problem during the push on Athebyne's outer stations.
 
-""The Alliance remembers those who serve. And..."" The briefest hesitation. ""Also those who serve well."" His hand moves, beginning the process of closing the connection. ""You know how to reach us.""
+We had the Milwaukee - an Errakis - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to scramble targeting data, not enough to justify pulling back.
 
-The link terminates.","1:dismiss:End transmission",
+The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain N. Holt - good officer, Kori Naval Academy - had a ship full of ordnance and nothing to shoot at.
+
+So he did what the ship was designed to do: he moved in close. Uncomfortably close. Within thirty thousand klicks of the enemy screen, using the carrier's fighters for targeting data and firing on delayed telemetry.
+
+It worked. Barely. The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition fire. But the carrier stayed operational, and the screen held.
+
+Holt put in a formal complaint about the sensor limitations afterward. Command filed it. Nothing changed.
+
+The Errakis does what she's built for. Just don't expect her to do it elegantly.""
+
+Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
+
+""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
+XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Assault_fortysecond","""The Juza-class. Experimental flux management, armoured like a battleship, just fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle - when she works.
+
+Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
+
+Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. She was a two-hundred-thousand-tonne paperweight in the middle of a firing line.
+
+Her chief engineer - man named Kovar, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. Three minutes. Do you know what a miracle that is?
+
+By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Kovar kept her running for another six hours before the system burned out for good. We won that engagement.
+
+The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
+
+Brief silence.
+
+""Authorization granted.""","1:transaction_complete:Continue",
+XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Assault_fortysecond","""The Alwaid-class. I've heard the jokes - 'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
+
+During the final assault on Athebyne's capital shipyards, we had three Alwaids in the fleet. Heaven's Axiom, the Diligence, and the Eternity. The plan was simple: jump in, launch fighters, establish orbital superiority. Textbook carrier doctrine.
+
+The first two battlegroups jumped on schedule. The Eternity's group? Delayed. Drive malfunction - forty minutes late to the fight.
+
+By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
+
+Then the Eternity translated in-system. Two hundred and forty fighters. Every torpedo tube loaded. She didn't win the battle - but she ended it. The enemy scattered. We held the orbitals.
+
+Commander McKinnon - captain of the Eternity - he spent the next month in disciplinary review. I made sure he walked out with a promotion instead. Sometimes arriving late means you arrive when it matters most.
+
+The Alwaid's slow. But when she gets there, she brings everything.""
+
+The faintest pause.
+
+""It's yours.""","1:transaction_complete:Continue",
+XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:XLII_admiral_init_commissionedTrader:Buy something else
+2:dismiss:End transmission",
+XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""The offer stands. When you're ready, whenever that may be, the authorization remains active in your file."" A beat. ""However, we don't make these offers lightly, Commander""
+
+The briefest hesitation.
+
+His hand moves, beginning the process of closing the connection. ""You know how to reach us.""
+
+The link terminates.","1:XLII_admiral_init_commissionedTrader:Buy something else
+2:dismiss:End transmission",
 XLII_admiral_dismiss,DialogOptionSelected,"$option == dismiss","EndConversation","The transmission ends.",,
 "#END Fleet Admiral's Store",,,,,,
+,,,,,,
+# Fafnir Gate Interactions,,,,,,
+XLII_gateOpenDialogStart,OpenInteractionDialog,"$id == XLII_fafnir_gate
+!$global.XLII_gateLogRead","ShowDefaultVisual
+AddText ""A shattered adamantine ring hangs motionless in the void, its once-perfect curve fractured into jagged arcs.""
+
+AddText ""Twisted structural spars and blackened plating drift in a slow, silent orbit around the broken frame.""
+
+AddText ""What remains of the Gate is cold, dark, and utterly still - a Domain monument reduced to a graveyard of dreams.""",,"1:XLII_gateOpenLogsMenu:Explore
+100:defaultLeave:Leave",
+XLII_gateOpenDialogFinished,OpenInteractionDialog,"$id == XLII_fafnir_gate
+$global.XLII_gateLogRead","ShowDefaultVisual
+AddText ""A shattered adamantine ring hangs motionless in the void, its once-perfect curve fractured into jagged arcs.""
+
+AddText ""Twisted structural spars and blackened plating drift in a slow, silent orbit around the broken frame.""
+
+AddText ""What remains of the Gate is cold, dark, and utterly still - a Domain monument reduced to a graveyard of dreams.""",,"100:defaultLeave:Leave",
+XLII_gateOpenLogsMenu,DialogOptionSelected,"$option == XLII_gateOpenLogsMenu",,"Closer inspection reveals a skeletal lattice of military emplacements: gun batteries fused into slag, sensor arrays crumpled like paper, armored hab-modules cracked open to vacuum.
+
+Domain-era hazard striping still clings stubbornly to the hull plating beneath layers of micrometeorite scarring and weapons burns.
+
+Faint emergency strobes - long dead - mark the positions where XLII Fleet gun crews once waited, cycle after cycle, for an enemy that never came through.","1:XLII_gateOpenLogs:Send a team to assess the installation
+100:defaultLeave:Leave",
+XLII_gateOpenLogs,DialogOptionSelected,"$option == XLII_gateOpenLogs",,"Your salvage teams force the frost-sealed airlock of the primary command module. Flashlights sweep across derelict consoles and drifting slats.
+
+Your Ops Chief breaks the silence ""$PlayerSirOrMadam, archives are intact. Something to do with the '42nd Signal Corps' relays, seems untouched since the ring cracked.""
+
+A brief moment as they interface with the databank.
+
+""Gate Vigil logs recovered - Lieutenant Voss’s final entry - mid-bombardment. ‘The pings stopped the moment the ring cracked. Whatever watched… chose not to cross.’""
+
+""More fragments here. Early AIO relocation orders to Kori, personnel lists. Permission to extract the full cache?""
+
+Your officers wait for your orders, the soft whine of data recovery filling the bridge.","1:XLII_gateLog1:Continue
+100:XLII_gateLeaveOpt:Leave",
+XLII_gateLog1,DialogOptionSelected,"$option == XLII_gateLog1","AddTextSmall ""Log Fragment 1 - XLII Signal Corps Standing Order 224-19"" highlight","""Cycle 47 pre-Alliance. Auth: Capt. Emil August, forwarded through Corps Command.""
+
+""'All Signal Corps detachments are hereby detached from line-of-battle duties and assigned to permanent perimeter security and monitoring of Fafnir Gate structure. Primary objective: detect and report any unauthorized hyperspace transit attempt. Secondary objective: prevent physical access by non-cleared personnel.
+
+This assignment is non-negotiable. Resources will be reallocated accordingly.
+
+Endorsement appended by Lt. Cmdr. J. Halvorsen, Signal Corps:
+
+""Understood the strategic logic on paper. Still feels like punishment duty. We're bleeding hull plating at Athebyne's Lagrange points while half the corps sits on cold alloy watching a ring that hasn't twitched since the Collapse. August must know something we don't. Or he's finally lost it.""'","2:XLII_gateLog2:Continue",
+XLII_gateLog2,DialogOptionSelected,"$option == XLII_gateLog2","AddTextSmall ""Log Fragment 2 - Field Engineering Log, Attempt Series 12-47"" highlight","""Cycle 49 pre-Alliance. Auth: Lt. Mara Velas, Field Engineering Lead.""
+
+""'Attempt 47 concluded 03:14 shipboard. Full power shunt through primary manifold coupling. Ring returned to quiescent state within 0.8 seconds. No aperture formation, no phase excursion, no manifold breach.
+
+Same result as Attempt 46. And 45. And every attempt back to 12.
+
+However: return signal consistent across all attempts. Three discrete hyperwave pulses, 1.7-second spacing, identical modulation envelope. Subcarrier contains structured data we cannot yet parse. It responds to our probe strength - louder input yields louder reply.
+
+It is not an echo. It is a handshake.
+
+Recommendation: cease active attempts until we can fabricate better decoding hardware. Morale note: crew has started calling the far side 'the patient one.' Not sure I like the nickname.'""","3:XLII_gateLog3:Continue",
+XLII_gateLog3,DialogOptionSelected,"$option == XLII_gateLog3","AddTextSmall ""Log Fragment 3 - Redeployment Directive, Eyes-Only"" highlight","""Cycle 51 pre-Alliance. Auth: Adm. Emil August, countersigned AIO precursor cell.""
+
+""'Effective immediately: all Signal Corps assets under designation 'Gatewatch' are to cease operations at Fafnir Gate and redeploy subsurface, Kori primary grid, reference Alpha-7 / Theta-9.
+
+New primary objective: secure, stabilize, and establish interface protocols with Domain-era computational megastructure; codeword designation: OCTANTIS.
+
+All previous Gate monitoring logs are to be archived under maximum encryption and physically transferred to Kori vault. No further active interrogation of the Gate permitted. Demolition charges remain on standby per prior order.
+
+Personal addendum, August: ""We stopped asking it to open. It began asking us questions instead. The answers are under Kori. That is where the war will be decided now.""'","4:XLII_gateLog4:Continue",
+XLII_gateLog4,DialogOptionSelected,"$option == XLII_gateLog4","AddTextSmall ""Log Fragment 4 - Internal Transition Memorandum"" highlight
+AddStoryPoints 1
+$global.XLII_gateLogRead = true","""Cycle 52 pre-Alliance. Auth: precursor cell, later designated Alliance Intelligence Office.""
+
+""'Signal Corps detachment Gatewatch formally stood down. Surviving personnel and technical assets folded into new standing formation: Alliance Intelligence Section (provisional).
+
+Mission parameters redefined: - Acquisition, integration, and operational employment of SIGMA OCTANTIS-derived computational augmentation. - Evaluation and controlled implementation of AI-core augmentation protocols previously prohibited under Sector norms. - Protection of all related programs from external compromise (Hegemony, Persean League, Tri-Tachyon, Luddic elements). - Elimination or reorientation of personnel who represent unacceptable risk to operational security.
+
+From this cycle forward, the Section answers only to unified command authority. Taboos are suspended for the duration of the emergency - which is now declared permanent.
+
+Final line, unsigned but cipher-matched to August: ""You are no longer watchers. You are keepers. And you shall keep what must never be loosed upon the Sector... or what must be loosed only by our hand.""'
+
+They tap the console once more, locking the slate.
+
+""Whatever SIGMA OCTANTIS actually is... it didn't come through the Gate. It was already here. And it's been talking to them ever since.""
+
+A beat of silence on the bridge.
+
+""Orders, Captain?""","100:defaultLeave:Leave",
+"#END Fafnir Gate Interactions",,,,,,
 ,,,,,,
 # Generic Faction Dialogue,,,,,,
 XLII_greetingFriendlyCommission,OpenCommLink,"$faction.id == XLII_draconis
@@ -148,20 +251,55 @@ $relativeStrength >= 0","$ignorePlayerCommRequests = true 1","""$PersonRank $per
 "#END Generic Faction Dialogue",,,,,,
 ,,,,,,
 # Generic Commission Dialogue,,,,,,
-CMSNTextRejectHostile_XLII_draconis,CMSNTextRejectHostile,"$faction.id == XLII_draconis",,"""Who the fu - Who is - What - I should kick your fucking ass, who is this?"" There is a brief silence, cut short by the frantic sound of typing. ""Ah, $playerName! I've notified the Department of Internal Security of your presence, leave immediately. Athebyne's scars run deep enough without adding your name to the list.""",,
-CMSNTextHasOther_XLII_draconis,CMSNTextHasOther,"$faction.id == XLII_draconis",,"""Loyalty's a rare commodity out here, and you're fresh out. We've got no room for dual allegiances.""
+XLII_CMSNTextRejectHostile,CMSNTextRejectHostile,"$faction.id == XLII_draconis",,"""Who the fu - Who is - What - I should kick your fucking ass, who is this?"" There is a brief silence, cut short by the frantic sound of typing. ""Ah, $playerName! I've notified the Department of Internal Security of your presence, leave immediately. Athebyne's scars run deep enough without adding your name to the list.""",,
+XLII_CMSNTextHasOther,CMSNTextHasOther,"$faction.id == XLII_draconis",,"""Loyalty's a rare commodity out here, and you're fresh out. We've got no room for dual allegiances.""
 
 ""That said, if you're serious about joining, resign from $theOtherCommissionFaction. And we'll gladly put your skills to use in $theFaction.""",,
-CMSNTextUnsuited_XLII_draconis,CMSNTextUnsuited,"$faction.id == XLII_draconis",,"""I'm sorry, but you don't meet our criteria for receiving a commission. To put it plainly you're a wildcard, Commander. Shape up your outfit, purge the weak links, then come back. Until then, you're unfit for Draconis colors. However I've noted your request, so please do reapply once you've meet our criteria!""",,
-CMSNTextSuitedPart1_XLII_draconis,CMSNTextSuitedPart1,"$faction.id == XLII_draconis",,"""Hmm, yes, you're a suitable candidate. Admiral August will be pleased. We're always short on manpower.""
+XLII_CMSNTextUnsuited,CMSNTextUnsuited,"$faction.id == XLII_draconis",,"""I'm sorry, but you don't meet our criteria for receiving a commission. To put it plainly you're a wildcard, Commander. Shape up your outfit, purge the weak links, then come back. Until then, you're unfit for Draconis colors. However I've noted your request, so please do reapply once you've meet our criteria!""",,
+XLII_CMSNTextSuitedPart1,CMSNTextSuitedPart1,"$faction.id == XLII_draconis",,"""Hmm, yes, you're a suitable candidate. Admiral August will be pleased. We're always short on manpower.""
 
 ""Accepting a commission is a serious matter, however. You will be required to fight enemies of $theFaction. You'll be able to resign your commission at any time, though I don't imagine doing so would win you any friends.""",,
-CMSNTextSuitedPart2_XLII_draconis,CMSNTextSuitedPart2,"$faction.id == XLII_draconis",,"""So, how about it? Still want to sign on?""",,
-CMSNTextWelcomePart1_XLII_draconis,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated - Draconis blue on your scopes now.""",,
-CMSNTextWelcomePart2_XLII_draconis,CMSNTextWelcomePart2,"$faction.id == XLII_draconis",,"""Anything else I can do for you?""",,
-CMSNTextChangeMind_XLII_draconis,CMSNTextChangeMind,"$faction.id == XLII_draconis",,"""Cold feet already?"" $personName raises an eyebrow. ""The Sector's full of fence-sitters who think twice when the guns start barking. Fafnir's ghosts don't suffer the hesitant, neither do we. Application withdrawn. If you grow a spine, our doors aren't barred... Yet.""",,
-CMSNResignAskToConfirm_XLII_draconis,CMSNResignAskToConfirm,"$faction.id == XLII_draconis",,"""Resign? After we stamped your papers and handed you the keys to our armory? Commander, that's not how the Alliance works."" $personFirstName pauses their typing to face you. ""$TheFaction needs anyone it can get, and turning your back on us won't be forgotten.""",,
-CMSNResignConfirmed_XLII_draconis,CMSNResignConfirmed,"$faction.id == XLII_draconis",,"$personFirstName sighs dramatically. ""Fine. Resignation accepted, effective immediately. Your IFF's wiped, access codes revoked.""",,
-CMSNResignCancelled_XLII_draconis,CMSNResignCancelled,"$faction.id == XLII_draconis",,"""Wise choice, Lieutenant. Knew you had the spine for it. Oath renewed - no hard feelings, just hard lessons.""",,
+XLII_CMSNTextSuitedPart2,CMSNTextSuitedPart2,"$faction.id == XLII_draconis",,"""So, how about it? Still want to sign on?""",,
+XLII_CMSNTextWelcomePart1,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated - Draconis blue on your scopes now.""",,
+XLII_CMSNTextWelcomePart2,CMSNTextWelcomePart2,"$faction.id == XLII_draconis",,"""Anything else I can do for you?""",,
+XLII_CMSNTextChangeMind,CMSNTextChangeMind,"$faction.id == XLII_draconis",,"""Cold feet already?"" $personName raises an eyebrow. ""The Sector's full of fence-sitters who think twice when the guns start barking. Fafnir's ghosts don't suffer the hesitant, neither do we. Application withdrawn. If you grow a spine, our doors aren't barred... Yet.""",,
+XLII_CMSNResignAskToConfirm,CMSNResignAskToConfirm,"$faction.id == XLII_draconis",,"""Resign? After we stamped your papers and handed you the keys to our armory? Commander, that's not how the Alliance works."" $personFirstName pauses their typing to face you. ""$TheFaction needs anyone it can get, and turning your back on us won't be forgotten.""",,
+XLII_CMSNResignConfirmed,CMSNResignConfirmed,"$faction.id == XLII_draconis",,"$personFirstName sighs dramatically. ""Fine. Resignation accepted, effective immediately. Your IFF's wiped, access codes revoked.""",,
+XLII_CMSNResignCancelled,CMSNResignCancelled,"$faction.id == XLII_draconis",,"""Wise choice, Lieutenant. Knew you had the spine for it. Oath renewed - no hard feelings, just hard lessons.""",,
 "#END Generic Commission Dialogue",,,,,,
+,,,,,,
+# Generic Rep Level Description,,,,,,
+XLII_relLevelCooperative,RelationshipLevelDesc,"$faction.rel == COOPERATIVE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Fleet Admiral August has personally recognized your contributions to the Alliance. Joint Command has extended full access to military stockpiles and forward operating bases, and even the most security-conscious AIO liaison officers no longer shadow your movements. Alliance Citizens across Fafnir regard you as one of their own - a rare distinction for anyone who didn't endure the Reunification.",,
+XLII_relLevelFriendly,RelationshipLevelDesc,"$faction.rel == FRIENDLY
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Alliance officials have come to regard you as a reliable partner rather than a convenient asset. Port authorities process your docking requests without the usual security theater, and patrol captains are more likely to offer assistance than demand transponder logs. The gratitude of Joint Command translates to meaningful access to military-grade hardware.",,
+XLII_relLevelWelcoming,RelationshipLevelDesc,"$faction.rel == WELCOMING
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Your reputation has reached the attention of mid-level Alliance commanders, several of whom have noted your reliability in official dispatches. System patrols treat your $shipOrFleet as a known quantity rather than a potential threat, and port authorities extend courtesies typically reserved for Alliance-flagged vessels.",,
+XLII_relLevelFavorable,RelationshipLevelDesc,"$faction.rel == FAVORABLE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Alliance commanders have begun to take note of your activities - favorably, if cautiously. In practice, this means access to surplus military equipment and fewer pointed questions from patrol captains. The institutional paranoia born from the civil war hasn't faded entirely, but you've earned the benefit of the doubt.",,
+XLII_relLevelNeutral,RelationshipLevelDesc,"$faction.rel == NEUTRAL
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","To Alliance officials, you're simply another independent operator - neither a threat nor an asset worth cultivating. This is, by local standards, a reasonable position to occupy. The DDA's history has left its leadership wary of outsiders, but not hostile without cause.",,
+XLII_relLevelSuspicious,RelationshipLevelDesc,"$faction.rel == SUSPICIOUS
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Something in your record has drawn scrutiny from Alliance security. Port authorities process your requests with deliberate slowness, and patrol commanders run your transponder against watchlists more often than strictly necessary. You're not unwelcome, but you're certainly not trusted.",,
+XLII_relLevelInhospitable,RelationshipLevelDesc,"$faction.rel == INHOSPITABLE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Joint Command has flagged your $shipOrFleet as a potential security concern. Port officials find reasons to deny docking requests, and patrol captains interpret their rules of engagement generously when your drives light up on their scopes. The Alliance hasn't declared you an enemy - but they've stopped pretending you might be a friend.",,
+XLII_relLevelHostile,RelationshipLevelDesc,"$faction.rel == HOSTILE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Alliance patrols are authorized to engage your $shipOrFleet on sight. Markets under DDA control deny you access, and any incident involving your vessels is treated as confirmation of hostile intent. Whatever goodwill you might have once possessed has been thoroughly exhausted.",,
+XLII_relLevelVengeful,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == XLII_draconis
+$player.numColonies == 0
+$player.fleetPoints < 120","FireAll RelLevelMoreDescription","The Alliance has classified you as an active threat to sector stability. Your name circulates in Joint Command briefings alongside pirates, warlords, and other enemies of the fragile peace August built from the ashes of civil war. No patrol captain will hesitate to add your $shipOrFleet to the long list of threats the DDA has ground to dust.",,
+XLII_relLevelVengefulFleet,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == XLII_draconis
+$player.numColonies == 0
+$player.fleetPoints >= 120","FireAll RelLevelMoreDescription","Joint Command regards your $shipOrFleet as one more hostile element in a sector that produces them endlessly. Alliance captains have standing orders to engage and destroy - the same orders they've executed against countless threats since the Reunification. You are not special. You are simply next.",,
+XLII_relLevelVengefulPlanet,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == XLII_draconis
+$player.numColonies > 0","FireAll RelLevelMoreDescription","The Alliance views your growing power as an existential threat to everything the Reunification preserved. Somewhere in Joint Command, planners are assembling a task force with your colonies marked for pacification. The DDA has survived civil war, corporate predation, and worse. They do not intend to let you succeed where those threats failed.",,
+"#END Generic Rep Level Description",,,,,,
+,,,,,,
+# Generic AI Core Donation,,,,,,
+XLII_aiCores_turnInOptionSel,DialogOptionSelected,"$option == aiCores_startTurnIn
+$faction.id == XLII_draconis","FireAll PopulateCoresTurnInOptions","""We're prepared to pay well for these - better than you'd get selling them quietly elsewhere, and without the legal complications. The Alliance has legitimate research applications for recovered cores. What Hegemony inspectors don't know won't trouble them, or you.""",,
+"#END Generic AI Core Donation",,,,,,
 

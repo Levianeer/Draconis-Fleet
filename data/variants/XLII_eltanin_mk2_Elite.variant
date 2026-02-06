@@ -1,0 +1,70 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 30,
+    "fluxVents": 0,
+    "goalVariant": true,
+    "hullId": "XLII_eltanin_mk2",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter",
+        "eccm"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_eltanin_mk2_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_bardiche_large"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "XLII_bardiche_single",
+                "WS0011": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_rapier",
+                "WS0007": "XLII_rapier",
+                "WS0008": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0030": "gravitonbeam",
+                "WS0031": "gravitonbeam"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "lrpdlaser",
+                "WS0009": "lrpdlaser",
+                "WS0041": "lrpdlaser"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0042": "XLII_swordbreaker",
+                "WS0043": "XLII_swordbreaker"
+            }
+        }
+    ]
+}

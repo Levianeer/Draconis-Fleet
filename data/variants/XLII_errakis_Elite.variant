@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 1,
-    "fluxVents": 20,
+    "fluxCapacitors": 20,
+    "fluxVents": 1,
     "goalVariant": true,
     "hullId": "XLII_errakis",
     "hullMods": ["eccm"],
@@ -12,20 +12,20 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0004": "squall"}
+            "weapons": {"WS0004": "XLII_bardiche_large"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "breachpod",
+                "WS0006": "breachpod"
+            }
         },
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_bardiche",
-                "WS0006": "XLII_bardiche"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0018": "XLII_particlelance"}
+            "weapons": {"WS0018": "XLII_cestus"}
         },
         {
             "autofire": true,

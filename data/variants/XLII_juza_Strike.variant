@@ -1,9 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 14,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 25,
+    "goalVariant": true,
     "hullId": "XLII_juza",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "advancedoptics"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juza_Strike",
@@ -12,39 +16,45 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_mangonel",
-                "WS0020": "XLII_mangonel"
+                "WS0003": "XLII_sovnyalance",
+                "WS0020": "XLII_sovnyalance"
             }
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0001": "sabot",
-                "WS0021": "sabot",
-                "WS0026": "sabot",
-                "WS0027": "sabot",
-                "WS0028": "sabot",
-                "WS0029": "sabot"
+                "WS0001": "XLII_bardiche_single",
+                "WS0021": "XLII_bardiche_single",
+                "WS0026": "XLII_bardiche_single",
+                "WS0027": "XLII_bardiche_single",
+                "WS0028": "XLII_bardiche_single",
+                "WS0029": "XLII_bardiche_single"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_rapier",
-                "WS0019": "XLII_rapier"
+                "WS0018": "XLII_particlelance",
+                "WS0019": "XLII_particlelance"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_estocflak",
-                "WS0006": "XLII_estocflak",
                 "WS0015": "XLII_estocflak",
                 "WS0024": "XLII_estocflak",
                 "WS0025": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker",
+                "WS0006": "XLII_swordbreaker"
             }
         }
     ]

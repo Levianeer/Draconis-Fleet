@@ -3,7 +3,7 @@
     "fluxCapacitors": 50,
     "fluxVents": 20,
     "hullId": "XLII_kuma",
-    "hullMods": ["targetingunit"],
+    "hullMods": ["dedicated_targeting_core"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_kuma_Standard",

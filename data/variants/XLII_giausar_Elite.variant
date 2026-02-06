@@ -1,12 +1,14 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 14,
+    "fluxCapacitors": 5,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "XLII_giausar",
     "hullMods": [
+        "escort_package",
         "targetingunit",
-        "unstable_injector"
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,20 +17,16 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "ionpulser"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
-                "WS0001": "railgun",
-                "WS0002": "railgun"
+                "WS0001": "lightac",
+                "WS0002": "lightac",
+                "WS0004": "lightac"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0004": "vulcan"}
+            "weapons": {"WS0003": "XLII_cestus"}
         },
         {
             "autofire": true,

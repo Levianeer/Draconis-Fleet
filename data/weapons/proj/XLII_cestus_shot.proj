@@ -1,0 +1,50 @@
+{
+	"id":"XLII_cestus_shot",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"sprite":"graphics/missiles/shell_gauss_cannon.png",
+	"onHitEffect":"com.fs.starfarer.api.impl.combat.PilumOnHitEffect",
+	"size":[6.5,62],
+	"center":[3.25,31],
+	"collisionRadius":8,
+	"collisionClass":"MISSILE_NO_FF",
+	"explosionColor":[150,100,255,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":175, # purely visual
+	"alwaysAccelerate":true,
+	"reduceDamageWhileFading":true,
+	"useHitGlowWhenDestroyed":true,
+	"fizzleOnReachingWeaponRange":true,
+	"dudProbabilityOnFlameout":0,
+	"armingTime":0,
+	"flameoutTime":0.5,
+	"noEngineGlowTime":0.5,
+	"fadeTime":0.5,
+	"glowColor":[125,255,235,75],
+	"glowRadius":10,
+	"engineSpec":{"turnAcc":1000,
+				  "turnRate":250,
+				  "acc":1000,
+				  "dec":0},
+	"engineSlots":[{"id":"ES1",
+					#"loc":[-7, 0],
+					"loc":[0, 0],
+				    "style":"CUSTOM",
+					"styleSpec":{
+						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+						"engineColor":[125,255,235,0],
+						"glowSizeMult":1.5,
+						"glowAlternateColor":[125,255,235,205],
+						"contrailDuration":2,
+						"contrailWidthMult":1,
+						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
+						"contrailMinSeg":5, # min segment length, in pixels
+						"contrailMaxSpeedMult":.0f,
+						"contrailAngularVelocityMult":0.5f,
+						"contrailSpawnDistMult":.5, # how far away from engine it starts
+						"contrailColor":[65,125,105,75],
+						"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+					},
+				    "width":6.0,
+				    "length":20.0,
+				    "angle":180.0}]
+}

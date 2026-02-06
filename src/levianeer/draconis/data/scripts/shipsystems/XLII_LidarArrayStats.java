@@ -25,7 +25,7 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
     public static float ROF_BONUS = 2f;
     public static float RECOIL_BONUS = 75f;
     public static float PROJECTILE_SPEED_BONUS = 50f;
-    public static float SPEED_DEBUFF = -20f;
+    public static float SPEED_DEBUFF = -90f;
 
     public static class LidarDishData {
         public float turnDir;

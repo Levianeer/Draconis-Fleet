@@ -12,8 +12,8 @@
   "shieldRadius": 241.5,
   "viewOffset": 200,
   "builtInMods": [
-    "XLII_retreatdrive",
-    "distributed_fire_control"
+    "XLII_draconishull",
+    "XLII_incomprehensiblehorrors"
   ],
   "weaponSlots": [
     {

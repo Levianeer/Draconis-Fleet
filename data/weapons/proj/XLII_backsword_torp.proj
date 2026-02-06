@@ -1,0 +1,52 @@
+{
+	"id":"XLII_backsword_torp",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"onFireEffect":"com.fs.starfarer.api.impl.combat.threat.NeutronTorpedoOnFireEffect",
+	"sprite":"graphics/missiles/XLII_mangonel_warhead.png",
+	"size":[8,14],	
+	"center":[4,7],
+	"collisionRadius":16,
+	"collisionClass":"MISSILE_FF",
+	"explosionColor":[185,170,140,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":175, # purely visual
+	"reduceDamageWhileFading":true,
+	"dudProbabilityOnFlameout":0,
+	"armingTime":0,
+	"glowColor":[105,105,255,25],
+	"glowRadius":10,
+	"flameoutTime":2, # total time from flameout to full fadeout
+	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
+	"fadeTime":0.5, # fadeout duration			
+	"explosionSpec":{"duration":0.1f, # not visual
+					 "radius":75,
+					 "coreRadius":25, # full damage within core radius
+					 "collisionClass":HITS_SHIPS_AND_ASTEROIDS,
+					 "collisionClassByFighter":HITS_SHIPS_AND_ASTEROIDS},				  
+	"engineSpec":{"turnAcc":60,
+				  "turnRate":15,
+				  "acc":150,
+				  "dec":0},
+	"engineSlots":[
+				{"id":"ES1",
+				"loc":[-7, 0],
+				"style":"CUSTOM",
+				"styleSpec":{
+							"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+							"engineColor":[55,55,255,205],
+							"contrailDuration":1,
+							"contrailWidthMult":0.51,
+							"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
+							"contrailMinSeg":3, # min segment length, in pixels
+							"contrailMaxSpeedMult":.0f,
+							"contrailAngularVelocityMult":0.5f,
+							"contrailSpawnDistMult":.5, # how far away from engine it starts
+							"contrailColor":[100,100,100,150],
+							"glowSizeMult":0.75,
+							"type":"SMOKE" # GLOW or SMOKE; additive or regular blend mode
+							},
+				"width":6.0,
+				"length":12.0,
+				"angle":180.0
+				}],
+}

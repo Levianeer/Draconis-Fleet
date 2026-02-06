@@ -12,11 +12,13 @@
   "shieldRadius": 104,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_retreatdrive",
-	"phasefield",
+    "XLII_draconishull",
+    "XLII_phasetorparray_automod",
     "delicate"
   ],
   "builtInWeapons": {
+    "WS0001": "blinker_red",
+    "WS0006": "blinker_green",
     "WS0007": "XLII_vernier",
     "WS0008": "XLII_vernier",
     "WS0009": "XLII_vernier",
@@ -24,13 +26,19 @@
     "WS0011": "XLII_vernier",
     "WS0012": "XLII_vernier",
     "WS0013": "XLII_vernier",
-    "WS0014": "XLII_vernier"
+    "WS0014": "XLII_vernier",
+    "WS0018": "XLII_vernier",
+    "WS0019": "XLII_vernier",
+    "WS0020": "blinker_red",
+    "WS0021": "blinker_green",
+    "XLII_WING_LEFT": "XLII_wing_L",
+    "XLII_WING_RIGHT": "XLII_wing_R"
   },
   "weaponSlots": [
     {
       "id": "WS0002",
       "size": "MEDIUM",
-      "type": "BALLISTIC",
+      "type": "UNIVERSAL",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -39,7 +47,7 @@
     {
       "id": "WS0003",
       "size": "MEDIUM",
-      "type": "BALLISTIC",
+      "type": "UNIVERSAL",
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
@@ -48,7 +56,7 @@
     {
       "id": "WS0004",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "SYNERGY",
       "mount": "HARDPOINT",
       "arc": 10,
       "angle": 0,
@@ -57,7 +65,7 @@
     {
       "id": "WS0005",
       "size": "SMALL",
-      "type": "MISSILE",
+      "type": "SYNERGY",
       "mount": "HARDPOINT",
       "arc": 10,
       "angle": 0,
@@ -140,7 +148,7 @@
       "size": "MEDIUM",
       "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 90,
+      "arc": 240,
       "angle": 0,
       "locations": [12, -0]
     },
@@ -167,18 +175,74 @@
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
-      "arc": 90,
-      "angle": -135,
-      "locations": [-27, -51]
+      "arc": 0,
+      "angle": -90,
+      "locations": [-25.5, -52]
     },
     {
       "id": "WS0019",
       "size": "SMALL",
       "type": "DECORATIVE",
       "mount": "TURRET",
-      "arc": 90,
-      "angle": 135,
-      "locations": [-27, 51]
+      "arc": 0,
+      "angle": 90,
+      "locations": [-25.5, 52]
+    },
+    {
+      "id": "XLII_WING_LEFT",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 30,
+      "angle": 0,
+      "locations": [-22, 28],
+      "renderOrderMod": -10
+    },
+    {
+      "id": "XLII_WING_RIGHT",
+      "size": "LARGE",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 30,
+      "angle": -0,
+      "locations": [-22, -28],
+      "renderOrderMod": -10
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [26.5, 24.5]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [26.5, -24.5]
+    },
+    {
+      "id": "WS0020",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-66.5, 18.5]
+    },
+    {
+      "id": "WS0021",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-66.5, -18.5]
     }
   ],
   "engineSlots": [
@@ -192,48 +256,43 @@
       "styleId": "DRACONIS_PRIMARY"
     },
     {
-      "location": [-49, 38],
-      "length": 54,
-      "width": 16,
-      "angle": 145,
-      "contrailSize": 16,
+      "location": [-42, 28.5],
+      "length": 96,
+      "width": 21,
+      "angle": 180,
+      "contrailSize": 21,
       "style": "CUSTOM",
       "styleId": "DRACONIS_SECONDARY"
     },
     {
-      "location": [-49, -38],
-      "length": 54,
-      "width": 16,
-      "angle": -145,
-      "contrailSize": 16,
+      "location": [-42, -28.5],
+      "length": 96,
+      "width": 21,
+      "angle": -180,
+      "contrailSize": 21,
       "style": "CUSTOM",
       "styleId": "DRACONIS_SECONDARY"
     }
   ],
   "bounds": [
-    17, -17.5,
-    1.5, -44.5,
+    15.5, -18,
+    15.5, -33,
     -11, -57.5,
-    -22.5, -58,
-    -31.5, -41,
-    -44, -44,
-    -52.5, -34,
-    -66.5, -39.5,
-    -76, -31,
-    -67.5, -26,
-    -67.5, 26,
-    -76, 31,
-    -66.5, 39.5,
-    -52.5, 34,
-    -44, 44,
-    -31.5, 41,
-    -22.5, 58,
+    -21.5, -57.5,
+    -27.5, -47.5,
+    -66.5, -23.5,
+    -67.5, -15.5,
+    -71.5, -15.5,
+    -71.5, 15.5,
+    -67.5, 15.5,
+    -66.5, 23.5,
+    -27.5, 47.5,
+    -21.5, 57.5,
     -11, 57.5,
-    1.5, 44.5,
-    17, 17.5,
+    15.5, 33,
+    15.5, 18,
     25.5, 17.5,
     26.5, 24.5,
-    38.5, 17,
     54, 16.5,
     54.5, 9.5,
     76, 7.5,
@@ -241,7 +300,6 @@
     76, -7.5,
     54.5, -9.5,
     54, -16.5,
-    38.5, -17,
     26.5, -24.5,
     25.5, -17.5
   ]

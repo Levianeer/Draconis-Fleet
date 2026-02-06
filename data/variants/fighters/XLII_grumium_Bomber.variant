@@ -1,0 +1,30 @@
+{
+  "variantId": "XLII_grumium_Bomber",
+  "hullId": "XLII_grumium",
+  "displayName": "Bomber",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "vulcan",
+        "WS0002": "vulcan"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0003": "XLII_backsword"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

@@ -5,6 +5,7 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.characters.FullName;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Skills;
+import org.apache.log4j.Logger;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
@@ -13,6 +14,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  */
 public class XLII_Characters {
 
+    private static final Logger log = Global.getLogger(XLII_Characters.class);
     private static final String ADMIRAL_CREATED_FLAG = "$XLII_admiral_emil_created";
 
     /**
@@ -58,7 +60,6 @@ public class XLII_Characters {
         // Market
         koriMarket.addPerson(admiral);
         koriMarket.getCommDirectory().addPerson(admiral, 0);
-        koriMarket.setAdmin(admiral);
 
         // Memory flags for dialogue system
         admiral.getMemoryWithoutUpdate().set("$XLII_admiral_initialized", true);
@@ -71,6 +72,7 @@ public class XLII_Characters {
     }
 
     public static void initializeAllCharacters() {
+        log.info("Draconis: Initializing core characters");
         createFleetAdmiralEmilAugust();
     }
 }

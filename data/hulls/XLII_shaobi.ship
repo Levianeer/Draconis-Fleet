@@ -12,8 +12,9 @@
   "shieldRadius": 130.5,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_retreatdrive",
-	"ground_support"
+    "XLII_draconishull",
+    "ground_support",
+    "bdeck"
   ],
   "builtInWeapons": {
     "WS0010": "XLII_vernier",

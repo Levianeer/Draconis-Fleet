@@ -2,17 +2,15 @@ package levianeer.draconis.data.campaign.intel.events.crisis;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin.ListInfoMode;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.*;
-import com.fs.starfarer.api.impl.campaign.intel.events.BaseEventIntel;
+import com.fs.starfarer.api.impl.campaign.intel.events.*;
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseEventIntel.EventStageData;
-import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip;
-import com.fs.starfarer.api.impl.campaign.intel.events.BaseHostileActivityFactor;
-import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel;
 import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel.HAERandomEventData;
 import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel.Stage;
 import com.fs.starfarer.api.impl.campaign.intel.events.TriTachyonStandardActivityCause.CompetitorData;
@@ -36,10 +34,17 @@ import java.util.List;
 import java.util.Random;
 
 import levianeer.draconis.data.campaign.ids.FleetTypes;
+
+import static com.fs.starfarer.api.util.Misc.getHighlightColor;
+import static com.fs.starfarer.api.util.Misc.getPositiveHighlightColor;
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
+import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
+import org.apache.log4j.Logger;
 
 public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFactor
         implements FGIEventListener {
+
+    private static final Logger log = Global.getLogger(DraconisFleetHostileActivityFactor.class);
 
     public static String DEFEATED_DRACONIS_ATTACK = "$defeatedDraconisAttack";
     public static String RAIDER_FLEET = "$draconisRaider";
@@ -109,28 +114,83 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
     @Override
     public int getProgress(BaseEventIntel intel) {
         if (!checkFactionExists(DRACONIS, true)) {
+            log.info("Draconis: Progress = 0 (faction doesn't exist or has no military bases)");
             return 0;
         }
         // Stop showing progress if BOTH commissioned AND high reputation
-        if (meetsResetConditions() || isPlayerDefeatedDraconisAttack()) {
+        if (meetsResetConditions()) {
+            log.info("Draconis: Progress = 0 (reset conditions met: commission + high rep)");
             return 0;
         }
-        return super.getProgress(intel);
+        if (isPlayerDefeatedDraconisAttack()) {
+            log.info("Draconis: Progress = 0 (player already defeated Draconis attack)");
+            return 0;
+        }
+        int progress = super.getProgress(intel);
+        if (progress > 0) {
+            log.info("Draconis: Current progress: " + progress);
+        }
+        return progress;
     }
 
     @Override
     public int getMaxNumFleets(StarSystemAPI system) {
-        return Global.getSettings().getInt("draconisMaxFleets");
+        int max = Global.getSettings().getInt("draconisMaxFleets");
+        log.info("Draconis: Max fleets for " + system.getName() + ": " + max);
+        return max;
+    }
+
+    @Override
+    public float getSpawnFrequency(StarSystemAPI system) {
+        float baseMagnitude = super.getSpawnFrequency(system); // This returns getEffectMagnitude()
+
+        if (baseMagnitude <= 0) return 0f;
+
+        // Apply spawn frequency multiplier to compete with other hostile activity factors
+        // Without this, Hegemony (weight ~46.0) will monopolize all spawn slots
+        float multiplier = Global.getSettings().getFloat("draconisSpawnFrequencyMult");
+        float adjustedFreq = baseMagnitude * multiplier;
+
+        log.info("Draconis: Spawn frequency for " + system.getName() +
+                ": base magnitude=" + baseMagnitude +
+                " × multiplier=" + multiplier +
+                " = " + adjustedFreq + " (WEIGHT in random picker)");
+
+        return adjustedFreq;
+    }
+
+    @Override
+    public float getEffectMagnitude(StarSystemAPI system) {
+        float mag = super.getEffectMagnitude(system);
+
+        if (mag > 0) {
+            log.info("Draconis: Shadow Fleet magnitude for " + system.getName() + ": " + mag);
+
+            // Log individual cause contributions for debugging
+            for (HostileActivityCause2 cause : getCauses()) {
+                float contribution = cause.getMagnitudeContribution(system);
+                if (contribution > 0) {
+                    log.info("Draconis:   " + cause.getDesc() + " contribution: " + contribution);
+                }
+            }
+        }
+
+        return mag;
     }
 
     // Create Shadow Fleets
     public CampaignFleetAPI createFleet(StarSystemAPI system, Random random) {
+        log.info("Draconis: === createFleet() called for Shadow Fleet ===");
+        log.info("Draconis: System: " + system.getName());
+
         float f = intel.getMarketPresenceFactor(system);
+        log.info("Draconis: Market presence factor: " + f);
 
         int difficultyBase = Global.getSettings().getInt("draconisPatrolDifficultyBase");
         float difficultyMult = Global.getSettings().getFloat("draconisPatrolDifficultyMult");
 
         int difficulty = difficultyBase + Math.round(f * difficultyMult);
+        log.info("Draconis: Fleet difficulty: " + difficulty + " (base: " + difficultyBase + ", mult: " + difficultyMult + ")");
 
         FleetCreatorMission m = new FleetCreatorMission(random);
         m.beginFleet();
@@ -141,10 +201,13 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         if (difficulty <= 5) {
             m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_1);
+            log.info("Draconis: Fleet quality: SMOD_1");
         } else if (difficulty <= 7) {
             m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_2);
+            log.info("Draconis: Fleet quality: SMOD_2");
         } else {
             m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
+            log.info("Draconis: Fleet quality: SMOD_3");
         }
 
         m.triggerSetFleetType(FleetTypes.SHADOW_FLEET);
@@ -161,7 +224,15 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         m.triggerFleetMakeFaster(true, 0, true);
 
-        return m.createFleet();
+        CampaignFleetAPI fleet = m.createFleet();
+
+        if (fleet != null) {
+            log.info("Draconis: Shadow Fleet created successfully!");
+        } else {
+            log.error("Draconis: Shadow Fleet creation FAILED - fleet is null!");
+        }
+
+        return fleet;
     }
 
     public void addBulletPointForEvent(HostileActivityEventIntel intel, EventStageData stage, TooltipMakerAPI info,
@@ -182,28 +253,28 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         small = 8f;
 
         Global.getSector().getFaction(DRACONIS).getBaseUIColor();
-        Color c;
+        Color h;
 
-        Misc.getHighlightColor();
-        info.addPara("Intelligence suggests that the Draconis Alliance is preparing a coordinated strike to "
-                        + "eliminate your heavy armaments production facilities.",
-                small, Misc.getNegativeHighlightColor(), "eliminate");
+        info.addPara("Intel suggests that the Alliance Intelligence Office of the DDA is preparing a coordinated strike to "
+                        + "eliminate your heavy armaments production facilities "
+                        + "and steal any and all AI cores in use.",
+                small, Misc.getNegativeHighlightColor(), "eliminate", "steal");
 
         LabelAPI label = info.addPara("If the attack is defeated, the Draconis Alliance will likely reconsider "
-                        + "their aggressive stance, and your ability to produce and export heavy armaments will be enhanced.",
+                        + "their aggressive stance, and your ability to produce and export heavy armaments will be improved.",
                 opad);
         label.setHighlight("Draconis Alliance",
-                "heavy armaments", "enhanced");
+                "heavy armaments", "improved");
         label.setHighlightColors(
                 Global.getSector().getFaction(DRACONIS).getBaseUIColor(),
-                Misc.getPositiveHighlightColor(),
-                Misc.getPositiveHighlightColor());
+                getPositiveHighlightColor(),
+                getPositiveHighlightColor());
 
-        c = Global.getSector().getFaction(DRACONIS).getBaseUIColor();
+        h = getHighlightColor();
         stage.beginResetReqList(info, true, "crisis", opad);
-        info.addPara("You obtain a %s with the Draconis Alliance %s reach %s reputation", 0f, c,
+        info.addPara("You obtain a %s with the Draconis Alliance %s reach %s reputation", 0f, h,
                 "commission", "and", "Cooperative");
-        info.addPara("The Draconis Alliance's primary production facilities are %s", 0f, c, "significantly disrupted");
+        info.addPara("The Draconis Alliance's primary production facilities are %s", 0f, h, "significantly disrupted");
         stage.endResetReqList(info, false, "crisis", -1, -1);
 
         addBorder(info, Global.getSector().getFaction(DRACONIS).getBaseUIColor());
@@ -349,9 +420,75 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         notifyFactorRemoved();
     }
 
+    private float timeSinceLastDiagnostic = 0f;
+    private static final float DIAGNOSTIC_INTERVAL = 10f; // Log every 10 seconds
+
     @Override
     public void advance(float amount) {
         super.advance(amount);
+
+        // Periodic diagnostic logging
+        timeSinceLastDiagnostic += amount;
+        if (timeSinceLastDiagnostic >= DIAGNOSTIC_INTERVAL) {
+            timeSinceLastDiagnostic = 0f;
+
+            if (intel != null) {
+                int progress = getProgress(intel);
+                boolean shouldShow = shouldShow(intel);
+
+                log.info("Draconis: === Shadow Fleet Status Diagnostic ===");
+                log.info("Draconis: Factor active: " + shouldShow);
+                log.info("Draconis: Total progress: " + progress);
+
+                // Log ALL hostile activity factors and their spawn frequencies for comparison
+                log.info("Draconis: === All Hostile Activity Factors ===");
+                for (EventFactor factor : intel.getFactors()) {
+                    if (factor instanceof HostileActivityFactor) {
+                        HostileActivityFactor haf = (HostileActivityFactor) factor;
+                        log.info("Draconis:   Factor: " + factor.getClass().getSimpleName());
+                        log.info("Draconis:     ID: " + haf.getId());
+                        log.info("Draconis:     Progress: " + factor.getProgress(intel));
+
+                        // Check spawn frequency for player's system
+                        for (StarSystemAPI system : Global.getSector().getStarSystems()) {
+                            float magnitude = haf.getEffectMagnitude(system);
+                            if (magnitude > 0) {
+                                float spawnFreq = haf.getSpawnFrequency(system);
+                                int maxFleets = haf.getMaxNumFleets(system);
+                                log.info("Draconis:     System: " + system.getName() +
+                                        " - Magnitude: " + magnitude +
+                                        " - Spawn freq (weight): " + spawnFreq +
+                                        " - Max fleets: " + maxFleets);
+                            }
+                        }
+                    }
+                }
+
+                // Check systems with player presence
+                for (StarSystemAPI system : Global.getSector().getStarSystems()) {
+                    float magnitude = getEffectMagnitude(system);
+                    if (magnitude > 0) {
+                        int maxFleets = getMaxNumFleets(system);
+                        float spawnFreq = getSpawnFrequency(system);
+
+                        log.info("Draconis:   === Draconis-Specific System Check ===");
+                        log.info("Draconis:     System: " + system.getName());
+                        log.info("Draconis:     Magnitude: " + magnitude);
+                        log.info("Draconis:     Spawn frequency (weight): " + spawnFreq);
+                        log.info("Draconis:     Max fleets: " + maxFleets);
+
+                        // Count existing hostile fleets in system
+                        int hostileFleetCount = 0;
+                        for (CampaignFleetAPI fleet : system.getFleets()) {
+                            if (fleet.getMemoryWithoutUpdate().contains(RAIDER_FLEET)) {
+                                hostileFleetCount++;
+                            }
+                        }
+                        log.info("Draconis:     Existing Shadow Fleets: " + hostileFleetCount);
+                    }
+                }
+            }
+        }
 
         // If reset conditions newly met, grant the bonus and reset everything
         if (meetsResetConditions() && !isPlayerDefeatedDraconisAttack()) {
@@ -401,8 +538,8 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         GenericRaidFGI.GenericRaidParams params = new GenericRaidFGI.GenericRaidParams(new Random(random.nextLong()), true);
 
-        params.makeFleetsHostile = true;
-        params.factionId = DRACONIS;
+        // makeFleetsHostile defaults to true (same as Luddic Path)
+        params.factionId = FORTYSECOND;
         params.source = source;
 
         float prepDaysMin = Global.getSettings().getFloat("draconisExpeditionPrepDaysMin");
@@ -423,7 +560,19 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         params.style = FleetStyle.QUALITY;
 
-        float fleetSizeMult = source.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).computeEffective(0f);
+        float fleetSizeMult = source.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).computeEffective(1f);
+
+        // FORTYSECOND uses larger ships (shipSize=4 vs DRACONIS=3)
+        // Need proportionally more fleet points for same effective strength
+        FactionAPI fortySecondFaction = Global.getSector().getFaction(FORTYSECOND);
+        if (fortySecondFaction != null && fortySecondFaction.getDoctrine() != null) {
+            float doctrineShipSize = fortySecondFaction.getDoctrine().getShipSize();
+            float baseDraconisShipSize = 3.0f; // DRACONIS baseline
+            fleetSizeMult *= (doctrineShipSize / baseDraconisShipSize); // ~1.33x multiplier for larger ships
+        }
+
+        Global.getLogger(this.getClass()).info("Fleet size multiplier: " + fleetSizeMult + " (source: " + source.getName() + ")");
+
         float f = intel.getMarketPresenceFactor(system);
 
         float difficultyBase = Global.getSettings().getFloat("draconisExpeditionDifficultyBase");
@@ -442,16 +591,18 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
             totalDifficulty = maxDifficulty;
         }
 
-        // Send 1 massive SMOD_3 quality fleet (stealth operation - single coordinated strike)
-        // Fleet size scales proportionally with totalDifficulty (like Remnant Ordo fleets)
-        // Scales from ~90-110 FP at minimum difficulty to ~450-550 FP at maximum difficulty
-        int fleetSize = (int)(totalDifficulty * 9) + random.nextInt(Math.max(1, (int)(totalDifficulty * 2)));
+        // Break totalDifficulty into multiple elite quality fleets (vanilla pattern)
+        // Each fleet gets difficulty 6-10, which creates LARGE to VERY_LARGE fleets with SMOD_3 quality
+        // At totalDifficulty=50: ~5 fleets, At totalDifficulty=250: ~25 fleets
+        while (totalDifficulty > 0) {
+            int fleetDiff = Math.min(10, (int)totalDifficulty);
+            if (fleetDiff < 6) fleetDiff = 6; // Minimum difficulty 6 for quality fleets
+            params.fleetSizes.add(fleetDiff);
+            totalDifficulty -= fleetDiff;
+        }
 
-        params.fleetSizes.add(fleetSize);
-
-        Global.getLogger(this.getClass()).info("Total difficulty: " + totalDifficulty);
         Global.getLogger(this.getClass()).info("Fleet count: " + params.fleetSizes.size());
-        Global.getLogger(this.getClass()).info("Fleet sizes: " + params.fleetSizes);
+        Global.getLogger(this.getClass()).info("Fleet difficulties: " + params.fleetSizes);
 
         DraconisPunitiveExpedition expedition = new DraconisPunitiveExpedition(params);
         expedition.setListener(this);

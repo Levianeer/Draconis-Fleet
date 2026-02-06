@@ -1,28 +1,29 @@
 {
+	"mining_ship_strengths":{
+		"XLII_drone_utility":1,
+		"XLII_alsafi":12,
+		"XLII_eltanin_mk2":24,
+	},
+	"mining_hidden_ships_and_weapons":["XLII_drone_utility"],
+
 	"AdvancedGunneryControl":{
-    "weaponBlacklist": [
-    ],
-	"suggestedWeaponTags":{
-		"XLII_estocflak":"PD",
-		"XLII_razorflak":"PD",
-		"XLII_rapier":"TargetShields",
-		"XLII_twinspear":"Hold(Flx>90%)",
-		"XLII_mangonel":"NoFighters",
-		"XLII_longsword":"NoFighters",
-		"XLII_fragarch":"Hold(Flx>90%)",
-		"XLII_durendal":"NoFighters",
-		"XLII_durendal_mkii":"NoFighters",
-		"XLII_particlelance":"Hold(Flx>90%)",
-		"XLII_swordbreaker":"ForceAF,PD,ConservePDAmmo",
-		"XLII_bardiche_single":"TargetPhase",
-		"XLII_bardiche_built-in":"TargetPhase",
-		"XLII_bardiche":"TargetPhase",
-		"XLII_halberd":"Opportunist",
-		"XLII_halberd_fighter":"Opportunist",
-		"XLII_halberd_pod":"Opportunist",
-		"XLII_javelin":"AvoidShields",
-		"XLII_arquebus":"Fighter",
-		"XLII_falchion":"TargetShields",
+    	"weaponBlacklist":[
+		],
+		"suggestedWeaponTags":{
+			"XLII_particlelance":"AvoidShields,Hold(Flx>90%)",
+
+			"XLII_swordbreaker":"ForceAF,PD,ConservePDAmmo",
+
+			"XLII_bardiche_single":"TargetPhase",
+			"XLII_bardiche_built-in":"TargetPhase",
+			"XLII_bardiche_large":"TargetPhase",
+			"XLII_bardiche":"TargetPhase",
+
+			"XLII_sovnyalance":"Hold(Flx>90%)",
+
+			"XLII_halberd":"Opportunist",
+			"XLII_halberd_fighter":"Opportunist",
+			"XLII_halberd_pod":"Opportunist",
 		}
 	}
 }

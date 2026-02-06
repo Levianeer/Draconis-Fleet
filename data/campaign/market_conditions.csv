@@ -1,5 +1,3 @@
 name,id,tags,planetary,decivRemove,script,desc,icon,order
 Draconis Priority Target,draconis_high_value_target,,,,levianeer.draconis.data.campaign.econ.conditions.aicore.DraconisHighValueTargetCondition,,graphics/icons/markets/ai_core_detected.png,999999999
-Steel Curtain Protocol,draconis_steel_curtain,,,TRUE,levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtain,"$Market operates under a doctrine of strict isolationism and territorial defense. Heavily fortified border installations, stringent customs protocols, and restricted movement create a near-impenetrable security cordon prioritizing self-sufficiency over trade. Foreign merchants find the bureaucratic barriers prohibitive and commercial integration suffers.",graphics/icons/intel/comm_sniffer.png,999999999
-,,,,,,,,
-,,,,,,,,
+Steel Curtain Protocol,draconis_steel_curtain,,,TRUE,levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtain,"$Market operates under a doctrine of strict isolationism and territorial defence. Heavily fortified border installations, stringent customs protocols, and restricted movement create a near-impenetrable security cordon prioritising self-sufficiency over trade. Foreign merchants find the bureaucratic barriers prohibitive, and commercial integration suffers.",graphics/icons/intel/comm_sniffer.png,999999999

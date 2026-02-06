@@ -39,7 +39,7 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
     @Override
     public String getBaseName() {
-        return "Strike Group";
+        return "Draconis Alliance Strike";
     }
 
     public static DraconisPunitiveExpedition get() {
@@ -128,20 +128,20 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
         Color h = Misc.getHighlightColor();
         Color n = Misc.getNegativeHighlightColor();
 
-        info.addPara("The Draconis Alliance views your growing heavy armaments production as a direct threat to their "
-                + "monopoly on advanced military equipment. This strike force has been dispatched to eliminate "
-                + "your production capabilities.", opad);
+        info.addPara("The Alliance Intelligence Office views your existence as a direct threat to "
+                + "Fafnir's military alliance. A massive XLII Battlegroup detachment has been dispatched to eliminate "
+                + "your production capabilities.", opad, h, "massive");
 
         info.addPara("Unlike raiders, this is a professional military operation with clear strategic objectives. "
                 + "The strike force will attempt to systematically destroy all heavy armaments production facilities "
                 + "in the target system through %s and %s.", opad, h, "ground raids", "orbital bombardment");
 
-        info.addPara("Intelligence suggests they may also attempt to %s from any colonies they attack.",
+        info.addPara("Intelligence suggests a special forces element will attempt to %s from any colonies they attack.",
                 opad, n, "steal AI cores");
     }
 
     /**
-     * Configure fleet quality - all expedition fleets get SMOD_3 (Tri-Tachyon equivalent)
+     * Configure fleet quality - all expedition fleets get SMOD_3 (elite quality)
      */
     @Override
     protected void configureFleet(int size, FleetCreatorMission m) {
@@ -150,7 +150,7 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
         // All expedition fleets are elite quality with SMOD_3
         m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
 
-        log.info("Draconis: Set SMOD_3 quality for expedition fleet (size: " + size + ")");
+        log.info("Draconis: Set SMOD_3 quality for expedition fleet (difficulty: " + size + ")");
     }
 
     /**
@@ -163,11 +163,10 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
         if (fleet != null) {
             // Add marines for ground raid capability
-            // getRaidStr() = fleet.getCargo().getMaxPersonnel() * 0.25f (per MarketCMD.getRaidStr)
-            // Scale marines with fleet FP to ensure meaningful raid strength
-            int marineCount = Math.max(size * 20, 100);  // ~20 marines per FP, minimum 100
+            int estimatedFP = size * 10; // Rough estimate: difficulty 10 ≈ 100 FP
+            int marineCount = Math.max(estimatedFP * 20, 200);  // ~20 marines per estimated FP
             fleet.getCargo().addMarines(marineCount);
-            log.info("Draconis: Added " + marineCount + " marines to expedition fleet (size: " + size + " FP)");
+            log.info("Draconis: Added " + marineCount + " marines to expedition fleet (difficulty: " + size + ", est. FP: ~" + estimatedFP + ")");
         }
     }
 }

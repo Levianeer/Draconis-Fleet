@@ -1,0 +1,81 @@
+{
+  "hullName": "Utility Drone",
+  "hullId": "XLII_drone_utility",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/drones/XLII_drone_com.png",
+  "style": "DRACONIS",
+  "height": 13,
+  "width": 20,
+  "center": [10, 6],
+  "collisionRadius": 15,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 15,
+  "viewOffset": 0,
+  "builtInWeapons": {
+    "WS0002": "blinker_red",
+    "WS0003": "blinker_green"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS 001",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 30,
+      "angle": 0,
+      "locations": [0, 0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [4.5, 7.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [4.5, -7.5]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-3, 4.5]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-3, -4.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-6, -0],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    4, -7,
+    4, 8,
+    -4, 0
+  ]
+}

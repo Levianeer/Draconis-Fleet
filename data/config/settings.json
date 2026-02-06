@@ -15,6 +15,7 @@
 	"draconisPatrolDifficultyBase": 4,					# Base patrol difficulty	#	Default : 4
 	"draconisPatrolDifficultyMult": 4.0,				# Patrol difficulty scaling with market presence	#	Default : 4.0
 	"draconisMaxFleets": 12,							# Maximum concurrent patrols per system	#	Default : 12
+	"draconisSpawnFrequencyMult": 50.0,					# Spawn frequency multiplier (higher = more frequent spawns, competes with other factions)	#	Default : 50.0
 
 	# ========================================
 	# PUNITIVE EXPEDITIONS (COLONY CRISIS)
@@ -23,18 +24,18 @@
 	# Formula: difficulty = FleetSizeMult × Base × (MinFactor + MaxFactor × MarketPresence)
 
 	# --- Timing ---
-	"draconisExpeditionEventFrequency": 7.0,			# How often expeditions can trigger (higher = less frequent)	#	Default : 7.0
+	"draconisExpeditionEventFrequency": 5.0,			# How often expeditions can trigger (higher = less frequent)	#	Default : 5.0
 	"draconisExpeditionPrepDaysMin": 14.0,				# Minimum days to prepare expedition	#	Default : 14.0
 	"draconisExpeditionPrepDaysVariance": 14.0,			# Random variance (0 to this value) added to prep days	#	Default : 14.0
 	"draconisExpeditionPayloadDaysMin": 27.0,			# Minimum days for expedition to travel/operate	#	Default : 27.0
 	"draconisExpeditionPayloadDaysVariance": 7.0,		# Random variance (0 to this value) added to travel days	#	Default : 7.0
 
 	# --- Strength ---
-	"draconisExpeditionDifficultyBase": 8.0,			# Base strength multiplier	#	Default : 8.0
-	"draconisExpeditionDifficultyMinFactor": 0.5,		# Minimum difficulty factor (always applied)	#	Default : 0.5
-	"draconisExpeditionDifficultyMaxFactor": 1.5,		# Maximum difficulty factor (scales with player presence)	#	Default : 1.5
-	"draconisExpeditionMinTotalDifficulty": 10,			# Minimum total difficulty to spawn expedition	#	Default : 10
-	"draconisExpeditionMaxTotalDifficulty": 50,			# Maximum total difficulty cap	#	Default : 50
+	"draconisExpeditionDifficultyBase": 7.0,			# Base strength multiplier	#	Default : 7.0
+	"draconisExpeditionDifficultyMinFactor": 1.0,		# Minimum difficulty factor (always applied)	#	Default : 1.0
+	"draconisExpeditionDifficultyMaxFactor": 4.0,		# Maximum difficulty factor (scales with player presence)	#	Default : 4.0
+	"draconisExpeditionMinTotalDifficulty": 40,			# Minimum total difficulty to spawn expedition	#	Default : 40
+	"draconisExpeditionMaxTotalDifficulty": 60,			# Maximum total difficulty cap	#	Default : 60
 
 	# ========================================
 	# CRISIS TRIGGERS
@@ -42,22 +43,23 @@
 	# These settings control what triggers the Colony Crisis event
 
 	# --- General ---
-	"draconisReputationThreshold": 0.5,					# Required reputation (with commission) to avoid hostilities	#	Default : 0.5
+	"draconisReputationThreshold": 1.0,					# Required reputation (with commission) to avoid hostilities	#	Default : 1.0
 
 	# --- Heavy Armaments Competition ---
-	# Producing heavy armaments (hand weapons) competes with Draconis and raises hostility
+	# Producing heavy armaments competes with Draconis and raises hostility
 	"draconisMinCompetitorProduction": 4,				# Minimum production units to trigger competition	#	Default : 4
 	"draconisMinCompetitorMarketSize": 4,				# Minimum market size to be considered a competitor	#	Default : 4
 	"draconisCompetitionProgressRate": 1.3,             # Crisis progress per unit produced	#	Default : 1.3
-	"draconisCompetitionMagnitude": 0.02,				# Shadow Fleet spawn rate per unit in system	#	Default : 0.02
-	"draconisCompetitionMaxMagnitude": 0.5,				# Maximum spawn rate cap per system	#	Default : 0.5
+	"draconisCompetitionMagnitude": 0.1,				# Shadow Fleet spawn rate per unit in system	#	Default : 0.02
+	"draconisCompetitionMaxMagnitude": 2.0,				# Maximum spawn rate cap per system	#	Default : 0.5
 
 	# --- AI Core Usage ---
 	# Using AI cores makes your colonies high-value targets
-	# (Cores are weighted: Alpha=3x, Beta=2x, Gamma=1x)
+	# Cores are weighted: Alpha=3x, Beta=2x, Gamma=1x
+	"draconisMinAICoreThreshold": 3.0,					# Minimum weighted AI cores to trigger crisis (Alpha=3, Beta=2, Gamma=1)	#	Default : 3.0
 	"draconisAICoreProgressRate": 0.75,					# Crisis progress per weighted AI core	#	Default : 0.75
-	"draconisAICoreMagnitude": 0.05,					# Shadow Fleet spawn rate per weighted core	#	Default : 0.05
-	"draconisAICoreMaxMagnitude": 0.75,					# Maximum spawn rate cap per system	#	Default : 0.75
+	"draconisAICoreMagnitude": 0.25,					# Shadow Fleet spawn rate per weighted core	#	Default : 0.25
+	"draconisAICoreMaxMagnitude": 3.0,					# Maximum spawn rate cap per system	#	Default : 0.75
 
 	# --- Rewards ---
 	# Beating the Crisis gives you this buff to production
@@ -121,7 +123,7 @@
 	# AI CORE FLEET SCALING
 	# ========================================
 	# Draconis gradually uses more AI cores in their fleets as the game progresses
-	# AI cores only fill empty officer slots (do NOT replace human officers)
+	# AI cores only fill empty officer slots (does NOT replace human officers)
 
 	"draconisAICoreScaling": {
 		"enabled": true,						# Enable/disable AI core fleet scaling	#	Default : true
@@ -171,23 +173,12 @@
 				"alpha": 0.1
 			},
 			"endGame": {						# Full distribution
-				"gamma": 0.35,
+				"gamma": 0.25,
 				"beta": 0.5,
-				"alpha": 0.15
+				"alpha": 0.25
 			}
 		}
 	},
-
-	# ========================================
-	# ARTILLERY SUPPORT SYSTEM
-	# ========================================
-	# Ships with the Artillery Support Platform hull mod can provide off-map fire support
-	# when kept in fleet reserves during combat
-
-	"draconisArtilleryVolleyCooldown": 15.0,		# Seconds between volleys (on top of halved weapon fire rate)	#	Default : 15.0
-	"draconisArtilleryCRDrainPerVolley": 0.5,		# Combat Readiness % lost per volley (0.5 = 0.5%)	#	Default : 0.5
-	"draconisArtillerySpawnDistance": 1750.0,		# Distance from map edge where projectiles spawn	#	Default : 1750.0
-	"draconisArtilleryRangeMultiplier": 50.0,		# Range multiplier for artillery projectiles (near-infinite)	#	Default : 50.0
 
     # ========================================
     # DRACONIS GRAPHICS
@@ -195,7 +186,7 @@
 
 	"designTypeColors":{
 	"Draconis":[130,157,209,255],
-	"XLII Battlegroup":[22,28,39,255]
+	"XLII Battlegroup":[130,157,209,255] # Will change later, idk
 	},
 
 	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
@@ -207,6 +198,10 @@
 		"misc":{
 			"draconis_luna_icon":"graphics/hullmods/crest_draconis.png",
 		},
+		"missiles":{
+			"XLII_phasetorp_glow1":"graphics/missiles/XLII_phasetorp_glow1.png",
+			"XLII_phasetorp_glow2":"graphics/missiles/XLII_phasetorp_glow2.png"
+		},
 		"blueprint_packages":{
 			"XLII_ship_package":"graphics/icons/cargo/XLII_ship_package_bp.png",
 			"XLII_weapon_package":"graphics/icons/cargo/XLII_weapon_package_bp.png",
@@ -214,8 +209,12 @@
 			"XLII_fortysecond_package":"graphics/icons/cargo/XLII_FSDF_package_bp.png"
 		},
 		"fx":{
+			"XLII_sovnya_ring1":"graphics/fx/XLII_sovnya_ring1.png",
+			"XLII_sovnya_ring2":"graphics/fx/XLII_sovnya_ring2.png",
+			"XLII_sovnya_ring3":"graphics/fx/XLII_sovnya_ring3.png",
 			"XLII_jammer_ring":"graphics/fx/XLII_jammer_ring.png",
 			"XLII_jammer_ring_alt":"graphics/fx/XLII_jammer_ring_alt.png",
+			"XLII_warning_ring":"graphics/fx/shields256ringd.png",
 			"XLII_blur_contrail":"graphics/fx/XLII_blur_contrail.png",
 			"XLII_shock_contrail":"graphics/fx/XLII_shock_contrail.png"
 		},
@@ -229,5 +228,5 @@
 			"XLII_sigma_octantis":"graphics/portraits/characters/XLII_sigma_octantis.png",
 			"XLII_unknown":"graphics/portraits/characters/XLII_unknown.png",
 		}
-	},
+	}
 }

@@ -41,3 +41,28 @@ __X4: Foundations:__ Weapon SFX.
 __Halo: Combat Evolved:__ Weapon SFX.<br>
 _Halo: Combat Evolved © Microsoft Corporation. Draconis Fleet was created under Microsoft's "Game Content Usage Rules" using assets from Halo: Combat Evolved, and it is not endorsed by or affiliated with Microsoft._<br>
 __Terms of Usage:__ https://www.xbox.com/en-US/developers/rules
+
+___
+
+## __License:__
+
+This mod is licensed under **[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)**.
+
+**What this means:**
+
+#### **You CAN:**
+- Use this mod freely in your game
+- Modify and adapt the mod for your own use
+- Share your modified versions with others
+- Use assets or code from this mod in your own mods
+
+#### **You MUST:**
+- Give appropriate credit to Levianeer (https://github.com/Levianeer/Draconis-Fleet & https://fractalsoftworks.com/forum/index.php?topic=33489)
+- Indicate if you made any changes to the original
+- Distribute your modifications under the same CC BY-NC-SA 4.0 license
+
+#### **You CANNOT:**
+- Use this mod or its contents for commercial purposes (selling, monetized distribution, etc.)
+- Apply additional restrictions that contradict this license
+
+**Important Note:** Third-party assets (music, sounds, some code) listed in Credits above retain their original licenses and terms of use.

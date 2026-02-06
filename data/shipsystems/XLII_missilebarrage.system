@@ -1,0 +1,35 @@
+{
+	"id":"XLII_missilebarrage",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_MissileBarrageAI",
+	# I hate this so much
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_MissileBarrageStats",
+
+	"jitterUnderColor":[255,105,105,155],
+	"jitterUnderCopies":10,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":7,
+	"jitterUnderRangeRadiusFraction":0,
+	
+	"jitterColor":[255,105,105,55],
+	"jitterCopies":2,
+	"jitterMinRange":0,
+	"jitterRange":5,
+	"jitterRangeRadiusFraction":0,
+
+	"runScriptWhileIdle":false,
+
+	"useSound":"system_ammo_feeder",
+	"outOfUsesSound":"gun_out_of_ammo",
+
+	"aiHints":{
+		"threatRange":1500,
+		"threatAmount":100,
+		"threatAngle":0,
+		"threatArc":360,
+		"threatDamage":5000,
+		"threatSpeed":200,
+	}
+}

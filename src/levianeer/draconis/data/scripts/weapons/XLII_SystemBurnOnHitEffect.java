@@ -168,7 +168,7 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         public Color color = new Color(255, 100, 50, 35); // Orange/red for burn effect
 
         public ParticleData(float baseSize, float maxDur, float endSizeMult) {
-            sprite = Global.getSettings().getSprite("misc", "nebula_particles");
+            sprite = Global.getSettings().getSprite("systemMap", "icon_black_hole_well");
             float i = Misc.random.nextInt(4);
             float j = Misc.random.nextInt(4);
             sprite.setTexWidth(0.25f);

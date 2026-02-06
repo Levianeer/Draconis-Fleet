@@ -1,11 +1,11 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 24,
+    "fluxCapacitors": 38,
     "fluxVents": 50,
     "hullId": "XLII_altais",
     "hullMods": [
         "eccm",
-        "targetingunit"
+        "dedicated_targeting_core"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,8 +15,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0014": "hurricane",
-                "WS0015": "hurricane"
+                "WS0014": "locust",
+                "WS0015": "locust"
             }
         },
         {

@@ -221,9 +221,12 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         }
 
         // Install cores using priority system
+        // Use index-based loop to allow dynamic list growth (displaced cores are re-queued)
         int installed = 0;
-        for (String coreId : sortedCores) {
+        for (int i = 0; i < sortedCores.size(); i++) {
             if (availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) break;
+
+            String coreId = sortedCores.get(i);
 
             // Pick best industry for this core type (considers both empty and upgradeable)
             com.fs.starfarer.api.campaign.econ.Industry target =

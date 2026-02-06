@@ -12,7 +12,7 @@ import java.awt.*;
 public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
 
     private static final float BASE_PIERCE_CHANCE = 0.10f; // 10% at 0 hard flux
-    private static final float MAX_PIERCE_CHANCE = 0.50f;  // 50% at max hard flux
+    private static final float MAX_PIERCE_CHANCE = 0.75f;  // 50% at max hard flux
     private static final float PIERCE_EMP_MULT = 1.5f;     // Multiply EMP damage by this when piercing
     private static final DamagingExplosionSpec VISUAL_EXPLOSION_SPEC = createCachedVisualExplosionSpec();
 
@@ -128,8 +128,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
     private static DamagingExplosionSpec createEMPExplosionSpec(float empDamage) {
         DamagingExplosionSpec spec = new DamagingExplosionSpec(
                 0.2f,              // duration
-                350f,              // max radius
-                250f,              // core radius
+                75f,              // max radius
+                50f,              // core radius
                 empDamage * 0.2f,  // full damage
                 empDamage * 0.05f, // min damage
                 CollisionClass.PROJECTILE_FF,
@@ -152,8 +152,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
     private static DamagingExplosionSpec createCachedVisualExplosionSpec() {
         DamagingExplosionSpec spec = new DamagingExplosionSpec(
                 0.5f,
-                380f,
-                280f,
+                75f,
+                50f,
                 0f, // no damage
                 0f,
                 CollisionClass.NONE,
@@ -168,8 +168,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
 
         spec.setUseDetailedExplosion(true);
         spec.setDetailedExplosionFlashDuration(1.0f);
-        spec.setDetailedExplosionRadius(280f);
-        spec.setDetailedExplosionFlashRadius(380f);
+        spec.setDetailedExplosionRadius(100f);
+        spec.setDetailedExplosionFlashRadius(100f);
         spec.setDetailedExplosionFlashColorCore(new Color(200, 220, 255, 255));
         spec.setDetailedExplosionFlashColorFringe(new Color(100, 150, 255, 160));
         spec.setDamageType(DamageType.ENERGY);

@@ -1,0 +1,31 @@
+{
+	"id":"XLII_mist_anchor_shot",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+
+	# Invisible anchor for AI defend orders at mist cloud locations
+	# Uses minimal sprite and no visual effects to remain invisible
+
+	"sprite":"graphics/fx/empty.png",
+	"size":[1,1],
+	"center":[0.5,0.5],
+	"collisionRadius":1,
+	"collisionClass":"NONE",  # No collisions - purely for AI targeting
+
+	# No visual effects
+	"explosionColor":[0,0,0,0],
+	"explosionRadius":0,
+	"glowColor":[0,0,0,0],
+	"glowRadius":0,
+
+	# Minimal engine (required for missiles but set to invisible)
+	"engineSpec":{
+		"turnAcc":0,
+		"turnRate":0,
+		"acc":0,
+		"dec":0
+	},
+
+	# No engine slots = no visible engines
+	"engineSlots":[]
+}

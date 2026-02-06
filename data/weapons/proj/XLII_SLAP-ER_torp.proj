@@ -1,0 +1,40 @@
+{
+	"id":"XLII_SLAP-ER_torp",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_MistCloudOnHitEffect",
+	"sprite":"graphics/missiles/XLII_SLAP-ER_torp.png",
+	"size":[16,77],
+	"center":[8,38],
+	"collisionRadius":64,
+	"collisionClass":"NONE",
+	"explosionColor":[140,170,185,255],
+	"explosionRadius":175,
+	"glowColor":[185,140,140,55],
+	"glowRadius":50,
+	"engineSpec":{"turnAcc":500,
+				  "turnRate":75,
+				  "acc":1200,
+				  "dec":300},
+	"engineSlots":[{"id":"ES1",
+					"loc":[-39, 0],
+				    "style":"CUSTOM",
+					"styleSpec":{
+						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+						"engineColor":[55,205,205,180],
+						"glowSizeMult":1.5,
+						"glowAlternateColor":[55,205,205,200],
+						"contrailDuration":2,
+						"contrailWidthMult":1,
+						"contrailWidthAddedFractionAtEnd":2,  # can be negative. makes trail spread out/narrow at the end
+						"contrailMinSeg":5, # min segment length, in pixels
+						"contrailMaxSpeedMult":.0f,
+						"contrailAngularVelocityMult":0.5f,
+						"contrailSpawnDistMult":.5, # how far away from engine it starts
+						"contrailColor":[180,180,180,120],
+						"type":"SMOKE" # GLOW or SMOKE; additive or regular blend mode
+					},
+				    "width":12.0,
+				    "length":128.0,
+				    "angle":180.0}]
+}

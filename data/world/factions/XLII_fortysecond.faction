@@ -1,7 +1,7 @@
 {
 	"id":"XLII_fortysecond",
 
-	"illegalCommodities":["drugs","organs","ai_cores",],
+	"illegalCommodities":["drugs","organs","ai_cores"],
 	
 	"color":[50,60,80,255],
 	"secondaryUIColor":[180,85,45,255],
@@ -26,7 +26,7 @@
 	"shipNamePrefix":"DNS",
 	
 	"shipNameSources":{
-	"DRACONIS":10,
+		"DRACONIS":10,
 	},
 	
 	"names":{
@@ -35,6 +35,11 @@
 	
 	# variantOverrides restricts hulls to listed variants and adjusts their probability
 	"variantOverrides":{
+		"XLII_alruba_Assault_fortysecond":10,
+		"XLII_alwaid_Assault_fortysecond":10,
+		"XLII_errakis_Assault_fortysecond":10,
+		"XLII_juza_Assault_fortysecond":10,
+		"XLII_shaobi_Assault_fortysecond":10
 	},
 	
 	# multiplier for how often hulls show up in the faction's fleets
@@ -54,9 +59,8 @@
 	},
 	
 	"knownShips":{
-		"tags":["XLII_fortysecond_bp"],
+		"tags":["XLII_ship_bp","XLII_fortysecond_bp"],
 		"hulls":[
-			"XLII_alsafi"
 		],
 	},
 	
@@ -64,7 +68,8 @@
 	"priorityShips":{
 		"tags":["XLII_fortysecond_bp"],
 		"hulls":[
-			"XLII_alsafi"
+			"XLII_alwaid_fortysecond",
+			"XLII_juza_fortysecond"
 		],
 	},
 	
@@ -106,67 +111,65 @@
 	
 	"factionDoctrine":{
 		"warships":3,
-		"carriers":4, # Carrier Strike Group Doctrine >:3
-		"phaseShips":1,
+		"carriers":3,
+		"phaseShips":0,
 
-		"officerQuality":7, # Most officers are veterans of the Fafnir civil war
-		"shipQuality":5, # Elite ships for AI core raids
-		"numShips":5, # US Military defence budget
+		"officerQuality":7,
+		"shipQuality":5,
+		"numShips":1,
 
-		"shipSize":5, # Maximum size preference (capitals and cruisers)
+		"shipSize":5,
 
-		"aggression":3,
+		"aggression":2,
 		
 		"combatFreighterProbability":0,      				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup
 		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
 		"autofitRandomizeProbability":0,
-		"strictComposition":true, # warships/carriers/phase at 1 will be treated as 0, also no random factor
-		
+
 		"officerSkillsShuffleProbability":0,
 		"officerSkills":[
 			"combat_endurance",
-			"point_defense",
-			"missile_specialization"
+			"ballistic_mastery",
+			"ordnance_expert"
 		],
 
 		"commanderSkillsShuffleProbability":0,
 		"commanderSkills":[
 			"officer_training",
-			"hull_restoration",
 			"cybernetic_augmentation"
 		]
 	},
 	
 	"music":{
 		"theme":"music_XLII_draconis_neutral",
+		
 		"market_neutral":"music_XLII_draconis_neutral",
 		"market_hostile":"music_XLII_draconis_hostile",
 		"market_friendly":"music_XLII_draconis_friendly",
+		
 		"encounter_neutral":"music_XLII_draconis_neutral",
 		"encounter_hostile":"music_XLII_draconis_hostile",
 		"encounter_friendly":"music_XLII_draconis_friendly",
 	},
 	
-	"internalComms":"draconis_internal",
-	
 	"barSound":"bar_ambience",
 	
 	"voices":{
 		"LOW":{
-			"spacer":5,
-			"soldier":5,
-			"villain":5
+			"spacer":1,
+			"soldier":10,
+			"villain":1
 		},
 		"MEDIUM":{
-			"spacer":5,
-			"soldier":10,
-			"villain":10
+			"spacer":1,
+			"soldier":15,
+			"villain":1
 		},
 		"HIGH":{
 			"spacer":1,
-			"soldier":5,
-			"villain":20
+			"soldier":20,
+			"villain":1
 		}
 	},
 	

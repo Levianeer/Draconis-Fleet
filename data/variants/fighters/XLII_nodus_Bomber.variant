@@ -1,0 +1,29 @@
+{
+  "variantId": "XLII_nodus_Bomber",
+  "hullId": "XLII_nodus",
+  "displayName": "Bomber",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0002": "taclaser"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "XLII_falchion"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

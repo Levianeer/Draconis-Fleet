@@ -1,15 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 0,
-    "fluxVents": 50,
+    "fluxCapacitors": 25,
+    "fluxVents": 15,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
         "targetingunit",
-        "missleracks",
-        "eccm",
-        "fluxdistributor",
-        "stabilizedshieldemitter"
+        "advancedoptics",
+        "eccm"
     ],
     "permaMods": [],
     "sMods": [],
@@ -19,8 +17,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0013": "pilum_large",
-                "WS0014": "pilum_large"
+                "WS0013": "hurricane",
+                "WS0014": "hurricane"
             }
         },
         {
@@ -33,10 +31,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_halberd",
-                "WS0004": "XLII_halberd"
+                "WS0003": "XLII_bardiche_single",
+                "WS0004": "XLII_bardiche_single"
             }
         },
         {
@@ -48,24 +46,24 @@
             }
         },
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
-                "WS0025": "XLII_longsword",
-                "WS0026": "XLII_longsword"
+                "WS0025": "XLII_sovnyalance",
+                "WS0026": "XLII_sovnyalance"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "vulcan",
-                "WS0002": "vulcan",
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
                 "WS0007": "XLII_estocflak",
                 "WS0008": "XLII_estocflak",
                 "WS0027": "XLII_razorflak",
                 "WS0029": "XLII_estocflak",
-                "WS0030": "vulcan",
+                "WS0030": "XLII_estocflak",
                 "WS0031": "XLII_razorflak"
             }
         },

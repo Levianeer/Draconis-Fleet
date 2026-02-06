@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 3,
+    "fluxCapacitors": 0,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "XLII_shaobi",
@@ -10,19 +10,19 @@
     "variantId": "XLII_shaobi_Elite",
     "weaponGroups": [
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "XLII_rapier",
-                "WS0008": "XLII_rapier"
+                "WS0003": "XLII_bardiche_single",
+                "WS0004": "XLII_bardiche_single"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_bardiche_single",
-                "WS0004": "XLII_bardiche_single"
+                "WS0007": "XLII_cestus",
+                "WS0008": "XLII_cestus"
             }
         },
         {
@@ -34,17 +34,15 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0006": "XLII_estocflak",
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
                 "WS0009": "XLII_estocflak"
             }
         },
         {
             "autofire": true,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0001": "XLII_swordbreaker",
-                "WS0002": "XLII_swordbreaker"
-            }
+            "mode": "LINKED",
+            "weapons": {"WS0006": "XLII_swordbreaker"}
         }
     ],
     "wings": [

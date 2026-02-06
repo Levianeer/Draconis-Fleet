@@ -29,7 +29,7 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 
 	// EMP effect parameters
 	private static final float
-		BASE_EMP_RANGE = 1500f,
+		BASE_EMP_RANGE = 900f,
 		BASE_EMP_AMOUNT = 250f,
 		EMP_THICKNESS = 10f,
 		ARC_SPAWN_RADIUS = 100f,     // Distance from ship where arcs start
@@ -256,7 +256,7 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 					DamageType.ENERGY,
 					arcDamage / 2,
 					arcDamage,
-					empRange / 2,
+					empRange,
 					EMP_IMPACT_ID,
 					arcThickness,
 					EMP_FRINGE_COLOR,

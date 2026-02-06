@@ -1,0 +1,78 @@
+{
+  "hullName": "Grumium",
+  "hullId": "XLII_grumium",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/XLII_grumium.png",
+  "style": "DRACONIS",
+  "height": 54,
+  "width": 54,
+  "center": [27, 19.5],
+  "collisionRadius": 57,
+  "shieldCenter": [6.5, -0],
+  "shieldRadius": 44.5,
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [13.5, 4.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [13.5, -4.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [1, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-18, 7.5],
+      "length": 30,
+      "width": 6,
+      "angle": 180,
+      "contrailSize": 6,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-18, -7.5],
+      "length": 30,
+      "width": 6,
+      "angle": -180,
+      "contrailSize": 6,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-20.5, -0],
+      "length": 46,
+      "width": 14,
+      "angle": 180,
+      "contrailSize": 14,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -1, -24.5,
+    -19, -0,
+    -1, 24.5,
+    32, -0
+  ]
+}

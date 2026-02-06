@@ -68,21 +68,10 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
                 float opad = 10f;
 
                 Color h = Misc.getHighlightColor();
-                Color tc = Misc.getTextColor();
+                Color n = Misc.getNegativeHighlightColor();
 
                 tooltip.addPara("Your production of heavy armaments threatens the Draconis Alliance's "
-                        + "market share on advanced military equipment, drawing their hostile attention.", 0f);
-
-                List<CompetitorData> comp = computePlayerCompetitionData();
-                FactionAPI player = Global.getSector().getFaction(Factions.PLAYER);
-
-                tooltip.beginTable(player, 20f, "Commodity", getTooltipWidth(tooltipParam) - 150f, "Production", 150f);
-                for (final CompetitorData data : comp) {
-                    tooltip.addRow(Alignment.LMID, tc, Misc.ucFirst(data.spec.getLowerCaseName()),
-                            Alignment.MID, h, "" + data.competitorMaxProd);
-                }
-                tooltip.addTable("", 0, opad);
-                tooltip.addSpacer(5f);
+                        + "market share on military equipment, drawing their hostile attention.", 0f);
 
                 int minProd = Global.getSettings().getInt("draconisMinCompetitorProduction");
 
@@ -91,24 +80,9 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
                                 + "antagonizing the Draconis Alliance.", opad,
                         h, "Keeping production", "" + minProd);
 
-                tooltip.addPara("Alternatively, obtaining a commission with the Draconis Alliance and achieving "
-                                + "Cooperative reputation will grant you honorary membership status and end hostilities.", opad,
-                        h, "commission", "Cooperative");
-
                 tooltip.addPara("The Draconis Alliance's main production facilities rely on advanced "
-                                + "forge technology. Disrupting these could shift the balance of power.", opad,
-                        h, "forge technology");
-
-                MarketAPI homeworld = DraconisFleetHostileActivityFactor.getDraconisHomeworld();
-                if (homeworld != null && homeworld.getStarSystem() != null) {
-                    MapParams params = new MapParams();
-                    params.showSystem(homeworld.getStarSystem());
-                    float w = tooltip.getWidthSoFar();
-                    float ht = Math.round(w / 1.6f);
-                    params.positionToShowAllMarkersAndSystems(true, Math.min(w, ht));
-                    UIPanelAPI map = tooltip.createSectorMap(w, ht, params, homeworld.getName() + " (" + homeworld.getStarSystem().getNameWithLowercaseTypeShort() + ")");
-                    tooltip.addCustom(map, opad);
-                }
+                                + "nanoforge technology. Disrupting these could shift the balance of power.", opad,
+                        h, "nanoforge technology");
             }
         };
     }
@@ -143,11 +117,14 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
     }
 
     public String getDesc() {
-        return "Competing heavy armaments production";
+        return "Competing exports";
     }
 
     public float getMagnitudeContribution(StarSystemAPI system) {
-        if (getProgress() <= 0) return 0f;
+        if (getProgress() <= 0) {
+            Global.getLogger(this.getClass()).info("Draconis: Competition magnitude for " + system.getName() + ": 0 (progress is 0)");
+            return 0f;
+        }
 
         List<CompetitorData> comp = computePlayerCompetitionData();
         float mag = 0f;
@@ -160,13 +137,19 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
                 if (market.getContainingLocation() == system) {
                     CommodityOnMarketAPI com = market.getCommodityData(data.commodityId);
                     float prod = com.getMaxSupply();
-                    mag += prod * perUnitMagnitude;
+                    float contribution = prod * perUnitMagnitude;
+                    mag += contribution;
+                    Global.getLogger(this.getClass()).info("Draconis:     " + market.getName() + " production: " + prod + " -> magnitude: " + contribution);
                 }
             }
         }
-        if (mag > maxMagnitude) mag = maxMagnitude;
+
+        boolean capped = mag > maxMagnitude;
+        if (capped) mag = maxMagnitude;
 
         mag = Math.round(mag * 100f) / 100f;
+
+        Global.getLogger(this.getClass()).info("Draconis: Competition magnitude for " + system.getName() + ": " + mag + (capped ? " (CAPPED)" : ""));
 
         return mag;
     }

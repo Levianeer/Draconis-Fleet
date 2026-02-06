@@ -1,0 +1,74 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 0,
+    "fluxVents": 49,
+    "goalVariant": true,
+    "hullId": "XLII_altais",
+    "hullMods": [
+        "targetingunit",
+        "eccm",
+        "stabilizedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_altais_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0014": "hurricane",
+                "WS0015": "hurricane"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0028": "pilum",
+                "WS0029": "pilum"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0018": "XLII_halberd",
+                "WS0019": "XLII_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "hveldriver",
+                "WS0002": "hveldriver",
+                "WS0003": "hveldriver",
+                "WS0004": "hveldriver",
+                "WS0005": "heavymauler",
+                "WS0006": "heavymauler"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "XLII_estocflak",
+                "WS0008": "XLII_estocflak",
+                "WS0009": "XLII_estocflak",
+                "WS0010": "XLII_estocflak",
+                "WS0011": "XLII_estocflak",
+                "WS0024": "XLII_razorflak",
+                "WS0027": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0012": "XLII_swordbreaker",
+                "WS0023": "XLII_swordbreaker"
+            }
+        }
+    ]
+}

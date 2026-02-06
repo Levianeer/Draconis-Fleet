@@ -282,10 +282,7 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
         // Notify player if they're in the area
         if (shouldPlayerKnowAboutRaid(source, target)) {
             Global.getSector().getCampaignUI().addMessage(
-                "Draconis Alliance forces have launched an expedition to " + target.getName() +
-                " to engage Remnant installations.",
-                com.fs.starfarer.api.util.Misc.getTextColor()
-            );
+                "Draconis Alliance forces have launched an expedition to engage Remnant installations.");
         }
     }
 
@@ -316,7 +313,6 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
         private FleetAssignment lastAssignment = null;
         private boolean coresAcquired = false;
         private float patrolTimeElapsed = 0f;
-        private static final float MIN_PATROL_TIME_FOR_CORES = 3f; // 3 days minimum patrol
 
         public RemnantRaidFleetBehavior(CampaignFleetAPI fleet) {
             this.fleet = fleet;

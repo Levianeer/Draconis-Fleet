@@ -23,13 +23,13 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addBriefingItem("Defend Draconis' right to operate AI cores freely");
 		api.addBriefingItem("Achieve a decisive victory to deter future Hegemony interference");
 
-		// Set up the player's fleet - Admiral August's Draconis Strike Fleet
+		// Set up the player's fleet - Draconis Strike Fleet
         // Flagship
         api.addToFleet(FleetSide.PLAYER, "XLII_altais_Elite", FleetMemberType.SHIP, "Kori's Wrath", true);
 
         // Capital ships
         api.addToFleet(FleetSide.PLAYER, "XLII_dziban_Elite", FleetMemberType.SHIP, "Abstract Endurance", false);
-        api.addToFleet(FleetSide.PLAYER, "XLII_alwaid_Elite", FleetMemberType.SHIP, "Apostle’s Creed", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_alwaid_Elite", FleetMemberType.SHIP, "Apostle's Creed", false);
 
         // Cruiser line
         api.addToFleet(FleetSide.PLAYER, "XLII_eltanin_Elite", FleetMemberType.SHIP, "Steadfast Resolve", false);
@@ -40,7 +40,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 		api.addToFleet(FleetSide.PLAYER, "XLII_giausar_Elite", FleetMemberType.SHIP, "Iron Curtain", false);
 		api.addToFleet(FleetSide.PLAYER, "XLII_errakis_Elite", FleetMemberType.SHIP, "Vengeance", false);
         api.addToFleet(FleetSide.PLAYER, "XLII_rastaban_Elite", FleetMemberType.SHIP, "Calcutta", false);
-        api.addToFleet(FleetSide.PLAYER, "XLII_shaobi_Strike", FleetMemberType.SHIP, "Thunderbolt", false);
+        api.addToFleet(FleetSide.PLAYER, "XLII_shaobi_Elite", FleetMemberType.SHIP, "Thunderbolt", false);
 
 		// Fast frigate support
         api.addToFleet(FleetSide.PLAYER, "XLII_alruba_Elite", FleetMemberType.SHIP, "Swift Justice", false);

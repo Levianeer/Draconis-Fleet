@@ -12,8 +12,11 @@
   "shieldRadius": 164.5,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_retreatdrive",
+    "XLII_draconishull",
     "civgrade"
+  ],
+  "builtInWings": [
+    "XLII_drone_utility_wing"
   ],
   "builtInWeapons": {
     "WS0010": "blinker_red",

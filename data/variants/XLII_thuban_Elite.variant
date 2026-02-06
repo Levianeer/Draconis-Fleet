@@ -8,7 +8,7 @@
         "hardenedshieldemitter",
         "stabilizedshieldemitter",
         "autorepair",
-        "fluxcoil"
+        "extendedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],

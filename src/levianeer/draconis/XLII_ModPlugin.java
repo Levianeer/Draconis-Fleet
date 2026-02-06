@@ -22,6 +22,9 @@ import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreScalingConfig;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_magicMissileAI;
+import levianeer.draconis.data.scripts.ai.XLII_PhaseTorpedoAI;
+import levianeer.draconis.data.scripts.ai.XLII_SabreAI;
+import levianeer.draconis.data.scripts.ai.XLII_SlapERMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
 
 @SuppressWarnings("unused")
@@ -30,6 +33,9 @@ public class XLII_ModPlugin extends BaseModPlugin {
     private static final Logger log = Global.getLogger(XLII_ModPlugin.class);
     public static final String PD_MISSILE_ID = "XLII_swordbreaker_shot";
     public static final String SWARM_MISSILE_ID = "XLII_bardiche_shot";
+    public static final String PHASE_TORPEDO_ID = "XLII_phasetorp";
+    public static final String SABRE_MISSILE_ID = "XLII_sabre_torp";
+    public static final String SLAP_ER_MISSILE_ID = "XLII_SLAP-ER_torp";
     private static final String NEXERELIN_MOD_ID = "nexerelin";
     private static boolean hasNexerelin = false;
 
@@ -69,8 +75,10 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
         if (hasNexerelin) {
             log.info("Draconis: Nexerelin detected - AI core acquisition system will be enabled");
+            log.info("Draconis: Story mission system enabled - 'The Nanoforge Gambit' available at Ring-Port");
         } else {
             log.info("Draconis: Nexerelin not detected - AI core system will be disabled");
+            log.info("Draconis: Story mission system disabled (requires Nexerelin)");
         }
     }
 
@@ -178,7 +186,76 @@ public class XLII_ModPlugin extends BaseModPlugin {
             log.info("Draconis: Nexerelin not present - AI core acquisition system disabled");
         }
 
+        // Clean up any old intel that wasn't properly expired (save compatibility fix)
+        cleanupOldIntel();
+
         log.info("Draconis: === Game load complete ===");
+    }
+
+    /**
+     * Cleanup old AI core theft intel that may not have expired properly in previous versions
+     * This is save-compatible and runs on every game load
+     * NOTE TO SELF: Remove this at some point!!
+     */
+    private void cleanupOldIntel() {
+        try {
+            log.info("Draconis: === Starting Intel Cleanup ===");
+
+            int removedCount = 0;
+            int foundCount = 0;
+
+            // Defensive copy to prevent ConcurrentModificationException
+            java.util.List<com.fs.starfarer.api.campaign.comm.IntelInfoPlugin> allIntel =
+                new java.util.ArrayList<>(Global.getSector().getIntelManager().getIntel());
+
+            log.info("Draconis: Checking " + allIntel.size() + " total intel items");
+
+            for (com.fs.starfarer.api.campaign.comm.IntelInfoPlugin intel : allIntel) {
+                if (intel == null) continue;
+
+                // Use class name matching for better save compatibility
+                String className = intel.getClass().getName();
+
+                if (className.contains("DraconisAICoreTheftIntel")) {
+                    foundCount++;
+                    log.info("Draconis: Found AI core theft intel: " + className);
+
+                    try {
+                        // Cast to our intel type
+                        levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel theftIntel =
+                            (levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel) intel;
+
+                        // Check if intel is expired (no reflection needed!)
+                        if (theftIntel.isExpired()) {
+                            // Use the proper intel lifecycle method
+                            theftIntel.endImmediately();
+                            removedCount++;
+                            log.info("Draconis:   >>> REMOVED expired intel");
+                        } else {
+                            log.info("Draconis:   Intel not expired yet, keeping");
+                        }
+                    } catch (ClassCastException e) {
+                        log.warn("Draconis: Could not cast intel (save compatibility issue): " + e.getMessage());
+                    } catch (Exception e) {
+                        log.warn("Draconis: Could not process intel: " + e.getMessage());
+                    }
+                }
+            }
+
+            log.info("Draconis: Intel cleanup complete - Found: " + foundCount + ", Removed: " + removedCount);
+
+            if (removedCount > 0) {
+                log.info("Draconis: Successfully cleaned up " + removedCount + " expired AI core theft intel notifications");
+            } else if (foundCount > 0) {
+                log.info("Draconis: Found " + foundCount + " AI core theft intel items but none were expired");
+            } else {
+                log.info("Draconis: No AI core theft intel found to clean up");
+            }
+
+            log.info("Draconis: === Intel Cleanup Complete ===");
+        } catch (Exception e) {
+            log.error("Draconis: Error during intel cleanup (non-critical): " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -188,6 +265,19 @@ public class XLII_ModPlugin extends BaseModPlugin {
         }
         if (missile.getProjectileSpecId().equals(SWARM_MISSILE_ID)) {
             return new PluginPick<>(new XLII_magicMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
+        }
+        if (missile.getProjectileSpecId().equals(PHASE_TORPEDO_ID)) {
+            // Phase torpedoes launched from weapons (not ship system) start unphased
+            // Ship system handles its own AI creation with proper phase state
+            boolean startedPhased = false;
+            return new PluginPick<>(new XLII_PhaseTorpedoAI(missile, startedPhased), CampaignPlugin.PickPriority.MOD_SPECIFIC);
+        }
+        if (missile.getProjectileSpecId().equals(SABRE_MISSILE_ID)) {
+            return new PluginPick<>(new XLII_SabreAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
+        }
+
+        if (missile.getProjectileSpecId().equals(SLAP_ER_MISSILE_ID)) {
+            return new PluginPick<>(new XLII_SlapERMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
         }
         return null;
     }
