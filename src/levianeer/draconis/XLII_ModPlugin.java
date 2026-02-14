@@ -6,9 +6,13 @@ import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
 import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
+import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.combat.ShipAPI;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 import levianeer.draconis.data.campaign.intel.aicore.donation.DraconisAICoreDonationListener;
 import levianeer.draconis.data.campaign.intel.aicore.listener.DraconisTargetedRaidMonitor;
 import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantRaidListener;
@@ -17,6 +21,8 @@ import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantTarg
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import levianeer.draconis.data.campaign.intel.aicore.raids.DraconisAICoreRaidManager;
 import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
+import levianeer.draconis.data.campaign.econ.conditions.DraconConfig;
+import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreScalingConfig;
@@ -111,6 +117,10 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: === onGameLoad() ===");
         log.info("Draconis: New game: " + newGame);
 
+        // Remove old script instances from previous save/load cycles to prevent accumulation
+        // Scripts are serialized into saves, so without cleanup they stack on each game load
+        cleanupOldScripts();
+
         // Initialize Draconis characters
         log.info("Draconis: Initializing characters");
         XLII_Characters.initializeAllCharacters();
@@ -119,8 +129,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: Registering crisis systems");
         Global.getSector().addScript(new DraconisHostileActivityManager());
         log.info("Draconis:   - Hostile Activity Manager");
-        Global.getSector().addScript(new DraconisSteelCurtainMonitor());
-        log.info("Draconis:   - Steel Curtain Monitor");
 
         // Add AI Core Fleet Scaling system
         if (enableAICoreFleetScaling) {
@@ -131,65 +139,99 @@ public class XLII_ModPlugin extends BaseModPlugin {
             log.info("Draconis: AI Core Fleet Scaling DISABLED by settings");
         }
 
-        // If Nexerelin is present, add the AI core acquisition system
+        // If Nexerelin is present, add DRACON system and AI core acquisition
         if (hasNexerelin) {
+            // DRACON (Draconis Readiness Condition) - replaces Steel Curtain
+            DraconConfig draconConfig = DraconConfig.getInstance();
+            if (draconConfig.isEnabled()) {
+                Global.getSector().addScript(new DraconManager());
+                log.info("Draconis:   - DRACON Manager (Draconis Readiness Condition)");
+            } else {
+                Global.getSector().addScript(new DraconisSteelCurtainMonitor());
+                log.info("Draconis:   - Steel Curtain Monitor (DRACON disabled by settings)");
+            }
             log.info("Draconis: === Registering AI Core Acquisition System ===");
 
-            // Check if already registered (prevents duplicates on save/load)
-            // Check for DraconisAICoreDonationListener since it's always registered regardless of toggles
-            boolean alreadyRegistered = false;
-            for (Object script : Global.getSector().getScripts()) {
-                if (script instanceof DraconisAICoreDonationListener) {
-                    alreadyRegistered = true;
-                    log.info("Draconis: AI Core system already registered - skipping");
-                    break;
-                }
+            // AI Core Raids on Faction Markets
+            if (enableAICoreRaids) {
+                log.info("Draconis: === Registering AI Core Raid System ===");
+                // Scanner - finds high-value AI core targets
+                Global.getSector().addScript(new DraconisSingleTargetScanner());
+                log.info("Draconis:   - AI Core Target Scanner");
+                // Raid Manager - triggers Shadow Fleet raids on high-value targets
+                Global.getSector().addScript(new DraconisAICoreRaidManager());
+                log.info("Draconis:   - AI Core Raid Manager");
+                // Monitor - watches for successful raids and steals AI cores
+                Global.getSector().addScript(new DraconisTargetedRaidMonitor());
+                log.info("Draconis:   - Targeted Raid Monitor");
+            } else {
+                log.info("Draconis: AI Core Raids DISABLED by settings");
             }
 
-            if (!alreadyRegistered) {
-                // AI Core Raids on Faction Markets
-                if (enableAICoreRaids) {
-                    log.info("Draconis: === Registering AI Core Raid System ===");
-                    // Scanner - finds high-value AI core targets
-                    Global.getSector().addScript(new DraconisSingleTargetScanner());
-                    log.info("Draconis:   - AI Core Target Scanner");
-                    // Raid Manager - triggers Shadow Fleet raids on high-value targets
-                    Global.getSector().addScript(new DraconisAICoreRaidManager());
-                    log.info("Draconis:   - AI Core Raid Manager");
-                    // Monitor - watches for successful raids and steals AI cores
-                    Global.getSector().addScript(new DraconisTargetedRaidMonitor());
-                    log.info("Draconis:   - Targeted Raid Monitor");
-                } else {
-                    log.info("Draconis: AI Core Raids DISABLED by settings");
-                }
+            // Donation Listener - processes player AI core donations (always enabled)
+            Global.getSector().addScript(new DraconisAICoreDonationListener());
+            log.info("Draconis:   - AI Core Donation Listener");
 
-                // Donation Listener - processes player AI core donations (always enabled)
-                Global.getSector().addScript(new DraconisAICoreDonationListener());
-                log.info("Draconis:   - AI Core Donation Listener");
-
-                // Remnant Raid System - hunts Remnant installations for AI cores
-                if (enableRemnantRaids) {
-                    log.info("Draconis: === Registering Remnant Raid System ===");
-                    Global.getSector().addScript(new DraconisRemnantTargetScanner());
-                    log.info("Draconis:   - Remnant Target Scanner");
-                    Global.getSector().addScript(new DraconisRemnantRaidManager());
-                    log.info("Draconis:   - Remnant Raid Manager");
-                    Global.getSector().addScript(new DraconisRemnantRaidListener());
-                    log.info("Draconis:   - Remnant Raid Listener");
-                } else {
-                    log.info("Draconis: Remnant Raids DISABLED by settings");
-                }
-
-                log.info("Draconis: === AI Core Acquisition System Configuration Complete ===");
+            // Remnant Raid System - hunts Remnant installations for AI cores
+            if (enableRemnantRaids) {
+                log.info("Draconis: === Registering Remnant Raid System ===");
+                Global.getSector().addScript(new DraconisRemnantTargetScanner());
+                log.info("Draconis:   - Remnant Target Scanner");
+                Global.getSector().addScript(new DraconisRemnantRaidManager());
+                log.info("Draconis:   - Remnant Raid Manager");
+                Global.getSector().addScript(new DraconisRemnantRaidListener());
+                log.info("Draconis:   - Remnant Raid Listener");
+            } else {
+                log.info("Draconis: Remnant Raids DISABLED by settings");
             }
+
+            log.info("Draconis: === AI Core Acquisition System Configuration Complete ===");
         } else {
             log.info("Draconis: Nexerelin not present - AI core acquisition system disabled");
+            // Without Nex, fall back to Steel Curtain (static condition)
+            Global.getSector().addScript(new DraconisSteelCurtainMonitor());
+            log.info("Draconis:   - Steel Curtain Monitor (Nexerelin not present)");
         }
 
         // Clean up any old intel that wasn't properly expired (save compatibility fix)
         cleanupOldIntel();
 
         log.info("Draconis: === Game load complete ===");
+    }
+
+    /**
+     * Removes all Draconis EveryFrameScript instances from the sector before re-adding them.
+     * Prevents script accumulation across save/load cycles (scripts are serialized into saves,
+     * so without cleanup each onGameLoad() would add duplicates).
+     * Also handles 0.6.0 -> 0.6.1 migration: removes old DraconisSteelCurtainMonitor instances
+     * that would conflict with the new DraconManager.
+     */
+    private void cleanupOldScripts() {
+        List<EveryFrameScript> toRemove = new ArrayList<>();
+
+        for (EveryFrameScript script : Global.getSector().getScripts()) {
+            if (script instanceof DraconisHostileActivityManager
+                    || script instanceof DraconisAICoreFleetInflater
+                    || script instanceof DraconisSteelCurtainMonitor
+                    || script instanceof DraconManager
+                    || script instanceof DraconisSingleTargetScanner
+                    || script instanceof DraconisAICoreRaidManager
+                    || script instanceof DraconisTargetedRaidMonitor
+                    || script instanceof DraconisAICoreDonationListener
+                    || script instanceof DraconisRemnantTargetScanner
+                    || script instanceof DraconisRemnantRaidManager
+                    || script instanceof DraconisRemnantRaidListener) {
+                toRemove.add(script);
+            }
+        }
+
+        for (EveryFrameScript script : toRemove) {
+            Global.getSector().removeScript(script);
+        }
+
+        if (!toRemove.isEmpty()) {
+            log.info("Draconis: Cleaned up " + toRemove.size() + " old script instance(s) from save");
+        }
     }
 
     /**

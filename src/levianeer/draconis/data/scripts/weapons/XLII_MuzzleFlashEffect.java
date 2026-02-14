@@ -3,17 +3,29 @@ package levianeer.draconis.data.scripts.weapons;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.EmpArcEntityAPI.EmpArcParams;
+import com.fs.starfarer.api.graphics.SpriteAPI;
 import com.fs.starfarer.api.loading.MuzzleFlashSpec;
 import com.fs.starfarer.api.loading.ProjectileWeaponSpecAPI;
+import com.fs.starfarer.api.util.FaderUtil;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * OnFireEffect/EveryFrame effect for the Fragarach that spawns growing ring sprites when fired.
+ * Based on the how the 'Domain Phase Lab's Bombardon' ring effect pattern works.
+ * <p>
+ * This script runs every frame and monitors the weapon state. When the beam fires,
+ * it spawns a visual effect with expanding rings and arcs following the projectile.
+ * <p>
+ * What a mess.
+ */
 public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWeaponEffectPlugin {
 
     // Configuration parameters - Muzzle Flash
@@ -33,17 +45,183 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
     private static final float ARC_SPEED = 100000f; // Visual speed of arc animation
     private static final float MIN_ARC_DISTANCE = 100f; // Minimum distance traveled before spawning arc
 
+    // Configuration parameters - Ring Trail Effect
+    private static final float RING_INTERVAL_MIN = 0.01f; // Minimum time between ring spawns (seconds)
+    private static final float RING_INTERVAL_MAX = 0.015f; // Maximum time between ring spawns (seconds)
+    private static final float MIN_RING_DISTANCE = 20f; // Minimum distance traveled before spawning ring group
+    private static final float RING_BASE_SIZE = 10f; // Base size of ring sprites
+    private static final float RING_SIZE_MULTIPLIER = 1.0f; // Overall size multiplier for ring groups
+    private static final float RING_DURATION_MULTIPLIER = 3f; // Duration multiplier for ring visibility
+    private static final Color RING_CORE_COLOR = new Color(255, 255, 255, 255);
+    private static final Color RING_FRINGE_COLOR = new Color(185, 110, 110, 255); // Matches weapon glow
+
     // Tracking data for fired projectiles
     protected static class TrackedProjectile {
         public DamagingProjectileAPI projectile;
+
+        // Arc trail tracking
         public Vector2f lastArcPosition;
         public IntervalUtil arcInterval;
 
+        // Ring trail tracking
+        public Vector2f lastRingPosition;
+        public IntervalUtil ringInterval;
+
         public TrackedProjectile(DamagingProjectileAPI proj) {
             this.projectile = proj;
+
             this.lastArcPosition = new Vector2f(proj.getLocation());
             this.arcInterval = new IntervalUtil(ARC_INTERVAL_MIN, ARC_INTERVAL_MAX);
-            this.arcInterval.randomize(); // Start at random point in interval
+            this.arcInterval.randomize();
+
+            this.lastRingPosition = new Vector2f(proj.getLocation());
+            this.ringInterval = new IntervalUtil(RING_INTERVAL_MIN, RING_INTERVAL_MAX);
+            this.ringInterval.randomize();
+        }
+    }
+
+    /**
+     * Manages the lifecycle of a single ring particle sprite.
+     */
+    public static class ParticleData {
+        public SpriteAPI sprite;
+        public float time = 0f;
+        public float angle;
+        public float maxDur;
+        public float size;
+        public float scale = 1f;
+        public float targetScale;
+
+        public FaderUtil fader;
+
+        public ParticleData(SpriteAPI sprite, float size, float targetScale, float angle, float maxDur) {
+            this.sprite = sprite;
+            this.size = size;
+            this.targetScale = targetScale;
+            this.angle = angle;
+            this.maxDur = maxDur;
+
+            fader = new FaderUtil(0f, 0.25f, 0.15f);
+            fader.fadeIn();
+
+            sprite.setTexWidth(1f);
+            sprite.setTexHeight(1f);
+            sprite.setTexX(0f);
+            sprite.setTexY(0f);
+
+            sprite.setAdditiveBlend();
+        }
+
+        public void advance(float amount) {
+            time += amount;
+            scale = 1f + ((targetScale - 1f) * (time / maxDur));
+            if (time >= maxDur) {
+                fader.fadeOut();
+            }
+            fader.advance(amount);
+        }
+
+        public boolean isExpired() {
+            return time >= maxDur + 0.15f;
+        }
+    }
+
+    /**
+     * Rendering plugin for a ring group spawned at a fixed world position along a projectile's path.
+     * Renders at a static world position since the projectile moves away from the spawn point.
+     */
+    protected static class ProjectileRingEffectPlugin extends BaseCombatLayeredRenderingPlugin {
+        protected List<ParticleData> particles = new ArrayList<>();
+        protected Vector2f worldPosition;
+        protected float facingAngle;
+        protected Color coreColor;
+        protected Color fringeColor;
+
+        public ProjectileRingEffectPlugin(Vector2f worldPosition, float facingAngle,
+                                          float sizeMultiplier, float durationMultiplier,
+                                          Color coreColor, Color fringeColor) {
+            this.worldPosition = new Vector2f(worldPosition);
+            this.facingAngle = facingAngle;
+            this.coreColor = coreColor;
+            this.fringeColor = fringeColor;
+
+            SpriteAPI ring1 = Global.getSettings().getSprite("fx", "XLII_sovnya_ring1");
+            SpriteAPI ring2 = Global.getSettings().getSprite("fx", "XLII_sovnya_ring2");
+            SpriteAPI ring3 = Global.getSettings().getSprite("fx", "XLII_sovnya_ring3");
+
+            float baseSize = RING_BASE_SIZE * sizeMultiplier;
+
+            float duration1 = 0.025f * durationMultiplier;
+            float duration2 = 0.0375f * durationMultiplier;
+            float duration3 = 0.05f * durationMultiplier;
+
+            particles.add(new ParticleData(ring1, baseSize, 3f, 0f, duration1));
+            particles.add(new ParticleData(ring2, baseSize, 4.333f, 0f, duration2));
+            particles.add(new ParticleData(ring3, baseSize, 5.667f, 0f, duration3));
+        }
+
+        @Override
+        public void advance(float amount) {
+            if (Global.getCombatEngine().isPaused()) return;
+
+            List<ParticleData> toRemove = new ArrayList<>();
+            for (ParticleData p : particles) {
+                p.advance(amount);
+                if (p.isExpired()) {
+                    toRemove.add(p);
+                }
+            }
+            particles.removeAll(toRemove);
+        }
+
+        @Override
+        public boolean isExpired() {
+            return particles.isEmpty();
+        }
+
+        @Override
+        public void render(CombatEngineLayers layer, ViewportAPI viewport) {
+            float x = worldPosition.x;
+            float y = worldPosition.y;
+
+            for (ParticleData p : particles) {
+                p.sprite.setAngle(p.angle + facingAngle - 90f);
+
+                float currentSize = p.size * p.scale;
+                float alpha = p.fader.getBrightness();
+
+                // Layer 1: Core color (base layer)
+                p.sprite.setColor(coreColor);
+                p.sprite.setSize(currentSize, currentSize);
+                p.sprite.setCenter(currentSize * 0.5f, currentSize * 0.5f);
+                p.sprite.setAlphaMult(alpha);
+                p.sprite.renderAtCenter(x, y);
+
+                // Layer 2: Fringe color (glow layer, slightly larger)
+                float glowSize = currentSize * 1.05f;
+                p.sprite.setColor(fringeColor);
+                p.sprite.setSize(glowSize, glowSize);
+                p.sprite.setCenter(glowSize * 0.5f, glowSize * 0.5f);
+                p.sprite.setAlphaMult(alpha * 0.8f);
+                p.sprite.renderAtCenter(x, y);
+            }
+        }
+
+        @Override
+        public float getRenderRadius() {
+            return 400f;
+        }
+
+        protected EnumSet<CombatEngineLayers> layers = EnumSet.of(CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER);
+
+        @Override
+        public EnumSet<CombatEngineLayers> getActiveLayers() {
+            return layers;
+        }
+
+        @Override
+        public void init(CombatEntityAPI entity) {
+            super.init(entity);
         }
     }
 
@@ -111,18 +289,25 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
                 continue;
             }
 
-            // Advance the arc spawn interval
+            Vector2f currentPos = new Vector2f(proj.getLocation());
+
+            // --- Arc trail ---
             tracked.arcInterval.advance(amount);
-
-            // Check if it's time to spawn an arc
             if (tracked.arcInterval.intervalElapsed()) {
-                Vector2f currentPos = new Vector2f(proj.getLocation());
-                float distanceTraveled = Misc.getDistance(tracked.lastArcPosition, currentPos);
-
-                // Only spawn arc if projectile has traveled minimum distance
-                if (distanceTraveled >= MIN_ARC_DISTANCE) {
+                float arcDistance = Misc.getDistance(tracked.lastArcPosition, currentPos);
+                if (arcDistance >= MIN_ARC_DISTANCE) {
                     spawnLightningArc(engine, weapon.getShip(), tracked.lastArcPosition, currentPos);
-                    tracked.lastArcPosition = currentPos;
+                    tracked.lastArcPosition = new Vector2f(currentPos);
+                }
+            }
+
+            // --- Ring trail ---
+            tracked.ringInterval.advance(amount);
+            if (tracked.ringInterval.intervalElapsed()) {
+                float ringDistance = Misc.getDistance(tracked.lastRingPosition, currentPos);
+                if (ringDistance >= MIN_RING_DISTANCE) {
+                    spawnRingGroup(engine, currentPos, proj.getFacing());
+                    tracked.lastRingPosition = new Vector2f(currentPos);
                 }
             }
         }
@@ -217,6 +402,21 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
         Vector2f soundPoint = Vector2f.add(from, to, new Vector2f());
         soundPoint.scale(0.5f);
         Global.getSoundPlayer().playSound("abyssal_glare_lightning", 1f, 0.8f, soundPoint, new Vector2f());
+    }
+
+    /**
+     * Spawns a group of expanding ring sprites at the given world position,
+     * oriented along the specified facing angle.
+     */
+    protected void spawnRingGroup(CombatEngineAPI engine, Vector2f position, float facingAngle) {
+        if (engine == null || position == null) return;
+
+        ProjectileRingEffectPlugin plugin = new ProjectileRingEffectPlugin(
+                position, facingAngle, RING_SIZE_MULTIPLIER, RING_DURATION_MULTIPLIER,
+                RING_CORE_COLOR, RING_FRINGE_COLOR);
+
+        CombatEntityAPI entity = engine.addLayeredRenderingPlugin(plugin);
+        entity.getLocation().set(position);
     }
 
     /**

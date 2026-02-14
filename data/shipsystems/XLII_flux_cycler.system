@@ -1,0 +1,16 @@
+{
+	"id":"XLII_flux_cycler",
+	"type":"STAT_MOD",
+	"aiType":"WEAPON_BOOST",
+	#"aiScript":"levianeer.draconis.data.scripts.ai.XLII_FluxCyclerAI",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_FluxCyclerStats",
+
+	"runScriptWhileIdle":true, # unapply() never gets called
+
+	"weaponGlowColor":[255,0,0,181],
+	"weaponTypes":[BALLISTIC,ENERGY],
+
+	"useSound":"system_extraction_protocol",
+	"deactivateSound":"system_extraction_protocol",
+}

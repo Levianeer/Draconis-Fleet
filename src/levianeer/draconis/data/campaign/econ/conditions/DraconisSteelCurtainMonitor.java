@@ -3,12 +3,15 @@ package levianeer.draconis.data.campaign.econ.conditions;
 import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import levianeer.draconis.data.campaign.characters.XLII_Characters;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 /**
  * Monitors all markets and dynamically applies/removes Steel Curtain condition
  * based on Draconis ownership
+ * <p>
+ * Also updates character placements based on market ownership
  */
 public class DraconisSteelCurtainMonitor implements EveryFrameScript {
 
@@ -63,5 +66,8 @@ public class DraconisSteelCurtainMonitor implements EveryFrameScript {
                 );
             }
         }
+
+        // Update character placements based on market ownership
+        XLII_Characters.updateCharacterPlacements();
     }
 }

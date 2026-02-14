@@ -5,7 +5,7 @@
     "goalVariant": true,
     "hullId": "XLII_eltanin",
     "hullMods": [
-        "dedicated_targeting_core",
+        "targetingunit",
         "stabilizedshieldemitter"
     ],
     "permaMods": [],

@@ -120,6 +120,39 @@
 	},
 
 	# ========================================
+	# DRACON (DRACONIS READINESS CONDITION)
+	# ========================================
+	# Dynamic threat-based condition applied to all DDA markets.
+	# Calculates a threat score (0-100) monthly and maps to DRACON levels 5 (peace) to 1 (total war).
+	# Higher levels grant military buffs at increasing economic cost.
+	# Requires Nexerelin - without Nex, markets use Steel Curtain instead.
+
+	"draconisReadinessCondition": {
+		"enabled": true,							# Enable/disable DRACON system (falls back to Steel Curtain if disabled)	#	Default : true
+		"testLevelOverride": -1,					# DEBUG: Force a specific DRACON level (-1 = disabled, 1-5 = forced level)	#	Default : -1
+
+		"factorWeights": {							# How much each threat factor contributes to the score
+			"warScorePerWar": 10,					# Points per faction at war with DDA	#	Default : 10
+			"lostColonyScore": 25,					# Points per baseline market lost	#	Default : 25
+			"unstableMarketScore": 5,				# Points per unstable DDA market (stability <= threshold)	#	Default : 5
+			"maxFleetWeaknessScore": 20,			# Maximum points from fleet weakness ratio	#	Default : 20
+			"invasionPressureScore": 15				# Points if invasion/raid fleet targets DDA (binary)	#	Default : 15
+		},
+		"decayRates": {								# Monthly score decay (negative values)
+			"peacetimeDecay": -10,					# Decay when DDA is at peace	#	Default : -10
+			"wartimeDecay": -5						# Decay when DDA is at war	#	Default : -5
+		},
+		"thresholds": {								# Score thresholds for DRACON levels (score >= threshold = that level)
+			"level4Min": 30,						# DRACON 4	#	Default : 30
+			"level3Min": 50,						# DRACON 3	#	Default : 50
+			"level2Min": 70,						# DRACON 2	#	Default : 70
+			"level1Min": 90							# DRACON 1	#	Default : 90
+		},
+		"instabilityThreshold": 3,					# Markets with base stability at or below this are counted as unstable	#	Default : 3
+		"checkIntervalDays": 30						# How often to recalculate (in days)	#	Default : 30
+	},
+
+	# ========================================
 	# AI CORE FLEET SCALING
 	# ========================================
 	# Draconis gradually uses more AI cores in their fleets as the game progresses
@@ -213,6 +246,7 @@
 			"XLII_sovnya_ring2":"graphics/fx/XLII_sovnya_ring2.png",
 			"XLII_sovnya_ring3":"graphics/fx/XLII_sovnya_ring3.png",
 			"XLII_jammer_ring":"graphics/fx/XLII_jammer_ring.png",
+			"XLII_jammer_ring2":"graphics/fx/XLII_jammer_ring2.png",
 			"XLII_jammer_ring_alt":"graphics/fx/XLII_jammer_ring_alt.png",
 			"XLII_warning_ring":"graphics/fx/shields256ringd.png",
 			"XLII_blur_contrail":"graphics/fx/XLII_blur_contrail.png",

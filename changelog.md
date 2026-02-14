@@ -1,3 +1,42 @@
+Version 0.6.1
+NEW CONTENT:
+- NEW: DRACON threat system - Should give Draconis some campaign level staying power now.
+  - Effectively replaces the old Steel Curtain system for Nexerelin users.
+- NEW: Nushi-class Cruiser - Three large mounts!? A silly little guy.
+
+BALANCE CHANGES:
+- Rebalanced Eltanin-class Light Cruiser:
+  - Added Headache ECM Suite hullmod.
+- Rebalanced Juza-class Heavy Cruiser:
+  - Increased OP: 30 -> 32.
+- Twin Spear Cannon
+  - Reduced OP: 28 -> 26.
+- Rebalanced Fragarach Railgun
+  - Increased Damage: 800 -> 900.
+  - Added EMP Damage: 900.
+  - Increased Flux/shot: 1200 -> 1250.
+  - Increased chargedown: 3 -> 4.
+- Rebalanced Longsword Autocannon
+  - Reduced Range: 1200 -> 1000.
+  - Reduced Chargedown: 2 -> 1.5.
+  - Redueced Burst Delay: 0.5 -> 0.25.
+- Rebalanced Razor Flak Cannon:
+  - Reduced Flux/shot: 4 -> 2.
+
+SOUND CHANGES:
+- Swapped Longsword and Fragarach fire sounds.
+
+MINOR IMPROVEMENTS:
+- Improved some of the variants.
+- Improved the FX for the Fragarach Railgun.
+- Added check to see if Draconis controls Kori
+  - If not, the Admiral is removed from the Market, he returns if Draconis recaptures it.
+- Updated the AIO/XLII Battlegroup Flag. Nihil nisi ultio.
+
+BUG FIXES:
+- Fixed bug where XLII_durendal_mkii_fire referenced _03.ogg twice and skipped _02
+- Fixed some mistakes in rules.csv.
+
 Version 0.6.0
 NEW CONTENT:
 - NEW: Expanded the Fafnir system, new planets, some background lore too! Free story point at Fafnir's (now) broken Gate.

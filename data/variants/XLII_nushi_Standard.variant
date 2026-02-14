@@ -1,0 +1,33 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 30,
+    "fluxVents": 12,
+    "hullId": "XLII_nushi",
+    "hullMods": [
+        "dedicated_targeting_core",
+        "turretgyros"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_nushi_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0013": "mjolnir",
+                "WS0014": "mjolnir",
+                "WS0015": "hephag"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0016": "vulcan",
+                "WS0017": "dualflak"
+            }
+        }
+    ],
+    "wings": ["xyphos_wing"]
+}

@@ -29,9 +29,9 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
     private static final float CHECK_FREQUENCY = 1.0f; // Check every day
 
     // Track last known core counts to detect donations
-    private int lastAlphaCores = 0;
-    private int lastBetaCores = 0;
-    private int lastGammaCores = 0;
+    private int lastAlphaCores = -1;
+    private int lastBetaCores = -1;
+    private int lastGammaCores = -1;
 
     @Override
     public boolean isDone() {
@@ -67,6 +67,19 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         int currentAlpha = (int) faction.getMemoryWithoutUpdate().getFloat("$turnedIn_" + Commodities.ALPHA_CORE);
         int currentBeta = (int) faction.getMemoryWithoutUpdate().getFloat("$turnedIn_" + Commodities.BETA_CORE);
         int currentGamma = (int) faction.getMemoryWithoutUpdate().getFloat("$turnedIn_" + Commodities.GAMMA_CORE);
+
+        // First run after load: sync counters to current values without processing
+        // Prevents re-processing all historical donations every save/load cycle
+        if (lastAlphaCores < 0 || lastBetaCores < 0 || lastGammaCores < 0) {
+            lastAlphaCores = currentAlpha;
+            lastBetaCores = currentBeta;
+            lastGammaCores = currentGamma;
+            Global.getLogger(this.getClass()).info(
+                    "Initialized donation tracker - Alpha: " + currentAlpha +
+                    ", Beta: " + currentBeta + ", Gamma: " + currentGamma
+            );
+            return;
+        }
 
         // Detect new donations since last check
         int newAlpha = Math.max(0, currentAlpha - lastAlphaCores);

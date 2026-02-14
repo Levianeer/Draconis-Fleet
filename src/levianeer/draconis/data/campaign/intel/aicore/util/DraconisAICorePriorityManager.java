@@ -3,14 +3,13 @@ package levianeer.draconis.data.campaign.intel.aicore.util;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.characters.ImportantPeopleAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
-import com.fs.starfarer.api.impl.campaign.ids.Conditions;
-import com.fs.starfarer.api.impl.campaign.ids.Ranks;
 import com.fs.starfarer.api.impl.campaign.ids.Skills;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import levianeer.draconis.data.campaign.intel.aicore.config.DraconisAICoreConfig;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -19,6 +18,8 @@ import java.util.List;
  * Manages both industry-level priorities and administrator assignments
  */
 public class DraconisAICorePriorityManager {
+
+    private static final Logger log = Global.getLogger(DraconisAICorePriorityManager.class);
 
     /**
      * Get priority value for core types (higher = more valuable)
@@ -59,9 +60,7 @@ public class DraconisAICorePriorityManager {
                                                         String coreId) {
         if ((emptyIndustries == null || emptyIndustries.isEmpty()) &&
             (upgradeableIndustries == null || upgradeableIndustries.isEmpty())) {
-            Global.getLogger(DraconisAICorePriorityManager.class).info(
-                "No available industries for " + getCoreDisplayName(coreId)
-            );
+            log.debug("No available industries for " + getCoreDisplayName(coreId));
             return null;
         }
 
@@ -70,18 +69,12 @@ public class DraconisAICorePriorityManager {
         float bestWeight = -1f;
         boolean bestIsUpgrade = false;
 
-        Global.getLogger(DraconisAICorePriorityManager.class).info(
-            "========================================="
-        );
-        Global.getLogger(DraconisAICorePriorityManager.class).info(
-            "Selecting target for " + getCoreDisplayName(coreId)
-        );
-        Global.getLogger(DraconisAICorePriorityManager.class).info(
-            "Available empty slots: " + (emptyIndustries != null ? emptyIndustries.size() : 0)
-        );
-        Global.getLogger(DraconisAICorePriorityManager.class).info(
-            "Available upgrades: " + (upgradeableIndustries != null ? upgradeableIndustries.size() : 0)
-        );
+        if (log.isDebugEnabled()) {
+            log.debug("=========================================");
+            log.debug("Selecting target for " + getCoreDisplayName(coreId));
+            log.debug("Available empty slots: " + (emptyIndustries != null ? emptyIndustries.size() : 0));
+            log.debug("Available upgrades: " + (upgradeableIndustries != null ? upgradeableIndustries.size() : 0));
+        }
 
         // Evaluate empty industries with full priority
         if (emptyIndustries != null) {
@@ -90,15 +83,15 @@ public class DraconisAICorePriorityManager {
                 float marketSizeBonus = (float) Math.pow(industry.getMarket().getSize(), sizeWeight * 0.5f);
                 float weight = basePriority * marketSizeBonus;
 
-                Global.getLogger(DraconisAICorePriorityManager.class).info(
-                    String.format("  [EMPTY] %s at %s - Priority: %.1f, Market: %d, Bonus: %.2f, Weight: %.2f",
+                if (log.isDebugEnabled()) {
+                    log.debug(String.format("  [EMPTY] %s at %s - Priority: %.1f, Market: %d, Bonus: %.2f, Weight: %.2f",
                         industry.getCurrentName(),
                         industry.getMarket().getName(),
                         basePriority,
                         industry.getMarket().getSize(),
                         marketSizeBonus,
-                        weight)
-                );
+                        weight));
+                }
 
                 if (weight > bestWeight) {
                     bestWeight = weight;
@@ -116,17 +109,17 @@ public class DraconisAICorePriorityManager {
                 float marketSizeBonus = (float) Math.pow(industry.getMarket().getSize(), sizeWeight * 0.5f);
                 float weight = basePriority * marketSizeBonus * 0.8f; // 80% weight for upgrades
 
-                String currentCore = industry.getAICoreId();
-                Global.getLogger(DraconisAICorePriorityManager.class).info(
-                    String.format("  [UPGRADE] %s at %s (has %s) - Priority: %.1f, Market: %d, Bonus: %.2f, Weight: %.2f",
+                if (log.isDebugEnabled()) {
+                    String currentCore = industry.getAICoreId();
+                    log.debug(String.format("  [UPGRADE] %s at %s (has %s) - Priority: %.1f, Market: %d, Bonus: %.2f, Weight: %.2f",
                         industry.getCurrentName(),
                         industry.getMarket().getName(),
                         getCoreDisplayName(currentCore),
                         basePriority,
                         industry.getMarket().getSize(),
                         marketSizeBonus,
-                        weight)
-                );
+                        weight));
+                }
 
                 if (weight > bestWeight) {
                     bestWeight = weight;
@@ -137,21 +130,14 @@ public class DraconisAICorePriorityManager {
         }
 
         if (bestIndustry != null) {
-            Global.getLogger(DraconisAICorePriorityManager.class).info(
-                String.format(">>> SELECTED: %s at %s (Weight: %.2f, Type: %s)",
+            log.info(String.format("Selected %s at %s for %s (%s)",
                     bestIndustry.getCurrentName(),
                     bestIndustry.getMarket().getName(),
-                    bestWeight,
-                    bestIsUpgrade ? "UPGRADE" : "EMPTY")
-            );
+                    getCoreDisplayName(coreId),
+                    bestIsUpgrade ? "upgrade" : "empty slot"));
         } else {
-            Global.getLogger(DraconisAICorePriorityManager.class).warn(
-                "No suitable industry found for " + getCoreDisplayName(coreId)
-            );
+            log.warn("No suitable industry found for " + getCoreDisplayName(coreId));
         }
-        Global.getLogger(DraconisAICorePriorityManager.class).info(
-            "========================================="
-        );
 
         return bestIndustry;
     }
@@ -293,15 +279,15 @@ public class DraconisAICorePriorityManager {
         float sizeBonus = (float) Math.pow(marketSize, DraconisAICoreConfig.getMarketSizeWeight() * 0.5f);
         float totalWeight = priority * sizeBonus;
 
-        Global.getLogger(DraconisAICorePriorityManager.class).info(
-            String.format("Industry: %s (%s) - Base Priority: %.1f, Market Size: %.0f, Size Bonus: %.2f, Total Weight: %.2f",
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("Industry: %s (%s) - Base Priority: %.1f, Market Size: %.0f, Size Bonus: %.2f, Total Weight: %.2f",
                 industry.getCurrentName(),
                 industry.getMarket().getName(),
                 priority,
                 marketSize,
                 sizeBonus,
-                totalWeight)
-        );
+                totalWeight));
+        }
     }
 
     /**
@@ -318,9 +304,7 @@ public class DraconisAICorePriorityManager {
             PersonAPI admin = market.getAdmin();
 
             if (admin == null) {
-                Global.getLogger(DraconisAICorePriorityManager.class).warn(
-                    "No administrator at " + market.getName() + " to grant HYPERCOGNITION"
-                );
+                log.warn("No administrator at " + market.getName() + " to grant HYPERCOGNITION");
                 return false;
             }
 
@@ -329,30 +313,21 @@ public class DraconisAICorePriorityManager {
                 // Check if admin already has the skill
                 if (admin.getStats().getSkillLevel(Skills.HYPERCOGNITION) <= 0) {
                     admin.getStats().setSkillLevel(Skills.HYPERCOGNITION, 1);
-
-                    Global.getLogger(DraconisAICorePriorityManager.class).info(
-                        "Granted HYPERCOGNITION to " + admin.getNameString() +
-                        " at " + market.getName() + " (Alpha Core integration)"
-                    );
+                    log.info("Granted HYPERCOGNITION to " + admin.getNameString() +
+                        " at " + market.getName() + " (Alpha Core integration)");
                 } else {
-                    Global.getLogger(DraconisAICorePriorityManager.class).info(
-                        admin.getNameString() + " at " + market.getName() +
-                        " already has HYPERCOGNITION - skipping"
-                    );
+                    log.debug(admin.getNameString() + " at " + market.getName() +
+                        " already has HYPERCOGNITION - skipping");
                 }
                 return true;
             } else {
-                Global.getLogger(DraconisAICorePriorityManager.class).info(
-                    "Non-Alpha core (" + getCoreDisplayName(coreId) +
-                    ") - HYPERCOGNITION not granted at " + market.getName()
-                );
+                log.debug("Non-Alpha core (" + getCoreDisplayName(coreId) +
+                    ") - HYPERCOGNITION not granted at " + market.getName());
                 return false;
             }
 
         } catch (Exception e) {
-            Global.getLogger(DraconisAICorePriorityManager.class).error(
-                "Failed to grant HYPERCOGNITION at " + market.getName(), e
-            );
+            log.error("Failed to grant HYPERCOGNITION at " + market.getName(), e);
             return false;
         }
     }

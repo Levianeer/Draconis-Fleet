@@ -1,7 +1,7 @@
 {
     "displayName": "Unstable",
     "fluxCapacitors": 0,
-    "fluxVents": 26,
+    "fluxVents": 20,
     "hullId": "XLII_asuia",
     "hullMods": [
         "targetingunit",
@@ -20,7 +20,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0002": "sabotpod"}
+            "weapons": {"WS0002": "resonatormrm"}
         },
         {
             "autofire": true,

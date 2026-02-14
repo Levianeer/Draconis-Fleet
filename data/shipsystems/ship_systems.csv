@@ -14,5 +14,5 @@ Assault Drones,XLII_drone_assault,,,,,,,,12,0.2,0,,0,0,,,,,,,,,,,,,graphics/icon
 Lidar Array,XLII_lidararray,1,,,,,,,,,3.25,5,1,10,,,,,,,,,,,,offensive,graphics/icons/hullsys/lidar_barrage.png
 Phase Torpedo Array,XLII_phasetorparray,,,,,,0.1,,4,0.2,0.25,,0.25,0,,,,,,,,,,,,offensive,graphics/icons/hullsys/XLII_phase_torpedo.png
 Devastator Mode,XLII_missilebarrage,1,,,,,,,,,0.25,,0.25,0,TRUE,,,,,,,,,,,offensive,graphics/icons/hullsys/XLII_phase_torpedo.png
-,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Flux Cycler,XLII_flux_cycler,,,,,,,,,,0.5,,0.5,30,TRUE,,,,,,,,,,,offensive,graphics/icons/hullsys/ammo_feeder.png
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,

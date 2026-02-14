@@ -63,6 +63,9 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
         modifyStabilityWithBaseMod();
 
+        market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
+                .modifyFlat(getModId(), 500, getNameForModifier());
+
         MemoryAPI memory = market.getMemoryWithoutUpdate();
         Misc.setFlagWithReason(memory, MemFlags.MARKET_PATROL, getModId(), true, -1);
         Misc.setFlagWithReason(memory, MemFlags.MARKET_MILITARY, getModId(), true, -1);
@@ -77,6 +80,8 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
     @Override
     public void unapply() {
         super.unapply();
+
+        market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD).unmodifyFlat(getModId());
 
         MemoryAPI memory = market.getMemoryWithoutUpdate();
         Misc.setFlagWithReason(memory, MemFlags.MARKET_PATROL, getModId(), false, -1);

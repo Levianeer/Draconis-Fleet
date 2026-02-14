@@ -10,33 +10,36 @@ import org.apache.log4j.Logger;
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 /**
- * Manages creation of important Draconis Alliance characters
+ * Manages creation and placement of important Draconis Alliance characters.
+ * Handles dynamic removal/restoration of characters based on market ownership.
  */
 public class XLII_Characters {
 
     private static final Logger log = Global.getLogger(XLII_Characters.class);
     private static final String ADMIRAL_CREATED_FLAG = "$XLII_admiral_emil_created";
+    public static final String ADMIRAL_ID = "XLII_fleet_admiral_emil";
 
     /**
-     * Creates Fleet Admiral Emil August on Kori
+     * Creates Fleet Admiral Emil August and registers with ImportantPeopleAPI.
+     * Only places on Kori if Draconis controls it.
      */
     public static void createFleetAdmiralEmilAugust() {
         MarketAPI koriMarket = Global.getSector().getEconomy().getMarket("kori_market");
 
         if (koriMarket == null) {
-            Global.getLogger(XLII_Characters.class).warn("Kori market not found - cannot create Fleet Admiral");
+            log.warn("Draconis: Kori market not found - cannot create Fleet Admiral");
             return;
         }
 
-        // Check if character already exists using memory flag
         if (Global.getSector().getMemoryWithoutUpdate().getBoolean(ADMIRAL_CREATED_FLAG)) {
-            Global.getLogger(XLII_Characters.class).info("Fleet Admiral Emil August already exists");
+            // Existing save - ensure admiral is registered with ImportantPeopleAPI
+            ensureAdmiralRegistered(koriMarket);
             return;
         }
 
         // Create the character
         PersonAPI admiral = Global.getFactory().createPerson();
-        admiral.setId("XLII_fleet_admiral_emil");
+        admiral.setId(ADMIRAL_ID);
         admiral.setFaction(DRACONIS);
         admiral.setGender(FullName.Gender.MALE);
         admiral.setRankId("factionLeader");
@@ -57,22 +60,86 @@ public class XLII_Characters {
         admiral.getStats().setSkillLevel(Skills.INDUSTRIAL_PLANNING, 1);
         admiral.getStats().setSkillLevel(Skills.HYPERCOGNITION, 1);
 
-        // Market
-        koriMarket.addPerson(admiral);
-        koriMarket.getCommDirectory().addPerson(admiral, 0);
-
         // Memory flags for dialogue system
         admiral.getMemoryWithoutUpdate().set("$XLII_admiral_initialized", true);
         admiral.getMemoryWithoutUpdate().set("$XLII_rank", "Fleet Admiral");
 
+        // Register with ImportantPeopleAPI for persistent lookup across market changes
+        Global.getSector().getImportantPeople().addPerson(admiral);
+
+        // Only place on Kori if Draconis controls it
+        if (DRACONIS.equals(koriMarket.getFactionId())) {
+            koriMarket.addPerson(admiral);
+            koriMarket.getCommDirectory().addPerson(admiral, 0);
+        }
+
         // Mark as created in global memory
         Global.getSector().getMemoryWithoutUpdate().set(ADMIRAL_CREATED_FLAG, true);
 
-        Global.getLogger(XLII_Characters.class).info("Fleet Admiral Emil August created on Kori");
+        log.info("Draconis: Fleet Admiral Emil August created");
+    }
+
+    /**
+     * Migration for existing saves: ensures the admiral is registered with
+     * ImportantPeopleAPI so we can find them after market ownership changes.
+     */
+    private static void ensureAdmiralRegistered(MarketAPI koriMarket) {
+        PersonAPI admiral = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
+        if (admiral != null) return;
+
+        // Search on Kori market (pre-update saves have the admiral here)
+        for (PersonAPI person : koriMarket.getPeopleCopy()) {
+            if (ADMIRAL_ID.equals(person.getId())) {
+                Global.getSector().getImportantPeople().addPerson(person);
+                log.info("Draconis: Migrated Fleet Admiral to ImportantPeopleAPI");
+                return;
+            }
+        }
+
+        log.warn("Draconis: Fleet Admiral flagged as created but not found anywhere");
+    }
+
+    /**
+     * Checks Kori market ownership and adds/removes the admiral accordingly.
+     * Called on game load and periodically by DraconisSteelCurtainMonitor.
+     */
+    public static void updateCharacterPlacements() {
+        if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(ADMIRAL_CREATED_FLAG)) {
+            return;
+        }
+
+        MarketAPI koriMarket = Global.getSector().getEconomy().getMarket("kori_market");
+        if (koriMarket == null) return;
+
+        PersonAPI admiral = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
+        if (admiral == null) return;
+
+        boolean isDraconisOwned = DRACONIS.equals(koriMarket.getFactionId());
+        boolean isOnMarket = isAdmiralOnMarket(koriMarket);
+
+        if (isDraconisOwned && !isOnMarket) {
+            koriMarket.addPerson(admiral);
+            koriMarket.getCommDirectory().addPerson(admiral, 0);
+            log.info("Draconis: Fleet Admiral Emil August restored to Kori");
+        } else if (!isDraconisOwned && isOnMarket) {
+            koriMarket.removePerson(admiral);
+            koriMarket.getCommDirectory().removePerson(admiral);
+            log.info("Draconis: Fleet Admiral Emil August removed from Kori (no longer Draconis-controlled)");
+        }
+    }
+
+    private static boolean isAdmiralOnMarket(MarketAPI market) {
+        for (PersonAPI person : market.getPeopleCopy()) {
+            if (ADMIRAL_ID.equals(person.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void initializeAllCharacters() {
         log.info("Draconis: Initializing core characters");
         createFleetAdmiralEmilAugust();
+        updateCharacterPlacements();
     }
 }

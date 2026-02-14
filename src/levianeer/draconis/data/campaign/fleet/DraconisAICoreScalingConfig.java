@@ -94,10 +94,10 @@ public class DraconisAICoreScalingConfig {
 
             // Log key configuration values for diagnostics
             if (enabled) {
-                log.info(String.format("Draconis:   Cycle thresholds: Early(%.1f-%.1f) Mid(%.1f-%.1f) Late(%.1f-%.1f) End(%.1f-%.1f)",
+                log.debug(String.format("Draconis:   Cycle thresholds: Early(%.1f-%.1f) Mid(%.1f-%.1f) Late(%.1f-%.1f) End(%.1f-%.1f)",
                     earlyGameEnd, midGameStart, midGameStart, midGameEnd,
                     lateGameStart, lateGameEnd, endGameStart, endGameEnd));
-                log.info(String.format("Draconis:   Coverage: Early=%.0f%% Mid=%.0f%% Late=%.0f%% End=%.0f%%",
+                log.debug(String.format("Draconis:   Coverage: Early=%.0f%% Mid=%.0f%% Late=%.0f%% End=%.0f%%",
                     coverageEarlyGame * 100, coverageMidGame * 100,
                     coverageLateGame * 100, coverageEndGame * 100));
 
@@ -172,11 +172,19 @@ public class DraconisAICoreScalingConfig {
             betaWeight = lerp(betaWeights.get("earlyMidGame"), betaWeights.get("midGame"), t);
             alphaWeight = lerp(alphaWeights.get("earlyMidGame"), alphaWeights.get("midGame"), t);
         } else if (currentCycle <= lateGameEnd) {
-            // Mid-late game: interpolate between midGame and lateGame weights
-            float t = (currentCycle - lateGameStart) / (lateGameEnd - lateGameStart);
-            gammaWeight = lerp(gammaWeights.get("midGame"), gammaWeights.get("lateGame"), t);
-            betaWeight = lerp(betaWeights.get("midGame"), betaWeights.get("lateGame"), t);
-            alphaWeight = lerp(alphaWeights.get("midGame"), alphaWeights.get("lateGame"), t);
+            // Mid-late game: interpolate midGame -> midLateGame -> lateGame
+            float lateMidpoint = (lateGameStart + lateGameEnd) / 2f;
+            if (currentCycle <= lateMidpoint) {
+                float t = (currentCycle - lateGameStart) / (lateMidpoint - lateGameStart);
+                gammaWeight = lerp(gammaWeights.get("midGame"), gammaWeights.get("midLateGame"), t);
+                betaWeight = lerp(betaWeights.get("midGame"), betaWeights.get("midLateGame"), t);
+                alphaWeight = lerp(alphaWeights.get("midGame"), alphaWeights.get("midLateGame"), t);
+            } else {
+                float t = (currentCycle - lateMidpoint) / (lateGameEnd - lateMidpoint);
+                gammaWeight = lerp(gammaWeights.get("midLateGame"), gammaWeights.get("lateGame"), t);
+                betaWeight = lerp(betaWeights.get("midLateGame"), betaWeights.get("lateGame"), t);
+                alphaWeight = lerp(alphaWeights.get("midLateGame"), alphaWeights.get("lateGame"), t);
+            }
         } else if (currentCycle <= endGameEnd) {
             // Late-end game: interpolate between lateGame and endGame weights
             float t = (currentCycle - endGameStart) / (endGameEnd - endGameStart);

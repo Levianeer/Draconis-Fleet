@@ -255,12 +255,12 @@ XLII_CMSNTextRejectHostile,CMSNTextRejectHostile,"$faction.id == XLII_draconis",
 XLII_CMSNTextHasOther,CMSNTextHasOther,"$faction.id == XLII_draconis",,"""Loyalty's a rare commodity out here, and you're fresh out. We've got no room for dual allegiances.""
 
 ""That said, if you're serious about joining, resign from $theOtherCommissionFaction. And we'll gladly put your skills to use in $theFaction.""",,
-XLII_CMSNTextUnsuited,CMSNTextUnsuited,"$faction.id == XLII_draconis",,"""I'm sorry, but you don't meet our criteria for receiving a commission. To put it plainly you're a wildcard, Commander. Shape up your outfit, purge the weak links, then come back. Until then, you're unfit for Draconis colors. However I've noted your request, so please do reapply once you've meet our criteria!""",,
+XLII_CMSNTextUnsuited,CMSNTextUnsuited,"$faction.id == XLII_draconis",,"""I'm sorry, but you don't meet our criteria for receiving a commission. To put it plainly you're a wildcard, Commander. Shape up your outfit, purge the weak links, then come back. Until then, you're unfit for Draconis colors. However I've noted your request.""",,
 XLII_CMSNTextSuitedPart1,CMSNTextSuitedPart1,"$faction.id == XLII_draconis",,"""Hmm, yes, you're a suitable candidate. Admiral August will be pleased. We're always short on manpower.""
 
 ""Accepting a commission is a serious matter, however. You will be required to fight enemies of $theFaction. You'll be able to resign your commission at any time, though I don't imagine doing so would win you any friends.""",,
 XLII_CMSNTextSuitedPart2,CMSNTextSuitedPart2,"$faction.id == XLII_draconis",,"""So, how about it? Still want to sign on?""",,
-XLII_CMSNTextWelcomePart1,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated - Draconis blue on your scopes now.""",,
+XLII_CMSNTextWelcomePart1,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated - Draconis blue on your scope now.""",,
 XLII_CMSNTextWelcomePart2,CMSNTextWelcomePart2,"$faction.id == XLII_draconis",,"""Anything else I can do for you?""",,
 XLII_CMSNTextChangeMind,CMSNTextChangeMind,"$faction.id == XLII_draconis",,"""Cold feet already?"" $personName raises an eyebrow. ""The Sector's full of fence-sitters who think twice when the guns start barking. Fafnir's ghosts don't suffer the hesitant, neither do we. Application withdrawn. If you grow a spine, our doors aren't barred... Yet.""",,
 XLII_CMSNResignAskToConfirm,CMSNResignAskToConfirm,"$faction.id == XLII_draconis",,"""Resign? After we stamped your papers and handed you the keys to our armory? Commander, that's not how the Alliance works."" $personFirstName pauses their typing to face you. ""$TheFaction needs anyone it can get, and turning your back on us won't be forgotten.""",,

@@ -19,6 +19,7 @@ Incomprehensible Horrors,XLII_incomprehensiblehorrors,,,Draconis,,,10000,,TRUE,,
 Additionally reduces ship system cooldown by %s and prevents engine flameouts from damage.
 
 If all armor modules are destroyed, no hull regeneration occurs.",Regenerates hull when system active; scales with intact modules.,,graphics/icons/skills/hypercognition.png
+Headache ECM Suite,XLII_headacheecm,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_HeadacheECMSuite,Hidden hullmod for managing the Headache ECM Suite aura. Description created in script.,,,graphics/icons/missions/spysat.png
 ,,,,,,,,,,,,,,,,,,,
 #Commissioned Crews,,,,,,,,,,,,,,,,,,,
 Alliance Trained Crews,CHM_XLII_draconis,,,Draconis,,,,,TRUE,,0,0,0,0,data.scripts.hullmods.CHM_XLII_draconis,"Draconis Alliance crews receive specialised training in electronic warfare and benefit from improved support management, reducing combat readiness lost per deployment by %s and increasing the chance for incoming missiles to lose lock by %s.",Increase ECM effectiveness against missiles and decreases CR loss per deployment.,,graphics/hullmods/crest_draconis.png

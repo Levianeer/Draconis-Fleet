@@ -51,6 +51,9 @@
 		"XLII_juza_Overdriven":0.25,
 		"XLII_juza_Assault_fortysecond":0,
 
+		"XLII_nushi_Elite":0.5,
+		"XLII_nushi_Strike":0.5,
+
 		"fallback":{"combatMedium":1},
 	},
 	"combatCapital":{

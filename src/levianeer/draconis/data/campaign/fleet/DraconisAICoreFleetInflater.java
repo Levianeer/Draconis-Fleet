@@ -7,10 +7,13 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.campaign.ai.FleetAssignmentDataAPI;
+import com.fs.starfarer.api.characters.MutableCharacterStatsAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.ids.Factions;
 import org.apache.log4j.Logger;
 
@@ -23,13 +26,20 @@ import java.util.Random;
  * Monitors Draconis and Forty-Second fleets and fills empty officer slots
  * with AI cores based on game progression (cycles).
  */
-@SuppressWarnings("unused")
+
 public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private static final Logger log = Global.getLogger(DraconisAICoreFleetInflater.class);
 
     private static final String MEMORY_KEY = "$draconisAICoreScaling_processed"; // DEPRECATED: Old boolean key for save compatibility
     private static final String MEMORY_KEY_TIMESTAMP = "$draconisAICoreScaling_lastProcessed"; // New timestamp-based key
     private static final float CHECK_INTERVAL = 30.0f; // Check every 30 days (once per month)
+
+    // DRACON readiness overrides - applied at high alert levels
+    private static final float DRACON_2_COVERAGE_BOOST = 0.25f;  // +25% coverage at BARE STEEL
+    private static final float DRACON_2_GAMMA_WEIGHT = 0.30f;
+    private static final float DRACON_2_BETA_WEIGHT = 0.45f;
+    private static final float DRACON_2_ALPHA_WEIGHT = 0.25f;
+    private static final float DRACON_ALERT_RECHECK_DAYS = 30f;  // Faster recheck at DRACON 1-2
 
     private float daysElapsed = 0f;
     private boolean firstRun = true; // Track first run for initialization logging
@@ -69,22 +79,23 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         // One-time initialization log on first run
         if (firstRun) {
             firstRun = false;
-            log.info("Draconis: === AI Core Fleet Inflater First Run ===");
+            log.debug("Draconis: === AI Core Fleet Inflater First Run ===");
             if (actualCycle != currentCycle) {
-                log.info(String.format("Draconis:   Actual cycle: %.2f | TEST OVERRIDE: %.2f", actualCycle, currentCycle));
+                log.debug(String.format("Draconis:   Actual cycle: %.2f | TEST OVERRIDE: %.2f", actualCycle, currentCycle));
             } else {
-                log.info(String.format("Draconis:   Current cycle: %.2f", currentCycle));
+                log.debug(String.format("Draconis:   Current cycle: %.2f", currentCycle));
             }
-            log.info(String.format("Draconis:   Coverage percent: %.0f%%", coveragePercent * 100));
+            log.debug(String.format("Draconis:   Coverage percent: %.0f%%", coveragePercent * 100));
             if (coveragePercent <= 0f) {
-                log.info("Draconis:   Coverage is 0% - no AI cores will be assigned yet");
+                log.debug("Draconis:   Coverage is 0% - no AI cores will be assigned yet");
             } else {
-                log.info("Draconis:   System is active - will process eligible fleets");
+                log.debug("Draconis:   System is active - will process eligible fleets");
             }
         }
 
-        // If 0% coverage, skip processing entirely
-        if (coveragePercent <= 0f) return;
+        // If 0% coverage, skip processing entirely (unless DRACON override is active)
+        int draconLevel = getCurrentDraconLevel();
+        if (coveragePercent <= 0f && draconLevel > 2) return;
 
         // Process all fleets in the sector
         // Check all star systems
@@ -119,13 +130,20 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         if (!config.isTestModeActive()) {
             float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
 
+            // Use shorter recheck interval at high DRACON alert
+            float recheckInterval = config.getRecheckIntervalDays();
+            int draconLevel = getCurrentDraconLevel();
+            if (draconLevel <= 2) {
+                recheckInterval = Math.min(recheckInterval, DRACON_ALERT_RECHECK_DAYS);
+            }
+
             // Check if we have a timestamp from when fleet was last processed
             if (fleet.getMemoryWithoutUpdate().contains(MEMORY_KEY_TIMESTAMP)) {
                 float lastProcessed = fleet.getMemoryWithoutUpdate().getFloat(MEMORY_KEY_TIMESTAMP);
                 float timeSinceLastCheck = currentTime - lastProcessed;
 
                 // Don't reprocess if not enough time has passed
-                if (timeSinceLastCheck < config.getRecheckIntervalDays()) {
+                if (timeSinceLastCheck < recheckInterval) {
                     return false;
                 }
             }
@@ -192,7 +210,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
     /**
      * DEPRECATED: No longer used - fleets are now processed on spawn, not when standing down
-     *
+     * <p>
      * Check if fleet is currently at a base/station (for resupply/refit)
      * AI cores are only installed when fleets return to base
      */
@@ -214,26 +232,43 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private void processFleet(CampaignFleetAPI fleet, float currentCycle,
                               float coveragePercent, DraconisAICoreScalingConfig config) {
 
+        int draconLevel = getCurrentDraconLevel();
+
+        // DRACON 1: Upgrade existing non-alpha AI cores to Alpha first
+        if (draconLevel == 1) {
+            upgradeExistingCores(fleet);
+        }
+
+        // Apply DRACON overrides to coverage
+        float effectiveCoverage = coveragePercent;
+        if (draconLevel == 2) {
+            effectiveCoverage = Math.min(1.0f, coveragePercent + DRACON_2_COVERAGE_BOOST);
+        } else if (draconLevel == 1) {
+            effectiveCoverage = 1.0f;
+        }
+
         // Find all ships without officers (empty captain slots)
         List<FleetMemberAPI> emptySlots = new ArrayList<>();
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-            // Skip silly stuff
             if (member.isFighterWing()) continue;
             if (member.isCivilian()) continue;
 
-            // Only process ships without assigned officers
+            // Real officers (human or AI core) have trained skills (level > 0);
+            // default/placeholder captains have skill entries but all at level 0
             PersonAPI captain = member.getCaptain();
+            if (captain != null && captain.isAICore()) continue;
 
-            // Skip ships that already have a real officer or AI core assigned
-            // Default captains have empty/blank names
-            // Real officers and AI cores have actual names
-            String captainName = captain != null ? captain.getNameString() : null;
-            boolean hasRealOfficer = captain != null &&
-                captainName != null &&
-                !captainName.trim().isEmpty();
+            boolean hasTrainedSkills = false;
+            if (captain != null) {
+                for (MutableCharacterStatsAPI.SkillLevelAPI skill : captain.getStats().getSkillsCopy()) {
+                    if (skill.getLevel() > 0) {
+                        hasTrainedSkills = true;
+                        break;
+                    }
+                }
+            }
 
-            // Only add ships with default/empty captains
-            if (!hasRealOfficer) {
+            if (!hasTrainedSkills) {
                 emptySlots.add(member);
             }
         }
@@ -249,7 +284,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         emptySlots.sort(Comparator.comparing(FleetMemberAPI::getFleetPointCost).reversed());
 
         // Calculate how many slots to fill
-        int slotsToFill = Math.round(emptySlots.size() * coveragePercent);
+        int slotsToFill = Math.round(emptySlots.size() * effectiveCoverage);
 
         if (slotsToFill <= 0) {
             float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
@@ -265,8 +300,15 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         for (int i = 0; i < slotsToFill && i < emptySlots.size(); i++) {
             FleetMemberAPI member = emptySlots.get(i);
 
-            // Roll for core type based on current cycle
-            String coreType = config.rollCoreType(currentCycle, random.nextFloat());
+            // Select core type - DRACON overrides cycle-based selection
+            String coreType;
+            if (draconLevel == 1) {
+                coreType = Commodities.ALPHA_CORE;
+            } else if (draconLevel == 2) {
+                coreType = rollDracon2CoreType(random.nextFloat());
+            } else {
+                coreType = config.rollCoreType(currentCycle, random.nextFloat());
+            }
 
             // Create the AI core officer
             PersonAPI aiCore = createAICoreOfficer(coreType, fleet.getFaction().getId(), random);
@@ -295,13 +337,16 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         // Log assignment
         if (coresAssigned > 0) {
-            log.info(String.format(
-                "Draconis: Assigned %d AI cores to %s: %d Gamma, %d Beta, %d Alpha",
+            String draconTag = (draconLevel <= 2) ?
+                    " [DRACON " + draconLevel + " BOOST]" : "";
+            log.debug(String.format(
+                "Draconis: Assigned %d AI cores to %s: %d Gamma, %d Beta, %d Alpha%s",
                 coresAssigned,
                 fleet.getNameWithFaction(),
                 gammaCount,
                 betaCount,
-                alphaCount
+                alphaCount,
+                draconTag
             ));
         }
     }
@@ -319,5 +364,65 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
             log.error("Draconis: Failed to create AI core officer of type " + coreType, e);
         }
         return null;
+    }
+
+    /**
+     * Get current DRACON readiness level from sector memory.
+     * Returns 5 (COLD FORGE) by default.
+     */
+    private int getCurrentDraconLevel() {
+        Object stored = Global.getSector().getMemoryWithoutUpdate().get(DraconManager.LEVEL_KEY);
+        if (stored instanceof Number) {
+            return ((Number) stored).intValue();
+        }
+        return 5;
+    }
+
+    /**
+     * DRACON 1 (DEAD LIGHT): Replace all non-alpha AI core officers with Alpha cores.
+     * Human officers are left untouched.
+     */
+    private void upgradeExistingCores(CampaignFleetAPI fleet) {
+        Random random = new Random();
+        int upgraded = 0;
+
+        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+            PersonAPI captain = member.getCaptain();
+            if (captain == null || !captain.isAICore()) continue;
+
+            String coreId = captain.getAICoreId();
+            if (Commodities.ALPHA_CORE.equals(coreId)) continue;
+
+            // Remove old AI core officer and replace with Alpha
+            fleet.getFleetData().removeOfficer(captain);
+
+            PersonAPI alphaCore = createAICoreOfficer(
+                    Commodities.ALPHA_CORE, fleet.getFaction().getId(), random);
+            if (alphaCore != null) {
+                fleet.getFleetData().addOfficer(alphaCore);
+                member.setCaptain(alphaCore);
+                upgraded++;
+            }
+        }
+
+        if (upgraded > 0) {
+            log.debug(String.format(
+                "Draconis: DRACON 1 - Upgraded %d AI cores to Alpha in %s",
+                upgraded, fleet.getNameWithFaction()));
+        }
+    }
+
+    /**
+     * Roll core type using DRACON 2 (BARE STEEL) enhanced weights.
+     * Shifts distribution toward higher-tier cores.
+     */
+    private String rollDracon2CoreType(float random) {
+        if (random < DRACON_2_GAMMA_WEIGHT) {
+            return Commodities.GAMMA_CORE;
+        } else if (random < DRACON_2_GAMMA_WEIGHT + DRACON_2_BETA_WEIGHT) {
+            return Commodities.BETA_CORE;
+        } else {
+            return Commodities.ALPHA_CORE;
+        }
     }
 }

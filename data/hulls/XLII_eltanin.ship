@@ -12,7 +12,8 @@
   "shieldRadius": 197,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_draconishull"
+    "XLII_draconishull",
+	"XLII_headacheecm"
   ],
   "builtInWeapons": {
     "WS0003": "XLII_vernier",

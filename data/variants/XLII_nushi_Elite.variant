@@ -1,0 +1,42 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 30,
+    "fluxVents": 2,
+    "goalVariant": true,
+    "hullId": "XLII_nushi",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "magazines",
+        "stabilizedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_nushi_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "XLII_longsword",
+                "WS0014": "XLII_longsword"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_twinspear"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0016": "XLII_swordbreaker"}
+        }
+    ],
+    "wings": ["wasp_wing"]
+}
