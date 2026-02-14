@@ -1,4 +1,4 @@
-Version 0.6.1
+Version 0.6.1 (Save-compatible with 0.6.0)
 NEW CONTENT:
 - NEW: DRACON threat system - Should give Draconis some campaign level staying power now.
   - Effectively replaces the old Steel Curtain system for Nexerelin users.
