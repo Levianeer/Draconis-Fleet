@@ -54,6 +54,15 @@ public class XLII_FortySecond extends BaseHullMod {
 
     // Track processed missiles per ship to avoid re-rolling every frame
     private static final Map<ShipAPI, Set<MissileAPI>> processedMissiles = new HashMap<>();
+    private static CombatEngineAPI lastEngine_FortySecond;
+
+    private static void checkClearProcessedMissiles() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_FortySecond) {
+            lastEngine_FortySecond = engine;
+            processedMissiles.clear();
+        }
+    }
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
@@ -63,6 +72,8 @@ public class XLII_FortySecond extends BaseHullMod {
 
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
+        checkClearProcessedMissiles();
+
         if (ship == null || !ship.isAlive()) {
             processedMissiles.remove(ship);
             return;
@@ -84,7 +95,9 @@ public class XLII_FortySecond extends BaseHullMod {
         }
 
         // Get effective defense range based on ship collision radius plus hull-size bonus
-        float defenseRange = (ship.getCollisionRadius() * missileDefenseRange.get(ship.getHullSize()));
+        Float defenseRangeMult = missileDefenseRange.get(ship.getHullSize());
+        if (defenseRangeMult == null) return;
+        float defenseRange = ship.getCollisionRadius() * defenseRangeMult;
 
         // Cache ship location and owner to avoid repeated method calls
         Vector2f shipLocation = ship.getLocation();

@@ -120,7 +120,7 @@ public class DraconCondition extends BaseMarketConditionPlugin {
 
         // Level header
         tooltip.addPara("Current readiness: DRACON %s - %s", opad,
-                new Color[]{getLevelColor(level), draconis},
+                new Color[]{getLevelColor(level), getLevelColor(level)},
                 String.valueOf(level), levelName);
 
         // Stat effects

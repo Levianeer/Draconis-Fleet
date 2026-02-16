@@ -35,9 +35,20 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
 
     // Track affected fighters per ship for proper cleanup
     private static final Map<ShipAPI, Set<ShipAPI>> affectedFighters = new HashMap<>();
+    private static CombatEngineAPI lastEngine_HeadacheECM;
+
+    private static void checkClearAffectedFighters() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_HeadacheECM) {
+            lastEngine_HeadacheECM = engine;
+            affectedFighters.clear();
+        }
+    }
 
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
+        checkClearAffectedFighters();
+
         if (ship == null || !ship.isAlive()) {
             cleanupShip(ship);
             return;
@@ -46,7 +57,9 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null || engine.isPaused()) return;
 
-        float effectRange = ship.getCollisionRadius() * ecmRange.get(ship.getHullSize());
+        Float ecmRangeMult = ecmRange.get(ship.getHullSize());
+        if (ecmRangeMult == null) return;
+        float effectRange = ship.getCollisionRadius() * ecmRangeMult;
 
         // ECM offline during overload, venting, or phase
         boolean ecmDisabled = ship.getFluxTracker().isOverloaded() || ship.getFluxTracker().isVenting() || ship.isPhased();

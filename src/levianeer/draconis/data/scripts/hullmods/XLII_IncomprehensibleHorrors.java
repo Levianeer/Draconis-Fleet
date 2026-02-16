@@ -1,12 +1,16 @@
 package levianeer.draconis.data.scripts.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
+import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class XLII_IncomprehensibleHorrors extends BaseHullMod {
 
@@ -20,8 +24,20 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
     private static final String MODULE_LEFT = "XLII_module_sunsetter_armor_left";
     private static final String MODULE_RIGHT = "XLII_module_sunsetter_armor_right";
 
-    private boolean wasSystemActive = false;
-    private float hullRestorePerSecond = 0f;
+    // Per-ship state — BaseHullMod instances are shared across all ships with this mod,
+    // so instance fields would be corrupted when multiple Sunsetter ships are in combat.
+    private static final Map<String, Boolean> wasSystemActiveMap = new HashMap<>();
+    private static final Map<String, Float> hullRestorePerSecondMap = new HashMap<>();
+    private static CombatEngineAPI lastEngine_Horrors;
+
+    private static void checkClearStateMaps() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_Horrors) {
+            lastEngine_Horrors = engine;
+            wasSystemActiveMap.clear();
+            hullRestorePerSecondMap.clear();
+        }
+    }
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
@@ -55,11 +71,17 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
     public void advanceInCombat(ShipAPI ship, float amount) {
         if (ship == null) return;
 
+        checkClearStateMaps();
+
         // Prevent engine flameouts
         ship.getMutableStats().getEngineHealthBonus().modifyFlat("XLII_IncomprehensibleHorrors", 1000f);
 
         ShipSystemAPI system = ship.getSystem();
         if (system == null) return;
+
+        String shipId = ship.getId();
+        boolean wasSystemActive = wasSystemActiveMap.getOrDefault(shipId, false);
+        float hullRestorePerSecond = hullRestorePerSecondMap.getOrDefault(shipId, 0f);
 
         boolean isSystemActive = system.isActive();
 
@@ -94,7 +116,8 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
             ship.setHitpoints(Math.min(ship.getHitpoints() + hullToRestore, ship.getMaxHitpoints()));
         }
 
-        wasSystemActive = isSystemActive;
+        wasSystemActiveMap.put(shipId, isSystemActive);
+        hullRestorePerSecondMap.put(shipId, hullRestorePerSecond);
     }
 
     @Override

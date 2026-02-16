@@ -1,8 +1,10 @@
 package levianeer.draconis.data.scripts.shipsystems;
 
 import java.awt.Color;
+import java.util.List;
 
 import com.fs.starfarer.api.graphics.SpriteAPI;
+import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.fs.starfarer.api.Global;
@@ -49,18 +51,16 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
             }
         }
 
-        // Missile disable logic
-        for (MissileAPI missile : Global.getCombatEngine().getMissiles()) {
+        // Missile disable logic — use spatial query instead of iterating all missiles
+        List<MissileAPI> nearbyMissiles = CombatUtils.getMissilesWithinRange(ship.getLocation(), effectiveDisableRadius);
+        for (MissileAPI missile : nearbyMissiles) {
             if (missile.getSource() != null && missile.getSource().getOwner() != ship.getOwner()) {
-                float distance = Misc.getDistance(ship.getLocation(), missile.getLocation());
-                if (distance <= effectiveDisableRadius) {
-                    missile.setDamageAmount(0);
-                    missile.setOwner(100);
-                    missile.setMissileAI(null);
-                    missile.setCollisionClass(NONE);
-                    missile.flameOut();
-                    spawnHitParticle(missile.getLocation());
-                }
+                missile.setDamageAmount(0);
+                missile.setOwner(100);
+                missile.setMissileAI(null);
+                missile.setCollisionClass(NONE);
+                missile.flameOut();
+                spawnHitParticle(missile.getLocation());
             }
         }
     }

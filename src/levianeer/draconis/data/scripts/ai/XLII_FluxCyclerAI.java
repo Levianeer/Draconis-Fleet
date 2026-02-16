@@ -12,7 +12,6 @@ import org.lwjgl.util.vector.Vector2f;
  * count: fewer vents means a higher deactivation threshold (longer active
  * window) with a longer recovery gap; more vents means a lower threshold
  * (shorter active window) with a shorter recovery gap.
- * Probably unneeded now.
  */
 public class XLII_FluxCyclerAI implements ShipSystemAIScript {
 

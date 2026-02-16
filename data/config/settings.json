@@ -134,9 +134,9 @@
 		"factorWeights": {							# How much each threat factor contributes to the score
 			"warScorePerWar": 10,					# Points per faction at war with DDA	#	Default : 10
 			"lostColonyScore": 25,					# Points per baseline market lost	#	Default : 25
-			"unstableMarketScore": 5,				# Points per unstable DDA market (stability <= threshold)	#	Default : 5
+			"unstableMarketScore": 10,				# Points per unstable DDA market (stability <= threshold)	#	Default : 1-
 			"maxFleetWeaknessScore": 20,			# Maximum points from fleet weakness ratio	#	Default : 20
-			"invasionPressureScore": 15				# Points if invasion/raid fleet targets DDA (binary)	#	Default : 15
+			"invasionPressureScore": 50				# Points if invasion/raid fleet targets DDA (binary)	#	Default : 50
 		},
 		"decayRates": {								# Monthly score decay (negative values)
 			"peacetimeDecay": -10,					# Decay when DDA is at peace	#	Default : -10
@@ -149,7 +149,7 @@
 			"level1Min": 90							# DRACON 1	#	Default : 90
 		},
 		"instabilityThreshold": 3,					# Markets with base stability at or below this are counted as unstable	#	Default : 3
-		"checkIntervalDays": 30						# How often to recalculate (in days)	#	Default : 30
+		"checkIntervalDays": 14						# How often to recalculate (in days)	#	Default : 14
 	},
 
 	# ========================================
@@ -161,18 +161,18 @@
 	"draconisAICoreScaling": {
 		"enabled": true,						# Enable/disable AI core fleet scaling	#	Default : true
 		"testCycleOverride": -1,				# DEBUG: Override game cycle for testing (-1 = disabled, X = test at that cycle)	#	Default : -1
-		"recheckIntervalDays": 60.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 60.0
+		"recheckIntervalDays": 30.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 60.0
 
 		# Cycle thresholds defining the scaling curve
 		# NOTE: Starsector campaigns start at cycle ~206, so these are absolute cycle numbers
 		"cycleThresholds": {
-			"earlyGameEnd": 211.0,				# No AI cores before this cycle (206+5)	#	Default : 211.0
-			"midGameStart": 211.0,				# Start adding AI cores (206+5)	#	Default : 211.0
-			"midGameEnd": 216.0,				# Transition point (206+10)	#	Default : 216.0
-			"lateGameStart": 216.0,				# More AI cores begin appearing (206+10)	#	Default : 216.0
-			"lateGameEnd": 236.0,				# Heavy AI core usage (206+30)	#	Default : 236.0
-			"endGameStart": 236.0,				# Very heavy usage begins (206+30)	#	Default : 236.0
-			"endGameEnd": 256.0					# Maximum saturation (206+50)	#	Default : 256.0
+			"earlyGameEnd": 206,				# No AI cores before this cycle	#	Default : 206
+			"midGameStart": 209,				# Start adding AI cores			#	Default : 209
+			"midGameEnd": 212,					# Transition point				#	Default : 212
+			"lateGameStart": 218,				# More AI cores begin appearing	#	Default : 218
+			"lateGameEnd": 224,					# Heavy AI core usage			#	Default : 224
+			"endGameStart": 236,				# Very heavy usage begins		#	Default : 236
+			"endGameEnd": 256					# Maximum saturation			#	Default : 256
 		},
 
 		# Coverage percentages (how many empty officer slots to fill with AI cores)

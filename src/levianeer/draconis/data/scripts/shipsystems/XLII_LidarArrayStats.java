@@ -128,10 +128,12 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
         if (ship == null || ship.isHulk()) {
             if (needsUnapply) {
                 unmodify(id, stats);
-                for (WeaponAPI w : ship.getAllWeapons()) {
-                    if (!w.isDecorative() && w.getSlot().isHardpoint() && !w.isBeam() &&
-                            (w.getType() == WeaponAPI.WeaponType.BALLISTIC || w.getType() == WeaponAPI.WeaponType.ENERGY)) {
-                        w.setGlowAmount(0, null);
+                if (ship != null) {
+                    for (WeaponAPI w : ship.getAllWeapons()) {
+                        if (!w.isDecorative() && w.getSlot().isHardpoint() && !w.isBeam() &&
+                                (w.getType() == WeaponAPI.WeaponType.BALLISTIC || w.getType() == WeaponAPI.WeaponType.ENERGY)) {
+                            w.setGlowAmount(0, null);
+                        }
                     }
                 }
                 needsUnapply = false;
@@ -191,7 +193,7 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
             }
         }
         lidarRange += 100f;
-        stats.getBeamWeaponRangeBonus().modifyFlat("lidararray", lidarRange);
+        stats.getBeamWeaponRangeBonus().modifyFlat(id, lidarRange);
 
         // always wait a quarter of a second before starting to fire the targeting lasers
         // this is the worst-case turn time required for the dishes to face front
@@ -202,7 +204,6 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
         for (levianeer.draconis.data.scripts.shipsystems.XLII_LidarArrayStats.LidarDishData data : dishData) {
             boolean skip = data.phase % 1f > 1f / data.count;
 
-            skip = false;
             if (skip) continue;
             if (data.w.isDecorative() && data.w.getSpec().hasTag(Tags.LIDAR)) {
                 if (state == State.IN && Math.abs(data.angle) < 5f && effectLevel >= fireThreshold) {
@@ -240,6 +241,7 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
     protected void unmodify(String id, MutableShipStatsAPI stats) {
         stats.getBallisticWeaponRangeBonus().modifyPercent(id, PASSIVE_RANGE_BONUS);
         stats.getEnergyWeaponRangeBonus().modifyPercent(id, PASSIVE_RANGE_BONUS);
+        stats.getBeamWeaponRangeBonus().unmodifyFlat(id);
 
         stats.getBallisticRoFMult().unmodifyMult(id);
         stats.getEnergyRoFMult().unmodifyMult(id);

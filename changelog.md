@@ -1,3 +1,12 @@
+Version 0.6.2 (Save-compatible with 0.6.1)
+MINOR IMPROVEMENTS:
+- Cleaned up some scripts.
+
+BUG FIXES:
+- General bugfixing.
+- Fixed a ConcurrentModificationException crash with XLII_SystemBurnOnHitEffect.
+- Fixed some mistakes in descriptions.csv.
+
 Version 0.6.1 (Save-compatible with 0.6.0)
 NEW CONTENT:
 - NEW: DRACON threat system - Should give Draconis some campaign level staying power now.

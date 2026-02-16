@@ -47,10 +47,23 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
     // Cache missile range per ship
     private static final java.util.HashMap<String, Float> missileRangeCache = new java.util.HashMap<>();
 
+    private static CombatEngineAPI lastEngine_MissileBarrage;
+
+    private static void checkClearBarrageMaps() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_MissileBarrage) {
+            lastEngine_MissileBarrage = engine;
+            volleyTimers.clear();
+            missileRangeCache.clear();
+        }
+    }
+
     // ==================== MAIN SYSTEM LOGIC ====================
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
+        checkClearBarrageMaps();
+
         ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
         if (ship == null) return;
 
@@ -171,7 +184,7 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
         ShipAPI target = findNearestTargetInForwardArc(ship);
         if (target == null) return;
 
-        log.info("Draconis: Missile Barrage - Firing volley: " + systemSlots.size() +
+        log.debug("Draconis: Missile Barrage - Firing volley: " + systemSlots.size() +
                  " missiles at " + target.getHullSpec().getHullName());
 
         // Fire all missiles sequentially at the target

@@ -115,7 +115,8 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
     public XLII_magicMissileAI(MissileAPI missile, ShipAPI launchingShip) {
         this.MISSILE = missile;
         MAX_SPEED = missile.getMaxSpeed();
-        if (missile.getSource().getVariant().getHullMods().contains("eccm")) {
+        if (missile.getSource() != null && missile.getSource().getVariant() != null
+                && missile.getSource().getVariant().getHullMods().contains("eccm")) {
             ECCM = 1;
         }
         //calculate the precision range factor

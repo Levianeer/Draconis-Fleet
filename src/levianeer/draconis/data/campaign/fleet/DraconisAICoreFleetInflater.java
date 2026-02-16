@@ -98,9 +98,10 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         if (coveragePercent <= 0f && draconLevel > 2) return;
 
         // Process all fleets in the sector
+        // Defensive copies to prevent ConcurrentModificationException
         // Check all star systems
         for (StarSystemAPI system : Global.getSector().getStarSystems()) {
-            for (CampaignFleetAPI fleet : system.getFleets()) {
+            for (CampaignFleetAPI fleet : new ArrayList<>(system.getFleets())) {
                 if (shouldProcessFleet(fleet)) {
                     processFleet(fleet, currentCycle, coveragePercent, config);
                 }
@@ -108,7 +109,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         }
 
         // Check hyperspace
-        for (CampaignFleetAPI fleet : Global.getSector().getHyperspace().getFleets()) {
+        for (CampaignFleetAPI fleet : new ArrayList<>(Global.getSector().getHyperspace().getFleets())) {
             if (shouldProcessFleet(fleet)) {
                 processFleet(fleet, currentCycle, coveragePercent, config);
             }

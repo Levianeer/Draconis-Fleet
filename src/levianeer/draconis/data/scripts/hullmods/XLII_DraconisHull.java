@@ -501,6 +501,10 @@ public class XLII_DraconisHull extends BaseHullMod {
 
     @Override
     public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
+        // Guard against duplicate listeners added on refit/variant changes
+        for (WarpDriveScript existing : ship.getListeners(WarpDriveScript.class)) {
+            if (existing != null) return;
+        }
         ship.addListener(new WarpDriveScript(ship));
     }
 

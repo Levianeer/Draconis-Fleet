@@ -75,6 +75,15 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
     // Ship ID -> StackState mapping
     private static final java.util.HashMap<String, StackState> shipStates = new java.util.HashMap<>();
+    private static CombatEngineAPI lastEngine_PhaseTorpedo;
+
+    private static void checkClearShipStates() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_PhaseTorpedo) {
+            lastEngine_PhaseTorpedo = engine;
+            shipStates.clear();
+        }
+    }
 
     private WeaponAPI torpedoWeapon;
     private float prevEffectLevel = 0f;
@@ -87,6 +96,8 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
+        checkClearShipStates();
+
         ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
         if (ship == null) return;
 

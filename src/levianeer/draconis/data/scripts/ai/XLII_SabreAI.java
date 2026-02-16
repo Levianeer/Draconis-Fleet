@@ -213,10 +213,10 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
                 float avoidanceWeight = 1.0f - (distanceToObstacle / MIN_OBSTACLE_DISTANCE);
                 avoidanceWeight = Math.min(1.0f, avoidanceWeight * 3.0f); // Amplify for very strong avoidance
 
-                // Blend angles: closer obstacles get more weight
-                correctAngle = MathUtils.clampAngle(
-                    correctAngle * (1.0f - avoidanceWeight) + avoidanceAngle * avoidanceWeight
-                );
+                // Blend angles correctly using shortest-rotation interpolation to avoid
+                // wraparound artifacts (e.g. blending 350° and 10° linearly gives 180°, the wrong direction)
+                float delta = MathUtils.getShortestRotation(correctAngle, avoidanceAngle);
+                correctAngle = MathUtils.clampAngle(correctAngle + delta * avoidanceWeight);
             }
         }
 

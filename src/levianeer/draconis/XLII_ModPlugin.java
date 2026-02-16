@@ -117,6 +117,12 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: === onGameLoad() ===");
         log.info("Draconis: New game: " + newGame);
 
+        // Reset config singletons so they re-read settings.json on each game load.
+        // Without this, the cached instance from a previous load (or onApplicationLoad)
+        // persists and a settings change between loads would be ignored.
+        DraconConfig.reset();
+        DraconisAICoreScalingConfig.reset();
+
         // Remove old script instances from previous save/load cycles to prevent accumulation
         // Scripts are serialized into saves, so without cleanup they stack on each game load
         cleanupOldScripts();

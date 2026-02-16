@@ -46,6 +46,11 @@ public class DraconConfig {
         return instance;
     }
 
+    /** Reset the singleton so settings are re-read on next game load. */
+    public static void reset() {
+        instance = null;
+    }
+
     private void loadSettings() {
         try {
             JSONObject config = Global.getSettings().getJSONObject("draconisReadinessCondition");

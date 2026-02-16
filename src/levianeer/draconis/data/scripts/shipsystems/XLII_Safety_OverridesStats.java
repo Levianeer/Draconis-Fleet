@@ -29,9 +29,12 @@ public class XLII_Safety_OverridesStats extends BaseShipSystemScript {
 
 		ShipAPI.HullSize hullSize = ship.getHullSize();
 
-		stats.getMaxSpeed().modifyFlat(id, (Float) speed.get(hullSize));
-		stats.getAcceleration().modifyFlat(id, (Float) speed.get(hullSize) * 2f);
-		stats.getDeceleration().modifyFlat(id, (Float) speed.get(hullSize) * 2f);
+		Float speedBonus = (Float) speed.get(hullSize);
+		if (speedBonus == null) return;
+
+		stats.getMaxSpeed().modifyFlat(id, speedBonus);
+		stats.getAcceleration().modifyFlat(id, speedBonus * 2f);
+		stats.getDeceleration().modifyFlat(id, speedBonus * 2f);
 		stats.getZeroFluxMinimumFluxLevel().modifyFlat(id, 2f);
 
 		stats.getFluxDissipation().modifyMult(id, FLUX_DISSIPATION_MULT);

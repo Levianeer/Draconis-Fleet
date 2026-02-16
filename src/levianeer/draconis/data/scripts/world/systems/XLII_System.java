@@ -183,15 +183,15 @@ public class XLII_System implements SectorGeneratorPlugin {
         fafnir_mirror3.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 240, 1500, 90);
         fafnir_mirror3.setCustomDescriptionId("XLII_stellar_mirror");
 
-        SectorEntityToken fafnir_mirror4 = system.addCustomEntity("fafnir_mirror1", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
+        SectorEntityToken fafnir_mirror4 = system.addCustomEntity("fafnir_mirror4", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
         fafnir_mirror4.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 60, 1500, 90);
         fafnir_mirror4.setCustomDescriptionId("XLII_stellar_mirror");
 
-        SectorEntityToken fafnir_mirror5 = system.addCustomEntity("fafnir_mirror2", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
+        SectorEntityToken fafnir_mirror5 = system.addCustomEntity("fafnir_mirror5", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
         fafnir_mirror5.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 180, 1500, 90);
         fafnir_mirror5.setCustomDescriptionId("XLII_stellar_mirror");
 
-        SectorEntityToken fafnir_mirror6 = system.addCustomEntity("fafnir_mirror3", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
+        SectorEntityToken fafnir_mirror6 = system.addCustomEntity("fafnir_mirror6", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
         fafnir_mirror6.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 300, 1500, 90);
         fafnir_mirror6.setCustomDescriptionId("XLII_stellar_mirror");
 

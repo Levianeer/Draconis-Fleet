@@ -24,9 +24,18 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
     // Static registry for tracking ignite instances per ship
     private static final Map<ShipAPI, List<IgniteInstance>> activeIgnites = new HashMap<>();
-    private static final Object igniteMapLock = new Object();
+    private static CombatEngineAPI lastEngine_SystemBurn;
+
+    private static void checkClearActiveIgnites() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_SystemBurn) {
+            lastEngine_SystemBurn = engine;
+            activeIgnites.clear();
+        }
+    }
 
     public void onHit(DamagingProjectileAPI projectile, CombatEntityAPI target, Vector2f point, boolean shieldHit, ApplyDamageResultAPI damageResult, CombatEngineAPI engine) {
+        checkClearActiveIgnites();
         if (shieldHit || projectile.isFading() || !(target instanceof ShipAPI ship)) {
             return;
         }
@@ -59,91 +68,71 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
     // Register a new ignite instance
     private void registerIgnite(ShipAPI ship, IgniteInstance ignite) {
-        synchronized (igniteMapLock) {
-            activeIgnites.computeIfAbsent(ship, k -> new ArrayList<>()).add(ignite);
-        }
+        activeIgnites.computeIfAbsent(ship, k -> new ArrayList<>()).add(ignite);
     }
 
     // Clean up expired ignite
     public static void unregisterIgnite(ShipAPI ship, IgniteInstance ignite) {
-        synchronized (igniteMapLock) {
-            List<IgniteInstance> ignites = activeIgnites.get(ship);
-            if (ignites != null) {
-                ignites.remove(ignite);
-                if (ignites.isEmpty()) {
-                    activeIgnites.remove(ship);
-                }
+        List<IgniteInstance> ignites = activeIgnites.get(ship);
+        if (ignites != null) {
+            ignites.remove(ignite);
+            if (ignites.isEmpty()) {
+                activeIgnites.remove(ship);
             }
         }
     }
 
     // Get the currently active (highest DPS) ignite for damage dealing
     public static IgniteInstance getActiveIgnite(ShipAPI ship) {
-        synchronized (igniteMapLock) {
-            List<IgniteInstance> ignites = activeIgnites.get(ship);
-            if (ignites == null || ignites.isEmpty()) return null;
+        List<IgniteInstance> ignites = activeIgnites.get(ship);
+        if (ignites == null || ignites.isEmpty()) return null;
 
-            // Clean up expired ignites first - use safe iteration to avoid concurrent modification
-            List<IgniteInstance> toRemove = new ArrayList<>();
-            for (IgniteInstance ignite : new ArrayList<>(ignites)) {
-                if (ignite == null || ignite.isExpired()) {
-                    toRemove.add(ignite);
-                }
-            }
-            ignites.removeAll(toRemove);
+        // Clean up expired ignites first
+        ignites.removeIf(ignite -> ignite == null || ignite.isExpired());
 
-            if (ignites.isEmpty()) {
-                activeIgnites.remove(ship);
-                return null;
-            }
-
-            // Return the highest DPS ignite that's still active
-            IgniteInstance best = null;
-            for (IgniteInstance ignite : new ArrayList<>(ignites)) {
-                if (ignite != null && !ignite.isExpired() && ignite.ticks < NUM_TICKS) {
-                    if (best == null || ignite.dps > best.dps) {
-                        best = ignite;
-                    }
-                }
-            }
-            return best;
+        if (ignites.isEmpty()) {
+            activeIgnites.remove(ship);
+            return null;
         }
+
+        // Return the highest DPS ignite that's still active
+        IgniteInstance best = null;
+        for (IgniteInstance ignite : ignites) {
+            if (ignite != null && !ignite.isExpired() && ignite.ticks < NUM_TICKS) {
+                if (best == null || ignite.dps > best.dps) {
+                    best = ignite;
+                }
+            }
+        }
+        return best;
     }
 
     // Get status info for display
     public static DOTStatusInfo getStatusInfo(ShipAPI ship) {
-        synchronized (igniteMapLock) {
-            List<IgniteInstance> ignites = activeIgnites.get(ship);
-            if (ignites == null || ignites.isEmpty()) return null;
+        List<IgniteInstance> ignites = activeIgnites.get(ship);
+        if (ignites == null || ignites.isEmpty()) return null;
 
-            // Clean up expired ignites safely
-            List<IgniteInstance> toRemove = new ArrayList<>();
-            for (IgniteInstance ignite : new ArrayList<>(ignites)) {
-                if (ignite == null || ignite.isExpired()) {
-                    toRemove.add(ignite);
-                }
-            }
-            ignites.removeAll(toRemove);
+        // Clean up expired ignites
+        ignites.removeIf(ignite -> ignite == null || ignite.isExpired());
 
-            if (ignites.isEmpty()) {
-                activeIgnites.remove(ship);
-                return null;
-            }
-
-            IgniteInstance activeIgnite = getActiveIgnite(ship);
-            if (activeIgnite == null) return null;
-
-            float totalRemainingDamage = 0f;
-            for (IgniteInstance ignite : new ArrayList<>(ignites)) {
-                if (ignite != null && !ignite.isExpired() && ignite.ticks < NUM_TICKS) {
-                    int ticksLeft = NUM_TICKS - ignite.ticks;
-                    totalRemainingDamage += ignite.totalDamage * ticksLeft / (float) NUM_TICKS;
-                }
-            }
-
-            int ticksLeft = NUM_TICKS - activeIgnite.ticks;
-            return new DOTStatusInfo(ignites.size(), activeIgnite.dps, totalRemainingDamage, ticksLeft);
+        if (ignites.isEmpty()) {
+            activeIgnites.remove(ship);
+            return null;
         }
+
+        IgniteInstance activeIgnite = getActiveIgnite(ship);
+        if (activeIgnite == null) return null;
+
+        float totalRemainingDamage = 0f;
+        for (IgniteInstance ignite : ignites) {
+            if (ignite != null && !ignite.isExpired() && ignite.ticks < NUM_TICKS) {
+                int ticksLeft = NUM_TICKS - ignite.ticks;
+                totalRemainingDamage += ignite.totalDamage * ticksLeft / (float) NUM_TICKS;
+            }
+        }
+
+        int ticksLeft = NUM_TICKS - activeIgnite.ticks;
+        return new DOTStatusInfo(ignites.size(), activeIgnite.dps, totalRemainingDamage, ticksLeft);
     }
 
     // Helper class for status info
@@ -227,8 +216,8 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         protected IntervalUtil interval;
         protected FaderUtil fader = new FaderUtil(1f, 0.5f, 0.5f);
 
-        // For damage dealing - only the active ignite deals damage
-        private static final IntervalUtil globalDamageInterval = new IntervalUtil(0.8f, 1.0f);
+        // For damage dealing - per-instance interval to avoid shared state corruption
+        private final IntervalUtil damageInterval = new IntervalUtil(0.8f, 1.0f);
 
         // Pre-define layers enum to avoid recreation
         private static final EnumSet<CombatEngineLayers> LAYERS = EnumSet.of(CombatEngineLayers.BELOW_INDICATORS_LAYER);
@@ -292,8 +281,8 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
             // Only the active ignite deals damage (POE-style)
             if (this == activeIgnite) {
-                globalDamageInterval.advance(amount);
-                if (globalDamageInterval.intervalElapsed() && ticks < NUM_TICKS) {
+                damageInterval.advance(amount);
+                if (damageInterval.intervalElapsed() && ticks < NUM_TICKS) {
                     dealDamage();
                     ticks++;
 
@@ -345,14 +334,8 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
         @Override
         public boolean isExpired() {
-            boolean expired = particles.isEmpty() &&
+            return particles.isEmpty() &&
                     (ticks >= NUM_TICKS || !target.isAlive() || !Global.getCombatEngine().isEntityInPlay(target));
-
-            if (expired) {
-                unregisterIgnite(target, this);
-            }
-
-            return expired;
         }
 
         @Override

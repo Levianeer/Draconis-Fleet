@@ -29,8 +29,19 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
 
     // Track which ships have fired flares during current activation
     private static final HashMap<String, Boolean> firedThisActivation = new HashMap<>();
+    private static CombatEngineAPI lastEngine_EvasionProtocol;
+
+    private static void checkClearFiredMap() {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine != lastEngine_EvasionProtocol) {
+            lastEngine_EvasionProtocol = engine;
+            firedThisActivation.clear();
+        }
+    }
 
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
+        checkClearFiredMap();
+
         ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
         if (ship == null) return;
 
@@ -97,7 +108,7 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
             return;
         }
 
-        log.info("Draconis: Evasion Protocol - Firing " + systemSlots.size() + " flares from " + ship.getHullSpec().getHullName());
+        log.debug("Draconis: Evasion Protocol - Firing " + systemSlots.size() + " flares from " + ship.getHullSpec().getHullName());
 
         // Fire all flares simultaneously
         for (WeaponSlotAPI slot : systemSlots) {
