@@ -1,3 +1,7 @@
+Version 0.6.4 (Save-compatible with 0.6.3)
+BUG FIXES:
+- Actually fixed The Rift this time, honest!.
+
 Version 0.6.3 (Save-compatible with 0.6.2)
 MINOR IMPROVEMENTS:
 - Add some SFX to the Rift.

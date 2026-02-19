@@ -101,7 +101,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
      */
     private void applyRiftEffects(CampaignFleetAPI fleet, float days) {
         // Apply CR drain to all ships (except those with immunity)
-        float crLoss = CR_DRAIN_PER_DAY * days;
         List<FleetMemberAPI> members = fleet.getFleetData().getMembersListCopy();
 
         for (FleetMemberAPI member : members) {
@@ -115,7 +114,13 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                 continue; // Skip CR drain for immune ships
             }
 
-            // Clamp so we never drain below the ship's current CR (matches vanilla corona pattern).
+            // Mirror the corona pattern: include recovery rate so the net drain is always CR_DRAIN_PER_DAY,
+            // regardless of how fast the ship's CR recovers naturally. recoveryRate is in %/day (e.g. 4.0),
+            // so multiply by 0.01f to match the 0-1 fraction scale of CR_DRAIN_PER_DAY.
+            float recoveryRate = member.getStats().getBaseCRRecoveryRatePercentPerDay().getModifiedValue();
+            float crLoss = (recoveryRate * 0.01f + CR_DRAIN_PER_DAY) * days;
+
+            // Clamp so we never drain below the ship's current CR.
             float currCR = member.getRepairTracker().getBaseCR();
             float clampedLoss = Math.min(crLoss, currCR);
             if (clampedLoss > 0) {
