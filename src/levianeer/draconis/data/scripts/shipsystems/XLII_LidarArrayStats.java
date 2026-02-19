@@ -3,6 +3,7 @@ package levianeer.draconis.data.scripts.shipsystems;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ShipwideAIFlags;
 import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
@@ -25,7 +26,7 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
     public static float ROF_BONUS = 2f;
     public static float RECOIL_BONUS = 75f;
     public static float PROJECTILE_SPEED_BONUS = 50f;
-    public static float SPEED_DEBUFF = -90f;
+    public static float SPEED_DEBUFF = -50f;
 
     public static class LidarDishData {
         public float turnDir;
@@ -149,10 +150,14 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
 
         if (active) {
             modify(id, stats, effectLevel);
+            // Refresh every frame with a short duration as a safety net in case the system
+            // is interrupted — the flag will expire on its own if apply() stops being called.
+            ship.getAIFlags().setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, 0.5f);
             needsUnapply = true;
         } else {
             if (needsUnapply) {
                 unmodify(id, stats);
+                ship.getAIFlags().unsetFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF);
                 for (WeaponAPI w : ship.getAllWeapons()) {
                     if (w.getSlot().isSystemSlot()) continue;
                     if (!w.isDecorative() && w.getSlot().isHardpoint() && !w.isBeam() &&
@@ -203,7 +208,7 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
         fireThreshold += 0.02f; // making sure there's only 4 lidar pings; lines up with the timing of the lidardish weapon
         for (levianeer.draconis.data.scripts.shipsystems.XLII_LidarArrayStats.LidarDishData data : dishData) {
             boolean skip = data.phase % 1f > 1f / data.count;
-
+            skip = false;
             if (skip) continue;
             if (data.w.isDecorative() && data.w.getSpec().hasTag(Tags.LIDAR)) {
                 if (state == State.IN && Math.abs(data.angle) < 5f && effectLevel >= fireThreshold) {

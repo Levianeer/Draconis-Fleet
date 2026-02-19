@@ -543,22 +543,14 @@ public class XLII_System implements SectorGeneratorPlugin {
         LocationAPI hyperspace = sector.getHyperspace();
         Vector2f location = system.getLocation();
 
-        // Create the terrain plugin
-        levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin riftPlugin =
-                new levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin();
+        // addTerrain(String, Object) instantiates the plugin from terrain.json and passes the
+        // second argument as the param to init(). Pass null - no custom params needed.
+        SectorEntityToken riftTerrain = hyperspace.addTerrain("XLII_rift", null);
 
-        // Add the terrain entity
-        SectorEntityToken riftTerrain = hyperspace.addTerrain(
-                "XLII_rift",
-                riftPlugin
-        );
-
-        // Set location and ID
+        // Set location AFTER addTerrain. The plugin reads entity.getLocation() dynamically,
+        // so it will always resolve to the correct position regardless of init() call order.
         riftTerrain.setFixedLocation(location.x, location.y);
         riftTerrain.setId("XLII_rift_storm");
-
-        // Initialize the plugin
-        riftPlugin.init("XLII_rift", riftTerrain, null);
 
         // Add visual corona effects
         SectorEntityToken innerGlow = hyperspace.addCustomEntity(

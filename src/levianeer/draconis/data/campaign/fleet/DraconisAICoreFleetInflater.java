@@ -38,8 +38,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private static final float DRACON_2_COVERAGE_BOOST = 0.25f;  // +25% coverage at BARE STEEL
     private static final float DRACON_2_GAMMA_WEIGHT = 0.30f;
     private static final float DRACON_2_BETA_WEIGHT = 0.45f;
-    private static final float DRACON_2_ALPHA_WEIGHT = 0.25f;
-    private static final float DRACON_ALERT_RECHECK_DAYS = 30f;  // Faster recheck at DRACON 1-2
+    private static final float DRACON_ALERT_RECHECK_DAYS = 10f;  // Faster recheck at DRACON 1-2
 
     private float daysElapsed = 0f;
     private boolean firstRun = true; // Track first run for initialization logging

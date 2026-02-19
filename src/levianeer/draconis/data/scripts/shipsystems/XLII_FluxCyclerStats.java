@@ -36,20 +36,19 @@ public class XLII_FluxCyclerStats extends BaseShipSystemScript {
 
         boolean active = state == State.IN || state == State.ACTIVE || state == State.OUT;
 
-        // Blended stats — smoothly interpolate between passive and active values every frame.
+        // Blended stats - smoothly interpolate between passive and active values every frame.
         float rofBonus = PASSIVE_ROF_PENALTY + (FIRE_RATE_BOOST - PASSIVE_ROF_PENALTY) * effectLevel;
         stats.getBallisticRoFMult().modifyPercent(id, rofBonus);
         stats.getEnergyRoFMult().modifyPercent(id, rofBonus);
 
-        // Passive-only stats — fade out as system activates
+        // Passive-only stats - fade out as system activates
         stats.getMaxSpeed().modifyPercent(id, PASSIVE_SPEED_BOOST * (1f - effectLevel));
-        stats.getZeroFluxMinimumFluxLevel().modifyFlat(id, 2f * (1f - effectLevel));
 
         // Active-only stats + flux drain
         if (active) {
             modify(id, stats, effectLevel, ship);
             // Refresh every frame with a short duration as a safety net in case the system
-            // is interrupted — the flag will expire on its own if apply() stops being called.
+            // is interrupted - the flag will expire on its own if apply() stops being called.
             ship.getAIFlags().setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, 0.5f);
             needsUnapply = true;
         } else {
@@ -62,13 +61,13 @@ public class XLII_FluxCyclerStats extends BaseShipSystemScript {
     }
 
     private void modify(String id, MutableShipStatsAPI stats, float effectLevel, ShipAPI ship) {
-        // Hard safety cutoff — deactivate before applying any effects or drain.
+        // Hard safety cutoff - deactivate before applying any effects or drain.
         if (ship.getFluxTracker().getFluxLevel() >= SAFETY_FLUX_CUTOFF) {
             ship.getSystem().deactivate();
             return;
         }
 
-        // Clamp to a small positive floor — exactly 0 seems to break weapons with chargeup times?
+        // Clamp to a small positive floor - exactly 0 seems to break weapons with chargeup times?
         float fluxMult = Math.max(0.01f, 1f - (FLUX_REDUCTION / 100f) * effectLevel);
         stats.getEnergyWeaponFluxCostMod().modifyMult(id, fluxMult);
         stats.getBallisticWeaponFluxCostMod().modifyMult(id, fluxMult);
@@ -100,7 +99,7 @@ public class XLII_FluxCyclerStats extends BaseShipSystemScript {
 
     @Override
     public void unapply(MutableShipStatsAPI stats, String id) {
-        // Never called — runScriptWhileIdle:true in XLII_flux_cycler.system.
+        // Never called - runScriptWhileIdle:true in XLII_flux_cycler.system.
         // Active-to-idle cleanup is handled in unmodify(), called from apply().
     }
 

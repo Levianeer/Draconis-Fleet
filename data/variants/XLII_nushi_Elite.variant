@@ -1,14 +1,14 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 30,
-    "fluxVents": 2,
+    "fluxVents": 5,
     "goalVariant": true,
     "hullId": "XLII_nushi",
     "hullMods": [
         "targetingunit",
         "hardenedshieldemitter",
         "magazines",
-        "stabilizedshieldemitter"
+        "defensive_targeting_array"
     ],
     "permaMods": [],
     "sMods": [],

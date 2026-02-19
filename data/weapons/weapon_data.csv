@@ -38,7 +38,7 @@ Excalibur Missile Conversion,XLII_rastaban_missile,,,,2500,,2500,,75,,,1,,,HIGH_
 Lidar Dish,XLII_lidardish,,,,0,100,,,0,200,,3,4,4,ENERGY,,0,0.005,0.005,0.1,0.03,,,,,1000000,,,,,,,SYSTEM,lidar,,,,Special,,,,,,,,,,711000,,,,,,,,,
 Phase Torpedo,XLII_phasetorp_launcher,,,,1200,,2000,,125,,,,,,HIGH_EXPLOSIVE,0,,0,0,1,,,,,,,250,0,9,400,,,SYSTEM,"no_drop, no_drop_salvage, hide_in_codex, restricted",,Draconis,,Phase Torpedo,Very Slow,Very Poor,,,,,,,TRUE,711000,,,,,,,,,
 Sabre MRM Launcher,XLII_sabre,,,,2500,,350,,15,,,,,,HIGH_EXPLOSIVE,0,,0,0,1,,,,,,,350,350,16,250,,,SYSTEM,"no_drop, no_drop_salvage, hide_in_codex, restricted",,Draconis,,Suppression,Medium,Good,,,,,,,,711000,,,,,,,,,
-SLAP-ER Cruise Missile,XLII_SLAP-ER_deployer,,,,100000,,0,,0,,,,,,FRAGMENTATION,0,,0,0,1,,,,,,,400,150,600,100000,,,SYSTEM,"no_drop, no_drop_salvage, hide_in_codex, restricted",,Draconis,,,,,,,,,,,,711000,,,,,,,,,
+SLAP-ER Cruise Missile,XLII_SLAP-ER_deployer,,,,100000,,0,,0,,,,,,FRAGMENTATION,0,,0,0,1,,,,,,,400,150,600,250,,,SYSTEM,"no_drop, no_drop_salvage, hide_in_codex, restricted",,Draconis,,,,,,,,,,,,711000,,,,,,,,,
 Mist Cloud Anchor,XLII_mist_anchor,,,,100000,,0,,0,,,,,,FRAGMENTATION,0,,0,0,1,,,,,,,0,0,0,100000,,,SYSTEM,"no_drop, no_drop_salvage, hide_in_codex, restricted",,Draconis,,,,,,,,,,,,711000,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #DECORATIVE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

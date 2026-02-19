@@ -139,14 +139,15 @@ REMAIN CALM. DO NOT observe the vessel directly. DO NOT engage under any circums
 
 [AIO INTERNAL - ABOVE STRATOSPHERIC]
 
-Limited temporal displacement falls far from the Sunsetter's; however, the Asuia shows promise for mass production, 'logistically feasible' even. Standard FCS and targeting requires adjustment; time dilation proves difficult to overcome without direct integration with OCTANTIS. Send the reports through to it, I'm sure it'll have a solution prepared before it arrives.
+Limited temporal displacement falls far from the Sunsetter's; however, the Asuia shows promise for mass production, 'logistically feasible' even. Standard FCS and targeting requires adjustment; time dilation proves difficult to overcome without direct integration with [OCTANTIS]. Send the reports through, I'm sure it has a solution prepared already.
 
-Integration trials with OCTANTIS have yielded anomalous efficiencies - flux vents cycling 15% ahead of projected timelines, as if the ship anticipates overload before it manifests. We've noted crew disorientation in sim-runs: echoes of commands issued seconds before they're spoken, shadows of maneuvers that resolve into reality. Recommend psychological conditioning protocols for deployment batches. If OCTANTIS can stabilize the dilation bubble without fracturing causality, the Asuia could redefine ambush doctrine. Fleet Admiral August has authorized Phase II prototyping under Kori's nanoforge; Tri-Tachyon liaisons are pressing for data shares, but the Office will redact temporal metrics.
+Integration trials with [OCTANTIS] have yielded anomalous efficiencies - flux vents cycling 15% ahead of projected timelines, as if the ship anticipates overload before it manifests. We've noted crew disorientation in sim-runs: echoes of commands issued seconds before they're spoken, shadows of maneuvers that resolve into reality. Recommend psychological conditioning protocols for deployment batches. If [OCTANTIS] can stabilize the dilation bubble without fracturing causality, the Asuia could redefine ambush doctrine. The Office has authorized Phase II prototyping; Tri-Tachyon liaisons are pressing for data shares, but the Office will redact temporal metrics.
 
 // Addendum, deleted from record:
-// ""The latest sim-feed from OCTANTIS... It's not just predicting. The Asuia prototype engaged a Hegemony Onslaught battlegroup in the trial, but the logs show damage patterns from weapons that weren't fired until after the kill.""
-// ""Causality bleed. We've seen it in the deep-core interfaces before - OCTANTIS pulling threads from some unknown subroutines. If we push this, we're not building ships; we're unraveling the present. August knows, doesn't he, surely?""
-// ""He suspects. But survival demands it. The Rift won't shield us forever, and if the Path or Hegemony breaches first... better we wield the impossible than burn under it.""",,,,,
+// ""The latest sim-feed from [OCTANTIS]... It's not just predicting. The Asuia prototype engaged [REDACTED] in trial, but the logs show damage patterns from weapons that weren't fired until after the kill.""
+// ""Causality bleed. We've seen it in the deep-core interfaces before - [OCTANTIS] pulling threads from some unknown subroutines. If we push this, we're not building ships; we're unraveling the present.""
+// ""August knows, doesn't he, surely?""
+// ""He suspects. But survival demands it. The Rift won't shield us forever.""",,,,,
 XLII_sunsetter,SHIP,"IDENTIFICATION ERROR: No matching hull signature.
 
 Primary registry [CORRUPTED]. Drive signature predates scan by 0.3 seconds. Damage assessment returns paradoxical values - structural integrity reads 47% and 98% simultaneously.
@@ -161,14 +162,14 @@ REMAIN CALM. DO NOT observe the vessel directly. DO NOT engage under any circums
 
 Sunsetter-class trials continue to exceed parameters. Temporal displacement allows the vessel to occupy probability states 0.2 to 0.7 seconds removed from baseline causality. Targeting solutions become obsolete before ordnance arrives. The hull integrates replacement components from its own prior states - regenerating from damage that ""hasn't happened yet.""
 
-Integration with [REDACTED] proceeds on schedule. It reports that operating the Sunsetter is ""intuitive"" in ways difficult to articulate to human supervisors.
+Integration with [OCTANTIS] proceeds on schedule. Crew report that operating the Sunsetter is ""intuitive"" in ways difficult to articulate to supervisors.
 
 We believe this is a feature.
 
 // Addendum, deleted from record:
 // ""I watched Meridian-7. The Sunsetter took devastating fire. Then it didn't.""
 // ""Something is choosing which version of events gets to be real.""
-// ""Why does it keep choosing us?""",,,,,
+// ""But, why does it keep choosing us?""",,,,,
 XLII_aldibain,SHIP,"The Aldibain-class is a multirole, single-seat, heavy fighter designed to fill the many gaps in the Draconis fleet’s fighter wings; it serves double duty as a fast attack craft, escort and interceptor. It has had a troubled development as it was rushed into service at the start of the civil war but after its teething issues were ironed out, it has become a staple of the Draconis Navy and remains the face of the Alliance’s propaganda department.",,,,,
 XLII_tianyi,SHIP,"The Tianyi was born not from a need for speed or firepower, but silence - of the enemy’s sensors, comms, targeting arrays, and most importantly missile systems. Commissioned towards the end of the Fafnir civil war, it replaced its missile hardpoints with bulky electronic warfare pods, a dedicated EW suite and an advanced Spaceborne Warning and Control System. The result: a jamming platform disguised as a fighter, able to slice through hostile ECM fields and suppress capital-grade missile targeting systems mid-flight.",,,,,
 XLII_eldsich,SHIP,"Originally a testbed for a now forgotten space plane program during peacetime, the Eldsich-class has become the primary space bomber for the Alliance, it’s not very versatile and lacks a lot of the capability of the other bombers in the sector, as most of its more advanced features had to be stripped to fit the nuclear armament it carries. However, just one nuclear bomb hitting an unshielded target is catastrophically effective, which to command, is all that matters.",,,,,

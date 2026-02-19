@@ -23,6 +23,8 @@ import org.lwjgl.opengl.GL11;
  * The Rift - A hyperspace "storm" surrounding the Fafnir system.
  * Applies CR drain and sensor disruption to fleets within its boundaries.
  */
+
+@SuppressWarnings("unused")
 public class XLII_RiftTerrainPlugin extends BaseTerrain {
 
     private static final Logger log = Global.getLogger(XLII_RiftTerrainPlugin.class);
@@ -31,18 +33,15 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
     public static final float RIFT_RADIUS = 1500f;
     private static final float CR_DRAIN_PER_DAY = 0.05f; // 5% per day
     private static final float SENSOR_RANGE_MULT = 0.75f; // 25% sensor range
-    private static final float WARNING_INTERVAL_DAYS = 4f; // Show warning every 4 days
+    private static final float WARNING_INTERVAL_DAYS = 3f; // Show warning every 3 days
 
-    private Vector2f centerLocation;
     private float warningTimer = 0f;
     private float animationTime = 0f;
 
     @Override
     public void init(String terrainId, SectorEntityToken entity, Object param) {
         super.init(terrainId, entity, param);
-        this.centerLocation = entity.getLocation();
-
-        log.info("Draconis: Rift terrain initialized at " + centerLocation);
+        log.info("Draconis: Rift terrain initialized at " + entity.getLocation());
     }
 
     @Override
@@ -57,6 +56,11 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
     }
 
     @Override
+    public String getEffectCategory() {
+        return "XLII_rift";
+    }
+
+    @Override
     public void advance(float amount) {
         // Update animation time (always, even when paused for smooth visuals)
         animationTime += amount;
@@ -66,35 +70,29 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
             return;
         }
 
-        float days = Global.getSector().getClock().convertToDays(amount);
+        // super.advance() iterates all fleets in this location and calls applyEffect()
+        // for each one that containsEntity() returns true for. It also handles player sound loops.
+        super.advance(amount);
 
-        // Get player fleet
+        // Player-only: abyssal audio (low-pass filter + ambient loop)
         CampaignFleetAPI playerFleet = Global.getSector().getPlayerFleet();
-
-        // Modifier ID used for sensor range penalty
-        String modId = "XLII_rift_sensor_penalty";
-
-        // Clean up sensor penalty if fleet is not in hyperspace (e.g., entering jump point)
-        if (playerFleet == null || !playerFleet.isInHyperspace()) {
-            if (playerFleet != null) {
-                playerFleet.getStats().getSensorRangeMod().unmodify(modId);
+        if (playerFleet != null && playerFleet.isInHyperspace()) {
+            float distance = Misc.getDistance(playerFleet.getLocation(), entity.getLocation());
+            if (distance <= RIFT_RADIUS) {
+                applyAbyssalAudio(playerFleet);
             }
-            return;
         }
+    }
 
-        // Check if player is within the Rift
-        float distance = Misc.getDistance(playerFleet.getLocation(), centerLocation);
-        boolean inRift = distance <= RIFT_RADIUS;
+    @Override
+    public void applyEffect(SectorEntityToken entity, float days) {
+        if (!(entity instanceof CampaignFleetAPI fleet)) return;
 
-        if (inRift) {
-            applyRiftEffects(playerFleet, days);
-            // Only show warnings if the fleet has vulnerable ships (without immunity)
-            if (hasVulnerableShips(playerFleet)) {
-                updateWarnings(days);
-            }
-        } else {
-            // Remove sensor penalty when fleet leaves the Rift
-            playerFleet.getStats().getSensorRangeMod().unmodify(modId);
+        applyRiftEffects(fleet, days);
+
+        // Periodic warning messages are player-only
+        if (fleet.isPlayerFleet() && hasVulnerableShips(fleet)) {
+            updateWarnings(days);
         }
     }
 
@@ -117,15 +115,18 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                 continue; // Skip CR drain for immune ships
             }
 
-            float currentCR = member.getRepairTracker().getCR();
-            float newCR = Math.max(0f, currentCR - crLoss);
-            member.getRepairTracker().setCR(newCR);
+            // Clamp so we never drain below the ship's current CR (matches vanilla corona pattern).
+            float currCR = member.getRepairTracker().getBaseCR();
+            float clampedLoss = Math.min(crLoss, currCR);
+            if (clampedLoss > 0) {
+                member.getRepairTracker().applyCREvent(-clampedLoss, "XLII_rift", "The Rift");
+            }
         }
 
-        // Apply sensor range penalty via fleet stats (affects whole fleet)
-        // Note: This is applied as a temporary modifier that should be removed when leaving
-        String modId = "XLII_rift_sensor_penalty";
-        fleet.getStats().getSensorRangeMod().modifyMult(modId, SENSOR_RANGE_MULT, "The Rift");
+        // Temporary modifier: auto-expires after 0.1 days if applyEffect stops being called
+        // (i.e. when the fleet leaves the Rift). No explicit unmodify needed.
+        fleet.getStats().addTemporaryModMult(0.1f, getModId(),
+                "The Rift", SENSOR_RANGE_MULT, fleet.getStats().getSensorRangeMod());
     }
 
     /**
@@ -142,6 +143,45 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                     Misc.getNegativeHighlightColor()
             );
         }
+    }
+
+    /**
+     * Applies abyssal audio effects: low-pass filter and ambient loop sound, scaled by rift depth.
+     * Mirrors the audio logic in HyperspaceTerrainPlugin for the Orion-Perseus Abyss.
+     */
+    private void applyAbyssalAudio(CampaignFleetAPI fleet) {
+        float depth = getRiftDepth(fleet);
+        if (depth <= 0f) return;
+
+        // Low-pass (muffling) filter - gain/gainHF read from terrain.json custom block
+        float gain = (float) getSpec().getCustom().optDouble("gain", 0.75f);
+        float gainHF = (float) getSpec().getCustom().optDouble("gainHF", 0.1f);
+        if (gain < 1f || gainHF < 1f) {
+            Global.getSoundPlayer().applyLowPassFilter(
+                    Math.max(0f, 1f - (1f - gain) * depth),
+                    Math.max(0f, 1f - (1f - gainHF) * depth));
+        }
+
+        // Ambient loop sound + music suppression
+        String soundId = getSpec().getLoopOne();
+        if (soundId != null) {
+            Global.getSector().getCampaignUI()
+                    .suppressMusic(getSpec().getMusicSuppression() * depth);
+            Global.getSoundPlayer().playLoop(soundId, fleet, 1f, depth,
+                    fleet.getLocation(), Misc.ZERO);
+        }
+    }
+
+    /**
+     * Returns how deep inside the Rift the fleet is: 0 at the outer edge, 1 at the inner core.
+     * Gradual transition begins at 50% of RIFT_RADIUS inward.
+     */
+    private float getRiftDepth(CampaignFleetAPI fleet) {
+        float distance = Misc.getDistance(fleet.getLocation(), entity.getLocation());
+        if (distance >= RIFT_RADIUS) return 0f;
+        float innerRadius = RIFT_RADIUS * 0.5f;
+        if (distance <= innerRadius) return 1f;
+        return 1f - (distance - innerRadius) / (RIFT_RADIUS - innerRadius);
     }
 
     /**
@@ -170,12 +210,19 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
 
     @Override
     public boolean containsEntity(SectorEntityToken entity) {
-        if (entity == null || centerLocation == null) {
+        if (entity == null || this.entity == null) {
             return false;
         }
 
-        float distance = Misc.getDistance(entity.getLocation(), centerLocation);
+        float distance = Misc.getDistance(entity.getLocation(), this.entity.getLocation());
         return distance <= RIFT_RADIUS;
+    }
+
+    @Override
+    public boolean containsPoint(Vector2f point, float radius) {
+        if (this.entity == null) return false;
+        float distance = Misc.getDistance(point, this.entity.getLocation());
+        return distance - radius <= RIFT_RADIUS;
     }
 
     @Override
@@ -208,7 +255,7 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                         "The exotic radiation permeates hull plating and disrupts sensor arrays.",
                 nextPad,
                 bad,
-                String.format("%.1f%%", CR_DRAIN_PER_DAY * 100f),
+                String.format("%d%%", (int)(CR_DRAIN_PER_DAY * 100f)),
                 String.format("%d%%", (int)(SENSOR_RANGE_MULT * 100f))
         );
 
@@ -238,8 +285,9 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
 
     @Override
     public void render(CampaignEngineLayers layer, ViewportAPI viewport) {
-        if (centerLocation == null) return;
+        if (entity == null) return;
 
+        Vector2f loc = entity.getLocation();
         float alphaMult = viewport.getAlphaMult();
 
         GL11.glPushMatrix();
@@ -248,13 +296,13 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);  // Additive blending for glow
 
         // Swirling particles
-        renderParticleField(centerLocation.x, centerLocation.y, alphaMult);
+        renderParticleField(loc.x, loc.y, alphaMult);
 
         // Lightning arcs
-        renderLightning(centerLocation.x, centerLocation.y, alphaMult);
+        renderLightning(loc.x, loc.y, alphaMult);
 
         // Abyss core - eye of the storm
-        renderAbyssCore(centerLocation.x, centerLocation.y, alphaMult);
+        renderAbyssCore(loc.x, loc.y, alphaMult);
 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_BLEND);
@@ -428,11 +476,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
 
     @Override
     public boolean hasTooltip() {
-        return true;
-    }
-
-    @Override
-    public boolean isTooltipExpandable() {
         return true;
     }
 }

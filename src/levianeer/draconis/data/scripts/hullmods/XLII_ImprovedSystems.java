@@ -16,7 +16,7 @@ public class XLII_ImprovedSystems extends BaseHullMod {
 
     @Override
     public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
-        if (index == 0) return "" + SYSTEM_CHARGE_INCREASE + "×";
+        if (index == 0) return (SYSTEM_CHARGE_INCREASE == (int) SYSTEM_CHARGE_INCREASE ? "" + (int) SYSTEM_CHARGE_INCREASE : "" + SYSTEM_CHARGE_INCREASE) + "×";
         if (index == 1) return "" + (int) SYSTEM_COOLDOWN_BONUS + "%";
         return null;
     }

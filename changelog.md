@@ -1,3 +1,12 @@
+Version 0.6.3 (Save-compatible with 0.6.2)
+MINOR IMPROVEMENTS:
+- Add some SFX to the Rift.
+- Cleaned up some scripts.
+
+BUG FIXES:
+- General bugfixing.
+- Fixed The Rift not properly applying to non-player fleets.
+
 Version 0.6.2 (Save-compatible with 0.6.1)
 MINOR IMPROVEMENTS:
 - Cleaned up some scripts.

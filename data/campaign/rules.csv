@@ -161,7 +161,7 @@ AddText ""Twisted structural spars and blackened plating drift in a slow, silent
 AddText ""What remains of the Gate is cold, dark, and utterly still - a Domain monument reduced to a graveyard of dreams.""",,"100:defaultLeave:Leave",
 XLII_gateOpenLogsMenu,DialogOptionSelected,"$option == XLII_gateOpenLogsMenu",,"Closer inspection reveals a skeletal lattice of military emplacements: gun batteries fused into slag, sensor arrays crumpled like paper, armored hab-modules cracked open to vacuum.
 
-Domain-era hazard striping still clings stubbornly to the hull plating beneath layers of micrometeorite scarring and weapons burns.
+Domain-era hazard stripes still clings stubbornly to the hull plating beneath layers of micrometeorite scarring and weapons burns.
 
 Faint emergency strobes - long dead - mark the positions where XLII Fleet gun crews once waited, cycle after cycle, for an enemy that never came through.","1:XLII_gateOpenLogs:Send a team to assess the installation
 100:defaultLeave:Leave",
@@ -201,7 +201,7 @@ XLII_gateLog3,DialogOptionSelected,"$option == XLII_gateLog3","AddTextSmall ""Lo
 
 ""'Effective immediately: all Signal Corps assets under designation 'Gatewatch' are to cease operations at Fafnir Gate and redeploy subsurface, Kori primary grid, reference Alpha-7 / Theta-9.
 
-New primary objective: secure, stabilize, and establish interface protocols with Domain-era computational megastructure; codeword designation: OCTANTIS.
+New primary objective: secure, stabilize, and establish interface protocols with Domain-era computational megastructure; codeword designation: [OCTANTIS].
 
 All previous Gate monitoring logs are to be archived under maximum encryption and physically transferred to Kori vault. No further active interrogation of the Gate permitted. Demolition charges remain on standby per prior order.
 
@@ -212,7 +212,7 @@ $global.XLII_gateLogRead = true","""Cycle 52 pre-Alliance. Auth: precursor cell,
 
 ""'Signal Corps detachment Gatewatch formally stood down. Surviving personnel and technical assets folded into new standing formation: Alliance Intelligence Section (provisional).
 
-Mission parameters redefined: - Acquisition, integration, and operational employment of SIGMA OCTANTIS-derived computational augmentation. - Evaluation and controlled implementation of AI-core augmentation protocols previously prohibited under Sector norms. - Protection of all related programs from external compromise (Hegemony, Persean League, Tri-Tachyon, Luddic elements). - Elimination or reorientation of personnel who represent unacceptable risk to operational security.
+Mission parameters redefined: - Acquisition, integration, and operational employment of [OCTANTIS]-derived computational augmentation. - Evaluation and controlled implementation of AI-core augmentation protocols previously prohibited under Sector norms. - Protection of all related programs from external compromise (Hegemony, Persean League, Tri-Tachyon, Luddic elements). - Elimination or reorientation of personnel who represent unacceptable risk to operational security.
 
 From this cycle forward, the Section answers only to unified command authority. Taboos are suspended for the duration of the emergency - which is now declared permanent.
 
@@ -220,7 +220,7 @@ Final line, unsigned but cipher-matched to August: ""You are no longer watchers.
 
 They tap the console once more, locking the slate.
 
-""Whatever SIGMA OCTANTIS actually is... it didn't come through the Gate. It was already here. And it's been talking to them ever since.""
+""Whatever [OCTANTIS] actually is... it didn't come through the Gate. It was already here. And it's been talking to them.""
 
 A beat of silence on the bridge.
 

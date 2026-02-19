@@ -1,24 +1,24 @@
 {
 	"combatSmallForSmallFleet":{
-		"XLII_thuban_Elite":0.5,
+		"XLII_thuban_Elite":1.5,
 
-		"XLII_alruba_Elite":2,
+		"XLII_alruba_Elite":0.25,
 		"XLII_alruba_Assault_fortysecond":0,
 
-		"XLII_alruba_mk2_Elite":1,
+		"XLII_alruba_mk2_Elite":0.75,
 
-		"XLII_aldhibah_Elite":1,
-		"XLII_aldhibah_Strike":1,
+		"XLII_aldhibah_Elite":1.5,
+		"XLII_aldhibah_Strike":1.5,
 		
 		"fallback":{"combatSmall":1},
 	},
 	"combatSmall":{
 		"XLII_thuban_Elite":2,
 
-		"XLII_alruba_Elite":0.5,
+		"XLII_alruba_Elite":0.25,
 		"XLII_alruba_Assault_fortysecond":0,
 
-		"XLII_alruba_mk2_Elite":1,
+		"XLII_alruba_mk2_Elite":0.75,
 
 		"XLII_aldhibah_Elite":1,
 		"XLII_aldhibah_Strike":1,
@@ -26,20 +26,20 @@
 		"fallback":{"combatMedium":1},
 	},
 	"combatMedium":{
-		"XLII_rastaban_Elite":1,
+		"XLII_rastaban_Elite":1.5,
 
 		"XLII_errakis_Elite":1,
 		"XLII_errakis_Assault_fortysecond":0,
 
-		"XLII_giausar_Elite":0.25,
+		"XLII_giausar_Elite":0.5,
 		
 		"XLII_shaowei_Elite":0.1,
 
 		"fallback":{"combatSmall":1},
 	},
 	"combatLarge":{
-		"XLII_eltanin_Elite":1,
-		"XLII_eltanin_Strike":1,
+		"XLII_eltanin_Elite":2,
+		"XLII_eltanin_Strike":2,
 		
 		"XLII_eltanin_mk2_Elite":0.25,
 

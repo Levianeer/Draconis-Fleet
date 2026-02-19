@@ -688,12 +688,12 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
         // Stack count indicator
         if (stackState.isStacking) {
-            String timerStr = String.format("%.1f", stackState.stackTimer);
+            String timerStr = String.valueOf((int) Math.ceil(stackState.stackTimer));
             engine.maintainStatusForPlayerShip(
                 STATUSKEY_STACK,
                 ship.getSystem().getSpecAPI().getIconSpriteName(),
                 ship.getSystem().getDisplayName(),
-                stackState.currentStackCount + "/" + maxStack + " stacked (" + timerStr + "s)",
+                stackState.currentStackCount + " / " + maxStack + " stacked (" + timerStr + ")",
                 false
             );
         }
