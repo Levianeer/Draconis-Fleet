@@ -4,6 +4,7 @@ Draconis Hull,XLII_draconishull,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.drac
 Forty Second Battlegroup,XLII_fortysecond,,,XLII Battlegroup,codex_require_related,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_FortySecond,Hidden hullmod for managing the special properties of XLII Defence Fleet ships. Description created in script.,,,graphics/hullmods/XLII_crest_draconis_2.png
 ,,,,,,,,,,,,,,,,,,,
 #Built-In Buffs,,,,,,,,,,,,,,,,,,,
+Auto Flare Launcher,XLII_autoflarelauncher,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_AutoFlareLauncher,To do.,Automatically fires flare countermeasures when missiles are detected.,,graphics/hullmods/reduced_explosion.png
 Missile Control Matrix,XLII_missileuplink,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_MissileGuidanceUplink,"Features an onboard missile autoforge that periodically makes ammo for the twin large missile weapons.
 
 Additionally, all missiles have their hitpoints increased by %s.",Increases missile health; slowly regenerates ammo for large missile weapons.,,graphics/hullmods/missile_autofactory.png

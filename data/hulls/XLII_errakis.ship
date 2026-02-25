@@ -13,8 +13,8 @@
   "viewOffset": 0,
   "builtInMods": [
     "XLII_draconishull",
-	"XLII_overburdenedsystems",
-    "missleracks"
+    "XLII_overburdenedsystems",
+    "XLII_autoflarelauncher"
   ],
   "builtInWeapons": {
     "WS0007": "XLII_vernier",

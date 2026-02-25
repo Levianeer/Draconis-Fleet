@@ -1,6 +1,6 @@
 {
     "displayName": "Overdriven",
-    "fluxCapacitors": 15,
+    "fluxCapacitors": 11,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_juza",
@@ -13,11 +13,11 @@
     "variantId": "XLII_juza_Overdriven",
     "weaponGroups": [
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_longsword",
-                "WS0020": "XLII_longsword"
+                "WS0003": "mjolnir",
+                "WS0020": "mjolnir"
             }
         },
         {

@@ -13,7 +13,7 @@
   "viewOffset": 0,
   "builtInMods": [
     "no_weapon_flux",
-    "pointdefenseai"
+    "terminator_core"
   ],
   "builtInWeapons": {
     "WS0001": "blinker_red",

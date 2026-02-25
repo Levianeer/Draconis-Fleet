@@ -1,13 +1,12 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 30,
-    "fluxVents": 5,
+    "fluxVents": 4,
     "goalVariant": true,
     "hullId": "XLII_nushi",
     "hullMods": [
         "targetingunit",
         "hardenedshieldemitter",
-        "magazines",
         "defensive_targeting_array"
     ],
     "permaMods": [],
@@ -16,16 +15,16 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0013": "XLII_longsword",
-                "WS0014": "XLII_longsword"
+                "WS0013": "XLII_fragarch",
+                "WS0014": "XLII_fragarch"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_twinspear"}
+            "weapons": {"WS0015": "XLII_longsword"}
         },
         {
             "autofire": true,

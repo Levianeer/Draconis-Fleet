@@ -1,0 +1,25 @@
+{
+	"id":"XLII_needler_fighter",  # this id must match what's in the spreadsheet
+	"specClass":"projectile",
+	"type":"BALLISTIC",
+	"size":"SMALL",
+	"turretSprite":"",
+	"turretGunSprite":"",
+	"hardpointSprite":"",
+	"hardpointGunSprite":"",	
+	"turretOffsets":[13, 0],
+	"turretAngleOffsets":[0],
+	"hardpointOffsets":[18, 0],
+	"hardpointAngleOffsets":[0],
+	"barrelMode":"ALTERNATING", # or LINKED.  whether barrels fire at the same time or alternate.
+	"animationType":"MUZZLE_FLASH",
+	"muzzleFlashSpec":{"length":30.0,   # only used if animationType = MUZZLE_FLASH
+					   "spread":0.0,
+					   "particleSizeMin":7.0,
+					   "particleSizeRange":7.0,
+					   "particleDuration":0.2,
+					   "particleCount":12,
+					   "particleColor":[255,255,255,175]},
+	"projectileSpecId":"XLII_estocflak_shot",  # projectile that will be fired
+	"fireSoundTwo":"needler_fire",
+}

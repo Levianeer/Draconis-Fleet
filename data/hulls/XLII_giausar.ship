@@ -12,7 +12,11 @@
   "shieldRadius": 139,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_draconishull"
+    "XLII_draconishull",
+    "defensive_targeting_array"
+  ],
+  "builtInWings": [
+    "XLII_drone_assault_wing"
   ],
   "builtInWeapons": {
     "WS0006": "blinker_red",

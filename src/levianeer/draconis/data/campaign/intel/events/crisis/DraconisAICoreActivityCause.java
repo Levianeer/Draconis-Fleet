@@ -131,7 +131,6 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
         // Stop progress if crisis is defeated or reset conditions met
         if (DraconisFleetHostileActivityFactor.meetsResetConditions() ||
                 DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
-            log.info("Draconis: AI Core progress blocked by reset conditions");
             return 0;
         }
 
@@ -139,17 +138,21 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
         float progressRate = Global.getSettings().getFloat("draconisAICoreProgressRate");
         List<AICoreData> coreData = computePlayerAICoreData();
 
-        log.info("Draconis: === Computing AI Core Progress ===");
-        log.info("Draconis: Markets with AI cores: " + coreData.size());
+        if (log.isDebugEnabled()) {
+            log.debug("Draconis: === Computing AI Core Progress ===");
+            log.debug("Draconis: Markets with AI cores: " + coreData.size());
+        }
 
         for (AICoreData data : coreData) {
             int progress = data.getProgress(progressRate);
             total += progress;
-            log.info("Draconis:   " + data.market.getName() + ": " + progress +
-                    " (A:" + data.alphaCores + " B:" + data.betaCores + " G:" + data.gammaCores + ")");
+            if (log.isDebugEnabled()) {
+                log.debug("Draconis:   " + data.market.getName() + ": " + progress +
+                        " (A:" + data.alphaCores + " B:" + data.betaCores + " G:" + data.gammaCores + ")");
+            }
         }
 
-        log.info("Draconis: Total AI core progress: " + total);
+        if (log.isDebugEnabled()) log.debug("Draconis: Total AI core progress: " + total);
         return total;
     }
 
@@ -160,8 +163,12 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
 
     @Override
     public float getMagnitudeContribution(com.fs.starfarer.api.campaign.StarSystemAPI system) {
-        if (getProgress() <= 0) {
-            log.info("Draconis: AI Core magnitude for " + system.getName() + ": 0 (progress is 0)");
+        // Compute once and reuse for both the progress check and magnitude calculation
+        List<AICoreData> coreData = computePlayerAICoreData();
+
+        if (coreData.isEmpty() ||
+                DraconisFleetHostileActivityFactor.meetsResetConditions() ||
+                DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
             return 0f;
         }
 
@@ -169,22 +176,22 @@ public class DraconisAICoreActivityCause extends BaseHostileActivityCause2 {
         float perCoreMagnitude = Global.getSettings().getFloat("draconisAICoreMagnitude");
         float maxMagnitude = Global.getSettings().getFloat("draconisAICoreMaxMagnitude");
 
-        for (AICoreData data : computePlayerAICoreData()) {
+        for (AICoreData data : coreData) {
             if (data.market.getContainingLocation() == system) {
                 // Weighted magnitude: Alpha=3, Beta=2, Gamma=1
                 float weightedCores = (data.alphaCores * 3f) + (data.betaCores * 2f) + (data.gammaCores * 1f);
                 float contribution = weightedCores * perCoreMagnitude;
                 mag += contribution;
-                log.info("Draconis:     " + data.market.getName() + " cores (A:" + data.alphaCores +
-                        " B:" + data.betaCores + " G:" + data.gammaCores + ") -> magnitude: " + contribution);
+                if (log.isDebugEnabled()) {
+                    log.debug("Draconis:     " + data.market.getName() + " cores (A:" + data.alphaCores +
+                            " B:" + data.betaCores + " G:" + data.gammaCores + ") -> magnitude: " + contribution);
+                }
             }
         }
 
         boolean capped = mag > maxMagnitude;
         if (capped) mag = maxMagnitude;
         mag = Math.round(mag * 100f) / 100f;
-
-        log.info("Draconis: AI Core magnitude for " + system.getName() + ": " + mag + (capped ? " (CAPPED)" : ""));
 
         return mag;
     }

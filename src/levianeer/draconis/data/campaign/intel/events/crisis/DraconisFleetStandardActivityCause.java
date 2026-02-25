@@ -7,6 +7,7 @@ import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
+import org.apache.log4j.Logger;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
@@ -23,6 +24,8 @@ import com.fs.starfarer.api.ui.UIPanelAPI;
 import com.fs.starfarer.api.util.Misc;
 
 public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause2 {
+
+    private static final Logger log = Global.getLogger(DraconisFleetStandardActivityCause.class);
 
     public static List<CompetitorData> computePlayerCompetitionData() {
         List<CompetitorData> result = new ArrayList<>();
@@ -95,7 +98,6 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
     public int getProgress() {
         if (DraconisFleetHostileActivityFactor.meetsResetConditions() ||
                 DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
-            Global.getLogger(this.getClass()).info("Progress blocked by reset conditions");
             return 0;
         }
 
@@ -103,16 +105,18 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
         float prodProgressMult = Global.getSettings().getFloat("draconisCompetitionProgressRate");
         List<CompetitorData> comp = computePlayerCompetitionData();
 
-        Global.getLogger(this.getClass()).info("=== Computing Progress ===");
-        Global.getLogger(this.getClass()).info("Competitor data entries: " + comp.size());
+        if (log.isDebugEnabled()) {
+            log.debug("Draconis: === Computing Progress ===");
+            log.debug("Draconis: Competitor data entries: " + comp.size());
+        }
 
         for (CompetitorData data : comp) {
             int progress = data.getProgress(prodProgressMult);
             total += progress;
-            Global.getLogger(this.getClass()).info("  Market progress: " + progress);
+            if (log.isDebugEnabled()) log.debug("Draconis:   Market progress: " + progress);
         }
 
-        Global.getLogger(this.getClass()).info("Total progress: " + total);
+        if (log.isDebugEnabled()) log.debug("Draconis: Total progress: " + total);
         return total;
     }
 
@@ -121,14 +125,16 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
     }
 
     public float getMagnitudeContribution(StarSystemAPI system) {
-        if (getProgress() <= 0) {
-            Global.getLogger(this.getClass()).info("Draconis: Competition magnitude for " + system.getName() + ": 0 (progress is 0)");
+        // Compute once and reuse for both the progress check and magnitude calculation
+        if (DraconisFleetHostileActivityFactor.meetsResetConditions() ||
+                DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
             return 0f;
         }
 
         List<CompetitorData> comp = computePlayerCompetitionData();
-        float mag = 0f;
+        if (comp.isEmpty()) return 0f;
 
+        float mag = 0f;
         float perUnitMagnitude = Global.getSettings().getFloat("draconisCompetitionMagnitude");
         float maxMagnitude = Global.getSettings().getFloat("draconisCompetitionMaxMagnitude");
 
@@ -139,7 +145,9 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
                     float prod = com.getMaxSupply();
                     float contribution = prod * perUnitMagnitude;
                     mag += contribution;
-                    Global.getLogger(this.getClass()).info("Draconis:     " + market.getName() + " production: " + prod + " -> magnitude: " + contribution);
+                    if (log.isDebugEnabled()) {
+                        log.debug("Draconis:     " + market.getName() + " production: " + prod + " -> magnitude: " + contribution);
+                    }
                 }
             }
         }
@@ -147,10 +155,6 @@ public class DraconisFleetStandardActivityCause extends BaseHostileActivityCause
         boolean capped = mag > maxMagnitude;
         if (capped) mag = maxMagnitude;
 
-        mag = Math.round(mag * 100f) / 100f;
-
-        Global.getLogger(this.getClass()).info("Draconis: Competition magnitude for " + system.getName() + ": " + mag + (capped ? " (CAPPED)" : ""));
-
-        return mag;
+        return Math.round(mag * 100f) / 100f;
     }
 }

@@ -31,8 +31,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "heavymauler",
-                "WS0007": "heavymauler"
+                "WS0005": "XLII_culverin",
+                "WS0007": "XLII_culverin"
             }
         },
         {
@@ -40,13 +40,9 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0004": "XLII_estocflak",
-                "WS0009": "XLII_estocflak"
+                "WS0009": "XLII_estocflak",
+                "WS0017": "XLII_razorflak"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0017": "heavymg"}
         },
         {
             "autofire": true,

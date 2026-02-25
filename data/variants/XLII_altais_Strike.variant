@@ -1,13 +1,15 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 0,
-    "fluxVents": 49,
+    "fluxCapacitors": 9,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_altais",
     "hullMods": [
         "targetingunit",
         "eccm",
-        "stabilizedshieldemitter"
+        "stabilizedshieldemitter",
+        "hardenedshieldemitter",
+        "magazines"
     ],
     "permaMods": [],
     "sMods": [],
@@ -23,10 +25,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0028": "pilum",
-                "WS0029": "pilum"
+                "WS0028": "XLII_bardiche",
+                "WS0029": "XLII_bardiche"
             }
         },
         {
@@ -41,12 +43,13 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "hveldriver",
-                "WS0002": "hveldriver",
-                "WS0003": "hveldriver",
-                "WS0004": "hveldriver",
-                "WS0005": "heavymauler",
-                "WS0006": "heavymauler"
+                "WS0001": "XLII_rapier",
+                "WS0002": "XLII_rapier",
+                "WS0003": "XLII_rapier",
+                "WS0004": "XLII_rapier",
+                "WS0005": "XLII_culverin",
+                "WS0006": "XLII_culverin",
+                "WS0024": "XLII_culverin"
             }
         },
         {
@@ -58,7 +61,6 @@
                 "WS0009": "XLII_estocflak",
                 "WS0010": "XLII_estocflak",
                 "WS0011": "XLII_estocflak",
-                "WS0024": "XLII_razorflak",
                 "WS0027": "XLII_estocflak"
             }
         },

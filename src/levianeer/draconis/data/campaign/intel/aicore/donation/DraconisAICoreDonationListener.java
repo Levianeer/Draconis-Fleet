@@ -8,6 +8,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import levianeer.draconis.data.campaign.intel.aicore.config.DraconisAICoreConfig;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
+import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,6 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  */
 public class DraconisAICoreDonationListener implements EveryFrameScript {
 
-    private static final String CORE_STOCKPILE_KEY = "$draconis_coreStockpile";
     private float checkInterval = 0f;
     private static final float CHECK_FREQUENCY = 1.0f; // Check every day
 
@@ -53,6 +53,10 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
 
         // Check Draconis faction stockpile for AI cores
         checkForDonatedCores();
+
+        // Heartbeat drain: attempt to install any cores waiting in the stockpile
+        // (covers cores from theft/remnant/donation that couldn't be installed previously)
+        DraconisAICoreStockpile.tryInstallStockpiledCores();
     }
 
     /**
@@ -105,36 +109,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
     }
 
     /**
-     * Get current AI core stockpile from Draconis faction
-     * Tries multiple sources: faction memory, stockpile tracker, etc.
-     */
-    private Map<String, Integer> getCurrentCoreStockpile() {
-        Map<String, Integer> cores = new HashMap<>();
-
-        com.fs.starfarer.api.campaign.FactionAPI faction = Global.getSector().getFaction(DRACONIS);
-        if (faction == null) return cores;
-
-        // Check faction memory for our custom stockpile tracking
-        if (faction.getMemoryWithoutUpdate().contains(CORE_STOCKPILE_KEY)) {
-            @SuppressWarnings("unchecked")
-            Map<String, Integer> stockpile = (Map<String, Integer>)
-                faction.getMemoryWithoutUpdate().get(CORE_STOCKPILE_KEY);
-            if (stockpile != null) {
-                return stockpile;
-            }
-        }
-
-        // Initialize stockpile tracking
-        Map<String, Integer> stockpile = new HashMap<>();
-        stockpile.put(Commodities.ALPHA_CORE, 0);
-        stockpile.put(Commodities.BETA_CORE, 0);
-        stockpile.put(Commodities.GAMMA_CORE, 0);
-        faction.getMemoryWithoutUpdate().set(CORE_STOCKPILE_KEY, stockpile);
-
-        return stockpile;
-    }
-
-    /**
      * Install donated cores on Draconis facilities
      * Prioritizes administrator positions for Alpha cores
      */
@@ -170,8 +144,12 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         );
 
         if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            Global.getLogger(this.getClass()).warn(
-                    "No available Draconis facilities for donated cores - cores will remain in stockpile"
+            // No slots available — persist all donated cores to stockpile for future installation
+            for (String coreId : coresToInstall) {
+                DraconisAICoreStockpile.add(coreId, 1);
+            }
+            Global.getLogger(this.getClass()).info(
+                    "No available Draconis facilities - " + coresToInstall.size() + " donated core(s) added to stockpile"
             );
             return;
         }
@@ -183,6 +161,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         List<String> remainingCores = new ArrayList<>(coresToInstall);
         int maxRounds = 100; // Safety limit to prevent infinite loops
         int round = 0;
+        List<String> finalFailedCores = new ArrayList<>(); // Cores that couldn't be installed this donation cycle
 
         while (!remainingCores.isEmpty() && round < maxRounds) {
             round++;
@@ -273,6 +252,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                             "Could not install " + failedCore + " - no suitable facilities available"
                     );
                 }
+                finalFailedCores.addAll(failedCores);
                 break;
             }
         }
@@ -280,6 +260,16 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         if (round >= maxRounds) {
             Global.getLogger(this.getClass()).error(
                     "Core installation exceeded maximum rounds - potential infinite loop prevented"
+            );
+        }
+
+        // Persist donated cores that couldn't be installed — the daily drain in advance() will retry
+        if (!finalFailedCores.isEmpty()) {
+            for (String failedCore : finalFailedCores) {
+                DraconisAICoreStockpile.add(failedCore, 1);
+            }
+            Global.getLogger(this.getClass()).info(
+                    "Persisted " + finalFailedCores.size() + " uninstalled donated core(s) to stockpile"
             );
         }
 
@@ -415,32 +405,17 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
     }
 
     /**
-     * Public API: Manually record a core donation
+     * Public API: Manually record a core donation.
      * Call this when player donates cores through bar events, etc.
+     * Delegates to DraconisAICoreStockpile for canonical persistence.
      */
     public static void recordCoreDonation(String coreId, int count) {
         if (count <= 0) return;
-
-        com.fs.starfarer.api.campaign.FactionAPI faction = Global.getSector().getFaction(DRACONIS);
-        if (faction == null) return;
-
-        Map<String, Integer> stockpile;
-        if (faction.getMemoryWithoutUpdate().contains(CORE_STOCKPILE_KEY)) {
-            @SuppressWarnings("unchecked")
-            Map<String, Integer> existing = (Map<String, Integer>)
-                faction.getMemoryWithoutUpdate().get(CORE_STOCKPILE_KEY);
-            stockpile = existing != null ? existing : new HashMap<>();
-        } else {
-            stockpile = new HashMap<>();
-        }
-
-        int current = stockpile.getOrDefault(coreId, 0);
-        stockpile.put(coreId, current + count);
-        faction.getMemoryWithoutUpdate().set(CORE_STOCKPILE_KEY, stockpile);
-
+        DraconisAICoreStockpile.add(coreId, count);
         Global.getLogger(DraconisAICoreDonationListener.class).info(
-                "Recorded donation: " + count + "x " + coreId + " to Draconis (total: " +
-                stockpile.get(coreId) + ")"
+                "Recorded donation: " + count + "x " + coreId +
+                " (stockpile total: " + DraconisAICoreStockpile.getCount(coreId) + ")"
         );
+        DraconisAICoreStockpile.tryInstallStockpiledCores();
     }
 }

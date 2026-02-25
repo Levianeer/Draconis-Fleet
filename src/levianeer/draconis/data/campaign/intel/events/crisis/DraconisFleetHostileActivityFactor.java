@@ -8,13 +8,15 @@ import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin.ListInfoMode;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.impl.campaign.ids.*;
+import com.fs.starfarer.api.impl.campaign.ids.Conditions;
+import com.fs.starfarer.api.impl.campaign.ids.Factions;
+import com.fs.starfarer.api.impl.campaign.ids.Industries;
+import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.impl.campaign.intel.events.*;
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseEventIntel.EventStageData;
 import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel.HAERandomEventData;
 import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel.Stage;
 import com.fs.starfarer.api.impl.campaign.intel.events.TriTachyonStandardActivityCause.CompetitorData;
-import com.fs.starfarer.api.impl.campaign.intel.group.FGRaidAction.FGRaidType;
 import com.fs.starfarer.api.impl.campaign.intel.group.FleetGroupIntel;
 import com.fs.starfarer.api.impl.campaign.intel.group.FleetGroupIntel.FGIEventListener;
 import com.fs.starfarer.api.impl.campaign.intel.group.GenericRaidFGI;
@@ -27,19 +29,18 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.util.CountingMap;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.ids.FleetTypes;
+import org.apache.log4j.Logger;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-import levianeer.draconis.data.campaign.ids.FleetTypes;
-
 import static com.fs.starfarer.api.util.Misc.getHighlightColor;
 import static com.fs.starfarer.api.util.Misc.getPositiveHighlightColor;
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
-import org.apache.log4j.Logger;
 
 public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFactor
         implements FGIEventListener {
@@ -114,30 +115,21 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
     @Override
     public int getProgress(BaseEventIntel intel) {
         if (!checkFactionExists(DRACONIS, true)) {
-            log.info("Draconis: Progress = 0 (faction doesn't exist or has no military bases)");
             return 0;
         }
         // Stop showing progress if BOTH commissioned AND high reputation
         if (meetsResetConditions()) {
-            log.info("Draconis: Progress = 0 (reset conditions met: commission + high rep)");
             return 0;
         }
         if (isPlayerDefeatedDraconisAttack()) {
-            log.info("Draconis: Progress = 0 (player already defeated Draconis attack)");
             return 0;
         }
-        int progress = super.getProgress(intel);
-        if (progress > 0) {
-            log.info("Draconis: Current progress: " + progress);
-        }
-        return progress;
+        return super.getProgress(intel);
     }
 
     @Override
     public int getMaxNumFleets(StarSystemAPI system) {
-        int max = Global.getSettings().getInt("draconisMaxFleets");
-        log.info("Draconis: Max fleets for " + system.getName() + ": " + max);
-        return max;
+        return Global.getSettings().getInt("draconisMaxFleets");
     }
 
     @Override
@@ -149,48 +141,22 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         // Apply spawn frequency multiplier to compete with other hostile activity factors
         // Without this, Hegemony (weight ~46.0) will monopolize all spawn slots
         float multiplier = Global.getSettings().getFloat("draconisSpawnFrequencyMult");
-        float adjustedFreq = baseMagnitude * multiplier;
-
-        log.info("Draconis: Spawn frequency for " + system.getName() +
-                ": base magnitude=" + baseMagnitude +
-                " × multiplier=" + multiplier +
-                " = " + adjustedFreq + " (WEIGHT in random picker)");
-
-        return adjustedFreq;
+        return baseMagnitude * multiplier;
     }
 
     @Override
     public float getEffectMagnitude(StarSystemAPI system) {
-        float mag = super.getEffectMagnitude(system);
-
-        if (mag > 0) {
-            log.info("Draconis: Shadow Fleet magnitude for " + system.getName() + ": " + mag);
-
-            // Log individual cause contributions for debugging
-            for (HostileActivityCause2 cause : getCauses()) {
-                float contribution = cause.getMagnitudeContribution(system);
-                if (contribution > 0) {
-                    log.info("Draconis:   " + cause.getDesc() + " contribution: " + contribution);
-                }
-            }
-        }
-
-        return mag;
+        return super.getEffectMagnitude(system);
     }
 
     // Create Shadow Fleets
     public CampaignFleetAPI createFleet(StarSystemAPI system, Random random) {
-        log.info("Draconis: === createFleet() called for Shadow Fleet ===");
-        log.info("Draconis: System: " + system.getName());
-
         float f = intel.getMarketPresenceFactor(system);
-        log.info("Draconis: Market presence factor: " + f);
 
         int difficultyBase = Global.getSettings().getInt("draconisPatrolDifficultyBase");
         float difficultyMult = Global.getSettings().getFloat("draconisPatrolDifficultyMult");
 
         int difficulty = difficultyBase + Math.round(f * difficultyMult);
-        log.info("Draconis: Fleet difficulty: " + difficulty + " (base: " + difficultyBase + ", mult: " + difficultyMult + ")");
 
         FleetCreatorMission m = new FleetCreatorMission(random);
         m.beginFleet();
@@ -201,13 +167,10 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         if (difficulty <= 5) {
             m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_1);
-            log.info("Draconis: Fleet quality: SMOD_1");
         } else if (difficulty <= 7) {
             m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_2);
-            log.info("Draconis: Fleet quality: SMOD_2");
         } else {
             m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
-            log.info("Draconis: Fleet quality: SMOD_3");
         }
 
         m.triggerSetFleetType(FleetTypes.SHADOW_FLEET);
@@ -226,10 +189,8 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         CampaignFleetAPI fleet = m.createFleet();
 
-        if (fleet != null) {
-            log.info("Draconis: Shadow Fleet created successfully!");
-        } else {
-            log.error("Draconis: Shadow Fleet creation FAILED - fleet is null!");
+        if (fleet == null) {
+            log.error("Draconis: Shadow Fleet creation failed (null) in " + system.getName());
         }
 
         return fleet;
@@ -327,37 +288,24 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
     public float getEventFrequency(HostileActivityEventIntel intel, EventStageData stage) {
         if (stage.id == Stage.HA_EVENT) {
-            Global.getLogger(this.getClass()).info("=== Checking Event Frequency ===");
-
             if (isPlayerDefeatedDraconisAttack() || getDraconisHomeworld() == null) {
-                Global.getLogger(this.getClass()).info("Event blocked: defeated=" + isPlayerDefeatedDraconisAttack() +
-                        ", homeworld=" + (getDraconisHomeworld() != null));
                 return 0f;
             }
 
             if (meetsResetConditions()) {
-                Global.getLogger(this.getClass()).info("Event blocked: reset conditions met (commission + high rep)");
                 return 0f;
             }
 
             if (DraconisPunitiveExpedition.get() != null) {
-                Global.getLogger(this.getClass()).info("Event blocked: expedition already active");
                 return 0f;
             }
 
             MarketAPI target = findExpeditionTarget();
             MarketAPI source = getDraconisHomeworld();
 
-            Global.getLogger(this.getClass()).info("Target: " + (target != null ? target.getName() : "NULL"));
-            Global.getLogger(this.getClass()).info("Source: " + (source != null ? source.getName() : "NULL"));
-
             if (target != null && source != null) {
-                float freq = Global.getSettings().getFloat("draconisExpeditionEventFrequency");
-                Global.getLogger(this.getClass()).info("Event CAN fire! Frequency: " + freq);
-                return freq;
+                return Global.getSettings().getFloat("draconisExpeditionEventFrequency");
             }
-
-            Global.getLogger(this.getClass()).info("Event blocked: missing target or source");
         }
         return 0;
     }
@@ -420,75 +368,9 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         notifyFactorRemoved();
     }
 
-    private float timeSinceLastDiagnostic = 0f;
-    private static final float DIAGNOSTIC_INTERVAL = 10f; // Log every 10 seconds
-
     @Override
     public void advance(float amount) {
         super.advance(amount);
-
-        // Periodic diagnostic logging
-        timeSinceLastDiagnostic += amount;
-        if (timeSinceLastDiagnostic >= DIAGNOSTIC_INTERVAL) {
-            timeSinceLastDiagnostic = 0f;
-
-            if (intel != null) {
-                int progress = getProgress(intel);
-                boolean shouldShow = shouldShow(intel);
-
-                log.info("Draconis: === Shadow Fleet Status Diagnostic ===");
-                log.info("Draconis: Factor active: " + shouldShow);
-                log.info("Draconis: Total progress: " + progress);
-
-                // Log ALL hostile activity factors and their spawn frequencies for comparison
-                log.info("Draconis: === All Hostile Activity Factors ===");
-                for (EventFactor factor : intel.getFactors()) {
-                    if (factor instanceof HostileActivityFactor) {
-                        HostileActivityFactor haf = (HostileActivityFactor) factor;
-                        log.info("Draconis:   Factor: " + factor.getClass().getSimpleName());
-                        log.info("Draconis:     ID: " + haf.getId());
-                        log.info("Draconis:     Progress: " + factor.getProgress(intel));
-
-                        // Check spawn frequency for player's system
-                        for (StarSystemAPI system : Global.getSector().getStarSystems()) {
-                            float magnitude = haf.getEffectMagnitude(system);
-                            if (magnitude > 0) {
-                                float spawnFreq = haf.getSpawnFrequency(system);
-                                int maxFleets = haf.getMaxNumFleets(system);
-                                log.info("Draconis:     System: " + system.getName() +
-                                        " - Magnitude: " + magnitude +
-                                        " - Spawn freq (weight): " + spawnFreq +
-                                        " - Max fleets: " + maxFleets);
-                            }
-                        }
-                    }
-                }
-
-                // Check systems with player presence
-                for (StarSystemAPI system : Global.getSector().getStarSystems()) {
-                    float magnitude = getEffectMagnitude(system);
-                    if (magnitude > 0) {
-                        int maxFleets = getMaxNumFleets(system);
-                        float spawnFreq = getSpawnFrequency(system);
-
-                        log.info("Draconis:   === Draconis-Specific System Check ===");
-                        log.info("Draconis:     System: " + system.getName());
-                        log.info("Draconis:     Magnitude: " + magnitude);
-                        log.info("Draconis:     Spawn frequency (weight): " + spawnFreq);
-                        log.info("Draconis:     Max fleets: " + maxFleets);
-
-                        // Count existing hostile fleets in system
-                        int hostileFleetCount = 0;
-                        for (CampaignFleetAPI fleet : system.getFleets()) {
-                            if (fleet.getMemoryWithoutUpdate().contains(RAIDER_FLEET)) {
-                                hostileFleetCount++;
-                            }
-                        }
-                        log.info("Draconis:     Existing Shadow Fleets: " + hostileFleetCount);
-                    }
-                }
-            }
-        }
 
         // If reset conditions newly met, grant the bonus and reset everything
         if (meetsResetConditions() && !isPlayerDefeatedDraconisAttack()) {
@@ -531,10 +413,7 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
     }
 
     public boolean startAttack(MarketAPI source, MarketAPI target, StarSystemAPI system, Random random) {
-        Global.getLogger(this.getClass()).info("=== STARTING ATTACK ===");
-        Global.getLogger(this.getClass()).info("Source: " + source.getName() + " (" + source.getFactionId() + ")");
-        Global.getLogger(this.getClass()).info("Target: " + target.getName() + " (" + target.getFactionId() + ")");
-        Global.getLogger(this.getClass()).info("System: " + system.getName());
+        log.info("Draconis: Starting punitive expedition from " + source.getName() + " targeting " + target.getName() + " in " + system.getName());
 
         GenericRaidFGI.GenericRaidParams params = new GenericRaidFGI.GenericRaidParams(new Random(random.nextLong()), true);
 
@@ -571,8 +450,6 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
             fleetSizeMult *= (doctrineShipSize / baseDraconisShipSize); // ~1.33x multiplier for larger ships
         }
 
-        Global.getLogger(this.getClass()).info("Fleet size multiplier: " + fleetSizeMult + " (source: " + source.getName() + ")");
-
         float f = intel.getMarketPresenceFactor(system);
 
         float difficultyBase = Global.getSettings().getFloat("draconisExpeditionDifficultyBase");
@@ -601,14 +478,9 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
             totalDifficulty -= fleetDiff;
         }
 
-        Global.getLogger(this.getClass()).info("Fleet count: " + params.fleetSizes.size());
-        Global.getLogger(this.getClass()).info("Fleet difficulties: " + params.fleetSizes);
-
         DraconisPunitiveExpedition expedition = new DraconisPunitiveExpedition(params);
         expedition.setListener(this);
         Global.getSector().getIntelManager().addIntel(expedition);
-
-        Global.getLogger(this.getClass()).info("Expedition created and added to intel!");
 
         return true;
     }

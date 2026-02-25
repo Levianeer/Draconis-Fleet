@@ -1,6 +1,64 @@
+Version 0.6.5 (Save-compatible with 0.6.4)
+NEW CONTENT:
+- NEW: Nushi Mk.II Cruiser - A supply-constrained variant of the Nushi.
+  - Swaps the two large mounts for medium mounts and the Flux Cycler for Plasma Jets.
+  - Faster and more agile than the original; more of a glass cannon.
+  - Plasma Jets ship system - Extreme top speed and maneuverability boost.
+- NEW: Culverin Coilgun - Medium ballistic weapon with HE and EMP damage.
+
+BALANCE CHANGES:
+- Rebalanced Giausar Destroyer:
+  - Added built-in hangar + assault drone wing.
+  - Changed ship system: Assault Drones -> Reserve Wing.
+  - Added built-in Defensive Targeting Array hullmod.
+- Rebalanced Assault Drone:
+  - Changed built-in hullmod: Point Defense AI -> Terminator Core.
+- Rebalanced Nushi Cruiser:
+  - Reduced max speed: 95 -> 90.
+  - Increased DP: 32 -> 34.
+- Rebalanced Juza Heavy Cruiser:
+  - Increased FP: 18 -> 24.
+  - Increased DP: 32 -> 35.
+- Rebalanced Kuma Battleship:
+  - Decreased min crew: 700 -> 300.
+  - Increased max crew: 1500 -> 2500.
+  - Mainly to increase its usefulness as a colony ship.
+
+FACTION CHANGES:
+- Increased Draconis AI core purchase value multiplier: 3x -> 4x.
+- Renamed fleet types for clarity:
+  - "Shadow Picket" -> "Shadow Convoy".
+  - "Resupply Convoy" -> "Supply Convoy".
+- Added proper liner role ship assignments to default ship roles.
+- Reduced Juni Support weight in fleet compositions: 1.0 -> 0.5.
+- Added Nushi Mk.II variants to default ship roles.
+
+MINOR IMPROVEMENTS:
+- Reworked the Evasion Protocol ship system.
+  - Now fires a burst of flares instead of one per system weapon slot.
+  - AI-controlled ships will now attempt to ram enemies in their forward arc while active.
+  - Ship mass is temporarily increased during activation to aid ramming physics.
+- Refactored the AI core management system to use a centralized stockpile.
+  - Stolen, recovered, and donated cores that can't be immediately installed now
+    persist to the stockpile and are retried daily.
+  - Diplomatic strain from theft is now applied even when no installation slots are free.
+- Reordered AI core placement priority: Commerce now ranks above Megaport.
+- Added a proper tracker for total cores seized.
+  - This will probably get a proper usage later on.
+- Adjusted DRACON settings to be a bit less crazy. Hopefully.
+
+BUG FIXES:
+- Fixed colony expeditions failing because of a poorly set default_ship_roles.
+- Fixed significant performance issue causing freezes and slowdowns after founding a colony.
+  - The colony crisis system was logging at INFO level inside methods called every frame for
+    every star system, causing thousands of log writes per second in heavily modded games.
+  - Fixed double market scan in the crisis magnitude calculation - was scanning all markets
+    twice per system per call instead of once.
+  - Removed a periodic diagnostic loop that iterated all star systems every 10 seconds.
+
 Version 0.6.4 (Save-compatible with 0.6.3)
 BUG FIXES:
-- Actually fixed The Rift this time, honest!.
+- Actually fixed The Rift this time, honest!
 
 Version 0.6.3 (Save-compatible with 0.6.2)
 MINOR IMPROVEMENTS:
@@ -31,14 +89,14 @@ BALANCE CHANGES:
   - Added Headache ECM Suite hullmod.
 - Rebalanced Juza-class Heavy Cruiser:
   - Increased OP: 30 -> 32.
-- Twin Spear Cannon
+- Rebalanced Twin Spear Cannon:
   - Reduced OP: 28 -> 26.
-- Rebalanced Fragarach Railgun
+- Rebalanced Fragarach Railgun:
   - Increased Damage: 800 -> 900.
   - Added EMP Damage: 900.
   - Increased Flux/shot: 1200 -> 1250.
   - Increased chargedown: 3 -> 4.
-- Rebalanced Longsword Autocannon
+- Rebalanced Longsword Autocannon:
   - Reduced Range: 1200 -> 1000.
   - Reduced Chargedown: 2 -> 1.5.
   - Redueced Burst Delay: 0.5 -> 0.25.

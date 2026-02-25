@@ -12,7 +12,8 @@
   "shieldRadius": 34,
   "viewOffset": 0,
   "builtInMods": [
-    "no_weapon_flux"
+    "no_weapon_flux",
+    "XLII_autoflarelauncher"
   ],
   "weaponSlots": [
     {
@@ -30,7 +31,7 @@
       "type": "SYSTEM",
       "mount": "TURRET",
       "arc": 30,
-      "angle": 130,
+      "angle": 165,
       "locations": [-11, 2]
     },
     {
@@ -39,7 +40,7 @@
       "type": "SYSTEM",
       "mount": "TURRET",
       "arc": 30,
-      "angle": -130,
+      "angle": -165,
       "locations": [-11, -2]
     }
   ],

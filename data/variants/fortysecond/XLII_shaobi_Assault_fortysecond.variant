@@ -1,7 +1,7 @@
 {
     "displayName": "Assault",
     "fluxCapacitors": 0,
-    "fluxVents": 15,
+    "fluxVents": 3,
     "hullId": "XLII_shaobi_fortysecond",
     "hullMods": [],
     "permaMods": [],
@@ -41,7 +41,7 @@
         }
     ],
     "wings": [
-        "XLII_aldibain_wing",
-        "XLII_nodus_wing"
+        "XLII_grumium_alt_wing",
+        "XLII_grumium_wing"
     ]
 }

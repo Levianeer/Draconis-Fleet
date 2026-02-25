@@ -120,7 +120,7 @@
 	},
 
 	# ========================================
-	# DRACON (DRACONIS READINESS CONDITION)
+	# DRACON - DRACONIS READINESS CONDITION
 	# ========================================
 	# Dynamic threat-based condition applied to all DDA markets.
 	# Calculates a threat score (0-100) monthly and maps to DRACON levels 5 (peace) to 1 (total war).
@@ -132,20 +132,20 @@
 		"testLevelOverride": -1,					# DEBUG: Force a specific DRACON level (-1 = disabled, 1-5 = forced level)	#	Default : -1
 
 		"factorWeights": {							# How much each threat factor contributes to the score
-			"warScorePerWar": 10,					# Points per faction at war with DDA	#	Default : 10
+			"warScorePerWar": 5,					# Points per faction at war with DDA	#	Default : 5
 			"lostColonyScore": 25,					# Points per baseline market lost	#	Default : 25
-			"unstableMarketScore": 10,				# Points per unstable DDA market (stability <= threshold)	#	Default : 1-
-			"maxFleetWeaknessScore": 20,			# Maximum points from fleet weakness ratio	#	Default : 20
-			"invasionPressureScore": 50				# Points if invasion/raid fleet targets DDA (binary)	#	Default : 50
+			"unstableMarketScore": 5,				# Points per unstable DDA market (stability <= threshold)	#	Default : 5
+			"maxFleetWeaknessScore": 10,			# Maximum points from fleet weakness ratio	#	Default : 10
+			"invasionPressureScore": 25				# Points if invasion/raid fleet targets DDA (binary)	#	Default : 25
 		},
 		"decayRates": {								# Monthly score decay (negative values)
 			"peacetimeDecay": -10,					# Decay when DDA is at peace	#	Default : -10
 			"wartimeDecay": -5						# Decay when DDA is at war	#	Default : -5
 		},
 		"thresholds": {								# Score thresholds for DRACON levels (score >= threshold = that level)
-			"level4Min": 30,						# DRACON 4	#	Default : 30
+			"level4Min": 25,						# DRACON 4	#	Default : 25
 			"level3Min": 50,						# DRACON 3	#	Default : 50
-			"level2Min": 70,						# DRACON 2	#	Default : 70
+			"level2Min": 75,						# DRACON 2	#	Default : 75
 			"level1Min": 90							# DRACON 1	#	Default : 90
 		},
 		"instabilityThreshold": 3,					# Markets with base stability at or below this are counted as unstable	#	Default : 3

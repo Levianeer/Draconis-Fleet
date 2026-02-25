@@ -116,6 +116,12 @@
 		]
 	},
 
+    "draconis_plasmajets_loop":{
+		"sounds":[
+		{"file":"sounds/sfx_engines/engine_draconis_plasmajets_loop.ogg","pitch":1.0,"volume":0.25}
+		]
+	},
+
     "XLII_sovnyalance_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_energy/XLII_sovnyalance_fire_0.ogg","pitch":1.0,"volume":0.25},
@@ -141,11 +147,9 @@
 
 	"XLII_fragarach_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":0.75,"volume":0.15},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_02.ogg","pitch":0.75,"volume":0.15},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_03.ogg","pitch":0.75,"volume":0.15},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_04.ogg","pitch":0.75,"volume":0.15},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_05.ogg","pitch":0.75,"volume":0.15}
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.0,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.0,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_02.ogg","pitch":1.0,"volume":0.1}
 		]
     },
 
@@ -169,9 +173,9 @@
 
 	"XLII_longsword_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":1.0,"volume":0.35},
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":1.0,"volume":0.35},
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":1.0,"volume":0.35}
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":1.0,"volume":0.25},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":1.0,"volume":0.25},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":1.0,"volume":0.25}
 		]
     },
 
@@ -236,6 +240,22 @@
 	"XLII_swordbreaker_fire":{
 		"sounds":[
 		{"file":"sounds/sfx_wpn_missiles/XLII_swordbreaker_fire.ogg","pitch":1.0,"volume":0.3}
+		]
+    },
+
+	"XLII_culverin_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_01.ogg","pitch":0.75,"volume":0.05},
+		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_02.ogg","pitch":0.75,"volume":0.05},
+		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_03.ogg","pitch":0.75,"volume":0.05},
+		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_04.ogg","pitch":0.75,"volume":0.05},
+		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_05.ogg","pitch":0.75,"volume":0.05}
+		]
+    },
+
+	"XLII_culverin_proxy_explosion":{
+		"sounds":[
+		{"file":"sounds/sfx_impacts/XLII_culverin_explosion_0.ogg","pitch":1.0,"volume":0.125}
 		]
     },
 

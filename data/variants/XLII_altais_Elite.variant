@@ -6,7 +6,7 @@
     "hullId": "XLII_altais",
     "hullMods": [
         "eccm",
-        "dedicated_targeting_core"
+        "unstable_injector"
     ],
     "permaMods": [],
     "sMods": [],
@@ -35,7 +35,9 @@
                 "WS0001": "XLII_cestus",
                 "WS0002": "XLII_cestus",
                 "WS0003": "XLII_cestus",
-                "WS0004": "XLII_cestus"
+                "WS0004": "XLII_cestus",
+                "WS0005": "XLII_cestus",
+                "WS0006": "XLII_cestus"
             }
         },
         {
@@ -44,14 +46,6 @@
             "weapons": {
                 "WS0018": "XLII_bardiche_single",
                 "WS0019": "XLII_bardiche_single"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_particlelance",
-                "WS0006": "XLII_particlelance"
             }
         },
         {
@@ -69,7 +63,7 @@
         },
         {
             "autofire": true,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0012": "XLII_swordbreaker",
                 "WS0023": "XLII_swordbreaker"

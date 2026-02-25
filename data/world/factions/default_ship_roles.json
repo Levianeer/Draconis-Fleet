@@ -44,7 +44,7 @@
 		"XLII_eltanin_mk2_Elite":0.25,
 
 		"XLII_juni_Elite":1,
-		"XLII_juni_Support":1,
+		"XLII_juni_Support":0.5,
 
 		"XLII_juza_Elite":1,
 		"XLII_juza_Strike":1,
@@ -53,6 +53,9 @@
 
 		"XLII_nushi_Elite":0.5,
 		"XLII_nushi_Strike":0.5,
+
+		"XLII_nushi_mk2_Elite":0.75,
+		"XLII_nushi_mk2_Strike":0.75,
 
 		"fallback":{"combatMedium":1},
 	},
@@ -154,6 +157,25 @@
 
 		"fallback":{"personnelMedium":1},
 		"fallback2":{"personnelSmall":1},
+	},
+
+	"linerSmall":{
+		"XLII_shaobi_Elite":10,
+
+		"fallback":{"linerMedium":0.5},
+		"fallback2":{"linerLarge":0.25},
+	},
+	"linerMedium":{
+		"XLII_eltanin_mk2_Elite":10,
+
+		"fallback":{"linerSmall":1},
+		"fallback2":{"linerLarge":0.5},
+	},
+	"linerLarge":{
+		"XLII_kuma_Elite":10,
+
+		"fallback":{"linerMedium":1},
+		"fallback2":{"linerSmall":1},
 	},
 	
 	# utility ships

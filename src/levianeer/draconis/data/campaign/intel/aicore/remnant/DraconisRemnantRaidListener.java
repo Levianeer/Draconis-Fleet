@@ -7,6 +7,7 @@ import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
+import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -169,105 +170,19 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
     }
 
     /**
-     * Install recovered cores on Draconis facilities
-     * Supports both empty industries and core upgrades
+     * Route recovered cores through the canonical stockpile.
+     * DraconisAICoreStockpile.tryInstallStockpiledCores() handles priority sorting,
+     * displaced-core redistribution, and CME safety.
+     * Any cores that can't be installed right now remain in the stockpile and will be
+     * retried daily by DraconisAICoreDonationListener.advance().
      */
     private void installRecoveredCores(List<String> cores) {
-        // Sort cores by priority (Alpha > Beta > Gamma)
-        List<String> sortedCores = new ArrayList<>(cores);
-        sortedCores.sort((a, b) -> {
-            int priorityA = DraconisAICorePriorityManager.getCorePriority(a);
-            int priorityB = DraconisAICorePriorityManager.getCorePriority(b);
-            return Integer.compare(priorityB, priorityA); // Descending order
-        });
-
-        // Find available Draconis industries (empty slots)
-        List<com.fs.starfarer.api.campaign.econ.Industry> availableIndustries = new ArrayList<>();
-
-        // Find upgradeable Draconis industries (lower-tier cores)
-        List<com.fs.starfarer.api.campaign.econ.Industry> upgradeableIndustries = new ArrayList<>();
-
-        for (com.fs.starfarer.api.campaign.econ.MarketAPI market :
-             Global.getSector().getEconomy().getMarketsCopy()) {
-            if (!market.getFactionId().equals(DRACONIS)) continue;
-            if (market.isHidden()) continue;
-
-            // Defensive copy to prevent ConcurrentModificationException
-            for (com.fs.starfarer.api.campaign.econ.Industry industry : new ArrayList<>(market.getIndustries())) {
-                if (!industry.isFunctional()) continue;
-
-                String currentCore = industry.getAICoreId();
-
-                if (currentCore == null || currentCore.isEmpty()) {
-                    // Empty slot
-                    availableIndustries.add(industry);
-                } else if (!currentCore.equals(Commodities.ALPHA_CORE)) {
-                    // Has a lower-tier core that can be upgraded
-                    upgradeableIndustries.add(industry);
-                }
-            }
+        if (cores.isEmpty()) return;
+        for (String coreId : cores) {
+            DraconisAICoreStockpile.add(coreId, 1);
         }
-
-        log.info(
-            "Draconis: Found " + availableIndustries.size() + " empty industries and " +
-            upgradeableIndustries.size() + " upgradeable industries"
-        );
-
-        if (availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            log.warn(
-                "Draconis: No available industries for recovered cores!"
-            );
-            return;
-        }
-
-        // Install cores using priority system
-        // Use index-based loop to allow dynamic list growth (displaced cores are re-queued)
-        int installed = 0;
-        for (int i = 0; i < sortedCores.size(); i++) {
-            if (availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) break;
-
-            String coreId = sortedCores.get(i);
-
-            // Pick best industry for this core type (considers both empty and upgradeable)
-            com.fs.starfarer.api.campaign.econ.Industry target =
-                DraconisAICorePriorityManager.pickTargetIndustryByPriority(
-                    availableIndustries, upgradeableIndustries, coreId
-                );
-
-            if (target != null) {
-                // Check if this is an upgrade
-                String displacedCore = null;
-                if (target.getAICoreId() != null && !target.getAICoreId().isEmpty()) {
-                    displacedCore = target.getAICoreId();
-                    log.info(
-                        "Draconis: Displacing " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
-                        " from " + target.getCurrentName() + " with better " +
-                        DraconisAICorePriorityManager.getCoreDisplayName(coreId)
-                    );
-                }
-
-                target.setAICoreId(coreId);
-
-                // Remove from appropriate list
-                availableIndustries.remove(target);
-                upgradeableIndustries.remove(target);
-
-                installed++;
-
-                // If we displaced a core, add it back to the queue for redistribution
-                if (displacedCore != null) {
-                    sortedCores.add(displacedCore);
-                    log.info(
-                        "Draconis: Re-queuing displaced " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
-                        " for installation elsewhere"
-                    );
-                }
-            }
-        }
-
-        log.info(
-            "Draconis: Installed " + installed + " of " + cores.size() + " recovered cores"
-        );
+        log.info("Draconis: Added " + cores.size() + " recovered core(s) to stockpile — attempting installation");
+        DraconisAICoreStockpile.tryInstallStockpiledCores();
     }
 
     /**

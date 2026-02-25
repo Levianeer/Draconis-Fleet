@@ -1,0 +1,50 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 7,
+    "fluxVents": 14,
+    "goalVariant": true,
+    "hullId": "XLII_nushi_mk2",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_nushi_mk2_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_mangonel"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0020": "XLII_bardiche_single",
+                "WS0021": "XLII_bardiche_single",
+                "WS0022": "XLII_bardiche_single",
+                "WS0023": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0013": "XLII_rapier",
+                "WS0014": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0016": "XLII_swordbreaker"}
+        }
+    ],
+    "wings": ["xyphos_wing"]
+}

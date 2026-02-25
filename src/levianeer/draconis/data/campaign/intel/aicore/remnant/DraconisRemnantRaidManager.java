@@ -13,6 +13,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Abilities;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
+import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
 import org.apache.log4j.Logger;
 
 import java.util.Random;
@@ -519,6 +520,14 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
                 "Draconis: === AI CORES DELIVERED === Alpha: " + alphaDelivered + ", Beta: " +
                 betaDelivered + ", Gamma: " + gammaDelivered + " (Total: " + totalCores + ")"
             );
+
+            // Add delivered cores to stockpile, then attempt immediate installation
+            if (alphaDelivered > 0) DraconisAICoreStockpile.add(Commodities.ALPHA_CORE, alphaDelivered);
+            if (betaDelivered  > 0) DraconisAICoreStockpile.add(Commodities.BETA_CORE,  betaDelivered);
+            if (gammaDelivered > 0) DraconisAICoreStockpile.add(Commodities.GAMMA_CORE, gammaDelivered);
+
+            log.info("Draconis: Added " + totalCores + " delivered core(s) to stockpile — attempting installation");
+            DraconisAICoreStockpile.tryInstallStockpiledCores();
 
             // Notify player
             if (shouldPlayerSeeFleet()) {

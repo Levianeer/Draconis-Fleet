@@ -1,0 +1,47 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 11,
+    "fluxVents": 30,
+    "hullId": "XLII_nushi_mk2",
+    "hullMods": [
+        "dedicated_targeting_core",
+        "armoredweapons"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_nushi_mk2_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "mark9"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0020": "hammer",
+                "WS0021": "hammer",
+                "WS0022": "hammer",
+                "WS0023": "hammer"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0013": "heavymauler",
+                "WS0014": "heavymauler"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0016": "vulcan",
+                "WS0017": "flak"
+            }
+        }
+    ],
+    "wings": ["xyphos_wing"]
+}

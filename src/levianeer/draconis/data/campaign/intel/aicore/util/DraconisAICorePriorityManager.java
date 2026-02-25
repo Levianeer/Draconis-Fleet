@@ -181,7 +181,7 @@ public class DraconisAICorePriorityManager {
 
     /**
      * Get priority weight for an industry
-     *
+     * <p>
      * UNIFIED PRIORITY ORDER (applies to ALL core types):
      * 1. Administrator (11.0) - Market administrator (Alpha cores ONLY - handled separately)
      * 2. Orbital Works / Heavy Industry (10.0) - Ship/Equipment production
@@ -197,7 +197,7 @@ public class DraconisAICorePriorityManager {
      * 12. Aquaculture (4.5) - Alternative food
      * 13. Commerce (4.0) - Trade
      * 14. Everything else (3.0) - Default priority
-     *
+     * <p>
      * NOTE: This priority order is the SAME for all core types.
      * Lower-tier cores should be displaced from high-priority industries by higher-tier cores.
      *
@@ -220,8 +220,8 @@ public class DraconisAICorePriorityManager {
         if (industryId.contains("highcommand")) return 8.5f;             // High Command
         if (industryId.contains("militarybase")) return 8.3f;            // Military Base (slightly lower)
 
-        // Tier 4: Megaport
-        if (industryId.contains("megaport")) return 8.0f;                // Megaport
+        // Tier 4: Trade
+        if (industryId.contains("commerce")) return 8.0f;                // Commerce
 
         // Tier 5: Critical Resources
         if (industryId.contains("fuelprod")) return 7.5f;                // Fuel Production
@@ -244,8 +244,8 @@ public class DraconisAICorePriorityManager {
         // Tier 11: Alternative Food
         if (industryId.contains("aquaculture")) return 4.5f;             // Aquaculture
 
-        // Tier 12: Trade
-        if (industryId.contains("commerce")) return 4.0f;                // Commerce
+        // Tier 12: Megaport
+        if (industryId.contains("megaport")) return 4.0f;                // Megaport
 
         // Default: Everything else
         return 3.0f;
@@ -293,6 +293,9 @@ public class DraconisAICorePriorityManager {
     /**
      * Grant HYPERCOGNITION skill to market administrator (representing Alpha Core integration)
      * Much more player-friendly than replacing admins
+     * <p>
+     * This is done to avoid replacing player contacts or messing with any story or quest related things I might make.
+     * Besides it kind of makes sense to have AIs "helping" admins I guess.
      *
      * @param market Target market whose admin receives the skill
      * @param coreId AI core type (only Alpha cores grant HYPERCOGNITION)

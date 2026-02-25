@@ -22,19 +22,6 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
     public DraconisPunitiveExpedition(GenericRaidParams params) {
         super(params);
-
-        if (params != null && params.raidParams != null && params.raidParams.allowedTargets != null) {
-            log.info(
-                    "Draconis: Draconis expedition created targeting " + params.raidParams.allowedTargets.size() + " markets"
-            );
-
-            // Log each target for debugging
-            for (MarketAPI target : params.raidParams.allowedTargets) {
-                log.info(
-                        "Draconis:   Target: " + target.getName() + " (" + target.getFactionId() + ")"
-                );
-            }
-        }
     }
 
     @Override
@@ -53,20 +40,14 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
         // Process AI core theft when raid succeeds
         if (isSucceeded() && !theftProcessed) {
-            log.info(
-                    "Draconis: Expedition succeeded - initiating AI core theft"
-            );
-
+            log.info("Draconis: Punitive expedition succeeded");
             handleRaidSuccess();
             theftProcessed = true;
         }
 
         // Grant bonus if raid failed (player defeated it)
         if (isFailed() && !theftProcessed) {
-            log.info(
-                    "Draconis: Expedition defeated by player - granting bonus"
-            );
-
+            log.info("Draconis: Punitive expedition defeated by player");
             if (!DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
                 DraconisFleetHostileActivityFactor.setPlayerDefeatedDraconisAttack();
                 DraconisArmamentsBonus.grantBonus(true);
@@ -100,26 +81,9 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
             return;
         }
 
-        log.info(
-                "Draconis: Processing " + targets.size() + " raid targets for AI core theft"
-        );
-
         for (MarketAPI target : targets) {
-            if (target == null) {
-                log.warn("Draconis: Null target in list, skipping");
-                continue;
-            }
-
-            boolean isPlayerTarget = target.isPlayerOwned();
-
-            log.info(
-                    "Draconis: Stealing AI cores from " + target.getName() +
-                            " (Player owned: " + isPlayerTarget + ")"
-            );
-
-            DraconisAICoreTheftListener.checkAndStealAICores(
-                    target, isPlayerTarget, "raid"
-            );
+            if (target == null) continue;
+            DraconisAICoreTheftListener.checkAndStealAICores(target, target.isPlayerOwned(), "raid");
         }
     }
 
@@ -149,8 +113,6 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
 
         // All expedition fleets are elite quality with SMOD_3
         m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
-
-        log.info("Draconis: Set SMOD_3 quality for expedition fleet (difficulty: " + size + ")");
     }
 
     /**
@@ -166,7 +128,6 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
             int estimatedFP = size * 10; // Rough estimate: difficulty 10 ≈ 100 FP
             int marineCount = Math.max(estimatedFP * 20, 200);  // ~20 marines per estimated FP
             fleet.getCargo().addMarines(marineCount);
-            log.info("Draconis: Added " + marineCount + " marines to expedition fleet (difficulty: " + size + ", est. FP: ~" + estimatedFP + ")");
         }
     }
 }

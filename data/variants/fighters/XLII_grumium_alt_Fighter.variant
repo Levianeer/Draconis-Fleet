@@ -1,0 +1,23 @@
+{
+  "variantId": "XLII_grumium_alt_Fighter",
+  "hullId": "XLII_grumium_alt",
+  "displayName": "Fighter",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "XLII_needler_fighter",
+        "WS0002": "XLII_needler_fighter"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

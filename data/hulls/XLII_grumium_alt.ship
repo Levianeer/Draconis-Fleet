@@ -1,0 +1,108 @@
+{
+  "hullName": "Grumium",
+  "hullId": "XLII_grumium_alt",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/XLII_grumium_alt.png",
+  "style": "DRACONIS",
+  "height": 54,
+  "width": 54,
+  "center": [27, 19.5],
+  "collisionRadius": 57,
+  "shieldCenter": [6.5, -0],
+  "shieldRadius": 44.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "XLII_autoflarelauncher"
+  ],
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [15, 9.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [15, -9.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": 143,
+      "locations": [-3, 15.5]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": -143,
+      "locations": [-3, -15.5]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": 45,
+      "locations": [7, 3.5]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": -45,
+      "locations": [7, -3.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-18, 7.5],
+      "length": 30,
+      "width": 6,
+      "angle": 180,
+      "contrailSize": 6,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-18, -7.5],
+      "length": 30,
+      "width": 6,
+      "angle": -180,
+      "contrailSize": 6,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-20.5, -0],
+      "length": 46,
+      "width": 14,
+      "angle": 180,
+      "contrailSize": 14,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -1, -24.5,
+    -19, -0,
+    -1, 24.5,
+    32, -0
+  ]
+}

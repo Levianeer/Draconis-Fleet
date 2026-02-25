@@ -11,6 +11,7 @@ import com.fs.starfarer.api.util.WeightedRandomPicker;
 import levianeer.draconis.data.campaign.intel.aicore.config.DraconisAICoreConfig;
 import levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
+import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,7 +181,8 @@ public class DraconisAICoreTheftListener {
             int installed = installStolenCores(stolenCores, raidedMarket, isPlayerMarket, actionType);
 
             // Apply diplomatic strain (Nexerelin integration)
-            if (installed > 0) {
+            // Cores were stolen regardless of whether they could be immediately installed
+            if (!stolenCores.isEmpty()) {
                 int alphaCount = 0;
                 int betaCount = 0;
                 int gammaCount = 0;
@@ -308,23 +310,30 @@ public class DraconisAICoreTheftListener {
         );
 
         if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            Global.getLogger(DraconisAICoreTheftListener.class).error(
-                    "NO DRACONIS FACILITIES AVAILABLE! " + stolenCores.size() + " cores will be lost!"
+            // No slots available right now — persist stolen cores to stockpile for future installation
+            for (String coreId : sortedCores) {
+                DraconisAICoreStockpile.add(coreId, 1);
+            }
+            Global.getLogger(DraconisAICoreTheftListener.class).info(
+                    "No Draconis facilities available - " + stolenCores.size() +
+                    " stolen core(s) added to stockpile for future installation"
             );
 
             if (isPlayerMarket) {
                 Global.getSector().getCampaignUI().addMessage(
-                        "Intelligence reports: Draconis forces stole AI cores from " + raidedMarket.getName() +
-                                " but had no facilities available to utilize them. The technology was wasted.",
+                        "Intelligence reports: Draconis forces seized AI cores from " + raidedMarket.getName() +
+                                " and are holding them in reserve pending facility availability.",
                         Misc.getTextColor()
                 );
             }
 
-            return 0;
+            // Return count so the caller applies diplomatic strain for the theft
+            return sortedCores.size();
         }
 
         int coresInstalled = 0;
         Map<MarketAPI, Integer> installationMap = new HashMap<>(); // Track where cores were installed
+        List<String> failedToInstall = new ArrayList<>(); // Cores that couldn't be placed in any slot
 
         // Use index-based loop to allow dynamic additions during iteration
         int coreIndex = 0;
@@ -388,16 +397,24 @@ public class DraconisAICoreTheftListener {
             }
 
             if (!installed) {
-                Global.getLogger(DraconisAICoreTheftListener.class).warn(
-                        "Could not install " + coreId + " - no suitable facilities available"
-                );
+                failedToInstall.add(coreId);
             }
 
             coreIndex++;
         }
 
-        // Send single intel notification if any cores were successfully stolen
-        if (coresInstalled > 0 && !installationMap.isEmpty()) {
+        // Persist stolen cores that couldn't be installed — the daily drain will retry
+        if (!failedToInstall.isEmpty()) {
+            for (String coreId : failedToInstall) {
+                DraconisAICoreStockpile.add(coreId, 1);
+            }
+            Global.getLogger(DraconisAICoreTheftListener.class).info(
+                    "Persisted " + failedToInstall.size() + " uninstalled stolen core(s) to stockpile"
+            );
+        }
+
+        // Send intel notification for the theft (empty installationMap = stockpile-only, still reports)
+        if (!stolenCores.isEmpty()) {
             sendTheftIntel(stolenCores, raidedMarket, installationMap,
                     isPlayerMarket, actionType);
         }

@@ -11,6 +11,9 @@
   "shieldCenter": [6.5, -0],
   "shieldRadius": 44.5,
   "viewOffset": 0,
+  "builtInMods": [
+    "XLII_autoflarelauncher"
+  ],
   "weaponSlots": [
     {
       "id": "WS0001",
@@ -38,6 +41,42 @@
       "arc": 5,
       "angle": 0,
       "locations": [1, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": 143,
+      "locations": [-3, 15.5]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": -143,
+      "locations": [-3, -15.5]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": 45,
+      "locations": [7, 3.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 40,
+      "angle": -45,
+      "locations": [7, -3.5]
     }
   ],
   "engineSlots": [

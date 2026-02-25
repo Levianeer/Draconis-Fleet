@@ -29,16 +29,24 @@ $tag:XLII_fleet_admiral_emil",,"""I'm authorized to offer you something off the 
 
 A calculated pause. The kind that precedes uncomfortable truths.
 
-""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_grumium:I'll purchase a Grumium Bomber Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
-2:buy_alruba:I'll purchase a Alruba-class Gunship ($XLII_cost_credits_formatted_alruba credits, $XLII_cost_rep_alruba rep)
-3:buy_shaobi:I'll purchase a Shaobi-class Carrier ($XLII_cost_credits_formatted_shaobi credits, $XLII_cost_rep_shaobi rep)
-4:buy_errakis:I'll purchase a Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
-5:buy_juza:I'll purchase a Juza-class Heavy Cruiser ($XLII_cost_credits_formatted_juza credits, $XLII_cost_rep_juza rep)
-6:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
-7:decline:Perhaps another time",
-XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""The Grumium-class. Already a fossil when our engineers stripped her down and turned her into a bomber. Sluggish turns, avionics that throw fits if you look at them wrong. But those Backsword torpedoes? They don't need finesse - just a straight line to the target.""
+""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_grumium_alt:I'll purchase a Grumium Fighter Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
+2:buy_grumium:I'll purchase a Grumium Bomber Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
+3:buy_alruba:I'll purchase a Alruba-class Gunship ($XLII_cost_credits_formatted_alruba credits, $XLII_cost_rep_alruba rep)
+4:buy_shaobi:I'll purchase a Shaobi-class Carrier ($XLII_cost_credits_formatted_shaobi credits, $XLII_cost_rep_shaobi rep)
+5:buy_errakis:I'll purchase a Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
+6:buy_juza:I'll purchase a Juza-class Heavy Cruiser ($XLII_cost_credits_formatted_juza credits, $XLII_cost_rep_juza rep)
+7:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
+8:decline:Perhaps another time",
+XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
 
-""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
+""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+
+""Reyes brought three back, including his own. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+
+A brief pause as the data finalizes.
+
+""Use it well, Commander. The Alliance expects results.""","1:transaction_complete:Continue",
+XLII_admiral_buy_grumium_alt,DialogOptionSelected,"$option == buy_grumium_alt","XLII_BuyShip XLII_grumium_alt_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
 
 ""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
 

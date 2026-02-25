@@ -1,12 +1,11 @@
 {
     "displayName": "Assault",
     "fluxCapacitors": 50,
-    "fluxVents": 1,
+    "fluxVents": 0,
     "hullId": "XLII_alwaid_fortysecond",
     "hullMods": [
         "targetingunit",
-        "hardenedshieldemitter",
-        "stabilizedshieldemitter"
+        "hardenedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -22,10 +21,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0011": "XLII_halberd_pod",
-                "WS0012": "XLII_halberd_pod"
+                "WS0011": "XLII_bardiche",
+                "WS0012": "XLII_bardiche"
             }
         },
         {
@@ -38,10 +37,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_halberd_pod",
-                "WS0006": "XLII_halberd_pod"
+                "WS0005": "XLII_bardiche",
+                "WS0006": "XLII_bardiche"
             }
         },
         {
@@ -71,9 +70,9 @@
         }
     ],
     "wings": [
-        "XLII_aldibain_wing",
-        "XLII_aldibain_wing",
-        "XLII_grumium_wing",
+        "XLII_grumium_alt_wing",
+        "XLII_grumium_alt_wing",
+        "XLII_grumium_alt_wing",
         "XLII_grumium_wing"
     ]
 }

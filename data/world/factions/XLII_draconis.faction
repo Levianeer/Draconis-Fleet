@@ -214,7 +214,7 @@
 		"offersCommissions":true,
 		"engagesInHostilities":true,
 		"buysAICores":true,
-		"AICoreValueMult":3,
+		"AICoreValueMult":4,
 		"AICoreRepMult":0.5,
 		"buysSurveyData":true,
 		"hostilityImpactOnGrowth":true,
@@ -228,13 +228,13 @@
 		"simulatorData":{
 			"showInSimulatorDevModeOnly":true,
 		}
-	},	
+	},
 	
 	"fleetTypeNames":{
 		"trade":"Commerce Fleet",
 		"tradeLiner":"Transit Convoy",
-		"tradeSmuggler":"Shadow Picket",
-		"smallTrader":"Resupply Convoy",
+		"tradeSmuggler":"Shadow Convoy",
+		"smallTrader":"Supply Convoy",
 		
 		"patrolSmall":"Picket Squadron",
 		"patrolMedium":"Patrol Fleet",

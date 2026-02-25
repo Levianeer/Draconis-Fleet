@@ -13,7 +13,8 @@
   "viewOffset": 0,
   "builtInMods": [
     "no_weapon_flux",
-    "insulatedengine"
+    "insulatedengine",
+    "XLII_autoflarelauncher"
   ],
   "weaponSlots": [
     {

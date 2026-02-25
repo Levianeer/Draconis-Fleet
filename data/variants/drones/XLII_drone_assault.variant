@@ -13,7 +13,7 @@
       "autofire": true,
       "mode": "LINKED",
       "weapons": {
-        "WS0004": "lrpdlaser"
+        "WS0004": "XLII_particlelance_fighter"
       }
     }
   ],

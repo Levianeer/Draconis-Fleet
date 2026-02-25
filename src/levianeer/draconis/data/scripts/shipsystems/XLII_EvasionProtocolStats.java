@@ -1,19 +1,16 @@
 package levianeer.draconis.data.scripts.shipsystems;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
-import com.fs.starfarer.api.combat.MutableShipStatsAPI;
-import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.WeaponAPI;
+import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
-import com.fs.starfarer.api.loading.WeaponSlotAPI;
 import com.fs.starfarer.api.plugins.ShipSystemStatsScript;
 import org.apache.log4j.Logger;
+import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 
 public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
 
@@ -24,23 +21,30 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
     private static final float VELOCITY = 200f;
     private static final float DELTA = 2000f;
 
-    // Flare launcher weapon
-    private static final String WEAPON_ID = "XLII_flarelauncher";
+    /** Half-width of the forward arc searched for ramming targets, in degrees. */
+    private static final float RAM_ARC_DEGREES = 25f;
+    /** Maximum range at which a ramming target will be selected. */
+    private static final float RAM_RANGE = 700f;
+    /** Duration used when refreshing AI flags each frame (prevents instant expiry). */
+    private static final float AI_FLAG_REFRESH_DURATION = 0.5f;
 
-    // Track which ships have fired flares during current activation
-    private static final HashMap<String, Boolean> firedThisActivation = new HashMap<>();
+    // Per-combat state (all cleared when a new combat engine is detected)
+    /** Ships that have already had their flare burst scheduled this activation. */
+    private static final HashSet<String> burstScheduled = new HashSet<>();
+    private static final HashMap<String, Float> originalMass = new HashMap<>();
     private static CombatEngineAPI lastEngine_EvasionProtocol;
 
-    private static void checkClearFiredMap() {
+    private static void checkClearState() {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine != lastEngine_EvasionProtocol) {
             lastEngine_EvasionProtocol = engine;
-            firedThisActivation.clear();
+            burstScheduled.clear();
+            originalMass.clear();
         }
     }
 
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
-        checkClearFiredMap();
+        checkClearState();
 
         ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
         if (ship == null) return;
@@ -50,36 +54,84 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
 
         String shipId = ship.getId();
 
-        // Apply stat modifiers
         if (state == ShipSystemStatsScript.State.OUT) {
+            // Restore original mass and clean up
+            Float orig = originalMass.get(shipId);
+            if (orig != null) {
+                ship.setMass(orig);
+                originalMass.remove(shipId);
+            }
+
             stats.getMaxSpeed().unmodify(id);
             stats.getAcceleration().unmodify(id);
             stats.getDeceleration().unmodify(id);
 
-            // Reset fired flag when system deactivates
-            firedThisActivation.put(shipId, false);
+            // Allow the next activation to schedule a fresh burst
+            burstScheduled.remove(shipId);
         } else {
+            // Store the original mass once per activation
+            if (!originalMass.containsKey(shipId)) {
+                originalMass.put(shipId, ship.getMass());
+            }
+
+            // Double the mass, scaling with effectLevel for a smooth ramp-in
+            // effectLevel 0→1 gives mass = original * 1x→2x
+            ship.setMass(originalMass.get(shipId) * (1f + effectLevel));
+
             // Apply movement bonuses
             stats.getMaxSpeed().modifyFlat(id, VELOCITY * effectLevel);
             stats.getAcceleration().modifyFlat(id, DELTA * effectLevel);
             stats.getDeceleration().modifyFlat(id, DELTA * effectLevel);
 
-            // Fire flares once per activation when entering ACTIVE state
-            if (state == ShipSystemStatsScript.State.ACTIVE && !engine.isPaused()) {
-                boolean hasFired = firedThisActivation.getOrDefault(shipId, false);
+            // Schedule the burst on the first ACTIVE frame.
+            // Each shot is a separate engine plugin so it fires at the right time
+            // regardless of what state the system transitions to afterwards.
+            if (state == ShipSystemStatsScript.State.ACTIVE
+                    && !engine.isPaused()
+                    && !burstScheduled.contains(shipId)) {
 
-                if (!hasFired) {
-                    // Launch all flares from SYSTEM slots
-                    launchFlaresFromAllSlots(ship, engine);
+                burstScheduled.add(shipId);
+                int burstSize = XLII_DelayedFlareShot.getBurstSize();
 
-                    // Mark as fired for this activation
-                    firedThisActivation.put(shipId, true);
+                for (int i = 0; i < burstSize; i++) {
+                    engine.addPlugin(new XLII_DelayedFlareShot(ship, i * XLII_DelayedFlareShot.BURST_DELAY, i, burstSize));
+                }
+
+                log.debug("Draconis: Evasion Protocol - Scheduled " + burstSize + " flare shots for "
+                        + ship.getHullSpec().getHullName());
+            }
+
+            // Encourage AI ships to ram the nearest enemy in their forward arc.
+            // Flags are set with a short duration so they expire cleanly if the
+            // system deactivates between apply() calls.
+            if (ship.getShipAI() != null) {
+                ShipwideAIFlags aiFlags = ship.getAIFlags();
+                if (aiFlags != null) {
+                    ShipAPI ramTarget = findNearestEnemyInForwardArc(ship, engine);
+                    // Only commit to a ram if the target is meaningfully lighter than the
+                    // doubled ship — target must be at least 25% lighter than current mass
+                    if (ramTarget != null && ramTarget.getMass() < ship.getMass() * 0.75f) {
+                        aiFlags.setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, AI_FLAG_REFRESH_DURATION);
+                        aiFlags.setFlag(ShipwideAIFlags.AIFlags.MANEUVER_TARGET, AI_FLAG_REFRESH_DURATION, ramTarget);
+                        aiFlags.setFlag(ShipwideAIFlags.AIFlags.HARASS_MOVE_IN, AI_FLAG_REFRESH_DURATION);
+                    }
                 }
             }
         }
     }
 
     public void unapply(MutableShipStatsAPI stats, String id) {
+        // Safety net: restores mass if apply(OUT) was never called (e.g. combat ends mid-activation)
+        ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
+        if (ship != null) {
+            String shipId = ship.getId();
+            Float orig = originalMass.get(shipId);
+            if (orig != null) {
+                ship.setMass(orig);
+                originalMass.remove(shipId);
+            }
+            burstScheduled.remove(shipId);
+        }
         stats.getMaxSpeed().unmodify(id);
         stats.getAcceleration().unmodify(id);
         stats.getDeceleration().unmodify(id);
@@ -94,62 +146,37 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
         };
     }
 
-    // ==================== FLARE LAUNCH LOGIC ====================
+    // ==================== RAMMING AI HELPERS ====================
 
     /**
-     * Launches flares from all SYSTEM weapon slots simultaneously.
+     * Finds the nearest enemy ship within a forward-facing arc.
+     * Fighters, drones, hulks, and shuttle pods are excluded.
+     *
+     * @param ship   The ship using the system
+     * @param engine Combat engine for iterating ships
+     * @return The closest qualifying enemy in the arc, or null if none found
      */
-    private void launchFlaresFromAllSlots(ShipAPI ship, CombatEngineAPI engine) {
-        // Get all SYSTEM weapon slots
-        List<WeaponSlotAPI> systemSlots = getSystemWeaponSlots(ship);
+    private ShipAPI findNearestEnemyInForwardArc(ShipAPI ship, CombatEngineAPI engine) {
+        Vector2f shipLoc = ship.getLocation();
+        float shipFacing = ship.getFacing();
+        ShipAPI nearest = null;
+        float nearestDist = Float.MAX_VALUE;
 
-        if (systemSlots.isEmpty()) {
-            log.warn("Draconis: Evasion Protocol - No SYSTEM weapon slots found on " + ship.getHullSpec().getHullId());
-            return;
-        }
+        for (ShipAPI candidate : engine.getShips()) {
+            if (candidate.getOwner() == ship.getOwner()) continue;
+            if (candidate.isHulk() || candidate.isShuttlePod() || candidate.isDrone() || candidate.isFighter()) continue;
 
-        log.debug("Draconis: Evasion Protocol - Firing " + systemSlots.size() + " flares from " + ship.getHullSpec().getHullName());
+            float dist = MathUtils.getDistance(shipLoc, candidate.getLocation());
+            if (dist > XLII_EvasionProtocolStats.RAM_RANGE) continue;
 
-        // Fire all flares simultaneously
-        for (WeaponSlotAPI slot : systemSlots) {
-            launchFlareFromSlot(ship, slot, engine);
-        }
-    }
+            float angleToTarget = VectorUtils.getAngle(shipLoc, candidate.getLocation());
+            float angleDiff = Math.abs(MathUtils.getShortestRotation(shipFacing, angleToTarget));
 
-    /**
-     * Launches a single flare from a weapon slot.
-     * Weapon spec handles velocity, visual effects, and flux costs automatically.
-     */
-    private void launchFlareFromSlot(ShipAPI ship, WeaponSlotAPI slot, CombatEngineAPI engine) {
-        Vector2f slotPos = slot.computePosition(ship);
-        float slotAngle = slot.computeMidArcAngle(ship);
-
-        // Create a fresh fake weapon for this flare
-        WeaponAPI weapon = engine.createFakeWeapon(ship, WEAPON_ID);
-
-        // Spawn the flare projectile - weapon spec handles everything else
-        engine.spawnProjectile(
-            ship,
-            weapon,
-            WEAPON_ID,
-            slotPos,
-            slotAngle,
-            new Vector2f()
-        );
-    }
-
-    /**
-     * Gets all SYSTEM type weapon slots from the ship.
-     */
-    private List<WeaponSlotAPI> getSystemWeaponSlots(ShipAPI ship) {
-        List<WeaponSlotAPI> systemSlots = new ArrayList<>();
-
-        for (WeaponSlotAPI slot : ship.getHullSpec().getAllWeaponSlotsCopy()) {
-            if (slot.isSystemSlot()) {
-                systemSlots.add(slot);
+            if (angleDiff <= XLII_EvasionProtocolStats.RAM_ARC_DEGREES && dist < nearestDist) {
+                nearest = candidate;
+                nearestDist = dist;
             }
         }
-
-        return systemSlots;
+        return nearest;
     }
 }

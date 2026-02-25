@@ -1,12 +1,13 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 17,
-    "fluxVents": 8,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_rastaban",
     "hullMods": [
         "targetingunit",
-        "escort_package"
+        "escort_package",
+        "hardenedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -16,8 +17,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "hveldriver",
-                "WS0011": "hveldriver"
+                "WS0003": "XLII_rapier",
+                "WS0011": "XLII_rapier"
             }
         },
         {
@@ -30,16 +31,14 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0001": "XLII_estocflak",
-                "WS0002": "XLII_estocflak"
+                "WS0002": "XLII_estocflak",
+                "WS0005": "XLII_estocflak"
             }
         },
         {
             "autofire": true,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0004": "XLII_swordbreaker",
-                "WS0005": "XLII_swordbreaker"
-            }
+            "mode": "LINKED",
+            "weapons": {"WS0004": "XLII_swordbreaker"}
         }
     ],
     "wings": []
