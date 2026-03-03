@@ -2,7 +2,7 @@
   "name": "Draconis Veteran",
   "personalities": ["aggressive","steady"],
   "gender": ["m", "f", "n"],
-  "chance": 30.0,
+  "chance": 1.0,
   "talkativeness": 0.8,
   "categoryTags": ["original"],
 

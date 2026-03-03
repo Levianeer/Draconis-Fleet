@@ -1,13 +1,10 @@
 {
-    "displayName": "Hybrid",
-    "fluxCapacitors": 11,
-    "fluxVents": 2,
+    "displayName": "Custom",
+    "fluxCapacitors": 20,
+    "fluxVents": 19,
     "goalVariant": true,
     "hullId": "XLII_alsafi",
-    "hullMods": [
-        "expanded_cargo_holds",
-        "auxiliary_fuel_tanks"
-    ],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_alsafi_Hybrid",
@@ -16,10 +13,12 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "lightmg",
-                "WS0002": "lightmg",
-                "WS0005": "lightmg",
-                "WS0006": "lightmg"
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
+                "WS0003": "XLII_estocflak",
+                "WS0004": "XLII_estocflak",
+                "WS0005": "XLII_estocflak",
+                "WS0006": "XLII_estocflak"
             }
         },
         {
@@ -33,15 +32,8 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0003": "XLII_estocflak",
-                "WS0004": "XLII_estocflak"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {"WS0007": "XLII_swordbreaker"}
         }
-    ]
+    ],
+    "wings": []
 }

@@ -160,7 +160,7 @@
     },
     {
       "id": "WS0015",
-      "size": "LARGE",
+      "size": "MEDIUM",
       "type": "BALLISTIC",
       "mount": "TURRET",
       "arc": 295,

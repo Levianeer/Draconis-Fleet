@@ -13,8 +13,8 @@
 	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
 	"fadeTime":0.5, # fadeout duration
 	"behaviorSpec":{"behavior":"CUSTOM",
-					"effectRange":300,
-					"effectChance":0.3,
+					"effectRange":400,
+					"effectChance":0.4,
 				   },	
 	"engineSpec":{"turnAcc":600,
 				  "turnRate":400,
@@ -25,8 +25,8 @@
 					"loc":[0, 0],
 				    "style":"CUSTOM",
 				    "styleId":"midlineFlare",
-				    "width":4.0,
-				    "length":15.0,
+				    "width":2.0,
+				    "length":9.0,
 				    "angle":180.0},
 				   ]
 }

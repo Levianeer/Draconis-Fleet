@@ -13,6 +13,7 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.XLII_SigmaOctantisOfficerPlugin;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.ids.Factions;
 import org.apache.log4j.Logger;
@@ -234,17 +235,15 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         int draconLevel = getCurrentDraconLevel();
 
-        // DRACON 1: Upgrade existing non-alpha AI cores to Alpha first
+        // DRACON 1: Replace the highest-deployment-cost AI core with Sigma Octantis
         if (draconLevel == 1) {
-            upgradeExistingCores(fleet);
+            assignSigmaOctantisFlagship(fleet);
         }
 
         // Apply DRACON overrides to coverage
         float effectiveCoverage = coveragePercent;
-        if (draconLevel == 2) {
+        if (draconLevel <= 2) {
             effectiveCoverage = Math.min(1.0f, coveragePercent + DRACON_2_COVERAGE_BOOST);
-        } else if (draconLevel == 1) {
-            effectiveCoverage = 1.0f;
         }
 
         // Find all ships without officers (empty captain slots)
@@ -302,9 +301,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
             // Select core type - DRACON overrides cycle-based selection
             String coreType;
-            if (draconLevel == 1) {
-                coreType = Commodities.ALPHA_CORE;
-            } else if (draconLevel == 2) {
+            if (draconLevel <= 2) {
                 coreType = rollDracon2CoreType(random.nextFloat());
             } else {
                 coreType = config.rollCoreType(currentCycle, random.nextFloat());
@@ -379,36 +376,48 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     }
 
     /**
-     * DRACON 1 (DEAD LIGHT): Replace all non-alpha AI core officers with Alpha cores.
-     * Human officers are left untouched.
+     * DRACON 1 (DEAD LIGHT): Assign the Sigma Octantis AI core to the highest-deployment-cost
+     * ship in the fleet that is currently crewed by any AI core. If no AI core officers are
+     * present yet, this is a no-op (empty slots will be filled by the normal path).
      */
-    private void upgradeExistingCores(CampaignFleetAPI fleet) {
-        Random random = new Random();
-        int upgraded = 0;
+    private void assignSigmaOctantisFlagship(CampaignFleetAPI fleet) {
+        FleetMemberAPI target = null;
+        float highestCost = -1f;
 
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
             PersonAPI captain = member.getCaptain();
             if (captain == null || !captain.isAICore()) continue;
 
-            String coreId = captain.getAICoreId();
-            if (Commodities.ALPHA_CORE.equals(coreId)) continue;
+            // Already has Sigma Octantis - skip
+            if (XLII_SigmaOctantisOfficerPlugin.CORE_ID.equals(captain.getAICoreId())) continue;
 
-            // Remove old AI core officer and replace with Alpha
-            fleet.getFleetData().removeOfficer(captain);
-
-            PersonAPI alphaCore = createAICoreOfficer(
-                    Commodities.ALPHA_CORE, fleet.getFaction().getId(), random);
-            if (alphaCore != null) {
-                fleet.getFleetData().addOfficer(alphaCore);
-                member.setCaptain(alphaCore);
-                upgraded++;
+            float cost = member.getFleetPointCost();
+            if (cost > highestCost) {
+                highestCost = cost;
+                target = member;
             }
         }
 
-        if (upgraded > 0) {
+        if (target == null) return;
+
+        // Remove the current AI core officer
+        fleet.getFleetData().removeOfficer(target.getCaptain());
+
+        // Create and assign Sigma Octantis
+        AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(XLII_SigmaOctantisOfficerPlugin.CORE_ID);
+        if (plugin == null) {
+            log.warn("Draconis: DRACON 1 - Could not find AICoreOfficerPlugin for Sigma Octantis");
+            return;
+        }
+
+        PersonAPI sigmaCore = plugin.createPerson(
+                XLII_SigmaOctantisOfficerPlugin.CORE_ID, fleet.getFaction().getId(), new Random());
+        if (sigmaCore != null) {
+            fleet.getFleetData().addOfficer(sigmaCore);
+            target.setCaptain(sigmaCore);
             log.debug(String.format(
-                "Draconis: DRACON 1 - Upgraded %d AI cores to Alpha in %s",
-                upgraded, fleet.getNameWithFaction()));
+                "Draconis: DRACON 1 - Assigned Sigma Octantis to %s (%.0f FP) in %s",
+                target.getShipName(), highestCost, fleet.getNameWithFaction()));
         }
     }
 

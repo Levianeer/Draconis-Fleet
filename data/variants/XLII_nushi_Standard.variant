@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 30,
-    "fluxVents": 12,
+    "fluxCapacitors": 27,
+    "fluxVents": 0,
     "hullId": "XLII_nushi",
     "hullMods": [
         "dedicated_targeting_core",

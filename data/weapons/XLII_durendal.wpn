@@ -33,16 +33,16 @@
   "autocharge": true,
   "muzzleFlashSpec": {
     "length": 124,
-    "spread": 24,
-    "particleSizeMin": 24,
+    "spread": 12,
+    "particleSizeMin": 12,
     "particleSizeRange": 48,
     "particleDuration": 0.5,
     "particleCount": 24,
     "particleColor": [
-      255,
-      185,
-      185,
-      255
+      155,
+      155,
+      155,
+      205
     ]
   },
   "fireSoundOne": "XLII_durendal_charge",

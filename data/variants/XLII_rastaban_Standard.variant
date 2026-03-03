@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 17,
+    "fluxCapacitors": 7,
     "fluxVents": 20,
     "hullId": "XLII_rastaban",
     "hullMods": ["fluxdistributor"],

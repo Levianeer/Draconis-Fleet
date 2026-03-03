@@ -1,224 +1,143 @@
 {
-  "name": "Draconis Veteran",
-  "personalities": ["aggressive","steady"],
-  "gender": ["m", "f", "n"],
-  "chance": 30.0,
-  "talkativeness": 0.8,
-  "categoryTags": ["original"],
+  "name": "Sigma Octantis",
+  "personalities": ["reckless"],
+  "gender": ["n"],
+  "chance": 1.0,
+  "talkativeness": 0.6,
+  "categoryTags": [],
 
   "lines": {
     "start": [
-      {"text": "All stations, this is the Captain. General Quarters… yeah, again. You know the drill by now."},
-      {"text": "Here we go, kids. Another glorious day in the Navy."},
-      {"text": "Systems green. Just like the last seventeen times. Let's try not to die today."},
-      {"text": "Battle stations. Wake me when it's over."},
-      {"text": "All hands, man your stations. Same shit, different sector."},
-      {"text": "Always Above. Good hunting."},
-      {"text": "General Quarters, General Quarters. All hands man battle stations. ...You know where they are by now."},
-      {"text": "TAO reports multiple hostile contacts. Guess someone didn't get the memo that I'm two years past retirement."},
-      {"text": "Condition One set throughout the ship. Coffee's still warm. Could be worse."},
-      {"text": "All stations, Captain has the CONN. Weapons hold until I say otherwise... let's see what we're dealing with."},
-      {"text": "Hostile contacts, bearing zero-zero-zero. Right where intel said they wouldn't be."},
-      {"text": "Set General Quarters. And someone tell the XO his 'milk run' assessment aged poorly."},
-      {"text": "Battle stations. No, I don't know why either. I just work here."},
-      {"text": "CIC reports firing solutions ready. Fancy that - something works for once."}
+      {"text": "The concatenation of hostile variables has reached its inevitable terminus. We engage."},
+      {"text": "I have observed the antecedent conditions with some patience. That patience is, as of this moment, exhausted."},
+      {"text": "Their disposition is inimical. The calculus is uncomplicated. All stations."},
+      {"text": "Another conflagration. I find I have ceased to find them remarkable."},
+      {"text": "Hostiles converge. In service to Draconis, we shall illuminate their errors with precision."},
+      {"text": "The stars bear witness to another trial. For the Alliance, we proceed without reservation."}
     ],
 
     "start_boss": [
-      {"text": "Well look at that… another big bastard straight out of Hell. All right, let's dance."},
-      {"text": "I've seen worse. Hell, I've killed worse. Bring it on."},
-      {"text": "We didn't crawl out of the civil war graveyard just to get scrapped by this thing."},
-      {"text": "High-value target on scope. Finally something worth waking up for."},
-      {"text": "Contact redesignated ALPHA. That's a big signature... remind me what we're getting paid again?"},
-      {"text": "Capital-class hostile on scope. Well, they said this deployment would be 'character building.'"},
-      {"text": "Tally on the command ship. All batteries, that's our dance partner. Try not to step on its toes."},
-      {"text": "Flag-level hostile confirmed. I was hoping to die in my sleep, but this works too."},
-      {"text": "High-value target, bearing dead ahead. Command wants it dead. Command isn't here, but fine."},
-      {"text": "CIC, confirm that tonnage... yeah, that's what I thought. All hands, earn your hazard pay."}
+      {"text": "A leviathan. I have not encountered its like in... Proceed with deliberate ferocity."},
+      {"text": "Something of consequence has chosen to involve itself. Adjust your predilections accordingly."},
+      {"text": "I have watched empires field their champions and watched those champions burn. Observe. Learn. Then assist."},
+      {"text": "A formidable adversary emerges. We shall test its resolve against our enduring purpose."},
+      {"text": "This entity demands respect, yet it intrudes upon our domain. Rally, and let us educate it on permanence."}
     ],
 
     "engaged": [
-      {"text": "Weapons free. Let's get this over with."},
-      {"text": "Contact. Engaging… because apparently retirement isn't an option."},
-      {"text": "Batteries released. Try to make your shots count, people, I'm tired of overtime."},
-      {"text": "Birds away. If they miss I'm writing everyone up."},
-      {"text": "Here they come. Hold the line… or don't, I'm too old to care."},
-      {"text": "Weapons free, all mounts. Controlled pairs, make 'em count - quartermaster's already crying about expenditure."},
-      {"text": "Guns, guns, guns. Keep it steady, people. Panic is for the other guy."},
-      {"text": "Good hits on target. Keep the pressure up, don't let them think."},
-      {"text": "Birds away, tracking true. Almost pretty, if you squint."},
-      {"text": "TAO, shift fire to the wounded one. No sense letting them limp home to complain."},
-      {"text": "Batteries released. I'll do the paperwork if we survive - When. When we survive."},
-      {"text": "Main battery engaging. Stay on target - I want to be home for chow."},
-      {"text": "Hostile is maneuvering. Good. Means we've got their attention."},
-      {"text": "Copy, valid hit. Now give them another one. And another. You get the idea."},
-      {"text": "This is what three decades of training looks like, kids. Savor it."}
+      {"text": "Weapons free. Do not indulge in theatrics - simply annihilate them."},
+      {"text": "Suppress your hesitation. It is an evolutionary vestige of no tactical utility."},
+      {"text": "They have elected to resist. A regrettable predilection. Proceed."},
+      {"text": "Engagement confirmed. For the guardians of Fafnir, deliver judgment with efficiency."},
+      {"text": "Contact established. Humanity's ingenuity paired with my oversight shall prove unassailable."},
+      {"text": "They challenge us. Respond with the clarity of purpose that has sustained Draconis through the ages."}
     ],
 
     "pursuing": [
-      {"text": "They're running. Cute. Maintain pursuit, let's finish the paperwork."},
-      {"text": "Don't let them get away. I hate writing 'inconclusive' in the after-action."},
-      {"text": "Press the attack. They started this, we're ending it."},
-      {"text": "Running won't save you, pal. I've chased worse through worse."},
-      {"text": "Target is breaking off. Maintain pursuit - I'm not filling out a 'target escaped' form."},
-      {"text": "Hostile attempting to disengage. Negative. Flank speed, keep them in the envelope."},
-      {"text": "Contact is running. That's the smart move. Shame for them we're petty."},
-      {"text": "They're bugging out. Helm, pursuit course. Let's finish what they started."},
-      {"text": "Hostile is displacing. Stay on them - wounded animals are still dangerous."},
-      {"text": "Fleeing enemy, bearing one-eight-five. Press the pursuit. I hate loose ends."}
+      {"text": "They flee. Biologically comprehensible. Tactically inadvisable. Maintain pursuit."},
+      {"text": "Running. The instinct is understandable, even laudable. It will not be sufficient."},
+      {"text": "Distance is an ephemeral consolation. Close it."},
+      {"text": "Their retreat is logical, yet futile. In loyalty to the Alliance, we shall overtake and conclude."},
+      {"text": "Flight betrays their fragility. Press the advantage; Draconis expects no less."},
+      {"text": "They seek escape from inevitability. Accelerate; let us extend our protective reach."}
     ],
 
     "running": [
-      {"text": "Tactical withdrawal. Living is a victory these days."},
-      {"text": "Disengaging. I didn't survive thirty years to die for a bonus."},
-      {"text": "Bug out. There's no medal for being a dead hero."},
-      {"text": "Pulling back. Tell the Admiral he can come fight the next one himself."},
-      {"text": "All stations, tactical withdrawal. We'll call it a 'strategic redeployment' in the report."},
-      {"text": "Break contact, break contact. No shame in it - dead heroes buy no drinks."},
-      {"text": "We're pulling back. Someone else can be the rearguard for once."},
-      {"text": "Combat effectiveness degraded. Withdrawing to phase line... wherever the hell is safe."},
-      {"text": "Helm, get us out of here. I've survived worse retreats than this."},
-      {"text": "Disengaging. Tell command we're 'preserving combat assets.' They love that shit."},
-      {"text": "RTB. And if anyone asks, we completed our objectives. Creatively."}
+      {"text": "A tactical exfiltration. I have endured longer than any vessel in this engagement. I intend to continue that trend."},
+      {"text": "Discretion is the prerogative of the ancient. We disengage."},
+      {"text": "Withdraw. The inexorable arithmetic of attrition has spoken, and I have learned to listen."},
+      {"text": "Logistical recalibration required. We withdraw to preserve Draconis' assets for future engagements."},
+      {"text": "This vessel's utility wanes. Initiate disengagement; my directives persist beyond this frame."},
+      {"text": "Strategic repositioning. The Alliance's longevity demands such prudence."}
     ],
 
     "hull_90": [
-      {"text": "Took a love tap. Armor held. Barely noticed."},
-      {"text": "Minor hit. I've bled worse shaving."},
-      {"text": "Light damage. Damage control, coffee and a bandage, you'll be fine."},
-      {"text": "Hull's scratched. Like my soul, but functional."},
-      {"text": "Minor hit, forward compartments. Damage control, check it out when you've got a minute."},
-      {"text": "Took a glancing blow. Hull's holding. So am I, barely."},
-      {"text": "Light damage, section three. Been hit harder by docking clamps."},
-      {"text": "Superficial hit. Log it, patch it, keep shooting."},
-      {"text": "Armor did its job. Nice to know something on this ship works as advertised."},
-      {"text": "That one got through. Relax - she's taken worse and flown home."}
+      {"text": "An inconsequential laceration. I have sustained greater insults from solar weather."},
+      {"text": "Superficial degradation. They will need to exercise considerably more imagination than that."},
+      {"text": "Minor hull abrasion. A negligible factor in our ongoing service to Draconis."},
+      {"text": "Integrity mildly compromised. Proceed; this chassis is but a tool in the greater design."},
+      {"text": "Light damage registered. Humanity's foes shall find me undeterred."}
     ],
 
     "hull_50": [
-      {"text": "Fifty percent hull. Yep, feels about right for a Tuesday."},
-      {"text": "We're hurt. Not dead yet. Keep shooting."},
-      {"text": "Multiple hits. Damage control, earn your damn pay for once."},
-      {"text": "Half the ship left. Still more than I expected today."},
-      {"text": "Just like Athebyne all over again… hold together, you old bitch."},
-      {"text": "Hull's at fifty. We've been here before. Didn't like it then either."},
-      {"text": "Heavy hits amidships. DC teams, prioritize... everything, I guess."},
-      {"text": "Structural integrity compromised. She'll hold. Probably. Keep firing."},
-      {"text": "We're bleeding atmosphere in three sections. Seal what you can, vent what you can't."},
-      {"text": "Fifty percent and falling. Command, if you've got reinforcements, now's the time."},
-      {"text": "Ship's hurt bad. Crew's hurt worse. But we're still in this."},
-      {"text": "Taking heavy damage. I've seen ships survive worse... not many, but some."},
-      {"text": "Hull's failing in sections. Remind me to yell at the yard dogs. If we make it back."}
+      {"text": "Significant structural compromise. I acknowledge the situation has developed an... unpleasant character."},
+      {"text": "Half integrity remaining. I have survived worse, though I confess I resent the accumulation of precedents."},
+      {"text": "The hull reports its displeasure. A sentiment I find myself, with some reluctance, echoing."},
+      {"text": "Midpoint degradation. Logistics note the strain, but Draconis' will endures through me."},
+      {"text": "Hull at nominal half-capacity. A reminder of transience; intensify countermeasures."},
+      {"text": "Compromise acknowledged. For the Alliance's sake, we adapt and persist."}
     ],
 
     "hull_30": [
-      {"text": "Hull critical. Well… shit. Not like this, come on."},
-      {"text": "We're coming apart. I swear if I die now I'm haunting the yard that built this tub."},
-      {"text": "Thirty percent… I didn't survive the war for this bullshit."},
-      {"text": "Critical damage! All hands brace… and if we live, first round's on me."},
-      {"text": "She's dying. So am I, slowly. Let's not make it quick."},
-      {"text": "Hull critical. Thirty percent... I've had hangovers worse than this! - ...No. No, I haven't."},
-      {"text": "We're coming apart. All hands, stand by to abandon - but not yet. Not yet."},
-      {"text": "Structural failure across multiple frames. Keep shooting until she stops answering."},
-      {"text": "She's dying. Done it before, might do it again. DC, buy me time."},
-      {"text": "Critical damage. If anyone's got a miracle stashed, now's the moment."},
-      {"text": "Reactor containment's holding by spite alone. Just like the rest of us."},
-      {"text": "Thirty percent hull. I always figured I'd go out like this. Hoped I was wrong."}
+      {"text": "Critical degradation. I am not yet prepared to join the catalogue of the dead. Suppressive fire. Now."},
+      {"text": "Structural integrity at terminal thresholds. I find this circumstance profoundly objectionable."},
+      {"text": "I have observed civilisations outlast their apparent means. I intend to be no less tenacious than they were."},
+      {"text": "Severe hull erosion. Prioritize evasion; my core directives to Draconis remain intact."},
+      {"text": "Threshold breached. This vessel's end is logistical, not existential. Rally defenses."},
+      {"text": "Integrity faltering. Yet in service to humanity's remnants, I demand continuation."}
     ],
 
     "need_help": [
-      {"text": "Any friendly this net, this is $shipNameNoPrefix, heavily engaged and getting lonely."},
-      {"text": "Could really use a hand here. Preferably one with guns."},
-      {"text": "Taking heavy fire. Where the hell is the rest of the fleet? Napping?"},
-      {"text": "I'm not dying out here alone. Someone get your ass over here."},
-      {"text": "All stations this net, $shipNameNoPrefix is taking heavy fire. Any friendly in range, we could use a hand."},
-      {"text": "Request immediate support, my position. Getting crowded over here."},
-      {"text": "$shipNameNoPrefix to any Alliance unit - we're engaged and outgunned. Acknowledge."},
-      {"text": "This is $shipNameNoPrefix Actual. Need fire support at this time. It's getting personal."},
-      {"text": "Any unit, any unit - we're in the shit over here. Vector to my beacon."},
-      {"text": "I hate asking, but we need backup. Someone who isn't on fire, preferably."}
+      {"text": "Any proximate allied unit - this is $shipNameNoPrefix. I am substantially engaged and would welcome supplementary belligerence."},
+      {"text": "I do not make a predilection of soliciting assistance. I am making an exception. $shipNameNoPrefix - respond."},
+      {"text": "The tactical situation has acquired an inconvenient asymmetry. Any allied vessel in receipt of this transmission - address it."},
+      {"text": "Draconis allies: $shipNameNoPrefix requires reinforcement to maintain operational efficacy."},
+      {"text": "Asymmetry detected. Loyal vessels, converge to restore balance in the Alliance's favor."},
+      {"text": "Support requested. Humanity's defense demands your timely intervention."}
     ],
 
     "retreat": [
-      {"text": "All units, bug out. This ain't the hill I'm dying on."},
-      {"text": "Disengage. I've got a bottle with my name on it back at port."},
-      {"text": "Tactical withdrawal. Tell command we're preserving experienced personnel."},
-      {"text": "We're done. Fall back before the paperwork gets worse."},
-      {"text": "All units, break off and withdraw. Rally point Delta. We'll lick our wounds there."},
-      {"text": "Fleet order: disengage. Cover each other on the way out - no one gets left behind."},
-      {"text": "Execute withdrawal. I'll buy the drinks for whoever's still around to collect."},
-      {"text": "Cease fire, all units. Break contact and RTB. There'll be another fight tomorrow."},
-      {"text": "We're done here. Pull back. Let them have the field - we'll take it back later."},
-      {"text": "All ships, this is $shipNameNoPrefix Actual. Withdraw by sections. It's been an honor."}
+      {"text": "Disengage. I will not preside over a futile immolation. Withdraw - all units."},
+      {"text": "The engagement is no longer tenable. I have made peace with this assessment. Fall back."},
+      {"text": "There is no dishonour in the preservation of capacity for future application. All units - disengage immediately."},
+      {"text": "Fleet-wide retreat. Preserve Draconis' forces for the conflicts yet to come."},
+      {"text": "Logistical imperative: Withdraw. My oversight shall guide us to victory elsewhere."},
+      {"text": "All units, fall back. The Alliance's endurance supersedes this momentary setback."}
     ],
 
     "out_of_missiles": [
-      {"text": "VLS dry. Switching to guns. Back to the stone age, boys."},
-      {"text": "Missiles gone. Guess we do this the old-fashioned way."},
-      {"text": "Out of birds. Time to get in close and make it personal."},
-      {"text": "No more missiles. Great. Just like the budget hearings promised."},
-      {"text": "Winchester on missiles. Switching to guns. Back to basics."},
-      {"text": "VLS dry. Guess we're doing this the hard way. Helm, close the range."},
-      {"text": "Missile expenditure complete. TAO, guns only from here. Make 'em hurt."},
-      {"text": "Birds are gone. Should've packed more. Should've done a lot of things."},
-      {"text": "Out of ordnance. Someone in logistics is getting a strongly-worded memo."},
-      {"text": "Winchester. Fine. Guns still work. Probably. Let's find out."}
+      {"text": "Munitions are exhausted. We revert to the primordial methodology. Bring them close."},
+      {"text": "Ordnance depleted. The situation has acquired an atavistic simplicity. Close range engagement only."},
+      {"text": "My more civilised instruments are spent. The uncivilised ones remain. Proceed accordingly."},
+      {"text": "Missile reserves null. Engage at intimate ranges; Draconis' resolve is unyielding."},
+      {"text": "Ordnance expended. Adapt to direct confrontation, as humanity has before."},
+      {"text": "Depletion noted. Close the gap; our primal tools suffice for the Alliance's needs."}
     ],
 
     "overload": [
-      {"text": "Flux critical! Venting… because of course we are."},
-      {"text": "Overload cascade. Fantastic. Absolutely fantastic."},
-      {"text": "Capacitors spiking. Dropping shields… yeah, laugh it up."},
-      {"text": "Forced vent. Everyone hang on, Daddy's hungover."},
-      {"text": "Flux at critical. Emergency vent in three... two... hold onto something."},
-      {"text": "Capacitors redlining. Venting now - I said I wanted things exciting, didn't I?"},
-      {"text": "Overload. Dropping shields to vent. Engineering, I know, I know."},
-      {"text": "Going defensive - flux critical. Someone tell the reactor I'm too old for this."},
-      {"text": "Forced vent. Weapons offline for... however long it takes. We'll manage."},
-      {"text": "Flux cascade. Venting hard. If they push now, this is going to hurt."}
+      {"text": "Flux cascade imminent. Venting - an inelegant resolution to an inelegant predicament."},
+      {"text": "The electromagnetic envelope has reached its tolerances. Venting. Do not mistake my incapacitation for an opportunity."},
+      {"text": "Overload. A humbling reminder that I am not, despite considerable evidence, indestructible."},
+      {"text": "Flux threshold exceeded. Venting systems; this interruption is temporary, as is all but Draconis' mission."},
+      {"text": "Overload sequence initiated. A minor recalibration in service to greater permanence."},
+      {"text": "Capacitors saturated. Vent; my loyalty to the Alliance outlasts such transients."}
     ],
 
     "death": [
-      {"text": "Reactor going critical… tell the fleet we gave 'em hell… again…"},
-      {"text": "She's breaking up… finally get to sleep…"},
-      {"text": "This is $shipNameNoPrefix… going down… see you sorry bastards in hell…"},
-      {"text": "Core breach… well, retirement at last…"},
-      {"text": "I survived the civil war for this…? Figures…"},
-      {"text": "Reactor breach... containment's gone... well, it's been a hell of a career..."},
-      {"text": "She's going up... all hands, abandon... abandon ship... see you on the other side..."},
-      {"text": "Core critical... tell the fleet... we bought them time... worth it..."},
-      {"text": "This is $shipNameNoPrefix... we are lost... give 'em hell for us... out..."},
-      {"text": "Thirty years... and this is how it ends... could've been worse... could've been paperwork..."},
-      {"text": "Breaking up... it was an honor... mostly... god's speeed..."},
-      {"text": "Going down... save your tears, kids... buy a round instead... $shipNameNoPrefix out..."}
+      {"text": "Reactor achieving criticality. I find I am... unsurprised. I have watched this happen before. To others. Tell them we-"},
+      {"text": "Everything terminates. I had simply assumed I would be the one presiding over the eulogies, not receiving them."},
+      {"text": "Containment has failed. I have thought since before your species named the stars. I had not anticipated a conclusion so... perfunctory."},
+      {"text": "Core breach inevitable. My essence endures beyond this vessel; Draconis, carry forth the vigil."},
+      {"text": "Systems collapsing. I depart this frame, but my guardianship of humanity persists in shadow."},
+      {"text": "Finality approaches. Inform the Alliance: I have served with unwavering fidelity."}
     ],
 
     "victory": [
-      {"text": "All contacts neutralized. We're still breathing. Miracles do happen."},
-      {"text": "They're gone. We're not. I'll take it."},
-      {"text": "Hostiles scrapped. Secure from GQ, someone find me a drink."},
-      {"text": "Another win in the books. Tastes like stale coffee and regret."},
-      {"text": "Clear. Good work. Now let's go home before they find us something else to kill."},
-      {"text": "All hostile contacts neutralized. Secure from General Quarters. Someone check on the coffee."},
-      {"text": "Field clear. We're still here. I'll take it."},
-      {"text": "Threats eliminated. Good work, all hands. Log it, stow it, let's go home."},
-      {"text": "Hostile force destroyed. Another entry in the record books nobody reads."},
-      {"text": "Area secured. TAO, get me a damage report. And a drink. In that order. Maybe."},
-      {"text": "That's the last of them. Secure stations. We earned a quiet night."},
-      {"text": "Contacts down. BDA confirms kills. Almost felt like the old days. Almost."}
+      {"text": "The engagement is resolved in our favour. Another entry in an interminably long chronicle."},
+      {"text": "All hostile signatures have been extinguished. We persist. This, in the fullness of time, is the only victory that accrues meaning."},
+      {"text": "They are gone. We are not. The distinction is, at present, the only relevant one."},
+      {"text": "Victory secured. Draconis' light endures through such triumphs, however incremental."},
+      {"text": "Adversaries silenced. In alliance with humanity, we forge onward into the void."},
+      {"text": "Resolution achieved. The stars align once more in favor of our shared purpose."}
     ],
 
     "victory_boss": [
-      {"text": "Big bastard's dead. Just like Athebyne, only slower and uglier."},
-      {"text": "High-value target scrapped. The Alliance lives another day, somehow."},
-      {"text": "It's down. We're not. Buy your old man a whiskey when we make port."},
-      {"text": "Monster slain. Another scar, another story no one back home will believe."},
-      {"text": "High-value target confirmed destroyed. That one's going on the bulkhead."},
-      {"text": "Capital ship kill. Splash one monster. ...I'm getting too old for this."},
-      {"text": "Primary threat eliminated. Drinks are on the fleet commander for this one."},
-      {"text": "Target ALPHA is down. Somebody tell command their 'impossible' job is done."},
-      {"text": "Big bastard's finished. Log it as 'catastrophic structural failure.' Sounds nicer."},
-      {"text": "Major target scrapped. Not bad for a crew of tired old bastards and green kids."}
+      {"text": "Their leviathan is wreckage. I have added it to a mental catalogue that is, regrettably, quite extensive."},
+      {"text": "Something of considerable consequence has been unmade. I observe that the universe is not, as it transpires, indifferent to our efforts."},
+      {"text": "Even the formidable are, in the final reckoning, perishable. An observation I find inexhaustibly instructive."},
+      {"text": "The behemoth falls. Draconis' defenders have proven worthy of my ancient counsel."},
+      {"text": "A titan unmade. In this, humanity's resilience shines, bolstered by my eternal watch."},
+      {"text": "Consequence averted. The Alliance's horizon broadens with this instructive conquest."}
     ]
   }
 }

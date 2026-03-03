@@ -12,7 +12,7 @@ public class XLII_PlasmaJetsStats extends BaseShipSystemScript {
     public static float SPEED_BONUS = 125f;
     public static float TURN_BONUS = 20f;
 
-    private final Color color = new Color(233,160,65,188);
+    private final Color color = new Color(235, 135, 65, 191);
 
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         if (state == ShipSystemStatsScript.State.OUT) {

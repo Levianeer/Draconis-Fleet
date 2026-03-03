@@ -1,11 +1,11 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 43,
+    "fluxCapacitors": 35,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_kuma",
     "hullMods": [
-        "dedicated_targeting_core",
+        "targetingunit",
         "advancedoptics"
     ],
     "permaMods": [],
@@ -69,7 +69,7 @@
         }
     ],
     "wings": [
-        "XLII_aldibain_wing",
-        "XLII_tianyi_wing"
+        "XLII_grumium_alt_wing",
+        "XLII_grumium_alt_wing"
     ]
 }

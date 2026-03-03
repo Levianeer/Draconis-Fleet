@@ -6,6 +6,7 @@ import com.fs.starfarer.api.graphics.SpriteAPI;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
+import org.magiclib.util.MagicRender;
 
 import java.awt.*;
 import java.util.*;
@@ -25,6 +26,12 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
     private static final float VISUAL_ARC_INTERVAL = 0.5f; // How often to show arcs on affected ships
     private static final float EFFECT_RADIUS_SCALE = 0.4f;
 
+    // Ring FX constants
+    private static final float ROTATION_SPEED = 5f; // degrees per second
+    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
+    private static final float SPRITE_SIZE = MAX_RANGE * 2f * SPRITE_ALIGNMENT_SCALE;
+    private static final Color RING_COLOR = new Color(255, 105, 90, 155);
+
     // Optimization: cache and update intervals
     private static final float TARGET_UPDATE_INTERVAL = 0.2f; // Only update target list 5 times per second
     private static final float CLEANUP_INTERVAL = 2f;
@@ -37,8 +44,6 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
     private float lastCleanupTime = 0f;
     private float lastVisualUpdateTime = 0f;
     private boolean wasOverloaded = false;
-
-    private RotatingRingPlugin activePlugin = null;
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
@@ -55,30 +60,25 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         if (isOverloaded && !wasOverloaded) {
             cleanupAllEffects(ship, id);
             wasOverloaded = true;
-            if (activePlugin != null) {
-                activePlugin.deactivate();
-                activePlugin = null;
-            }
             return;
         }
         wasOverloaded = isOverloaded;
 
-        // Manage visual effect plugin
-        // Check if plugin expired and needs recreation
-        if (activePlugin != null && activePlugin.isExpired()) {
-            activePlugin = null;
-        }
-
+        // Ring FX: drawn once per frame while active, no lifecycle management needed.
+        // effectLevel is 0->1 during IN and 1->0 during OUT, so scaling by it gives
+        // a natural grow-in / shrink-out animation for free.
         if (systemActive) {
-            if (activePlugin == null) {
-                activePlugin = new RotatingRingPlugin(ship);
-                engine.addLayeredRenderingPlugin(activePlugin);
-            } else {
-                activePlugin.activate(); // Reactivate if it was deactivating
-            }
-        } else if (activePlugin != null) {
-            activePlugin.deactivate();
-            // Don't null it out - let it fade out naturally and get cleaned up when expired
+            float angle = engine.getTotalElapsedTime(false) * ROTATION_SPEED;
+            float scaledSize = SPRITE_SIZE * effectLevel;
+            SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring_alt");
+            MagicRender.singleframe(
+                    ringSprite,
+                    ship.getLocation(),
+                    new Vector2f(scaledSize, scaledSize),
+                    angle,
+                    RING_COLOR,
+                    true
+            );
         }
 
         if (!systemActive) {
@@ -114,11 +114,6 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         ShipAPI ship = (ShipAPI) stats.getEntity();
         if (ship != null) {
             cleanupAllEffects(ship, id);
-        }
-
-        if (activePlugin != null) {
-            activePlugin.deactivate();
-            activePlugin = null;
         }
     }
 
@@ -279,110 +274,4 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
                 new StatusData("Jamming Defence System!", false) : null;
     }
 
-    /**
-     * Persistent rendering plugin for the rotating ring effect
-     */
-    private static class RotatingRingPlugin extends BaseCombatLayeredRenderingPlugin {
-        private final ShipAPI ship;
-        private SpriteAPI sprite;
-        private float angle = 0f;
-        private float fadeAlpha = 0f;
-        private float scale = 0f;
-        private boolean isDeactivating = false;
-        private float deactivateTime = 0f;
-        private float activateTime = 0f;
-
-        private static final float ROTATION_SPEED = 5f;
-        private static final float FADE_IN_TIME = 0.3f;
-        private static final float FADE_OUT_TIME = 0.3f;
-        // Sprite alignment correction: sprite canvas is 512px radius, but drawn ring is 448px radius
-        // Scale factor: 512/448 = 1.143 to align visual ring with actual effect range
-        private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
-        private static final float SPRITE_SIZE = MAX_RANGE * 2f * SPRITE_ALIGNMENT_SCALE; // Scale with effect range
-        private static final Color SPRITE_COLOR = new Color(255, 105, 90);
-        private static final float SPRITE_ALPHA = 155f;
-
-        public RotatingRingPlugin(ShipAPI ship) {
-            this.ship = ship;
-        }
-
-        private SpriteAPI getSprite() {
-            if (sprite == null) {
-                try {
-                    sprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring_alt");
-                    sprite.setAdditiveBlend();
-                } catch (Exception e) {
-                    // Sprite loading failed - silent fail
-                }
-            }
-            return sprite;
-        }
-
-        public void activate() {
-            isDeactivating = false;
-            deactivateTime = 0f;
-        }
-
-        public void deactivate() {
-            isDeactivating = true;
-        }
-
-        @Override
-        public void advance(float amount) {
-            if (Global.getCombatEngine().isPaused()) return;
-
-            // More efficient angle wrapping
-            angle += ROTATION_SPEED * amount;
-            if (angle >= 360f) angle -= 360f;
-
-            if (isDeactivating) {
-                deactivateTime += amount;
-                float progress = deactivateTime / FADE_OUT_TIME;
-                fadeAlpha = Math.max(0f, 1f - progress);
-                scale = Math.max(0f, 1f - progress);
-            } else {
-                activateTime += amount;
-                float progress = Math.min(1f, activateTime / FADE_IN_TIME);
-                fadeAlpha = progress;
-                scale = progress;
-            }
-        }
-
-        @Override
-        public void render(CombatEngineLayers layer, ViewportAPI viewport) {
-            if (!ship.isAlive() || fadeAlpha <= 0f || scale <= 0f) return;
-
-            SpriteAPI spr = getSprite();
-            if (spr == null) return;
-
-            Vector2f loc = ship.getLocation();
-            float scaledSize = SPRITE_SIZE * scale;
-
-            // No manual viewport culling - let the engine handle it via getRenderRadius()
-            // This prevents the effect from disappearing when partially off-screen
-            spr.setSize(scaledSize, scaledSize);
-            spr.setAngle(angle);
-            spr.setAlphaMult(fadeAlpha * SPRITE_ALPHA);
-            spr.setColor(SPRITE_COLOR);
-            spr.renderAtCenter(loc.x, loc.y);
-        }
-
-        @Override
-        public boolean isExpired() {
-            return !ship.isAlive() || (isDeactivating && fadeAlpha <= 0f);
-        }
-
-        @Override
-        public EnumSet<CombatEngineLayers> getActiveLayers() {
-            return EnumSet.of(CombatEngineLayers.ABOVE_SHIPS_LAYER);
-        }
-
-        @Override
-        public float getRenderRadius() {
-            // Return the maximum possible extent to prevent premature culling
-            // For a rotating square, diagonal = side * sqrt(2), so radius = side * sqrt(2) / 2
-            // Adding extra margin to ensure visibility during camera movement
-            return (SPRITE_SIZE * 0.707f + 500f) * scale; // sqrt(2)/2 plus safety margin
-        }
-    }
 }

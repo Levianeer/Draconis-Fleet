@@ -62,9 +62,13 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     private float ECCM = 1;   //A VALUE BELOW 1 WILL PREVENT THE MISSILE FROM EVER HITTING ITS TARGET!
 
     // Mist Cloud System Settings
-    private static final float CLOUD_RADIUS = 1200f;
+    private static final float CLOUD_RADIUS = 750f;
+    private static final float CLOUD_RADIUS_SQ = CLOUD_RADIUS * CLOUD_RADIUS;
     private static final float MIN_CLOUD_SPACING = 2400f; // 2x CLOUD_RADIUS - no overlap
-    private static final float IMPACT_UPDATE_INTERVAL = 2.5f; // Update impact point every 2.5 seconds
+    private static final float MIN_CLOUD_SPACING_SQ = MIN_CLOUD_SPACING * MIN_CLOUD_SPACING;
+    private static final float IMPACT_UPDATE_INTERVAL = 1f; // Update impact point every X seconds
+    // Extra buffer added to missile+ship collision radii for proximity pass-through detection
+    private static final float PROXIMITY_DETONATION_BUFFER = 1000f;
 
     // Tactical Scoring Weights
     private static final float ALLY_DAMAGED_BASE_SCORE = 100f;
@@ -99,10 +103,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     // Periodic impact point update tracking
     private float impactUpdateTimer = 0f;
 
-    // Reusable vectors to reduce allocations
-    private final Vector2f tempVec1 = new Vector2f();
-    private final Vector2f tempVec2 = new Vector2f();
-
     // Cached ship list for target selection (reused to avoid repeated engine.getShips() calls)
     private final List<ShipAPI> cachedShipList = new ArrayList<>();
 
@@ -114,9 +114,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
         this.MISSILE = missile;
         this.MISSILE_ID = "XLII_SLAP_TARGET_" + System.nanoTime() + "_" + (int)(Math.random() * 10000);
         MAX_SPEED = missile.getMaxSpeed();
-        if (missile.getSource() != null && missile.getSource().getVariant().getHullMods().contains("eccm")) {
-            ECCM = 1;
-        }
         //calculate the precision range factor
         PRECISION_RANGE = (float) Math.pow((2 * PRECISION_RANGE), 2);
         OFFSET = (float) (Math.random() * MathUtils.FPI * 2);
@@ -212,7 +209,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
         if (target instanceof ShipAPI) {
             ShipAPI targetShip = (ShipAPI) target;
             float distToTarget = MathUtils.getDistance(MISSILE.getLocation(), target.getLocation());
-            float detonationRange = targetShip.getCollisionRadius() + MISSILE.getCollisionRadius() + 50f;
+            float detonationRange = targetShip.getCollisionRadius() + MISSILE.getCollisionRadius() + PROXIMITY_DETONATION_BUFFER;
 
             // Track if we entered detonation range
             if (distToTarget <= detonationRange) {
@@ -467,8 +464,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
      */
     private boolean isShipInCloud(ShipAPI ship, List<Vector2f> cloudLocations) {
         for (Vector2f cloudCenter : cloudLocations) {
-            float distance = MathUtils.getDistance(ship.getLocation(), cloudCenter);
-            if (distance < CLOUD_RADIUS) {
+            if (MathUtils.getDistanceSquared(ship.getLocation(), cloudCenter) < CLOUD_RADIUS_SQ) {
                 return true;
             }
         }
@@ -538,12 +534,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
             ship.getLocation(),
             ship.getVelocity()
         );
-
-        if (intercept == null) {
-            return ship.getLocation();
-        }
-
-        return intercept;
+        return intercept != null ? intercept : ship.getLocation();
     }
 
     /**
@@ -551,16 +542,12 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
      */
     private boolean wouldOverlapCloud(Vector2f impactPoint, List<Vector2f> cloudLocations) {
         for (Vector2f cloudCenter : cloudLocations) {
-            float distance = MathUtils.getDistance(impactPoint, cloudCenter);
-            if (distance < MIN_CLOUD_SPACING) {
-                return true; // Too close to existing cloud
+            if (MathUtils.getDistanceSquared(impactPoint, cloudCenter) < MIN_CLOUD_SPACING_SQ) {
+                return true;
             }
         }
         return false;
     }
-
-    // OPTIMIZATION NOTE: getCloudLocations(), getOtherMissilesImpactPoints(), and countTargetedShips()
-    // have been combined into a single customData iteration in selectBestTarget() for better performance
 
     /**
      * Register this missile's target in customData for coordination

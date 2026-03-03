@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Draconis-Fleet.iml" filepath="$PROJECT_DIR$/Draconis-Fleet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tools/py/py.iml" filepath="$PROJECT_DIR$/tools/py/py.iml" />
     </modules>
   </component>
 </project>

@@ -1,24 +1,23 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 2,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 29,
     "goalVariant": true,
     "hullId": "XLII_juza",
     "hullMods": [
         "targetingunit",
-        "turretgyros",
-        "fluxdistributor"
+        "turretgyros"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juza_Elite",
     "weaponGroups": [
         {
-            "autofire": false,
-            "mode": "LINKED",
+            "autofire": true,
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "XLII_fragarch",
-                "WS0020": "XLII_fragarch"
+                "WS0003": "XLII_ttc",
+                "WS0020": "XLII_ttc"
             }
         },
         {

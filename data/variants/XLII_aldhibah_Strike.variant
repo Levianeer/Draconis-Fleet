@@ -1,13 +1,10 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 0,
     "fluxVents": 10,
     "goalVariant": true,
     "hullId": "XLII_aldhibah",
-    "hullMods": [
-        "missleracks",
-        "extendedshieldemitter"
-    ],
+    "hullMods": ["missleracks"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_aldhibah_Strike",

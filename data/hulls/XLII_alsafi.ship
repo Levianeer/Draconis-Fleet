@@ -2,7 +2,7 @@
   "hullName": "Alsafi",
   "hullId": "XLII_alsafi",
   "hullSize": "DESTROYER",
-  "spriteName": "graphics/ships/XLII_alsafi.png",
+  "spriteName": "graphics/ships/XLII_alsafi_fuel.png",
   "style": "DRACONIS",
   "height": 208,
   "width": 138,

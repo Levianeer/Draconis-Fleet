@@ -21,11 +21,13 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
 
     private static final float DISABLE_RADIUS = 1000f;
 
-    private boolean textDisplayed  = false;
-    private boolean spriteRendered  = false;
+    private static final float ROTATION_SPEED = 5f; // degrees per second
+    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
+    private static final Color RING_COLOR = new Color(90, 165, 255, 55);
+
+    private boolean textDisplayed = false;
 
     public static Color TEXT_COLOR = new Color(200, 200, 200);
-    SpriteAPI jammer_ring = Global.getSettings().getSprite("fx", "XLII_jammer_ring");
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
@@ -38,17 +40,25 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
             effectiveDisableRadius = DISABLE_RADIUS * 0.25f;
         }
 
-        // When system is active, show the text and render the sprite
-        if (state == State.ACTIVE) {
-            if (!textDisplayed) {
-                ship.getFluxTracker().showOverloadFloatyIfNeeded("Jamming!", TEXT_COLOR, 1f, true);
-                textDisplayed = true;
-            }
+        // Show activation text once when the system becomes fully active
+        if (state == State.ACTIVE && !textDisplayed) {
+            ship.getFluxTracker().showOverloadFloatyIfNeeded("Jamming!", TEXT_COLOR, 1f, true);
+            textDisplayed = true;
+        }
 
-            if (!spriteRendered) {
-                renderECMSprite(ship, effectiveDisableRadius);
-                spriteRendered = true;
-            }
+        // Ring FX: effectLevel scales 0->1 on IN and 1->0 on OUT for grow/shrink animation
+        if (effectLevel > 0f) {
+            float angle = Global.getCombatEngine().getTotalElapsedTime(false) * ROTATION_SPEED;
+            float scaledSize = effectiveDisableRadius * 2f * SPRITE_ALIGNMENT_SCALE * effectLevel;
+            SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring");
+            MagicRender.singleframe(
+                    ringSprite,
+                    ship.getLocation(),
+                    new Vector2f(scaledSize, scaledSize),
+                    angle,
+                    RING_COLOR,
+                    true
+            );
         }
 
         // Missile disable logic — use spatial query instead of iterating all missiles
@@ -68,37 +78,6 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
     @Override
     public void unapply(MutableShipStatsAPI stats, String id) {
         textDisplayed = false;
-        spriteRendered = false;
-    }
-
-    private void renderECMSprite(ShipAPI ship, float radius) {
-        // Sprite alignment correction: sprite canvas is 512px radius, but drawn ring is 448px radius
-        // Scale factor: 512/448 = 1.143 to align visual ring with actual effect range
-        float spriteAlignmentScale = 512f / 448f;
-        float spriteSize = radius * 2f * spriteAlignmentScale; // Diameter with alignment correction
-
-        Vector2f size = new Vector2f(spriteSize, spriteSize);
-        Vector2f growthNone = new Vector2f(0f, 0f); // no growth
-
-        Color color = new Color(90, 165, 255, 55);
-
-        MagicRender.objectspace(
-                this.jammer_ring,
-                ship,
-                growthNone,
-                new Vector2f(0f, 0f),
-                size,
-                growthNone,
-                0f,
-                0f,
-                false,
-                color,
-                false,
-                0.25f,
-                0.5f,
-                0.25f,
-                true
-        );
     }
 
     private void spawnHitParticle(Vector2f location) {

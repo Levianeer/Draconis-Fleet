@@ -2,6 +2,9 @@
 .claude/
 CLAUDE.md
 
+# System tools
+tools/
+
 # System files
 nul
 

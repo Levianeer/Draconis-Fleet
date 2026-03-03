@@ -289,11 +289,11 @@ public class XLII_FortySecond extends BaseHullMod {
         tooltip.addPara("Fitting XLII Battlegroup doctrine, multiple large cruise missiles are deployed in a circuit formation behind engagement lines - these missiles are then sent targets periodically during combat.",
                 opad, h);
 
-        tooltip.addPara("Deploys SLAP-ER Cruise Missiles that spread tactical nanomist swarms throughout combat. Clouds have %s radius and fade after 60 - 90 seconds.",
+        tooltip.addPara("Deploys SLAP-ER Cruise Missiles that spread tactical nanomist swarms throughout combat. Clouds have %s radius and fade after %s - %s seconds.",
                 opad, h,
-                "1200",
-                "60",
-                "90"
+                "700",
+                "15",
+                "30"
                 );
 
         tooltip.addPara("Allied ships in clouds gain %s hull repair per second when below maximum hull. Enemy ships suffer %s hull damage per second. Total healing or damage per ship is capped at %s hull points or %s of maximum hull, whichever is higher. Phased ships are immune to mist damage.",

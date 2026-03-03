@@ -31,10 +31,10 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
     // ==================== TUNING ====================
 
     /** Range within which an incoming enemy missile triggers a flare burst. */
-    static final float DETECTION_RANGE = 800f;
+    static final float DETECTION_RANGE = 900f;
 
     /** Minimum time between bursts, in seconds. */
-    static final float COOLDOWN = 8f;
+    static final float COOLDOWN = 12f;
 
     /** Minimum number of incoming enemy missiles required to trigger a burst. */
     private static final int MIN_MISSILES = 1;
@@ -145,19 +145,19 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
         Color h = Misc.getHighlightColor();
 
         tooltip.addPara(
-                "Automatically deploys countermeasure flares from built-in launch ports whenever an enemy missile"
-                        + " is detected within %s units.",
+                "Automatically deploys countermeasures from built-in launch ports whenever a hostile missile"
+                        + " is detected within %s range.",
                 opad, h,
                 String.valueOf(Math.round(DETECTION_RANGE)));
 
         tooltip.addPara(
-                "Flares are fired in a spread burst and cannot be re-triggered for %s seconds."
+                "Flares are fired in a burst and cannot be re-triggered for %s seconds."
                         + " Disabled while overloaded or venting.",
                 opad, h,
                 String.valueOf(Math.round(COOLDOWN)));
 
         tooltip.addPara(
-                "Fighters: detection range reduced to %s units with a %s second cooldown.",
+                "Fighters have a reduced detection range of %s but a shorter %s second cooldown.",
                 opad, h,
                 String.valueOf(Math.round(DETECTION_RANGE * 0.5f)),
                 String.valueOf(Math.round(COOLDOWN * 0.5f)));

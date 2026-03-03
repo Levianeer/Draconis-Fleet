@@ -1,13 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 23,
-    "fluxVents": 50,
+    "fluxCapacitors": 25,
+    "fluxVents": 13,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
         "eccm",
         "dedicated_targeting_core",
-        "turretgyros"
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],

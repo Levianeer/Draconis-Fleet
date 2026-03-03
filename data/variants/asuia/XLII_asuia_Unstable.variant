@@ -1,11 +1,10 @@
 {
     "displayName": "Unstable",
     "fluxCapacitors": 0,
-    "fluxVents": 20,
+    "fluxVents": 0,
     "hullId": "XLII_asuia",
     "hullMods": [
         "targetingunit",
-        "hardenedshieldemitter",
         "do_not_back_off"
     ],
     "permaMods": [],

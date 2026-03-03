@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 50,
-    "fluxVents": 20,
+    "fluxVents": 25,
     "hullId": "XLII_kuma",
     "hullMods": ["dedicated_targeting_core"],
     "permaMods": [],

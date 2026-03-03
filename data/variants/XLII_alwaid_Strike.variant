@@ -1,13 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 25,
+    "fluxCapacitors": 9,
     "fluxVents": 15,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
         "targetingunit",
-        "advancedoptics",
-        "eccm"
+        "eccm",
+        "hardenedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -49,8 +49,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0025": "XLII_sovnyalance",
-                "WS0026": "XLII_sovnyalance"
+                "WS0025": "XLII_ttc",
+                "WS0026": "XLII_ttc"
             }
         },
         {

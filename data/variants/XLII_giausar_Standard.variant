@@ -1,13 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 15,
+    "fluxCapacitors": 4,
     "fluxVents": 20,
     "hullId": "XLII_giausar",
-    "hullMods": [
-        "fluxdistributor",
-        "extendedshieldemitter",
-        "fluxbreakers"
-    ],
+    "hullMods": ["fluxdistributor"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_giausar_Standard",
@@ -33,5 +29,6 @@
                 "WS0005": "vulcan"
             }
         }
-    ]
+    ],
+    "wings": []
 }

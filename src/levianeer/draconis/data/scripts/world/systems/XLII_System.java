@@ -53,7 +53,7 @@ public class XLII_System implements SectorGeneratorPlugin {
 
         final float voriumAngle = 30f;
         final float voriumSize = 500f;
-        final float voriumDistance = 8800f * SCALE;
+        final float voriumDistance = 9000f * SCALE;
         final float voriumOrbit = 800f;
 
         final float pirateStationAngle = 170f;
@@ -99,10 +99,10 @@ public class XLII_System implements SectorGeneratorPlugin {
         final float tiamatOrbit = 20f;
 
         // Jormungandr - Outer ice giant
-        final float jormungandrAngle = 90f;
+        final float jormungandrAngle = 210f;
         final float jormungandrSize = 400f;
         final float jormungandrDistance = 9000f * SCALE;
-        final float jormungandrOrbit = 7300f;
+        final float jormungandrOrbit = 800f;
 
         // Hel - Jormungandr's frozen moon
         final float helAngle = 0f;
@@ -353,7 +353,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         athebyneMarket.addIndustry(Industries.SPACEPORT);
         athebyneMarket.addIndustry(Industries.MINING);
         athebyneMarket.addIndustry(Industries.REFINING);
-        athebyneMarket.addIndustry(Industries.FUELPROD);
         athebyneMarket.addIndustry(Industries.TECHMINING);
         athebyneMarket.addIndustry(Industries.GROUNDDEFENSES);
 
@@ -467,25 +466,6 @@ public class XLII_System implements SectorGeneratorPlugin {
 
         // MAGNETIC FIELDS
 
-        // Itoron magnetosphere (Earth-like)
-        SectorEntityToken itoronField = system.addTerrain(Terrain.MAGNETIC_FIELD,
-                new MagneticFieldTerrainPlugin.MagneticFieldParams(itoronSize + 50f, // middleRadius
-                        itoronSize + 110f, // outerRadius
-                        itoron, // focus
-                        itoronSize, // orbitRadius
-                        itoronSize + 160f, // bandWidth
-                        new Color(50, 175, 200, 100), // base color
-                        0.25f, // aurora frequency
-                        new Color[]{
-                                new Color(0, 255, 255, 35),
-                                new Color(191, 255, 0, 35),
-                                new Color(15, 226, 85, 35),
-                                new Color(50, 150, 255, 35),
-                                new Color(25, 250, 100, 150)
-                        }
-                ));
-        itoronField.setCircularOrbit(itoron, 0, 0, 100);
-
         // Vorium magnetosphere (Jupiter-like)
         SectorEntityToken voriumField = system.addTerrain(Terrain.MAGNETIC_FIELD,
                 new MagneticFieldTerrainPlugin.MagneticFieldParams(voriumSize + 50f,
@@ -495,14 +475,11 @@ public class XLII_System implements SectorGeneratorPlugin {
                         voriumSize + 300f,
                         new Color(250, 125, 100, 150),
                         0.25f,
-                        new Color[]{
-                                new Color(25, 250, 100, 150),
-                                new Color(0, 155, 205, 75),
-                                new Color(91, 155, 0, 85),
-                                new Color(15, 126, 75, 35),
-                                new Color(100, 75, 155, 65)
-                        }
-                ));
+                        new Color(25, 250, 100, 150),
+                        new Color(0, 155, 205, 75),
+                        new Color(91, 155, 0, 85),
+                        new Color(15, 126, 75, 35),
+                        new Color(100, 75, 155, 65)));
         voriumField.setCircularOrbit(vorium, 0, 0, 100);
 
         // Jormungandr magnetosphere (Ice giant - cyan/blue)
@@ -514,13 +491,10 @@ public class XLII_System implements SectorGeneratorPlugin {
                         jormungandrSize + 250f,
                         new Color(100, 150, 255, 120),
                         0.2f,
-                        new Color[]{
-                                new Color(100, 200, 255, 35),
-                                new Color(150, 220, 255, 35),
-                                new Color(80, 170, 255, 35),
-                                new Color(120, 190, 255, 50)
-                        }
-                ));
+                        new Color(100, 200, 255, 35),
+                        new Color(150, 220, 255, 35),
+                        new Color(80, 170, 255, 35),
+                        new Color(120, 190, 255, 50)));
         jormungandrField.setCircularOrbit(jormungandr, 0, 0, 100);
 
         // Hyperspace cleanup - clear storms around the system

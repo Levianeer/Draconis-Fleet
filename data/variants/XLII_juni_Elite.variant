@@ -1,11 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 16,
-    "fluxVents": 0,
+    "fluxCapacitors": 9,
+    "fluxVents": 2,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
-        "missile_autoloader",
         "magazines",
         "hardenedshieldemitter",
         "dedicated_targeting_core"

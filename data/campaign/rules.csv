@@ -25,18 +25,26 @@ He leans forward slightly, the motion causing the encryption to ripple and disto
 
 Your command console chimes softly - an incoming data packet, heavily encrypted.","1:XLII_admiral_init_commissionedTrader:Continue",
 XLII_admiral_init_commissionedTrader,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
-$tag:XLII_fleet_admiral_emil",,"""I'm authorized to offer you something off the books,"" he continues. ""The XLII's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMenuOptions","""I'm authorized to offer you something off the books,"" he continues. ""The XLII's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
 
 A calculated pause. The kind that precedes uncomfortable truths.
 
-""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""","1:buy_grumium_alt:I'll purchase a Grumium Fighter Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
+""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""",,
+XLII_admiral_menu_shop_opts,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil",,,"1:buy_grumium_alt:I'll purchase a Grumium Fighter Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
 2:buy_grumium:I'll purchase a Grumium Bomber Wing ($XLII_cost_credits_formatted_grumium credits, $XLII_cost_rep_grumium rep)
-3:buy_alruba:I'll purchase a Alruba-class Gunship ($XLII_cost_credits_formatted_alruba credits, $XLII_cost_rep_alruba rep)
+3:buy_alruba:I'll purchase an Alruba-class Gunship ($XLII_cost_credits_formatted_alruba credits, $XLII_cost_rep_alruba rep)
 4:buy_shaobi:I'll purchase a Shaobi-class Carrier ($XLII_cost_credits_formatted_shaobi credits, $XLII_cost_rep_shaobi rep)
-5:buy_errakis:I'll purchase a Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
+5:buy_errakis:I'll purchase an Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
 6:buy_juza:I'll purchase a Juza-class Heavy Cruiser ($XLII_cost_credits_formatted_juza credits, $XLII_cost_rep_juza rep)
-7:buy_alwaid:I'll purchase a Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
+7:buy_alwaid:I'll purchase an Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
 8:decline:Perhaps another time",
+XLII_admiral_menu_nanoforge_discuss_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_nanoforgeQuestOffered
+!$global.XLII_nanoforgeQuestComplete",,,"9:XLII_nanoforge_discuss:There's another matter I'd like to raise.",
+XLII_admiral_menu_nanoforge_deliver_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil
+$global.XLII_nanoforgeQuestOffered
+XLII_NanoforgeExchange check
+!$global.XLII_nanoforgeQuestComplete",,,"10:XLII_nanoforge_deliver:I have a Pristine Nanoforge to offer.",
 XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
 
 ""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
@@ -310,4 +318,43 @@ $player.numColonies > 0","FireAll RelLevelMoreDescription","The Alliance views y
 XLII_aiCores_turnInOptionSel,DialogOptionSelected,"$option == aiCores_startTurnIn
 $faction.id == XLII_draconis","FireAll PopulateCoresTurnInOptions","""We're prepared to pay well for these - better than you'd get selling them quietly elsewhere, and without the legal complications. The Alliance has legitimate research applications for recovered cores. What Hegemony inspectors don't know won't trouble them, or you.""",,
 "#END Generic AI Core Donation",,,,,,
+,,,,,,
+# Sigma Octantis Quest,,,,,,
+XLII_nanoforge_discuss_eligible,DialogOptionSelected,"$option == XLII_nanoforge_discuss
+$tag:XLII_fleet_admiral_emil
+XLII_CheckAdmiralRep
+!$global.XLII_nanoforgeQuestOffered","$global.XLII_nanoforgeQuestOffered = true","""There is one thing."" A brief pause that, for once, doesn't feel like a tactic. ""Something the Alliance needs - not just for the war effort. But for what comes after it.
+
+Kori's yards can produce hulls well enough. But what we cannot produce - not yet - is the precision manufacturing infrastructure we lost during the civil war. A Pristine Nanoforge. Domain-era. Undamaged.
+
+If you come across one, bring it to me directly."" The encrypted silhouette leans forward slightly. ""I won't ask where you found it. You won't need to ask what we intend to do with it.""
+
+A brief pause.
+
+""The Alliance does not forget its debts, Commander.""","1:XLII_admiral_init_commissionedTrader:Understood.",
+XLII_nanoforge_discuss_fallback,DialogOptionSelected,"$option == XLII_nanoforge_discuss
+$tag:XLII_fleet_admiral_emil",,"""You've served us well enough, Commander - that's not in question."" A measured pause. ""But some matters I hold in reserve for those who've given the Alliance more... comprehensive proof of commitment.
+
+Keep doing what you're doing. That conversation will happen when the time is right.""","1:XLII_admiral_init_commissionedTrader:Understood.",
+XLII_nanoforge_deliver_success,DialogOptionSelected,"$option == XLII_nanoforge_deliver
+$tag:XLII_fleet_admiral_emil
+$global.XLII_nanoforgeQuestOffered
+XLII_NanoforgeExchange check
+!$global.XLII_nanoforgeQuestComplete","XLII_NanoforgeExchange give
+$global.XLII_nanoforgeQuestComplete = true
+AddCredits 500000
+AddStoryPoints 5","The silhouette on the screen is still for a long moment.
+
+""Some things are better kept off the record. But thank you, truly.""
+
+You hear something being keyed in the background.
+
+""The forge goes to Kori. What it produces will outlast both of us."" A pause - the first one that doesn't feel calculated. ""I owe you something for this. Something the Alliance Intelligence Office has held since Kori's darkest days.""
+
+Data streams to your command console - encrypted manifests, operational assessments, a transfer authorization bearing August's personal cipher.
+
+""Sigma Octantis. Whatever it truly is - and I've been advised not to speculate - it will serve your fleet well. I have it on authority that it performs."" A brief silence before the connection modulates.
+
+""Needless to say, do not lose it, Commander. We will not provide another.""","1:dismiss:End transmission",
+"#END Sigma Octantis Quest",,,,,,
 

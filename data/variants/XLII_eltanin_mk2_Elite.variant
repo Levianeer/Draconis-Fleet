@@ -1,13 +1,12 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 30,
-    "fluxVents": 0,
+    "fluxCapacitors": 0,
+    "fluxVents": 9,
     "goalVariant": true,
     "hullId": "XLII_eltanin_mk2",
     "hullMods": [
         "targetingunit",
         "hardenedshieldemitter",
-        "stabilizedshieldemitter",
         "eccm"
     ],
     "permaMods": [],

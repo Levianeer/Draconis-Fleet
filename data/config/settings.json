@@ -132,9 +132,9 @@
 		"testLevelOverride": -1,					# DEBUG: Force a specific DRACON level (-1 = disabled, 1-5 = forced level)	#	Default : -1
 
 		"factorWeights": {							# How much each threat factor contributes to the score
-			"warScorePerWar": 5,					# Points per faction at war with DDA	#	Default : 5
-			"lostColonyScore": 25,					# Points per baseline market lost	#	Default : 25
-			"unstableMarketScore": 5,				# Points per unstable DDA market (stability <= threshold)	#	Default : 5
+			"warScorePerWar": 10,					# Points per faction at war with DDA	#	Default : 10
+			"lostColonyScore": 50,					# Points per baseline market lost	#	Default : 25
+			"unstableMarketScore": 10,				# Points per unstable DDA market (stability <= threshold)	#	Default : 10
 			"maxFleetWeaknessScore": 10,			# Maximum points from fleet weakness ratio	#	Default : 10
 			"invasionPressureScore": 25				# Points if invasion/raid fleet targets DDA (binary)	#	Default : 25
 		},
@@ -161,7 +161,7 @@
 	"draconisAICoreScaling": {
 		"enabled": true,						# Enable/disable AI core fleet scaling	#	Default : true
 		"testCycleOverride": -1,				# DEBUG: Override game cycle for testing (-1 = disabled, X = test at that cycle)	#	Default : -1
-		"recheckIntervalDays": 30.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 60.0
+		"recheckIntervalDays": 30.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 30.0
 
 		# Cycle thresholds defining the scaling curve
 		# NOTE: Starsector campaigns start at cycle ~206, so these are absolute cycle numbers
@@ -177,9 +177,9 @@
 
 		# Coverage percentages (how many empty officer slots to fill with AI cores)
 		"coveragePercentages": {
-			"earlyGame": 0.0,					# 0% at cycles 1-5		#	Default : 0.0
-			"midGame": 0.30,					# 30% at cycle 20		#	Default : 0.30
-			"lateGame": 0.70,					# 70% at cycle 50		#	Default : 0.70
+			"earlyGame": 0.1,					# 10% at cycles 1-5		#	Default : 0.1
+			"midGame": 0.25,					# 25% at cycle 20		#	Default : 0.25
+			"lateGame": 0.75,					# 70% at cycle 50		#	Default : 0.75
 			"endGame": 1.0						# 100% at cycle 100+	#	Default : 1.0
 		},
 
@@ -230,6 +230,7 @@
 		},
 		"misc":{
 			"draconis_luna_icon":"graphics/hullmods/crest_draconis.png",
+			"XLII_marginal_allocation_icon":"graphics/icons/hullsys/XLII_marginal_allocation.png",
 		},
 		"missiles":{
 			"XLII_phasetorp_glow1":"graphics/missiles/XLII_phasetorp_glow1.png",
@@ -250,7 +251,8 @@
 			"XLII_jammer_ring_alt":"graphics/fx/XLII_jammer_ring_alt.png",
 			"XLII_warning_ring":"graphics/fx/shields256ringd.png",
 			"XLII_blur_contrail":"graphics/fx/XLII_blur_contrail.png",
-			"XLII_shock_contrail":"graphics/fx/XLII_shock_contrail.png"
+			"XLII_shock_contrail":"graphics/fx/XLII_shock_contrail.png",
+			"XLII_beam_contrail":"graphics/fx/XLII_beam_contrail.png"
 		},
 		"planets":{
 			"XLII_itoron":"graphics/mod/planets/XLII_itoron.jpg",

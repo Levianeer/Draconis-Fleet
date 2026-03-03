@@ -4,7 +4,7 @@ Draconis Hull,XLII_draconishull,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.drac
 Forty Second Battlegroup,XLII_fortysecond,,,XLII Battlegroup,codex_require_related,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_FortySecond,Hidden hullmod for managing the special properties of XLII Defence Fleet ships. Description created in script.,,,graphics/hullmods/XLII_crest_draconis_2.png
 ,,,,,,,,,,,,,,,,,,,
 #Built-In Buffs,,,,,,,,,,,,,,,,,,,
-Auto Flare Launcher,XLII_autoflarelauncher,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_AutoFlareLauncher,To do.,Automatically fires flare countermeasures when missiles are detected.,,graphics/hullmods/reduced_explosion.png
+Autoflare Dispenser,XLII_autoflarelauncher,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_AutoFlareLauncher,To do.,Automatically fires countermeasures when missiles are detected.,,graphics/hullmods/XLII_countermeasures.png
 Missile Control Matrix,XLII_missileuplink,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_MissileGuidanceUplink,"Features an onboard missile autoforge that periodically makes ammo for the twin large missile weapons.
 
 Additionally, all missiles have their hitpoints increased by %s.",Increases missile health; slowly regenerates ammo for large missile weapons.,,graphics/hullmods/missile_autofactory.png
@@ -27,4 +27,5 @@ Alliance Trained Crews,CHM_XLII_draconis,,,Draconis,,,,,TRUE,,0,0,0,0,data.scrip
 ,,,,,,,,,,,,,,,,,,,
 #Hidden,,,,,,,,,,,,,,,,,,,
 Phase Torpedo Array Automod,XLII_phasetorparray_automod,,,Draconis,,,10000,,TRUE,TRUE,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_PhaseTorpedoArrayAutomod,Hidden hullmod for ensuring charges are always even when gaining additional charges for symmetrical torpedo spawning.,Phase Torpedo Array system charges rounded to even numbers.,,graphics/icons/skills/hypercognition.png
+,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,

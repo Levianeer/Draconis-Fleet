@@ -1,7 +1,7 @@
 {
     "displayName": "Support",
-    "fluxCapacitors": 11,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 16,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [

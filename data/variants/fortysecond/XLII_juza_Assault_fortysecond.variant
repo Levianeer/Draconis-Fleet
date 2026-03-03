@@ -1,12 +1,11 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 1,
-    "fluxVents": 30,
+    "fluxCapacitors": 6,
+    "fluxVents": 22,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
         "targetingunit",
-        "fluxdistributor",
-        "armoredweapons"
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -36,8 +35,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_particlelance",
-                "WS0019": "XLII_particlelance"
+                "WS0018": "XLII_culverin",
+                "WS0019": "XLII_culverin"
             }
         },
         {

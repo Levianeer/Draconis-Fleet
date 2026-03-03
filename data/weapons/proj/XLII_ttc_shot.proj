@@ -1,0 +1,21 @@
+{
+	"id":"XLII_ttc_shot",
+	"specClass":"projectile",
+	"spawnType":"BALLISTIC",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"length":32.0,
+	"hitGlowRadius":64,
+	"width":9.0,
+	"fadeTime":0.25,
+	"fringeColor":[160,32,240,175],
+	"coreColor":[255,5,5,205],
+	"glowColor":[205,205,205,105],
+	"glowRadius":32,
+	"textureScrollSpeed":64.0,
+	"pixelsPerTexel":9.0,
+	"passThroughMissiles":true,
+	"passThroughFighters":true,
+	"passThroughFightersOnlyWhenDestroyed":true,
+	"bulletSprite":"graphics/missiles/missile_sabot_warhead.png"
+}

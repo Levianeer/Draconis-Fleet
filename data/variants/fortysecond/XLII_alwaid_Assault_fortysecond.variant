@@ -1,7 +1,7 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 50,
-    "fluxVents": 0,
+    "fluxCapacitors": 0,
+    "fluxVents": 18,
     "hullId": "XLII_alwaid_fortysecond",
     "hullMods": [
         "targetingunit",
@@ -44,11 +44,11 @@
             }
         },
         {
-            "autofire": false,
-            "mode": "ALTERNATING",
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
-                "WS0025": "XLII_longsword",
-                "WS0026": "XLII_longsword"
+                "WS0025": "XLII_ttc",
+                "WS0026": "XLII_ttc"
             }
         },
         {
@@ -72,7 +72,7 @@
     "wings": [
         "XLII_grumium_alt_wing",
         "XLII_grumium_alt_wing",
-        "XLII_grumium_alt_wing",
+        "XLII_grumium_wing",
         "XLII_grumium_wing"
     ]
 }

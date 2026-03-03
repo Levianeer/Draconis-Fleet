@@ -1,10 +1,10 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 12,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 26,
     "goalVariant": true,
     "hullId": "XLII_eltanin",
-    "hullMods": ["unstable_injector"],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_eltanin_Strike",
@@ -25,14 +25,14 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_sovnyalance"}
+            "weapons": {"WS0015": "XLII_ttc"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_culverin",
-                "WS0007": "XLII_culverin"
+                "WS0005": "XLII_rapier",
+                "WS0007": "XLII_rapier"
             }
         },
         {

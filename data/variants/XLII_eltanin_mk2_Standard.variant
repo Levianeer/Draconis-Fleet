@@ -1,12 +1,11 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 16,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 28,
     "hullId": "XLII_eltanin_mk2",
     "hullMods": [
         "dedicated_targeting_core",
-        "stabilizedshieldemitter",
-        "fluxdistributor"
+        "stabilizedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],

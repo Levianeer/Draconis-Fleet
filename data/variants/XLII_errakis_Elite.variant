@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 20,
-    "fluxVents": 1,
+    "fluxVents": 7,
     "goalVariant": true,
     "hullId": "XLII_errakis",
     "hullMods": ["eccm"],
@@ -23,9 +23,9 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0018": "XLII_cestus"}
+            "weapons": {"WS0018": "XLII_rapier"}
         },
         {
             "autofire": true,

@@ -130,9 +130,10 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
      * Rendering plugin for a ring group spawned at a fixed world position along a projectile's path.
      * Renders at a static world position since the projectile moves away from the spawn point.
      */
-    protected static class ProjectileRingEffectPlugin extends BaseCombatLayeredRenderingPlugin {
+    public static class ProjectileRingEffectPlugin extends BaseCombatLayeredRenderingPlugin {
         protected List<ParticleData> particles = new ArrayList<>();
         protected Vector2f worldPosition;
+        protected Vector2f velocity = null; // if non-null, worldPosition moves each frame
         protected float facingAngle;
         protected Color coreColor;
         protected Color fringeColor;
@@ -160,9 +161,22 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
             particles.add(new ParticleData(ring3, baseSize, 5.667f, 0f, duration3));
         }
 
+        /** Overload that also sets a drift velocity for the ring group. */
+        public ProjectileRingEffectPlugin(Vector2f worldPosition, float facingAngle,
+                                          float sizeMultiplier, float durationMultiplier,
+                                          Color coreColor, Color fringeColor, Vector2f velocity) {
+            this(worldPosition, facingAngle, sizeMultiplier, durationMultiplier, coreColor, fringeColor);
+            this.velocity = new Vector2f(velocity);
+        }
+
         @Override
         public void advance(float amount) {
             if (Global.getCombatEngine().isPaused()) return;
+
+            if (velocity != null) {
+                worldPosition.x += velocity.x * amount;
+                worldPosition.y += velocity.y * amount;
+            }
 
             List<ParticleData> toRemove = new ArrayList<>();
             for (ParticleData p : particles) {

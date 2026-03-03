@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 11,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 26,
     "goalVariant": true,
     "hullId": "XLII_eltanin",
     "hullMods": [
@@ -48,7 +48,7 @@
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
                 "WS0001": "XLII_swordbreaker",

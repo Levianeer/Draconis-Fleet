@@ -1,12 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 11,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 25,
     "hullId": "XLII_nushi_mk2",
-    "hullMods": [
-        "dedicated_targeting_core",
-        "armoredweapons"
-    ],
+    "hullMods": ["dedicated_targeting_core"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_nushi_mk2_Standard",

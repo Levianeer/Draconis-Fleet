@@ -1,3 +1,229 @@
+Version 0.6.6 (Save-compatible with 0.6.5)
+NEW CONTENT:
+- NEW: Sigma Octantis - A unique AI Core officer with a dedicated questline.
+  - Quest: earn sufficient standing with the Draconis Alliance to unlock a special dialogue
+    option with Fleet Admiral Emil. He'll ask you to procure a Pristine Nanoforge for the
+    Alliance. Deliver one and receive the Sigma Octantis Uplink as your reward.
+  - Unique skill: Marginal Allocation.
+  - Failure state: if your reputation with the Draconis Alliance drops to hostile or below
+    while Sigma Octantis is in your possession, it will confront you and permanently sever the
+    connection - the core is removed from your fleet, cargo, and all market storage and cannot
+    be recovered. (Console command it back if you want to keep it, this check is only made once).
+- NEW: Tianlong-class Battlecruiser - A fast battlecruiser with three large mounts in superfiring configuration.
+- NEW: Trebuchet Cannon - Large triple-barrel energy weapon.
+- NEW: Alsafi-class Cargo Freighter - A dedicated freighter variant of the Alsafi.
+  - Higher cargo capacity (400) than the base Alsafi.
+  - Much lower fuel capacity (80) - trades range for hauling power.
+
+BALANCE CHANGES:
+- General fleet-wide balance pass; most ships received adjustments to flux, armor, and shields.
+- Reclassified Alsafi as a dedicated Tanker:
+  - Reduced cargo: 200 -> 20.
+  - Increased fuel: 400 -> 800.
+  - Buffed max flux: 1750 -> 3600.
+  - Buffed flux dissipation: 105 -> 215.
+  - Increased OP: 65 -> 75.
+  - Increased CR to deploy: 15 -> 20.
+  - Increased DP: 4 -> 5.
+  - Reduced base value: 25,000 -> 20,000.
+- Rebalanced Aldhibah-class Frigate:
+  - Reduced flux dissipation: 280 -> 275.
+  - Reduced OP: 55 -> 50.
+  - Reduced max burn: 10 -> 9.
+- Rebalanced Alruba-class Gunship:
+  - Reduced armor: 500 -> 300.
+  - Reduced max flux: 4500 -> 3750.
+  - Reduced flux dissipation: 360 -> 300.
+  - Improved shield efficiency: 1.2 -> 1.0.
+- Rebalanced Alruba Mk.II-class Gunship:
+  - Increased FP: 8 -> 9.
+  - Reduced armor: 500 -> 300.
+  - Reduced max flux: 4700 -> 3750.
+  - Reduced flux dissipation: 380 -> 300.
+  - Improved shield efficiency: 1.1 -> 1.0.
+- Rebalanced Thuban-class Corvette:
+  - Reduced max flux: 5300 -> 4000.
+  - Reduced flux dissipation: 425 -> 320.
+  - Improved shield efficiency: 1.2 -> 1.1.
+  - Reduced max burn: 11 -> 10.
+- Rebalanced Errakis-class Missile Destroyer:
+  - Changed ship system: Maneuvering Jets -> Fast Missile Racks.
+  - Increased OP: 90 -> 95.
+  - Increased max speed: 70 -> 75.
+- Rebalanced Giausar-class Destroyer:
+  - Reduced max flux: 9000 -> 4500.
+  - Reduced flux dissipation: 540 -> 270.
+  - Reduced OP: 85 -> 60.
+- Rebalanced Rastaban-class Light Destroyer:
+  - Reduced max flux: 8700 -> 7000.
+  - Reduced flux dissipation: 525 -> 425.
+  - Reduced OP: 90 -> 80.
+  - Improved shield efficiency: 1.3 -> 1.2.
+- Rebalanced Shaobi-class Light Carrier:
+  - Increased hitpoints: 3000 -> 3500.
+  - Increased armor: 300 -> 330.
+  - Reduced max flux: 8000 -> 5000.
+  - Reduced flux dissipation: 480 -> 300.
+  - Reduced OP: 105 -> 90.
+  - Improved shield efficiency: 1.3 -> 1.2.
+- Rebalanced Shaowei-class Phase Destroyer:
+  - Increased hitpoints: 3500 -> 4500.
+  - Increased max flux: 5500 -> 6000.
+  - Reduced flux dissipation: 600 -> 500.
+  - Reduced OP: 95 -> 80.
+- Rebalanced Eltanin-class Light Cruiser:
+  - Increased flux dissipation: 400 -> 500.
+  - Reduced OP: 140 -> 125.
+  - Reduced max burn: 9 -> 8.
+- Rebalanced Juni-class Cruiser:
+  - Reduced armor: 1000 -> 900.
+  - Increased max flux: 12000 -> 14000.
+  - Reduced flux dissipation: 700 -> 650.
+  - Reduced OP: 155 -> 130.
+  - Increased acceleration: 35 -> 40.
+  - Increased deceleration: 25 -> 30.
+  - Reduced max burn: 8 -> 7.
+- Rebalanced Juza-class Heavy Cruiser:
+  - Reduced FP: 24 -> 22.
+  - Reduced hitpoints: 14000 -> 10000.
+  - Reduced max flux: 15000 -> 14500.
+  - Increased flux dissipation: 550 -> 725.
+  - Reduced OP: 175 -> 160.
+  - Reduced fuel/ly: 5 -> 4.
+  - Reduced max burn: 8 -> 7.
+  - Improved shield efficiency: 1.4 -> 1.2.
+- Rebalanced Nushi-class Cruiser:
+  - Downgraded one large ballistic turret to medium.
+  - Reduced FP: 22 -> 18.
+  - Reduced DP: 34 -> 30.
+  - Increased hitpoints: 5000 -> 6500.
+  - Increased armor: 750 -> 800.
+  - Increased max flux: 10000 -> 12000.
+  - Reduced OP: 135 -> 120.
+  - Reduced max speed: 90 -> 75.
+  - Reduced acceleration: 100 -> 80.
+  - Reduced deceleration: 80 -> 60.
+  - Reduced max turn rate: 30 -> 25.
+  - Reduced turn acceleration: 60 -> 35.
+  - Reduced max burn: 9 -> 8.
+  - Reduced shield efficiency: 0.8 -> 1.1.
+- Rebalanced Nushi Mk.II-class Cruiser:
+  - Reduced FP: 20 -> 16.
+  - Reduced DP: 28 -> 25.
+  - Increased hitpoints: 4800 -> 6000.
+  - Increased armor: 650 -> 750.
+  - Increased max flux: 11000 -> 12000.
+  - Reduced flux dissipation: 700 -> 550.
+  - Reduced OP: 145 -> 120.
+  - Reduced max speed: 90 -> 85.
+  - Reduced acceleration: 110 -> 80.
+  - Reduced deceleration: 90 -> 60.
+  - Reduced max turn rate: 40 -> 25.
+  - Reduced turn acceleration: 80 -> 35.
+  - Increased mass: 1600 -> 1750.
+  - Reduced max burn: 10 -> 8.
+  - Reduced shield efficiency: 0.7 -> 1.0.
+- Rebalanced Yunu-class Combat Freighter:
+  - Increased armor: 750 -> 850.
+  - Reduced max flux: 20000 -> 16000.
+  - Reduced flux dissipation: 1000 -> 800.
+  - Reduced OP: 190 -> 160.
+  - Reduced max burn: 9 -> 7.
+  - Reduced shield efficiency: 1.0 -> 1.4.
+- Rebalanced Altais-class Battlecruiser:
+  - Reduced FP: 26 -> 22.
+  - Reduced max burn: 8 -> 7.
+  - Reduced shield efficiency: 1.0 -> 1.1.
+- Rebalanced Alwaid-class Battlecarrier:
+  - Reduced FP: 36 -> 34.
+  - Reduced armor: 1500 -> 1200.
+  - Reduced max flux: 46500 -> 30000.
+  - Reduced flux dissipation: 1850 -> 1200.
+  - Reduced OP: 350 -> 320.
+  - Reduced max burn: 7 -> 6.
+- Rebalanced Dziban-class Battlecruiser:
+  - Reduced FP: 24 -> 22.
+  - Reduced armor: 1200 -> 1100.
+  - Reduced flux dissipation: 1100 -> 900.
+  - Reduced max burn: 8 -> 7.
+- Rebalanced Kuma-class Battleship:
+  - Reduced FP: 32 -> 30.
+  - Reduced base value: 500,000 -> 450,000.
+  - Reduced armor: 1200 -> 1000.
+  - Increased max flux: 22500 -> 28000.
+  - Reduced flux dissipation: 1600 -> 1100.
+  - Increased OP: 265 -> 270.
+  - Reduced max burn: 7 -> 6.
+  - Reduced shield efficiency: 1.2 -> 1.4.
+- Rebalanced Asuia-class Cruiser:
+  - Reduced max flux: 16000 -> 14000.
+  - Reduced flux dissipation: 800 -> 700.
+  - Reduced OP: 140 -> 105.
+  - Reduced max burn: 9 -> 8.
+- Rebalanced Grumium Heavy Bomber:
+  - Reduced op cost: 18 -> 16.
+- Rebalanced Grumium Heavy Fighter:
+  - Removed Ammofeed ship system.
+  - Changed wing formation: BOX -> V.
+  - Reduced op cost: 20 -> 18.
+- Rebalanced Mangonel Gun Launcher:
+  - Reduced flux/shot: 1500 -> 1200.
+- Rebalanced Twin Spear Cannon:
+  - Reduced chargedown: 4 -> 3.
+- Rebalanced Longsword Autocannon:
+  - Decreased Rarity: 0.5 -> 0.7.
+  - Reduced impact: 75 -> 50.
+  - Reduced ammo: 9 -> 6.
+  - Improved reload rate: 0.35 -> 0.5 ammo/sec.
+- Rebalanced Fragarach Railgun:
+  - Increased OP cost: 28 -> 30.
+  - Increased base value: 3,200 -> 4,200.
+  - Changed primary role tag: Anti Armor -> General.
+- Rebalanced Micro Bardiche Launcher:
+  - Increased range: 1000 -> 1500.
+- Rebalanced Bardiche MLRS Launcher:
+  - Reduced range: 2000 -> 1500.
+- Rebalanced Phase Torpedo Array (system weapon):
+  - Reduced damage: 2000 -> 1000.
+- Rebalanced Kestros Autocannon (fighter):
+  - Reduced range: 700 -> 600.
+  - Reduced flux/shot: 15 -> 10.
+  - Improved fire rate (chargedown: 0.125 -> 0.1).
+- Adjusted Jammer Suite ship system timing:
+  - Breach Jammer: Increased charge up/down: 0.1 -> 0.5.
+  - Pulsar Jammer: Added charge up/down: 0.5.
+  - Blackout Jammer: Added charge up/down: 0.1.
+
+FACTION CHANGES:
+- Increased combat freighter spawn probability in fleet compositions: 1.25 -> 1.5.
+- Updated fleet role assignments:
+  - Alsafi now properly assigned to tanker role.
+  - Alsafi (Cargo) now assigned to freighter role.
+  - Yunu removed from freighter role; kept as primary combat freighter.
+
+MINOR IMPROVEMENTS:
+- Changed Jormungandr so it stays opposite Vorium.
+- Improved Missile Barrage ship system status string formatting.
+- Updated Alsafi sprite to distinguish tanker variant.
+- Renamed "Auto Flare Launcher" hullmod to "Autoflare Dispenser".
+  - Increased detection range: 800 -> 900.
+  - Increased cooldown: 8 -> 12 sec.
+  - Updated hullmod icon.
+- Reworked Plasma Jets ship system timing:
+  - Faster activation (charge up: 1 -> 0.5).
+  - Doubled active duration: 3 -> 6.
+  - Faster deactivation (charge down: 3 -> 0.5).
+  - Reduced cooldown: 6 -> 5.
+- Improved Evasion Protocol flare countermeasures:
+  - Increased effect range: 300 -> 400.
+  - Increased effect chance: 0.3 -> 0.4.
+  - Reduced flare visual size.
+- Adjusted weapon sound effects (Fragarach pitch, Longsword volume).
+- Kestros Autocannon now uses a dedicated projectile and custom fire sound.
+- Updated Durendal Cannon muzzle flash visuals.
+- Refactored jammer suite ring visual effects for improved performance.
+- Reworked SLAP-ER mist cloud parameters (reduced radius and lifetime).
+
 Version 0.6.5 (Save-compatible with 0.6.4)
 NEW CONTENT:
 - NEW: Nushi Mk.II Cruiser - A supply-constrained variant of the Nushi.
@@ -300,14 +526,14 @@ BALANCE CHANGES:
   - Added Burst Fire: 2 shots per burst, 0.5s delay.
   - Increased Flux Cost: 400 -> 700.
 - Rebalanced Mangonel Gun Launcher:
-  - Reduced Rarity: 0.8 -> 0.5.
+  - Increased Rarity: 0.8 -> 0.5.
 - Rebalanced Twin Spear Cannon:
-  - Reduced Rarity: 0.9 -> 0.8.
+  - Increased Rarity: 0.9 -> 0.8.
 - Rebalanced Fragarach Railgun:
   - Increased Turn Rate: 4 -> 6.
-  - Reduced Rarity: 0.6 -> 0.5.
+  - Increased Rarity: 0.6 -> 0.5.
 - Rebalanced Particle Burst Lance:
-  - Reduced Rarity: 0.9 -> 0.8.
+  - Increased Rarity: 0.9 -> 0.8.
 - Rebalanced Swordbreaker SRM Launcher:
   - Reduced Range: 1200 -> 1000.
   - Reduced Damage: 300 -> 250.

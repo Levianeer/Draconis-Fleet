@@ -1,11 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 5,
-    "fluxVents": 20,
+    "fluxCapacitors": 0,
+    "fluxVents": 7,
     "goalVariant": true,
     "hullId": "XLII_giausar",
     "hullMods": [
-        "escort_package",
         "targetingunit",
         "hardenedshieldemitter",
         "stabilizedshieldemitter"
@@ -33,5 +32,6 @@
             "mode": "LINKED",
             "weapons": {"WS0005": "XLII_swordbreaker"}
         }
-    ]
+    ],
+    "wings": []
 }

@@ -7,6 +7,7 @@ import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
 import com.fs.starfarer.api.util.Misc;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
+import org.magiclib.util.MagicRender;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
@@ -17,34 +18,42 @@ import static com.fs.starfarer.api.impl.combat.EntropyAmplifierStats.KEY_TARGET;
 public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
 
     private static final float MAX_RANGE = 2500f;
-    private static final float RING_RADIUS = MAX_RANGE; // Use the MAX_RANGE of the jammer
     private static final float MAX_REDUCTION = 25f;
     private static final float MIN_REDUCTION = 5f;
     private static final Color TEXT_COLOR = new Color(200, 200, 200, 255);
     private static final float EMP_RADIUS_SCALE = 0.3f;
     private static final float EMP_COOLDOWN = 0.75f; // Minimum delay between EMP arcs per target
 
+    private static final float ROTATION_SPEED = 5f; // degrees per second
+    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
+    private static final Color RING_COLOR = new Color(90, 165, 255, 55);
+
     private CombatFleetManagerAPI.AssignmentInfo defendAssignment = null;
 
-    private boolean spriteRendered = false;
-
     private final Map<ShipAPI, Float> affectedShips = new HashMap<>();
-    SpriteAPI jammer_ring = Global.getSettings().getSprite("fx", "XLII_jammer_ring");
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         ShipAPI ship = (ShipAPI) stats.getEntity();
         if (ship == null || ship.getLocation() == null) return;
 
-        if (state == State.ACTIVE) {
-            if (!spriteRendered) {
-                renderECMSprite(ship);
-                spriteRendered = true;
-            }
-        }
-
         CombatEngineAPI engine = Global.getCombatEngine();
         float currentTime = engine.getTotalElapsedTime(false);
+
+        // Ring FX: effectLevel scales 0->1 on IN and 1->0 on OUT for grow/shrink animation
+        if (effectLevel > 0f) {
+            float angle = currentTime * ROTATION_SPEED;
+            float scaledSize = MAX_RANGE * 2f * SPRITE_ALIGNMENT_SCALE * effectLevel;
+            SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring");
+            MagicRender.singleframe(
+                    ringSprite,
+                    ship.getLocation(),
+                    new Vector2f(scaledSize, scaledSize),
+                    angle,
+                    RING_COLOR,
+                    true
+            );
+        }
         List<ShipAPI> enemies = engine.getShips();
 
         for (ShipAPI target : enemies) {
@@ -127,7 +136,6 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
         }
 
         affectedShips.clear();
-        spriteRendered = false;
     }
 
     private float getReductionFactor(float distance) {
@@ -150,41 +158,6 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
                     new Color(200, 200, 255, 220)
             );
         }
-    }
-
-    private void renderECMSprite(ShipAPI ship) {
-        if (ship == null) return;
-
-        // Sprite alignment correction: sprite canvas is 512px radius, but drawn ring is 448px radius
-        // Scale factor: 512/448 = 1.143 to align visual ring with actual effect range
-        float spriteAlignmentScale = 512f / 448f;
-        float spriteSize = XLII_ESW_SuiteStats.RING_RADIUS * 2f * spriteAlignmentScale; // Diameter with alignment correction
-        Vector2f size = new Vector2f(spriteSize, spriteSize);
-        Vector2f growthNone = new Vector2f(0f, 0f); // No growth
-
-        Color color = new Color(90, 165, 255, 55);
-
-        float systemActiveDur = ship.getSystem() != null
-                ? ship.getSystem().getChargeUpDur() + ship.getSystem().getChargeActiveDur() + ship.getSystem().getChargeDownDur()
-                : 0.5f; // fallback
-
-        org.magiclib.util.MagicRender.objectspace(
-                this.jammer_ring,
-                ship,
-                growthNone,
-                new Vector2f(0f, 0f),
-                size,
-                growthNone,
-                0f,
-                0f,
-                false,
-                color,
-                false,
-                1f,
-                systemActiveDur,
-                1f,
-                true
-        );
     }
 
     public StatusData getStatusData(int index, State state, float effectLevel) {

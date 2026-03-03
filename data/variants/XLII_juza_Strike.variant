@@ -1,7 +1,7 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 25,
+    "fluxVents": 10,
     "goalVariant": true,
     "hullId": "XLII_juza",
     "hullMods": [
@@ -36,8 +36,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_particlelance",
-                "WS0019": "XLII_particlelance"
+                "WS0018": "XLII_culverin",
+                "WS0019": "XLII_culverin"
             }
         },
         {

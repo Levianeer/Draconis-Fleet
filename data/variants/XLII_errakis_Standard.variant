@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 19,
-    "fluxVents": 0,
+    "fluxCapacitors": 20,
+    "fluxVents": 4,
     "hullId": "XLII_errakis",
     "hullMods": ["eccm"],
     "permaMods": [],

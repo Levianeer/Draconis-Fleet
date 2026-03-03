@@ -168,7 +168,7 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         // Adjust personal reputation using official Starsector API
         // Convert negative faction cost to positive personal gain
-        float repGain = (Math.abs(repCost)*2);
+        float repGain = (Math.abs(repCost)*4);
 
         CustomRepImpact impact = new CustomRepImpact();
         impact.delta = repGain;

@@ -1,14 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 24,
+    "fluxCapacitors": 9,
+    "fluxVents": 30,
     "hullId": "XLII_juni",
-    "hullMods": [
-        "dedicated_targeting_core",
-        "hardenedshieldemitter",
-        "missile_autoloader",
-        "magazines"
-    ],
+    "hullMods": ["dedicated_targeting_core"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juni_Standard",
@@ -40,7 +35,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0050": "flak"}
+            "weapons": {"WS0050": "heavyac"}
         },
         {
             "autofire": true,

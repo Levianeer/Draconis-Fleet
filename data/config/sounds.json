@@ -147,9 +147,9 @@
 
 	"XLII_fragarach_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.0,"volume":0.1},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.0,"volume":0.1},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_02.ogg","pitch":1.0,"volume":0.1}
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.25,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.25,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_02.ogg","pitch":1.25,"volume":0.1}
 		]
     },
 
@@ -173,9 +173,9 @@
 
 	"XLII_longsword_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":1.0,"volume":0.25},
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":1.0,"volume":0.25},
-		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":1.0,"volume":0.25}
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_01.ogg","pitch":1.0,"volume":0.125},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_02.ogg","pitch":1.0,"volume":0.125},
+		{"file":"sounds/sfx_wpn_guns/XLII_longsword_fire_03.ogg","pitch":1.0,"volume":0.125}
 		]
     },
 
@@ -250,6 +250,14 @@
 		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_03.ogg","pitch":0.75,"volume":0.05},
 		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_04.ogg","pitch":0.75,"volume":0.05},
 		{"file":"sounds/sfx_wpn_guns/XLII_culverin_fire_05.ogg","pitch":0.75,"volume":0.05}
+		]
+    },
+
+	"XLII_ttc_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/XLII_ttc_fire_01.ogg","pitch":0.75,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_ttc_fire_02.ogg","pitch":0.75,"volume":0.1},
+		{"file":"sounds/sfx_wpn_guns/XLII_ttc_fire_03.ogg","pitch":0.75,"volume":0.1}
 		]
     },
 

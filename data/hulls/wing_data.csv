@@ -6,6 +6,6 @@ XLII_aldibain_wing,XLII_aldibain_Fighter,"XLII_fighter_bp, fighter, fighter4,",1
 XLII_tianyi_wing,XLII_tianyi_Fighter,"XLII_fighter_bp, fighter, fighter3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",3,,8,12,BOX,2000,700,-400,3,FIGHTER,ECM Fighter,10,9000,,,,,,,,,,,,,711000
 XLII_eldsich_wing,XLII_eldsich_Bomber,"XLII_fighter_bp, bomber, bomber6",2,,8,20,CLAW,4000,1200,600,1,BOMBER,Bomber,25,10000,,,,,,,,,,,,,711000
 XLII_nodus_wing,XLII_nodus_Bomber,"XLII_fighter_bp, bomber, bomber5, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing",3,,6,15,V,6000,1200,600,1,BOMBER,Strike Drone,20,10000,,,,,,,,,,,,,711000
-XLII_grumium_wing,XLII_grumium_Bomber,"XLII_fortysecond_bp, bomber, bomber5, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, no_dealer, codex_unlockable",3,,9,18,V,4000,1200,300,2,BOMBER,Heavy Bomber,15,12000,,,,,,,,,,,,,711000
-XLII_grumium_alt_wing,XLII_grumium_alt_Fighter,"XLII_fortysecond_bp, fighter, fighter6, rd_no_extra_craft, no_dealer, codex_unlockable",3,,12,20,BOX,4000,700,,1,FIGHTER,Heavy Fighter,25,12000,,,,,,,,,,,,,
+XLII_grumium_wing,XLII_grumium_Bomber,"XLII_fortysecond_bp, bomber, bomber5, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, no_dealer, codex_unlockable",3,,9,16,V,4000,1200,300,2,BOMBER,Heavy Bomber,15,12000,,,,,,,,,,,,,711000
+XLII_grumium_alt_wing,XLII_grumium_alt_Fighter,"XLII_fortysecond_bp, fighter, fighter6, rd_no_extra_craft, no_dealer, codex_unlockable",3,,12,18,V,4000,700,,1,FIGHTER,Heavy Fighter,25,12000,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,

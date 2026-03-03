@@ -32,9 +32,9 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     private static final float AUTOFIRE_DEBUFF = -50f;
 
     // Cloud configuration
-    private static final float CLOUD_RADIUS = 1200f;
-    private static final float CLOUD_MIN_LIFETIME = 30f;
-    private static final float CLOUD_MAX_LIFETIME = 60f;
+    private static final float CLOUD_RADIUS = 750f;
+    private static final float CLOUD_MIN_LIFETIME = 15f;
+    private static final float CLOUD_MAX_LIFETIME = 30f;
     private static final int MAX_CLOUD_COUNT = 6;
     private static final float RESPAWN_INTERVAL_MIN = 60f;
     private static final float RESPAWN_INTERVAL_MAX = 90f;
@@ -65,7 +65,7 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     private static final String STATS_MOD_ID = "XLII_mistcloud";
 
     // Spawn staggering configuration
-    private static final float SPAWN_STAGGER_DELAY = 0.1f; // Delay between missile spawns in seconds
+    private static final float SPAWN_STAGGER_DELAY = 5f; // Delay between missile spawns in seconds
 
     // State
     private CombatEngineAPI engine;

@@ -63,6 +63,8 @@
 		"XLII_altais_Elite":1,
 		"XLII_altais_Strike":1,
 
+		"XLII_tianlong_Elite":1,
+
 		"XLII_dziban_Elite":0.25,
 
 		"fallback":{"combatLarge":1},
@@ -96,13 +98,12 @@
 		"fallback2":{"freighterLarge":0.11},
 	},
 	"freighterMedium":{
-		"XLII_alsafi_Hybrid":1,
+		"XLII_alsafi_Cargo":10,
 
 		"fallback":{"freighterSmall":1},
 		"fallback2":{"freighterLarge":1},
 	},
 	"freighterLarge":{
-		"XLII_eltanin_mk2_Elite":1,
 
 		"fallback":{"freighterMedium":1},
 		"fallback2":{"freighterSmall":1},
@@ -118,7 +119,7 @@
 		"fallback":{"combatFreighterSmall":1},
 	},
 	"combatFreighterLarge":{
-		"XLII_eltanin_mk2_Elite":1,
+		"XLII_eltanin_mk2_Elite":10,
 		
 		"fallback":{"combatFreighterMedium":1},
 	},
@@ -130,7 +131,7 @@
 	},
 
 	"tankerMedium":{
-		"XLII_alsafi_Hybrid":1,
+		"XLII_alsafi_Hybrid":10,
 
 		"fallback":{"tankerSmall":1},
 		"fallback2":{"tankerLarge":1},

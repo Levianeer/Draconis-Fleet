@@ -4,6 +4,8 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
+import levianeer.draconis.data.campaign.XLII_CampaignPlugin;
+import levianeer.draconis.data.campaign.XLII_SigmaOctantisWatchdog;
 import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.EveryFrameScript;
@@ -127,6 +129,18 @@ public class XLII_ModPlugin extends BaseModPlugin {
         // Scripts are serialized into saves, so without cleanup they stack on each game load
         cleanupOldScripts();
 
+        // Register campaign plugin (handles AI core officer picks, etc.)
+        // Unregister first to prevent duplicates across save/load cycles
+        Global.getSector().unregisterPlugin(XLII_CampaignPlugin.PLUGIN_ID);
+        Global.getSector().registerPlugin(new XLII_CampaignPlugin());
+        log.info("Draconis: Registered campaign plugin");
+
+        // Register Sigma Octantis watchdog (fires confrontation if player turns hostile)
+        if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(XLII_SigmaOctantisWatchdog.CONFRONTATION_FLAG)) {
+            Global.getSector().addScript(new XLII_SigmaOctantisWatchdog());
+            log.info("Draconis:   - Sigma Octantis Watchdog");
+        }
+
         // Initialize Draconis characters
         log.info("Draconis: Initializing characters");
         XLII_Characters.initializeAllCharacters();
@@ -226,7 +240,8 @@ public class XLII_ModPlugin extends BaseModPlugin {
                     || script instanceof DraconisAICoreDonationListener
                     || script instanceof DraconisRemnantTargetScanner
                     || script instanceof DraconisRemnantRaidManager
-                    || script instanceof DraconisRemnantRaidListener) {
+                    || script instanceof DraconisRemnantRaidListener
+                    || script instanceof XLII_SigmaOctantisWatchdog) {
                 toRemove.add(script);
             }
         }

@@ -118,7 +118,7 @@
 
 		"aggression":3,
 		
-		"combatFreighterProbability":1.25,						# instead of some portion of the freighters in a fleet
+		"combatFreighterProbability":1.5,						# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":1.25,				# as part of the normal combat lineup
 		"combatFreighterCombatUseFractionWhenPriority":2.0,		# as part of normal combat lineup, when marked as priority ship
 		"autofitRandomizeProbability":0.1,

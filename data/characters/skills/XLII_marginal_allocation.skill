@@ -1,0 +1,17 @@
+{
+	"id": "XLII_marginal_allocation",
+	"governingAptitude": "combat",
+	"compressHullmods": false,
+	"elite": false,
+	"scope": "PILOTED_SHIP",
+	"effectGroups": [
+		{
+			"requiredSkillLevel": 1,
+			"effectBasedOnLevel": false,
+			"effects": [
+				{"type": "SHIP", "script": "levianeer.draconis.data.scripts.skills.XLII_MarginalAllocation$MalfunctionAura"},
+				{"type": "SHIP", "script": "levianeer.draconis.data.scripts.skills.XLII_MarginalAllocation$SurvivalProtocol"}
+			]
+		}
+	]
+}

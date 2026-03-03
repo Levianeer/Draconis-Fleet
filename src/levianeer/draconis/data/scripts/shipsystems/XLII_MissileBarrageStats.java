@@ -158,9 +158,9 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
         float damageBonus = (WEAPON_DAMAGE_BONUS - 1f) * 100f;
         float rofBonus = (WEAPON_ROF_BONUS - 1f) * 100f;
         return switch (index) {
-            case 0 -> new StatusData("+" + "weapon damage +" + (int)damageBonus, false);
-            case 1 -> new StatusData("+" + "rate of fire +" + (int)rofBonus, false);
-            case 2 -> new StatusData("-" + (int)speedPenalty + "% speed", true);
+            case 0 -> new StatusData("weapon damage +" + (int)damageBonus + "%", false);
+            case 1 -> new StatusData("rate of fire +" + (int)rofBonus + "%", false);
+            case 2 -> new StatusData("speed -" + (int)speedPenalty + "%", true);
             default -> null;
         };
     }

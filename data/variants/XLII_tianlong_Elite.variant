@@ -1,0 +1,56 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 47,
+    "goalVariant": true,
+    "hullId": "XLII_tianlong",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_tianlong_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0019": "XLII_bardiche_single",
+                "WS0020": "XLII_bardiche_single",
+                "WS0021": "XLII_bardiche_single",
+                "WS0022": "XLII_bardiche_single",
+                "WS0023": "XLII_bardiche_single",
+                "WS0024": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0028": "XLII_halberd_pod"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0029": "XLII_ttc",
+                "WS0030": "XLII_ttc"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0031": "XLII_ttc"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0025": "lrpdlaser",
+                "WS0026": "lrpdlaser",
+                "WS0027": "lrpdlaser"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_grumium_alt_wing",
+        "XLII_grumium_alt_wing"
+    ]
+}
