@@ -1,3 +1,8 @@
+Version 0.6.7 (Save-compatible with 0.6.6)
+BUG FIXES:
+- Fixed XLII Battlegroup at Kori spawning with really low FP.
+- Fixed small ordering issue in rules.csv.
+
 Version 0.6.6 (Save-compatible with 0.6.5)
 NEW CONTENT:
 - NEW: Sigma Octantis - A unique AI Core officer with a dedicated questline.

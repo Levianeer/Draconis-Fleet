@@ -37,14 +37,14 @@ XLII_admiral_menu_shop_opts,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emi
 5:buy_errakis:I'll purchase an Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
 6:buy_juza:I'll purchase a Juza-class Heavy Cruiser ($XLII_cost_credits_formatted_juza credits, $XLII_cost_rep_juza rep)
 7:buy_alwaid:I'll purchase an Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
-8:decline:Perhaps another time",
+9:decline:Perhaps another time",
 XLII_admiral_menu_nanoforge_discuss_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil
 !$global.XLII_nanoforgeQuestOffered
-!$global.XLII_nanoforgeQuestComplete",,,"9:XLII_nanoforge_discuss:There's another matter I'd like to raise.",
+!$global.XLII_nanoforgeQuestComplete",,,"8:XLII_nanoforge_discuss:There's another matter I'd like to raise.",
 XLII_admiral_menu_nanoforge_deliver_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil
 $global.XLII_nanoforgeQuestOffered
 XLII_NanoforgeExchange check
-!$global.XLII_nanoforgeQuestComplete",,,"10:XLII_nanoforge_deliver:I have a Pristine Nanoforge to offer.",
+!$global.XLII_nanoforgeQuestComplete",,,"0:XLII_nanoforge_deliver:I have a Pristine Nanoforge to offer.",
 XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
 
 ""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""

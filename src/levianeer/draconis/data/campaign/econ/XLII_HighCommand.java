@@ -248,7 +248,7 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
         Random random = route.getRandom();
 
-        float combat = Math.round(10f + random.nextFloat() * 5f) * 20f; // Difficulty
+        float combat = 800f; // Difficulty
         float tanker = Math.round(random.nextFloat()) * 10f;
         float freighter = Math.round(random.nextFloat()) * 10f;
         String fleetType = type.getFleetType();
@@ -262,9 +262,9 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
                 combat,                 // combatPts
                 freighter,              // freighterPts
                 tanker,                 // tankerPts
-                0f,                     // transportPts
-                0f,                     // linerPts
-                0f,                     // utilityPts
+                10f,                     // transportPts
+                10f,                     // linerPts
+                10f,                     // utilityPts
                 0f                      // quality mod
         );
         params.officerLevelBonus = 7;       //   7 7 7
