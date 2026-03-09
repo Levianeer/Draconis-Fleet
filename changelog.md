@@ -1,4 +1,8 @@
-Version 0.6.9a (Save-compatible with 0.6.9)
+Version 0.6.9b (Save-compatible with 0.6.9a)
+BUG FIXES:
+- Attempting *another* fix.tr
+
+Version 0.6.9b (Save-compatible with 0.6.9)
 BUG FIXES:
 - Attempting *another* fix.tr
 
