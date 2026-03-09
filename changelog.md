@@ -1,14 +1,9 @@
-Version 0.6.9b (Save-compatible with 0.6.9a)
-BUG FIXES:
-- Attempting *another* fix.tr
+Version 0.6.10 (Save-compatible with 0.6.8)
+MINOR IMPROVEMENTS:
+- Add Throne to some of the variants.
 
-Version 0.6.9b (Save-compatible with 0.6.9)
 BUG FIXES:
-- Attempting *another* fix.tr
-
-Version 0.6.9 (Save-compatible with 0.6.8)
-BUG FIXES:
-- Fixed crash (Hopefully!) relating to extra metadata in XLII_thorne.png.
+- Fixed crash relating to the bad path in XLII_thorne.ship.
 
 Version 0.6.8 (Save-compatible with 0.6.7)
 NEW CONTENT:
