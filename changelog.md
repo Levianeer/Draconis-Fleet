@@ -1,3 +1,7 @@
+Version 0.6.9 (Save-compatible with 0.6.8)
+BUG FIXES:
+- Fixed crash (Hopefully!) relating to extra metadata in XLII_thorne.png.
+
 Version 0.6.8 (Save-compatible with 0.6.7)
 NEW CONTENT:
 - NEW: Thorne-class Heavy Interceptor - a shielded single-craft wing.
