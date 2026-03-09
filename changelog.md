@@ -1,3 +1,7 @@
+Version 0.6.9a (Save-compatible with 0.6.9)
+BUG FIXES:
+- Attempting *another* fix.tr
+
 Version 0.6.9 (Save-compatible with 0.6.8)
 BUG FIXES:
 - Fixed crash (Hopefully!) relating to extra metadata in XLII_thorne.png.
