@@ -235,11 +235,6 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         int draconLevel = getCurrentDraconLevel();
 
-        // DRACON 1: Replace the highest-deployment-cost AI core with Sigma Octantis
-        if (draconLevel == 1) {
-            assignSigmaOctantisFlagship(fleet);
-        }
-
         // Apply DRACON overrides to coverage
         float effectiveCoverage = coveragePercent;
         if (draconLevel <= 2) {
@@ -274,6 +269,10 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         // If no empty slots, mark as processed and return
         if (emptySlots.isEmpty()) {
+            // DRACON 1: Still attempt Sigma Octantis assignment even if all slots filled
+            if (draconLevel == 1) {
+                assignSigmaOctantisFlagship(fleet);
+            }
             float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
             fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
             return;
@@ -326,6 +325,12 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
                     case com.fs.starfarer.api.impl.campaign.ids.Commodities.ALPHA_CORE -> alphaCount++;
                 }
             }
+        }
+
+        // DRACON 1: Replace the highest-FP AI core with Sigma Octantis.
+        // Done after the fill loop so freshly-assigned cores are also eligible.
+        if (draconLevel == 1) {
+            assignSigmaOctantisFlagship(fleet);
         }
 
         // Mark fleet as processed with current timestamp

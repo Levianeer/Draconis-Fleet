@@ -1,3 +1,8 @@
+Version 0.6.11 (Save-compatible with 0.6.10)
+BUG FIXES:
+- Fixed a bug where DraconisAICoreFleetInflater wouldn't spawn Octantis.
+  - No rest for the wicked. =w=
+
 Version 0.6.10 (Save-compatible with 0.6.8)
 MINOR IMPROVEMENTS:
 - Add Throne to some of the variants.
