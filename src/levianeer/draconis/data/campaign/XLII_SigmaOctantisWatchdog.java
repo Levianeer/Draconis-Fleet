@@ -4,48 +4,44 @@ import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
-import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.characters.OfficerDataAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
-import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import com.fs.starfarer.api.util.IntervalUtil;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * EveryFrameScript that monitors the player's Draconis Alliance reputation.
- * When the player turns hostile (rep <= -0.5) and Sigma Octantis is still present
- * in the fleet or storage, it fires an interrupting transmission confrontation.
+ * EveryFrameScript that monitors the player's Draconis Alliance reputation and
+ * Sigma Octantis core presence. Operates in two phases:
  * <p>
- * Registered in XLII_ModPlugin.onGameLoad() only when the confrontation flag is unset.
- * Self-removes once the confrontation fires (flag is set).
+ * Phase 1 — Rep watch: checks Draconis reputation every 5 seconds. When the player
+ * turns hostile (rep <= -0.5), sets a persistent flag and advances to Phase 2.
  * <p>
- * Performance optimizations:
- * - Fleet checks (cheap) run every 5 seconds
- * - Market storage checks (expensive) run every 30 seconds
- * - Only scans player-owned or player-accessible markets (cached every 60s)
- * - Early reputation check prevents any work when player is friendly
+ * Phase 2 — Core watch: checks fleet officers and cargo every 5 seconds. When the
+ * core is found (including after a save/load or retrieval from market storage), fires
+ * the confrontation dialog.
+ * <p>
+ * Registered by XLII_NanoforgeExchange when the core is first awarded, and
+ * re-registered by XLII_ModPlugin.onGameLoad() on subsequent loads if needed.
+ * Self-removes once the confrontation fires.
  */
 public class XLII_SigmaOctantisWatchdog implements EveryFrameScript {
 
     private static final Logger log = Global.getLogger(XLII_SigmaOctantisWatchdog.class);
 
-    public static final String CONFRONTATION_FLAG = "$global.XLII_sigma_octantis_confrontation_done";
+    public static final String CONFRONTATION_FLAG    = "$global.XLII_sigma_octantis_confrontation_done";
+    public static final String PLAYER_HOSTILE_FLAG   = "$global.XLII_sigma_octantis_player_hostile";
+    public static final String WARNING_FLAG          = "$global.XLII_sigma_octantis_warning_done";
+    public static final String WARNING_TIMESTAMP_KEY = "$global.XLII_sigma_octantis_warning_timestamp";
+    public static final String NANOFORGE_QUEST_FLAG  = "$global.XLII_nanoforgeQuestComplete";
+
     private static final String DRACONIS_FACTION_ID = "XLII_draconis";
-    private static final float HOSTILE_THRESHOLD = -0.5f;
+    private static final float WARNING_THRESHOLD     = -0.25f;
+    private static final float HOSTILE_THRESHOLD     = -0.5f;
+    private static final float WARNING_COOLDOWN_DAYS = 30f; // Time to course-correct to keep Octantis
 
-    // Separate intervals for cheap vs expensive checks
-    private final IntervalUtil fleetCheckInterval = new IntervalUtil(5f, 5f);
-    private final IntervalUtil marketCheckInterval = new IntervalUtil(30f, 30f);
-    private final IntervalUtil marketCacheRefreshInterval = new IntervalUtil(60f, 60f);
-
-    // Cached list of markets to scan (only player-relevant ones)
-    private final List<String> cachedMarketIds = new ArrayList<>();
+    private final IntervalUtil checkInterval = new IntervalUtil(5f, 5f);
 
     private boolean done = false;
 
@@ -63,142 +59,82 @@ public class XLII_SigmaOctantisWatchdog implements EveryFrameScript {
     public void advance(float amount) {
         if (done) return;
 
-        // Check if confrontation was already triggered (e.g., by another path)
         if (Global.getSector().getMemoryWithoutUpdate().getBoolean(CONFRONTATION_FLAG)) {
             done = true;
             return;
         }
 
-        // Early return: check faction rep before doing any expensive work
-        FactionAPI draconis = Global.getSector().getFaction(DRACONIS_FACTION_ID);
-        if (draconis == null) return;
+        checkInterval.advance(amount);
+        if (!checkInterval.intervalElapsed()) return;
 
-        float rel = draconis.getRelationship(Factions.PLAYER);
-        if (rel > HOSTILE_THRESHOLD) return;
+        if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(PLAYER_HOSTILE_FLAG)) {
+            // Phase 1: watch rep until the player turns hostile
+            FactionAPI draconis = Global.getSector().getFaction(DRACONIS_FACTION_ID);
+            if (draconis == null) return;
 
-        // Refresh market cache periodically (only when hostile)
-        marketCacheRefreshInterval.advance(amount);
-        if (marketCacheRefreshInterval.intervalElapsed()) {
-            refreshRelevantMarkets();
-        }
+            float rel = draconis.getRelationship(Factions.PLAYER);
 
-        // Fleet checks (cheap: officers + cargo) - run every 5 seconds
-        fleetCheckInterval.advance(amount);
-        if (fleetCheckInterval.intervalElapsed()) {
-            if (isSigmaOctantisInFleet()) {
-                fireConfrontation(rel);
-                return;
+            // Fire the early warning once at the warning threshold
+            if (rel <= WARNING_THRESHOLD
+                    && !Global.getSector().getMemoryWithoutUpdate().getBoolean(WARNING_FLAG)) {
+                fireWarning(rel);
             }
-        }
 
-        // Market storage checks (expensive) - run every 30 seconds
-        marketCheckInterval.advance(amount);
-        if (marketCheckInterval.intervalElapsed()) {
-            if (isSigmaOctantisInMarketStorage()) {
-                fireConfrontation(rel);
+            if (rel > HOSTILE_THRESHOLD) return;
+
+            // After the warning fires, give the player a grace period to course-correct
+            // before locking in the hostile phase.
+            Long warningTs = (Long) Global.getSector().getMemoryWithoutUpdate()
+                    .get(WARNING_TIMESTAMP_KEY);
+            if (warningTs != null) {
+                float elapsed = Global.getSector().getClock().getElapsedDaysSince(warningTs);
+                if (elapsed < WARNING_COOLDOWN_DAYS) return;
+            }
+
+            Global.getSector().getMemoryWithoutUpdate().set(PLAYER_HOSTILE_FLAG, true);
+            log.info("Draconis: Sigma Octantis watchdog - player went hostile (rep: " + rel
+                    + "). Monitoring fleet for core presence.");
+        } else {
+            // Phase 2: watch fleet until the core is retrieved
+            if (isSigmaOctantisInFleet()) {
+                fireConfrontation();
             }
         }
     }
 
     // -------------------------------------------------------------------------
-    // Presence checks - split into fleet (cheap) and storage (expensive)
-    // -------------------------------------------------------------------------
 
-    /**
-     * Checks fleet officers (assigned + unassigned) and fleet cargo.
-     * This is cheap and can run frequently.
-     */
     private static boolean isSigmaOctantisInFleet() {
         final String CORE_ID = XLII_SigmaOctantisOfficerPlugin.CORE_ID;
         CampaignFleetAPI playerFleet = Global.getSector().getPlayerFleet();
 
-        // 1. Check ship captains (AI core installed directly on a ship)
         for (FleetMemberAPI member : playerFleet.getFleetData().getMembersListCopy()) {
             PersonAPI captain = member.getCaptain();
             if (captain != null && CORE_ID.equals(captain.getAICoreId())) return true;
         }
 
-        // 2. Check fleet officer roster (unassigned)
         for (OfficerDataAPI officerData : playerFleet.getFleetData().getOfficersCopy()) {
             if (CORE_ID.equals(officerData.getPerson().getAICoreId())) return true;
         }
 
-        // 3. Check fleet cargo
-        if (playerFleet.getCargo().getCommodityQuantity(CORE_ID) > 0f) return true;
-
-        return false;
+        return playerFleet.getCargo().getCommodityQuantity(CORE_ID) > 0f;
     }
 
-    /**
-     * Checks market storage submarkets. Only scans cached relevant markets
-     * (player-owned or player-accessible) instead of all 50-200+ markets.
-     * This is expensive and should run less frequently.
-     */
-    private boolean isSigmaOctantisInMarketStorage() {
-        final String CORE_ID = XLII_SigmaOctantisOfficerPlugin.CORE_ID;
+    private void fireWarning(float rel) {
+        log.info("Draconis: Sigma Octantis early warning triggered (Draconis rep: " + rel
+                + "). Grace period of " + (int) WARNING_COOLDOWN_DAYS + " days begins upon dismissal.");
 
-        // Only scan markets in our cached list
-        for (String marketId : cachedMarketIds) {
-            MarketAPI market = Global.getSector().getEconomy().getMarket(marketId);
-            if (market == null) continue;
-
-            SubmarketAPI storage = market.getSubmarket(Submarkets.SUBMARKET_STORAGE);
-            if (storage == null || storage.getCargo() == null) continue;
-
-            if (storage.getCargo().getCommodityQuantity(CORE_ID) > 0f) {
-                return true;
-            }
-        }
-
-        return false;
+        Global.getSector().getCampaignUI().showInteractionDialog(
+                new XLII_SigmaOctantisWarning(),
+                Global.getSector().getPlayerFleet()
+        );
     }
 
-    /**
-     * Refreshes the cache of markets to scan. Includes:
-     * - Player-owned markets
-     * - Markets where storage is accessible (player has been there)
-     * - Markets in the player's current star system
-     *
-     * This runs every 60 seconds to balance performance with coverage.
-     */
-    private void refreshRelevantMarkets() {
-        cachedMarketIds.clear();
+    private void fireConfrontation() {
+        float rel = Global.getSector().getFaction(DRACONIS_FACTION_ID)
+                .getRelationship(Factions.PLAYER);
+        log.info("Draconis: Sigma Octantis confrontation triggered (Draconis rep: " + rel + ")");
 
-        CampaignFleetAPI playerFleet = Global.getSector().getPlayerFleet();
-
-        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            // Always include player-owned markets
-            if (market.isPlayerOwned()) {
-                cachedMarketIds.add(market.getId());
-                continue;
-            }
-
-            // Include markets in current star system
-            if (playerFleet.getContainingLocation() != null &&
-                    market.getContainingLocation() == playerFleet.getContainingLocation()) {
-                cachedMarketIds.add(market.getId());
-                continue;
-            }
-
-            // Include markets where storage exists and is accessible
-            // (player has docked/visited and unlocked storage)
-            SubmarketAPI storage = market.getSubmarket(Submarkets.SUBMARKET_STORAGE);
-            if (storage != null && !storage.getCargo().isEmpty()) {
-                cachedMarketIds.add(market.getId());
-            }
-        }
-
-        log.debug("Draconis: Sigma Octantis watchdog scanning " + cachedMarketIds.size() +
-                " relevant markets (out of " + Global.getSector().getEconomy().getMarketsCopy().size() + " total)");
-    }
-
-    /**
-     * Fires the confrontation dialog and marks this watchdog as done.
-     */
-    private void fireConfrontation(float currentRep) {
-        log.info("Draconis: Sigma Octantis confrontation triggered (Draconis rep: " + currentRep + ")");
-
-        // Set flag immediately to prevent double-fire across save/load
         Global.getSector().getMemoryWithoutUpdate().set(CONFRONTATION_FLAG, true);
         done = true;
 

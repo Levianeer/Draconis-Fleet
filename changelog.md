@@ -1,3 +1,45 @@
+Version 0.6.8 (Save-compatible with 0.6.7)
+NEW CONTENT:
+- NEW: Thorne-class Heavy Interceptor - a shielded single-craft wing.
+- NEW: Tianlong (XLII) - Forty-Second Battlegroup skin for the Tianlong battlecruiser.
+  - Replaces Autoflare Dispenser with Howler ECM Suite.
+- Tianlong (XLII) is now purchasable from Fleet Admiral Emil's ship shop.
+
+BALANCE CHANGES:
+- Arquebus SRM Launcher:
+  - Damage 50 -> 125.
+  - Added 250 EMP damage.
+  - Projectile speed 200 -> 500.
+  - Launch speed 150 -> 500.
+- Nodus (Strike Drone):
+  - Shield arc 200 -> 210.
+- Eldsich (Bomber):
+  - Shield arc 200 -> 210.
+- Tianyi (ECM Fighter):
+  - Shield arc 200 -> 210
+  - Base value 9000 -> 7500.
+- Marginal Allocation:
+  - Malfunction aura range 2000 -> 2500.
+
+MINOR IMPROVEMENTS:
+- Reworked Sigma Octantis hostile-rep system:
+  - Added early warning transmission at -0.25 Draconis rep. Sigma Octantis will contact the player to note that their standing is approaching a low threshold.
+  - Added 30-day grace period after the warning fires, giving the player time to course-correct before the core departure is locked in.
+  - Watchdog now operates in two phases: Phase 1 monitors reputation; Phase 2 (after going hostile) monitors fleet presence only.
+- Rewrote Sigma Octantis combat chatter - new tone with shorter, more ominous lines. Reduced talkativeness from 0.6 to 0.4.
+- Marginal Allocation forced overloads now display a purple visual effect and "System Disruption!" text.
+- Kestros projectile visual enhancement (wider projectile, brighter glow).
+
+BUG FIXES:
+- Fixed Marginal Allocation projecting multiple malfunction auras on ships with modules.
+  - Was spawning one aura per module; now correctly emits a single aura from the root ship.
+- Fixed Sigma Octantis watchdog being registered on fresh games before the nanoforge quest was complete.
+  - Could cause unnecessary background script overhead?.
+- Fixed Alsafi (Cargo) variant not being used in small trade fleet compositions.
+  - Was incorrectly using the tanker Alsafi instead.
+- Fixed Sigma Octantis combat chatter not triggering.
+  - Character was missing from character_factions.csv and officer name matching was misconfigured.
+
 Version 0.6.7 (Save-compatible with 0.6.6)
 BUG FIXES:
 - Fixed XLII Battlegroup at Kori spawning with really low FP.

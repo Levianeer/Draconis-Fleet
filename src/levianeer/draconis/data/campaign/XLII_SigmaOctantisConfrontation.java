@@ -2,6 +2,7 @@ package levianeer.draconis.data.campaign;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.characters.FullName;
 import com.fs.starfarer.api.characters.OfficerDataAPI;
 import com.fs.starfarer.api.combat.EngagementResultAPI;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
@@ -15,6 +16,8 @@ import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+
+import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
 
 /**
  * InteractionDialogPlugin for the Sigma Octantis hostile-rep confrontation.
@@ -51,6 +54,13 @@ public class XLII_SigmaOctantisConfrontation implements InteractionDialogPlugin 
     @Override
     public void init(InteractionDialogAPI dialog) {
         this.dialog = dialog;
+
+        PersonAPI sigma = Global.getFactory().createPerson();
+        sigma.setName(new FullName("Sigma", "Octantis", FullName.Gender.ANY));
+        sigma.setPortraitSprite("graphics/portraits/characters/XLII_sigma_octantis.png");
+        sigma.setFaction(FORTYSECOND);
+        dialog.getVisualPanel().showPersonInfo(sigma, false);
+
         showOpening();
     }
 

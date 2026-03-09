@@ -71,9 +71,9 @@
         ],
 
     "startShipsTradeSmall":[
-        ["XLII_thuban_Standard", "XLII_rastaban_Standard", "XLII_alsafi_Standard"],
-        ["XLII_alruba_Standard", "XLII_errakis_Standard", "XLII_alsafi_Standard"],
-        ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_alsafi_Standard"]
+        ["XLII_thuban_Standard", "XLII_rastaban_Standard", "XLII_alsafi_Cargo_Standard"],
+        ["XLII_alruba_Standard", "XLII_errakis_Standard", "XLII_alsafi_Cargo_Standard"],
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_alsafi_Cargo_Standard"]
         ],
 
     "startShipsSuper":[["XLII_shaowei_Standard"]],

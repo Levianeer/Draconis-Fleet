@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Ship Balance Suite" type="PythonConfigurationType" factoryName="Python">
+    <module name="py" />
+    <option name="SDK_HOME" value="/usr/bin/python3" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tools/py" />
+    <option name="IS_MODULE_SDK" value="true" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tools/py/ship_balance_suite.py" />
+    <option name="PARAMETERS" value="" />
+    <option name="EMULATE_TERMINAL" value="false" />
+    <option name="MODULE_MODE" value="false" />
+    <method v="2" />
+  </configuration>
+</component>

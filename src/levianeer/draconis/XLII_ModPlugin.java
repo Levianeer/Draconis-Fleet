@@ -135,8 +135,19 @@ public class XLII_ModPlugin extends BaseModPlugin {
         Global.getSector().registerPlugin(new XLII_CampaignPlugin());
         log.info("Draconis: Registered campaign plugin");
 
-        // Register Sigma Octantis watchdog (fires confrontation if player turns hostile)
-        if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(XLII_SigmaOctantisWatchdog.CONFRONTATION_FLAG)) {
+        // Register Sigma Octantis watchdog only once the core has been awarded (nanoforge
+        // quest complete) and the confrontation hasn't fired yet. First-time registration
+        // is handled by XLII_NanoforgeExchange.give; this re-registers it on subsequent loads.
+        boolean sigmaQuestComplete = Global.getSector().getMemoryWithoutUpdate()
+                .getBoolean(XLII_SigmaOctantisWatchdog.NANOFORGE_QUEST_FLAG);
+        boolean sigmaConfrontationDone = Global.getSector().getMemoryWithoutUpdate()
+                .getBoolean(XLII_SigmaOctantisWatchdog.CONFRONTATION_FLAG);
+        if (sigmaQuestComplete && !sigmaConfrontationDone) {
+            // Reset the warning flag on each load so a save captured after dismissal doesn't
+            // permanently suppress re-triggering. The confrontation flag is the true one-shot
+            // gate; the warning is expected to re-fire on load if rep is still in range.
+            Global.getSector().getMemoryWithoutUpdate()
+                    .unset(XLII_SigmaOctantisWatchdog.WARNING_FLAG);
             Global.getSector().addScript(new XLII_SigmaOctantisWatchdog());
             log.info("Draconis:   - Sigma Octantis Watchdog");
         }

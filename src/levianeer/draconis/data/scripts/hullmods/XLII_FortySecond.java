@@ -49,6 +49,10 @@ public class XLII_FortySecond extends BaseHullMod {
 
     public static float PROFILE_MULT = 0.75f;
     public static float MISSILE_AFFECT_CHANCE = 0.5f; // % chance to affect each missile
+
+    // ID and bonus for the upgrade hullmod (XLII_FortySecondMk2)
+    public static final String UPGRADE_HULLMOD_ID = "XLII_fortysecond_mk2";
+    public static final float UPGRADE_CHANCE_BONUS = 0.4f;
     private static final Color JAMMER_COLOR = new Color(50, 50, 255, 155);
     private static final Color CONVERSION_COLOR = new Color(50, 255, 50, 155);
 
@@ -135,8 +139,12 @@ public class XLII_FortySecond extends BaseHullMod {
             // Mark as processed regardless of outcome
             processed.add(missile);
 
-            // Roll chance to affect this missile
-            if (Math.random() > MISSILE_AFFECT_CHANCE) continue;
+            // Roll chance to affect this missile (boosted if upgrade hullmod is also installed)
+            float effectiveChance = MISSILE_AFFECT_CHANCE;
+            if (ship.getVariant().hasHullMod(UPGRADE_HULLMOD_ID)) {
+                effectiveChance = Math.min(1f, effectiveChance + UPGRADE_CHANCE_BONUS);
+            }
+            if (Math.random() > effectiveChance) continue;
 
             // Check if missile is guided - unguided missiles can't be retargeted
             boolean isGuided = missile.getAI() instanceof GuidedMissileAI;

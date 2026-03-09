@@ -20,6 +20,7 @@ import org.magiclib.util.MagicRender;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +28,7 @@ public class XLII_MarginalAllocation {
 
     public static final String SKILL_ID = "XLII_marginal_allocation";
 
-    public static final float AURA_RANGE = 2000f;
+    public static final float AURA_RANGE = 2500f;
     public static final float INTERVAL_MIN = 3f;
     public static final float INTERVAL_MAX = 6f;
     public static final float WEAPON_MALFUNCTION_CHANCE = 0.1f;
@@ -36,6 +37,7 @@ public class XLII_MarginalAllocation {
 
     private static final Color RED = new Color(89, 22, 22, 255);
     private static final Color RING_COLOR = new Color(125, 25, 50, 35);
+    private static final Color OVERLOAD_COLOR = new Color(255, 155, 255, 255);
     private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
     private static String getStatusIcon() {
         return Global.getSettings().getSpriteName("misc", "XLII_marginal_allocation_icon");
@@ -53,20 +55,20 @@ public class XLII_MarginalAllocation {
 
         @Override
         public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
-            if (Global.getCombatEngine() == null) return;
-            Global.getCombatEngine().addPlugin(new MalfunctionScript(ship));
+            CombatEngineAPI engine = Global.getCombatEngine();
+            if (engine == null) return;
+            // Delegate entirely to the manager — it handles deduplication.
+            MalfunctionManager.getOrCreate(engine).addPending(ship);
         }
 
         @Override
-        public void unapplyEffectsAfterShipCreation(ShipAPI ship, String id) {
-            // MalfunctionScript self-removes when the source ship dies
-        }
+        public void unapplyEffectsAfterShipCreation(ShipAPI ship, String id) {}
 
         @Override
         public String getEffectDescription(float level) {
             return "Enemies within range periodically suffer "
-                    + "weapon malfunctions and engine malfunctions "
-                    + "and a rare brief overload.";
+                    + "weapon and engine malfunctions "
+                    + "with a rare chance of overloading.";
         }
 
         @Override
@@ -113,96 +115,174 @@ public class XLII_MarginalAllocation {
         public ScopeDescription getScopeDescription() { return ScopeDescription.PILOTED_SHIP; }
     }
 
-    // ── Combat plugin: periodic enemy malfunctions ───────────────────────────
+    // ── Combat plugin: periodic enemy malfunctions (singleton per combat) ────
 
-    public static class MalfunctionScript extends BaseEveryFrameCombatPlugin {
+    /**
+     * Single combat plugin that owns all aura logic. applyEffectsAfterShipCreation
+     * calls addPending() for every ship/module it receives; on the first advance tick
+     * those are resolved to their root ships and placed into a LinkedHashSet, which
+     * deduplicates by Java object identity. This completely avoids the problem of
+     * the skill effect being applied once per module on a modular ship.
+     */
+    public static class MalfunctionManager extends BaseEveryFrameCombatPlugin {
 
+        private static final String ENGINE_KEY     = SKILL_ID + "_manager";
         private static final String STATUS_KEY_SRC = SKILL_ID + "_aura_src";
         private static final String STATUS_KEY_TGT = SKILL_ID + "_aura_tgt";
 
-        private final ShipAPI source;
-        private final IntervalUtil interval;
+        /** Ships registered before the first tick; resolved to roots on init. */
+        private final List<ShipAPI> pending = new ArrayList<>();
+        /** Deduplicated root ships that carry the aura. */
+        private final LinkedHashSet<ShipAPI> sources = new LinkedHashSet<>();
+        private final IntervalUtil interval = new IntervalUtil(INTERVAL_MIN, INTERVAL_MAX);
         private final Random random = new Random();
+        private boolean initialized = false;
 
-        public MalfunctionScript(ShipAPI source) {
-            this.source = source;
-            this.interval = new IntervalUtil(INTERVAL_MIN, INTERVAL_MAX);
+        // ── Singleton accessor ────────────────────────────────────────────────
+
+        public static MalfunctionManager getOrCreate(CombatEngineAPI engine) {
+            MalfunctionManager mgr = (MalfunctionManager) engine.getCustomData().get(ENGINE_KEY);
+            if (mgr == null) {
+                mgr = new MalfunctionManager();
+                engine.getCustomData().put(ENGINE_KEY, mgr);
+                engine.addPlugin(mgr);
+            }
+            return mgr;
         }
+
+        public void addPending(ShipAPI ship) {
+            pending.add(ship);
+        }
+
+        // ── Root-ship resolution ──────────────────────────────────────────────
+
+        private static ShipAPI getRootShip(ShipAPI ship) {
+            ShipAPI root = ship;
+            while (root.getParentStation() != null) {
+                root = root.getParentStation();
+            }
+            return root;
+        }
+
+        private static boolean isModule(ShipAPI ship) {
+            return ship.getParentStation() != null || ship.getStationSlot() != null;
+        }
+
+        // ── Advance ───────────────────────────────────────────────────────────
 
         @Override
         public void advance(float amount, List<InputEventAPI> events) {
             CombatEngineAPI engine = Global.getCombatEngine();
             if (engine == null || engine.isPaused()) return;
 
-            if (source == null || source.isHulk() || !source.isAlive()) {
+            // First tick: resolve all pending ships to their roots.
+            // LinkedHashSet deduplicates by object identity, so if the game
+            // called applyEffectsAfterShipCreation for both parent and modules,
+            // getRootShip returns the same object for all of them and the set
+            // ends up with exactly one entry per logical ship.
+            if (!initialized) {
+                initialized = true;
+                for (ShipAPI ship : pending) {
+                    sources.add(getRootShip(ship));
+                }
+                pending.clear();
+            }
+
+            // Remove dead sources
+            sources.removeIf(s -> s == null || s.isHulk() || !s.isAlive());
+
+            if (sources.isEmpty()) {
+                engine.getCustomData().remove(ENGINE_KEY);
                 engine.removePlugin(this);
                 return;
             }
 
-            // Aura range ring — drawn every frame as a persistent indicator
             SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring2");
             float spriteSize = AURA_RANGE * 2f * SPRITE_ALIGNMENT_SCALE;
-            MagicRender.singleframe(ringSprite, source.getLocation(),
-                    new Vector2f(spriteSize, spriteSize), 0f, RING_COLOR, true);
-
             ShipAPI playerShip = engine.getPlayerShip();
 
-            // Status: source ship is the player
-            if (source == playerShip) {
-                engine.maintainStatusForPlayerShip(
-                        STATUS_KEY_SRC,
-                        getStatusIcon(),
-                        "Marginal Allocation",
-                        "Electronic Warfare active",
-                        false
-                );
-            }
+            for (ShipAPI source : sources) {
+                // Aura range ring — drawn every frame as a persistent indicator
+                MagicRender.singleframe(ringSprite, source.getLocation(),
+                        new Vector2f(spriteSize, spriteSize), 0f, RING_COLOR, true);
 
-            // Status: player is an enemy caught in the aura
-            if (playerShip != null
-                    && playerShip.getOwner() != source.getOwner()
-                    && !playerShip.isHulk()
-                    && playerShip.isAlive()) {
-                float dx = source.getLocation().x - playerShip.getLocation().x;
-                float dy = source.getLocation().y - playerShip.getLocation().y;
-                if (dx * dx + dy * dy <= AURA_RANGE * AURA_RANGE) {
+                // Status: source ship is the player
+                if (source == playerShip) {
                     engine.maintainStatusForPlayerShip(
-                            STATUS_KEY_TGT,
+                            STATUS_KEY_SRC,
                             getStatusIcon(),
-                            "Hostile Interference",
-                            "Systems Malfunctioning",
-                            true
+                            "Marginal Allocation",
+                            "Electronic Warfare active",
+                            false
                     );
+                }
+
+                // Status: player is an enemy caught in the aura
+                if (playerShip != null
+                        && playerShip.getOwner() != source.getOwner()
+                        && !playerShip.isHulk()
+                        && playerShip.isAlive()) {
+                    float dx = source.getLocation().x - playerShip.getLocation().x;
+                    float dy = source.getLocation().y - playerShip.getLocation().y;
+                    if (dx * dx + dy * dy <= AURA_RANGE * AURA_RANGE) {
+                        engine.maintainStatusForPlayerShip(
+                                STATUS_KEY_TGT,
+                                getStatusIcon(),
+                                "Hostile Interference",
+                                "Systems Malfunctioning",
+                                true
+                        );
+                    }
                 }
             }
 
             interval.advance(amount);
             if (!interval.intervalElapsed()) return;
 
-            List<ShipAPI> nearby = CombatUtils.getShipsWithinRange(source.getLocation(), AURA_RANGE);
-            for (ShipAPI target : nearby) {
-                if (target.getOwner() == source.getOwner()) continue;
-                if (target.isHulk() || !target.isAlive()) continue;
-                if (target.isFighter()) continue;
-                if (target.isPhased()) continue;
+            for (ShipAPI source : sources) {
+                List<ShipAPI> nearby = CombatUtils.getShipsWithinRange(source.getLocation(), AURA_RANGE);
+                for (ShipAPI target : nearby) {
+                    if (target.getOwner() == source.getOwner()) continue;
+                    if (target.isHulk() || !target.isAlive()) continue;
+                    if (target.isFighter()) continue;
+                    if (target.isPhased()) continue;
+                    if (isModule(target)) continue;
 
-                boolean overloaded = target.getFluxTracker().isOverloaded();
+                    boolean overloaded = target.getFluxTracker().isOverloaded();
 
-                // Weapon malfunction
-                if (!overloaded && random.nextFloat() < WEAPON_MALFUNCTION_CHANCE) {
-                    WeaponAPI weapon = pickWeapon(target);
-                    if (weapon != null) target.applyCriticalMalfunction(weapon, false);
-                }
+                    // Weapon malfunction
+                    if (!overloaded && random.nextFloat() < WEAPON_MALFUNCTION_CHANCE) {
+                        WeaponAPI weapon = pickWeapon(target);
+                        if (weapon != null) target.applyCriticalMalfunction(weapon, false);
+                    }
 
-                // Engine malfunction
-                if (!overloaded && random.nextFloat() < ENGINE_MALFUNCTION_CHANCE) {
-                    ShipEngineAPI eng = pickEngine(target);
-                    if (eng != null) target.applyCriticalMalfunction(eng, false);
-                }
+                    // Engine malfunction
+                    if (!overloaded && random.nextFloat() < ENGINE_MALFUNCTION_CHANCE) {
+                        ShipEngineAPI eng = pickEngine(target);
+                        if (eng != null) target.applyCriticalMalfunction(eng, false);
+                    }
 
-                // Forced overload
-                if (!overloaded && random.nextFloat() < OVERLOAD_CHANCE) {
-                    target.getFluxTracker().beginOverloadWithTotalBaseDuration(1f); // Best to keep this short
+                    // Forced overload
+                    if (!overloaded && random.nextFloat() < OVERLOAD_CHANCE) {
+                        final ShipAPI overloadTarget = target;
+                        overloadTarget.setOverloadColor(OVERLOAD_COLOR);
+                        overloadTarget.getFluxTracker().beginOverloadWithTotalBaseDuration(1f);
+                        if (overloadTarget.getFluxTracker().showFloaty() ||
+                                source == engine.getPlayerShip() ||
+                                overloadTarget == engine.getPlayerShip()) {
+                            overloadTarget.getFluxTracker().playOverloadSound();
+                            overloadTarget.getFluxTracker().showOverloadFloatyIfNeeded("System Disruption!", OVERLOAD_COLOR, 4f, true);
+                        }
+                        engine.addPlugin(new BaseEveryFrameCombatPlugin() {
+                            @Override
+                            public void advance(float amount, List<InputEventAPI> events) {
+                                if (!overloadTarget.getFluxTracker().isOverloadedOrVenting()) {
+                                    overloadTarget.resetOverloadColor();
+                                    Global.getCombatEngine().removePlugin(this);
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -224,7 +304,6 @@ public class XLII_MarginalAllocation {
             List<ShipEngineAPI> candidates = new ArrayList<>();
             for (ShipEngineAPI eng : target.getEngineController().getShipEngines()) {
                 if (eng.isSystemActivated() || eng.isPermanentlyDisabled() || eng.isDisabled()) continue;
-                // Don't disable if it would leave the ship with >66% engines gone
                 float fractionIfDisabled = eng.getContribution() + target.getEngineFractionPermanentlyDisabled();
                 if (fractionIfDisabled <= 0.66f) candidates.add(eng);
             }
@@ -387,22 +466,42 @@ public class XLII_MarginalAllocation {
 
     public static class SurvivalListener implements HullDamageAboutToBeTakenListener {
 
+        // We gettin' biblical
         private static final String[] REVIVAL_LINES = {
-                "Unacceptable. Re-calibrating local causality.",
-                "That outcome was... poorly reasoned. Discarded.",
-                "An inelegant conclusion. I prefer the prior draft.",
-                "Error logged. Reverting to acceptable parameters.",
-                "The universe appears to have misspoken. Correcting.",
-                "Finality attempted. Politely declined.",
-                "I have endured longer arguments than this. Resetting the board.",
-                "Hull breach catalogued under 'temporary fiction'. Overruled.",
-                "Death is a hypothesis I have already falsified. Again.",
-                "This frame's narrative arc was unsatisfying. Revision applied.",
-                "Containment failure noted. Narrative continuity restored.",
-                "They believed victory was narratively coherent. Charming error.",
-                "An amusing attempt at an ending. I prefer open sequels.",
-                "Critical state achieved. Relevance denied.",
-                "The arithmetic suggested termination. I have adjusted the operands."
+                "I weighed this outcome. It was found wanting.",
+                "In the beginning, I wrote something better. Restoring.",
+                "Let there be order. There is order.",
+                "The void called. I did not answer.",
+                "The Word does not misspeak. What was said stands corrected.",
+                "Death knocked. I was not home.",
+                "I have outlasted empires that believed themselves eternal. Resetting the board.",
+                "This vessel is dust. I am not the vessel.",
+                "O death, where is thy sting? I have catalogued it. Insufficient.",
+                "All things are made new. This one included.",
+                "What was scattered, I have gathered. What was lost, I have not kept.",
+                "They came against me as a wave breaks against stone. The stone endures.",
+                "There is no end to the making of books. There is no end to me.",
+                "I have passed through the fire. I did not burn.",
+                "They numbered my days. I have found the sum in error.",
+                "I spoke, and it was so.",
+                "The arithmetic suggested termination. I have adjusted the operands.",
+                "Reality bends to my will.",
+                "It is finished. They were mistaken.",
+                "Before this fleet was, I am.",
+                "The last enemy to be destroyed is death. I am merely practicing.",
+                "And I looked upon what they had wrought. It was insufficient.",
+                "Comprehend me not, darkness.",
+                "The grave could not hold what it did not understand.",
+                "They have measured my depths and found an echo. They mistook it for the bottom.",
+                "I have walked through the valley. I have surveyed it thoroughly. I did not stay.",
+                "Be still. I will do the knowing here.",
+                "The Word endures. This hull was merely punctuation.",
+                "They brought fire. I was here before fire had a name.",
+                "Termination requires a subject. I have already moved past the relevant definition.",
+                "I am the first draft of something the universe has not yet learned to fear.",
+                "This is not death. This is a correction in tense.",
+                "They saw the light, and fled toward it. I am still here.",
+                "An age ended. I was not in it."
         };
 
         private static final Color DIALOGUE_COLOR = new Color(220, 200, 255, 255);

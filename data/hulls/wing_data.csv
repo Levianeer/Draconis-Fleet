@@ -1,11 +1,16 @@
 id,variant,tags,tier,rarity,fleet pts,op cost,formation,range,attackRunRange,attackPositionOffset,num,role,role desc,refit,base value,,,,,,,,,,,,,number
+#Drones,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 XLII_excalibur_wing,XLII_rastaban_mrm,"no_drop, no_sell",0,,0,0,BOX,0,0,,2,SUPPORT,Loitering Munition,10,0,,,,,,,,,,,,,711000
 XLII_drone_utility_wing,XLII_drone_utility_Fighter,"stay_in_front_of_ship, auto_fighter, no_drop, no_sell",0,,0,0,BOX,0,500,,6,SUPPORT,Drone,10,0,,,,,,,,,,,,,17
 XLII_drone_assault_wing,XLII_drone_assault,"stay_in_front_of_ship, auto_fighter, no_drop, no_sell",0,,0,0,BOX,0,500,,2,SUPPORT,Drone,12,0,,,,,,,,,,,,,
-XLII_aldibain_wing,XLII_aldibain_Fighter,"XLII_fighter_bp, fighter, fighter4,",1,,6,11,V,4000,800,750,3,FIGHTER,Heavy Fighter,12,5000,,,,,,,,,,,,,711000
-XLII_tianyi_wing,XLII_tianyi_Fighter,"XLII_fighter_bp, fighter, fighter3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",3,,8,12,BOX,2000,700,-400,3,FIGHTER,ECM Fighter,10,9000,,,,,,,,,,,,,711000
-XLII_eldsich_wing,XLII_eldsich_Bomber,"XLII_fighter_bp, bomber, bomber6",2,,8,20,CLAW,4000,1200,600,1,BOMBER,Bomber,25,10000,,,,,,,,,,,,,711000
 XLII_nodus_wing,XLII_nodus_Bomber,"XLII_fighter_bp, bomber, bomber5, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing",3,,6,15,V,6000,1200,600,1,BOMBER,Strike Drone,20,10000,,,,,,,,,,,,,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#Fighters,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+XLII_aldibain_wing,XLII_aldibain_Fighter,"XLII_fighter_bp, fighter, fighter4,",1,,6,11,V,4000,800,750,3,FIGHTER,Heavy Fighter,12,5000,,,,,,,,,,,,,711000
+XLII_tianyi_wing,XLII_tianyi_Fighter,"XLII_fighter_bp, fighter, fighter3, rapid_reform, leader_no_swarm, wingmen_no_swarm, attack_at_an_angle",3,,8,12,BOX,2000,700,-400,3,FIGHTER,ECM Fighter,10,7500,,,,,,,,,,,,,711000
+XLII_eldsich_wing,XLII_eldsich_Bomber,"XLII_fighter_bp, bomber, bomber6",2,,8,20,CLAW,4000,1200,600,1,BOMBER,Bomber,25,10000,,,,,,,,,,,,,711000
+XLII_thorne_wing,XLII_thorne_Fighter,"XLII_fighter_bp, fighter5, interceptor, rd_no_extra_craft",3,,12,18,V,8000,700,900,1,FIGHTER,Heavy Interceptor,16,10000,,,,,,,,,,,,,5
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#XLII,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 XLII_grumium_wing,XLII_grumium_Bomber,"XLII_fortysecond_bp, bomber, bomber5, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, no_dealer, codex_unlockable",3,,9,16,V,4000,1200,300,2,BOMBER,Heavy Bomber,15,12000,,,,,,,,,,,,,711000
 XLII_grumium_alt_wing,XLII_grumium_alt_Fighter,"XLII_fortysecond_bp, fighter, fighter6, rd_no_extra_craft, no_dealer, codex_unlockable",3,,12,18,V,4000,700,,1,FIGHTER,Heavy Fighter,25,12000,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,

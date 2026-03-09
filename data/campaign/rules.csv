@@ -37,10 +37,11 @@ XLII_admiral_menu_shop_opts,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emi
 5:buy_errakis:I'll purchase an Errakis-class Missile Destroyer ($XLII_cost_credits_formatted_errakis credits, $XLII_cost_rep_errakis rep)
 6:buy_juza:I'll purchase a Juza-class Heavy Cruiser ($XLII_cost_credits_formatted_juza credits, $XLII_cost_rep_juza rep)
 7:buy_alwaid:I'll purchase an Alwaid-class Battlecarrier ($XLII_cost_credits_formatted_alwaid credits, $XLII_cost_rep_alwaid rep)
+8:buy_tianlong:I'll purchase an Tianlong-class Battlecruiser ($XLII_cost_credits_formatted_tianlong credits, $XLII_cost_rep_tianlong rep)
 9:decline:Perhaps another time",
 XLII_admiral_menu_nanoforge_discuss_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil
 !$global.XLII_nanoforgeQuestOffered
-!$global.XLII_nanoforgeQuestComplete",,,"8:XLII_nanoforge_discuss:There's another matter I'd like to raise.",
+!$global.XLII_nanoforgeQuestComplete",,,"0:XLII_nanoforge_discuss:There's another matter I'd like to raise.",
 XLII_admiral_menu_nanoforge_deliver_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet_admiral_emil
 $global.XLII_nanoforgeQuestOffered
 XLII_NanoforgeExchange check
@@ -146,6 +147,7 @@ The Alwaid's slow. But when she gets there, she brings everything.""
 The faintest pause.
 
 ""It's yours.""","1:transaction_complete:Continue",
+XLII_admiral_buy_tianlong,DialogOptionSelected,"$option == buy_tianlong","XLII_BuyShip XLII_tianlong_Assault_fortysecond","test","1:transaction_complete:Continue",
 XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:XLII_admiral_init_commissionedTrader:Buy something else
 2:dismiss:End transmission",
 XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""The offer stands. When you're ready, whenever that may be, the authorization remains active in your file."" A beat. ""However, we don't make these offers lightly, Commander""

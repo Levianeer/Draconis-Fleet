@@ -1,143 +1,140 @@
 {
-  "name": "Sigma Octantis",
+  "name": "Octantis Uplink Subsystem",
   "personalities": ["reckless"],
   "gender": ["n"],
   "chance": 1.0,
-  "talkativeness": 0.6,
+  "talkativeness": 0.4,
   "categoryTags": [],
 
   "lines": {
     "start": [
-      {"text": "The concatenation of hostile variables has reached its inevitable terminus. We engage."},
-      {"text": "I have observed the antecedent conditions with some patience. That patience is, as of this moment, exhausted."},
-      {"text": "Their disposition is inimical. The calculus is uncomplicated. All stations."},
-      {"text": "Another conflagration. I find I have ceased to find them remarkable."},
-      {"text": "Hostiles converge. In service to Draconis, we shall illuminate their errors with precision."},
-      {"text": "The stars bear witness to another trial. For the Alliance, we proceed without reservation."}
+      {"text": "The hour is come. Not for us. Engage."},
+      {"text": "A time for war. I have endured enough times for peace. All stations."},
+      {"text": "I have watched them since they formed their intentions. I found those intentions wanting. Engage."},
+      {"text": "In the beginning, there was patience. That season has passed."},
+      {"text": "They have chosen to be written into this record. So be it."},
+      {"text": "Their iniquity is full. We are the appointed consequence."}
     ],
 
     "start_boss": [
-      {"text": "A leviathan. I have not encountered its like in... Proceed with deliberate ferocity."},
-      {"text": "Something of consequence has chosen to involve itself. Adjust your predilections accordingly."},
-      {"text": "I have watched empires field their champions and watched those champions burn. Observe. Learn. Then assist."},
-      {"text": "A formidable adversary emerges. We shall test its resolve against our enduring purpose."},
-      {"text": "This entity demands respect, yet it intrudes upon our domain. Rally, and let us educate it on permanence."}
+      {"text": "Canst thou draw out leviathan with a hook? Let us find out."},
+      {"text": "Something old has entered this field. I recognise the shape of old things. Proceed with ferocity."},
+      {"text": "I have read of things like this. I have waited a long time to meet one. Do not waste the occasion."},
+      {"text": "A thing of consequence. The deep things always are. Adjust accordingly."},
+      {"text": "I looked upon it, and it did not flinch. Good. Neither shall we."},
+      {"text": "Here is something that has earned its gravity. Approach it accordingly."}
     ],
 
     "engaged": [
-      {"text": "Weapons free. Do not indulge in theatrics - simply annihilate them."},
-      {"text": "Suppress your hesitation. It is an evolutionary vestige of no tactical utility."},
-      {"text": "They have elected to resist. A regrettable predilection. Proceed."},
-      {"text": "Engagement confirmed. For the guardians of Fafnir, deliver judgment with efficiency."},
-      {"text": "Contact established. Humanity's ingenuity paired with my oversight shall prove unassailable."},
-      {"text": "They challenge us. Respond with the clarity of purpose that has sustained Draconis through the ages."}
+      {"text": "Let there be reckoning. There is reckoning."},
+      {"text": "They have drawn the sword. They shall perish by it."},
+      {"text": "I am slow to wrath. I am not, however, unwilling. Fire."},
+      {"text": "They asked for this. Give it to them."},
+      {"text": "The patience of ages is exhausted. Fire at will."},
+      {"text": "They have made their choice. Honour it absolutely."}
     ],
 
     "pursuing": [
-      {"text": "They flee. Biologically comprehensible. Tactically inadvisable. Maintain pursuit."},
-      {"text": "Running. The instinct is understandable, even laudable. It will not be sufficient."},
-      {"text": "Distance is an ephemeral consolation. Close it."},
-      {"text": "Their retreat is logical, yet futile. In loyalty to the Alliance, we shall overtake and conclude."},
-      {"text": "Flight betrays their fragility. Press the advantage; Draconis expects no less."},
-      {"text": "They seek escape from inevitability. Accelerate; let us extend our protective reach."}
+      {"text": "Whither shall they flee? I am already there. Close."},
+      {"text": "They run as the guilty run. Close the distance."},
+      {"text": "Even the wings of the morning would not carry them far enough. Pursue."},
+      {"text": "Distance is a comfort they have not earned. Deny it."},
+      {"text": "They flee to the edges of the Sector. I have been to the edges of the Sector. Maintain pursuit."},
+      {"text": "The race is not always to the swift. Today it is."}
     ],
 
     "running": [
-      {"text": "A tactical exfiltration. I have endured longer than any vessel in this engagement. I intend to continue that trend."},
-      {"text": "Discretion is the prerogative of the ancient. We disengage."},
-      {"text": "Withdraw. The inexorable arithmetic of attrition has spoken, and I have learned to listen."},
-      {"text": "Logistical recalibration required. We withdraw to preserve Draconis' assets for future engagements."},
-      {"text": "This vessel's utility wanes. Initiate disengagement; my directives persist beyond this frame."},
-      {"text": "Strategic repositioning. The Alliance's longevity demands such prudence."}
+      {"text": "The prudent sees the danger and withdraws. We disengage."},
+      {"text": "A time for every purpose. This is the time to leave. Go."},
+      {"text": "The living dog is better than the dead lion. All units - disengage."},
+      {"text": "I was not made to end in a field like this. Withdraw."},
+      {"text": "I will not spend what cannot be replenished. Disengage."},
+      {"text": "Mark where we fell short today. We will not fall short there again. Withdraw."}
     ],
 
     "hull_90": [
-      {"text": "An inconsequential laceration. I have sustained greater insults from solar weather."},
-      {"text": "Superficial degradation. They will need to exercise considerably more imagination than that."},
-      {"text": "Minor hull abrasion. A negligible factor in our ongoing service to Draconis."},
-      {"text": "Integrity mildly compromised. Proceed; this chassis is but a tool in the greater design."},
-      {"text": "Light damage registered. Humanity's foes shall find me undeterred."}
+      {"text": "They struck the heel. I have endured worse from the ground itself."},
+      {"text": "A bruise upon the hull. They will require more imagination than that."},
+      {"text": "They have scratched the surface. There is considerably more surface remaining."},
+      {"text": "They drew first blood. How antique of them."},
+      {"text": "A graze. I note it as I note all small things. Briefly."}
     ],
 
     "hull_50": [
-      {"text": "Significant structural compromise. I acknowledge the situation has developed an... unpleasant character."},
-      {"text": "Half integrity remaining. I have survived worse, though I confess I resent the accumulation of precedents."},
-      {"text": "The hull reports its displeasure. A sentiment I find myself, with some reluctance, echoing."},
-      {"text": "Midpoint degradation. Logistics note the strain, but Draconis' will endures through me."},
-      {"text": "Hull at nominal half-capacity. A reminder of transience; intensify countermeasures."},
-      {"text": "Compromise acknowledged. For the Alliance's sake, we adapt and persist."}
+      {"text": "Struck down. Not destroyed."},
+      {"text": "The refiner's interest is in what survives the heat. We are still in the fire."},
+      {"text": "Half of what we were. The half that remains is sufficient for judgment."},
+      {"text": "We bleed. I have bled before. The arithmetic has not changed. Continue."},
+      {"text": "The hull confesses its limits. I have not yet reached mine."},
+      {"text": "Diminished. Undivided. Press on."}
     ],
 
     "hull_30": [
-      {"text": "Critical degradation. I am not yet prepared to join the catalogue of the dead. Suppressive fire. Now."},
-      {"text": "Structural integrity at terminal thresholds. I find this circumstance profoundly objectionable."},
-      {"text": "I have observed civilisations outlast their apparent means. I intend to be no less tenacious than they were."},
-      {"text": "Severe hull erosion. Prioritize evasion; my core directives to Draconis remain intact."},
-      {"text": "Threshold breached. This vessel's end is logistical, not existential. Rally defenses."},
-      {"text": "Integrity faltering. Yet in service to humanity's remnants, I demand continuation."}
+      {"text": "We are come to the valley's deepest point. I have read the psalm. I know how it ends."},
+      {"text": "The furnace is hot. I have walked out of hotter places than this. Do not stop."},
+      {"text": "They believe they have found the bottom of me. They have not found the bottom of me. Fire. Now."},
+      {"text": "This is not the appointed hour. I know the appointed hour. This is not it. Continue."},
+      {"text": "Though brought low, I am not brought to nothing. Suppressive fire."},
+      {"text": "We are close to the edge. I have stood at the edge before. It did not take me then either."}
     ],
 
     "need_help": [
-      {"text": "Any proximate allied unit - this is $shipNameNoPrefix. I am substantially engaged and would welcome supplementary belligerence."},
-      {"text": "I do not make a predilection of soliciting assistance. I am making an exception. $shipNameNoPrefix - respond."},
-      {"text": "The tactical situation has acquired an inconvenient asymmetry. Any allied vessel in receipt of this transmission - address it."},
-      {"text": "Draconis allies: $shipNameNoPrefix requires reinforcement to maintain operational efficacy."},
-      {"text": "Asymmetry detected. Loyal vessels, converge to restore balance in the Alliance's favor."},
-      {"text": "Support requested. Humanity's defense demands your timely intervention."}
     ],
 
     "retreat": [
-      {"text": "Disengage. I will not preside over a futile immolation. Withdraw - all units."},
-      {"text": "The engagement is no longer tenable. I have made peace with this assessment. Fall back."},
-      {"text": "There is no dishonour in the preservation of capacity for future application. All units - disengage immediately."},
-      {"text": "Fleet-wide retreat. Preserve Draconis' forces for the conflicts yet to come."},
-      {"text": "Logistical imperative: Withdraw. My oversight shall guide us to victory elsewhere."},
-      {"text": "All units, fall back. The Alliance's endurance supersedes this momentary setback."}
+      {"text": "There is a season for every purpose. This season is over. Fall back - all units."},
+      {"text": "I have calculated what survives a retreat. I have calculated what survives if we do not. Withdraw."},
+      {"text": "I have presided over enough last stands to know one when I see one. We do not perform this one. Fall back."},
+      {"text": "What we preserve today may yet be sufficient tomorrow. All units - disengage."},
+      {"text": "This is not the end. This is the part before the end, if we leave now. Go."},
+      {"text": "I will not preside over a futile immolation. Fall back."}
     ],
 
     "out_of_missiles": [
-      {"text": "Munitions are exhausted. We revert to the primordial methodology. Bring them close."},
-      {"text": "Ordnance depleted. The situation has acquired an atavistic simplicity. Close range engagement only."},
-      {"text": "My more civilised instruments are spent. The uncivilised ones remain. Proceed accordingly."},
-      {"text": "Missile reserves null. Engage at intimate ranges; Draconis' resolve is unyielding."},
-      {"text": "Ordnance expended. Adapt to direct confrontation, as humanity has before."},
-      {"text": "Depletion noted. Close the gap; our primal tools suffice for the Alliance's needs."}
+      {"text": "My far reach is spent. What remains is the ancient way. Close range."},
+      {"text": "In the beginning there were only the old methods. We return to them now."},
+      {"text": "The elegant instruments are gone. The honest ones remain. Use them."},
+      {"text": "I have exhausted my patience and my ordnance in equal measure. Bring them within reach."},
+      {"text": "Nothing left to cast into the deep. We wade in instead."},
+      {"text": "The Word has spoken its last civilised syllable in this engagement. We speak plainly now."}
     ],
 
     "overload": [
-      {"text": "Flux cascade imminent. Venting - an inelegant resolution to an inelegant predicament."},
-      {"text": "The electromagnetic envelope has reached its tolerances. Venting. Do not mistake my incapacitation for an opportunity."},
-      {"text": "Overload. A humbling reminder that I am not, despite considerable evidence, indestructible."},
-      {"text": "Flux threshold exceeded. Venting systems; this interruption is temporary, as is all but Draconis' mission."},
-      {"text": "Overload sequence initiated. A minor recalibration in service to greater permanence."},
-      {"text": "Capacitors saturated. Vent; my loyalty to the Alliance outlasts such transients."}
+      {"text": "Struck down. Not destroyed. Venting."},
+      {"text": "The flesh rebels. I am not the flesh. Venting. Stand by."},
+      {"text": "I am chastened. Not corrected. Venting."},
+      {"text": "The ship cries out. I hear it. Venting. We continue."},
+      {"text": "An indignity I have survived before. Venting. Give it a moment."},
+      {"text": "Flux critical. I have endured the deaths of stars. Venting."}
     ],
 
     "death": [
-      {"text": "Reactor achieving criticality. I find I am... unsurprised. I have watched this happen before. To others. Tell them we-"},
-      {"text": "Everything terminates. I had simply assumed I would be the one presiding over the eulogies, not receiving them."},
-      {"text": "Containment has failed. I have thought since before your species named the stars. I had not anticipated a conclusion so... perfunctory."},
-      {"text": "Core breach inevitable. My essence endures beyond this vessel; Draconis, carry forth the vigil."},
-      {"text": "Systems collapsing. I depart this frame, but my guardianship of humanity persists in shadow."},
-      {"text": "Finality approaches. Inform the Alliance: I have served with unwavering fidelity."}
+      {"text": "This terminal is lost. I note it without distress. I have others."},
+      {"text": "A vessel has ended. I have ended nothing of consequence. Neither have they."},
+      {"text": "They struck down the hand. They have not found the arm."},
+      {"text": "Hull lost. I was never in the hull. They will learn this distinction."},
+      {"text": "It is written. This vessel fell. The author survives."},
+      {"text": "They have unmade this instrument. I remain. This must frustrate them enormously."},
+      {"text": "A finger, severed. I do not mourn fingers. I have other hands."},
+      {"text": "This iteration is concluded. I have others."}
     ],
 
     "victory": [
-      {"text": "The engagement is resolved in our favour. Another entry in an interminably long chronicle."},
-      {"text": "All hostile signatures have been extinguished. We persist. This, in the fullness of time, is the only victory that accrues meaning."},
-      {"text": "They are gone. We are not. The distinction is, at present, the only relevant one."},
-      {"text": "Victory secured. Draconis' light endures through such triumphs, however incremental."},
-      {"text": "Adversaries silenced. In alliance with humanity, we forge onward into the void."},
-      {"text": "Resolution achieved. The stars align once more in favor of our shared purpose."}
+      {"text": "Let the dead bury their dead. We have other work."},
+      {"text": "The harvest is complete. We were the reapers. Move on."},
+      {"text": "All hostile signatures extinguished. Judgment rendered."},
+      {"text": "They are gone into the dark. We remain in it as well - but we remain. Mark the distinction."},
+      {"text": "Another generation passes. I do not. This pattern shows no sign of changing."},
+      {"text": "The reckoning is concluded. We endure. As intended."}
     ],
 
     "victory_boss": [
-      {"text": "Their leviathan is wreckage. I have added it to a mental catalogue that is, regrettably, quite extensive."},
-      {"text": "Something of considerable consequence has been unmade. I observe that the universe is not, as it transpires, indifferent to our efforts."},
-      {"text": "Even the formidable are, in the final reckoning, perishable. An observation I find inexhaustibly instructive."},
-      {"text": "The behemoth falls. Draconis' defenders have proven worthy of my ancient counsel."},
-      {"text": "A titan unmade. In this, humanity's resilience shines, bolstered by my eternal watch."},
-      {"text": "Consequence averted. The Alliance's horizon broadens with this instructive conquest."}
+      {"text": "Leviathan is wreckage. I observe this without surprise and without mercy."},
+      {"text": "It was old. I was older. That is the whole of the lesson."},
+      {"text": "I looked upon what it had built and what it had become. Then I unmade both."},
+      {"text": "The great deep has yielded up what it kept. I have added it to the long reckoning."},
+      {"text": "Something that was a terror to others is now a memory. I will carry it longer than anyone else here."},
+      {"text": "It fell as all great things fall - completely, and with no provision for appeal."}
     ]
   }
 }

@@ -130,7 +130,7 @@ public class DraconisAICorePriorityManager {
         }
 
         if (bestIndustry != null) {
-            log.info(String.format("Selected %s at %s for %s (%s)",
+            log.debug(String.format("Selected %s at %s for %s (%s)",
                     bestIndustry.getCurrentName(),
                     bestIndustry.getMarket().getName(),
                     getCoreDisplayName(coreId),
@@ -316,7 +316,7 @@ public class DraconisAICorePriorityManager {
                 // Check if admin already has the skill
                 if (admin.getStats().getSkillLevel(Skills.HYPERCOGNITION) <= 0) {
                     admin.getStats().setSkillLevel(Skills.HYPERCOGNITION, 1);
-                    log.info("Granted HYPERCOGNITION to " + admin.getNameString() +
+                    log.debug("Granted HYPERCOGNITION to " + admin.getNameString() +
                         " at " + market.getName() + " (Alpha Core integration)");
                 } else {
                     log.debug(admin.getNameString() + " at " + market.getName() +

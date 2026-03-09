@@ -10,7 +10,7 @@
 		"XLII_aldhibah_Elite":1.5,
 		"XLII_aldhibah_Strike":1.5,
 		
-		"fallback":{"combatSmall":1},
+		"fallback":{"combatSmall":1}
 	},
 	"combatSmall":{
 		"XLII_thuban_Elite":2,
@@ -23,7 +23,7 @@
 		"XLII_aldhibah_Elite":1,
 		"XLII_aldhibah_Strike":1,
 
-		"fallback":{"combatMedium":1},
+		"fallback":{"combatMedium":1}
 	},
 	"combatMedium":{
 		"XLII_rastaban_Elite":1.5,
@@ -35,7 +35,7 @@
 		
 		"XLII_shaowei_Elite":0.1,
 
-		"fallback":{"combatSmall":1},
+		"fallback":{"combatSmall":1}
 	},
 	"combatLarge":{
 		"XLII_eltanin_Elite":2,
@@ -57,29 +57,30 @@
 		"XLII_nushi_mk2_Elite":0.75,
 		"XLII_nushi_mk2_Strike":0.75,
 
-		"fallback":{"combatMedium":1},
+		"fallback":{"combatMedium":1}
 	},
 	"combatCapital":{
 		"XLII_altais_Elite":1,
 		"XLII_altais_Strike":1,
 
 		"XLII_tianlong_Elite":1,
+		"XLII_tianlong_Assault_fortysecond":1,
 
 		"XLII_dziban_Elite":0.25,
 
-		"fallback":{"combatLarge":1},
+		"fallback":{"combatLarge":1}
 	},
 	"carrierSmall":{
 		
 		"fallback":{"carrierMedium":1},
-		"fallback2":{"carrierLarge":0.11},
+		"fallback2":{"carrierLarge":0.11}
 	},
 	"carrierMedium":{
 		"XLII_shaobi_Elite":1,
 		"XLII_shaobi_Assault_fortysecond":0,
 
 		"fallback":{"carrierSmall":1},
-		"fallback2":{"carrierLarge":1},
+		"fallback2":{"carrierLarge":1}
 	},
 	"carrierLarge":{
 		"XLII_alwaid_Elite":1,
@@ -88,110 +89,108 @@
 		"XLII_alwaid_Assault_fortysecond":0,
 
 		"fallback":{"carrierMedium":1},
-		"fallback2":{"carrierSmall":1},
+		"fallback2":{"carrierSmall":1}
 	},
 
-	# freighters and such
 	"freighterSmall":{
 
 		"fallback":{"freighterMedium":1},
-		"fallback2":{"freighterLarge":0.11},
+		"fallback2":{"freighterLarge":0.11}
 	},
 	"freighterMedium":{
 		"XLII_alsafi_Cargo":10,
 
 		"fallback":{"freighterSmall":1},
-		"fallback2":{"freighterLarge":1},
+		"fallback2":{"freighterLarge":1}
 	},
 	"freighterLarge":{
 
 		"fallback":{"freighterMedium":1},
-		"fallback2":{"freighterSmall":1},
+		"fallback2":{"freighterSmall":1}
 	},
 	
-	# hybrid ships with good combat and cargo capacity
+
 	"combatFreighterSmall":{
 
-		"fallback":{"freighterSmall":1},
+		"fallback":{"freighterSmall":1}
 	},
 	"combatFreighterMedium":{
 
-		"fallback":{"combatFreighterSmall":1},
+		"fallback":{"combatFreighterSmall":1}
 	},
 	"combatFreighterLarge":{
 		"XLII_eltanin_mk2_Elite":10,
 		
-		"fallback":{"combatFreighterMedium":1},
+		"fallback":{"combatFreighterMedium":1}
 	},
 
 	"tankerSmall":{
 
 		"fallback":{"tankerMedium":1},
-		"fallback2":{"tankerLarge":0.11},
+		"fallback2":{"tankerLarge":0.11}
 	},
 
 	"tankerMedium":{
 		"XLII_alsafi_Hybrid":10,
 
 		"fallback":{"tankerSmall":1},
-		"fallback2":{"tankerLarge":1},
+		"fallback2":{"tankerLarge":1}
 	},
 	"tankerLarge":{
 
 		"fallback":{"tankerMedium":1},
-		"fallback2":{"tankerSmall":1},
+		"fallback2":{"tankerSmall":1}
 	},
 	
 	"personnelSmall":{
 
 		"fallback":{"personnelMedium":1},
-		"fallback2":{"personnelLarge":0.11},
+		"fallback2":{"personnelLarge":0.11}
 	},
 	"personnelMedium":{
 		"XLII_shaobi_Elite":1,
 
 		"fallback":{"personnelSmall":1},
-		"fallback2":{"personnelLarge":1},
+		"fallback2":{"personnelLarge":1}
 	},
 	"personnelLarge":{
 		"XLII_eltanin_mk2_Elite":1,
 
 		"fallback":{"personnelMedium":1},
-		"fallback2":{"personnelSmall":1},
+		"fallback2":{"personnelSmall":1}
 	},
 
 	"linerSmall":{
 		"XLII_shaobi_Elite":10,
 
 		"fallback":{"linerMedium":0.5},
-		"fallback2":{"linerLarge":0.25},
+		"fallback2":{"linerLarge":0.25}
 	},
 	"linerMedium":{
 		"XLII_eltanin_mk2_Elite":10,
 
 		"fallback":{"linerSmall":1},
-		"fallback2":{"linerLarge":0.5},
+		"fallback2":{"linerLarge":0.5}
 	},
 	"linerLarge":{
 		"XLII_kuma_Elite":10,
 
 		"fallback":{"linerMedium":1},
-		"fallback2":{"linerSmall":1},
+		"fallback2":{"linerSmall":1}
 	},
 	
-	# utility ships
 	"tug":{
 		"XLII_kuma_Elite":1,
 
-		"fallback":{"utility":1},
+		"fallback":{"utility":1}
 	},
 	"crig":{
 
-		"fallback":{"utility":1},
+		"fallback":{"utility":1}
 	},
 	"utility":{
 		"XLII_kuma_Elite":1,
 		
-		"XLII_eltanin_mk2_Elite":0.5,
+		"XLII_eltanin_mk2_Elite":0.5
 	}
 }

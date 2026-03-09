@@ -12,6 +12,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity;
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.XLII_SigmaOctantisWatchdog;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -59,6 +60,10 @@ public class XLII_NanoforgeExchange extends BaseCommandPlugin {
             cargo.addCommodity(REWARD_ID, 1);
 
             installPristineNanoforgeOnKori();
+
+            // Start monitoring rep now that the core is in the player's hands
+            Global.getSector().addScript(new XLII_SigmaOctantisWatchdog());
+            log.info("Draconis: XLII_NanoforgeExchange - Sigma Octantis Watchdog registered");
 
             // Show cargo change notifications in the dialog panel
             dialog.getTextPanel().addPara("Transferred Pristine Nanoforge to the Alliance.",

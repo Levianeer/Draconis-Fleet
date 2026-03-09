@@ -1,0 +1,27 @@
+{
+    "displayName": "Interceptor",
+    "fluxCapacitors": 0,
+    "fluxVents": 0,
+    "goalVariant": false,
+    "hullId": "XLII_thorne",
+    "hullMods": [],
+    "quality": 1.0,
+    "variantId": "XLII_thorne_Fighter",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 000": "XLII_needler_fighter"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "XLII_arquebus",
+                "WS 002": "XLII_arquebus"
+            }
+        }
+    ]
+}
