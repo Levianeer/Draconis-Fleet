@@ -19,6 +19,7 @@ XLII_CalculateShipCost XLII_alwaid_Assault_fortysecond alwaid
 XLII_CalculateShipCost XLII_errakis_Assault_fortysecond errakis
 XLII_CalculateShipCost XLII_juza_Assault_fortysecond juza
 XLII_CalculateShipCost XLII_shaobi_Assault_fortysecond shaobi
+XLII_CalculateShipCost XLII_tianlong_Assault_fortysecond tianlong
 XLII_CalculateShipCost XLII_grumium_wing grumium","""Commander $playerLastName."" The distorted visage tilts slightly, as if examining you through the compression grain. What might be satisfaction colors the modulated voice. ""We've been watching your work."" A beat. ""Impressed, I should say.""
 
 He leans forward slightly, the motion causing the encryption to ripple and distort. ""The Draconis Defence Alliance rewards competence. More importantly, we recognize when someone possesses the tactical acumen we need for what's coming.""
@@ -46,37 +47,37 @@ XLII_admiral_menu_nanoforge_deliver_opt,XLII_AdmiralMenuOptions,"$tag:XLII_fleet
 $global.XLII_nanoforgeQuestOffered
 XLII_NanoforgeExchange check
 !$global.XLII_nanoforgeQuestComplete",,,"0:XLII_nanoforge_deliver:I have a Pristine Nanoforge to offer.",
-XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
+XLII_admiral_buy_grumium,DialogOptionSelected,"$option == buy_grumium","XLII_BuyShip XLII_grumium_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Lieutenant Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Six wings, loaded heavy, against fortified emplacements and interceptor screens.""
 
-""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+""Lumbered in like cargo haulers. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
 
-""Reyes brought three back, including his own. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+""Reyes brought three back. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
 
-A brief pause as the data finalizes.
+A brief pause as the transfer finalizes.
 
-""Use it well, Commander. The Alliance expects results.""","1:transaction_complete:Continue",
-XLII_admiral_buy_grumium_alt,DialogOptionSelected,"$option == buy_grumium_alt","XLII_BuyShip XLII_grumium_alt_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Commander Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Twelve birds, loaded heavy, against fortified emplacements and interceptor screens.""
+""Commander.""","1:transaction_complete:Continue",
+XLII_admiral_buy_grumium_alt,DialogOptionSelected,"$option == buy_grumium_alt","XLII_BuyShip XLII_grumium_alt_wing","""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Lieutenant Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Six wings, loaded heavy, against fortified emplacements and interceptor screens.""
 
-""They lumbered in like cargo haulers, dodging flak by sheer spite. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+""Lumbered in like cargo haulers. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
 
-""Reyes brought three back, including his own. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+""Reyes brought three back. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
 
-A brief pause as the data finalizes.
+A brief pause as the transfer finalizes.
 
-""Use it well, Commander. The Alliance expects results.""","1:transaction_complete:Continue",
-XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Assault_fortysecond","""The Alruba. You know, most people look at her now and see a relic - too dated for modern combat, gathering dust in the reserves. But I remember when she was all we had.
+""Commander.""","1:transaction_complete:Continue",
+XLII_admiral_buy_alruba,DialogOptionSelected,"$option == buy_alruba","XLII_BuyShip XLII_alruba_Assault_fortysecond","""Most people look at her now and see a relic - ill fit for modern combat. But I remember when she was all we had.
 
-Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. Older model, held together with spite and welder's tape. We had six of them left in the picket line, facing down twice our number.
+Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. We had six of them left in the picket line, facing down twice our number.
 
-The captain - Lieutenant Walker, good officer - she kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
+The captain - Walker, good officer - kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
 
 Walker didn't. Reactor breach on the final push.
 
-The Alruba's not fast. Not elegant. But she's honest. She does what you build her to do, and she doesn't quit until she's a debris field. Sometimes that's enough.""
+The Alruba's not fast. Not elegant. But she's honest. And doesn't quit until she's a debris field. Sometimes that's enough.""
 
 A brief pause as the data finalizes.
 
-""Use it well, Commander. The Alliance invests in those who deliver results."" The emphasis on 'deliver' is subtle but unmistakable. ""We'll be watching.""","1:transaction_complete:Continue",
+""That'll be all, Commander.""","1:transaction_complete:Continue",
 XLII_admiral_buy_shaobi,DialogOptionSelected,"$option == buy_shaobi","XLII_BuyShip XLII_shaobi_Assault_fortysecond","""The Shaobi. The Marines' favourite toy. Command didn't want to build her - too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
 
 I'll admit, I didn't see the value. Not at first.
@@ -96,58 +97,58 @@ Sometimes that's worth more than another fighter wing.""
 A pause.
 
 ""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
-XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Assault_fortysecond","""The Errakis. Carrier escort. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
+XLII_admiral_buy_errakis,DialogOptionSelected,"$option == buy_errakis","XLII_BuyShip XLII_errakis_Assault_fortysecond","""A carrier escort strictly speaking. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
 
-That became a problem during the push on Athebyne's outer stations.
+That became a problem during the push on Athebyne's outer stations. We had the Milwaukee - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to briefly shunt the datalink, not enough to justify pulling back.
 
-We had the Milwaukee - an Errakis - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to scramble targeting data, not enough to justify pulling back.
+The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain Holt - had a ship full of ordnance and nothing to shoot at.
 
-The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain N. Holt - good officer, Kori Naval Academy - had a ship full of ordnance and nothing to shoot at.
+So he did what the ship wasn't designed to do: he moved in close. Uncomfortably close.
 
-So he did what the ship was designed to do: he moved in close. Uncomfortably close. Within thirty thousand klicks of the enemy screen, using the carrier's fighters for targeting data and firing on delayed telemetry.
+The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition cook off. But the carrier stayed operational, and the screen held.""
 
-It worked. Barely. The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition fire. But the carrier stayed operational, and the screen held.
+Your sensors officer glances back at you, eyebrows raised. Authorization codes transmitted.
 
-Holt put in a formal complaint about the sensor limitations afterward. Command filed it. Nothing changed.
+""Until next time, Commander.""","1:transaction_complete:Continue",
+XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Assault_fortysecond","""Even while it serves it's considered a 'prototype'. Armoured like a battleship, just fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? A damned miracle - when she works.
 
-The Errakis does what she's built for. Just don't expect her to do it elegantly.""
+At end of the war had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
 
-Your sensors officer glances back at you, eyebrows raised. The authorization codes being transmitted carry security clearances you didn't know existed.
+Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. A paperweight in the middle of a firing line.
 
-""The Alliance will remember how you use it.""","1:transaction_complete:Continue",
-XLII_admiral_buy_juza,DialogOptionSelected,"$option == buy_juza","XLII_BuyShip XLII_juza_Assault_fortysecond","""The Juza-class. Experimental flux management, armoured like a battleship, just fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? She's a damned miracle - when she works.
+Her chief engineer - man named Nowak, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. A miracle to put it bluntly.
 
-Six months into the war, we had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
-
-Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. She was a two-hundred-thousand-tonne paperweight in the middle of a firing line.
-
-Her chief engineer - man named Kovar, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. Three minutes. Do you know what a miracle that is?
-
-By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Kovar kept her running for another six hours before the system burned out for good. We won that engagement.
+By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Nowak kept her running for another six hours before the system burned out for good. We won that engagement.
 
 The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
 
-Brief silence.
+A brief silence followed by an authorization code transmission.
 
 ""Authorization granted.""","1:transaction_complete:Continue",
-XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Assault_fortysecond","""The Alwaid-class. I've heard the jokes - 'by the time she arrives, the war's over.' The crews call her the 'Late Arrival.' High Command calls her a strategic asset. Both are right.
+XLII_admiral_buy_alwaid,DialogOptionSelected,"$option == buy_alwaid","XLII_BuyShip XLII_alwaid_Assault_fortysecond","""I've heard the jokes - ""by the time she arrives, the war's over."" The crews call her the 'Late Arrival.'
 
-During the final assault on Athebyne's capital shipyards, we had three Alwaids in the fleet. Heaven's Axiom, the Diligence, and the Eternity. The plan was simple: jump in, launch fighters, establish orbital superiority. Textbook carrier doctrine.
-
-The first two battlegroups jumped on schedule. The Eternity's group? Delayed. Drive malfunction - forty minutes late to the fight.
+An anecdote: Textbook carrier doctrine. Three battlegroups were to warp directly into the fight. The Alwaid's group? Delayed by a drive malfunction - forty minutes late to the fight.
 
 By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
 
-Then the Eternity translated in-system. Two hundred and forty fighters. Every torpedo tube loaded. She didn't win the battle - but she ended it. The enemy scattered. We held the orbitals.
-
-Commander McKinnon - captain of the Eternity - he spent the next month in disciplinary review. I made sure he walked out with a promotion instead. Sometimes arriving late means you arrive when it matters most.
+Then the Eternity translated in-system. Two hundred and sixty fighters. Every torpedo tube loaded. She didn't win the battle herself - but she ended it. The enemy scattered. We held the orbitals.
 
 The Alwaid's slow. But when she gets there, she brings everything.""
 
 The faintest pause.
 
 ""It's yours.""","1:transaction_complete:Continue",
-XLII_admiral_buy_tianlong,DialogOptionSelected,"$option == buy_tianlong","XLII_BuyShip XLII_tianlong_Assault_fortysecond","test","1:transaction_complete:Continue",
+XLII_admiral_buy_tianlong,DialogOptionSelected,"$option == buy_tianlong","XLII_BuyShip XLII_tianlong_Assault_fortysecond","""Four cycles ago, a Pather raiding flotilla entered Kori's orbital space in coordination with a surface sabotage operation. The intent was to occupy our response force long enough for the ground teams to finish their work. The Covenant was in the patrol rotation.
+
+Vasile, her commander, took her through the centre of the formation. Struck their lead ship at speed, engaged the second at close range, and repositioned between the flotilla and their egress vector before their command element had processed what had happened. The aft section took heavy damage. Prioritised forward coverage with the rear mount. But even so, the flotilla broke. The surface teams lost their extraction window.
+
+The after-action report was four pages. Three and a half of them were just damage assessments. The remaining half-page described his tactical reasoning in language I found adequate but incomplete. He did not mention that the Covenant's approach vector was inconsistent with any evasive option - that closing at that speed, on that bearing, was not a response to the engagement. It was a conclusion he had reached before the engagement began.
+
+He is a precise man. His logs are immaculate. I do not think the imprecision was accidental.""
+
+A silence. Although not long.
+
+""Take good care of her, Commander. The Alliance has few enough of these.""","1:transaction_complete:Continue",
 XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:XLII_admiral_init_commissionedTrader:Buy something else
 2:dismiss:End transmission",
 XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""The offer stands. When you're ready, whenever that may be, the authorization remains active in your file."" A beat. ""However, we don't make these offers lightly, Commander""

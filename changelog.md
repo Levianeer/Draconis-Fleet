@@ -1,3 +1,7 @@
+Version 0.6.12 (Save-compatible with 0.6.11)
+BUG FIXES:
+- Fixed rules.csv stuff.
+
 Version 0.6.11 (Save-compatible with 0.6.10)
 BUG FIXES:
 - Fixed a bug where DraconisAICoreFleetInflater wouldn't spawn Octantis.
