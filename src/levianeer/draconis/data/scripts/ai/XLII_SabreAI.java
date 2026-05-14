@@ -1,3 +1,4 @@
+//By Tartiflette, modified for XLII Sabre missiles
 package levianeer.draconis.data.scripts.ai;
 
 import com.fs.starfarer.api.Global;
@@ -10,12 +11,6 @@ import org.lwjgl.util.vector.Vector2f;
 
 /**
  * Custom missile AI for XLII_sabre missiles launched by XLII_MissileBarrageStats ship system.
- * Features:
- * - Random target selection (spreads damage across multiple enemies)
- * - Leading/intercept calculation for moving targets
- * - Direct flight path (no wave motion)
- * - No retargeting when target dies (committed to target)
- * - Integrates with ship system's target assignment
  */
 
 @SuppressWarnings("deprecation")

@@ -23,7 +23,7 @@ public class XLII_CheckAdmiralRep extends BaseCommandPlugin {
 
     private static final Logger log = Global.getLogger(XLII_CheckAdmiralRep.class);
 
-    private static final float COOPERATIVE_THRESHOLD = 1f;
+    private static final float COOPERATIVE_THRESHOLD = 0.75f;
 
     @Override
     public boolean execute(String ruleId, InteractionDialogAPI dialog,
@@ -34,9 +34,18 @@ public class XLII_CheckAdmiralRep extends BaseCommandPlugin {
             return false;
         }
 
+        float threshold = COOPERATIVE_THRESHOLD;
+        if (!params.isEmpty()) {
+            try {
+                threshold = Float.parseFloat(params.get(0).getString(memoryMap));
+            } catch (NumberFormatException e) {
+                log.warn("Draconis: XLII_CheckAdmiralRep - invalid threshold param, using default");
+            }
+        }
+
         float rel = admiral.getRelToPlayer().getRel();
-        boolean eligible = rel >= COOPERATIVE_THRESHOLD;
-        log.debug("Draconis: XLII_CheckAdmiralRep - rel=" + rel + " eligible=" + eligible);
+        boolean eligible = rel >= threshold;
+        log.debug("Draconis: XLII_CheckAdmiralRep - rel=" + rel + " threshold=" + threshold + " eligible=" + eligible);
         return eligible;
     }
 }

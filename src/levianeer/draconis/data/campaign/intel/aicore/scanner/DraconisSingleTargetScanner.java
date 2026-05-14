@@ -6,6 +6,8 @@ import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
+import com.fs.starfarer.api.impl.campaign.ids.Factions;
+import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -74,7 +76,16 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
             return;
         }
 
+        // Clear all stale flags unconditionally before each scan so that after save/load
+        // the new scanner instance (currentTarget == null) never leaves orphaned flags behind.
+        clearAllHighValueFlags();
+
         List<MarketCandidate> candidates = new ArrayList<>();
+
+        // While the AIO crisis is suppressed (commission or payment deal), player markets
+        // must not be targeted - the tracker has already cleared any existing condition.
+        DraconisAIOTracker tracker = DraconisAIOTracker.get();
+        boolean trackerSuppressed = tracker != null && (tracker.isCommissioned() || tracker.isPaymentActive());
 
         int totalMarkets = 0;
         int skippedDraconis = 0;
@@ -110,6 +121,11 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
             float relationship = market.getFaction().getRelationship(DRACONIS);
             if (relationship >= 0.25f) {
                 skippedFriendly++;
+                continue;
+            }
+
+            // Never target player markets while the crisis is suppressed
+            if (trackerSuppressed && Factions.PLAYER.equals(market.getFactionId())) {
                 continue;
             }
 
@@ -152,19 +168,19 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
                 bestCandidate.cores.totalCores,
                 bestCandidate.value));
 
-        // Clear old target if different
-        if (currentTarget != null && currentTarget != bestCandidate.market) {
-            log.info("Draconis: Clearing old target: " + currentTarget.getName());
-            clearMarketFlags(currentTarget);
-        }
-
-        // Mark new target
+        // Mark new target (old flags already cleared by clearAllHighValueFlags() above)
         markAsHighValueTarget(bestCandidate.market, bestCandidate.cores, bestCandidate.value);
         currentTarget = bestCandidate.market;
     }
 
     private CoreData scanMarketCores(MarketAPI market) {
         CoreData data = new CoreData();
+
+        if (market.getAdmin() != null && market.getAdmin().getAICoreId() != null) {
+            data.totalCores++;
+            data.alphaCores++;
+            data.industries.add("Administrator (Alpha)");
+        }
 
         List<Industry> industries = market.getIndustries();
         if (industries == null) return data;
@@ -217,6 +233,16 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         log.info(String.format("Draconis: Marked %s as high-value target:", market.getName()));
         log.info(String.format("Draconis:   Value: %.1f | Cores: %d Alpha, %d Beta, %d Gamma",
                 value, cores.alphaCores, cores.betaCores, cores.gammaCores));
+    }
+
+    /** Iterates all markets and clears high-value flags - safe after save/load with a fresh instance. */
+    private void clearAllHighValueFlags() {
+        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
+            if (market.getMemoryWithoutUpdate().getBoolean(HIGH_VALUE_TARGET_FLAG)) {
+                clearMarketFlags(market);
+            }
+        }
+        currentTarget = null;
     }
 
     private void clearCurrentTarget() {

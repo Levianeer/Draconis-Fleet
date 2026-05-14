@@ -1,0 +1,55 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 0,
+    "fluxVents": 18,
+    "goalVariant": true,
+    "hullId": "XLII_alrakis",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_alrakis_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0011": "XLII_bardiche_large"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "breach",
+                "WS0007": "breach",
+                "WS0008": "breach",
+                "WS0009": "breach"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "XLII_longsword"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "heavymauler",
+                "WS0003": "heavymauler"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_estocflak",
+                "WS0005": "XLII_estocflak",
+                "WS0010": "XLII_razorflak"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_tianyi_wing",
+        "XLII_eldsich_wing",
+        "XLII_eldsich_wing"
+    ]
+}

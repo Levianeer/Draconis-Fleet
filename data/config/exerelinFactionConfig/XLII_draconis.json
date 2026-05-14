@@ -12,8 +12,8 @@
     "diplomacyTraits": ["stalwart","irredentist","lowprofile","devious"],
 
     "maxRelationships":{"remnant":-0.51,"luddic_church":-0.1,"luddic_path":-0.4},
-    "diplomacyPositiveChance":{"luddic_church":0.8,"luddic_path":0.4,"tritachyon":1.2},
-    "diplomacyNegativeChance":{"luddic_church":1.2,"luddic_path":2.0,"tritachyon":0.8},
+    "diplomacyPositiveChance":{"luddic_church":0.8,"luddic_path":0.4,"tritachyon":1.6,"hegemony":0.6},
+    "diplomacyNegativeChance":{"luddic_church":1.2,"luddic_path":1.6,"tritachyon":0.4,"hegemony":1.4},
 
     "alignments":{
         "militarist":1,
@@ -21,16 +21,16 @@
         "hierarchical":0.5,
     },
     
-    "colonyExpeditionChance":2.0,
+    "colonyExpeditionChance":0.75,
     "colonyTargetValuator":"exerelin.campaign.colony.IndustrialColonyTargetValuator",
 
     "groundBattleSettings":{
-        "defenseMult":1.5,
-        "moraleDamageTakenMult":0.5
+        "defenseMult":1.25,
+        "moraleDamageTakenMult":0.75
     },
 
     "asteroidMiningFleetName":"Mining Flotilla",
-    "miningVariantsOrWings":["XLII_alsafi_Hybrid", "XLII_eltanin_mk2_Elite"],
+    "miningVariantsOrWings":["XLII_alsafi_Hybrid", "XLII_yunu_Elite"],
 
     "responseFleetName":"Quick Reaction Force",
     "defenceFleetName":"Defense Fleet",
@@ -38,10 +38,10 @@
     "invasionSupportFleetName":"Support Fleet",
     "stationName":"SATCOM",
 
-	"specialForcesSizeMult":1.5,
+	"specialForcesSizeMult":2.0,
     "specialForcesNamerClass":"levianeer.draconis.data.campaign.intel.specialforces.namer.DraconisRomanNumeralNamer",
 
-	"vengeanceFleetSizeMult":1.5,
+	"vengeanceFleetSizeMult":2.0,
     "vengeanceLevelNames":["AIO Surveillance Detachment","AIO Interdiction Group","AIO Strike Battlegroup"],
     "vengeanceFleetNames":["AIO Surveillance Detachment","AIO Interdiction Group","AIO Strike Battlegroup"],
     "vengeanceFleetNamesSingle":["an AIO Surveillance Detachment","an AIO Interdiction Group","an AIO Strike Battlegroup"],

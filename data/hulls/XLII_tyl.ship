@@ -1,0 +1,203 @@
+{
+  "hullName": "Tyl",
+  "hullId": "XLII_tyl",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/XLII_tyl.png",
+  "style": "DRACONIS",
+  "height": 86,
+  "width": 62,
+  "center": [31, 40],
+  "collisionRadius": 76,
+  "shieldCenter": [0, -0],
+  "shieldRadius": 69.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "no_weapon_flux",
+    "insulatedengine",
+    "XLII_autoflarelauncher",
+    "XLII_draconiswinghull"
+  ],
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [3.5, 15.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [3.5, -15.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [-1.5, 19]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [-1.5, -19]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": 20,
+      "locations": [3.5, 5.5]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": -20,
+      "locations": [3.5, -5.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": 180,
+      "locations": [-19, 2]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": -180,
+      "locations": [-19, -2]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": 180,
+      "locations": [-17, -0]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": 180,
+      "locations": [-21, -0]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 50,
+      "angle": -180,
+      "locations": [-21, 0]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [-7, 27]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "ENERGY",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [-7, -27]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [33.5, 8.5]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [33.5, -8.5]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": 0,
+      "locations": [-1.5, 20]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 5,
+      "angle": -0,
+      "locations": [-1.5, -20]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-40, 10.5],
+      "length": 92,
+      "width": 21,
+      "angle": 180,
+      "contrailSize": 21,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-40, -10.5],
+      "length": 92,
+      "width": 21,
+      "angle": -180,
+      "contrailSize": 21,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    33.5, -9.5,
+    -6.5, -29.5,
+    -37.5, -12.5,
+    -37.5, 12.5,
+    -6.5, 29.5,
+    33.5, 9.5
+  ]
+}

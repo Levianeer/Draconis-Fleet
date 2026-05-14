@@ -1,10 +1,14 @@
-// NO LONGER USED
 package levianeer.draconis.data.scripts.ai;
 
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
+import org.lazywizard.lazylib.MathUtils;
+import org.lazywizard.lazylib.VectorUtils;
+import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
+
+import java.util.List;
 
 /**
  * AI for the Evasion Protocol ship system.
@@ -37,44 +41,50 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
 
     @Override
     public void advance(float amount, Vector2f missileDangerDir, Vector2f collisionDangerDir, ShipAPI target) {
-        // Early returns for invalid states
         if (engine.isPaused()) return;
-        if (system.isActive()) return;
-        if (system.getCooldownRemaining() > 0f) return;
-        if (system.isOutOfAmmo()) return; // Check if charges available
-        if (ship.getFluxTracker().isOverloadedOrVenting()) return;
+        if (!AIUtils.canUseSystemThisFrame(ship)) return;
 
         tracker.advance(amount);
         if (!tracker.intervalElapsed()) return;
 
-        // Flux check (lenient given 0.075 cost, but prevent hard flux problems)
+        // Flux check (lenient given small cost, but prevent hard capping)
         float fluxLevel = ship.getFluxTracker().getFluxLevel();
         float fluxCost = system.getFluxPerUse() / ship.getFluxTracker().getMaxFlux();
-        float fluxAfterUse = fluxLevel + fluxCost;
-        if (fluxAfterUse > 0.95f) return; // Only block if it would cap flux
+        if (fluxLevel + fluxCost > 0.95f) return;
 
-        // Calculate threat priorities
         float criticalThreat = calculateCriticalThreat(missileDangerDir, collisionDangerDir);
         float mobilityNeed = calculateMobilityNeed(target);
 
-        // Choose highest priority
         float activationValue = Math.max(criticalThreat, mobilityNeed);
 
-        // Activation thresholds
-        if (activationValue >= 0.7f) {
-            // CRITICAL: Immediate use (missile swarm, imminent collision, pursuit opportunity)
-            ship.useSystem();
-        } else if (activationValue >= 0.5f) {
-            // HIGH: Use if we have charges available
-            if (system.getAmmo() >= 1) {
-                ship.useSystem();
-            }
-        } else if (activationValue >= 0.3f) {
-            // MEDIUM: Use if we have multiple charges or are in danger
-            if (system.getAmmo() > 1 || ship.getHullLevel() < 0.4f) {
-                ship.useSystem();
+        // If primarily mobility-driven, avoid ramming allies in the forward arc
+        boolean offensiveUse = mobilityNeed >= criticalThreat;
+        if (offensiveUse) {
+            List<ShipAPI> nearbyAllies = AIUtils.getNearbyAllies(ship, 450f);
+            for (ShipAPI ally : nearbyAllies) {
+                if (ally.getCollisionClass() != CollisionClass.NONE
+                        && ally.getCollisionClass() != CollisionClass.FIGHTER) {
+                    float angle = VectorUtils.getAngle(ship.getLocation(), ally.getLocation());
+                    if (Math.abs(MathUtils.getShortestRotation(angle, ship.getFacing())) <= 45f) {
+                        return;
+                    }
+                }
             }
         }
+
+        if (activationValue >= 0.7f) {
+            ship.useSystem();
+        } else if (activationValue >= 0.5f) {
+            if (system.getAmmo() >= 1) ship.useSystem();
+            else return;
+        } else if (activationValue >= 0.3f) {
+            if (system.getAmmo() > 1 || ship.getHullLevel() < 0.4f) ship.useSystem();
+            else return;
+        } else {
+            return;
+        }
+
+        if (offensiveUse) flags.setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, 3.5f);
     }
 
     /**
@@ -87,16 +97,12 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
         // Collision danger - immediate threat
         if (collisionDangerDir != null) {
             threat += 0.4f;
-            // Higher if we're already damaged
             if (ship.getHullLevel() < 0.5f) threat += 0.3f;
         }
 
         // Missile threats - only use defensively when vulnerable
         if (shouldUseForMissiles()) {
-            float missileThreat = calculateMissileThreat();
-            threat += missileThreat;
-
-            // Vanilla's basic missile danger check as fallback
+            threat += calculateMissileThreat();
             if (missileDangerDir != null) {
                 threat += 0.2f;
             }
@@ -107,12 +113,18 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
 
     /**
      * Calculate mobility/repositioning needs
-     * Returns 0.0-1.0 need level
+     * Returns 0.0-1.0 need level, or 0.0 if target is invalid for offensive use
      */
     private float calculateMobilityNeed(ShipAPI target) {
+        // Don't use offensively against invalid targets or during retreat
+        if (target == null) return 0f;
+        if (!target.isAlive() || target.isAlly()) return 0f;
+        if (target.isFighter() || target.isDrone() || target.isStation()
+                || target.isStationModule() || target.getEngineController().isFlamedOut()) return 0f;
+        if (ship.isRetreating()) return 0f;
+
         float need = 0f;
 
-        // Check if we're moving slowly (system won't help much if already at speed)
         float currentSpeed = ship.getVelocity().length();
         float maxSpeed = ship.getMaxSpeed();
         boolean needsSpeedBoost = currentSpeed < maxSpeed * 0.6f;
@@ -120,31 +132,20 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
         // HIGH PRIORITY: Offensive maneuvering
         if (flags.hasFlag(ShipwideAIFlags.AIFlags.PURSUING) && needsSpeedBoost) {
             need += 0.6f;
-            // Even higher if target is vulnerable
-            if (target != null && target.getFluxTracker().isOverloadedOrVenting()) {
+            if (target.getFluxTracker().isOverloadedOrVenting()) {
                 need += 0.2f;
             }
         }
 
         if (flags.hasFlag(ShipwideAIFlags.AIFlags.HARASS_MOVE_IN)) {
-            need += 0.5f; // Close for attack
+            need += 0.5f;
         }
 
-        // MEDIUM PRIORITY: Tactical repositioning
-        if (flags.hasFlag(ShipwideAIFlags.AIFlags.BACKING_OFF)) {
-            // Only use during retreat if ship is already moving (has committed to direction)
-            // OR in critical danger - prevents wasting charges on indecisive retreats
-            boolean isMovingWithPurpose = currentSpeed > maxSpeed * 0.3f;
-            boolean isCriticalDanger = ship.getHullLevel() < 0.3f;
-
-            if (isMovingWithPurpose || isCriticalDanger) {
-                int nearbyThreats = countNearbyEnemies(800f);
-                if (nearbyThreats >= 2) {
-                    need += 0.35f; // Help escape when outnumbered
-                } else if (nearbyThreats >= 1) {
-                    need += 0.25f;
-                }
-            }
+        // MEDIUM PRIORITY: Escape when taking damage with committed hard flux
+        if (flags.hasFlag(ShipwideAIFlags.AIFlags.BACKING_OFF)
+                && flags.hasFlag(ShipwideAIFlags.AIFlags.HAS_INCOMING_DAMAGE)
+                && ship.getHardFluxLevel() >= 0.6f) {
+            need += 0.35f;
         }
 
         if (flags.hasFlag(ShipwideAIFlags.AIFlags.MANEUVER_RANGE_FROM_TARGET)) {
@@ -152,14 +153,12 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
         }
 
         if (flags.hasFlag(ShipwideAIFlags.AIFlags.MOVEMENT_DEST) && needsSpeedBoost) {
-            need += 0.2f; // General movement
+            need += 0.2f;
         }
 
         // LOW PRIORITY: Maintaining position/speed
-        if (flags.hasFlag(ShipwideAIFlags.AIFlags.MAINTAINING_STRIKE_RANGE)) {
-            if (needsSpeedBoost) {
-                need += 0.2f;
-            }
+        if (flags.hasFlag(ShipwideAIFlags.AIFlags.MAINTAINING_STRIKE_RANGE) && needsSpeedBoost) {
+            need += 0.2f;
         }
 
         return Math.min(need, 1f);
@@ -171,13 +170,12 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
      */
     private float calculateMissileThreat() {
         Vector2f shipLoc = ship.getLocation();
-        float threatRadius = 600f; // Effective countermeasure range
+        float threatRadius = 600f;
 
         int threateningMissiles = 0;
         float totalThreat = 0f;
 
         for (MissileAPI missile : engine.getMissiles()) {
-            // Filter out invalid missiles
             if (missile.getSource() == null) continue;
             if (missile.getSource().getOwner() == ship.getOwner()) continue;
             if (missile.isFading() || missile.didDamage()) continue;
@@ -185,7 +183,6 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
             float distance = Misc.getDistance(shipLoc, missile.getLocation());
             if (distance > threatRadius) continue;
 
-            // Check if missile is heading toward us
             Vector2f toShip = Vector2f.sub(shipLoc, missile.getLocation(), new Vector2f());
             if (toShip.length() > 0f) {
                 toShip.normalise();
@@ -194,22 +191,17 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
                     missileVel.normalise();
                     float dot = Vector2f.dot(toShip, missileVel);
 
-                    if (dot > 0.3f) { // Heading toward us
+                    if (dot > 0.3f) {
                         threateningMissiles++;
 
-                        // Base threat by damage
                         float damage = missile.getDamageAmount();
                         float baseThreat = damage < 100f ? 0.15f : (damage < 500f ? 0.25f : 0.4f);
 
-                        // Distance factor (closer = more urgent)
                         float distanceFactor = 1f - (distance / threatRadius);
-
-                        // Velocity factor (faster = more urgent)
                         float velocityFactor = Math.min(missile.getVelocity().length() / 300f, 1.5f);
 
                         float threat = baseThreat * (0.5f + distanceFactor * 0.5f) * velocityFactor;
 
-                        // Check if targeting us directly
                         if (isMissileTargetingShip(missile)) {
                             threat *= 2f;
                         }
@@ -222,7 +214,6 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
 
         if (threateningMissiles == 0) return 0f;
 
-        // Bonus for multiple missiles (swarm threat)
         float swarmBonus = 0f;
         if (threateningMissiles >= 3) swarmBonus += 0.2f;
         if (threateningMissiles >= 5) swarmBonus += 0.3f;
@@ -247,25 +238,5 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
             return target == ship;
         }
         return false;
-    }
-
-    /**
-     * Count enemy ships within specified radius
-     */
-    private int countNearbyEnemies(float radius) {
-        Vector2f shipLoc = ship.getLocation();
-        int count = 0;
-
-        for (ShipAPI enemy : engine.getShips()) {
-            if (enemy.getOwner() == ship.getOwner()) continue;
-            if (enemy.isHulk() || enemy.isShuttlePod()) continue;
-
-            float distance = Misc.getDistance(shipLoc, enemy.getLocation());
-            if (distance <= radius) {
-                count++;
-            }
-        }
-
-        return count;
     }
 }

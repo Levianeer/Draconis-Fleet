@@ -1,15 +1,24 @@
 {
 	"id":"XLII_flux_cycler",
 	"type":"STAT_MOD",
-	"aiType":"WEAPON_BOOST",
-	#"aiScript":"levianeer.draconis.data.scripts.ai.XLII_FluxCyclerAI",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_FluxCyclerAI",
 
 	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_FluxCyclerStats",
 
-	"runScriptWhileIdle":true, # unapply() never gets called
+	"jitterUnderColor":[175,50,75,155],
+	"jitterUnderCopies":25,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":7,
+	"jitterUnderRangeRadiusFraction":0,
+	
+	"jitterColor":[125,25,50,105],
+	"jitterCopies":3,
+	"jitterMinRange":0,
+	"jitterRange":5,
+	"jitterRangeRadiusFraction":0,
 
-	"weaponGlowColor":[255,0,0,181],
-	"weaponTypes":[BALLISTIC,ENERGY],
+	"runScriptWhileIdle":true, # unapply() never gets called
 
 	"useSound":"system_extraction_protocol",
 	"deactivateSound":"system_extraction_protocol",

@@ -1,27 +1,24 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 28,
-    "fluxVents": 0,
+    "fluxCapacitors": 6,
+    "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_nushi",
-    "hullMods": [
-        "targetingunit",
-        "hardenedshieldemitter"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_nushi_Strike",
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0013": "XLII_longsword",
-                "WS0014": "XLII_longsword"
+                "WS0013": "XLII_fragarch",
+                "WS0014": "XLII_fragarch"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {"WS0016": "XLII_swordbreaker"}
         },
@@ -29,10 +26,10 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0015": "XLII_razorflak",
+                "WS0015": "dualflak",
                 "WS0017": "XLII_razorflak"
             }
         }
     ],
-    "wings": ["xyphos_wing"]
+    "wings": ["wasp_wing"]
 }

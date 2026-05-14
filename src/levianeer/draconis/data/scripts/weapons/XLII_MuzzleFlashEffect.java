@@ -178,14 +178,14 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
                 worldPosition.y += velocity.y * amount;
             }
 
-            List<ParticleData> toRemove = new ArrayList<>();
-            for (ParticleData p : particles) {
+                java.util.Iterator<ParticleData> particleIter = particles.iterator();
+            while (particleIter.hasNext()) {
+                ParticleData p = particleIter.next();
                 p.advance(amount);
                 if (p.isExpired()) {
-                    toRemove.add(p);
+                    particleIter.remove();
                 }
             }
-            particles.removeAll(toRemove);
         }
 
         @Override
@@ -290,16 +290,16 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
             return;
         }
 
-        List<TrackedProjectile> toRemove = new ArrayList<>();
-
-        for (TrackedProjectile tracked : trackedProjectiles) {
+        java.util.Iterator<TrackedProjectile> iter = trackedProjectiles.iterator();
+        while (iter.hasNext()) {
+            TrackedProjectile tracked = iter.next();
             DamagingProjectileAPI proj = tracked.projectile;
 
             // Check if projectile should be removed from tracking
             if (proj == null || proj.didDamage() || proj.isFading() || !Objects.requireNonNull(engine).isEntityInPlay(proj)) {
                 // Spawn final arc to ensure complete coverage before removing
                 spawnFinalArc(engine, weapon, tracked, proj);
-                toRemove.add(tracked);
+                iter.remove();
                 continue;
             }
 
@@ -325,9 +325,6 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
                 }
             }
         }
-
-        // Remove dead/finished projectiles
-        trackedProjectiles.removeAll(toRemove);
     }
 
     /**

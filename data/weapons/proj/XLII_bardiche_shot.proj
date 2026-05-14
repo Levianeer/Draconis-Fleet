@@ -2,7 +2,6 @@
 	"id":"XLII_bardiche_shot",
 	"specClass":"missile",	
 	"missileType":"MISSILE",
-	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_BardicheOnFireEffect",
 	"sprite":"graphics/missiles/XLII_bardiche_shot.png",
 	"size":[4,16],
 	"center":[2,8],

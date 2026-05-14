@@ -2,6 +2,7 @@
 	"tips":[
 		{"freq":0, "tip":"Set the 'freq' values to zero, or delete the tips.json file to remove these!"},
 
+		{"freq":0.6, "tip":"[Draconis] Director-General Samuel J. Harrows built Itoron's republic over three terms. Emil August inherited what remained of it in a single signature."},
 		{"freq":0.6, "tip":"[Draconis] The XLII Battlegroup answers solely to the Alliance Intelligence Office - the AIO, or simply 'the Office'."},
 		{"freq":0.6, "tip":"[Draconis] The Office micromanages Kori's bureaucracy. Missing persons reports? They handle those too."},
 		{"freq":0.6, "tip":"[Draconis] Athebyne's irradiated ruins fund their own reconstruction through mineral exports. The irony is not lost on its inhabitants."},
@@ -15,7 +16,7 @@
 		{"freq":0.6, "tip":"[Draconis] Officially, the AIO runs counterintelligence. Unofficially: R&D, AI trials, and quiet purges."},
 		{"freq":0.6, "tip":"[Draconis] Athebyne survives on Itoron's food and supplies - a lifeline laced with resentment."},
 		{"freq":0.6, "tip":"[Draconis] Kori's corrupted nanoforge churns out ships - often flawed, but relentless."},
-		{"freq":0.5, "tip":"[Draconis] Captain Emil August's XLII Fleet shattered Athebyne in 72 hours of unrelenting bombardment."},
+		{"freq":0.5, "tip":"[Draconis] The former Captain, Emil August's XLII Fleet shattered Athebyne in 72 hours of unrelenting bombardment."},
 		{"freq":0.5, "tip":"[Draconis] August personally executed Athebyne's demagogue aboard a Tri-Tachyon phase ship. No trial was held."},
 		{"freq":0.5, "tip":"[Draconis] Itoron's agri-world bounty once fed both planets. Now, it sustains a fragile peace."},
 		{"freq":0.5, "tip":"[Draconis] Vorium's moons and Athebyne's irradiated quarries fuel Kori's military industry."},

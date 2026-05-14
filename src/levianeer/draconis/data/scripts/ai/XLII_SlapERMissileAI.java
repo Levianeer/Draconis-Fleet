@@ -1,9 +1,9 @@
 //By Tartiflette, modified for XLII Mist Cloud system
-//Intelligent targeting with cloud avoidance and ally healing support
 package levianeer.draconis.data.scripts.ai;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
+import levianeer.draconis.data.scripts.XLII_MistCloudConstants;
 import levianeer.draconis.data.scripts.weapons.XLII_MistCloudOnHitEffect;
 import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.MathUtils;
@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
 
     //////////////////////
@@ -49,6 +48,8 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     private final int MAX_SEARCH_RANGE = 100000;
 
     //range under which the missile start to get progressively more precise in game units.
+    // Set in constructor to (2 * PRECISION_RANGE)^2 = (2*750)^2 = 2,250,000
+    // Used as a squared-distance threshold; must NOT be declared final due to constructor transform
     private float PRECISION_RANGE = 750;
 
     //Is the missile lead the target or tailchase it?
@@ -62,10 +63,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     private float ECCM = 1;   //A VALUE BELOW 1 WILL PREVENT THE MISSILE FROM EVER HITTING ITS TARGET!
 
     // Mist Cloud System Settings
-    private static final float CLOUD_RADIUS = 750f;
-    private static final float CLOUD_RADIUS_SQ = CLOUD_RADIUS * CLOUD_RADIUS;
-    private static final float MIN_CLOUD_SPACING = 2400f; // 2x CLOUD_RADIUS - no overlap
-    private static final float MIN_CLOUD_SPACING_SQ = MIN_CLOUD_SPACING * MIN_CLOUD_SPACING;
     private static final float IMPACT_UPDATE_INTERVAL = 1f; // Update impact point every X seconds
     // Extra buffer added to missile+ship collision radii for proximity pass-through detection
     private static final float PROXIMITY_DETONATION_BUFFER = 1000f;
@@ -121,6 +118,10 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
         // Determine missile owner side
         if (missile.getSource() != null) {
             missileOwner = missile.getSource().getOwner();
+        } else {
+            Global.getLogger(XLII_SlapERMissileAI.class).warn(
+                "Draconis: SlapER missile spawned with null source - team detection will default to player-side"
+            );
         }
     }
 
@@ -128,6 +129,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     //   MAIN AI LOOP   //
     //////////////////////
 
+    @SuppressWarnings("deprecation")
     @Override
     public void advance(float amount) {
 
@@ -217,8 +219,9 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
                 closestDistanceToTarget = Math.min(closestDistanceToTarget, distToTarget);
             }
 
-            // If we were close but now moving away → manual detonation (collision passed through)
+            // If we were close but now moving away -> manual detonation (collision passed through)
             if (wasInDetonationRange && distToTarget > closestDistanceToTarget + 100f) {
+                wasInDetonationRange = false; // Prevent re-trigger if isFading() hasn't propagated yet
                 triggerManualDetonation(targetShip);
                 return;
             }
@@ -288,6 +291,8 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
      * @return true if the ship is on the same team as the missile
      */
     private boolean isOnSameTeam(int shipOwner) {
+        if (missileOwner == -1) return shipOwner != 1; // Explicit fallback with no silent failure
+
         // Same owner = definitely same team
         if (shipOwner == missileOwner) return true;
 
@@ -316,6 +321,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
      */
     private void triggerManualDetonation(ShipAPI targetShip) {
         if (engine == null || MISSILE == null) return;
+        if (MISSILE.isFading() || MISSILE.isFizzling()) return;
 
         // Capture exact detonation location before any modifications
         Vector2f detonationPoint = new Vector2f(MISSILE.getLocation());
@@ -464,7 +470,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
      */
     private boolean isShipInCloud(ShipAPI ship, List<Vector2f> cloudLocations) {
         for (Vector2f cloudCenter : cloudLocations) {
-            if (MathUtils.getDistanceSquared(ship.getLocation(), cloudCenter) < CLOUD_RADIUS_SQ) {
+            if (MathUtils.getDistanceSquared(ship.getLocation(), cloudCenter) < XLII_MistCloudConstants.CLOUD_RADIUS_SQ) {
                 return true;
             }
         }
@@ -542,7 +548,7 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
      */
     private boolean wouldOverlapCloud(Vector2f impactPoint, List<Vector2f> cloudLocations) {
         for (Vector2f cloudCenter : cloudLocations) {
-            if (MathUtils.getDistanceSquared(impactPoint, cloudCenter) < MIN_CLOUD_SPACING_SQ) {
+            if (MathUtils.getDistanceSquared(impactPoint, cloudCenter) < XLII_MistCloudConstants.MIN_CLOUD_SPACING_SQ) {
                 return true;
             }
         }

@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 35,
-    "fluxVents": 0,
+    "fluxCapacitors": 26,
+    "fluxVents": 13,
     "goalVariant": true,
     "hullId": "XLII_kuma",
     "hullMods": [
@@ -15,7 +15,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0017": "XLII_pike"}
+            "weapons": {"WS0017": "XLII_naginata"}
         },
         {
             "autofire": false,
@@ -69,7 +69,7 @@
         }
     ],
     "wings": [
-        "XLII_grumium_alt_wing",
-        "XLII_grumium_alt_wing"
+        "XLII_thorne_wing",
+        "XLII_thorne_wing"
     ]
 }

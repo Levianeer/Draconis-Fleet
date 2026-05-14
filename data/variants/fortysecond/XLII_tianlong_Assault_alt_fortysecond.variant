@@ -1,0 +1,64 @@
+{
+    "displayName": "Assault",
+    "fluxCapacitors": 0,
+    "fluxVents": 6,
+    "goalVariant": true,
+    "hullId": "XLII_tianlong_fortysecond",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "XLII_fortysecond_mk2",
+        "stabilizedshieldemitter",
+        "magazines"
+    ],
+    "permaMods": ["XLII_fortysecond_mk2"],
+    "sMods": [],
+    "variantId": "XLII_tianlong_Assault_alt_fortysecond",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0023": "XLII_bardiche_single",
+                "WS0024": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0019": "XLII_halberd",
+                "WS0020": "XLII_halberd",
+                "WS0021": "XLII_halberd",
+                "WS0022": "XLII_halberd",
+                "WS0028": "XLII_halberd_pod"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0029": "XLII_ttc",
+                "WS0030": "XLII_ttc"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0031": "devastator"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0025": "pdlaser",
+                "WS0026": "pdlaser",
+                "WS0027": "pdlaser"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_aldibain_wing",
+        "XLII_aldibain_wing"
+    ]
+}

@@ -5,8 +5,9 @@ import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.graphics.SpriteAPI;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
 import org.lazywizard.lazylib.MathUtils;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
-import org.magiclib.util.MagicRender;
 
 import java.awt.*;
 import java.util.*;
@@ -28,13 +29,17 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
 
     // Ring FX constants
     private static final float ROTATION_SPEED = 5f; // degrees per second
-    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
-    private static final float SPRITE_SIZE = MAX_RANGE * 2f * SPRITE_ALIGNMENT_SCALE;
+    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f; // ring art is smaller than PNG bounds
     private static final Color RING_COLOR = new Color(255, 105, 90, 155);
 
     // Optimization: cache and update intervals
     private static final float TARGET_UPDATE_INTERVAL = 0.2f; // Only update target list 5 times per second
     private static final float CLEANUP_INTERVAL = 2f;
+
+    private SpriteAPI ringSprite = null;
+
+    private static final Set<ShipAPI> globallyNotifiedTargets =
+            Collections.newSetFromMap(new WeakHashMap<>());
 
     // Simplified tracking - only need one map now
     private final Map<ShipAPI, Float> affectedShips = new HashMap<>();
@@ -64,21 +69,34 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         }
         wasOverloaded = isOverloaded;
 
-        // Ring FX: drawn once per frame while active, no lifecycle management needed.
-        // effectLevel is 0->1 during IN and 1->0 during OUT, so scaling by it gives
-        // a natural grow-in / shrink-out animation for free.
+        // Ring FX: rendered in screen space so it's pixel-perfect at any zoom level.
+        // effectLevel fades the ring in on IN and out on OUT.
         if (systemActive) {
-            float angle = engine.getTotalElapsedTime(false) * ROTATION_SPEED;
-            float scaledSize = SPRITE_SIZE * effectLevel;
-            SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring_alt");
-            MagicRender.singleframe(
-                    ringSprite,
-                    ship.getLocation(),
-                    new Vector2f(scaledSize, scaledSize),
-                    angle,
-                    RING_COLOR,
-                    true
-            );
+            ViewportAPI view = engine.getViewport();
+            Vector2f loc = ship.getLocation();
+            if (view.isNearViewport(loc, MAX_RANGE)) {
+                float screenScale = Global.getSettings().getScreenScaleMult();
+                float radius = (MAX_RANGE + ship.getCollisionRadius()) * 2f * SPRITE_ALIGNMENT_SCALE * screenScale * effectLevel / view.getViewMult();
+                float angle = engine.getTotalElapsedTime(false) * ROTATION_SPEED;
+                if (ringSprite == null) ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring_alt");
+                ringSprite.setSize(radius, radius);
+                ringSprite.setColor(RING_COLOR);
+                ringSprite.setAdditiveBlend();
+                GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+                GL11.glMatrixMode(GL11.GL_PROJECTION);
+                GL11.glPushMatrix();
+                GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+                GL11.glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -1, 1);
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glEnable(GL11.GL_BLEND);
+                ringSprite.setAngle(angle);
+                ringSprite.renderAtCenter(
+                        view.convertWorldXtoScreenX(loc.x) * screenScale,
+                        view.convertWorldYtoScreenY(loc.y) * screenScale
+                );
+                GL11.glPopMatrix();
+                GL11.glPopAttrib();
+            }
         }
 
         if (!systemActive) {
@@ -183,8 +201,11 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
             // First time affecting this ship - show notification
             if (!affectedShips.containsKey(target)) {
                 affectedShips.put(target, currentTime);
-                engine.addFloatingText(target.getLocation(), "System Disruption!",
-                        24f, TEXT_COLOR, target, 0.5f, 0.5f);
+                if (target.getParentStation() == null && !globallyNotifiedTargets.contains(target)) {
+                    globallyNotifiedTargets.add(target);
+                    engine.addFloatingText(target.getLocation(), "System Disruption!",
+                            24f, TEXT_COLOR, target, 0.5f, 0.5f);
+                }
             }
         }
 
@@ -247,6 +268,7 @@ public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
         ship.getMutableStats().getArmorDamageTakenMult().unmodify(selfId);
         ship.getMutableStats().getShieldDamageTakenMult().unmodify(selfId);
 
+        globallyNotifiedTargets.removeAll(affectedShips.keySet());
         affectedShips.clear();
         cachedValidTargets.clear();
     }

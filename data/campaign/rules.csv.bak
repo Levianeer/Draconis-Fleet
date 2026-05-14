@@ -1,0 +1,659 @@
+id,trigger,conditions,script,text,options,notes
+"#RULESET_NAME Draconis",,,,,,
+,,,,,,
+# Generic Faction Dialogue,,,,,,
+XLII_greetingFriendlyCommission,OpenCommLink,"$faction.id == XLII_draconis
+$faction.friendlyToPlayer
+XLII_HasDraconisCommission","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""Hail, $playerName. I'm $PersonRank $personName, your service record with the $theFaction Navy is impressive. I've heard some flattering nicknames for you. How can we assist?""",,
+XLII_greetingFriendly,OpenCommLink,"$faction.id == XLII_draconis
+$faction.friendlyToPlayer","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""Transponder's recognized, $playerName. $theFaction has no quarrel with independent operators who've proven themselves reliable."" Their eyes flick to a tactical display. ""State your purpose.""",,
+XLII_greetingNeutral,OpenCommLink,"$faction.id == XLII_draconis
+$faction.neutralToPlayer","$menuState = fleetConvMain 0
+FireAll PopulateOptions","""This is $PersonRank $personName of $theFaction Navy. Your IFF reads neutral. That can change very quickly, Captain, so let's keep this brief and professional.""",,
+XLII_greetingHostileWeaker,OpenCommLink,"$faction.id == XLII_draconis
+$faction.hostileToPlayer
+$relativeStrength < 0","$ignorePlayerCommRequests = true 1","""$theFaction Navy to hostile contact: we've fought worse than you in worse conditions. If you're not gone in sixty seconds, we'll add your wreckage to the rest.""","cutCommLink:Cut the comm link",
+XLII_greetingHostileWeakerDefiant,OpenCommLink,"$faction.id == XLII_draconis
+$faction.hostileToPlayer
+$relativeStrength < 0
+$weakerThanPlayerButHolding","$ignorePlayerCommRequests = true 1","""$PersonRank $personName, Alliance Navy."" A measured pause. ""You have tactical superiority. We're not disputing that. But Alliance Command tracks every engagement in this sector, and retaliation doctrine doesn't require us to win, just to make you memorable.""","cutCommLink:Cut the comm link",
+XLII_greetingHostileStronger,OpenCommLink,"$faction.id == XLII_draconis
+$faction.hostileToPlayer
+$relativeStrength >= 0","$ignorePlayerCommRequests = true 1","""Shouldn't you be running...?"" The officer looks genuinely puzzled.","cutCommLink:Cut the comm link",
+"#END Generic Faction Dialogue",,,,,,
+,,,,,,
+# Generic Commission Dialogue,,,,,,
+XLII_CMSNTextRejectHostile,CMSNTextRejectHostile,"$faction.id == XLII_draconis",,"""Who the fu - Who is - What - I should kick your fucking ass, who is this?"" There is a brief silence, cut short by the frantic sound of typing. ""Ah, $playerName! I've notified the Department of Internal Security of your presence, leave immediately. Athebyne's scars run deep enough without adding your name to the list.""",,
+XLII_CMSNTextHasOther,CMSNTextHasOther,"$faction.id == XLII_draconis",,"""Loyalty's a rare commodity out here, and you're fresh out. We've got no room for dual allegiances.""
+
+""That said, if you're serious about joining, resign from $theOtherCommissionFaction. And we'll gladly put your skills to use in $theFaction.""",,
+XLII_CMSNTextUnsuited,CMSNTextUnsuited,"$faction.id == XLII_draconis",,"""I'm sorry, but you don't meet our criteria for receiving a commission. To put it plainly you're a wildcard, Commander. Shape up your outfit, purge the weak links, then come back. Until then, you're unfit for Draconis colors. However I've noted your request.""",,
+XLII_CMSNTextSuitedPart1,CMSNTextSuitedPart1,"$faction.id == XLII_draconis",,"""Hmm, yes, you're a suitable candidate. Admiral August will be pleased. We're always short on manpower.""
+
+""Accepting a commission is a serious matter, however. You will be required to fight enemies of $theFaction. You'll be able to resign your commission at any time, though I don't imagine doing so would win you any friends.""",,
+XLII_CMSNTextSuitedPart2,CMSNTextSuitedPart2,"$faction.id == XLII_draconis",,"""So, how about it? Still want to sign on?""",,
+XLII_CMSNTextWelcomePart1,CMSNTextWelcomePart1,"$faction.id == XLII_draconis",,"""Oath sworn. Welcome to the fold, Commander. Your IFF's updated - Draconis blue on your scope now.""",,
+XLII_CMSNTextWelcomePart2,CMSNTextWelcomePart2,"$faction.id == XLII_draconis",,"""Anything else I can do for you?""",,
+XLII_CMSNTextChangeMind,CMSNTextChangeMind,"$faction.id == XLII_draconis",,"""Cold feet already?"" $personName raises an eyebrow. ""The Sector's full of fence-sitters who think twice when the guns start barking. Fafnir's ghosts don't suffer the hesitant, neither do we. Application withdrawn. If you grow a spine, our doors aren't barred... Yet.""",,
+XLII_CMSNResignAskToConfirm,CMSNResignAskToConfirm,"$faction.id == XLII_draconis",,"""Resign? After we stamped your papers and handed you the keys to our armory? Commander, that's not how the Alliance works."" $personFirstName pauses their typing to face you. ""$TheFaction needs anyone it can get, and turning your back on us won't be forgotten.""",,
+XLII_CMSNResignConfirmed,CMSNResignConfirmed,"$faction.id == XLII_draconis",,"$personFirstName sighs dramatically. ""Fine. Resignation accepted, effective immediately. Your IFF's wiped, access codes revoked.""",,
+XLII_CMSNResignCancelled,CMSNResignCancelled,"$faction.id == XLII_draconis",,"""Wise choice, Lieutenant. Knew you had the spine for it. Oath renewed - no hard feelings, just hard lessons.""",,
+"#END Generic Commission Dialogue",,,,,,
+,,,,,,
+# Generic Rep Level Description,,,,,,
+XLII_relLevelCooperative,RelationshipLevelDesc,"$faction.rel == COOPERATIVE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Fleet Admiral August has personally recognized your contributions to the Alliance. Joint Command has extended full access to military stockpiles and forward operating bases, and even the most security-conscious AIO liaison officers no longer shadow your movements. Alliance Citizens across Fafnir regard you as one of their own - a rare distinction for anyone who didn't endure the Reunification.",,
+XLII_relLevelFriendly,RelationshipLevelDesc,"$faction.rel == FRIENDLY
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Alliance officials have come to regard you as a reliable partner rather than a convenient asset. Port authorities process your docking requests without the usual security theater, and patrol captains are more likely to offer assistance than demand transponder logs. The gratitude of Joint Command translates to meaningful access to military-grade hardware.",,
+XLII_relLevelWelcoming,RelationshipLevelDesc,"$faction.rel == WELCOMING
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Your reputation has reached the attention of mid-level Alliance commanders, several of whom have noted your reliability in official dispatches. System patrols treat your $shipOrFleet as a known quantity rather than a potential threat, and port authorities extend courtesies typically reserved for Alliance-flagged vessels.",,
+XLII_relLevelFavorable,RelationshipLevelDesc,"$faction.rel == FAVORABLE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Alliance commanders have begun to take note of your activities - favorably, if cautiously. In practice, this means access to surplus military equipment and fewer pointed questions from patrol captains. The institutional paranoia born from the civil war hasn't faded entirely, but you've earned the benefit of the doubt.",,
+XLII_relLevelNeutral,RelationshipLevelDesc,"$faction.rel == NEUTRAL
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","To Alliance officials, you're simply another independent operator - neither a threat nor an asset worth cultivating. This is, by local standards, a reasonable position to occupy. The DDA's history has left its leadership wary of outsiders, but not hostile without cause.",,
+XLII_relLevelSuspicious,RelationshipLevelDesc,"$faction.rel == SUSPICIOUS
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Something in your record has drawn scrutiny from Alliance security. Port authorities process your requests with deliberate slowness, and patrol commanders run your transponder against watchlists more often than strictly necessary. You're not unwelcome, but you're certainly not trusted.",,
+XLII_relLevelInhospitable,RelationshipLevelDesc,"$faction.rel == INHOSPITABLE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Joint Command has flagged your $shipOrFleet as a potential security concern. Port officials find reasons to deny docking requests, and patrol captains interpret their rules of engagement generously when your drives light up on their scopes. The Alliance hasn't declared you an enemy - but they've stopped pretending you might be a friend.",,
+XLII_relLevelHostile,RelationshipLevelDesc,"$faction.rel == HOSTILE
+$faction.id == XLII_draconis","FireAll RelLevelMoreDescription","Alliance patrols are authorized to engage your $shipOrFleet on sight. Markets under DDA control deny you access, and any incident involving your vessels is treated as confirmation of hostile intent. Whatever goodwill you might have once possessed has been thoroughly exhausted.",,
+XLII_relLevelVengeful,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == XLII_draconis
+$player.numColonies == 0
+$player.fleetPoints < 120","FireAll RelLevelMoreDescription","The Alliance has classified you as an active threat to sector stability. Your name circulates in Joint Command briefings alongside pirates, warlords, and other enemies of the fragile peace August built from the ashes of civil war. No patrol captain will hesitate to add your $shipOrFleet to the long list of threats the DDA has ground to dust.",,
+XLII_relLevelVengefulFleet,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == XLII_draconis
+$player.numColonies == 0
+$player.fleetPoints >= 120","FireAll RelLevelMoreDescription","Joint Command regards your $shipOrFleet as one more hostile element in a sector that produces them endlessly. Alliance captains have standing orders to engage and destroy - the same orders they've executed against countless threats since the Reunification. You are not special. You are simply next.",,
+XLII_relLevelVengefulPlanet,RelationshipLevelDesc,"$faction.rel == VENGEFUL
+$faction.id == XLII_draconis
+$player.numColonies > 0","FireAll RelLevelMoreDescription","The Alliance views your growing power as an existential threat to everything the Reunification preserved. Somewhere in Joint Command, planners are assembling a task force with your colonies marked for pacification. The DDA has survived civil war, corporate predation, and worse. They do not intend to let you succeed where those threats failed.",,
+"#END Generic Rep Level Description",,,,,,
+,,,,,,
+# Generic AI Core Donation,,,,,,
+XLII_aiCores_turnInOptionSel,DialogOptionSelected,"$option == aiCores_startTurnIn
+$faction.id == XLII_draconis","FireAll PopulateCoresTurnInOptions","""We're prepared to pay well for these - better than you'd get selling them quietly elsewhere, and without the legal complications. The Alliance has legitimate research applications for recovered cores. What Hegemony inspectors don't know won't trouble them, or you.""",,
+"#END Generic AI Core Donation",,,,,,
+,,,,,,
+# Fleet Admiral's Store,,,,,,
+XLII_admiral_init_greeting,OpenCDE,"$isPerson
+$postId == factionLeader
+$tag:XLII_fleet_admiral_emil","AddText ""Establishing connection..."" buttonText
+FireBest admiralPickGreeting
+ShowPersonVisual","You transmit the comms ID and wait for the system to establish a connection. However, the comms link establishes after a longer delay than typical military protocols demand. When the image resolves, it's deliberately degraded - encryption artifacts dance across a humanoid silhouette, facial features reduced to suggestions of shadow and light.","1:init:Continue",
+XLII_admiral_init_not_commissioned,admiralPickGreeting,,,"""Captain."" The voice carries the flat authority of someone accustomed to being obeyed. ""Your reputation precedes you, but reputation alone doesn't grant clearance for what we discuss here.""
+
+A pause. You sense him consulting something off-screen.
+
+""If you're serious about serving the Draconis Defence Alliance, our diplomatic corps can arrange a commission. Standard channels. Until then..."" The distorted figure makes a gesture that might be dismissive, might be regretful. ""I'm afraid we have nothing further to discuss.""
+
+The link cuts before you can respond.","1:dismiss:End the transmission.",
+XLII_admiral_init_commissioned,admiralPickGreeting,"XLII_HasDraconisCommission",,,"1:XLII_admiral_init_commissionedTrader:Continue",
+XLII_admiral_init_commissionedTrader,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMainMenu","""Commander $playerLastName."" The distorted visage tilts slightly, as if examining you through the compression grain. What might be satisfaction colors the modulated voice. ""We've been watching your work."" A beat. ""Impressed, I should say.""
+
+He leans forward slightly, the motion causing the encryption to ripple and distort. ""The Draconis Defence Alliance rewards competence. More importantly, we recognize when someone possesses the tactical acumen we need for what's coming.""
+
+Your command console chimes softly - an incoming data packet, heavily encrypted.",,
+,,,,,,
+# Fleet Admiral's Main Menu,,,,,,
+XLII_admiral_main_menu_opts,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil",,,"0:ask_special:Is there anything special you could offer?
+2:dismiss:End the transmission.",
+XLII_admiral_main_nanoforge_discuss_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
+$global.XLII_blindEyeComplete
+!$global.XLII_nanoforgeQuestOffered
+!$global.XLII_nanoforgeQuestComplete",,,"1:XLII_nanoforge_discuss:There's another matter I'd like to raise.",
+XLII_admiral_main_nanoforge_deliver_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
+$global.XLII_blindEyeComplete
+$global.XLII_nanoforgeQuestOffered
+XLII_NanoforgeExchange check
+!$global.XLII_nanoforgeQuestComplete",,,"0:XLII_nanoforge_deliver:I have a Pristine Nanoforge to offer.",
+XLII_admiral_return_main,DialogOptionSelected,"$option == return_to_main_menu
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMainMenu",,,"Handles return to main menu from nanoforge discussion and other sub-dialogs"
+XLII_admiral_main_gatelog_pre_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
+$global.XLII_gateLogRead
+!$global.XLII_logConversationComplete
+XLII_CheckAdmiralRep 0.25",,,"1:XLII_gate_logs_discuss:About those logs I found on the Fafnir Gate...","Visible when gate logs have been read, conversation not yet complete, and August rep >= 25"
+"#END Fleet Admiral's Main Menu",,,,,,
+,,,,,,
+# Fleet Admiral's Store Access,,,,,,
+XLII_admiral_special_access,DialogOptionSelected,"$option == ask_special
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralStoreMenu","""There is."" A measured pause. ""I'm authorized to offer you something off the books,"" he continues. ""The XLII's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
+
+A calculated pause. The kind that precedes uncomfortable truths.
+
+""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""",,
+"#END Fleet Admiral's Store Access",,,,,,
+,,,,,,
+# Fleet Admiral's Store Menu,,,,,,
+XLII_admiral_store_menu_init,XLII_AdmiralStoreMenu,"$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore init",,,"XLII_AdmiralStore populates all options (4 items + nav + decline) dynamically"
+XLII_admiral_store_next,DialogOptionSelected,"$option == store_next
+$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore next",,,
+XLII_admiral_store_prev,DialogOptionSelected,"$option == store_prev
+$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore prev",,,
+XLII_admiral_store_slot_1,DialogOptionSelected,"$option == store_item_1
+$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore select 1
+XLII_BuyShip $XLII_store_selected
+FireBest XLII_AdmiralNarrative",,,
+XLII_admiral_store_slot_2,DialogOptionSelected,"$option == store_item_2
+$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore select 2
+XLII_BuyShip $XLII_store_selected
+FireBest XLII_AdmiralNarrative",,,
+XLII_admiral_store_slot_3,DialogOptionSelected,"$option == store_item_3
+$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore select 3
+XLII_BuyShip $XLII_store_selected
+FireBest XLII_AdmiralNarrative",,,
+XLII_admiral_store_slot_4,DialogOptionSelected,"$option == store_item_4
+$tag:XLII_fleet_admiral_emil","XLII_AdmiralStore select 4
+XLII_BuyShip $XLII_store_selected
+FireBest XLII_AdmiralNarrative",,,
+XLII_admiral_reopen_store,DialogOptionSelected,"$option == reopen_store
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralStoreMenu",,,
+,,,,,,
+# Narrative,,,,,,
+XLII_admiral_narrative_grumium,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_grumium_wing",,"""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Lieutenant Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Six wings, loaded heavy, against fortified emplacements and interceptor screens.""
+
+""Lumbered in like cargo haulers. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+
+""Reyes brought three back. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+
+A brief pause as the transfer finalizes.
+
+""Commander.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_grumium_alt,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_grumium_alt_wing",,"""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Lieutenant Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Six wings, loaded heavy, against fortified emplacements and interceptor screens.""
+
+""Lumbered in like cargo haulers. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+
+""Reyes brought three back. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+
+A brief pause as the transfer finalizes.
+
+""Commander.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_alruba,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_alruba_fortysecond",,"""Most people look at her now and see a relic - ill fit for modern combat. But I remember when she was all we had.
+
+Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. We had six of them left in the picket line, facing down twice our number.
+
+The captain - Walker, good officer - kept us between the troop transports and their missile boats. Took hits that would've gutted a Thuban. The armour held. Barely. By the time relief arrived, we'd lost three Alrubas, but the transports made it through.
+
+Walker didn't. Reactor breach on the final push.
+
+The Alruba's not fast. Not elegant. But she's honest. And doesn't quit until she's a debris field. Sometimes that's enough.""
+
+A brief pause as the data finalizes.
+
+""That'll be all, Commander.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_shaobi,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_shaobi_fortysecond",,"""The Shaobi. The Marines' favourite toy. Command didn't want to build her - too specialised, too expensive. But the Marines made their case, and somehow, it stuck.
+
+I'll admit, I didn't see the value. Not at first.
+
+Then came the boarding operation at Ring-Port - back when it was still under separatist control. We needed to take the station intact, and orbital bombardment wasn't an option. That meant Marines. Lots of them.
+
+The Shaobi-class Warhound led the assault. Two hundred Marines, full combat load, deployed in under twenty minutes. They hit three docking points simultaneously - precision insertion, no warning.
+
+The captain - Major Hartley, Marine Corps - she coordinated the whole thing from the Warhound's bridge. Ship-to-boarding-craft comms, real-time tactical updates, fire support from the gunship's turrets. It wasn't just a carrier - it was a forward command post with engines.
+
+We took Ring-Port in six hours. Minimal casualties. Hartley got a medal. The Warhound got a reputation.
+
+The Shaobi's not a fleet carrier. She's not meant to be. But if you need boots on a station or a hostile ship, she'll get them there - and bring them home.
+
+Sometimes that's worth more than another fighter wing.""
+
+A pause.
+
+""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_errakis,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_errakis_fortysecond",,"""A carrier escort strictly speaking. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
+
+That became a problem during the push on Athebyne's outer stations. We had the Milwaukee - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to briefly shunt the datalink, not enough to justify pulling back.
+
+The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain Holt - had a ship full of ordnance and nothing to shoot at.
+
+So he did what the ship wasn't designed to do: he moved in close. Uncomfortably close.
+
+The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition cook off. But the carrier stayed operational, and the screen held.""
+
+Your sensors officer glances back at you, eyebrows raised. Authorization codes transmitted.
+
+""Until next time, Commander.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_juza,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_juza_fortysecond",,"""Even while it serves it's considered a 'prototype'. Armoured like a battleship, just fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? A damned miracle - when she works.
+
+At end of the war had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
+
+Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. A paperweight in the middle of a firing line.
+
+Her chief engineer - man named Nowak, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. A miracle to put it bluntly.
+
+By the time the Jericho came back, she'd taken fourteen direct hits. Her armour held. Barely. Nowak kept her running for another six hours before the system burned out for good. We won that engagement.
+
+The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
+
+A brief silence followed by an authorization code transmission.
+
+""Authorization granted.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_alwaid,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_alwaid_fortysecond",,"""I've heard the jokes - ""by the time she arrives, the war's over."" The crews call her the 'Late Arrival.'
+
+An anecdote: Textbook carrier doctrine. Three battlegroups were to warp directly into the fight. The Alwaid's group? Delayed by a drive malfunction - forty minutes late to the fight.
+
+By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
+
+Then the Eternity translated in-system. Two hundred and sixty fighters. Every torpedo tube loaded. She didn't win the battle herself - but she ended it. The enemy scattered. We held the orbitals.
+
+The Alwaid's slow. But when she gets there, she brings everything.""
+
+The faintest pause.
+
+""It's yours.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_tianlong,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_tianlong_fortysecond",,"""Four cycles ago, a Pather raiding flotilla entered Kori's orbital space in coordination with a surface sabotage operation. The intent was to occupy our response force long enough for the ground teams to finish their work. The Covenant was in the patrol rotation.
+
+Vasile, her commander, took her through the centre of the formation. Struck their lead ship at speed, engaged the second at close range, and repositioned between the flotilla and their egress vector before their command element had processed what had happened. The aft section took heavy damage. Prioritised forward coverage with the rear mount. But even so, the flotilla broke. The surface teams lost their extraction window.
+
+The after-action report was four pages. Three and a half of them were just damage assessments. The remaining half-page described his tactical reasoning in language I found adequate but incomplete. He did not mention that the Covenant's approach vector was inconsistent with any evasive option - that closing at that speed, on that bearing, was not a response to the engagement. It was a conclusion he had reached before the engagement began.
+
+He is a precise man. His logs are immaculate. I do not think the imprecision was accidental.""
+
+A silence. Although not long.
+
+""Take good care of her, Commander. The Alliance has few enough of these.""","1:transaction_complete:Continue",
+XLII_admiral_narrative_generic,XLII_AdmiralNarrative,,,"""A capable hull."" He keys something on the console. ""Authorization complete.""
+
+A brief pause as the transfer finalizes.
+
+""Good hunting, Commander.""","1:transaction_complete:Continue","Fallback narrative for any store item without a specific story"
+XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:reopen_store:Browse more vessels.
+2:dismiss:End transmission",
+XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""The offer stands. When you're ready, whenever that may be, the authorization remains active in your file."" A beat. ""However, we don't make these offers lightly, Commander""
+
+The briefest hesitation.
+
+His hand moves, beginning the process of closing the connection. ""You know how to reach us.""","1:reopen_store:Actually, let me take another look.
+2:dismiss:End transmission",
+XLII_admiral_dismiss,DialogOptionSelected,"$option == dismiss","EndConversation","The transmission ends.",,
+"#END Narrative",,,,,,
+"#END Fleet Admiral's Store Menu",,,,,,
+"#END Fleet Admiral's Store",,,,,,
+,,,,,,
+# Fafnir Gate Interactions,,,,,,
+XLII_gateOpenDialogStart,OpenInteractionDialog,"$id == XLII_fafnir_gate
+!$global.XLII_gateLogRead","ShowDefaultVisual
+AddText ""A shattered adamantine ring hangs motionless in the void, its once-perfect curve fractured into jagged arcs.""
+
+AddText ""Twisted structural spars and blackened plating drift in a slow, silent orbit around the broken frame.""
+
+AddText ""What remains of the Gate is cold, dark, and utterly still - a Domain monument reduced to a graveyard of dreams.""",,"1:XLII_gateOpenLogsMenu:Explore
+100:defaultLeave:Leave",
+XLII_gateOpenDialogFinished,OpenInteractionDialog,"$id == XLII_fafnir_gate
+$global.XLII_gateLogRead","ShowDefaultVisual
+AddText ""A shattered adamantine ring hangs motionless in the void, its once-perfect curve fractured into jagged arcs.""
+
+AddText ""Twisted structural spars and blackened plating drift in a slow, silent orbit around the broken frame.""
+
+AddText ""What remains of the Gate is cold, dark, and utterly still - a Domain monument reduced to a graveyard of dreams.""",,"100:defaultLeave:Leave",
+XLII_gateOpenLogsMenu,DialogOptionSelected,"$option == XLII_gateOpenLogsMenu",,"Closer inspection reveals a skeletal lattice of military emplacements: gun batteries fused into slag, sensor arrays crumpled like paper, armored hab-modules cracked open to vacuum.
+
+Hazard stripes still clings stubbornly to the hull plating beneath layers of micrometeorite scarring and weapons burns.
+
+Faint emergency strobes - long dead - mark the positions where XLII Fleet gun crews once waited, cycle after cycle, for an enemy that never came through.","1:XLII_gateOpenLogs:Send a team to assess the installation
+100:defaultLeave:Leave",
+XLII_gateOpenLogs,DialogOptionSelected,"$option == XLII_gateOpenLogs",,"Your salvage teams force the frost-sealed airlock of the primary command module. Flashlights sweep across derelict consoles and drifting slats.
+
+Your Ops Chief breaks the silence ""$PlayerSirOrMadam, archives are intact. Something to do with the '42nd Signal Corps' relays, seems untouched since the ring cracked.""
+
+A brief moment as they interface with the databank.
+
+""Gate Vigil logs recovered - Rear Admiral S. Surher's final entry - mid-bombardment.""
+
+""There are more fragments here. Relocation orders to Kori, personnel lists. Permission to extract the full cache?""
+
+Your officers wait for your orders, the soft whine of data recovery filling the bridge.","1:XLII_gateLog1:Continue
+100:XLII_gateLeaveOpt:Leave",
+XLII_gateLog1,DialogOptionSelected,"$option == XLII_gateLog1","AddTextSmall ""Log Fragment 1 - XLII Signal Corps Standing Order 224-19"" highlight","""Cycle 47 pre-Alliance. Auth: Capt. Emil August, forwarded through Corps Command.""
+
+""'All Signal Corps detachments are hereby detached from line-of-battle duties and assigned to permanent perimeter security and monitoring of Fafnir Gate structure. Primary objective: detect and report any unauthorized hyperspace transit attempt. Secondary objective: prevent physical access by non-cleared personnel.
+
+This assignment is non-negotiable. Resources will be reallocated accordingly.
+
+Endorsement appended by Lt. Cmdr. J. Halvorsen, Signal Corps:
+
+""Understood the strategic logic on paper. Still feels like punishment duty. We're bleeding hull plating at Athebyne's Lagrange points while half the corps sits on cold alloy watching a ring that hasn't twitched since the Collapse. August must know something we don't. Or he's finally lost it.""'","2:XLII_gateLog2:Continue",
+XLII_gateLog2,DialogOptionSelected,"$option == XLII_gateLog2","AddTextSmall ""Log Fragment 2 - Field Engineering Log, Attempt Series 12-47"" highlight","""Cycle 49 pre-Alliance. Auth: Lt. Mara Velas, Field Engineering Lead.""
+
+""'Attempt 47 concluded 03:14 shipboard. Full power shunt through primary manifold coupling. Ring returned to quiescent state within 0.8 seconds. No aperture formation, no phase excursion, no manifold breach.
+
+Same result as Attempt 46. And 45. And every attempt back to 12.
+
+However: return signal consistent across all attempts. Three discrete hyperwave pulses, 1.7-second spacing, identical modulation envelope. Subcarrier contains structured data we cannot yet parse. It responds to our probe strength - louder input yields louder reply.
+
+It is not an echo. It is a handshake.
+
+Recommendation: cease active attempts until we can fabricate better decoding hardware. Morale note: crew has started calling the anomaly 'the patient one.' Not sure I like the nickname.'""","3:XLII_gateLog3:Continue",
+XLII_gateLog3,DialogOptionSelected,"$option == XLII_gateLog3","AddTextSmall ""Log Fragment 3 - Redeployment Directive, Eyes-Only"" highlight","""Cycle 51 pre-Alliance. Auth: Adm. Emil August, countersigned AIO precursor cell.""
+
+""'Effective immediately: all Signal Corps assets under designation 'Gatewatch' are to cease operations at Fafnir Gate and redeploy subsurface, Kori primary grid, reference Alpha-7 / Theta-9.
+
+New primary objective: secure, stabilize, and establish interface protocols with Domain-era megastructure; codeword designation: [OCTANTIS].
+
+All previous Gate monitoring logs are to be archived under maximum encryption and physically transferred to Kori vault. No further active interrogation of the Gate permitted. Demolition charges remain on standby per prior order.
+
+Personal addendum, August: ""The answers are under Kori. That is where the war will be decided now.""'","4:XLII_gateLog4:Continue",
+XLII_gateLog4,DialogOptionSelected,"$option == XLII_gateLog4","AddTextSmall ""Log Fragment 4 - Internal Transition Memorandum"" highlight
+AddStoryPoints 1
+$global.XLII_gateLogRead = true","""Cycle 52 pre-Alliance. Auth: precursor cell, later designated Alliance Intelligence Office.""
+
+""'Signal Corps detachment Gatewatch formally stood down. Surviving personnel and technical assets folded into new standing formation: Alliance Intelligence Section (provisional) under Rear Admiral S. Surher's oversight.
+
+Mission parameters redefined: - Acquisition, integration, and operational employment of [OCTANTIS]-derived computational systems. - Evaluation and controlled implementation of AI-core augmentation protocols previously prohibited under Sector norms. - Protection of all related programs from external compromise (Hegemony, Persean League, Tri-Tachyon, Luddic elements). - Elimination or reorientation of personnel who represent unacceptable risk to operational security.
+
+From this cycle forward, the Section answers only to unified command authority. Taboos are suspended for the duration of the emergency - which is now declared permanent.
+
+Final line, unsigned but cipher-matched to August: ""You are no longer watchers. You are keepers. And you shall keep what must never be loosed upon the Sector... or what must be loosed only by our hand.""'
+
+They tap the console once more, locking the slate.
+
+""Whatever [OCTANTIS] actually is... it didn't come through the Gate. It was already here. And it's been talking to them.""
+
+A beat of silence on the bridge.
+
+""Orders, Captain?""","100:defaultLeave:Leave",
+"#END Fafnir Gate Interactions",,,,,,
+,,,,,,
+# Blind Eye Quest,,,,,,
+,,,,,,
+# Act 0 - The Logs,,,,,,
+XLII_gate_logs_discuss_sel,DialogOptionSelected,"$option == XLII_gate_logs_discuss
+$tag:XLII_fleet_admiral_emil","FireBest XLII_GateLogsBranch",,,"Routes to full gate logs conversation"
+XLII_gate_logs_branch_full,XLII_GateLogsBranch,,"FireAll XLII_GateLogsQuestions","""Well you've read the logs."" A measured pause. ""You know more than most officers who've served under me.""
+
+A silence. You hear something - keys, or equipment - before he continues.
+
+""Certain precautions are required for this channel, given what we're discussing.""
+
+""The brief the Office gave me and what the Office actually knows are not the same document. I'll tell you what I can. Which is less than you'll want.""",,
+XLII_gate_logs_deflect_leave,DialogOptionSelected,"$option == gate_logs_deflect_leave
+$tag:XLII_fleet_admiral_emil","AdjustRepPerson XLII_fleet_admiral_emil COOPERATIVE 5
+$global.XLII_gateLogDeflected = true
+EndConversation","""Good."" A brief pause. ""And Commander - the Alliance doesn't forget the people who handle information correctly. Safe travels.""
+
+The link closes cleanly.",,
+XLII_gate_logs_deflect_press,DialogOptionSelected,"$option == gate_logs_press
+$tag:XLII_fleet_admiral_emil","$global.XLII_gateLogDeflected = true
+EndConversation","""Commander. I strongly suggest sealing your lips."" The voice is flat. ""We shall continue this another time.""
+
+The link terminates.",,
+XLII_gate_logs_q_base,XLII_GateLogsQuestions,"$tag:XLII_fleet_admiral_emil",,,,
+XLII_gate_logs_q1_opt,XLII_GateLogsQuestions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_logQ1Complete",,,"1:gate_logs_q1:Why did you stop trying to open the Gate?",
+XLII_gate_logs_q2_opt,XLII_GateLogsQuestions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_logQ2Complete",,,"2:gate_logs_q2:Why does the AIO have so much control?",
+XLII_gate_logs_q3_opt,XLII_GateLogsQuestions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_logQ3Complete",,,"3:gate_logs_q3:What did you find under Kori?",
+XLII_gate_logs_q_continue,XLII_GateLogsQuestions,"$tag:XLII_fleet_admiral_emil
+$global.XLII_logQ1Complete
+$global.XLII_logQ2Complete
+$global.XLII_logQ3Complete",,,"10:gate_logs_finale:I think I understand the shape of it.",
+XLII_gate_logs_q_return,DialogOptionSelected,"$option == gate_logs_q_return
+$tag:XLII_fleet_admiral_emil","FireAll XLII_GateLogsQuestions",,,"Loop-back from each question answer"
+XLII_gate_logs_q1_sel,DialogOptionSelected,"$option == gate_logs_q1
+$tag:XLII_fleet_admiral_emil","$global.XLII_logQ1Complete = true","""Because the Gate was never the source."" A pause. ""The pings stopped the moment we cracked Kori's surface. Whatever was responding - it didn't come through gates. It was already here.""
+
+The encryption holds. He doesn't move.
+
+""The Gate was a receiver. A way of asking whether something was listening. Once we understood that, continuing at the Gate was redundant. The conversation had already moved.""","1:gate_logs_q_return:Continue",
+XLII_gate_logs_q2_sel,DialogOptionSelected,"$option == gate_logs_q2
+$tag:XLII_fleet_admiral_emil","$global.XLII_logQ2Complete = true","""I gave them a mandate and they filled it."" His tone lays flat. No defensiveness. ""Counterintelligence. Then signals. Then guarding Kori. Each expansion seemed reasonable at the time, inside the emergency we were managing.""
+
+A brief silence.
+
+""By the time I understood what they'd become, reversing it would have required options I no longer had. The Office knows too much. The Office does too much. And the Alliance depends on both."" He pauses. ""Some blindspots are chosen, Commander. You'll learn that if you haven't already.""","1:gate_logs_q_return:Continue",
+XLII_gate_logs_q3_sel,DialogOptionSelected,"$option == gate_logs_q3
+$tag:XLII_fleet_admiral_emil","$global.XLII_logQ3Complete = true","""Our key to survival."" A pause. ""That's what I told myself.""
+
+He shifts. The encryption distorts around the motion.
+
+""A Domain-era computational device. Designated OCTANTIS. Built to coordinate colonial infrastructure across multiple systems - resource allocation, logistics, production planning. Never finished. Sealed when the Collapse severed its purpose.""
+
+He is quiet for a moment.
+
+""Then the Office woke it."" Another pause, heavier. ""And that's where the fog of war begins. I know the outline. The Office knows the rest.""","1:gate_logs_q_return:Continue",
+XLII_gate_logs_finale_sel,DialogOptionSelected,"$option == gate_logs_finale
+$tag:XLII_fleet_admiral_emil",,"The line is quiet for a moment. Longer than it needs to be.
+
+""You've heard more than most, Commander."" His voice is measured and deliberate. ""Let me ask you something in return.""
+
+A pause.
+
+""Given everything you know - the Gate, Kori, the Office, what was necessary to keep this system alive - what would you have done in my position?""","1:gate_logs_ans_same:I would've done the same as you.
+2:gate_logs_ans_understand:I would've tried harder to understand it first.
+3:gate_logs_ans_aio:I wouldn't have let the AIO get that far.
+4:gate_logs_ans_athebyne:I would've bombed Athebyne again.
+5:gate_logs_ans_dontknow:I don't know.",
+XLII_gate_logs_ans_same,DialogOptionSelected,"$option == gate_logs_ans_same
+$tag:XLII_fleet_admiral_emil",,"""I'm so surrounded by yes-men that it is hard to believe it, but given the benefit of doubt.""
+
+He is still for a moment.
+
+""Good..."" The word lands without inflection. ""That's the correct answer, and the honest one.""
+
+A pause.
+
+""Survival doesn't come with clean choices. Anyone who tells you otherwise has never been responsible for something that cannot be allowed to fail.""
+
+""I'm glad we understand each other.""","1:gate_logs_closing:It's been an instructive conversation.",
+XLII_gate_logs_ans_understand,DialogOptionSelected,"$option == gate_logs_ans_understand
+$tag:XLII_fleet_admiral_emil",,"""Yes."" He doesn't dismiss it. ""You might have.""
+
+A pause.
+
+""I've had that thought myself. In the years after Kori went active - what might we have learned, if we'd moved more slowly. If we'd been less desperate.""
+
+The encrypted silhouette is still.
+
+""But the war didn't give us time for philosophy, Commander. It rarely does. We understood enough to survive. I'm not certain understanding more would have made us safer.""","1:gate_logs_closing:It's been an instructive conversation.",
+XLII_gate_logs_ans_aio,DialogOptionSelected,"$option == gate_logs_ans_aio
+$tag:XLII_fleet_admiral_emil",,"""Neither would I."" The voice is dry. ""In principle. The problem with principle is that it requires you to identify the line before you've crossed it.""
+
+A pause.
+
+""The Office was useful. Then it was necessary. Then it was irreplaceable. Each transition seemed logical at the time. The war makes everything seem logical."" He is quiet for a moment. ""If you find a way to draw that line clearly, Commander, let me know. I've been looking for it for thirty years.""","1:gate_logs_closing:It's been an instructive conversation.",
+XLII_gate_logs_ans_athebyne,DialogOptionSelected,"$option == gate_logs_ans_athebyne
+$tag:XLII_fleet_admiral_emil",,"He stares at you for a moment. Then he laughs.
+
+Brief. Unguarded. He doesn't appear to have expected it any more than you did.
+
+A pause.
+
+The silence that follows is almost thoughtful.
+
+""...Right.""
+
+He moves on as if it didn't happen.","1:gate_logs_closing:It's been an instructive conversation.",
+XLII_gate_logs_ans_dontknow,DialogOptionSelected,"$option == gate_logs_ans_dontknow
+$tag:XLII_fleet_admiral_emil",,"""Good."" A pause. ""That's a more honest answer than most.""
+
+He is quiet.
+
+""Neither did I, at the time. That's the truth of it. The Gate responded, and we followed the thread because we were losing and we needed anything we could use. And we accepted it because the alternative was starvation and slow defeat."" The encrypted silhouette is still. ""I made decisions under uncertainty and they kept the Alliance alive. I don't know if they were right. But I know they were necessary.""
+
+A brief pause.
+
+""That distinction gets heavier every year.""","1:gate_logs_closing:It's been an instructive conversation.",
+XLII_gate_logs_closing,DialogOptionSelected,"$option == gate_logs_closing
+$tag:XLII_fleet_admiral_emil","$global.XLII_logConversationComplete = true
+EndConversation","""Likewise, Commander.""
+
+He keys something. The encrypted image holds for a moment, then clears.
+
+""We'll be in touch.""
+
+The link closes.",,
+"#END Act 0 - The Logs",,,,,,
+,,,,,,
+# Act 1 - The Note,,,,,,
+XLII_blind_eye_note_start,MarketPostDock,"$faction.id == XLII_draconis
+$global.XLII_logConversationComplete
+!$global.XLII_blindEyeNoteReceived
+XLII_CheckAdmiralRep 0.50","AddText ""An uniformed officer - Alliance security, shoulder patch of the XLII - falls into step alongside you as you move through the docking concourse. He doesn't slow. He doesn't look at you. Something is pressed into your hand. He keeps walking.""",,"1:blind_eye_look:Look at what he left.","Act 1 note delivery. MarketPostDock fires after docking. Wins over marketDock (score 0) when conditions are met."
+XLII_blind_eye_note_look,DialogOptionSelected,"$option == blind_eye_look","AddText ""A folded slip. No header. No signature.""
+AddText ""Three lines, printed.""
+AddText ""Ring-Port. Transponder off. Ask for Korrin.""
+AddText ""By the time you look up, the officer has cleared the checkpoint and is gone.""",,"1:blind_eye_pocket:Continue",
+XLII_blind_eye_note_pocket,DialogOptionSelected,"$option == blind_eye_pocket","$global.XLII_blindEyeNoteReceived = true
+$menuState = main 0
+FireAll PopulateOptions",,,"Sets XLII_blindEyeNoteReceived. Then fires PopulateOptions so normal market menu appears immediately after."
+"#END Act 1 - The Note",,,,,,
+,,,,,,
+# Act 2 - Korrin / Ring-Port,,,,,,
+XLII_ring_port_transponder_gate,MarketPostDock,"$global.XLII_blindEyeNoteReceived
+!$global.XLII_transponderVerified
+XLII_IsAtRingPort
+XLII_IsTransponderOff","XLII_RevealEliasKorrin
+$global.XLII_transponderVerified = true
+$menuState = main 0
+FireAll PopulateOptions",,,"Fires at Ring-Port when note received + transponder off. Reveals Elias Korrin in comm directory then opens normal market menu."
+XLII_elias_init,OpenCDE,"$isPerson
+$tag:XLII_elias_korrin
+$global.XLII_transponderVerified
+!$global.XLII_blindEyeMissionActive
+!$global.XLII_blindEyeDeclined
+!$global.XLII_ringPortTaken","ShowPersonVisual
+AddText ""After searching for this 'Elias Korrin' in the local contact list and connect to the terminal, you recieve an automated response.""
+AddText ""You are given a location not far from here.""
+AddText ""You find the location in the note without too much difficulty - a seemingly abandoned warehouse, crumbling and empty, nearly empty...""
+FireAll XLII_EliasIntro",,,"First contact with Elias. Fires intro scene."
+XLII_elias_intro_continue,XLII_EliasIntro,,,"A young man sits alone in the corner of the building, he closes his datapad when you approach. Stands, briefly. ""Commander, it's a pleasure."" He gives a brief nod. ""I'm Korrin."" He offers his hand - his grip is brief and businesslike. He sits again.","1:elias_continue:Continue.",
+XLII_elias_briefing,DialogOptionSelected,"$option == elias_continue","FireAll XLII_EliasOptions","'You received the note?"" He follows up before you can answer. ""Good. Apologies for the secrecy - this operation is too important to risk on sloppiness.""
+
+""I've been told to brief you on our operation, so to cut it short - I've been here eleven months. Embedded as a broker - transit documentation, cargo facilitation."" He glances at the bay entrance, then back. ""The Fleet Admiral sent me to prepare the station for a change of hands. The operational specifics are recent.""
+
+""August wants Ring-Port back. And until now we haven't been able to commit Alliance assets without AIO oversight, and the Office's involvement would mean documentation, a review and secure process, and a multi-cycle delay while the Office investigates every nook and cranny of this facility."" A pause. ""You are not subject to that oversight. That is why you're here.""",,"Briefing text. Fires XLII_EliasOptions to populate Q&A and accept/decline choices."
+XLII_elias_opt_why,XLII_EliasOptions,"!$global.XLII_elias_askedWhy",,,"1:elias_why:Why Ring-Port? Why now?",
+XLII_elias_opt_occupants,XLII_EliasOptions,"!$global.XLII_elias_askedOccupants",,,"2:elias_occupants:The station's current occupants.",
+XLII_elias_opt_accept,XLII_EliasOptions,,,,"3:elias_accept:I'll do it.",
+XLII_elias_opt_decline,XLII_EliasOptions,,,,"4:elias_decline:Not yet.",
+XLII_elias_why,DialogOptionSelected,"$option == elias_why","$global.XLII_elias_askedWhy = true
+FireAll XLII_EliasOptions","""Ring-Port sits on Fafnir's primary transit lane."" He sets the datapad flat on the table - schematic visible, Ring-Port's internal layout. ""Whoever controls this station controls a major part of the system's approach vectors. Not militarily. Logistically. That's the official story anyway, in reality we need the free operating space to work with oversight. August has been assembling a contingent of those loyal to him, and wants to sieze control of the Office.""
+
+""August's plan is straightforward. When the station changes hands, the AIO will claim it. That is expected. But his people are already embedded here - dock workers, transit staff, maintenance contractors, the list goes on - but the important detail is we've already prepared and secured this station before the AIO can sterilise it. If Alliance personnel hold the facility before the Office arrives, they hold it on Itoron's terms."" A moment's pause. ""The timing was mine to judge. I sent the signal when the station's current commander was between reliable subordinates. This window is narrow.""",,
+XLII_elias_occupants,DialogOptionSelected,"$option == elias_occupants","$global.XLII_elias_askedOccupants = true
+FireAll XLII_EliasOptions","""He considers the question. ""First Fleet veterans who refused integration after the armistice. The originals are mostly old now. Their children and the people those children trained are running the operation now.""
+
+""They are technically proficient. They have survived in a hostile system on ingenuity and deterrence. They understand that the Alliance cannot absorb them without political consequence."" He stops there. ""But this operation isn't about petty revenge.""",,
+XLII_elias_accept,DialogOptionSelected,"$option == elias_accept","$global.XLII_blindEyeMissionActive = true
+EndConversation","He reaches across the table. The datapad changes screens - docking manifests, access codes, patrol rotation data, what looks like months of observations. ""What I have is yours."" He holds your gaze for a moment. ""The Fleet Admiral will know you were here and regardless of what happens. That matters to him.""",,"Sets XLII_blindEyeMissionActive."
+XLII_elias_decline,DialogOptionSelected,"$option == elias_decline","$global.XLII_blindEyeDeclined = true
+EndConversation","""Noted."" He opens the datapad again. ""I'll be here.""",,"Sets XLII_blindEyeDeclined. Return dialog remains available."
+XLII_elias_return,OpenCDE,"$isPerson
+$tag:XLII_elias_korrin
+$global.XLII_blindEyeDeclined
+!$global.XLII_blindEyeMissionActive","ShowPersonVisual
+FireAll XLII_EliasReturnOptions","Korrin looks up from the terminal. Barely a change in expression but you detect the hint of a smile. ""You've come back.""",,"Return visit after declining. Offers accept or leave."
+XLII_elias_return_opt_accept,XLII_EliasReturnOptions,,,,"1:elias_return_accept:I'll do it.",
+XLII_elias_return_opt_leave,XLII_EliasReturnOptions,,,,"2:elias_return_leave:Not yet.",
+XLII_elias_return_accept,DialogOptionSelected,"$option == elias_return_accept","$global.XLII_blindEyeMissionActive = true
+$global.XLII_blindEyeDeclined = false
+EndConversation","He nods once, stands, and retrieves the datapad. ""Good.""",,
+XLII_elias_return_leave,DialogOptionSelected,"$option == elias_return_leave","EndConversation",,,
+XLII_elias_active,OpenCDE,"$isPerson
+$tag:XLII_elias_korrin
+$global.XLII_blindEyeMissionActive","ShowPersonVisual
+FireAll XLII_EliasActiveOptions","He glances up when you approach, then back at the terminal. ""Nothing new from my end. The situation holds.""",,"Subsequent visits once mission is active."
+XLII_elias_active_ack,XLII_EliasActiveOptions,,,,"1:elias_ack:Understood.",
+XLII_elias_active_leave,DialogOptionSelected,"$option == elias_ack","EndConversation",,,
+"#END Act 2 - Korrin / Ring-Port",,,,,,
+,,,,,,
+# Act 3 - Post-Victory,,,,,,
+XLII_elias_victory,OpenCDE,"$isPerson
+$tag:XLII_elias_korrin
+$global.XLII_ringPortTaken
+!$global.XLII_blindEyeVictoryAcked","ShowPersonVisual
+FireAll XLII_EliasVictoryIntro","You find Korrin at a terminal near the main docking hub. He looks up once when you enter. The station around you is different - the same bulkheads, the same corridors, different faces at every checkpoint.",,"First visit to Elias after Ring-Port is taken. One-time acknowledgment."
+XLII_elias_victory_intro,XLII_EliasVictoryIntro,,,"""It's done."" He says it without elaboration. ""August's contingent moved in within the hour. Dock workers, maintenance staff - they were staged two berths over, waiting on your signal. The station is already under Alliance administration."" A pause. ""The AIO will follow. That was expected.""","1:elias_victory_what:What happens next?
+2:elias_victory_ack:Understood.",
+XLII_elias_victory_what,DialogOptionSelected,"$option == elias_victory_what",,"""August's people hold the station before the Office arrives. That was the point."" He closes the terminal display. ""The Fleet Admiral will know what was accomplished here. Whatever the Office makes of that is their concern.""","1:elias_victory_close:Understood.",
+XLII_elias_victory_close,DialogOptionSelected,"$option == elias_victory_close","$global.XLII_blindEyeVictoryAcked = true
+EndConversation",,,"Sets XLII_blindEyeVictoryAcked and closes dialog."
+XLII_elias_victory_ack_close,DialogOptionSelected,"$option == elias_victory_ack","$global.XLII_blindEyeVictoryAcked = true
+EndConversation",,,
+XLII_elias_contact,OpenCDE,"$isPerson
+$tag:XLII_elias_korrin
+$global.XLII_ringPortTaken
+$global.XLII_blindEyeVictoryAcked","ShowPersonVisual
+FireAll XLII_EliasContactOptions","Korrin looks up from the terminal briefly. ""Commander.""",,"Permanent contact state after victory acknowledged."
+XLII_elias_contact_opt,XLII_EliasContactOptions,,,,"1:elias_contact_leave:Nothing right now.",
+XLII_elias_contact_close,DialogOptionSelected,"$option == elias_contact_leave","EndConversation",,,
+"#END Act 3 - Post-Victory",,,,,,
+,,,,,,
+# Act 4 - August Debrief,,,,,,
+XLII_admiral_debrief_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
+$global.XLII_ringPortTaken
+!$global.XLII_blindEyeComplete",,,"1:ring_port_debrief:About Ring-Port.","Appears in August's main menu once after assault. Disappears when blindEyeComplete."
+XLII_admiral_debrief_init,DialogOptionSelected,"$option == ring_port_debrief
+$tag:XLII_fleet_admiral_emil","FireBest XLII_AugustDebriefOpening",,,"Entry point. FireBest routes to the correct performance-tier opening."
+XLII_august_debrief_open_precise,XLII_AugustDebriefOpening,"$global.XLII_raidPrecise","FireAll XLII_AugustDebriefContent","""Clean operation. Precise. However, don't mistake that for a compliment without conditions.""",,"Precise path: under 20% marines lost."
+XLII_august_debrief_open_costly,XLII_AugustDebriefOpening,"$global.XLII_raidCostly","FireAll XLII_AugustDebriefContent","""The casualty count is significant."" He does not minimize it. ""But Ring-Port is held. That was the objective, good job.""",,"Costly path: over 50% marines lost."
+XLII_august_debrief_open_accept,XLII_AugustDebriefOpening,,"FireAll XLII_AugustDebriefContent","""Ring-Port is secured. The count is filed."" A pause. ""We have what we came for.""",,"Fallback path: 20-50% marines lost."
+XLII_august_debrief_beat3risky,XLII_AugustDebriefContent,"$global.XLII_beat3Risky",,"""I heard there were civilian causalities in the lower decks."" A pause as he leans back, static darting across his figure, as he makes a movement that can only be considered smoking. ""This is an issue Korrin will have to fix. He has had worse. But he will carry it regardless. This does, however, reflect poorly on all of us.""",,"Fires if Beat 3 was RISKY (marines pushed through civilians)."
+XLII_august_debrief_beat5sp,XLII_AugustDebriefContent,"$global.XLII_beat5SP",,"""The inner sanctum's surrender was formal - observed, documented, clean under the Transit Accords."" A pause. ""That was the outcome I was hoping for.""",,"Fires if Beat 5 was SP (formal surrender under Transit Accords)."
+XLII_august_debrief_beat5risky,XLII_AugustDebriefContent,"$global.XLII_beat5Risky",,"""No prisoners from the inner sanctum. I knew some of them, personally, they were not going to surrender to a foreign commission. Not after twenty years of spitting in my face. I had accounted for the possibility. Clean work.""",,"Fires if Beat 5 was RISKY (breach and clear)."
+XLII_august_debrief_beat5safe,XLII_AugustDebriefContent,"$global.XLII_beat5Safe",,"""The inner sanctum's veterans - most of them - are in custody. That is workable. Less clean than a formal surrender. Korrin will manage the transition regardless.""",,"Fires if Beat 5 was SAFE (negotiated surrender, mixed result)."
+XLII_august_debrief_korrin,XLII_AugustDebriefContent,,,"He keys something on the console - not looking at you now.
+
+""Korrin performed. Eleven months embedded. That kind of patience is either conviction or desperation. In his case, I believe it was both.""
+
+He trails off, nothing in his expression. Nothing in his voice.
+
+""I have your transfer ready, $global.XLII_raidCreditRewardFormatted credits, I'm sure you'll appreciate. The Alliance does not forget its contracts.""","1:debrief_elias:About Korrin.
+2:debrief_ack:Understood.","Always fires last. Fixed Korrin paragraph and close options."
+XLII_august_debrief_ack,DialogOptionSelected,"$option == debrief_ack
+$tag:XLII_fleet_admiral_emil","XLII_DeliverRaidReward
+$global.XLII_blindEyeComplete = true
+FireAll XLII_AdmiralMainMenu",,,
+XLII_august_debrief_elias,DialogOptionSelected,"$option == debrief_elias
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AugustDebriefElias","A pause that runs a half-second longer than it needs to, you could almost mistake it as a sigh. ""That place was personal to him, that's why he was there, but that's not the relevant fact. He'll be fine, Commander.""",,
+XLII_august_debrief_elias_text,XLII_AugustDebriefElias,,,,"1:debrief_elias_close:Understood.",
+XLII_august_debrief_elias_close,DialogOptionSelected,"$option == debrief_elias_close
+$tag:XLII_fleet_admiral_emil","XLII_DeliverRaidReward
+$global.XLII_blindEyeComplete = true
+FireAll XLII_AdmiralMainMenu",,,
+"#END Act 4 - August Debrief",,,,,,
+"#END Blind Eye Quest",,,,,,
+,,,,,,
+# Octantis Quest,,,,,,
+XLII_nanoforge_discuss_eligible,DialogOptionSelected,"$option == XLII_nanoforge_discuss
+$tag:XLII_fleet_admiral_emil
+XLII_CheckAdmiralRep
+!$global.XLII_nanoforgeQuestOffered","$global.XLII_nanoforgeQuestOffered = true","""There is one thing."" A brief pause that, for once, doesn't feel like a tactic. ""Something the Alliance needs - not just for the war effort. But for what comes after it.
+
+Kori's yards can produce hulls well enough. But what we cannot produce - not yet - is the precision manufacturing infrastructure we lost during the civil war. A Pristine Nanoforge. Domain-era. Undamaged.
+
+If you come across one, bring it to me directly."" The encrypted silhouette leans forward slightly. ""I won't ask where you found it. You won't need to ask what we intend to do with it.""
+
+A brief pause.
+
+""The Alliance does not forget its debts, Commander.""","1:return_to_main_menu:Understood.",
+XLII_nanoforge_discuss_fallback,DialogOptionSelected,"$option == XLII_nanoforge_discuss
+$tag:XLII_fleet_admiral_emil",,"""You've served us well enough, Commander - that's not in question."" A measured pause. ""But some matters I hold in reserve for those who've given the Alliance more... comprehensive proof of commitment.
+
+Keep doing what you're doing. That conversation will happen when the time is right.""","1:return_to_main_menu:Understood.",
+XLII_nanoforge_deliver_success,DialogOptionSelected,"$option == XLII_nanoforge_deliver
+$tag:XLII_fleet_admiral_emil
+$global.XLII_nanoforgeQuestOffered
+XLII_NanoforgeExchange check
+!$global.XLII_nanoforgeQuestComplete","XLII_NanoforgeExchange give
+$global.XLII_nanoforgeQuestComplete = true
+AddCredits 500000
+AddStoryPoints 5","The silhouette on the screen is still for a long moment.
+
+""Some things are better kept off the record. But thank you, truly.""
+
+You hear something being keyed in the background.
+
+""The forge goes to Kori. What it produces will outlast both of us."" A pause - the first one that doesn't feel calculated. ""I have something for you, in return. A part of what the Alliance Intelligence Office has held since end of the war.""
+
+Data streams to your command console - encrypted manifests, operational assessments, a transfer authorization bearing August's personal cipher.
+
+""Octantis, or at least a uplink to it. I've been advised not to speculate - but it will serve your fleet well. I have it on authority that it performs."" A brief silence before the connection modulates.
+
+""Needless to say, do not lose it, Commander. We try to avoid giving these out freely.""","1:dismiss:End transmission",
+"#END Octantis Quest",,,,,,
+

@@ -15,8 +15,8 @@ import java.awt.Color;
 public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
 
     // Color constants (pre-allocated to avoid per-call allocations)
-    private static final Color SMOKE_COLOR_BRIGHT = new Color(205, 205, 205, 155);
-    private static final Color SMOKE_COLOR_PUFF = new Color(170, 170, 170, 150);
+    private static final Color SMOKE_COLOR_BRIGHT = new Color(180, 183, 192, 155);
+    private static final Color SMOKE_COLOR_PUFF = new Color(145, 148, 158, 150);
 
     // Effect constants
     private static final float EXPLOSION_RADIUS = 120f;
@@ -53,7 +53,7 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
 
         // Signal the combat plugin to create a cloud at this location
         if (projectile.getSource() != null) {
-            engine.getCustomData().put("XLII_MIST_SPAWN_" + System.nanoTime(), impactPoint);
+            engine.getCustomData().put("XLII_MIST_SPAWN_" + System.nanoTime(), new Vector2f(impactPoint));
         }
 
         // No manual despawn needed - the missile naturally expires after hitting

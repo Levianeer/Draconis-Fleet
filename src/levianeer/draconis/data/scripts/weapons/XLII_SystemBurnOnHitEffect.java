@@ -207,6 +207,7 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
     public static class IgniteInstance extends BaseCombatLayeredRenderingPlugin {
 
         protected final List<ParticleData> particles = new ArrayList<>();
+        private final List<ParticleData> toRemoveParticles = new ArrayList<>();
         protected final DamagingProjectileAPI proj;
         protected final ShipAPI target;
         protected final Vector2f offset;
@@ -256,14 +257,14 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
             entity.getLocation().set(loc);
 
             // Update particles
-            List<ParticleData> toRemove = new ArrayList<>();
+            toRemoveParticles.clear();
             for (ParticleData p : particles) {
                 p.advance(amount);
                 if (p.elapsed >= p.maxDur) {
-                    toRemove.add(p);
+                    toRemoveParticles.add(p);
                 }
             }
-            particles.removeAll(toRemove);
+            particles.removeAll(toRemoveParticles);
 
             // Handle fading and sound
             boolean shouldEnd = ticks >= NUM_TICKS || !target.isAlive() || !Global.getCombatEngine().isEntityInPlay(target);
@@ -351,13 +352,12 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
             for (ParticleData p : particles) {
                 float size = p.baseSize * p.scale;
-                Vector2f loc = new Vector2f(x + p.offset.x, y + p.offset.y);
 
                 p.sprite.setAngle(p.angle);
                 p.sprite.setSize(size, size);
                 p.sprite.setAlphaMult(b * p.fader.getBrightness());
                 p.sprite.setColor(p.color);
-                p.sprite.renderAtCenter(loc.x, loc.y);
+                p.sprite.renderAtCenter(x + p.offset.x, y + p.offset.y);
             }
 
             GL14.glBlendEquation(GL14.GL_FUNC_ADD);

@@ -7,6 +7,7 @@ import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor;
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin;
+import com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -23,11 +24,11 @@ public class XLII_System implements SectorGeneratorPlugin {
 
         // SCALING FACTOR
         // 1.0 = original, 1.5 = 50% larger, 2.0 = twice as large, etc.
-        final float SCALE = 2.0f; // 2x is probably to highest this should go
+        final float SCALE = 2.0f; // Plz no adjust
 
         // Hyperspace Location
-        final float systemLocX = 4200f; // New location: -4200,9600
-        final float systemLocY = 9600f;  // Old location: -750,-5250
+        final float systemLocX = 4200f;     // New location: -4200,9600
+        final float systemLocY = 9600f;     // Old location: -750,-5250
 
         StarSystemAPI system = sector.createStarSystem("Fafnir");
         system.setBackgroundTextureFilename("graphics/mod/backgrounds/fafnirbg.png");
@@ -113,7 +114,7 @@ public class XLII_System implements SectorGeneratorPlugin {
         // Ladon - Distant dwarf planet
         final float ladonAngle = 135f;
         final float ladonSize = 28f;
-        final float ladonDistance = 11000f * SCALE;
+        final float ladonDistance = 10725f * SCALE;
         final float ladonOrbit = 12000f;
 
         // Vritra - Elliptical dwarf planet
@@ -237,6 +238,11 @@ public class XLII_System implements SectorGeneratorPlugin {
         kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "XLII_kori"));
         kori.setCustomDescriptionId("planet_kori");
         kori.applySpecChanges();
+
+        // Radio chatter terrain - orbits in sync with Kori so it stays co-located with the planet
+        SectorEntityToken koriChatter = system.addTerrain("XLII_kori_chatter",
+                new RadioChatterTerrainPlugin.RadioChatterParams(700f, 0f, kori));
+        koriChatter.setCircularOrbit(itoron, koriAngle, koriDistance, koriOrbit);
 
         PlanetAPI vorium = system.addPlanet("vorium", star, "Vorium",
                 "gas_giant", voriumAngle, voriumSize, voriumDistance, voriumOrbit);

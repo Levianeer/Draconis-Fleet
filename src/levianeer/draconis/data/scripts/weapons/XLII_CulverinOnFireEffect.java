@@ -37,10 +37,10 @@ public class XLII_CulverinOnFireEffect implements OnFireEffectPlugin, EveryFrame
     // Size of the furthest ring relative to the closest (e.g. 0.5 = half the size)
     private static final float RING_SIZE_AT_FURTHEST = 0.5f;
 
-    // Core (inner) color — bright white, nearly opaque
+    // Core (inner) color - bright white, nearly opaque
     private static final Color RING_CORE_COLOR = new Color(245, 245, 245, 155);
 
-    // Fringe (outer glow) color — slightly pink-tinted translucent smoke
+    // Fringe (outer glow) color - slightly pink-tinted translucent smoke
     private static final Color RING_FRINGE_COLOR = new Color(200, 170, 175, 55);
 
     // -------------------------------------------------------------------------
@@ -122,7 +122,7 @@ public class XLII_CulverinOnFireEffect implements OnFireEffectPlugin, EveryFrame
 
             float baseSize = RING_BASE_SIZE * sizeMultiplier;
 
-            // Three layers form one smoke ring — stagger their growth slightly for depth
+            // Three layers form one smoke ring - stagger their growth slightly for depth
             particles.add(new ParticleData(ring1, baseSize, RING_TARGET_SCALE * 0.85f, 0f, RING_DURATION * 0.90f));
             particles.add(new ParticleData(ring2, baseSize, RING_TARGET_SCALE,         0f, RING_DURATION));
             particles.add(new ParticleData(ring3, baseSize, RING_TARGET_SCALE * 1.15f, 0f, RING_DURATION * 1.10f));
@@ -201,7 +201,7 @@ public class XLII_CulverinOnFireEffect implements OnFireEffectPlugin, EveryFrame
     @Override
     public void onFire(DamagingProjectileAPI projectile, WeaponAPI weapon, CombatEngineAPI engine) {
         if (projectile.getSource() == null) return;
-        // Record position and angle now — rings will be spawned in advance() on the next frame
+        // Record position and angle now - rings will be spawned in advance() on the next frame
         pendingSpawns.add(new PendingRingSpawn(weapon.getLocation(), weapon.getCurrAngle()));
     }
 

@@ -19,7 +19,8 @@
     "builtInMods": [
         "no_weapon_flux",
         "insulatedengine",
-        "XLII_autoflarelauncher"
+        "XLII_autoflarelauncher",
+        "XLII_draconiswinghull"
     ],
     "builtInWings": [],
     "builtInModules": null,

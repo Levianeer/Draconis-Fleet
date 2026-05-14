@@ -1,0 +1,39 @@
+{
+	"id":"XLII_phaseteleporter",
+	"type":"TELEPORTER",
+	"aiType":"PHASE_TELEPORTER_2",
+	
+	"jitterUnderColor":[255,0,255,150],
+	"jitterUnderCopies":10,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":7,
+	"jitterUnderRangeRadiusFraction":0,
+
+	"jitterColor":[255,175,255,255],
+	"jitterCopies":5,
+	"jitterRange":25,
+	"jitterRangeRadiusFraction":0,
+	
+	"engineGlowLengthMult":0,
+	"engineGlowWidthMult":0,
+	"engineGlowGlowMult":0,
+	
+	"range":800,
+	"randomRange":0,
+	
+	"vulnerableChargeup":false,
+	"vulnerableChargedown":false,
+	"renderCopyDuringTeleport":true,
+	
+	"fadeActivationSoundOnChargedown":false,
+	
+	"useSound":"energy_lash_activate",	
+	"outOfUsesSound":"gun_out_of_ammo",
+	
+	
+	"aiHints":{
+		"activeSpeedIncrease":0,
+		"burstMovementPotential":750,
+		"averageSpeedIncrease":200,
+	}
+}

@@ -48,6 +48,16 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         scanForRemnantTargets();
     }
 
+    private static class RemnantSystemCandidate {
+        final StarSystemAPI system;
+        final List<SectorEntityToken> stations;
+
+        RemnantSystemCandidate(StarSystemAPI system, List<SectorEntityToken> stations) {
+            this.system = system;
+            this.stations = stations;
+        }
+    }
+
     /**
      * Simply pick a Remnant system that isn't on cooldown
      */
@@ -55,7 +65,7 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         // Clear previous target
         clearAllTargetFlags();
 
-        List<StarSystemAPI> availableTargets = new ArrayList<>();
+        List<RemnantSystemCandidate> availableTargets = new ArrayList<>();
         long currentDay = Global.getSector().getClock().getDay();
 
         // Find all Remnant systems not on cooldown
@@ -66,10 +76,10 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
                 continue;
             }
 
-            // Check if has Remnant presence
+            // Check if has Remnant presence - cache the list to avoid computing it twice
             List<SectorEntityToken> remnantStations = findRemnantStations(system);
             if (!remnantStations.isEmpty()) {
-                availableTargets.add(system);
+                availableTargets.add(new RemnantSystemCandidate(system, remnantStations));
             }
         }
 
@@ -78,13 +88,14 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         }
 
         // Pick a random target
-        StarSystemAPI selectedTarget = availableTargets.get(
+        RemnantSystemCandidate selected = availableTargets.get(
             (int) (Math.random() * availableTargets.size())
         );
 
-        // Calculate priority for logging purposes
-        float priority = calculateSystemPriority(selectedTarget, findRemnantStations(selectedTarget));
-        markSystemAsTarget(selectedTarget, priority);
+        // Reuse the already-computed station list - no second findRemnantStations() call
+        float priority = calculateSystemPriority(selected.system, selected.stations);
+        markSystemAsTarget(selected.system, priority);
+        StarSystemAPI selectedTarget = selected.system;
 
         log.info(
             "Draconis: Selected Remnant raid target: " + selectedTarget.getName() +
@@ -140,7 +151,7 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         }
 
         // Distance penalty (prefer closer systems to Draconis space)
-        SectorEntityToken draconisBase = findNearestDraconisBase();
+        SectorEntityToken draconisBase = findAnyDraconisBase();
         if (draconisBase != null) {
             float distance = com.fs.starfarer.api.util.Misc.getDistanceLY(
                 draconisBase.getLocationInHyperspace(),
@@ -156,9 +167,10 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
     }
 
     /**
-     * Find the nearest Draconis market for distance calculations
+     * Find any Draconis market to use as a distance reference for priority calculations.
+     * Returns the first one found; the calculation is approximate so exact selection doesn't matter.
      */
-    private SectorEntityToken findNearestDraconisBase() {
+    private SectorEntityToken findAnyDraconisBase() {
         for (com.fs.starfarer.api.campaign.econ.MarketAPI market :
              Global.getSector().getEconomy().getMarketsCopy()) {
             if (market.getFactionId().equals(levianeer.draconis.data.campaign.ids.Factions.DRACONIS) &&
@@ -213,18 +225,4 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         );
     }
 
-    /**
-     * Simple data class for potential targets
-     */
-    private static class RemnantTarget {
-        final StarSystemAPI system;
-        final List<SectorEntityToken> stations;
-        final float priority;
-
-        RemnantTarget(StarSystemAPI system, List<SectorEntityToken> stations, float priority) {
-            this.system = system;
-            this.stations = stations;
-            this.priority = priority;
-        }
-    }
 }

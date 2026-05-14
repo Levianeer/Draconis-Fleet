@@ -526,7 +526,7 @@ public class DraconisRemnantRaidManager implements EveryFrameScript {
             if (betaDelivered  > 0) DraconisAICoreStockpile.add(Commodities.BETA_CORE,  betaDelivered);
             if (gammaDelivered > 0) DraconisAICoreStockpile.add(Commodities.GAMMA_CORE, gammaDelivered);
 
-            log.info("Draconis: Added " + totalCores + " delivered core(s) to stockpile — attempting installation");
+            log.info("Draconis: Added " + totalCores + " delivered core(s) to stockpile - attempting installation");
             DraconisAICoreStockpile.tryInstallStockpiledCores();
 
             // Notify player

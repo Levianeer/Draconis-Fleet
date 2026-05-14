@@ -3,7 +3,7 @@
 		"XLII_thuban_Elite":1.5,
 
 		"XLII_alruba_Elite":0.25,
-		"XLII_alruba_Assault_fortysecond":0,
+		"XLII_alruba_Assault_fortysecond":1,
 
 		"XLII_alruba_mk2_Elite":0.75,
 
@@ -16,7 +16,7 @@
 		"XLII_thuban_Elite":2,
 
 		"XLII_alruba_Elite":0.25,
-		"XLII_alruba_Assault_fortysecond":0,
+		"XLII_alruba_Assault_fortysecond":1,
 
 		"XLII_alruba_mk2_Elite":0.75,
 
@@ -27,9 +27,10 @@
 	},
 	"combatMedium":{
 		"XLII_rastaban_Elite":1.5,
+		"XLII_rastaban_Strike":1,
 
 		"XLII_errakis_Elite":1,
-		"XLII_errakis_Assault_fortysecond":0,
+		"XLII_errakis_Assault_fortysecond":1,
 
 		"XLII_giausar_Elite":0.5,
 		
@@ -41,7 +42,8 @@
 		"XLII_eltanin_Elite":2,
 		"XLII_eltanin_Strike":2,
 		
-		"XLII_eltanin_mk2_Elite":0.25,
+		"XLII_yunu_Elite":0.25,
+		"XLII_yunu_Strike":0.25,
 
 		"XLII_juni_Elite":1,
 		"XLII_juni_Support":0.5,
@@ -49,13 +51,15 @@
 		"XLII_juza_Elite":1,
 		"XLII_juza_Strike":1,
 		"XLII_juza_Overdriven":0.25,
-		"XLII_juza_Assault_fortysecond":0,
+		"XLII_juza_Assault_fortysecond":1,
 
 		"XLII_nushi_Elite":0.5,
 		"XLII_nushi_Strike":0.5,
 
 		"XLII_nushi_mk2_Elite":0.75,
 		"XLII_nushi_mk2_Strike":0.75,
+
+		"XLII_yinde_Elite":0.75,
 
 		"fallback":{"combatMedium":1}
 	},
@@ -77,7 +81,13 @@
 	},
 	"carrierMedium":{
 		"XLII_shaobi_Elite":1,
-		"XLII_shaobi_Assault_fortysecond":0,
+		"XLII_shaobi_Strike":1,
+
+		"XLII_alrakis_Elite":1,
+		"XLII_alrakis_Strike":1,
+		
+		"XLII_shaobi_Assault_fortysecond":1,
+		"XLII_alrakis_Assault_fortysecond":1,
 
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":1}
@@ -86,7 +96,7 @@
 		"XLII_alwaid_Elite":1,
 		"XLII_alwaid_Strike":1,
 		
-		"XLII_alwaid_Assault_fortysecond":0,
+		"XLII_alwaid_Assault_fortysecond":1,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1}
@@ -119,7 +129,8 @@
 		"fallback":{"combatFreighterSmall":1}
 	},
 	"combatFreighterLarge":{
-		"XLII_eltanin_mk2_Elite":10,
+		"XLII_yunu_Elite":10,
+		"XLII_yunu_Strike":10,
 		
 		"fallback":{"combatFreighterMedium":1}
 	},
@@ -154,7 +165,8 @@
 		"fallback2":{"personnelLarge":1}
 	},
 	"personnelLarge":{
-		"XLII_eltanin_mk2_Elite":1,
+		"XLII_yunu_Elite":1,
+		"XLII_yunu_Strike":1,
 
 		"fallback":{"personnelMedium":1},
 		"fallback2":{"personnelSmall":1}
@@ -167,7 +179,8 @@
 		"fallback2":{"linerLarge":0.25}
 	},
 	"linerMedium":{
-		"XLII_eltanin_mk2_Elite":10,
+		"XLII_yunu_Elite":10,
+		"XLII_yunu_Strike":10,
 
 		"fallback":{"linerSmall":1},
 		"fallback2":{"linerLarge":0.5}
@@ -191,6 +204,7 @@
 	"utility":{
 		"XLII_kuma_Elite":1,
 		
-		"XLII_eltanin_mk2_Elite":0.5
+		"XLII_yunu_Elite":0.5,
+		"XLII_yunu_Strike":0.5,
 	}
 }

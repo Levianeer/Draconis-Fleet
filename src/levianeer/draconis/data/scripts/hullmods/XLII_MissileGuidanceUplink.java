@@ -23,8 +23,9 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
     // Lower values = more significant scaling with ammo count
     private static final float AMMO_SCALING_FACTOR = 0.005f;
 
-    // Track reload timers for each large missile weapon per ship
-    private final Map<String, Map<WeaponAPI, Float>> shipReloadTimers = new HashMap<>();
+    // Track reload timers for each large missile weapon per ship.
+    // float[0] = current countdown, float[1] = cached interval (avoids re-computing RoF)
+    private final Map<String, Map<WeaponAPI, float[]>> shipReloadTimers = new HashMap<>();
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
@@ -34,16 +35,16 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
 
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
-        if (ship == null || !ship.isAlive()) {
+        if (ship == null) return;
+
+        String shipKey = ship.getId();
+        if (!ship.isAlive()) {
+            shipReloadTimers.remove(shipKey);
             return;
         }
 
         // Get or create reload timer map for this ship
-        String shipKey = ship.getId();
-        if (!shipReloadTimers.containsKey(shipKey)) {
-            shipReloadTimers.put(shipKey, new HashMap<WeaponAPI, Float>());
-        }
-        Map<WeaponAPI, Float> reloadTimers = shipReloadTimers.get(shipKey);
+        Map<WeaponAPI, float[]> reloadTimers = shipReloadTimers.computeIfAbsent(shipKey, k -> new HashMap<>());
 
         // Process each weapon on the ship
         for (WeaponAPI weapon : ship.getAllWeapons()) {
@@ -60,16 +61,15 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
                 continue;
             }
 
-            // Initialize reload timer for this weapon if not already done
+            // Initialize reload timer for this weapon if not already done.
+            // float[0] = current countdown, float[1] = cached reload interval
             if (!reloadTimers.containsKey(weapon)) {
-                // Calculate reload interval based on weapon RoF and max ammo
                 // Formula: BASE_MULTIPLIER / (rof × (1 + maxAmmo × AMMO_SCALING_FACTOR))
                 // This ensures: more ammo = faster reload, but always slower than fire rate
                 float rof = weapon.getSpec().getDerivedStats().getRoF();
                 float maxAmmo = weapon.getMaxAmmo();
                 float reloadInterval = BASE_MULTIPLIER / (rof * (1f + maxAmmo * AMMO_SCALING_FACTOR));
-
-                reloadTimers.put(weapon, reloadInterval);
+                reloadTimers.put(weapon, new float[]{ reloadInterval, reloadInterval });
             }
 
             // Current ammo count
@@ -78,22 +78,15 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
 
             // Only reload if not at max ammo
             if (currentAmmo < maxAmmo) {
-                // Decrement timer
-                float timer = reloadTimers.get(weapon);
-                timer -= amount;
+                float[] timerData = reloadTimers.get(weapon);
+                timerData[0] -= amount;
 
-                if (timer <= 0f) {
-                    // Reload one missile
+                if (timerData[0] <= 0f) {
+                    // Reload one missile and reset to cached interval (no RoF recalculation)
                     weapon.setAmmo(currentAmmo + 1);
-
-                    // Reset timer - recalculate based on weapon RoF and ammo
-                    float rof = weapon.getSpec().getDerivedStats().getRoF();
-                    float reloadInterval = BASE_MULTIPLIER / (rof * (1f + maxAmmo * AMMO_SCALING_FACTOR));
-                    reloadTimers.put(weapon, reloadInterval);
-                } else {
-                    // Update timer
-                    reloadTimers.put(weapon, timer);
+                    timerData[0] = timerData[1];
                 }
+                // timerData mutated in-place; no put() needed
             }
         }
     }

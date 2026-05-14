@@ -1,8 +1,8 @@
 {
-  "hullName": "Eltanin Mk.II",
-  "hullId": "XLII_eltanin_mk2",
+  "hullName": "Yunu",
+  "hullId": "XLII_yunu",
   "hullSize": "CRUISER",
-  "spriteName": "graphics/ships/XLII_eltanin_mk2.png",
+  "spriteName": "graphics/ships/XLII_yunu.png",
   "style": "DRACONIS",
   "height": 287,
   "width": 218,

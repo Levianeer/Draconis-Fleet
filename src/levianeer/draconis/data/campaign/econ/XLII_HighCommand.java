@@ -2,9 +2,11 @@ package levianeer.draconis.data.campaign.econ;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.BattleAPI;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.CampaignEventListener.FleetDespawnReason;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FactionAPI.ShipPickMode;
+import com.fs.starfarer.api.campaign.PlanetAPI;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.listeners.FleetEventListener;
@@ -15,7 +17,7 @@ import com.fs.starfarer.api.impl.campaign.econ.impl.MilitaryBase.PatrolFleetData
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactory.PatrolType;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetParamsV3;
-import com.fs.starfarer.api.impl.campaign.fleets.PatrolAssignmentAIV4;
+import com.fs.starfarer.api.campaign.FleetAssignment;
 import com.fs.starfarer.api.impl.campaign.fleets.RouteManager;
 import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.OptionalFleetData;
 import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.RouteData;
@@ -28,11 +30,70 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.Pair;
+import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.ids.Factions;
 
+import java.awt.Color;
 import java.util.Random;
 
 public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner, FleetEventListener {
+
+    private static final float SHIELD_DEFENSE_MULT_BONUS = 1.5f;
+
+    private boolean isShieldActive() {
+        Object stored = Global.getSector().getMemoryWithoutUpdate().get(DraconManager.LEVEL_KEY);
+        int level = (stored instanceof Number) ? ((Number) stored).intValue() : 5;
+        return isFunctional() && level == 1;
+    }
+
+    private static void applyShieldVisuals(PlanetAPI planet) {
+        if (planet == null) return;
+        planet.getSpec().setShieldTexture(Global.getSettings().getSpriteName("industry", "shield_texture"));
+        planet.getSpec().setShieldThickness(0.1f);
+        planet.getSpec().setShieldColor(new Color(150, 200, 255, 160));
+        planet.applySpecChanges();
+    }
+
+    private static void unapplyShieldVisuals(PlanetAPI planet) {
+        if (planet == null) return;
+        planet.getSpec().setShieldTexture(null);
+        planet.getSpec().setShieldThickness(0f);
+        planet.getSpec().setShieldColor(null);
+        planet.applySpecChanges();
+    }
+
+    /**
+     * Evaluates whether the shield should be active and toggles both visuals and the stat modifier.
+     * Called by DraconManager on every level change (and raid overrides), and as a fallback in advance().
+     */
+    public void syncShieldState() {
+        PlanetAPI planet = market.getPlanetEntity();
+        boolean shieldShouldBeActive = isShieldActive();
+        boolean shieldIsActive = planet != null && planet.getSpec().getShieldTexture() != null;
+        if (shieldShouldBeActive == shieldIsActive) return;
+
+        if (shieldShouldBeActive) {
+            market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
+                    .modifyMult(getModId() + "_shield", 1f + SHIELD_DEFENSE_MULT_BONUS, getNameForModifier() + " (DEAD LIGHT)");
+            applyShieldVisuals(planet);
+        } else {
+            market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
+                    .unmodifyMult(getModId() + "_shield");
+            unapplyShieldVisuals(planet);
+        }
+    }
+
+    /**
+     * Called by DraconManager after any level change to immediately sync all HighCommand instances.
+     */
+    public static void syncAllHighCommandShields() {
+        for (MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
+            Industry ind = m.getIndustry("XLII_highcommand");
+            if (ind instanceof XLII_HighCommand hq) {
+                hq.syncShieldState();
+            }
+        }
+    }
 
     @Override
     public boolean isHidden() {
@@ -64,7 +125,17 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
         modifyStabilityWithBaseMod();
 
         market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
-                .modifyFlat(getModId(), 1000, getNameForModifier());
+                .modifyFlat(getModId(), 500, getNameForModifier());
+
+        if (isShieldActive()) {
+            market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
+                    .modifyMult(getModId() + "_shield", 1f + SHIELD_DEFENSE_MULT_BONUS, getNameForModifier() + " (DEAD LIGHT)");
+            applyShieldVisuals(market.getPlanetEntity());
+        } else {
+            market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
+                    .unmodifyMult(getModId() + "_shield");
+            unapplyShieldVisuals(market.getPlanetEntity());
+        }
 
         MemoryAPI memory = market.getMemoryWithoutUpdate();
         Misc.setFlagWithReason(memory, MemFlags.MARKET_PATROL, getModId(), true, -1);
@@ -82,6 +153,8 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
         super.unapply();
 
         market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD).unmodifyFlat(getModId());
+        market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD).unmodifyMult(getModId() + "_shield");
+        unapplyShieldVisuals(market.getPlanetEntity());
 
         MemoryAPI memory = market.getMemoryWithoutUpdate();
         Misc.setFlagWithReason(memory, MemFlags.MARKET_PATROL, getModId(), false, -1);
@@ -159,6 +232,8 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
         if (!isFunctional()) return;
 
+        syncShieldState(); // fallback for save/load; primary sync is driven by DraconManager
+
         float days = Global.getSector().getClock().convertToDays(amount);
 
         float spawnRate = 1f;
@@ -179,12 +254,12 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
         if (tracker.intervalElapsed()) {
             String sid = getRouteSourceId();
 
-            int heavy = getCount(PatrolType.HEAVY);
+            int heavy = getCount(PatrolType.COMBAT);
             int maxHeavy = 1; // Number of fleets
 
             if (heavy >= maxHeavy) return;
 
-            PatrolType type = PatrolType.HEAVY;
+            PatrolType type = PatrolType.COMBAT;
             PatrolFleetData custom = new PatrolFleetData(type);
 
             OptionalFleetData extra = new OptionalFleetData(market);
@@ -248,7 +323,7 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
         Random random = route.getRandom();
 
-        float combat = 800f; // Difficulty
+        float combat = 1600f; // Difficulty
         float tanker = Math.round(random.nextFloat()) * 10f;
         float freighter = Math.round(random.nextFloat()) * 10f;
         String fleetType = type.getFleetType();
@@ -306,10 +381,14 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
         market.getContainingLocation().addEntity(fleet);
         fleet.setFacing((float) Math.random() * 360f);
-        // this will get overridden by the patrol assignment AI, depending on route-time elapsed etc
         fleet.setLocation(market.getPrimaryEntity().getLocation().x, market.getPrimaryEntity().getLocation().y);
 
-        fleet.addScript(new PatrolAssignmentAIV4(fleet, route));
+        float totalDays = 0;
+        for (RouteSegment seg : route.getSegments()) {
+            totalDays += seg.daysMax;
+        }
+        fleet.getAI().addAssignment(FleetAssignment.ORBIT_AGGRESSIVE, market.getPrimaryEntity(), totalDays, null);
+        fleet.getAI().addAssignment(FleetAssignment.GO_TO_LOCATION_AND_DESPAWN, market.getPrimaryEntity(), 1000f, null);
 
         if (custom.spawnFP <= 0) {
             custom.spawnFP = fleet.getFleetPoints();

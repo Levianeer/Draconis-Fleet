@@ -1,8 +1,8 @@
 {
   "name": "Octantis Uplink Subsystem",
-  "personalities": ["reckless"],
+  "personalities": ["aggressive"],
   "gender": ["n"],
-  "chance": 1.0,
+  "chance": 0.5,
   "talkativeness": 0.4,
   "categoryTags": [],
 

@@ -151,7 +151,7 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
         if (active) {
             modify(id, stats, effectLevel);
             // Refresh every frame with a short duration as a safety net in case the system
-            // is interrupted — the flag will expire on its own if apply() stops being called.
+            // is interrupted - the flag will expire on its own if apply() stops being called.
             ship.getAIFlags().setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, 0.5f);
             needsUnapply = true;
         } else {

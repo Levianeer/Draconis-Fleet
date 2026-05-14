@@ -223,11 +223,14 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		float empRange = BASE_EMP_RANGE * (0.5f + 0.5f * fluxScaling);
 		float arcDamage = BASE_EMP_AMOUNT * fluxScaling;
 		float arcThickness = EMP_THICKNESS * (0.75f + 0.5f * fluxScaling);
+		float empRangeSq = empRange * empRange;
 
 		// Damage nearby enemy ships
 		for (ShipAPI target : engine.getShips()) {
 			if (target.isHulk() || target.getOwner() == ship.getOwner()) continue;
-			if (Misc.getDistance(loc, target.getLocation()) > empRange) continue;
+			float dx = loc.x - target.getLocation().x;
+			float dy = loc.y - target.getLocation().y;
+			if (dx * dx + dy * dy > empRangeSq) continue;
 
 			for (int i = 0; i < SHIP_EMP_ARCS; i++) {
 				engine.spawnEmpArc(
@@ -249,7 +252,9 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		for (CombatEntityAPI projectile : engine.getProjectiles()) {
 			if (projCount >= MAX_PROJ_AFFECTED) break;
 			if (projectile.getOwner() == ship.getOwner()) continue;
-			if (Misc.getDistance(loc, projectile.getLocation()) > empRange) continue;
+			float dx = loc.x - projectile.getLocation().x;
+			float dy = loc.y - projectile.getLocation().y;
+			if (dx * dx + dy * dy > empRangeSq) continue;
 
 			engine.spawnEmpArc(
 					ship, loc, ship, projectile,

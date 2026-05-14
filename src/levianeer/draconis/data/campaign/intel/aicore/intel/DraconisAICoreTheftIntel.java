@@ -41,9 +41,8 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         this.actionType = actionType;
         this.wasPlayerMarket = isPlayerMarket;
         this.theftDate = Global.getSector().getClock().getTimestamp();
-
-        // Start expiration timer
-        endAfterDelay();
+        Global.getSector().getIntelManager().addIntel(this, false);
+        Global.getSector().addScript(this);
     }
 
     @Override
@@ -307,14 +306,25 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         return 21; // Keep intel around for 3 weeks
     }
 
-    /**
-     * Check if this intel is older than the expiration period
-     * Used for cleanup of intel that didn't expire properly in old versions
-     * @return true if intel should be expired
-     */
     public boolean isExpired() {
         float daysSinceTheft = Global.getSector().getClock().getElapsedDaysSince(theftDate);
         return daysSinceTheft > getBaseDaysAfterEnd();
+    }
+
+    @Override
+    protected void notifyEnded() {
+        super.notifyEnded();
+        Global.getSector().removeScript(this);
+    }
+
+    @Override
+    public boolean shouldRemoveIntel() {
+        if (isEnded()) return true;
+        if (isExpired()) {
+            endImmediately(); // triggers notifyEnded() -> removeScript
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -3,6 +3,7 @@ package levianeer.draconis.data.scripts.ai;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
+import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
@@ -30,9 +31,7 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
         tracker.advance(amount);
 
         if (tracker.intervalElapsed()) {
-            if (system.getCooldownRemaining() > 0) return;
-            if (system.isOutOfAmmo()) return;
-            if (system.isActive()) return;
+            if (!AIUtils.canUseSystemThisFrame(ship)) return;
 
             float currentValue = calculateMissileThreats();
 

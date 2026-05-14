@@ -24,7 +24,8 @@ If all armor modules are destroyed, no hull regeneration occurs.",Regenerates hu
 Headache ECM Suite,XLII_headacheecm,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_HeadacheECMSuite,Hidden hullmod for managing the Headache ECM Suite aura. Description created in script.,,,graphics/icons/missions/spysat.png
 ,,,,,,,,,,,,,,,,,,,
 #Commissioned Crews,,,,,,,,,,,,,,,,,,,
-Alliance Trained Crews,CHM_XLII_draconis,,,Draconis,,,,,TRUE,,0,0,0,0,data.scripts.hullmods.CHM_XLII_draconis,"Draconis Alliance crews receive specialised training in electronic warfare and benefit from improved support management, reducing combat readiness lost per deployment by %s and increasing the chance for incoming missiles to lose lock by %s.",Increase ECM effectiveness against missiles and decreases CR loss per deployment.,,graphics/hullmods/crest_draconis.png
+Alliance Trained Crews,CHM_XLII_draconis,,,Draconis,,,,,TRUE,,0,0,0,0,data.scripts.hullmods.CHM_XLII_draconis,"Draconis Alliance crews are trained in emissions discipline and signal masking, reducing the ship's detection range by %s.",Reduces detection range by 10%.,,graphics/hullmods/crest_draconis.png
 ,,,,,,,,,,,,,,,,,,,
 #Hidden,,,,,,,,,,,,,,,,,,,
 Phase Torpedo Array Automod,XLII_phasetorparray_automod,,,Draconis,,,10000,,TRUE,TRUE,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_PhaseTorpedoArrayAutomod,Hidden hullmod for ensuring charges are always even when gaining additional charges for symmetrical torpedo spawning.,Phase Torpedo Array system charges rounded to even numbers.,,graphics/icons/skills/hypercognition.png
+Draconis Wing Hull,XLII_draconiswinghull,,,Draconis,,,10000,,TRUE,TRUE,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_DraconisWingHull,Hidden hullmod on Draconis fighter hulls providing reactive time dilation when projectiles are on intercept vectors.,,,graphics/icons/skills/hypercognition.png

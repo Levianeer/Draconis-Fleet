@@ -8,6 +8,8 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import exerelin.campaign.intel.invasion.InvasionIntel;
 import exerelin.campaign.intel.raid.NexRaidIntel;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
+import levianeer.draconis.data.campaign.econ.XLII_HighCommand;
+import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -42,6 +44,7 @@ public class DraconManager implements EveryFrameScript {
     public static final String LEVEL_KEY = "$dracon_currentLevel";
     public static final String PREVIOUS_LEVEL_KEY = "$dracon_previousLevel";
     public static final String BASELINE_KEY = "$dracon_baselineMarkets";
+    public static final String RAID_SAVED_LEVEL_KEY = "$dracon_raidSavedLevel";
 
     private static final String CONDITION_ID = "draconis_dracon";
     private static final String STEEL_CURTAIN_ID = "draconis_steel_curtain";
@@ -100,6 +103,9 @@ public class DraconManager implements EveryFrameScript {
 
         // Manage conditions on all markets
         updateMarketConditions();
+
+        // Sync HighCommand shield state immediately on level change
+        XLII_HighCommand.syncAllHighCommandShields();
 
         // Update character placements
         XLII_Characters.updateCharacterPlacements();
@@ -177,6 +183,38 @@ public class DraconManager implements EveryFrameScript {
     }
 
     // =========================================================================
+    // Raid Level Override
+    // =========================================================================
+
+    /**
+     * Saves the current DRACON level and forces it to the given value.
+     * Called when a punitive expedition targeting the player starts.
+     */
+    public static void saveAndForceLevel(int level) {
+        Object current = Global.getSector().getMemoryWithoutUpdate().get(LEVEL_KEY);
+        int currentLevel = (current instanceof Number) ? ((Number) current).intValue() : 5;
+        Global.getSector().getMemoryWithoutUpdate().set(RAID_SAVED_LEVEL_KEY, currentLevel);
+        Global.getSector().getMemoryWithoutUpdate().set(LEVEL_KEY, level);
+        log.info("Draconis: Raid started - forced DRACON level from " + currentLevel + " to " + level);
+        XLII_HighCommand.syncAllHighCommandShields();
+    }
+
+    /**
+     * Restores the DRACON level saved by saveAndForceLevel().
+     * Called when the punitive expedition ends (any outcome).
+     * No-op if no level was saved (safe to call multiple times).
+     */
+    public static void restoreRaidSavedLevel() {
+        if (!Global.getSector().getMemoryWithoutUpdate().contains(RAID_SAVED_LEVEL_KEY)) return;
+        Object saved = Global.getSector().getMemoryWithoutUpdate().get(RAID_SAVED_LEVEL_KEY);
+        int savedLevel = (saved instanceof Number) ? ((Number) saved).intValue() : 5;
+        Global.getSector().getMemoryWithoutUpdate().set(LEVEL_KEY, savedLevel);
+        Global.getSector().getMemoryWithoutUpdate().unset(RAID_SAVED_LEVEL_KEY);
+        log.info("Draconis: Raid ended - restored DRACON level to " + savedLevel);
+        XLII_HighCommand.syncAllHighCommandShields();
+    }
+
+    // =========================================================================
     // Threat Score Calculation
     // =========================================================================
 
@@ -223,6 +261,13 @@ public class DraconManager implements EveryFrameScript {
 
         // Raw contributions
         int rawScore = warScore + lostScore + instabilityScore + fleetWeaknessScore + invasionScore;
+
+        // Active AIO crisis: bonus scales with each invasion stage (+25 / +50 / +75)
+        DraconisAIOTracker aioTracker = DraconisAIOTracker.get();
+        if (aioTracker != null) {
+            int defeats = aioTracker.getExpeditionDefeats();
+            rawScore += config.getActiveCrisisBonus() * (defeats + 1);
+        }
 
         // Apply decay
         boolean atWar = warCount > 0;

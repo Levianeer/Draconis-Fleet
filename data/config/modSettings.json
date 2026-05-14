@@ -2,7 +2,7 @@
 	"mining_ship_strengths":{
 		"XLII_drone_utility":1,
 		"XLII_alsafi":12,
-		"XLII_eltanin_mk2":24,
+		"XLII_yunu":24,
 	},
 	"mining_hidden_ships_and_weapons":["XLII_drone_utility"],
 

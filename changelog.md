@@ -1,3 +1,119 @@
+Version 0.7.0
+- WARNING: Breaking change - NOT compatible with saves from 0.6.12 or earlier.
+  - Internal restructuring: Colony crisis system.
+  - Corrected Yunu hull ID: XLII_eltanin_mk2 -> XLII_yunu.
+
+NEW CONTENT:
+- NEW: Naginata MLRS Launcher - large guided torpedo salvo launcher.
+  - Fires a burst of 3 guided torpedoes.
+- REWORK: Alliance Intelligence Office crisis, replacing the old crisis system.
+  - Threat score advances monthly based on AI core usage and DDA relations.
+  - Four phases: WATCHING (0-34) -> ACTIVE_MEASURES (35-64) -> LIABILITY (65-99) -> INVASION (100).
+  - Colony debuffs (accessibility and stability penalties) begin at WATCHING.
+  - Industry disruptions begin at tracker >= 25, scaling in severity toward 100.
+  - Shadow fleets spawn and scale during ACTIVE_MEASURES and above.
+  - At tracker = 100 a punitive expedition is dispatched; defeating it resets the tracker.
+    - Beating three strikes in a row completes the crisis and grants an armaments export bonus.
+      - Reward is WIP. Not really sure what to give at this stage.
+  - A deal is available from an Office intelligence agent at player colony bars.
+    - This will suppress the crisis, as long as you pay the monthly 'tithe'.
+    - Additionally, being commisioned also supresses the crisis.
+- NEW: Sigma Octantis skill - Can now clone enemy ships.
+  - "We call this a difficulty tweak."
+- NEW: Blind Eye questline - An AIO-focused multi-act questline. (WIP - content subject to change.)
+  - Unlocks after reading the Fafnir Gate logs and discussing them with Fleet Admiral August.
+  - An AIO agent makes contact at Ring-Port and briefs you on a covert assault mission.
+  - Assault Ring-Port with marines to capture it for August's loyalist faction ahead of the AIO.
+  - Completing the questline unlocks the Pristine Nanoforge questline.
+- NEW: Alrakis-class Carrier - a cruiser-class battlecarrier.
+- NEW: Yinde-class Cruiser - an adanced highly mobile cruiser.
+- NEW: Tyl-class Attack Drone - a temporal strike drone used by the [REDACTED].
+  - Blueprint obtainable as a reward from the [REDACTED] bounty.
+- NEW: AIO Operative - a post-Blind Eye contact available at Ring-Port who can exchange credits for story points.
+
+BALANCE CHANGES:
+- Trebuchet Cannon:
+  - Damage 500 -> 475.
+  - Chargeup 0 -> 0.5s (to support new laser sight FX).
+  - Base value 5000 -> 3200.
+- Twin Spear Cannon:
+  - Range 1000 -> 900.
+- Sovnya Burst Lance:
+  - Range 1000 -> 900.
+- Halberd-class Torpedo:
+  - Flight time 9 -> 12.
+  - Removed DANGEROUS flag.
+- Halberd-class Torpedo Pod:
+  - Flight time 9 -> 16.
+  - Removed DANGEROUS flag.
+- Pulsar Jammer System:
+  - Cooldown 24 -> 18.
+- Flux Cycler System (Nushi):
+  - Reworked: was a toggle with 30s cooldown; now has 2.5s active phase, 0.25s charge-up, and 10s cooldown.
+    - Now is a 'damage absorption/buff system'
+- Time Dash System (Asuia):
+  - Active duration 1.5 -> 2s.
+  - Cooldown 6 -> 0. (Only based on charges now)
+- Time Slip System (Sunsetter):
+  - Now drains 1 flux/sec while active.
+  - Added 0.25 f/u (base cap) cost per use.
+  - Charge-up 0.25 -> 4s; active duration 5.5 -> 7s; cooldown 15 -> 12s.
+- Nushi:
+  - Hitpoints 6500 -> 8000.
+  - Max speed 75 -> 85.
+  - Shield type FRONT -> OMNI (arc 360 -> 240).
+  - Shield efficiency 1.1 -> 1.0.
+  - DP 30 -> 25.
+- Nushi Mk.II:
+  - Hitpoints 6000 -> 8000.
+  - Armor rating 750 -> 800.
+  - Flux dissipation 550 -> 525.
+  - Shield type FRONT -> OMNI (arc 360 -> 240).
+  - Shield efficiency 1.0 -> 1.2.
+  - DP 25 -> 22.
+- Kuma:
+  - System changed: Fortress Shield -> Maneuvering Jets.
+  - Shield arc 240 -> 300.
+  - Shield efficiency 1.4 -> 1.2.
+- Yunu:
+  - Armor rating 850 -> 750.
+- Sunsetter:
+  - Max turn rate 40 -> 15.
+  - Turn acceleration 35 -> 20.
+- Sigma Octantis (AI core officer):
+  - Automated Ships deployment point multiplier 4x -> 1x.
+  - Reduced chatter frequency.
+- XLII Fleet no longer partially inherits the full DDA ship blueprint pool; uses its own curated set.
+- Incomprehensible Horrors: hull restoration per activation 20% -> 10%.
+- Commissioned Crews - Alliance Trained Crews (hullmod): replaced CR loss reduction and ECCM bonus with flat -10% detection range.
+
+MINOR IMPROVEMENTS:
+- Hopefully, improved the visual clarity of the AoE ship systems (Breach Jammer, Pulsar Jammer & Blackout Jammer).
+- Trebuchet Cannon now uses it's own weapon effect script instead of the Culverin's.
+- Added some more FXs to the Trebuchet Cannon, now has a cute little aiming laser.
+- Reworked the FXs for the Pulsar Jammer.
+  - "Your elemental power is GREEN."
+  - Tell me if this is too annoying, I'll tone it down.
+- Shadow fleet frequency reduced:
+  - Max concurrent patrols 12 -> 9.
+  - Spawn frequency multiplier 50 -> 45.
+    - Additionally, restricted to while the colony crisis is active.
+- Title screen ship pool expanded to include all standard ship classes.
+- Changed Itoron planet cloud texture.
+- Kori now has ambient radio chatter SFX.
+- Sunsetter bounty now accessible at lower DDA rep (1.0 -> 0.5) and player level (15 -> 10).
+- Sunsetter bounty now grants a small reputation reward and reduced preset fleet (4 Asuia ships -> 2).
+- DDA Nexerelin colony expedition frequency reduced.
+- Special forces and vengeance fleet size multipliers increased (1.5x -> 2.0x each).
+- Diplomacy stance updated: increased Tri-Tachyon friendliness; added Hegemony wariness.
+
+BUG FIXES:
+- Fixed Tianlong (XLII) variant not applying correctly.
+- Fixed SLAP-ER torpedo incorrectly applying Mist Cloud on-hit effect.
+- Fixed AI core theft not detecting AI core personas installed as market administrators.
+  - Real AI core admins were never stolen (this was a workaround while I figured out how to safely remove AI admins).
+- Fixed Draconis Remnant raid fleets generating AI cores when not actively on an expedition.
+
 Version 0.6.12 (Save-compatible with 0.6.11)
 BUG FIXES:
 - Fixed rules.csv stuff.

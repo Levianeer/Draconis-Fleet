@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 25,
-    "fluxVents": 13,
+    "fluxCapacitors": 0,
+    "fluxVents": 9,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
@@ -17,37 +17,41 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0013": "XLII_bardiche_large",
-                "WS0014": "XLII_bardiche_large"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_bardiche",
-                "WS0006": "XLII_bardiche",
-                "WS0011": "XLII_bardiche",
-                "WS0012": "XLII_bardiche"
+                "WS0013": "XLII_naginata",
+                "WS0014": "XLII_naginata"
             }
         },
         {
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0003": "XLII_halberd",
-                "WS0004": "XLII_halberd"
+                "WS0011": "XLII_halberd_pod",
+                "WS0012": "XLII_halberd_pod"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0025": "XLII_longsword"}
+            "weapons": {
+                "WS0003": "XLII_bardiche_single",
+                "WS0004": "XLII_bardiche_single"
+            }
         },
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0026": "XLII_twinspear"}
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "XLII_halberd_pod",
+                "WS0006": "XLII_halberd_pod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0025": "XLII_longsword",
+                "WS0026": "XLII_longsword"
+            }
         },
         {
             "autofire": true,
@@ -75,7 +79,7 @@
     ],
     "wings": [
         "XLII_aldibain_wing",
-        "XLII_aldibain_wing",
+        "XLII_eldsich_wing",
         "XLII_eldsich_wing",
         "XLII_eldsich_wing"
     ]

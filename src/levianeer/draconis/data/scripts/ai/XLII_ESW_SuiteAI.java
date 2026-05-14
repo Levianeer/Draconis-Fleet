@@ -1,5 +1,6 @@
 package levianeer.draconis.data.scripts.ai;
 
+import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.util.IntervalUtil;
@@ -23,7 +24,7 @@ public class XLII_ESW_SuiteAI implements ShipSystemAIScript {
         tracker.advance(amount);
 
         if (tracker.intervalElapsed()) {
-            if (system.getCooldownRemaining() > 0 || system.isOutOfAmmo() || system.isActive()) return;
+            if (!AIUtils.canUseSystemThisFrame(ship)) return;
 
             ShipAPI bestTarget = findBestTarget();
             if (bestTarget != null) {

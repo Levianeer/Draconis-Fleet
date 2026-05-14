@@ -5,10 +5,10 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
-import com.fs.starfarer.api.util.WeightedRandomPicker;
-import levianeer.draconis.data.campaign.intel.aicore.config.DraconisAICoreConfig;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
+import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +24,8 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * When player donates cores, they get installed on Draconis facilities
  */
 public class DraconisAICoreDonationListener implements EveryFrameScript {
+
+    private static final Logger log = Global.getLogger(DraconisAICoreDonationListener.class);
 
     private float checkInterval = 0f;
     private static final float CHECK_FREQUENCY = 1.0f; // Check every day
@@ -78,7 +80,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             lastAlphaCores = currentAlpha;
             lastBetaCores = currentBeta;
             lastGammaCores = currentGamma;
-            Global.getLogger(this.getClass()).info(
+            log.info(
                     "Initialized donation tracker - Alpha: " + currentAlpha +
                     ", Beta: " + currentBeta + ", Gamma: " + currentGamma
             );
@@ -91,15 +93,16 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         int newGamma = Math.max(0, currentGamma - lastGammaCores);
 
         if (newAlpha > 0 || newBeta > 0 || newGamma > 0) {
-            Global.getLogger(this.getClass()).info("========================================");
-            Global.getLogger(this.getClass()).info("=== PLAYER AI CORE DONATION DETECTED ===");
-            Global.getLogger(this.getClass()).info("Alpha Cores: " + newAlpha);
-            Global.getLogger(this.getClass()).info("Beta Cores: " + newBeta);
-            Global.getLogger(this.getClass()).info("Gamma Cores: " + newGamma);
+            log.info("========================================");
+            log.info("=== PLAYER AI CORE DONATION DETECTED ===");
+            log.info("Alpha Cores: " + newAlpha);
+            log.info("Beta Cores: " + newBeta);
+            log.info("Gamma Cores: " + newGamma);
 
+            applyDonationTrackerEffect(newAlpha, newBeta, newGamma);
             handleDonatedCores(newAlpha, newBeta, newGamma);
 
-            Global.getLogger(this.getClass()).info("========================================");
+            log.info("========================================");
         }
 
         // Update tracked counts
@@ -133,22 +136,22 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         List<Industry> availableIndustries = findAvailableDraconisIndustries();
         List<Industry> upgradeableIndustries = findUpgradeableDraconisIndustries();
 
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "Found " + availableAdminMarkets.size() + " markets for admin installation"
         );
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "Found " + availableIndustries.size() + " empty industries"
         );
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "Found " + upgradeableIndustries.size() + " upgradeable industries"
         );
 
         if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            // No slots available — persist all donated cores to stockpile for future installation
+            // No slots available - persist all donated cores to stockpile for future installation
             for (String coreId : coresToInstall) {
                 DraconisAICoreStockpile.add(coreId, 1);
             }
-            Global.getLogger(this.getClass()).info(
+            log.info(
                     "No available Draconis facilities - " + coresToInstall.size() + " donated core(s) added to stockpile"
             );
             return;
@@ -168,9 +171,10 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             List<String> displacedCores = new ArrayList<>();
             List<String> failedCores = new ArrayList<>();
 
-            // Track industries and markets to remove AFTER the loop to avoid ConcurrentModificationException
+            // Track industries to remove AFTER the loop to avoid ConcurrentModificationException.
+            // Admin markets are removed immediately (not deferred) since we iterate remainingCores,
+            // not availableAdminMarkets, so there is no CME risk there.
             Set<Industry> industriesToRemove = new HashSet<>();
-            Set<MarketAPI> marketsToRemove = new HashSet<>();
 
             int installedThisRound = 0;
 
@@ -182,11 +186,14 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                     MarketAPI targetMarket = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
                     if (targetMarket != null && DraconisAICorePriorityManager.installAICoreAdmin(targetMarket, coreId, DRACONIS)) {
                         installationMap.computeIfAbsent(targetMarket, k -> new ArrayList<>()).add(coreId);
-                        marketsToRemove.add(targetMarket);
+                        // Remove immediately - not deferred - because we iterate remainingCores,
+                        // not availableAdminMarkets, so there is no CME risk. Deferred removal
+                        // would let the same market absorb multiple cores in one round.
+                        availableAdminMarkets.remove(targetMarket);
                         installed++;
                         installedThisRound++;
                         coreInstalled = true;
-                        Global.getLogger(this.getClass()).info(
+                        log.info(
                                 "Installed " + coreId + " as administrator at " + targetMarket.getName()
                         );
                     }
@@ -203,7 +210,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                         String displacedCore = null;
                         if (targetIndustry.getAICoreId() != null && !targetIndustry.getAICoreId().isEmpty()) {
                             displacedCore = targetIndustry.getAICoreId();
-                            Global.getLogger(this.getClass()).info(
+                            log.debug(
                                     "Displacing " + displacedCore + " from " + targetIndustry.getCurrentName() +
                                     " with better " + coreId
                             );
@@ -223,7 +230,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                             // If we displaced a core, collect it for the next round
                             if (displacedCore != null) {
                                 displacedCores.add(displacedCore);
-                                Global.getLogger(this.getClass()).info(
+                                log.debug(
                                         "Re-queuing displaced " + displacedCore + " for installation elsewhere"
                                 );
                             }
@@ -236,8 +243,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                 }
             }
 
-            // NOW safe to remove industries and markets after iteration completes
-            availableAdminMarkets.removeAll(marketsToRemove);
+            // Safe deferred removal for industries - inner loop is finished
             availableIndustries.removeAll(industriesToRemove);
             upgradeableIndustries.removeAll(industriesToRemove);
 
@@ -248,7 +254,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             // If nothing was installed this round and we have failed cores, stop to prevent infinite loop
             if (installedThisRound == 0 && !failedCores.isEmpty()) {
                 for (String failedCore : failedCores) {
-                    Global.getLogger(this.getClass()).warn(
+                    log.warn(
                             "Could not install " + failedCore + " - no suitable facilities available"
                     );
                 }
@@ -258,31 +264,31 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         }
 
         if (round >= maxRounds) {
-            Global.getLogger(this.getClass()).error(
+            log.error(
                     "Core installation exceeded maximum rounds - potential infinite loop prevented"
             );
         }
 
-        // Persist donated cores that couldn't be installed — the daily drain in advance() will retry
+        // Persist donated cores that couldn't be installed - the daily drain in advance() will retry
         if (!finalFailedCores.isEmpty()) {
             for (String failedCore : finalFailedCores) {
                 DraconisAICoreStockpile.add(failedCore, 1);
             }
-            Global.getLogger(this.getClass()).info(
+            log.info(
                     "Persisted " + finalFailedCores.size() + " uninstalled donated core(s) to stockpile"
             );
         }
 
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "=== DONATION PROCESSING COMPLETE ==="
         );
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "Total donated: " + (alphaCount + betaCount + gammaCount)
         );
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "Successfully installed: " + installed
         );
-        Global.getLogger(this.getClass()).info(
+        log.info(
                 "Installed at " + installationMap.size() + " Draconis facilities"
         );
 
@@ -305,9 +311,11 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             // Exclude Kori - the capital should not have AI administrator enhancement
             if ("kori_market".equals(market.getId())) continue;
 
+            // Skip markets with no administrator - installAICoreAdmin would fail silently
+            if (market.getAdmin() == null) continue;
+
             // Skip if admin already has HYPERCOGNITION
-            if (market.getAdmin() != null &&
-                market.getAdmin().getStats().getSkillLevel(com.fs.starfarer.api.impl.campaign.ids.Skills.HYPERCOGNITION) > 0) {
+            if (market.getAdmin().getStats().getSkillLevel(com.fs.starfarer.api.impl.campaign.ids.Skills.HYPERCOGNITION) > 0) {
                 continue; // Already enhanced with Alpha Core
             }
 
@@ -378,7 +386,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         industry.setAICoreId(coreId);
 
         if (coreId.equals(industry.getAICoreId())) {
-            Global.getLogger(this.getClass()).info(
+            log.debug(
                     "INSTALLED: " + coreId + " on " + industry.getCurrentName() +
                     " at " + industry.getMarket().getName()
             );
@@ -386,7 +394,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         }
 
         industry.setAICoreId(oldCore);
-        Global.getLogger(this.getClass()).error(
+        log.error(
                 "FAILED to install " + coreId + " on " + industry.getCurrentName()
         );
         return false;
@@ -401,7 +409,39 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                 com.fs.starfarer.api.util.Misc.getPositiveHighlightColor()
         );
 
-        Global.getLogger(this.getClass()).info("Sent donation notification to player");
+        log.info("Sent donation notification to player");
+    }
+
+    /**
+     * Applies an immediate AIO tracker reduction when the player donates cores.
+     * Called before installation so the reduction fires regardless of whether
+     * Draconis has available slots.
+     */
+    private void applyDonationTrackerEffect(int alphaCount, int betaCount, int gammaCount) {
+        DraconisAIOTracker tracker = DraconisAIOTracker.get();
+        if (tracker == null) {
+            log.info("DDA: Donation tracker effect skipped - AIO tracker not yet active");
+            return;
+        }
+
+        int alphaPts = getIntSetting("draconisAIODonationAlphaPoints", -15);
+        int betaPts  = getIntSetting("draconisAIODonationBetaPoints",  -10);
+        int gammaPts = getIntSetting("draconisAIODonationGammaPoints",  -5);
+
+        int totalDelta = (alphaCount * alphaPts) + (betaCount * betaPts) + (gammaCount * gammaPts);
+        if (totalDelta == 0) return;
+
+        tracker.addOneTimeFactor(totalDelta, "AI core donated to DDA");
+        log.info("DDA: Donation tracker effect applied: " + totalDelta
+                + " (alpha=" + alphaCount + " beta=" + betaCount + " gamma=" + gammaCount + ")");
+    }
+
+    private int getIntSetting(String key, int defaultValue) {
+        try {
+            return (int) Global.getSettings().getFloat(key);
+        } catch (Exception e) {
+            return defaultValue;
+        }
     }
 
     /**
@@ -412,7 +452,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
     public static void recordCoreDonation(String coreId, int count) {
         if (count <= 0) return;
         DraconisAICoreStockpile.add(coreId, count);
-        Global.getLogger(DraconisAICoreDonationListener.class).info(
+        log.info(
                 "Recorded donation: " + count + "x " + coreId +
                 " (stockpile total: " + DraconisAICoreStockpile.getCount(coreId) + ")"
         );

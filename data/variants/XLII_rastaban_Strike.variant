@@ -1,0 +1,44 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 0,
+    "fluxVents": 11,
+    "goalVariant": true,
+    "hullId": "XLII_rastaban",
+    "hullMods": [
+        "targetingunit",
+        "escort_package"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_rastaban_Strike",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "hveldriver",
+                "WS0011": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0006": "heavymauler"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
+                "WS0004": "vulcan"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "XLII_swordbreaker"}
+        }
+    ],
+    "wings": []
+}

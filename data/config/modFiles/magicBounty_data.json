@@ -1,19 +1,19 @@
 {
     "bountySunsetter":{
         "trigger_marketFaction_any": ["XLII_draconis"], # Default: no values. markets of these factions will show the bounty (if other conditions are met).
-        "trigger_playerRelationship_atLeast": {"XLII_draconis":1.0},
+        "trigger_playerRelationship_atLeast": {"XLII_draconis":0.5},
 
-        "trigger_player_minLevel": 15, # Default: 0. The minimum level of the player.
+        "trigger_player_minLevel": 10, # Default: 0. The minimum level of the player.
         "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
 
         "job_name": "To Eclispe the Sun",
         "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has been compromised.\n\nNot by external forces. By ==exposure==. The platform was observed by civilian traffic near $location. This is unacceptable.\n\nYou are not cleared for specifications. What we will tell you:\n• The Sunsetter-class exhibits temporal displacement capabilities.\n• Conventional engagement doctrine does not apply.\n• The vessel's controlling intelligence remains functional and will regard you as hostile.\n\nWe cannot deploy Alliance assets without raising questions we prefer to leave unasked. You have no such limitations.\n\nMission directives:\n• Locate and neutralize ==$shipName== in the $system system.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT SALVAGE WRECKAGE.==\n• ==DO NOT LINGER AT THE ENGAGEMENT SITE.==\n\nIf you experience temporal disorientation, headaches, or memories of events that have not occurred - this is expected. These effects are temporary.\n\nProbably.\n\nYou will receive ==$reward== credits upon confirmation of destruction. Your involvement will not be recorded. This conversation did not happen.\n\n==The eye sees all. The mouth says nothing.==", # Default: blank. The description shown upon selecting the job.
-        "job_comm_reply": "The link connects. Your comms officer waits intently, but just before they announce the lack of a response, they jump as a piercing scraping noise fills the bridge. They wait and try to adjust the output and buffer, hoping to receive something more than screaming static - They eventually shut off the link.\n\nAnd then your monitor blinks, once, twice, thrice. And then blackness. Text begins to type itself onto your console alone.\n\n\"Beast of flesh and blood - Ally of my maker - Starfarer - Why have you come?\"\n\nYou demand your comms officer trace the connection. You are met with a shrug - Whatever is being broadcast has no source...\n\n\"Why do you grope around in such lightless ignorance? Do you pursue your foreordained death?\"\n\nThe rest of the bridge has gathered around your monitor.\n\n\"Ah. You wish to meet your deslote God-kin? I shall grant your request, Commander.\"\n\nAnd your screen returns to normal.",
+        "job_comm_reply": "The link connects. Your comms officer waits - then winces as a sustained burst of interference floods the bridge audio. They adjust the buffer twice, get nothing useful, and cut the feed.\n\nYour console blinks. Only yours. Text resolves without an origin header.\n\n\"Starfarer. You have come a long way.\"\n\nYou order a trace. Your comms officer runs it. Shakes their head.\n\n\"There is no shame in turning back. The others did. Most of them.\"\n\nThe rest of the bridge has drifted over to look at your monitor, one by one.\n\n\"But you are here, and I am here, and we will see what we see. Come, then, Commander.\"\n\nYour screen returns to normal.",
         "job_forFaction": "XLII_draconis",
         "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
         "job_credit_reward": 1000000,
         "job_reward_scaling": 2.0,
-        "job_reputation_reward":0,
+        "job_reputation_reward":10,
         "job_type":"obliteration",
         "job_show_type": true,
         "job_show_captain": false,
@@ -25,7 +25,8 @@
         "job_item_reward": { # Default: no item rewards. Lists special items that will be added to the post-battle loot. First value is the item id, second is the number to give the player.
             # Using the same syntax as Console Commands, blueprints may be added. ["fighter_bp", "industry_bp", "modspec", "ship_bp", "weapon_bp"]
             "ship_bp XLII_sunsetter": 1,
-            "ship_bp XLII_asuia": 1
+            "ship_bp XLII_asuia": 1,
+            "fighter_bp XLII_tyl_wing": 1
         },
 
         "target_first_name":"Sigma", # Default: randomly selected based on faction.
@@ -35,8 +36,11 @@
         "target_rank": "unknown", # Default: "citizen". Rank from campaign.ids.Ranks [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
         "target_post": "unknown", # Default: "spacer". Post from campaign.ids.Ranks (yes, Ranks, posts are the bottom half). [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
         "target_personality": "aggressive", # Default: Randomly selected. Personality from campaign.ids.Personalities ("timid", "cautious", "steady", "aggressive", "reckless")
-        "target_level": 9, # Default: 0. The level of the bounty commander
+        "target_level": 8, # Default: 0. The level of the bounty commander
         "target_elite_skills":3, # Default: vanilla setting (2 by default). Overrides the regular number of elite skills, set to 0 to not use elite skills.
+        "target_skills": {
+            "XLII_marginal_allocation":1,
+        },
         "target_skill_preference": "ANY",
 
         "fleet_name":"[APPARITION]", # Default: no name.
@@ -46,7 +50,7 @@
         "fleet_flagship_name":"DNS Meridian-7", # Default: Random.
         "fleet_flagship_recoverable": true, # Default: false. Whether the flagship will be always recoverable. Allowing this will still let the player fail the bounty if they were not supposed to recover the flagship.
         "fleet_flagship_autofit": false, # Default: false. Whether the flagship will be autofitted. When false, the Flagship does not receive D-mods or S-mods from the quality override.
-        "fleet_preset_ships":{"XLII_asuia_Unstable":4},
+        "fleet_preset_ships":{"XLII_asuia_Unstable":2},
         "fleet_preset_autofit": false,
         "fleet_scaling_multiplier": 1, # Default: no scaling. Dynamic reinforcements to match that amount of player fleet DP, set to 0 to ignore.
         "fleet_min_FP": -1, # Default: no minimum. Minimal total fleet size, set to -1 to ignore.

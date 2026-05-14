@@ -4,14 +4,17 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.graphics.SpriteAPI;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
-import com.fs.starfarer.api.util.Misc;
 import org.lazywizard.lazylib.MathUtils;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
-import org.magiclib.util.MagicRender;
 import java.awt.Color;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import static com.fs.starfarer.api.impl.combat.EntropyAmplifierStats.KEY_TARGET;
 
@@ -24,11 +27,19 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
     private static final float EMP_RADIUS_SCALE = 0.3f;
     private static final float EMP_COOLDOWN = 0.75f; // Minimum delay between EMP arcs per target
 
-    private static final float ROTATION_SPEED = 5f; // degrees per second
-    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
-    private static final Color RING_COLOR = new Color(90, 165, 255, 55);
+    private static final float ROTATION_SPEED = -50f; // degrees per second
+    private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f; // ring art is smaller than PNG bounds
+    private static final Color RING_COLOR = new Color(155, 255, 0, 10);
+    private static final float MAX_RANGE_SQ = MAX_RANGE * MAX_RANGE;
+    private static final Color EMP_ARC_FRINGE = new Color(100, 180, 255, 180);
+    private static final Color EMP_ARC_CORE = new Color(200, 200, 255, 220);
 
     private CombatFleetManagerAPI.AssignmentInfo defendAssignment = null;
+    private boolean assignmentGiven = false;
+    private SpriteAPI ringSprite = null;
+
+    private static final Set<ShipAPI> globallyNotifiedTargets =
+            Collections.newSetFromMap(new WeakHashMap<>());
 
     private final Map<ShipAPI, Float> affectedShips = new HashMap<>();
 
@@ -40,19 +51,34 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
         CombatEngineAPI engine = Global.getCombatEngine();
         float currentTime = engine.getTotalElapsedTime(false);
 
-        // Ring FX: effectLevel scales 0->1 on IN and 1->0 on OUT for grow/shrink animation
+        // Ring FX: rendered in screen space so it's pixel-perfect at any zoom level.
+        // effectLevel fades the ring in on IN and out on OUT.
         if (effectLevel > 0f) {
-            float angle = currentTime * ROTATION_SPEED;
-            float scaledSize = MAX_RANGE * 2f * SPRITE_ALIGNMENT_SCALE * effectLevel;
-            SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring");
-            MagicRender.singleframe(
-                    ringSprite,
-                    ship.getLocation(),
-                    new Vector2f(scaledSize, scaledSize),
-                    angle,
-                    RING_COLOR,
-                    true
-            );
+            ViewportAPI view = engine.getViewport();
+            Vector2f loc = ship.getLocation();
+            if (view.isNearViewport(loc, MAX_RANGE)) {
+                float screenScale = Global.getSettings().getScreenScaleMult();
+                float radius = (MAX_RANGE + ship.getCollisionRadius()) * 2f * SPRITE_ALIGNMENT_SCALE * screenScale * effectLevel / view.getViewMult();
+                float angle = currentTime * ROTATION_SPEED;
+                if (ringSprite == null) ringSprite = Global.getSettings().getSprite("fx", "XLII_radar_ring");
+                ringSprite.setSize(radius, radius);
+                ringSprite.setColor(RING_COLOR);
+                ringSprite.setAdditiveBlend();
+                GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+                GL11.glMatrixMode(GL11.GL_PROJECTION);
+                GL11.glPushMatrix();
+                GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+                GL11.glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -1, 1);
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glEnable(GL11.GL_BLEND);
+                ringSprite.setAngle(angle);
+                ringSprite.renderAtCenter(
+                        view.convertWorldXtoScreenX(loc.x) * screenScale,
+                        view.convertWorldYtoScreenY(loc.y) * screenScale
+                );
+                GL11.glPopMatrix();
+                GL11.glPopAttrib();
+            }
         }
         List<ShipAPI> enemies = engine.getShips();
 
@@ -61,8 +87,11 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
                 continue;
             }
 
-            float distance = Misc.getDistance(ship.getLocation(), target.getLocation());
-            if (distance > MAX_RANGE) continue;
+            float dx = target.getLocation().x - ship.getLocation().x;
+            float dy = target.getLocation().y - ship.getLocation().y;
+            float distSq = dx * dx + dy * dy;
+            if (distSq > MAX_RANGE_SQ) continue;
+            float distance = (float) Math.sqrt(distSq);
 
             // Get the reduction percentage based on distance
             float reductionFactor = getReductionFactor(distance);
@@ -89,7 +118,10 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
 
             if (!affectedShips.containsKey(target)) {
                 affectedShips.put(target, currentTime);
-                engine.addFloatingText(target.getLocation(), "Weapon's Jammed!", 24f, TEXT_COLOR, target, 0.5f, 0.5f);
+                if (target.getParentStation() == null && !globallyNotifiedTargets.contains(target)) {
+                    globallyNotifiedTargets.add(target);
+                    engine.addFloatingText(target.getLocation(), "Weapon's Jammed!", 24f, TEXT_COLOR, target, 0.5f, 0.5f);
+                }
                 spawnEmpArcEffect(engine, target);
             } else {
                 float lastTriggered = affectedShips.get(target);
@@ -99,7 +131,7 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
                 }
             }
         }
-        if (ship.getOwner() != 0) {
+        if (ship.getOwner() != 0 && !assignmentGiven) {
             CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
             CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
             DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
@@ -110,6 +142,7 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
                         false
                 );
                 taskManager.giveAssignment(member, defendAssignment, false);
+                assignmentGiven = true;
             }
         }
     }
@@ -135,6 +168,8 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
             defendAssignment = null;
         }
 
+        assignmentGiven = false;
+        globallyNotifiedTargets.removeAll(affectedShips.keySet());
         affectedShips.clear();
     }
 
@@ -154,8 +189,8 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
                     point1, target,
                     point2, target,
                     20f,
-                    new Color(100, 180, 255, 180),
-                    new Color(200, 200, 255, 220)
+                    EMP_ARC_FRINGE,
+                    EMP_ARC_CORE
             );
         }
     }

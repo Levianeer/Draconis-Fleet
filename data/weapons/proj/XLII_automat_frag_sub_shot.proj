@@ -1,0 +1,62 @@
+{
+	"id":"XLII_automat_frag_sub_shot",
+	"specClass":"projectile",
+	"spawnType":"PLASMA",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"length":35.0,
+	"hitGlowRadius":50,
+	"width":7.5,
+	"fadeTime":0.20,
+	"fringeColor":[255,235,155,205],
+	"coreColor":[255,205,155,200],	
+	"textureScrollSpeed":64.0,
+	"pixelsPerTexel":5.0,
+	"useHitGlowWhenDealingDamage":false, # using the scripted explosion instead
+	"behaviorSpec":{"behavior":"PROXIMITY_FUSE",
+					"shotRangeVariance":0.75,
+					"range":25,
+					"explosionSpec":{"duration":0.12f,
+									 "radius":55,
+									 "coreRadius":30, # full damage within core radius - at least equal to proximity fuse range
+									 "collisionClass":PROJECTILE_FF,
+									 "collisionClassByFighter":PROJECTILE_FIGHTER,
+									 "particleSizeMin":7.0,
+									 "particleSizeRange":4.0,
+									 "particleDuration":2,
+									 "particleCount":25,
+									 "particleColor":[255,225,125,255],
+									 "explosionColor":[255,225,125,125],
+									 "sound":"devastator_explosion"},
+					},
+	"passThroughMissiles":true,
+	"bulletSprite":"graphics/missiles/missile_sabot_warhead.png",
+	"engineSpec":{"turnAcc":0,
+				  "turnRate":0,
+				  #"acc":35,
+				  "acc":500,
+				  "dec":0},
+	"engineSlots":[{"id":"ES1",
+					"loc":[-11, 0],
+					#"loc":[-14, 0],
+				    #"style":"TORPEDO",
+				    "style":"CUSTOM",
+					"styleSpec":{
+						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+						"engineColor":[255,100,100,255],
+						"contrailDuration":2,
+						"contrailWidthMult":1.5,
+						"contrailWidthAddedFractionAtEnd":1,  # can be negative. makes trail spread out/narrow at the end
+						"contrailMinSeg":5, # min segment length, in pixels
+						"contrailMaxSpeedMult":0f,
+						"contrailAngularVelocityMult":0.5f,
+						"contrailSpawnDistMult":0f, # how far away from engine it starts
+						"contrailColor":[155,192,255,255],
+						"glowSizeMult":2.5,
+						"glowAlternateColor":[155,192,255,255],
+						"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+					},
+				    "width":10.0,
+				    "length":80.0,
+				    "angle":180.0}]
+}

@@ -14,8 +14,8 @@
 
 	"draconisPatrolDifficultyBase": 4,					# Base patrol difficulty	#	Default : 4
 	"draconisPatrolDifficultyMult": 4.0,				# Patrol difficulty scaling with market presence	#	Default : 4.0
-	"draconisMaxFleets": 12,							# Maximum concurrent patrols per system	#	Default : 12
-	"draconisSpawnFrequencyMult": 50.0,					# Spawn frequency multiplier (higher = more frequent spawns, competes with other factions)	#	Default : 50.0
+	"draconisMaxFleets": 9,								# Maximum concurrent patrols per system	#	Default : 9
+	"draconisSpawnFrequencyMult": 45.0,					# Spawn frequency multiplier (higher = more frequent spawns, competes with other factions)	#	Default : 45.0
 
 	# ========================================
 	# PUNITIVE EXPEDITIONS (COLONY CRISIS)
@@ -24,7 +24,7 @@
 	# Formula: difficulty = FleetSizeMult × Base × (MinFactor + MaxFactor × MarketPresence)
 
 	# --- Timing ---
-	"draconisExpeditionEventFrequency": 5.0,			# How often expeditions can trigger (higher = less frequent)	#	Default : 5.0
+	"draconisExpeditionEventFrequency": 5.0,			# Likelihood the crisis triggers (lower = less likely)	#	Default : 5.0
 	"draconisExpeditionPrepDaysMin": 14.0,				# Minimum days to prepare expedition	#	Default : 14.0
 	"draconisExpeditionPrepDaysVariance": 14.0,			# Random variance (0 to this value) added to prep days	#	Default : 14.0
 	"draconisExpeditionPayloadDaysMin": 27.0,			# Minimum days for expedition to travel/operate	#	Default : 27.0
@@ -34,35 +34,67 @@
 	"draconisExpeditionDifficultyBase": 7.0,			# Base strength multiplier	#	Default : 7.0
 	"draconisExpeditionDifficultyMinFactor": 1.0,		# Minimum difficulty factor (always applied)	#	Default : 1.0
 	"draconisExpeditionDifficultyMaxFactor": 4.0,		# Maximum difficulty factor (scales with player presence)	#	Default : 4.0
-	"draconisExpeditionMinTotalDifficulty": 40,			# Minimum total difficulty to spawn expedition	#	Default : 40
-	"draconisExpeditionMaxTotalDifficulty": 60,			# Maximum total difficulty cap	#	Default : 60
+
+	# --- Defeat-scaled difficulty bounds --- (replaces draconisExpeditionMinTotalDifficulty / Max)
+	"draconisExpeditionDiffMin1": 28,					# Expedition 1 - minimum total difficulty (floor, always fires) - targets ~4 QUALITY+SMOD_3 fleets, ≈ TT merc attack	#	Default : 28
+	"draconisExpeditionDiffMax1": 44,					# Expedition 1 - maximum total difficulty cap - cap at ~5 fleets	#	Default : 44
+	"draconisExpeditionDiffMin2": 38,					# Expedition 2 - minimum total difficulty - targets ~5 fleets (midpoint TT->Remnant)	#	Default : 38
+	"draconisExpeditionDiffMax2": 54,					# Expedition 2 - maximum total difficulty cap - cap at ~6 fleets	#	Default : 54
+	"draconisExpeditionDiffMin3": 46,					# Expedition 3 - minimum total difficulty - targets ~6 fleets, ≈ Remnant nexus attack	#	Default : 46
+	"draconisExpeditionDiffMax3": 64,					# Expedition 3 - maximum total difficulty cap - cap at ~7 fleets	#	Default : 64
+
+	# --- Post-defeat tracker reset floors ---
+	"draconisExpeditionReset1": 50,						# Tracker value after first defeat (mid-ACTIVE_MEASURES)	#	Default : 50
+	"draconisExpeditionReset2": 65,						# Tracker value after second defeat (low-LIABILITY)	#	Default : 65
 
 	# ========================================
-	# CRISIS TRIGGERS
+	# AIO TRACKER (COLONY CRISIS)
 	# ========================================
-	# These settings control what triggers the Colony Crisis event
+	# The Alliance Intelligence Officer Tracker - the primary DDA crisis mechanic.
+	# Advances monthly based on player AI core usage and DDA relations.
+	# Commission pauses the tracker. Defeating the invasion at 100 resets it and grants a reward.
 
-	# --- General ---
-	"draconisReputationThreshold": 1.0,					# Required reputation (with commission) to avoid hostilities	#	Default : 1.0
+	# --- Monthly increment formula ---
+	# increment = max(baseFloor, aiCoreContrib * relationsMultiplier)
+	# aiCoreContrib = sum(weightedCores per market) * aiCoreRate   (Alpha=3, Beta=2, Gamma=1, Admin=1)
+	# relationsMultiplier = 1 - clamp(ddaRelation, 0, 1) * relationsMaxReduction
 
-	# --- Heavy Armaments Competition ---
-	# Producing heavy armaments competes with Draconis and raises hostility
-	"draconisMinCompetitorProduction": 4,				# Minimum production units to trigger competition	#	Default : 4
-	"draconisMinCompetitorMarketSize": 4,				# Minimum market size to be considered a competitor	#	Default : 4
-	"draconisCompetitionProgressRate": 1.3,             # Crisis progress per unit produced	#	Default : 1.3
-	"draconisCompetitionMagnitude": 0.1,				# Shadow Fleet spawn rate per unit in system	#	Default : 0.02
-	"draconisCompetitionMaxMagnitude": 2.0,				# Maximum spawn rate cap per system	#	Default : 0.5
+	"draconisAIOBaseFloor": 0.5,						# Minimum increment per month - never zero while crisis is active	#	Default : 0.5
+	"draconisAIOAICoreRate": 0.4,						# Increment per weighted AI core per month	#	Default : 0.4
+	"draconisAIOProgressUnit": 10,					# Diminishing-returns unit for AI core contrib (matching Hegemony)	#	Default : 10
+	"draconisAIOProgressMult": 0.75,				# Decay factor per unit (matching Hegemony)		#	Default : 0.75
+	"draconisAIORelationsMaxReduction": 0.7,			# Max fraction by which high DDA rep can reduce the increment (0.7 = 70% reduction at max rep)	#	Default : 0.7
 
-	# --- AI Core Usage ---
-	# Using AI cores makes your colonies high-value targets
-	# Cores are weighted: Alpha=3x, Beta=2x, Gamma=1x
-	"draconisMinAICoreThreshold": 3.0,					# Minimum weighted AI cores to trigger crisis (Alpha=3, Beta=2, Gamma=1)	#	Default : 3.0
-	"draconisAICoreProgressRate": 0.75,					# Crisis progress per weighted AI core	#	Default : 0.75
-	"draconisAICoreMagnitude": 0.25,					# Shadow Fleet spawn rate per weighted core	#	Default : 0.25
-	"draconisAICoreMaxMagnitude": 3.0,					# Maximum spawn rate cap per system	#	Default : 0.75
+	# --- Shadow fleet scaling ---
+	"draconisAIOMaxFleetMagnitude": 4.0,				# Maximum shadow fleet magnitude at tracker = 100 (linearly scales from 34->100)	#	Default : 4.0
+
+	# --- Colony debuffs (applied to ALL player markets) ---
+	# Accessibility: linear 0->100 maps to 0->max (e.g. 50 pts = 25%, 100 pts = 50%)
+	# Stability: scales 15->25 to 0->max, capped at max after tracker = 25
+	"draconisAIOMaxAccessibilityPenalty": 0.5,			# Maximum accessibility penalty (0.50 = -50%)	#	Default : 0.5
+	"draconisAIOMaxStabilityPenalty": 2.0,				# Maximum stability penalty (flat)	#	Default : 2.0
+
+	# --- AI core industry disruption (tracker >= 25, one random industry at a time) ---
+	"draconisAIODisruptionDaysMin": 12.0,				# Disruption duration at progress=25 (shortest)	#	Default : 12.0
+	"draconisAIODisruptionDaysMax": 60.0,				# Disruption duration at progress=100 (longest)	#	Default : 60.0
+	"draconisAIODisruptionCooldownMin": 7.0,			# Minimum days between disruptions	#	Default : 7.0
+	"draconisAIODisruptionCooldownMax": 45.0,			# Maximum days between disruptions	#	Default : 45.0
+
+	# --- One-time factors (combat & donation) ---
+	"draconisAIOCombatHostilePoints": 5,				# Tracker increase when player fights any DDA/XLII fleet	#	Default : 5
+	"draconisAIOCombatShadowPoints": 3,					# Tracker increase when player defeats a shadow fleet (AIO notes capability)	#	Default : 3
+	"draconisAIODonationAlphaPoints": -15,				# Tracker reduction per Alpha core donated to DDA	#	Default : -15
+	"draconisAIODonationBetaPoints": -10,				# Tracker reduction per Beta core donated to DDA	#	Default : -10
+	"draconisAIODonationGammaPoints": -5,				# Tracker reduction per Gamma core donated to DDA	#	Default : -5
+
+	# --- Periodic payment (bar event) ---
+	# Recurring monthly arrangement offered by DDA intelligence contact at player-owned colony bars.
+	# Monthly cost = baseCost * max(1, sum of AI core weights across player colonies).
+	# Core weights: gamma = 1x, beta = 2x, alpha = 3x. Minimum charge is 1x base (no cores deployed).
+	"draconisAIOPaymentCost": 2500,					# Base cost unit per AI core weight	#	Default : 2500
 
 	# --- Rewards ---
-	# Beating the Crisis gives you this buff to production
+	# Beating the invasion at 100 gives you this buff to production
 	"draconisArmamentsExportBonus": 0.25,				# Heavy armaments export bonus after defeating expedition (25% = 0.25)	#	Default : 0.25
 
 	# ========================================
@@ -149,7 +181,8 @@
 			"level1Min": 90							# DRACON 1	#	Default : 90
 		},
 		"instabilityThreshold": 3,					# Markets with base stability at or below this are counted as unstable	#	Default : 3
-		"checkIntervalDays": 14						# How often to recalculate (in days)	#	Default : 14
+		"checkIntervalDays": 14,					# How often to recalculate (in days)	#	Default : 14
+		"activeCrisisBonus": 25						# Per-stage bonus added to threat score while AIO Tracker crisis is active (×1/×2/×3 for each invasion stage)	#	Default : 25
 	},
 
 	# ========================================
@@ -225,12 +258,22 @@
 	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
 
 	"graphics":{
-		"intel":{
-			"XLII_ai_found":"graphics/icons/intel/XLII_ai_found.png",
-		},
 		"misc":{
 			"draconis_luna_icon":"graphics/hullmods/crest_draconis.png",
 			"XLII_marginal_allocation_icon":"graphics/icons/hullsys/XLII_marginal_allocation.png",
+		},
+		"intel":{
+			"XLII_ai_found":"graphics/icons/intel/XLII_ai_found.png",
+			"XLII_smuggling":"graphics/icons/missions/smuggle.png",
+			"XLII_disruption_found":"graphics/icons/missions/tactical_bombardment.png",
+			"XLII_security_codes":"graphics/icons/missions/security_codes.png"
+		},
+		"events":{
+			"XLII_aio_stage":"graphics/icons/campaign/hostile_activity_start.png",
+			"XLII_hostile_activity_1":"graphics/icons/campaign/hostile_activity1.png",
+			"XLII_hostile_activity_2":"graphics/icons/campaign/hostile_activity2.png",
+			"XLII_hostile_activity_3":"graphics/icons/campaign/hostile_activity3.png",
+			"XLII_hostile_activity_4":"graphics/icons/campaign/hostile_activity4.png",
 		},
 		"missiles":{
 			"XLII_phasetorp_glow1":"graphics/missiles/XLII_phasetorp_glow1.png",
@@ -246,6 +289,7 @@
 			"XLII_sovnya_ring1":"graphics/fx/XLII_sovnya_ring1.png",
 			"XLII_sovnya_ring2":"graphics/fx/XLII_sovnya_ring2.png",
 			"XLII_sovnya_ring3":"graphics/fx/XLII_sovnya_ring3.png",
+			"XLII_radar_ring":"graphics/fx/XLII_radar_ring.png",
 			"XLII_jammer_ring":"graphics/fx/XLII_jammer_ring.png",
 			"XLII_jammer_ring2":"graphics/fx/XLII_jammer_ring2.png",
 			"XLII_jammer_ring_alt":"graphics/fx/XLII_jammer_ring_alt.png",
@@ -260,9 +304,16 @@
 			"XLII_kori":"graphics/mod/planets/XLII_kori.jpg",
 			"XLII_vorium":"graphics/mod/planets/XLII_vorium.jpg"
 		},
+		"illustrations":{
+			"XLII_orbital":"graphics/illustrations/orbital.jpg",
+			"XLII_raid_preparation":"graphics/illustrations/raid_preparation.jpg",
+			"XLII_covert_squad":"graphics/illustrations/covert_squad.jpg",
+			"XLII_facility_explosion":"graphics/illustrations/facility_explosion.jpg",
+		},
 		"characters":{
 			"XLII_sigma_octantis":"graphics/portraits/characters/XLII_sigma_octantis.png",
 			"XLII_unknown":"graphics/portraits/characters/XLII_unknown.png",
+			"XLII_portrait_generic":"graphics/portraits/XLII_portrait_generic.png",
 		}
 	}
 }

@@ -13,7 +13,8 @@
   "viewOffset": 0,
   "builtInMods": [
     "no_weapon_flux",
-    "terminator_core"
+    "terminator_core",
+    "XLII_draconiswinghull"
   ],
   "builtInWeapons": {
     "WS0001": "blinker_red",

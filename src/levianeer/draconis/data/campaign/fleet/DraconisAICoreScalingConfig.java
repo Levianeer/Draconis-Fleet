@@ -18,7 +18,7 @@ public class DraconisAICoreScalingConfig {
     // System settings
     private boolean enabled = true;
     private float testCycleOverride = -1f; // For testing: override actual game cycle (-1 = disabled)
-    private float recheckIntervalDays = 120f; // How often to recheck fleets for new empty slots
+    private float recheckIntervalDays = 35f; // How often to recheck fleets for new empty slots
 
     // Cycle thresholds for scaling curve
     // NOTE: These are absolute cycle numbers (campaigns start at ~206)
@@ -208,7 +208,6 @@ public class DraconisAICoreScalingConfig {
         if (total > 0) {
             gammaWeight /= total;
             betaWeight /= total;
-            alphaWeight /= total;
         }
 
         // Roll for core type using weighted random

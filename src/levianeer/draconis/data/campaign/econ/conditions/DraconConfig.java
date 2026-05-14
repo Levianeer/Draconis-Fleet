@@ -37,6 +37,7 @@ public class DraconConfig {
     // Other settings
     private int instabilityThreshold = 4;
     private float checkIntervalDays = 30f;
+    private int activeCrisisBonus = 35;
 
     public static DraconConfig getInstance() {
         if (instance == null) {
@@ -86,6 +87,7 @@ public class DraconConfig {
 
             instabilityThreshold = config.optInt("instabilityThreshold", 4);
             checkIntervalDays = (float) config.optDouble("checkIntervalDays", 30.0);
+            activeCrisisBonus = config.optInt("activeCrisisBonus", 35);
 
             log.info("Draconis: DRACON config loaded successfully");
             log.info("Draconis:   Enabled: " + enabled);
@@ -121,6 +123,7 @@ public class DraconConfig {
 
     public int getInstabilityThreshold() { return instabilityThreshold; }
     public float getCheckIntervalDays() { return checkIntervalDays; }
+    public int getActiveCrisisBonus() { return activeCrisisBonus; }
 
     /**
      * Maps a threat score (0-100) to a DRACON level (1-5).

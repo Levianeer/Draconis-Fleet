@@ -21,5 +21,6 @@
 					   "particleCount":9,
 					   "particleColor":[255,255,255,155]},
 	"projectileSpecId":"XLII_kestros_shot",  # projectile that will be fired
-	"fireSoundTwo":"XLII_estocflak_fire"
+	"fireSoundOne":"thumper_spinup",
+	"fireSoundTwo":"thumper_fire",
 }

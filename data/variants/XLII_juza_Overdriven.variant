@@ -1,10 +1,13 @@
 {
     "displayName": "Overdriven",
     "fluxCapacitors": 0,
-    "fluxVents": 3,
-    "goalVariant": true,
+    "fluxVents": 28,
     "hullId": "XLII_juza",
-    "hullMods": ["safetyoverrides"],
+    "hullMods": [
+        "unstable_injector",
+        "auxiliarythrusters",
+        "stabilizedshieldemitter"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juza_Overdriven",
@@ -13,13 +16,13 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "mjolnir",
-                "WS0020": "mjolnir"
+                "WS0003": "XLII_twinspear",
+                "WS0020": "XLII_twinspear"
             }
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0001": "sabot",
                 "WS0021": "sabot",
@@ -36,14 +39,6 @@
                 "WS0015": "XLII_estocflak",
                 "WS0024": "XLII_estocflak",
                 "WS0025": "XLII_estocflak"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0018": "heavymg",
-                "WS0019": "heavymg"
             }
         },
         {

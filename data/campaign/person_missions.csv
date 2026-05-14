@@ -1,0 +1,2 @@
+mission id,person id,tagsAll,tagsAny,tagsNotAny,tags,freq,min timeout,max timeout,min rep,max rep,importance,reqMissionAny,reqMissionAll,reqMissionNone,icon,plugin
+BlindEyeQuestMission,,,,,"priority, non_repeatable",0,,,,,,,,,graphics/icons/missions/data_retrieval.png,levianeer.draconis.data.campaign.intel.blind_eye.BlindEyeQuestMission

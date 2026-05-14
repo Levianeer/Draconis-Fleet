@@ -4,6 +4,7 @@ XLII_excalibur_wing,XLII_rastaban_mrm,"no_drop, no_sell",0,,0,0,BOX,0,0,,2,SUPPO
 XLII_drone_utility_wing,XLII_drone_utility_Fighter,"stay_in_front_of_ship, auto_fighter, no_drop, no_sell",0,,0,0,BOX,0,500,,6,SUPPORT,Drone,10,0,,,,,,,,,,,,,17
 XLII_drone_assault_wing,XLII_drone_assault,"stay_in_front_of_ship, auto_fighter, no_drop, no_sell",0,,0,0,BOX,0,500,,2,SUPPORT,Drone,12,0,,,,,,,,,,,,,
 XLII_nodus_wing,XLII_nodus_Bomber,"XLII_fighter_bp, bomber, bomber5, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing",3,,6,15,V,6000,1200,600,1,BOMBER,Strike Drone,20,10000,,,,,,,,,,,,,711000
+XLII_tyl_wing,XLII_tyl_Fighter,"auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, attack_at_an_angle, independent_of_carrier, restricted, hide_in_codex",3,,6,10,CLAW,100000,600,600,2,FIGHTER,Attack Drone,20,20000,,,,,,,,,,,,,29
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Fighters,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 XLII_aldibain_wing,XLII_aldibain_Fighter,"XLII_fighter_bp, fighter, fighter4,",1,,6,11,V,4000,800,750,3,FIGHTER,Heavy Fighter,12,5000,,,,,,,,,,,,,711000

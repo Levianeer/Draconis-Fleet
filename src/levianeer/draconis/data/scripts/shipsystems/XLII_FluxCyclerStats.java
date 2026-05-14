@@ -1,143 +1,143 @@
 package levianeer.draconis.data.scripts.shipsystems;
 
-import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
+import com.fs.starfarer.api.combat.DamageAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipwideAIFlags;
+import com.fs.starfarer.api.combat.listeners.DamageTakenModifier;
 import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
+import org.lwjgl.util.vector.Vector2f;
 
-public class XLII_FluxCyclerStats extends BaseShipSystemScript {
+public class XLII_FluxCyclerStats extends BaseShipSystemScript implements DamageTakenModifier {
 
     // ==================== TUNING PARAMETERS ====================
 
-    // Flux drain rate as a multiplier of the ship's current flux dissipation.
-    // Net flux gain per second = dissipation × (DRAIN_MULTIPLIER - 1).
-    private static final float DRAIN_MULTIPLIER = 1.5f;
+    // Damage reduction applied to the shield during the active window.
+    private static final float DAMAGE_MULT = 1f;
 
-    // Hard safety cutoff: force-deactivates the system when flux reaches this level.
-    private static final float SAFETY_FLUX_CUTOFF = 0.5f;
+    // Raw incoming damage absorbed by the shield needed for the maximum weapon buff.
+    private static final float MAX_RAW_DAMAGE = 1000f;
 
-    public static final float FLUX_REDUCTION = 100f;
+    // Maximum weapon damage percent bonus at full buff.
+    private static final float MAX_DAMAGE_BOOST = 50f;
 
-    private static final float PROJECTILE_SPEED_BONUS = 100f;
-    private static final float FIRE_RATE_BOOST = 20f;
+    // Maximum fire rate mult bonus at full buff.
+    private static final float MAX_ROF_BONUS = 1f;
 
-    // Passive bonuses (when system is NOT active)
-    private static final float PASSIVE_SPEED_BOOST = 10f;
-    private static final float PASSIVE_ROF_PENALTY = -20f;
+    // ==================== INSTANCE STATE ====================
 
-    private boolean needsUnapply = false;
+    private boolean listenerRegistered = false;
+    private boolean isTracking = false;
+    private float accumulatedDamage = 0f;
+    private float buffDamage = 0f;
+    private float currentBuffLevel = 0f; // cached for getStatusData()
 
     @Override
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
         if (ship == null) return;
 
-        boolean active = state == State.IN || state == State.ACTIVE || state == State.OUT;
+        if (!listenerRegistered) {
+            ship.addListener(this);
+            listenerRegistered = true;
+        }
 
-        // Blended stats - smoothly interpolate between passive and active values every frame.
-        float rofBonus = PASSIVE_ROF_PENALTY + (FIRE_RATE_BOOST - PASSIVE_ROF_PENALTY) * effectLevel;
-        stats.getBallisticRoFMult().modifyPercent(id, rofBonus);
-        stats.getEnergyRoFMult().modifyPercent(id, rofBonus);
-
-        // Passive-only stats - fade out as system activates
-        stats.getMaxSpeed().modifyPercent(id, PASSIVE_SPEED_BOOST * (1f - effectLevel));
-
-        // Active-only stats + flux drain
-        if (active) {
-            modify(id, stats, effectLevel, ship);
-            // Refresh every frame with a short duration as a safety net in case the system
-            // is interrupted - the flag will expire on its own if apply() stops being called.
-            ship.getAIFlags().setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, 0.5f);
-            needsUnapply = true;
-        } else {
-            if (needsUnapply) {
-                unmodify(id, stats, ship);
-                ship.getAIFlags().unsetFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF);
-                needsUnapply = false;
+        if (state == State.IN || state == State.ACTIVE) {
+            if (!isTracking) {
+                accumulatedDamage = 0f;
+                isTracking = true;
             }
+            applyFortressShield(stats, id, effectLevel);
+        } else if (state == State.OUT) {
+            if (isTracking) {
+                buffDamage = accumulatedDamage;
+                isTracking = false;
+            }
+            applyFortressShield(stats, id, effectLevel);
+        } else { // IDLE or COOLDOWN
+            isTracking = false;
+            stats.getShieldDamageTakenMult().unmodify(id);
+            stats.getShieldUpkeepMult().unmodify(id);
+            applyDecayingBuff(stats, id, ship);
         }
     }
 
-    private void modify(String id, MutableShipStatsAPI stats, float effectLevel, ShipAPI ship) {
-        // Hard safety cutoff - deactivate before applying any effects or drain.
-        if (ship.getFluxTracker().getFluxLevel() >= SAFETY_FLUX_CUTOFF) {
-            ship.getSystem().deactivate();
+    private void applyFortressShield(MutableShipStatsAPI stats, String id, float effectLevel) {
+        stats.getShieldDamageTakenMult().modifyMult(id, 1f - DAMAGE_MULT * effectLevel);
+        stats.getShieldUpkeepMult().modifyMult(id, 0f);
+    }
+
+    private void applyDecayingBuff(MutableShipStatsAPI stats, String id, ShipAPI ship) {
+
+        float mult = 1f + MAX_ROF_BONUS * currentBuffLevel;
+
+        String buffId = id + "_buff";
+        if (buffDamage <= 0f) {
+            clearBuff(stats, buffId);
+            currentBuffLevel = 0f;
             return;
         }
 
-        // Clamp to a small positive floor - exactly 0 seems to break weapons with chargeup times?
-        float fluxMult = Math.max(0.01f, 1f - (FLUX_REDUCTION / 100f) * effectLevel);
-        stats.getEnergyWeaponFluxCostMod().modifyMult(id, fluxMult);
-        stats.getBallisticWeaponFluxCostMod().modifyMult(id, fluxMult);
-        stats.getBeamWeaponFluxCostMult().modifyMult(id, fluxMult);
+        float cooldown = ship.getSystem().getCooldown();
+        float remaining = ship.getSystem().getCooldownRemaining();
+        float decayFraction = (cooldown > 0f) ? (remaining / cooldown) : 0f;
+        currentBuffLevel = Math.min(1f, buffDamage / MAX_RAW_DAMAGE) * decayFraction;
 
-        stats.getProjectileSpeedMult().modifyPercent(id, PROJECTILE_SPEED_BONUS * effectLevel);
+        if (currentBuffLevel <= 0f) {
+            clearBuff(stats, buffId);
+            return;
+        }
 
-        // Inject flux drain: dissipation × multiplier per second.
-        // Passive dissipation continues to operate, partially offsetting the drain.
-        // Net effective gain = dissipation × (DRAIN_MULTIPLIER - 1) per second.
-        CombatEngineAPI engine = Global.getCombatEngine();
-        if (engine == null || engine.isPaused()) return;
+        stats.getBallisticWeaponDamageMult().modifyPercent(buffId, MAX_DAMAGE_BOOST * currentBuffLevel);
+        stats.getEnergyWeaponDamageMult().modifyPercent(buffId, MAX_DAMAGE_BOOST * currentBuffLevel);
 
-        float amount = engine.getElapsedInLastFrame();
-        float dissipation = stats.getFluxDissipation().getModifiedValue();
-        float drainPerSecond = dissipation * DRAIN_MULTIPLIER * effectLevel;
-
-        ship.getFluxTracker().increaseFlux(drainPerSecond * amount, false);
+        stats.getBallisticRoFMult().modifyMult(buffId, mult);
+        stats.getEnergyRoFMult().modifyMult(buffId, mult);
     }
 
-    private void unmodify(String id, MutableShipStatsAPI stats, ShipAPI ship) {
-        // Remove active-only effects
-        stats.getEnergyWeaponFluxCostMod().unmodify(id);
-        stats.getBallisticWeaponFluxCostMod().unmodify(id);
-        stats.getBeamWeaponFluxCostMult().unmodify(id);
-        stats.getProjectileSpeedMult().unmodify(id);
+    private void clearBuff(MutableShipStatsAPI stats, String buffId) {
+        stats.getBallisticWeaponDamageMult().unmodify(buffId);
+        stats.getEnergyWeaponDamageMult().unmodify(buffId);
 
+        stats.getBallisticRoFMult().unmodify(buffId);
+        stats.getEnergyRoFMult().unmodify(buffId);
+    }
+
+    @Override
+    public String modifyDamageTaken(Object param, CombatEntityAPI target, DamageAPI damage, Vector2f point, boolean shieldHit) {
+        if (isTracking && shieldHit) {
+            accumulatedDamage += damage.getDamage();
+        }
+        return null;
     }
 
     @Override
     public void unapply(MutableShipStatsAPI stats, String id) {
         // Never called - runScriptWhileIdle:true in XLII_flux_cycler.system.
-        // Active-to-idle cleanup is handled in unmodify(), called from apply().
     }
 
+    @Override
     public String getDisplayNameOverride(State state, float effectLevel) {
-        if (state == State.IDLE || state == State.COOLDOWN) {
-            return "flux cycler - cooling";
+        if (state == State.IN || state == State.ACTIVE || state == State.OUT) {
+            return "flux cycler - cycling";
         }
-        else if (state == State.IN || state == State.OUT) {
-            return "flux cycler - spooling";
-        }
-        else if (state == State.ACTIVE) {
-            return "flux cycler - firing";
+        if (state == State.COOLDOWN) {
+            return currentBuffLevel > 0f ? "flux cycler - surging" : "flux cycler - cooling";
         }
         return null;
     }
 
+    @Override
     public StatusData getStatusData(int index, State state, float effectLevel) {
-        if (state == State.IDLE || state == State.COOLDOWN) {
-            if (index == 5) {
-                return new StatusData("fire rate reduced", true);
-            }
-            if (index == 4) {
-                return new StatusData("max speed increased", false);
-            }
-        }
-        if (effectLevel <= 0f) return null;
+        float mult = 1f + MAX_ROF_BONUS * currentBuffLevel;
+        float bonusPercent = (int) ((mult - 1f) * 100f);
 
-        if (index == 3) {
-            return new StatusData("soft flux rising", true);
+        if (state == State.IN || state == State.ACTIVE || state == State.OUT) {
+            if (index == 0) return new StatusData("cycler active", false);
         }
-        if (index == 2) {
-        return new StatusData("weapon flux disabled", false);
-        }
-        if (index == 1) {
-        return new StatusData("projectile speed boosted", false);
-        }
-        if (index == 0) {
-        return new StatusData("fire rate increased", false);
+        if (state == State.COOLDOWN && currentBuffLevel > 0f) {
+            if (index == 0) return new StatusData(String.format("+%.0f%% weapon damage", MAX_DAMAGE_BOOST * currentBuffLevel), false);
+            if (index == 1) return new StatusData("+" + (int) bonusPercent + "%" + " weapon rate of fire", false);
         }
         return null;
     }

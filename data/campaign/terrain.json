@@ -1,4 +1,18 @@
 {
+	# Kori radio chatter - ambient SFX terrain co-located with the Kori planet
+	"XLII_kori_chatter":{
+		"plugin":"com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin",
+		"musicSuppression":1,
+		"custom":{
+			"chatter":[
+				{"sound":"XLII_kori_radio_chatter", "phaseMult":1, "threshold":-1},
+				
+				{"sound":"terrain_radio_chatter_2", "phaseMult":1, "threshold":-1},
+				{"sound":"terrain_radio_chatter_3", "phaseMult":1, "threshold":-1},
+			],
+		},
+	},
+
 	# The Rift - Custom hyperspace terrain around Fafnir
 	"XLII_rift":{
 		"plugin":"levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin",

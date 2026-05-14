@@ -12,6 +12,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.scripts.XLII_MistCloudConstants;
 import levianeer.draconis.data.scripts.XLII_MistCloudsPlugin;
 import org.apache.log4j.Logger;
 import org.lazywizard.lazylib.MathUtils;
@@ -50,7 +51,7 @@ public class XLII_FortySecond extends BaseHullMod {
     public static float PROFILE_MULT = 0.75f;
     public static float MISSILE_AFFECT_CHANCE = 0.5f; // % chance to affect each missile
 
-    // ID and bonus for the upgrade hullmod (XLII_FortySecondMk2)
+    // ID and bonus for the upgrade hullmod (@XLII_FortySecondMk2)
     public static final String UPGRADE_HULLMOD_ID = "XLII_fortysecond_mk2";
     public static final float UPGRADE_CHANCE_BONUS = 0.4f;
     private static final Color JAMMER_COLOR = new Color(50, 50, 255, 155);
@@ -86,8 +87,11 @@ public class XLII_FortySecond extends BaseHullMod {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null || engine.isPaused()) return;
 
-        // Register Mist Clouds plugin once per combat (check engine custom data)
-        if (!engine.getCustomData().containsKey("XLII_MIST_CLOUDS_PLUGIN")) {
+        // Register Mist Clouds plugin once per combat, but only once the ship is actually
+        // on the field. advanceInCombat() is called for ships in the deployment queue too,
+        // and if we register there init() can't find any XLII ships in engine.getShips().
+        if (!engine.getCustomData().containsKey("XLII_MIST_CLOUDS_PLUGIN")
+                && engine.isEntityInPlay(ship)) {
             registerMistCloudsPlugin(engine);
         }
 
@@ -268,10 +272,8 @@ public class XLII_FortySecond extends BaseHullMod {
         Color h = Misc.getHighlightColor();
         Color t = Misc.getTextColor();
 
-        tooltip.addPara("Ships equipped with XLII Battlegroup avionics and tactical systems gain advanced capabilities.", opad);
-
         tooltip.addSectionHeading("Sensors & Detection", Alignment.MID, opad);
-        tooltip.addPara("Sight radius increased by %s/%s/%s/%s. Sensor profile reduced by %s.",
+        tooltip.addPara("Increases ship's in-combat vision range by %s/%s/%s/%s and reduces sensor profile by %s.",
                 opad, h,
                 combatMag.get(HullSize.FRIGATE).intValue() + "",
                 combatMag.get(HullSize.DESTROYER).intValue() + "",
@@ -280,41 +282,27 @@ public class XLII_FortySecond extends BaseHullMod {
                 Math.round((1f - PROFILE_MULT) * 100f) + "%");
 
         tooltip.addSectionHeading("Missile Defense", Alignment.MID, opad);
-        tooltip.addPara("Has %s chance to affect incoming missiles within range. Affected missiles are either %s (neutralized) or %s (retargeted to their source). Only guided missiles can be converted.",
+        tooltip.addPara("Ship has a %s chance to jam or convert incoming missiles within range. Jammed missiles are neutralized; guided missiles may instead be retargeted to their source.",
                 opad, h,
-                Math.round(MISSILE_AFFECT_CHANCE * 100f) + "%",
-                "jammed",
-                "converted");
-
-        tooltip.addPara("The defense's range scales with hull size, multiplied by %s/%s/%s/%s.",
-                opad, h,
-                missileDefenseRange.get(HullSize.FRIGATE).intValue() + "x",
-                missileDefenseRange.get(HullSize.DESTROYER).intValue() + "x",
-                missileDefenseRange.get(HullSize.CRUISER).intValue() + "x",
-                missileDefenseRange.get(HullSize.CAPITAL_SHIP).intValue() + "x");
+                Math.round(MISSILE_AFFECT_CHANCE * 100f) + "%");
 
         tooltip.addSectionHeading("Nanomist Unit", Alignment.MID, opad);
-        tooltip.addPara("Fitting XLII Battlegroup doctrine, multiple large cruise missiles are deployed in a circuit formation behind engagement lines - these missiles are then sent targets periodically during combat.",
-                opad, h);
-
-        tooltip.addPara("Deploys SLAP-ER Cruise Missiles that spread tactical nanomist swarms throughout combat. Clouds have %s radius and fade after %s - %s seconds.",
+        tooltip.addPara("Deploys SLAP-ER cruise missiles that spread nanomist clouds in a %s radius, lasting %s-%s seconds.",
                 opad, h,
-                "700",
-                "15",
-                "30"
-                );
+                (int) XLII_MistCloudConstants.CLOUD_RADIUS + "",
+                (int) XLII_MistCloudConstants.CLOUD_MIN_LIFETIME + "",
+                (int) XLII_MistCloudConstants.CLOUD_MAX_LIFETIME + "");
 
-        tooltip.addPara("Allied ships in clouds gain %s hull repair per second when below maximum hull. Enemy ships suffer %s hull damage per second. Total healing or damage per ship is capped at %s hull points or %s of maximum hull, whichever is higher. Phased ships are immune to mist damage.",
+        tooltip.addPara("Allies in clouds recover %s hull/s; enemies take %s hull damage/s. Each cloud has a finite %s-point hull pool shared between healing and damage. Phased ships are immune while in P-space.",
                 opad, h,
-                "+0.5%",
-                "-0.5%",
-                "2000",
-                "50%");
+                "+" + (XLII_MistCloudConstants.HEAL_PERCENT_PER_SEC * 100f) + "%",
+                (XLII_MistCloudConstants.DOT_PERCENT_PER_SEC * 100f) + "%",
+                (int) XLII_MistCloudConstants.CLOUD_POOL_HP + "");
 
-        tooltip.addPara("SLAP-ER missile deployment requires a minimum of %s XLII ships in the fleet AND a minimum of %s total deployment points. Both thresholds must be met for missiles to spawn.",
+        tooltip.addPara("Requires %s XLII ships and %s total deployment points to deploy.",
                 opad, h,
-                "25%",
-                "50");
+                Math.round(XLII_MistCloudConstants.MIN_XLII_PERCENTAGE * 100f) + "%",
+                XLII_MistCloudConstants.MIN_TOTAL_SUPPLY_COST + "");
     }
 
     @Override
