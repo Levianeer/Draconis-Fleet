@@ -1,0 +1,65 @@
+{
+    "displayName": "Prototype",
+    "fluxCapacitors": 0,
+    "fluxVents": 44,
+    "hullId": "XLII_altais_proto",
+    "hullMods": [
+        "shrouded_thunderhead",
+        "shrouded_lens",
+        "targetingunit"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_altais_proto_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0009": "heavy_mass_driver",
+                "WS0010": "heavy_mass_driver",
+                "WS0011": "heavy_mass_driver",
+                "WS0012": "heavy_mass_driver",
+                "WS0013": "heavy_mass_driver",
+                "WS0014": "heavy_mass_driver"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0016": "amsrm",
+                "WS0017": "amsrm",
+                "WS0018": "amsrm",
+                "WS0019": "amsrm",
+                "WS0020": "amsrm",
+                "WS0021": "amsrm",
+                "WS0022": "amsrm",
+                "WS0023": "amsrm",
+                "WS0024": "amsrm",
+                "WS0025": "amsrm"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_estocflak",
+                "WS0004": "XLII_estocflak",
+                "WS0005": "XLII_estocflak",
+                "WS0006": "XLII_estocflak",
+                "WS0007": "XLII_estocflak",
+                "WS0008": "XLII_estocflak",
+                "WS0015": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker",
+                "WS0002": "XLII_swordbreaker"
+            }
+        }
+    ]
+}

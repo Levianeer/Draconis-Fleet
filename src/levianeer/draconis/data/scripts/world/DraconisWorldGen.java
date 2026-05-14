@@ -21,9 +21,7 @@ public class DraconisWorldGen implements SectorGeneratorPlugin {
 		// Set INHOSPITABLE as default to all factions
 		for (FactionAPI other : Global.getSector().getAllFactions()) {
 			if (!other.getId().equals(DRACONIS)
-				&& !other.getId().equals(Factions.PLAYER)
-				&& !other.getId().equals(Factions.TRITACHYON) // Legally mandated "friendship"
-				&& !other.getId().equals(Factions.INDEPENDENT))
+				&& !other.getId().equals(Factions.TRITACHYON)) // Legally mandated "friendship"
 			{
 				XLII_draconis.setRelationship(other.getId(), RepLevel.INHOSPITABLE);
 			}
@@ -32,6 +30,7 @@ public class DraconisWorldGen implements SectorGeneratorPlugin {
 		// VENGEFUL / HOSTILE / INHOSPITABLE / SUSPICIOUS / NEUTRAL / FAVORABLE / WELCOMING / FRIENDLY / COOPERATIVE
 
 		// Manual overrides for specific factions
+		XLII_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.HOSTILE); // Secruity concerns :)
 		XLII_draconis.setRelationship(Factions.PIRATES, RepLevel.HOSTILE); // Usual Suspects
 		XLII_draconis.setRelationship(Factions.LUDDIC_CHURCH, RepLevel.HOSTILE); // They justifiably hate us
 		XLII_draconis.setRelationship(Factions.LUDDIC_PATH, RepLevel.HOSTILE); // They VERY justifiably hate us

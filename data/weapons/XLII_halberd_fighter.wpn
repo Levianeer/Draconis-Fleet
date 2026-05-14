@@ -24,6 +24,6 @@
 				 "blowbackLength":22.0,
 				 "blowbackSpread":15.0,
 				 "particleColor":[125,15,25,105]},
-	"projectileSpecId":"XLII_halberd_torp",
+	"projectileSpecId":"XLII_halberd_unguided_torp",
 	"fireSoundTwo":"XLII_halberd_fire",
 }

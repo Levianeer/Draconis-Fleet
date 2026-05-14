@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Fires one shot of the flare burst (from all SYSTEM slots) after a configurable delay.
- * Registered as a combat engine plugin so it fires independently of the ship system state —
+ * Registered as a combat engine plugin so it fires independently of the ship system state -
  * the burst completes correctly even if the system has already wound down.
  */
 public class XLII_DelayedFlareShot extends BaseEveryFrameCombatPlugin {
@@ -100,7 +100,7 @@ public class XLII_DelayedFlareShot extends BaseEveryFrameCombatPlugin {
                 ? 0f
                 : -FLARE_HALF_SPREAD + (float) shotIndex / (burstSize - 1) * (FLARE_HALF_SPREAD * 2f);
 
-        // One fake weapon shared across all slots — they all use the same spec
+        // One fake weapon shared across all slots - they all use the same spec
         WeaponAPI weapon = engine.createFakeWeapon(ship, WEAPON_ID);
 
         Global.getSoundPlayer().playSound(FIRE_SOUND_ID, 1f, 1f, ship.getLocation(), ship.getVelocity());

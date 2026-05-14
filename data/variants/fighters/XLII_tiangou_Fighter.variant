@@ -1,0 +1,39 @@
+{
+  "variantId": "XLII_tiangou_Fighter",
+  "hullId": "XLII_tiangou",
+  "displayName": "Multirole Fighter",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0001": "XLII_kestros"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0002": "XLII_fragarch_fighter"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0003": "XLII_arquebus",
+        "WS0004": "XLII_arquebus",
+        "WS0005": "XLII_arquebus",
+        "WS0006": "XLII_arquebus"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

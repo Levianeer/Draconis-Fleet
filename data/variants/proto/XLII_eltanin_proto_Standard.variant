@@ -1,0 +1,49 @@
+{
+    "displayName": "Prototype",
+    "fluxCapacitors": 0,
+    "fluxVents": 0,
+    "hullId": "XLII_eltanin_proto",
+    "hullMods": [
+        "shrouded_thunderhead",
+        "shrouded_lens",
+        "targetingunit"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_eltanin_proto_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0008": "vpdriver"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "resonatormrm"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "disintegrator",
+                "WS0007": "disintegrator"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "mininglaser",
+                "WS0002": "mininglaser",
+                "WS0003": "mininglaser",
+                "WS0004": "mininglaser"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0009": "XLII_razorflak"}
+        }
+    ]
+}

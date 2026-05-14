@@ -33,8 +33,12 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
     private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f;
     private static final Color RING_COLOR = new Color(90, 255, 195, 10);
 
+    private static final float FADE_TIME = 0.25f;
+
     // Track affected fighters per ship for proper cleanup
     private static final Map<ShipAPI, Set<ShipAPI>> affectedFighters = new HashMap<>();
+    private static final Map<ShipAPI, Float> effectLevels = new HashMap<>();
+    private static SpriteAPI ringSprite = null;
     private static CombatEngineAPI lastEngine_HeadacheECM;
 
     private static void checkClearAffectedFighters() {
@@ -42,6 +46,7 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
         if (engine != lastEngine_HeadacheECM) {
             lastEngine_HeadacheECM = engine;
             affectedFighters.clear();
+            effectLevels.clear();
         }
     }
 
@@ -64,27 +69,17 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
         // ECM offline during overload, venting, or phase
         boolean ecmDisabled = ship.getFluxTracker().isOverloaded() || ship.getFluxTracker().isVenting() || ship.isPhased();
         if (ecmDisabled) {
+            effectLevels.put(ship, 0f);
             cleanupFighters(ship);
             return;
         }
-
-        // --- Ring visual (drawn once per frame, no lifecycle) ---
-        SpriteAPI ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring2");
-        float spriteSize = effectRange * 2f * SPRITE_ALIGNMENT_SCALE;
-        MagicRender.singleframe(
-                ringSprite,
-                ship.getLocation(),
-                new Vector2f(spriteSize, spriteSize),
-                0f,
-                RING_COLOR,
-                true
-        );
 
         float effectRangeSq = effectRange * effectRange;
         Vector2f shipLocation = ship.getLocation();
         int owner = ship.getOwner();
 
         // --- Missile effects ---
+        boolean affectingMissile = false;
         List<MissileAPI> nearbyMissiles = CombatUtils.getMissilesWithinRange(shipLocation, effectRange);
         for (MissileAPI missile : nearbyMissiles) {
             if (missile.isFading()) continue;
@@ -94,6 +89,8 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
 
             float distSq = MathUtils.getDistanceSquared(shipLocation, missile.getLocation());
             if (distSq > effectRangeSq) continue;
+
+            affectingMissile = true;
 
             // Slow: cap velocity to 50% of max speed
             Vector2f vel = missile.getVelocity();
@@ -153,6 +150,23 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
 
         currentlyAffected.clear();
         currentlyAffected.addAll(stillInRange);
+
+        // --- Ramp effectLevel based on whether anything is being affected ---
+        boolean hasTargets = affectingMissile || !stillInRange.isEmpty();
+        float currentLevel = effectLevels.getOrDefault(ship, 0f);
+        if (hasTargets) {
+            currentLevel = Math.min(1f, currentLevel + amount / FADE_TIME);
+        } else {
+            currentLevel = Math.max(0f, currentLevel - amount / FADE_TIME);
+        }
+        effectLevels.put(ship, currentLevel);
+
+        // --- Ring visual: scales in/out with effectLevel ---
+        if (currentLevel > 0f) {
+            if (ringSprite == null) ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring2");
+            float spriteSize = effectRange * 2f * SPRITE_ALIGNMENT_SCALE * currentLevel;
+            MagicRender.singleframe(ringSprite, ship.getLocation(), new Vector2f(spriteSize, spriteSize), 0f, RING_COLOR, true);
+        }
     }
 
     private void removeFighterDebuff(ShipAPI fighter, String modId) {
@@ -178,6 +192,7 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
     private void cleanupShip(ShipAPI ship) {
         cleanupFighters(ship);
         affectedFighters.remove(ship);
+        effectLevels.remove(ship);
     }
 
     @Override

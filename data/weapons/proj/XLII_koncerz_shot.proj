@@ -1,0 +1,15 @@
+ {
+	"id":"XLII_koncerz_shot",
+	"specClass":"projectile",
+	"spawnType":"PLASMA",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_KoncerzEffect",
+	"onFireEffect":"levianeer.draconis.data.scripts.weapons.XLII_KoncerzEffect",
+	"collisionClass":"PROJECTILE_FF",
+	"collisionClassByFighter":"PROJECTILE_FIGHTER",
+	"width":36.0,
+	"fadeTime":1.5,
+	"fringeColor":[185,75,155,255],
+	"coreColor":[255,100,100,255],
+	"passThroughMissiles":true,	
+	"passThroughFighters":true,	
+}

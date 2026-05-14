@@ -275,9 +275,9 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         // Determine side: alternate from startOnStarboard flag
         boolean isStarboard;
         if (stackState.startOnStarboard) {
-            isStarboard = (stackIndex % 2 == 0);  // Even indices → starboard
+            isStarboard = (stackIndex % 2 == 0);  // Even indices -> starboard
         } else {
-            isStarboard = (stackIndex % 2 != 0); // Odd indices → starboard (pattern reversed)
+            isStarboard = (stackIndex % 2 != 0); // Odd indices -> starboard (pattern reversed)
         }
 
         float distance = BASE_SPAWN_OFFSET + ((float) stackIndex / 2) * SPACING_INCREMENT;
@@ -346,9 +346,9 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         // Calculate ideal formation position using SAME logic as createVisualTorpedo
         boolean isStarboard;
         if (stackState.startOnStarboard) {
-            isStarboard = (stackIndex % 2 == 0);  // Even indices → starboard
+            isStarboard = (stackIndex % 2 == 0);  // Even indices -> starboard
         } else {
-            isStarboard = (stackIndex % 2 != 0); // Odd indices → starboard (pattern reversed)
+            isStarboard = (stackIndex % 2 != 0); // Odd indices -> starboard (pattern reversed)
         }
         float distance = BASE_SPAWN_OFFSET + ((float) stackIndex / 2) * SPACING_INCREMENT;
 

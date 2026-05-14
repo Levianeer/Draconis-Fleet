@@ -1,9 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 50,
+    "fluxCapacitors": 26,
     "fluxVents": 25,
     "hullId": "XLII_kuma",
-    "hullMods": ["dedicated_targeting_core"],
+    "hullMods": ["reinforcedhull"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_kuma_Standard",
@@ -65,7 +65,7 @@
         }
     ],
     "wings": [
-        "thunder_wing",
-        "thunder_wing"
+        "hoplon_wing",
+        "hoplon_wing"
     ]
 }

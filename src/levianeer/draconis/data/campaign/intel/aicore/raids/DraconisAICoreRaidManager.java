@@ -32,6 +32,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private static final String ACTIVE_RAID_COUNT_KEY = "$draconis_activeRaidCount";
     private static final String LAST_RAID_TIMESTAMP_KEY = "$draconis_lastRaidTimestamp";
     private static final String COOLDOWN_END_TIMESTAMP_KEY = "$draconis_cooldownEndTimestamp";
+    private static final String LAST_RAID_WAS_SUCCESS_KEY = "$draconis_lastRaidWasSuccess";
     private static final String SYSTEM_START_TIMESTAMP_KEY = "$draconis_raidSystemStartTimestamp";
 
     @Override
@@ -140,7 +141,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         // Random chance to trigger raid (30% per check)
         Random random = new Random();
         float roll = random.nextFloat();
-        log.info("Draconis: Random roll: " + roll + " (need <= 0.5)");
+        log.info("Draconis: Random roll: " + roll + " (need <= 0.3)");
 
         if (roll > 0.3f) {
             log.info("Draconis: AI Core raid random check failed - no raid this cycle");
@@ -200,13 +201,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     }
 
     /**
-     * Get the timestamp when the current cooldown ends
-     */
-    private static long getCooldownEndTimestamp() {
-        return Global.getSector().getMemoryWithoutUpdate().getLong(COOLDOWN_END_TIMESTAMP_KEY);
-    }
-
-    /**
      * Get the timestamp of the last raid
      */
     private static long getLastRaidTimestamp() {
@@ -221,28 +215,14 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     }
 
     /**
-     * Get the cooldown duration from the stored cooldown end timestamp
+     * Get the cooldown duration based on the stored success/failure flag from the last raid.
      */
     private static float getCooldownDays() {
-        // Check if the last raid was a success or failure by looking at the stored cooldown end
-        // We can calculate this from the difference between cooldown end and last raid timestamp
-        long lastRaid = getLastRaidTimestamp();
-        long cooldownEnd = getCooldownEndTimestamp();
-
-        if (lastRaid <= 0 || cooldownEnd <= 0) {
-            return COOLDOWN_SUCCESS_DAYS; // Default to success cooldown
+        if (Global.getSector().getMemoryWithoutUpdate().contains(LAST_RAID_WAS_SUCCESS_KEY)) {
+            boolean wasSuccess = Global.getSector().getMemoryWithoutUpdate().getBoolean(LAST_RAID_WAS_SUCCESS_KEY);
+            return wasSuccess ? COOLDOWN_SUCCESS_DAYS : COOLDOWN_FAILURE_DAYS;
         }
-
-        // Calculate the cooldown that was set
-        float cooldownSeconds = cooldownEnd - lastRaid;
-        float cooldownDays = Global.getSector().getClock().convertToDays(cooldownSeconds);
-
-        // Return the appropriate value based on which constant it's closer to
-        if (Math.abs(cooldownDays - COOLDOWN_SUCCESS_DAYS) < Math.abs(cooldownDays - COOLDOWN_FAILURE_DAYS)) {
-            return COOLDOWN_SUCCESS_DAYS;
-        } else {
-            return COOLDOWN_FAILURE_DAYS;
-        }
+        return COOLDOWN_SUCCESS_DAYS; // Default: treat no prior raid as a success cooldown
     }
 
     /**
@@ -260,6 +240,7 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
         Global.getSector().getMemoryWithoutUpdate().set(COOLDOWN_END_TIMESTAMP_KEY, cooldownEnd);
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_TIMESTAMP_KEY, currentTimestamp);
+        Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_WAS_SUCCESS_KEY, success);
 
         log.info("Draconis: Raid cooldown started: " + cooldownDays + " days (" + (success ? "success" : "failure") + ")");
     }

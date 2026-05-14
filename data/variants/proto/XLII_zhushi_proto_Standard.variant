@@ -1,0 +1,39 @@
+{
+    "displayName": "Prototype",
+    "fluxCapacitors": 0,
+    "fluxVents": 20,
+    "hullId": "XLII_zhushi_proto",
+    "hullMods": [
+        "heavyarmor",
+        "targetingunit",
+        "magazines",
+        "shrouded_thunderhead",
+        "shrouded_lens"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_zhushi_proto_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0004": "neoferric_quadcoil"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "amsrm",
+                "WS0006": "amsrm"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "heavy_mass_driver",
+                "WS0003": "heavy_mass_driver"
+            }
+        }
+    ]
+}

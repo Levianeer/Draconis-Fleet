@@ -1,9 +1,11 @@
 package levianeer.draconis.data.campaign.intel.aicore.raids;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.intel.group.GenericRaidFGI;
 import com.fs.starfarer.api.impl.campaign.missions.FleetCreatorMission;
+import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.ids.FleetTypes;
@@ -150,6 +152,15 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
 
         float days = Misc.getDays(amount);
         interval.advance(days);
+    }
+
+    /**
+     * Apply AI cores and Sigma Octantis commander after the fleet is created.
+     */
+    @Override
+    protected void configureFleet(int size, CampaignFleetAPI fleet) {
+        super.configureFleet(size, fleet);
+        fleet.addScript(new DraconisAICoreFleetInflater.DeferredInflateScript(fleet, true));
     }
 
     /**

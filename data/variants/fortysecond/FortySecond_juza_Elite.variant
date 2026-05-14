@@ -1,0 +1,40 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 0,
+    "hullId": "XLII_juza_fortysecond",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "safetyoverrides",
+        "hardened_subsystems"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "goalVariant": true,
+    "variantId": "FortySecond_juza_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "XLII_mangonel"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "breach",
+                "WS0021": "breach",
+                "WS0026": "breach",
+                "WS0027": "breach",
+                "WS0028": "breach",
+                "WS0029": "breach"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0020": "multineedler"}
+        }
+    ]
+}

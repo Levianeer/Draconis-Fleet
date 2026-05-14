@@ -1,0 +1,30 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 2,
+    "goalVariant": true,
+    "hullId": "XLII_shaobi_fortysecond",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "FortySecond_shaobi_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "hveldriver",
+                "WS0008": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "XLII_razorflak"}
+        }
+    ],
+    "wings": [
+        "XLII_tianbang_wing",
+        "XLII_tianbang_wing"
+    ]
+}

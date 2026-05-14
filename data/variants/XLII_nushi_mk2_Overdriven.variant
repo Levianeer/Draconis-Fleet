@@ -1,0 +1,40 @@
+{
+    "displayName": "Overdriven",
+    "fluxCapacitors": 5,
+    "fluxVents": 18,
+    "goalVariant": true,
+    "hullId": "XLII_nushi_mk2",
+    "hullMods": [
+        "unstable_injector",
+        "heavyarmor"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_nushi_mk2_Overdriven",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_mangonel"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0020": "reaper",
+                "WS0021": "reaper",
+                "WS0022": "reaper",
+                "WS0023": "reaper"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0013": "heavyneedler",
+                "WS0014": "heavyneedler"
+            }
+        }
+    ],
+    "wings": []
+}

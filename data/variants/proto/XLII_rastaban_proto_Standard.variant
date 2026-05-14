@@ -1,0 +1,44 @@
+{
+    "displayName": "Prototype",
+    "fluxCapacitors": 0,
+    "fluxVents": 4,
+    "hullId": "XLII_rastaban_proto",
+    "hullMods": [
+        "shrouded_thunderhead",
+        "shrouded_lens",
+        "targetingunit"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_rastaban_proto_Standard",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "heavy_mass_driver"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0004": "disintegrator"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "light_mass_driver",
+                "WS0007": "light_mass_driver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "mininglaser",
+                "WS0003": "mininglaser",
+                "WS0005": "mininglaser"
+            }
+        }
+    ],
+    "wings": []
+}

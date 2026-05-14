@@ -16,7 +16,7 @@ import java.awt.Color;
  * by XLII_FortySecond.UPGRADE_CHANCE_BONUS. Does nothing if XLII_FortySecond
  * is not present on the same ship.
  * <p>
- * The actual logic lives in XLII_FortySecond.advanceInCombat — this hullmod
+ * The actual logic lives in XLII_FortySecond.advanceInCombat - this hullmod
  * is simply detected there by its ID to activate the bonus.
  */
 public class XLII_FortySecondMk2 extends BaseHullMod {
@@ -29,7 +29,7 @@ public class XLII_FortySecondMk2 extends BaseHullMod {
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        // No independent stat effects — all logic is handled in XLII_FortySecond.advanceInCombat
+        // No independent stat effects - all logic is handled in XLII_FortySecond.advanceInCombat
     }
 
     @Override

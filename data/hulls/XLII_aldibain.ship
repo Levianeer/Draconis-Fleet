@@ -12,8 +12,6 @@
   "shieldRadius": 26,
   "viewOffset": 0,
   "builtInMods": [
-    "no_weapon_flux",
-    "insulatedengine",
     "XLII_autoflarelauncher"
   ],
   "weaponSlots": [

@@ -78,7 +78,7 @@ public class DraconisAICoreRaidFactor {
         log.info("Draconis: Target: " + target.getName() + " (" + target.getFactionId() + ")");
 
         GenericRaidFGI.GenericRaidParams params = new GenericRaidFGI.GenericRaidParams(
-                new Random(random.nextLong()), true);
+                new Random(random.nextLong()), false);
 
         params.factionId = DRACONIS;
         params.source = source;
@@ -106,10 +106,10 @@ public class DraconisAICoreRaidFactor {
         params.style = FleetStyle.QUALITY;
         params.makeFleetsHostile = false;  // Use normal faction relations
 
-        // Build fleet composition - two Shadow Fleet battlegroups of ~500 FP each
-        int fleet1Size = 450 + random.nextInt(100);  // 450-550 FP
-        int fleet2Size = 450 + random.nextInt(100);  // 450-550 FP
-        int fleet3Size = 450 + random.nextInt(100);  // 450-550 FP
+        // Build fleet composition - three Shadow Fleet battlegroups of ~500 FP each
+        int fleet1Size = 400 + random.nextInt(200);  // 400-600 FP
+        int fleet2Size = 400 + random.nextInt(200);  // 400-600 FP
+        int fleet3Size = 400 + random.nextInt(200);  // 400-600 FP
 
         params.fleetSizes.add(fleet1Size);
         params.fleetSizes.add(fleet2Size);
@@ -131,18 +131,34 @@ public class DraconisAICoreRaidFactor {
         return true;
     }
 
+    private static final String TARGET_FAILURE_COOLDOWN_END_KEY = "$draconis_targetRaidFailureCooldownEnd";
+
     /**
-     * Mark a target market with a raid failure cooldown
-     * Prevents the same target from being selected again for a specified number of days
+     * Mark a target market with a raid failure cooldown.
+     * Prevents the same target from being selected again for {@code cooldownDays} days.
      */
     public static void setTargetFailureCooldown(MarketAPI target, float cooldownDays) {
         if (target == null) return;
 
         long currentTimestamp = Global.getSector().getClock().getTimestamp();
-        target.getMemoryWithoutUpdate().set("$draconis_targetRaidFailureTimestamp", currentTimestamp);
+        float cooldownSeconds = Global.getSector().getClock().convertToSeconds(cooldownDays);
+        long cooldownEnd = currentTimestamp + (long) cooldownSeconds;
+
+        target.getMemoryWithoutUpdate().set(TARGET_FAILURE_COOLDOWN_END_KEY, cooldownEnd);
 
         log.info(
             "Draconis: Applied " + cooldownDays + "-day raid failure cooldown to " + target.getName()
         );
+    }
+
+    /**
+     * Returns true if the given market is still within a raid failure cooldown window.
+     */
+    public static boolean isTargetOnFailureCooldown(MarketAPI target) {
+        if (target == null) return false;
+        if (!target.getMemoryWithoutUpdate().contains(TARGET_FAILURE_COOLDOWN_END_KEY)) return false;
+
+        long cooldownEnd = target.getMemoryWithoutUpdate().getLong(TARGET_FAILURE_COOLDOWN_END_KEY);
+        return Global.getSector().getClock().getTimestamp() < cooldownEnd;
     }
 }

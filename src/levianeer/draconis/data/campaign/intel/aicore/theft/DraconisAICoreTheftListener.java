@@ -4,14 +4,14 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
-import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
+import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Skills;
 import com.fs.starfarer.api.util.Misc;
-import com.fs.starfarer.api.util.WeightedRandomPicker;
 import levianeer.draconis.data.campaign.intel.aicore.config.DraconisAICoreConfig;
 import levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +22,11 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 public class DraconisAICoreTheftListener {
 
+    private static final Logger log = Global.getLogger(DraconisAICoreTheftListener.class);
+
     public static void checkAndStealAICores(MarketAPI raidedMarket, boolean isPlayerMarket, String actionType) {
         if (raidedMarket == null) {
-            Global.getLogger(DraconisAICoreTheftListener.class).error(
+            log.error(
                     "Attempted AI core theft on null market"
             );
             return;
@@ -32,7 +34,7 @@ public class DraconisAICoreTheftListener {
 
         // Don't steal from our own facilities!
         if (raidedMarket.getFactionId().equals(DRACONIS)) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Skipping AI core theft - market is now Draconis-owned: " + raidedMarket.getName()
             );
             return;
@@ -44,13 +46,13 @@ public class DraconisAICoreTheftListener {
         long lastTheftDay = raidedMarket.getMemoryWithoutUpdate().getLong(lastTheftKey);
 
         if (lastTheftDay == currentDay) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "!!! DUPLICATE THEFT ATTEMPT BLOCKED !!!"
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Already stole from " + raidedMarket.getName() + " today (day " + currentDay + ")"
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "=========================================="
             );
             return;
@@ -59,45 +61,47 @@ public class DraconisAICoreTheftListener {
         // Mark this market as stolen from today
         raidedMarket.getMemoryWithoutUpdate().set(lastTheftKey, currentDay);
 
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "=========================================="
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "=== AI CORE THEFT STARTING ==="
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Action: " + actionType
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Target: " + raidedMarket.getName() + " (" + raidedMarket.getFactionId() + ")"
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Player owned: " + isPlayerMarket
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Market size: " + raidedMarket.getSize()
         );
 
         List<String> stolenCores = new ArrayList<>();
 
-        // Check for administrator with HYPERCOGNITION (representing Alpha Core integration)
-        if (raidedMarket.getAdmin() != null &&
-            raidedMarket.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) {
+        // Check for AI core installed as administrator
+        if (raidedMarket.getAdmin() != null && raidedMarket.getAdmin().getAICoreId() != null) {
+            String adminCoreId = raidedMarket.getAdmin().getAICoreId();
 
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "  Checking Administrator: " + raidedMarket.getAdmin().getNameString()
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
-                    "    Has HYPERCOGNITION skill (Alpha Core integration detected)"
+            log.info(
+                    "    Is AI core persona: " + adminCoreId
             );
 
-            stolenCores.add(Commodities.ALPHA_CORE);
+            stolenCores.add(adminCoreId);
 
-            // NOTE: We don't remove the admin or the skill - they keep their experience
-            // This is much more player-friendly than losing trained admins
+            // Replace the AI core admin with a basic NPC so the market isn't left adminless
+            PersonAPI replacement = Global.getFactory().createPerson();
+            replacement.setFaction(raidedMarket.getFactionId());
+            raidedMarket.setAdmin(replacement);
 
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
-                    "    >>> STOLEN: Alpha Core (admin keeps HYPERCOGNITION skill)"
+            log.info(
+                    "    >>> STOLEN: " + adminCoreId + " (AI core admin replaced with NPC)"
             );
         }
 
@@ -105,11 +109,11 @@ public class DraconisAICoreTheftListener {
         List<Industry> industries = new ArrayList<>(raidedMarket.getIndustries());
 
         if (industries.isEmpty()) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "No industries on market"
             );
         } else {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Scanning " + industries.size() + " industries for AI cores"
             );
 
@@ -117,13 +121,13 @@ public class DraconisAICoreTheftListener {
             for (Industry industry : industries) {
                 if (industry == null) continue;
 
-                Global.getLogger(DraconisAICoreTheftListener.class).info(
+                log.info(
                         "  Checking industry: " + industry.getCurrentName()
                 );
 
                 String coreId = industry.getAICoreId();
 
-                Global.getLogger(DraconisAICoreTheftListener.class).info(
+                log.info(
                         "    AI Core: " + (coreId != null && !coreId.isEmpty() ? coreId : "none")
                 );
 
@@ -131,20 +135,20 @@ public class DraconisAICoreTheftListener {
                     stolenCores.add(coreId);
                     industry.setAICoreId(null);
 
-                    Global.getLogger(DraconisAICoreTheftListener.class).info(
+                    log.info(
                             "    >>> STOLEN: " + coreId + " from " + industry.getCurrentName()
                     );
                 }
             }
         }
 
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Actual cores stolen: " + stolenCores.size()
         );
 
         // Fallback: Generate cores if none found
         if (stolenCores.isEmpty()) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "No actual cores found - attempting fallback generation"
             );
 
@@ -152,21 +156,21 @@ public class DraconisAICoreTheftListener {
                 stolenCores = generateFallbackCores(raidedMarket);
 
                 if (!stolenCores.isEmpty()) {
-                    Global.getLogger(DraconisAICoreTheftListener.class).info(
+                    log.info(
                             "Generated " + stolenCores.size() + " fallback cores"
                     );
                     for (String core : stolenCores) {
-                        Global.getLogger(DraconisAICoreTheftListener.class).info(
+                        log.info(
                                 "  - " + core
                         );
                     }
                 } else {
-                    Global.getLogger(DraconisAICoreTheftListener.class).info(
+                    log.info(
                             "Fallback generation produced no cores"
                     );
                 }
             } else {
-                Global.getLogger(DraconisAICoreTheftListener.class).info(
+                log.info(
                         "Fallback generation disabled in config"
                 );
             }
@@ -174,7 +178,7 @@ public class DraconisAICoreTheftListener {
 
         // Install stolen cores on Draconis industries
         if (!stolenCores.isEmpty()) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Installing " + stolenCores.size() + " stolen cores on Draconis facilities"
             );
 
@@ -188,9 +192,11 @@ public class DraconisAICoreTheftListener {
                 int gammaCount = 0;
 
                 for (String coreId : stolenCores) {
-                    if (coreId.equals(Commodities.ALPHA_CORE)) alphaCount++;
-                    else if (coreId.equals(Commodities.BETA_CORE)) betaCount++;
-                    else if (coreId.equals(Commodities.GAMMA_CORE)) gammaCount++;
+                    switch (coreId) {
+                        case Commodities.ALPHA_CORE -> alphaCount++;
+                        case Commodities.BETA_CORE -> betaCount++;
+                        case Commodities.GAMMA_CORE -> gammaCount++;
+                    }
                 }
 
                 levianeer.draconis.data.campaign.intel.aicore.diplomacy.DraconisDiplomacyStrain.applyAICoreStrain(
@@ -198,23 +204,23 @@ public class DraconisAICoreTheftListener {
                 );
             }
 
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "=== AI CORE THEFT COMPLETE ==="
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Total stolen: " + stolenCores.size()
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Successfully installed: " + installed
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "=========================================="
             );
         } else {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "=== AI CORE THEFT COMPLETE - NO CORES FOUND ==="
             );
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "=========================================="
             );
         }
@@ -226,14 +232,14 @@ public class DraconisAICoreTheftListener {
         String factionId = market.getFactionId();
         int marketSize = market.getSize();
 
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Generating fallback cores for " + factionId + " market size " + marketSize
         );
 
         DraconisAICoreConfig.FactionCoreChances chances =
                 DraconisAICoreConfig.getFactionCoreChances(factionId);
 
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Chances: Alpha=" + chances.alphaChance +
                         ", Beta=" + chances.betaChance +
                         ", Gamma=" + chances.gammaChance +
@@ -241,7 +247,7 @@ public class DraconisAICoreTheftListener {
         );
 
         if (marketSize < chances.minMarketSize) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Market too small for fallback cores (size " + marketSize +
                             " < min " + chances.minMarketSize + ")"
             );
@@ -254,7 +260,7 @@ public class DraconisAICoreTheftListener {
         if (chances.alphaChance > 0 && Math.random() < chances.alphaChance && coresGenerated < maxCores) {
             cores.add(Commodities.ALPHA_CORE);
             coresGenerated++;
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Generated Alpha Core"
             );
         }
@@ -262,7 +268,7 @@ public class DraconisAICoreTheftListener {
         if (chances.betaChance > 0 && Math.random() < chances.betaChance && coresGenerated < maxCores) {
             cores.add(Commodities.BETA_CORE);
             coresGenerated++;
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Generated Beta Core"
             );
         }
@@ -270,14 +276,15 @@ public class DraconisAICoreTheftListener {
         if (chances.gammaChance > 0 && Math.random() < chances.gammaChance && coresGenerated < maxCores) {
             cores.add(Commodities.GAMMA_CORE);
             coresGenerated++;
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Generated Gamma Core"
             );
         }
 
         if (chances.gammaChance > 0.4f && Math.random() < (chances.gammaChance * 0.5f) && coresGenerated < maxCores) {
             cores.add(Commodities.GAMMA_CORE);
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            coresGenerated++;
+            log.info(
                     "Generated additional Gamma Core"
             );
         }
@@ -299,22 +306,22 @@ public class DraconisAICoreTheftListener {
         List<Industry> availableIndustries = findAvailableDraconisIndustries();
         List<Industry> upgradeableIndustries = findUpgradeableDraconisIndustries();
 
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Found " + availableAdminMarkets.size() + " available Draconis markets for administrator installation"
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Found " + availableIndustries.size() + " empty Draconis industries"
         );
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Found " + upgradeableIndustries.size() + " upgradeable Draconis industries"
         );
 
         if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            // No slots available right now — persist stolen cores to stockpile for future installation
+            // No slots available right now - persist stolen cores to stockpile for future installation
             for (String coreId : sortedCores) {
                 DraconisAICoreStockpile.add(coreId, 1);
             }
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "No Draconis facilities available - " + stolenCores.size() +
                     " stolen core(s) added to stockpile for future installation"
             );
@@ -327,8 +334,8 @@ public class DraconisAICoreTheftListener {
                 );
             }
 
-            // Return count so the caller applies diplomatic strain for the theft
-            return sortedCores.size();
+            // Cores were stolen (diplomatic strain applied by caller), but none installed yet
+            return 0;
         }
 
         int coresInstalled = 0;
@@ -365,7 +372,7 @@ public class DraconisAICoreTheftListener {
                     String displacedCore = null;
                     if (targetIndustry.getAICoreId() != null && !targetIndustry.getAICoreId().isEmpty()) {
                         displacedCore = targetIndustry.getAICoreId();
-                        Global.getLogger(DraconisAICoreTheftListener.class).info(
+                        log.info(
                                 "Displacing " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
                                 " from " + targetIndustry.getCurrentName() + " with better " +
                                 DraconisAICorePriorityManager.getCoreDisplayName(coreId)
@@ -387,7 +394,7 @@ public class DraconisAICoreTheftListener {
                         // If we displaced a core, add it back to the sorted cores list for redistribution
                         if (displacedCore != null) {
                             sortedCores.add(displacedCore);
-                            Global.getLogger(DraconisAICoreTheftListener.class).info(
+                            log.info(
                                     "Re-queuing displaced " + DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
                                     " for installation elsewhere"
                             );
@@ -403,12 +410,12 @@ public class DraconisAICoreTheftListener {
             coreIndex++;
         }
 
-        // Persist stolen cores that couldn't be installed — the daily drain will retry
+        // Persist stolen cores that couldn't be installed - the daily drain will retry
         if (!failedToInstall.isEmpty()) {
             for (String coreId : failedToInstall) {
                 DraconisAICoreStockpile.add(coreId, 1);
             }
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "Persisted " + failedToInstall.size() + " uninstalled stolen core(s) to stockpile"
             );
         }
@@ -435,15 +442,17 @@ public class DraconisAICoreTheftListener {
 
             // Exclude Kori - the capital should not have AI administrator enhancement
             if ("kori_market".equals(market.getId())) {
-                Global.getLogger(DraconisAICoreTheftListener.class).info(
+                log.info(
                         "Skipping Kori for administrator enhancement (capital exception)"
                 );
                 continue;
             }
 
+            // Skip markets with no administrator - installAICoreAdmin would fail silently
+            if (market.getAdmin() == null) continue;
+
             // Skip if admin already has HYPERCOGNITION
-            if (market.getAdmin() != null &&
-                market.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) {
+            if (market.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) {
                 continue; // Already enhanced with Alpha Core
             }
 
@@ -509,7 +518,7 @@ public class DraconisAICoreTheftListener {
         industry.setAICoreId(coreId);
 
         if (coreId.equals(industry.getAICoreId())) {
-            Global.getLogger(DraconisAICoreTheftListener.class).info(
+            log.info(
                     "INSTALLED: " + coreId + " on " + industry.getCurrentName() +
                             " at " + industry.getMarket().getName()
             );
@@ -517,32 +526,10 @@ public class DraconisAICoreTheftListener {
         }
 
         industry.setAICoreId(oldCore);
-        Global.getLogger(DraconisAICoreTheftListener.class).error(
+        log.error(
                 "FAILED to install " + coreId + " on " + industry.getCurrentName()
         );
         return false;
-    }
-
-    private static void sendTheftMessage(String coreId, MarketAPI stolenFrom,
-                                         MarketAPI installedAt, boolean isPlayerMarket) {
-        String coreName = getCoreDisplayName(coreId);
-
-        if (isPlayerMarket) {
-            Global.getSector().getCampaignUI().addMessage(
-                    "Intelligence reports: " + coreName + " stolen from " + stolenFrom.getName() +
-                            " has been detected in use at " + installedAt.getName(),
-                    Misc.getNegativeHighlightColor()
-            );
-        } else {
-            if (shouldPlayerKnowAboutTheft(stolenFrom)) {
-                Global.getSector().getCampaignUI().addMessage(
-                        "Intelligence reports: Draconis Alliance raided " + stolenFrom.getName() +
-                                " (" + stolenFrom.getFaction().getDisplayName() +
-                                ") and may have acquired advanced technology",
-                        Misc.getTextColor()
-                );
-            }
-        }
     }
 
     private static boolean shouldPlayerKnowAboutTheft(MarketAPI raidedMarket) {
@@ -564,16 +551,10 @@ public class DraconisAICoreTheftListener {
                                        Map<MarketAPI, Integer> installationMap,
                                        boolean isPlayerMarket,
                                        String actionType) {
-        // Create single intel notification for the entire raid
-        DraconisAICoreTheftIntel intel = new DraconisAICoreTheftIntel(
-                stolenFrom, installationMap, stolenCores, actionType, isPlayerMarket
-        );
+        // Constructor self-registers via addIntel + addScript
+        new DraconisAICoreTheftIntel(stolenFrom, installationMap, stolenCores, actionType, isPlayerMarket);
 
-        // Always show notification - player should know about these significant events
-        // Second parameter: false = show notification popup, true = silent add
-        Global.getSector().getIntelManager().addIntel(intel, false);
-
-        Global.getLogger(DraconisAICoreTheftListener.class).info(
+        log.info(
                 "Created theft intel notification for " + stolenFrom.getName() +
                 " (player market: " + isPlayerMarket + ", cores installed at " +
                 installationMap.size() + " location(s))"

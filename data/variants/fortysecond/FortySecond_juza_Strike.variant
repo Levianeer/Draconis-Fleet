@@ -1,0 +1,52 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 0,
+    "fluxVents": 23,
+    "hullId": "XLII_juza_fortysecond",
+    "hullMods": ["targetingunit"],
+    "permaMods": [],
+    "sMods": [],
+    "goalVariant": true,
+    "variantId": "FortySecond_juza_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "XLII_fragarch",
+                "WS0020": "XLII_fragarch"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "breach",
+                "WS0021": "breach",
+                "WS0026": "breach",
+                "WS0027": "breach",
+                "WS0028": "breach",
+                "WS0029": "breach"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_rapier",
+                "WS0019": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_estocflak",
+                "WS0006": "XLII_estocflak",
+                "WS0015": "XLII_estocflak",
+                "WS0024": "XLII_estocflak",
+                "WS0025": "XLII_estocflak"
+            }
+        }
+    ]
+}

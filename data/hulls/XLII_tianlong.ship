@@ -8,12 +8,13 @@
   "width": 276,
   "center": [138, 143.5],
   "collisionRadius": 250,
-  "shieldCenter": [0, -0],
+  "shieldCenter": [24, -0],
   "shieldRadius": 236,
   "viewOffset": 0,
   "builtInMods": [
     "XLII_draconishull",
-    "XLII_autoflarelauncher"
+    "XLII_autoflarelauncher",
+    "hardenedshieldemitter"
   ],
   "builtInWeapons": {
     "WS0001": "XLII_vernier",

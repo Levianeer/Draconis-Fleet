@@ -35,11 +35,6 @@
 	
 	# variantOverrides restricts hulls to listed variants and adjusts their probability
 	"variantOverrides":{
-		"XLII_alruba_Assault_fortysecond":10,
-		"XLII_alwaid_Assault_fortysecond":10,
-		"XLII_errakis_Assault_fortysecond":10,
-		"XLII_juza_Assault_fortysecond":10,
-		"XLII_shaobi_Assault_fortysecond":10
 	},
 	
 	# multiplier for how often hulls show up in the faction's fleets
@@ -59,8 +54,10 @@
 	},
 	
 	"knownShips":{
-		"tags":["XLII_ship_bp","XLII_fortysecond_bp"],
+		"tags":["XLII_fortysecond_bp"],
 		"hulls":[
+			"XLII_alsafi",
+			"XLII_alsafi_cargo"
 		],
 	},
 	
@@ -69,6 +66,7 @@
 		"tags":["XLII_fortysecond_bp"],
 		"hulls":[
 			"XLII_alwaid_fortysecond",
+			"XLII_tianlong_fortysecond",
 			"XLII_juza_fortysecond"
 		],
 	},
@@ -110,9 +108,9 @@
 	},
 	
 	"factionDoctrine":{
-		"warships":3,
+		"warships":2,
 		"carriers":3,
-		"phaseShips":0,
+		"phaseShips":1,
 
 		"officerQuality":7,
 		"shipQuality":5,
@@ -120,7 +118,7 @@
 
 		"shipSize":5,
 
-		"aggression":2,
+		"aggression":3,
 		
 		"combatFreighterProbability":0,      				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup

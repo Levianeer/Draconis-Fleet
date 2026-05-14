@@ -33,6 +33,11 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
     private float jitterLevel = 0f;
     private float jitterRangeBonus = 0f;
 
+    // Pre-computed per-frame jitter offsets to avoid Math.random() calls in render()
+    private static final int JITTER_COPIES = 11;
+    private final float[] jitterX = new float[JITTER_COPIES];
+    private final float[] jitterY = new float[JITTER_COPIES];
+
     public XLII_PhaseTorpedoGlowEffect(MissileAPI missile) {
         this.missile = missile;
     }
@@ -70,6 +75,12 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
         jitterLevel = 1.0f;           // Full intensity
         jitterRangeBonus = 9f;        // 9px shimmer range
 
+        // Pre-compute jitter offsets here (once per frame) so render() needs no Math.random()
+        for (int i = 0; i < JITTER_COPIES; i++) {
+            jitterX[i] = ((float) Math.random() - 0.5f) * 2f * jitterRangeBonus;
+            jitterY[i] = ((float) Math.random() - 0.5f) * 2f * jitterRangeBonus;
+        }
+
         // Note: We don't call setJitter() on the missile here - instead, we manually
         // jitter the glow sprites in render() to keep the missile sprite stable
     }
@@ -100,9 +111,6 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
         float missileWidth = missile.getSpriteAPI().getWidth();
         float missileHeight = missile.getSpriteAPI().getHeight();
 
-        // Number of jitter copies (matching base game PhaseCloakStats setJitterUnder)
-        int jitterCopies = 11;
-
         // === RENDER PHASE DIFFUSE (background glow) ===
         phaseDiffuse.setAngle(facing - 90f);
         phaseDiffuse.setSize(missileWidth, missileHeight);
@@ -114,16 +122,10 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
 
         // Render additional jittered copies during fade-in for shimmer effect
         if (jitterLevel > 0.01f && jitterRangeBonus > 0.1f) {
-            for (int i = 0; i < jitterCopies; i++) {
-                // Calculate random offset within jitter range
-                float offsetX = ((float)Math.random() - 0.5f) * 2f * jitterRangeBonus;
-                float offsetY = ((float)Math.random() - 0.5f) * 2f * jitterRangeBonus;
-
-                // Alpha modulated by jitter level (10% per copy for shimmer effect)
-                float copyAlpha = alphaMult * 0.7f * (jitterLevel * 0.1f);
-                phaseDiffuse.setAlphaMult(copyAlpha);
-
-                phaseDiffuse.renderAtCenter(x + offsetX, y + offsetY);
+            float copyAlpha = alphaMult * 0.7f * (jitterLevel * 0.1f);
+            phaseDiffuse.setAlphaMult(copyAlpha);
+            for (int i = 0; i < JITTER_COPIES; i++) {
+                phaseDiffuse.renderAtCenter(x + jitterX[i], y + jitterY[i]);
             }
         }
 
@@ -138,16 +140,10 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
 
         // Render additional jittered copies during fade-in for shimmer effect
         if (jitterLevel > 0.01f && jitterRangeBonus > 0.1f) {
-            for (int i = 0; i < jitterCopies; i++) {
-                // Calculate random offset within jitter range
-                float offsetX = ((float)Math.random() - 0.5f) * 2f * jitterRangeBonus;
-                float offsetY = ((float)Math.random() - 0.5f) * 2f * jitterRangeBonus;
-
-                // Alpha modulated by jitter level (12% per copy for shimmer effect)
-                float copyAlpha = alphaMult * (jitterLevel * 0.12f);
-                phaseHighlight.setAlphaMult(copyAlpha);
-
-                phaseHighlight.renderAtCenter(x + offsetX, y + offsetY);
+            float copyAlpha = alphaMult * (jitterLevel * 0.12f);
+            phaseHighlight.setAlphaMult(copyAlpha);
+            for (int i = 0; i < JITTER_COPIES; i++) {
+                phaseHighlight.renderAtCenter(x + jitterX[i], y + jitterY[i]);
             }
         }
     }

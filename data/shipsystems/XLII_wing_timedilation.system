@@ -1,0 +1,21 @@
+{
+	"id":"XLII_wing_timedilation",
+	"type":"STAT_MOD",
+	"aiType":"TEMPORAL_SHELL",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_WingTimeDilationStats",
+
+	"soundFilterType":"LOWPASS",
+	"soundFilterGain":0.75,
+	"soundFilterGainHF":0.5,
+
+	"useSound":"system_plasma_jets",
+	"loopSound":"draconis_plasmajets_loop",
+	"outOfUsesSound":"engine_disabled",
+
+	"aiHints":{
+		"activeSpeedIncrease":100,
+		"burstMovementPotential":0,
+		"averageSpeedMult":1.5,
+	}
+}

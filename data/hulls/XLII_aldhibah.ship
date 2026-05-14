@@ -13,7 +13,7 @@
   "viewOffset": 50,
   "builtInMods": [
     "XLII_draconishull",
-	"XLII_ImprovedSystems"
+	  "XLII_improvedsystems"
   ],
   "builtInWeapons": {
     "WS0003": "XLII_vernier",

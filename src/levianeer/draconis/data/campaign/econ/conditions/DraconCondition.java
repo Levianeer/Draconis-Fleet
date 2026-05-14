@@ -1,10 +1,17 @@
 package levianeer.draconis.data.campaign.econ.conditions;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.LocationAPI;
+import com.fs.starfarer.api.campaign.econ.Industry;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.econ.BaseMarketConditionPlugin;
+import com.fs.starfarer.api.impl.campaign.fleets.RouteManager;
+import com.fs.starfarer.api.impl.campaign.fleets.RouteManager.RouteData;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.econ.XLII_HighCommand;
 
 import java.awt.*;
 
@@ -26,6 +33,8 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * DRACON 1 (DEAD LIGHT): Total war, self-destructive power
  */
 public class DraconCondition extends BaseMarketConditionPlugin {
+
+    private static final String PEACEKEEPER_SUFFIX = "_peacekeeper";
 
     @Override
     public void apply(String id) {
@@ -60,8 +69,6 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                 market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                         .modifyMult(id, 1.5f, "DRACON 3 - DRAWN SWORD");
                 market.getAccessibilityMod().modifyFlat(id, -0.10f, "DRACON 3 - DRAWN SWORD");
-                market.getStats().getDynamic().getMod(Stats.FLEET_QUALITY_MOD)
-                        .modifyFlat(id, 0.10f, "DRACON 3 - DRAWN SWORD");
                 break;
 
             case 2: // BARE STEEL
@@ -73,8 +80,6 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                 market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                         .modifyMult(id, 2.0f, "DRACON 2 - BARE STEEL");
                 market.getAccessibilityMod().modifyFlat(id, -0.20f, "DRACON 2 - BARE STEEL");
-                market.getStats().getDynamic().getMod(Stats.FLEET_QUALITY_MOD)
-                        .modifyFlat(id, 0.20f, "DRACON 2 - BARE STEEL");
                 market.getHazard().modifyFlat(id, 0.25f, "DRACON 2 - BARE STEEL");
                 break;
 
@@ -87,21 +92,24 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                 market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                         .modifyMult(id, 2.5f, "DRACON 1 - DEAD LIGHT");
                 market.getAccessibilityMod().modifyFlat(id, -0.30f, "DRACON 1 - DEAD LIGHT");
-                market.getStats().getDynamic().getMod(Stats.FLEET_QUALITY_MOD)
-                        .modifyFlat(id, 0.30f, "DRACON 1 - DEAD LIGHT");
                 market.getHazard().modifyFlat(id, 0.50f, "DRACON 1 - DEAD LIGHT");
                 break;
+        }
+
+        int fleets = countDetachmentsInSystem();
+        if (fleets > 0) {
+            market.getStability().modifyFlat(id + PEACEKEEPER_SUFFIX, fleets, "XLII Detachment - Peacekeeping");
         }
     }
 
     @Override
     public void unapply(String id) {
         market.getStability().unmodifyFlat(id);
+        market.getStability().unmodifyFlat(id + PEACEKEEPER_SUFFIX);
         market.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).unmodifyMult(id);
         market.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SPAWN_RATE_MULT).unmodifyMult(id);
         market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD).unmodifyMult(id);
         market.getAccessibilityMod().unmodifyFlat(id);
-        market.getStats().getDynamic().getMod(Stats.FLEET_QUALITY_MOD).unmodifyFlat(id);
         market.getHazard().unmodifyFlat(id);
     }
 
@@ -143,7 +151,6 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                 addStatLine(tooltip, 3f, "Fleet spawn rate", "+50%", pos);
                 addStatLine(tooltip, 3f, "Ground defenses", "+50%", pos);
                 addStatLine(tooltip, 3f, "Accessibility", "-10%", neg);
-                addStatLine(tooltip, 3f, "Ship quality", "+10%", pos);
                 break;
 
             case 2:
@@ -152,7 +159,6 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                 addStatLine(tooltip, 3f, "Fleet spawn rate", "+100%", pos);
                 addStatLine(tooltip, 3f, "Ground defenses", "+100%", pos);
                 addStatLine(tooltip, 3f, "Accessibility", "-20%", neg);
-                addStatLine(tooltip, 3f, "Ship quality", "+20%", pos);
                 addStatLine(tooltip, 3f, "Hazard rating", "+25%", neg);
                 addStatLine(tooltip, 3f, "Fleet AI core coverage", "increased", pos);
                 addStatLine(tooltip, 3f, "Fleet AI core quality", "enhanced", pos);
@@ -164,15 +170,36 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                 addStatLine(tooltip, 3f, "Fleet spawn rate", "+150%", pos);
                 addStatLine(tooltip, 3f, "Ground defenses", "+150%", pos);
                 addStatLine(tooltip, 3f, "Accessibility", "-30%", neg);
-                addStatLine(tooltip, 3f, "Ship quality", "+30%", pos);
                 addStatLine(tooltip, 3f, "Hazard rating", "+50%", neg);
                 addStatLine(tooltip, 3f, "Fleet AI officers", "100% Saturation", pos);
                 break;
         }
 
+        int fleets = countDetachmentsInSystem();
+        if (fleets > 0) {
+            addStatLine(tooltip, opad, "XLII detachments", "+" + fleets, pos);
+        }
+
         // Flavor text
         String flavor = getFlavorText(level);
         tooltip.addPara(flavor, opad, Misc.getGrayColor(), Misc.getGrayColor());
+    }
+
+    private int countDetachmentsInSystem() {
+        LocationAPI loc = market.getContainingLocation();
+        int count = 0;
+        for (MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
+            if (m.getContainingLocation() != loc) continue;
+            Industry ind = m.getIndustry("XLII_highcommand");
+            if (!(ind instanceof XLII_HighCommand hq) || !hq.isFunctional()) continue;
+            for (RouteData route : RouteManager.getInstance().getRoutesForSource(hq.getRouteSourceId())) {
+                CampaignFleetAPI fleet = route.getActiveFleet();
+                if (fleet != null && !fleet.isDespawning() && fleet.getContainingLocation() == loc) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     private void addStatLine(TooltipMakerAPI tooltip, float pad, String statName, String value, Color valueColor) {

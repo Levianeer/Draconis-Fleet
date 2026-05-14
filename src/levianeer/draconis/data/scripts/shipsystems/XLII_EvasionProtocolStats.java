@@ -75,7 +75,7 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
             }
 
             // Double the mass, scaling with effectLevel for a smooth ramp-in
-            // effectLevel 0→1 gives mass = original * 1x→2x
+            // effectLevel 0->1 gives mass = original * 1x->2x
             ship.setMass(originalMass.get(shipId) * (1f + effectLevel));
 
             // Apply movement bonuses
@@ -109,7 +109,7 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
                 if (aiFlags != null) {
                     ShipAPI ramTarget = findNearestEnemyInForwardArc(ship, engine);
                     // Only commit to a ram if the target is meaningfully lighter than the
-                    // doubled ship — target must be at least 25% lighter than current mass
+                    // doubled ship - target must be at least 25% lighter than current mass
                     if (ramTarget != null && ramTarget.getMass() < ship.getMass() * 0.75f) {
                         aiFlags.setFlag(ShipwideAIFlags.AIFlags.DO_NOT_BACK_OFF, AI_FLAG_REFRESH_DURATION);
                         aiFlags.setFlag(ShipwideAIFlags.AIFlags.MANEUVER_TARGET, AI_FLAG_REFRESH_DURATION, ramTarget);

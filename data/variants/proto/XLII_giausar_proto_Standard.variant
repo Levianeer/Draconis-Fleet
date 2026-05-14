@@ -1,0 +1,52 @@
+{
+    "displayName": "Prototype",
+    "fluxCapacitors": 0,
+    "fluxVents": 5,
+    "hullId": "XLII_giausar_proto",
+    "hullMods": [
+        "shrouded_thunderhead",
+        "shrouded_lens"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_giausar_proto_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "breach",
+                "WS0002": "breach",
+                "WS0003": "breach",
+                "WS0004": "breach",
+                "WS0005": "breach",
+                "WS0018": "breach"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0008": "amsrm",
+                "WS0009": "amsrm"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "light_mass_driver",
+                "WS0007": "light_mass_driver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0016": "mininglaser",
+                "WS0017": "mininglaser"
+            }
+        }
+    ],
+    "wings": []
+}

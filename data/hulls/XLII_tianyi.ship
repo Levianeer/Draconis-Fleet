@@ -12,7 +12,6 @@
   "shieldRadius": 31.5,
   "viewOffset": 0,
   "builtInMods": [
-    "no_weapon_flux"
   ],
   "builtInWeapons": {
     "WS0001": "XLII_radar_dish"

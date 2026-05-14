@@ -12,7 +12,9 @@
   "shieldRadius": 44.5,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_autoflarelauncher"
+    "XLII_autoflarelauncher",
+    "XLII_overclockcore",
+    "no_weapon_flux"
   ],
   "weaponSlots": [
     {

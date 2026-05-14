@@ -187,7 +187,7 @@ public class DraconisAICorePriorityManager {
      * 2. Orbital Works / Heavy Industry (10.0) - Ship/Equipment production
      * 3. Population & Infrastructure (9.0) - Population growth
      * 4. High Command (8.5) - Military command
-     * 5. Megaport (8.0) - Trade hub
+     * 5. Commerce (8.0) - Trade (basic; active on all market sizes, highest marginal gain)
      * 6. Fuel Production (7.5) - Critical resource
      * 7. Refining (7.0) - Resource processing
      * 8. Light Industry (6.5) - Manufacturing
@@ -195,7 +195,7 @@ public class DraconisAICorePriorityManager {
      * 10. Mining (5.5) - Resource extraction
      * 11. Farming (5.0) - Food production
      * 12. Aquaculture (4.5) - Alternative food
-     * 13. Commerce (4.0) - Trade
+     * 13. Megaport (4.0) - Large-market trade hub (lower marginal gain; already highly efficient)
      * 14. Everything else (3.0) - Default priority
      * <p>
      * NOTE: This priority order is the SAME for all core types.
@@ -220,31 +220,31 @@ public class DraconisAICorePriorityManager {
         if (industryId.contains("highcommand")) return 8.5f;             // High Command
         if (industryId.contains("militarybase")) return 8.3f;            // Military Base (slightly lower)
 
-        // Tier 4: Trade
+        // Tier 5: Trade (Commerce)
         if (industryId.contains("commerce")) return 8.0f;                // Commerce
 
-        // Tier 5: Critical Resources
+        // Tier 6: Critical Resources
         if (industryId.contains("fuelprod")) return 7.5f;                // Fuel Production
 
-        // Tier 6: Resource Processing
+        // Tier 7: Resource Processing
         if (industryId.contains("refining")) return 7.0f;                // Refining
 
-        // Tier 7: Manufacturing
+        // Tier 8: Manufacturing
         if (industryId.contains("lightindustry")) return 6.5f;           // Light Industry
 
-        // Tier 8: Strategic Infrastructure
+        // Tier 9: Strategic Infrastructure
         if (industryId.contains("waystation")) return 6.0f;              // Waystation
 
-        // Tier 9: Resource Extraction
+        // Tier 10: Resource Extraction
         if (industryId.contains("mining")) return 5.5f;                  // Mining
 
-        // Tier 10: Food Production
+        // Tier 11: Food Production
         if (industryId.contains("farming")) return 5.0f;                 // Farming
 
-        // Tier 11: Alternative Food
+        // Tier 12: Alternative Food
         if (industryId.contains("aquaculture")) return 4.5f;             // Aquaculture
 
-        // Tier 12: Megaport
+        // Tier 13: Megaport (large-market trade hub; lower marginal gain from cores)
         if (industryId.contains("megaport")) return 4.0f;                // Megaport
 
         // Default: Everything else

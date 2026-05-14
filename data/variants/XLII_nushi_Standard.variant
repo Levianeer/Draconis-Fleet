@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 27,
-    "fluxVents": 0,
+    "fluxCapacitors": 2,
+    "fluxVents": 30,
     "hullId": "XLII_nushi",
     "hullMods": [
         "dedicated_targeting_core",
@@ -15,10 +15,14 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0013": "mjolnir",
-                "WS0014": "mjolnir",
-                "WS0015": "hephag"
+                "WS0013": "hephag",
+                "WS0014": "hephag"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "hveldriver"}
         },
         {
             "autofire": true,

@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 9,
+    "fluxCapacitors": 25,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_altais",
@@ -19,24 +19,18 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0014": "hurricane",
-                "WS0015": "hurricane"
+                "WS0014": "XLII_naginata",
+                "WS0015": "XLII_naginata"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
+                "WS0018": "XLII_bardiche_single",
+                "WS0019": "XLII_bardiche_single",
                 "WS0028": "XLII_bardiche",
                 "WS0029": "XLII_bardiche"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0018": "XLII_halberd",
-                "WS0019": "XLII_halberd"
             }
         },
         {
@@ -46,7 +40,13 @@
                 "WS0001": "XLII_rapier",
                 "WS0002": "XLII_rapier",
                 "WS0003": "XLII_rapier",
-                "WS0004": "XLII_rapier",
+                "WS0004": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
                 "WS0005": "XLII_culverin",
                 "WS0006": "XLII_culverin",
                 "WS0024": "XLII_culverin"

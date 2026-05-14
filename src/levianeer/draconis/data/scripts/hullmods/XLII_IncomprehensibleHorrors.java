@@ -15,7 +15,7 @@ import java.util.Map;
 public class XLII_IncomprehensibleHorrors extends BaseHullMod {
 
     private static final float COOLDOWN_REDUCTION = -35f;
-    private static final float HULL_RESTORE_PERCENT = 0.20f; // % of max hull at full modules (20%)
+    private static final float HULL_RESTORE_PERCENT = 0.10f; // % of max hull at full modules (10%)
     private static final int TOTAL_MODULES = 4;
 
     // Module hull IDs
@@ -24,7 +24,7 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
     private static final String MODULE_LEFT = "XLII_module_sunsetter_armor_left";
     private static final String MODULE_RIGHT = "XLII_module_sunsetter_armor_right";
 
-    // Per-ship state — BaseHullMod instances are shared across all ships with this mod,
+    // Per-ship state - BaseHullMod instances are shared across all ships with this mod,
     // so instance fields would be corrupted when multiple Sunsetter ships are in combat.
     private static final Map<String, Boolean> wasSystemActiveMap = new HashMap<>();
     private static final Map<String, Float> hullRestorePerSecondMap = new HashMap<>();

@@ -10,15 +10,15 @@
     "morality":"amoral",
     
     "startShipsSolo":[
-        ["XLII_alruba_Assault_fortysecond"]
+        ["FortySecond_alruba_Standard"]
     ],
-        
+
     "startShipsCombatSmall":[
-        ["XLII_alruba_Assault_fortysecond","XLII_shaobi_Assault_fortysecond"]
+        ["FortySecond_alruba_Standard","FortySecond_shaobi_Standard"]
     ],
 
     "startShipsCombatLarge":[
-        ["XLII_alruba_Assault_fortysecond","XLII_shaobi_Assault_fortysecond","XLII_juza_Assault_fortysecond"]
+        ["FortySecond_alruba_Standard","FortySecond_shaobi_Standard","FortySecond_juza_Standard"]
     ],
     
     "startSpecialItems":[

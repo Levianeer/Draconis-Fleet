@@ -3,15 +3,12 @@
 	"specClass":"projectile",
 	"type":"MISSILE",
 	"size":"SMALL",
-	
 	"turretSprite":"",
 	"hardpointSprite":"",	
 	"hardpointOffsets":[0,0],
 	"turretOffsets":[0,0],
 	"hardpointAngleOffsets":[0],
 	"turretAngleOffsets":[0],
-	
-	"renderHints":[RENDER_LOADED_MISSILES],
 	"barrelMode":"ALTERNATING",
 	"animationType":"NONE",
 	"smokeSpec":{"particleSizeMin":10.0,

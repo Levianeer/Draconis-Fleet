@@ -1,0 +1,114 @@
+{
+  "hullName": "Shangshu",
+  "hullId": "XLII_shangshu",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/XLII_shangshu.png",
+  "style": "DRACONIS",
+  "height": 49,
+  "width": 46,
+  "center": [23, 21.5],
+  "collisionRadius": 44,
+  "shieldCenter": [2, -0],
+  "shieldRadius": 39,
+  "viewOffset": 0,
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [10.5, 8.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [1.5, 17.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [1.5, -17.5]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-15.5, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-16.5, 10.5],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, -10.5],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, 8.5],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, -8.5],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, 6.5],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-16.5, -6.5],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -8, -21.5,
+    -15, -0,
+    -8, 21.5,
+    26, -0
+  ]
+}

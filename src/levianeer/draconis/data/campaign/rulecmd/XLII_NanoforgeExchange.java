@@ -12,7 +12,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity;
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin;
 import com.fs.starfarer.api.util.Misc;
-import levianeer.draconis.data.campaign.XLII_SigmaOctantisWatchdog;
+import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisWatchdog;
 import org.apache.log4j.Logger;
 
 import java.util.List;

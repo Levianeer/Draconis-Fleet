@@ -1,27 +1,32 @@
 {
-    "displayName": "Interceptor",
-    "fluxCapacitors": 0,
-    "fluxVents": 0,
-    "goalVariant": false,
-    "hullId": "XLII_thorne",
-    "hullMods": [],
-    "quality": 1.0,
-    "variantId": "XLII_thorne_Fighter",
-    "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS 000": "XLII_needler_fighter"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS 001": "XLII_arquebus",
-                "WS 002": "XLII_arquebus"
-            }
-        }
-    ]
+  "variantId": "XLII_thorne_Fighter",
+  "hullId": "XLII_thorne",
+  "displayName": "Interceptor",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0000": "XLII_kestros",
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "ALTERNATING",
+      "weapons": {
+        "WS0001": "XLII_arquebus",
+        "WS0002": "XLII_arquebus",
+        "WS0003": "XLII_arquebus",
+        "WS0004": "XLII_arquebus"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
 }

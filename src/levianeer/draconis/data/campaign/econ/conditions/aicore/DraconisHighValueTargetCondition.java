@@ -11,7 +11,6 @@ import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
-import levianeer.draconis.data.campaign.intel.events.crisis.DraconisFleetHostileActivityFactor;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -95,17 +94,12 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
             return "Draconis faction does not exist";
         }
 
-        // Check 2: Draconis faction must not be defeated (have at least one market)
+        // Check 2: Draconis faction must have at least one market
         if (isDraconisFactionDefeated(draconisFaction)) {
             return "Draconis faction has been defeated (no markets remaining)";
         }
 
-        // Check 3: Player markets must not have defeated crisis
-        if (market.isPlayerOwned() && DraconisFleetHostileActivityFactor.isPlayerDefeatedDraconisAttack()) {
-            return "Player market - crisis defeated";
-        }
-
-        // Check 4: Market must still have AI cores
+        // Check 3: Market must still have AI cores
         int coreCount = countAICores();
         if (coreCount == 0) {
             return "Market no longer has AI cores";

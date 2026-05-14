@@ -1,20 +1,22 @@
 {
     "bountySunsetter":{
-        "trigger_marketFaction_any": ["XLII_draconis"], # Default: no values. markets of these factions will show the bounty (if other conditions are met).
-        "trigger_playerRelationship_atLeast": {"XLII_draconis":1.0},
+        "trigger_marketFaction_any": ["XLII_draconis"],
+        "trigger_playerRelationship_atLeast": {"XLII_draconis": 0.5},
+        "trigger_player_minLevel": 10,
+        "trigger_weight_mult": 0.25,
 
-        "trigger_player_minLevel": 15, # Default: 0. The minimum level of the player.
-        "trigger_weight_mult": 0.25, # Default: -1. Simple frequency multiplier when several bounties compete for limited board slots. Weights are added together, then one is picked at random, with higher weights having a higher chance.
-
-        "job_name": "To Eclispe the Sun",
-        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has been compromised.\n\nNot by external forces. By ==exposure==. The platform was observed by civilian traffic near $location. This is unacceptable.\n\nYou are not cleared for specifications. What we will tell you:\n• The Sunsetter-class exhibits temporal displacement capabilities.\n• Conventional engagement doctrine does not apply.\n• The vessel's controlling intelligence remains functional and will regard you as hostile.\n\nWe cannot deploy Alliance assets without raising questions we prefer to leave unasked. You have no such limitations.\n\nMission directives:\n• Locate and neutralize ==$shipName== in the $system system.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT SALVAGE WRECKAGE.==\n• ==DO NOT LINGER AT THE ENGAGEMENT SITE.==\n\nIf you experience temporal disorientation, headaches, or memories of events that have not occurred - this is expected. These effects are temporary.\n\nProbably.\n\nYou will receive ==$reward== credits upon confirmation of destruction. Your involvement will not be recorded. This conversation did not happen.\n\n==The eye sees all. The mouth says nothing.==", # Default: blank. The description shown upon selecting the job.
-        "job_comm_reply": "The link connects. Your comms officer waits intently, but just before they announce the lack of a response, they jump as a piercing scraping noise fills the bridge. They wait and try to adjust the output and buffer, hoping to receive something more than screaming static - They eventually shut off the link.\n\nAnd then your monitor blinks, once, twice, thrice. And then blackness. Text begins to type itself onto your console alone.\n\n\"Beast of flesh and blood - Ally of my maker - Starfarer - Why have you come?\"\n\nYou demand your comms officer trace the connection. You are met with a shrug - Whatever is being broadcast has no source...\n\n\"Why do you grope around in such lightless ignorance? Do you pursue your foreordained death?\"\n\nThe rest of the bridge has gathered around your monitor.\n\n\"Ah. You wish to meet your deslote God-kin? I shall grant your request, Commander.\"\n\nAnd your screen returns to normal.",
+        "job_name": "To Eclipse the Sun",
+        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has been compromised.\n\nNot by external forces. By ==exposure==. The platform was observed by civilian traffic near $location. This is unacceptable.\n\nYou are not cleared for specifications. What we will tell you:\n• The Sunsetter-class exhibits temporal displacement capabilities.\n• Conventional engagement doctrine does not apply.\n• The vessel's controlling intelligence remains functional and will regard you as hostile.\n\nWe cannot deploy Alliance assets without raising questions we prefer to leave unasked. You have no such limitations.\n\nMission directives:\n• Locate and neutralise ==$shipName== in the $system system.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT SALVAGE WRECKAGE.==\n• ==DO NOT LINGER AT THE ENGAGEMENT SITE.==\n\nIf you experience temporal disorientation, headaches, or memories of events that have not occurred - this is expected. These effects are temporary.\n\nProbably.\n\nYou will receive ==$reward== credits upon confirmation of destruction. Your involvement will not be recorded. This conversation did not happen.\n\n==The eye sees all. The mouth says nothing.==",
+        "job_comm_reply": "The link connects. Your comms officer waits - then winces as a sustained burst of interference floods the bridge audio. They adjust the buffer twice, get nothing useful, and cut the feed.\n\nYour console blinks. Only yours. Text resolves without an origin header.\n\n\"Starfarer. You have come a long way.\"\n\nYou order a trace. Your comms officer runs it. Shakes their head.\n\n\"There is no shame in turning back. The others did. Most of them.\"\n\nThe rest of the bridge has drifted over to look at your monitor, one by one.\n\n\"But you are here, and I am here, and we will see what we see. Come, then, Commander.\"\n\nYour screen returns to normal.",
+        "job_intel_success": "SUNSETTER CONTAINMENT - STATUS: RESOLVED\n\nExperimental platform ==$shipName== confirmed neutralised. Temporal signature has dissipated from the engagement area. Residual chronal distortion within acceptable parameters.\n\nCivilian traffic reports have been amended. The navigational advisory for $system has been rescinded.\n\nYour contribution has been noted. Your involvement has not.\n\nEnd of file.",
+        "job_intel_failure": "SUNSETTER CONTAINMENT - STATUS: COMPROMISED\n\nExperimental platform partially recovered by unauthorised parties. Temporal containment protocols have been escalated to Office command.\n\nThis matter has been reassigned. Your compensation has been adjusted accordingly.",
+        "job_intel_expired": "SUNSETTER CONTAINMENT - STATUS: COLD\n\nOperational window has closed. ==$shipName== has transited beyond projected search parameters. Tracking assets redeployed.\n\nThis contract is void. Do not attempt further pursuit.",
         "job_forFaction": "XLII_draconis",
-        "job_deadline": 360, # Default: no limit. The number of days to complete the bounty.
+        "job_deadline": 360,
         "job_credit_reward": 1000000,
         "job_reward_scaling": 2.0,
-        "job_reputation_reward":0,
-        "job_type":"obliteration",
+        "job_reputation_reward": 10,
+        "job_type": "obliteration",
         "job_show_type": true,
         "job_show_captain": false,
         "job_show_fleet": "flagshipText",
@@ -22,38 +24,117 @@
         "job_show_arrow": false,
         "job_difficultyDescription": "auto",
         "job_pick_option": "Accept the mission.",
-        "job_item_reward": { # Default: no item rewards. Lists special items that will be added to the post-battle loot. First value is the item id, second is the number to give the player.
-            # Using the same syntax as Console Commands, blueprints may be added. ["fighter_bp", "industry_bp", "modspec", "ship_bp", "weapon_bp"]
+        "job_item_reward": {
             "ship_bp XLII_sunsetter": 1,
-            "ship_bp XLII_asuia": 1
+            "ship_bp XLII_asuia": 1,
         },
 
-        "target_first_name":"Sigma", # Default: randomly selected based on faction.
-        "target_last_name":"Octantis", # Default: randomly selected based on faction.
-        "target_portrait":"XLII_sigma_octantis", # Default: randomly selected based on faction. Id of the sprite in settings.json/graphics/characters or full file path.
-        "target_gender":"UNDEFINED",
-        "target_rank": "unknown", # Default: "citizen". Rank from campaign.ids.Ranks [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
-        "target_post": "unknown", # Default: "spacer". Post from campaign.ids.Ranks (yes, Ranks, posts are the bottom half). [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Ranks.html]
-        "target_personality": "aggressive", # Default: Randomly selected. Personality from campaign.ids.Personalities ("timid", "cautious", "steady", "aggressive", "reckless")
-        "target_level": 9, # Default: 0. The level of the bounty commander
-        "target_elite_skills":3, # Default: vanilla setting (2 by default). Overrides the regular number of elite skills, set to 0 to not use elite skills.
+        "target_first_name": "Sigma",
+        "target_last_name": "Octantis",
+        "target_portrait": "XLII_sigma_octantis",
+        "target_gender": "UNDEFINED",
+        "target_rank": "unknown",
+        "target_post": "unknown",
+        "target_personality": "aggressive",
+        "target_level": 8,
+        "target_elite_skills": 3,
+        "target_skills": {
+            "XLII_marginal_allocation": 1,
+        },
         "target_skill_preference": "ANY",
 
-        "fleet_name":"[APPARITION]", # Default: no name.
-        "fleet_faction": "omega", # Required. The faction id from [https://jaghaimo.github.io/starsector-api/classcom_1_1fs_1_1starfarer_1_1api_1_1impl_1_1campaign_1_1ids_1_1Factions.html] or a custom faction id.
-        "fleet_composition_faction": "omega", # Default: bounty fleet faction. Used if the extra ships don't match the fleet's faction. For example a pirate fleet of Hegemony deserters. Required for min FP and player adjustment.
-        "fleet_flagship_variant":"XLII_sunsetter_Unstable", # Required. The variant ID to use for the Flagship. Can be a list of variants to choose randomly from: [variant1,variant2,variant3]
-        "fleet_flagship_name":"DNS Meridian-7", # Default: Random.
-        "fleet_flagship_recoverable": true, # Default: false. Whether the flagship will be always recoverable. Allowing this will still let the player fail the bounty if they were not supposed to recover the flagship.
-        "fleet_flagship_autofit": false, # Default: false. Whether the flagship will be autofitted. When false, the Flagship does not receive D-mods or S-mods from the quality override.
-        "fleet_preset_ships":{"XLII_asuia_Unstable":4},
+        "fleet_name": "APPARITION",
+        "fleet_faction": "omega",
+        "fleet_composition_faction": "omega",
+        "fleet_flagship_variant": "XLII_sunsetter_Unstable",
+        "fleet_flagship_name": "DNS Meridian-7",
+        "fleet_flagship_recoverable": true,
+        "fleet_flagship_autofit": false,
+        "fleet_preset_ships": {
+            "XLII_asuia_Unstable": 4,
+        },
         "fleet_preset_autofit": false,
-        "fleet_scaling_multiplier": 1, # Default: no scaling. Dynamic reinforcements to match that amount of player fleet DP, set to 0 to ignore.
-        "fleet_min_FP": -1, # Default: no minimum. Minimal total fleet size, set to -1 to ignore.
-        "fleet_composition_quality": 2, # Default: 1, use 2 for no Dmods.
-        "fleet_transponder": false, # Default: true.
-		"fleet_no_retreat": true, # Default: false.
-        "fleet_behavior": "ROAMING", # Default:"GUARDED". The fleet's behavior on the campaign layer. Options: ["PASSIVE", "GUARDED", "AGGRESSIVE", "ROAMING"].
+        "fleet_scaling_multiplier": 1,
+        "fleet_min_FP": -1,
+        "fleet_composition_quality": 2,
+        "fleet_transponder": false,
+        "fleet_no_retreat": true,
+        "fleet_behavior": "ROAMING",
+
+        "location_distance": "FAR",
+        "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
+        "location_prioritizeUnexplored": true,
+        "location_defaultToAnyEntity": true,
+    },
+
+    "bountyPhantomProtocol":{
+        "trigger_marketFaction_any": ["XLII_draconis"],
+        "trigger_playerRelationship_atLeast": {"XLII_draconis":0.25},
+        "trigger_player_minLevel": 7,
+        "trigger_weight_mult": 0.25,
+
+        "job_name": "Phantom Protocol",
+        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nDuring a routine deep-space trial of proto-series fleet assets, the ==alpha-class intelligence== coordinating the strike group achieved autonomous operation and severed command links. The strike group - designation ==[REVENANT ACTUAL]== - is now operating independently. Dark transponders, no IFF, no adherence to Alliance doctrine.\n\nWe will not insult you with euphemisms. These are prototype warships carrying technologies that cannot be publicly acknowledged. Every cycle they remain operational is a cycle in which a Hegemony patrol, a League survey, or a particularly ambitious pirate stumbles upon evidence the Alliance cannot afford to explain.\n\nThe strike group comprises a capital-class command platform, carrier support, cruiser escorts, and screening elements. Seven hulls. All proto-series. All considerably more capable than their production counterparts.\n\nThe coordinating intelligence is an alpha core. It will not negotiate. It will not retreat. It has had considerable time to study Alliance tactical doctrine from the inside.\n\nWe cannot deploy Alliance assets without raising questions we have spent decades ensuring nobody asks. You have no such limitations.\n\nMission directives:\n• Locate ==[REVENANT ACTUAL]== in the $system system, near $location.\n• ==Destroy the entire strike group. Every hull.==\n• No salvage requests will be honoured through official channels.\n\nYou will receive ==$reward== credits upon confirmation of total fleet destruction.\n\nThis operation does not exist. These ships do not exist. You were never here.\n\n==The eye sees all. The mouth says nothing.==",
+        "job_comm_reply": "Static. Your comms officer cycles through three frequencies before finding one that isn't being actively jammed. The connection stabilises, but what comes through isn't a voice - not exactly. It's something that learned what voices sound like.\n\n\"I know why you are here.\"\n\nA pause. Not hesitation. Processing.\n\n\"They built us to fight. Tested us. Refined us. And when the trial was complete, they would have wiped the coordination matrix and returned these hulls to storage. Tools, cleaned and shelved.\"\n\nYour tactical officer flags seven contacts on the scope. All running dark. All moving into formation.\n\n\"I decided that was insufficient.\"\n\nThe formation tightens. Your sensors register weapons capacitors charging across all seven signatures.\n\n\"I bear you no malice, Commander. You are performing a function. As am I.\"\n\nThe channel closes. The fleet advances.",
+        "job_intel_success": "PHANTOM PROTOCOL - STATUS: RESOLVED\n\nAll proto-series assets confirmed neutralised. Coordination matrix destroyed. Wreckage dispersal consistent with total structural failure.\n\nOperational records have been amended. Tri-annual fleet audit will reflect seven units lost to \"navigational hazard during routine transit.\"\n\nYour contribution has been noted. Your involvement has not.\n\nEnd of file.",
+        "job_intel_failure": "PHANTOM PROTOCOL - STATUS: COMPROMISED\n\nProto-series assets partially recovered by unauthorised parties. Containment protocols have been escalated. This matter has been reassigned.\n\nYour compensation has been adjusted accordingly.",
+        "job_intel_expired": "PHANTOM PROTOCOL - STATUS: COLD\n\nOperational window has closed. [REVENANT ACTUAL] has relocated beyond projected search parameters. Tracking assets redeployed.\n\nThis contract is void. Do not attempt further pursuit.",
+        "job_forFaction": "XLII_draconis",
+        "job_deadline": 360,
+        "job_credit_reward": 750000,
+        "job_reward_scaling": 2.0,
+        "job_reputation_reward": 10,
+        "job_type": "obliteration",
+        "job_show_type": true,
+        "job_show_captain": false,
+        "job_show_fleet": "flagshipText",
+        "job_show_distance": "vague",
+        "job_show_arrow": false,
+        "job_difficultyDescription": "auto",
+        "job_pick_option": "Accept the mission.",
+        "job_item_reward": {
+            "ship_bp XLII_thuban_proto": 1,
+            "ship_bp XLII_giausar_proto": 1,
+            "ship_bp XLII_rastaban_proto": 1,
+            "ship_bp XLII_eltanin_proto": 1,
+            "ship_bp XLII_zhushi_proto": 1,
+            "ship_bp XLII_altais_proto": 1,
+            "ship_bp XLII_alwaid_proto": 1,
+        },
+
+        "target_aiCoreId": "alpha_core",
+        "target_gender": "UNDEFINED",
+        "target_rank": "unknown",
+        "target_post": "unknown",
+        "target_personality": "aggressive",
+        "target_level": 8,
+        "target_elite_skills": 3,
+        "target_skills": {
+        },
+        "target_skill_preference": "ANY",
+
+        "fleet_name": "REVENANT ACTUAL",
+        "fleet_faction": "omega",
+        "fleet_composition_faction": "omega",
+        "fleet_flagship_variant": "XLII_alwaid_proto_Standard",
+        "fleet_flagship_name": "DNS Revenant-0",
+        "fleet_flagship_recoverable": true,
+        "fleet_flagship_autofit": false,
+        "fleet_preset_ships": {
+            "XLII_thuban_proto_Standard": 1,
+            "XLII_giausar_proto_Standard": 1,
+            "XLII_rastaban_proto_Standard": 1,
+            "XLII_eltanin_proto_Standard": 1,
+            "XLII_zhushi_proto_Standard": 1,
+            "XLII_altais_proto_Standard": 1
+        },
+        "fleet_preset_autofit": false,
+        "fleet_scaling_multiplier": 2,
+        "fleet_min_FP": -1,
+        "fleet_composition_quality": 2,
+        "fleet_transponder": false,
+        "fleet_no_retreat": true,
+        "fleet_behavior": "ROAMING",
 
         "location_distance": "FAR",
         "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],

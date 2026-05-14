@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 26,
+    "fluxVents": 27,
     "goalVariant": true,
     "hullId": "XLII_eltanin",
     "hullMods": [
@@ -15,7 +15,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0006": "breach"}
+            "weapons": {"WS0006": "XLII_halberd_pod"}
         },
         {
             "autofire": false,
@@ -26,29 +26,33 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_cestus",
-                "WS0007": "XLII_cestus"
-            }
+            "weapons": {"WS0015": "XLII_montante"}
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_longsword"}
+            "weapons": {
+                "WS0005": "XLII_culverin",
+                "WS0007": "XLII_culverin"
+            }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
                 "WS0004": "XLII_estocflak",
-                "WS0009": "XLII_estocflak",
-                "WS0017": "XLII_razorflak"
+                "WS0009": "XLII_estocflak"
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
             "mode": "ALTERNATING",
             "weapons": {
                 "WS0001": "XLII_swordbreaker",

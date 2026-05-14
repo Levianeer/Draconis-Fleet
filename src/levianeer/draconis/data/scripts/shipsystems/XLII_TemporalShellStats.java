@@ -1,6 +1,8 @@
 package levianeer.draconis.data.scripts.shipsystems;
 
 import java.awt.Color;
+import java.util.Collections;
+import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineLayers;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
@@ -24,41 +26,21 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
         boolean player = ship == Global.getCombatEngine().getPlayerShip();
 		id += "_" + ship.getId();
 
+		List<ShipAPI> modules = ship.getChildModulesCopy();
+		if (modules == null) modules = Collections.emptyList();
+
 		// Create afterimage effect at regular intervals.
 		jitterInterval.advance(Global.getCombatEngine().getElapsedInLastFrame());
 		if (jitterInterval.intervalElapsed()) {
-			SpriteAPI sprite = ship.getSpriteAPI();
-			float offsetX = sprite.getWidth() / 2 - sprite.getCenterX();
-			float offsetY = sprite.getHeight() / 2 - sprite.getCenterY();
-			float angle = ship.getFacing() - 90f;
-			float cos = (float) FastTrig.cos(Math.toRadians(angle));
-			float sin = (float) FastTrig.sin(Math.toRadians(angle));
-			float trueOffsetX = cos * offsetX - sin * offsetY;
-			float trueOffsetY = sin * offsetX + cos * offsetY;
-
-			// Use the dynamically shifting color for the afterimage.
 			Color afterimageColor = getAfterimageColor();
-
-			org.magiclib.util.MagicRender.battlespace(
-					Global.getSettings().getSprite(ship.getHullSpec().getSpriteName()),
-					new Vector2f(ship.getLocation().x + trueOffsetX, ship.getLocation().y + trueOffsetY),
-					new Vector2f(0, 0),
-					new Vector2f(sprite.getWidth(), sprite.getHeight()),
-					new Vector2f(0, 0),
-					angle,
-					0f,
-					afterimageColor,
-					true,
-					0f, 0f, 0f, 0f, 0f,
-					0.1f, 0.1f,
-					0.75f,
-					CombatEngineLayers.BELOW_SHIPS_LAYER
-			);
+			renderAfterimage(ship, afterimageColor);
+			for (ShipAPI m : modules) { if (!m.isHulk()) renderAfterimage(m, afterimageColor); }
 		}
 
 		// Time multiplier adjustment.
 		float timeMult = 1f + (MAX_TIME_MULT - 1f) * effectLevel;
 		stats.getTimeMult().modifyMult(id, timeMult);
+		for (ShipAPI m : modules) m.getMutableStats().getTimeMult().modifyMult(id, timeMult);
 		if (player) {
 			Global.getCombatEngine().getTimeMult().modifyMult(id, 1f / timeMult);
 		} else {
@@ -88,6 +70,10 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 
 		Global.getCombatEngine().getTimeMult().unmodify(id);
 		stats.getTimeMult().unmodify(id);
+		List<ShipAPI> modules = ship.getChildModulesCopy();
+		if (modules != null) {
+			for (ShipAPI m : modules) m.getMutableStats().getTimeMult().unmodify(id);
+		}
 
 		stats.getMaxSpeed().unmodify(id);
 		stats.getMaxTurnRate().unmodify(id);
@@ -103,6 +89,32 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
             case 1 -> new StatusData("enhanced maneuverability", false);
             default -> null;
         };
+	}
+
+	private void renderAfterimage(ShipAPI ship, Color color) {
+		SpriteAPI sprite = ship.getSpriteAPI();
+		float offsetX = sprite.getWidth() / 2 - sprite.getCenterX();
+		float offsetY = sprite.getHeight() / 2 - sprite.getCenterY();
+		float angle = ship.getFacing() - 90f;
+		float cos = (float) FastTrig.cos(Math.toRadians(angle));
+		float sin = (float) FastTrig.sin(Math.toRadians(angle));
+		float trueOffsetX = cos * offsetX - sin * offsetY;
+		float trueOffsetY = sin * offsetX + cos * offsetY;
+		org.magiclib.util.MagicRender.battlespace(
+				Global.getSettings().getSprite(ship.getHullSpec().getSpriteName()),
+				new Vector2f(ship.getLocation().x + trueOffsetX, ship.getLocation().y + trueOffsetY),
+				new Vector2f(0, 0),
+				new Vector2f(sprite.getWidth(), sprite.getHeight()),
+				new Vector2f(0, 0),
+				angle,
+				0f,
+				color,
+				true,
+				0f, 0f, 0f, 0f, 0f,
+				0.1f, 0.1f,
+				0.75f,
+				CombatEngineLayers.BELOW_SHIPS_LAYER
+		);
 	}
 
 	// Returns a color that cycles smoothly between teal, blue, pink, and red.

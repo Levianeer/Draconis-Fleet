@@ -2,12 +2,15 @@ package levianeer.draconis.data.campaign.rulecmd;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.FactionAPI;
+import com.fs.starfarer.api.combat.ShipHullSpecAPI;
+import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
+import levianeer.draconis.data.campaign.characters.XLII_PersonEmilAugust;
 import com.fs.starfarer.api.impl.campaign.CoreReputationPlugin.CustomRepImpact;
 import com.fs.starfarer.api.impl.campaign.CoreReputationPlugin.RepActionEnvelope;
 import com.fs.starfarer.api.impl.campaign.CoreReputationPlugin.RepActions;
@@ -35,7 +38,7 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         // Get the ship/wing base value dynamically by creating a temporary fleet member
         // Try as fighter wing first, then as ship
-        int cost;
+        int cost = 0;
         FleetMemberAPI tempMember = null;
         boolean isWing = false;
 
@@ -45,16 +48,30 @@ public class XLII_BuyShip extends BaseCommandPlugin {
             isWing = true;
             log.info("XLII_BuyShip: Successfully identified " + variantId + " as fighter wing");
         } catch (RuntimeException e) {
-            // Not a fighter wing, try as ship
+            // Not a fighter wing - try as hull ID (ships from admiral store are stored by hull ID)
             try {
-                tempMember = Global.getFactory().createFleetMember(FleetMemberType.SHIP, variantId);
-                cost = (int) tempMember.getBaseValue();
-                log.info("XLII_BuyShip: Successfully identified " + variantId + " as ship");
+                ShipHullSpecAPI hull = Global.getSettings().getHullSpec(variantId);
+                if (hull != null) {
+                    ShipVariantAPI emptyVariant = Global.getSettings()
+                            .createEmptyVariant(variantId + "_store_purchase", hull);
+                    tempMember = Global.getFactory().createFleetMember(FleetMemberType.SHIP, emptyVariant);
+                    cost = (int) tempMember.getBaseValue();
+                    log.info("XLII_BuyShip: Successfully identified " + variantId + " as hull ID");
+                }
             } catch (Exception e2) {
-                // If we can't create the fleet member as either type, return error
-                log.warn("XLII_BuyShip: Could not retrieve cost for variant: " + variantId, e2);
-                dialog.getTextPanel().addPara("Error: Could not find ship or wing variant '" + variantId + "'.");
-                return false;
+                log.debug("XLII_BuyShip: hull path failed for " + variantId + " (" + e2.getMessage() + ")");
+            }
+            // Fall back to variant ID if hull path didn't yield a member
+            if (tempMember == null) {
+                try {
+                    tempMember = Global.getFactory().createFleetMember(FleetMemberType.SHIP, variantId);
+                    cost = (int) tempMember.getBaseValue();
+                    log.info("XLII_BuyShip: Successfully identified " + variantId + " as ship variant");
+                } catch (Exception e2) {
+                    log.warn("XLII_BuyShip: Could not retrieve cost for variant: " + variantId, e2);
+                    dialog.getTextPanel().addPara("Error: Could not find ship or wing variant '" + variantId + "'.");
+                    return false;
+                }
             }
         }
 
@@ -117,6 +134,9 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         // Increase Fleet Admiral Emil August's personal reputation
         adjustAdmiralReputation(repCost, dialog);
+
+        // Update portrait immediately if rep threshold crossed
+        XLII_PersonEmilAugust.updatePortrait();
 
         return true;
     }

@@ -1,0 +1,47 @@
+{
+	"id":"XLII_daikyu_torp",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_UltradenseNukeOnHitEffect",
+	"sprite":"graphics/missiles/XLII_ultradense_torp.png",
+	"size":[14,40],
+	"center":[7,20],
+	"collisionRadius":48,
+	"collisionClass":"MISSILE_FF",
+	"explosionColor":[125,125,255,255],
+	"explosionRadius":1500,
+	"glowColor":[205,25,125,75],
+	"glowRadius":275,
+	"flameoutTime":3,
+	"armingTime":1.0,
+	"noEngineGlowTime":0.5,
+	"fadeTime":0.5,
+	"passThroughMissiles":true,
+	"passThroughFighters":true,
+	"applyOnHitEffectWhenPassThrough":false,
+	"engineSpec":{"turnAcc":50,
+				  "turnRate":75,
+				  "acc":250,
+				  "dec":25},
+	"engineSlots":[{"id":"ES1",
+					"loc":[-18, 0],
+					"style":"CUSTOM",
+					"styleSpec":{
+						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+						"engineColor":[255,88,122,225],
+						"glowSizeMult":2.5,
+						"contrailDuration":4.5,
+						"contrailWidthMult":1.75,
+						"contrailWidthAddedFractionAtEnd":1.0,  # can be negative. makes trail spread out/narrow at the end
+						"contrailMinSeg":9, # min segment length, in pixels
+						"contrailMaxSpeedMult":0.75f,
+						"contrailAngularVelocityMult":0.1f,
+						"contrailColor":[235,235,235,75],
+						"glowAlternateColor":[255,15,175,205],
+						"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+					},
+				    "width":15.0,
+				    "length":90.0,
+				    "angle":180.0},
+				    ]
+}

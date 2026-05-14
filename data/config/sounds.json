@@ -21,8 +21,8 @@
             ],
         "DRACONIS":{"sounds":[0,1,2,3,4], "pitch":1.0, "volume":1.0},
         "FIGHTER":{"sounds":[0], "pitch":1.0, "volume":0.4},
-        "FRIGATE":{"sounds":[1], "pitch":1.0, "volume":0.7},
-        "DESTROYER":{"sounds":[2], "pitch":1.0, "volume":0.7},
+        "FRIGATE":{"sounds":[1], "pitch":1.0, "volume":0.5},
+        "DESTROYER":{"sounds":[2], "pitch":1.0, "volume":0.6},
         "CRUISER":{"sounds":[3], "pitch":1.0, "volume":0.7},
         "CAPITAL_SHIP":{"sounds":[4], "pitch":1.0, "volume":1.0},
 	},
@@ -147,9 +147,8 @@
 
 	"XLII_fragarach_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.25,"volume":0.1},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_01.ogg","pitch":1.25,"volume":0.1},
-		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire_02.ogg","pitch":1.25,"volume":0.1}
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire.ogg","pitch":0.8,"volume":1.25},
+		{"file":"sounds/sfx_wpn_guns/XLII_fragarach_fire.ogg","pitch":0.7,"volume":1.25}
 		]
     },
 
@@ -261,6 +260,14 @@
 		]
     },
 
+	"XLII_montante_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_guns/XLII_montante_fire.ogg","pitch":1.0,"volume":0.8},
+		{"file":"sounds/sfx_wpn_guns/XLII_montante_fire.ogg","pitch":1.1,"volume":0.8},
+		{"file":"sounds/sfx_wpn_guns/XLII_montante_fire.ogg","pitch":1.2,"volume":0.8}
+		]
+    },
+
 	"XLII_culverin_proxy_explosion":{
 		"sounds":[
 		{"file":"sounds/sfx_impacts/XLII_culverin_explosion_0.ogg","pitch":1.0,"volume":0.125}
@@ -277,5 +284,9 @@
 		"sounds":[
 		{"file":"sounds/sfx_systems/XLII_chaff_activate.ogg","pitch":1.0,"volume":0.1}
 		]
-    }
+    },
+
+	"XLII_kori_radio_chatter":[
+		{"file":"sounds/music/draconis_radio_chatter.ogg","pitch":1.0,"volume":1.75}
+	]
 }

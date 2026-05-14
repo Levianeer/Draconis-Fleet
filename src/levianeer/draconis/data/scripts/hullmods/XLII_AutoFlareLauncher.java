@@ -19,7 +19,7 @@ import java.util.List;
  * <p>
  * Monitors incoming enemy missiles each frame. When a missile enters range and
  * the cooldown has expired, fires a flare burst from all SYSTEM weapon slots
- * using XLII_DelayedFlareShot — the same mechanism as Evasion Protocol.
+ * using XLII_DelayedFlareShot - the same mechanism as Evasion Protocol.
  * <p>
  * Requires the hull to have at least one SYSTEM-type weapon slot.
  * Disabled while overloaded or venting.
@@ -91,7 +91,7 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
         }
         if (!cached) return;
 
-        // Tick down cooldown — skip threat scan until ready
+        // Tick down cooldown - skip threat scan until ready
         float remaining = cooldownTimers.getOrDefault(shipId, 0f);
         if (remaining > 0f) {
             cooldownTimers.put(shipId, remaining - amount);
@@ -115,7 +115,7 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
 
         if (incomingCount < MIN_MISSILES) return;
 
-        // Schedule burst — identical to EvasionProtocol's activation logic
+        // Schedule burst - identical to EvasionProtocol's activation logic
         int burstSize = XLII_DelayedFlareShot.getBurstSize();
         for (int i = 0; i < burstSize; i++) {
             engine.addPlugin(new XLII_DelayedFlareShot(

@@ -1,0 +1,18 @@
+{
+	"id":"XLII_orion_drive",
+	"type":"STAT_MOD",
+	"aiType":"BURN_DRIVE",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_OrionDriveStats",
+
+	"runScriptWhileIdle":true,
+
+	"useSound":"system_orion_device_fire",
+	"outOfUsesSound":"gun_out_of_ammo",
+
+	"aiHints":{
+		"activeSpeedIncrease":0,
+		"burstMovementPotential":400,
+		"averageSpeedIncrease":100,
+	}
+}

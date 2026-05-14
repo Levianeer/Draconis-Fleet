@@ -1,7 +1,7 @@
 {
   "variantId": "XLII_eldsich_Bomber",
   "hullId": "XLII_eldsich",
-  "displayName": "Long-Range Bomber",
+  "displayName": "Bomber",
   "goalVariant": false,
   "fluxCapacitors": 0,
   "fluxVents": 0,

@@ -1,0 +1,60 @@
+{
+  "id": "XLII_koncerz",
+  "specClass": "projectile",
+  "projectileSpecId": "XLII_koncerz_shot",
+  "type": "ENERGY",
+  "mountTypeOverride": "HYBRID",
+  "size": "LARGE",
+  "turretSprite": "graphics/weapons/XLII_koncerz_turret_base.png",
+  "hardpointSprite": "graphics/weapons/XLII_koncerz_hardpoint_base.png",
+	"turretGlowSprite":"graphics/weapons/XLII_koncerz_turret_base_glow.png",
+	"hardpointGlowSprite":"graphics/weapons/XLII_koncerz_hardpoint_base_glow.png",
+
+  "glowColor": [
+    255,
+    100,
+    150,
+    255
+  ],
+  "turretOffsets": [
+    39,
+    6.5,
+    39,
+    -6.5
+  ],
+  "turretAngleOffsets": [
+    0,
+    0
+  ],
+  "hardpointOffsets": [
+    40.5,
+    6.5,
+    40.5,
+    -6.5
+  ],
+  "hardpointAngleOffsets": [
+    0,
+    0
+  ],
+  "barrelMode": "ALTERNATING",
+  "animationType": "GLOW_AND_FLASH",
+  "autocharge": true,
+  "muzzleFlashSpec": {
+    "length": -34,
+    "spread": 15,
+    "particleSizeMin": 15,
+    "particleSizeRange": 15,
+    "particleDuration": 0.15,
+    "particleCount": 30,
+    "particleColor": [
+      255,
+      100,
+      150,
+      255
+    ]
+  },
+  "playFullFireSoundOne":true,
+  "pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER,MISSILE_FF,MISSILE_NO_FF,FIGHTER,ASTEROID],
+  "fireSoundOne": "system_nova_burst_fire", # system_orion_device_fire // system_nova_burst_fire
+  "fireSoundTwo": "dragonfire_payload_fire" # system_nova_burst_explosion // system_orion_device_explosion
+}

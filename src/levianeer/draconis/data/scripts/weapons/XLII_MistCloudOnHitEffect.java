@@ -1,6 +1,5 @@
 package levianeer.draconis.data.scripts.weapons;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI;
 import org.lazywizard.lazylib.FastTrig;
@@ -15,8 +14,8 @@ import java.awt.Color;
 public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
 
     // Color constants (pre-allocated to avoid per-call allocations)
-    private static final Color SMOKE_COLOR_BRIGHT = new Color(205, 205, 205, 155);
-    private static final Color SMOKE_COLOR_PUFF = new Color(170, 170, 170, 150);
+    private static final Color SMOKE_COLOR_BRIGHT = new Color(180, 183, 192, 155);
+    private static final Color SMOKE_COLOR_PUFF = new Color(145, 148, 158, 150);
 
     // Effect constants
     private static final float EXPLOSION_RADIUS = 120f;
@@ -42,22 +41,16 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
         // Spawn visual explosion
         spawnSmokeExplosion(engine, impactPoint);
 
+        // Todo: Find a better SFX.
         // Play sound
-        Global.getSoundPlayer().playSound(
-            "vent_flux",
-            1.0f,
-            0.7f,
-            impactPoint,
-            new Vector2f()
-        );
+        //Global.getSoundPlayer().playSound("vent_flux", 1.0f, 0.7f, impactPoint, new Vector2f());
 
-        // Signal the combat plugin to create a cloud at this location
+        // Signal the combat plugin to create a cloud at this location.
+        // Include the source owner side in the key so each side's plugin only processes its own missiles.
         if (projectile.getSource() != null) {
-            engine.getCustomData().put("XLII_MIST_SPAWN_" + System.nanoTime(), impactPoint);
+            int ownerSide = projectile.getSource().getOwner();
+            engine.getCustomData().put("XLII_MIST_SPAWN_" + ownerSide + "_" + System.nanoTime(), new Vector2f(impactPoint));
         }
-
-        // No manual despawn needed - the missile naturally expires after hitting
-        // The "frozen missile" bug was actually caused by the AI anchor in MistCloudsPlugin
     }
 
     /**

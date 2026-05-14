@@ -16,6 +16,18 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
     private static final float PIERCE_EMP_MULT = 1.5f;     // Multiply EMP damage by this when piercing
     private static final DamagingExplosionSpec VISUAL_EXPLOSION_SPEC = createCachedVisualExplosionSpec();
 
+    private static final Color EMP_PARTICLE_COLOR = new Color(100, 150, 255, 130);
+    private static final Color EMP_PARTICLE_COLOR_2 = new Color(200, 220, 255, 80);
+    private static final Color PIERCE_ARC_FRINGE = new Color(100, 150, 255, 255);
+    private static final Color PIERCE_ARC_CORE = new Color(200, 220, 255, 255);
+    private static final Color PIERCE_ARC2_FRINGE = new Color(150, 180, 255, 180);
+    private static final Color PIERCE_ARC2_CORE = new Color(220, 230, 255, 120);
+    private static final Color VISUAL_PARTICLE_COLOR = new Color(100, 150, 255, 130);
+    private static final Color VISUAL_PARTICLE_COLOR_RING2 = new Color(100, 150, 255, 100);
+    private static final Color VISUAL_FLARE_COLOR = new Color(100, 150, 255, 255);
+    private static final Color VISUAL_FLARE_CORE = new Color(220, 230, 255, 255);
+    private static final Color VISUAL_HIT_COLOR = new Color(150, 180, 255, 200);
+
     @Override
     public void onHit(DamagingProjectileAPI projectile, CombatEntityAPI target,
                       Vector2f point, boolean shieldHit, ApplyDamageResultAPI damageResult, CombatEngineAPI engine) {
@@ -86,8 +98,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                     100000f, // max range
                     "tachyon_lance_emp_impact",
                     12f + (float)Math.random() * 10f, // thickness variation
-                    new Color(100, 150, 255, 255),
-                    new Color(200, 220, 255, 255)
+                    PIERCE_ARC_FRINGE,
+                    PIERCE_ARC_CORE
             );
 
             // Secondary smaller arcs (fewer)
@@ -103,8 +115,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                         100000f,
                         null,
                         6f + (float)Math.random() * 6f,
-                        new Color(150, 180, 255, 180),
-                        new Color(220, 230, 255, 120)
+                        PIERCE_ARC2_FRINGE,
+                        PIERCE_ARC2_CORE
                 );
             }
         }
@@ -138,8 +150,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                 6f,                // particle size range
                 0.4f,              // particle duration
                 20,                // particle count
-                new Color(100, 150, 255, 130),
-                new Color(200, 220, 255, 80)
+                EMP_PARTICLE_COLOR,
+                EMP_PARTICLE_COLOR_2
         );
         spec.setDamageType(DamageType.ENERGY);
         spec.setSoundSetId("system_emp_emitter_activate");
@@ -198,7 +210,7 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                         40f + (float)Math.random() * 25f,
                         1f,
                         0.25f + (float)Math.random() * 0.15f,
-                        new Color(100, 150, 255, 130 - ring * 30)
+                        ring == 0 ? VISUAL_PARTICLE_COLOR : VISUAL_PARTICLE_COLOR_RING2
                 );
             }
         }
@@ -218,8 +230,8 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                     320f,
                     120f,
                     angle,
-                    new Color(100, 150, 255, 255),
-                    new Color(220, 230, 255, 255)
+                    VISUAL_FLARE_COLOR,
+                    VISUAL_FLARE_CORE
             );
         }
 
@@ -235,7 +247,7 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                     60f + (float)Math.random() * 30f,
                     1f,
                     0.3f + (float)Math.random() * 0.2f,
-                    new Color(150, 180, 255, 200)
+                    VISUAL_HIT_COLOR
             );
         }
     }

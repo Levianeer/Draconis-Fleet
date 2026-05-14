@@ -1,3 +1,288 @@
+Version 0.7.0
+- WARNING: Breaking change - NOT compatible with saves from 0.6.12 or earlier.
+  - Internal restructuring: Colony crisis system.
+  - Corrected Yunu hull ID: XLII_eltanin_mk2 -> XLII_yunu.
+  - Removed Tyl Drone Fighter.
+  - Reworked the Fafnir system.
+
+NEW CONTENT:
+- NEW: Portait artwork for each of the major characters.
+- NEW: Montante Autocannon - large kinetic autocannon (Uses old Fragarach sprite)
+- NEW: Naginata MLRS Launcher - large guided torpedo salvo launcher.
+  - Fires a burst of 3 guided torpedoes.
+- REWORK: Colony crisis, replacing the old crisis system.
+  - Threat score advances monthly based on AI core usage and DDA relations.
+  - Four phases: WATCHING (0-34) -> ACTIVE_MEASURES (35-64) -> LIABILITY (65-99) -> INVASION (100).
+  - Colony debuffs (accessibility and stability penalties) begin at WATCHING.
+  - Industry disruptions begin at tracker >= 25, scaling in severity toward 100.
+  - Shadow fleets spawn and scale during ACTIVE_MEASURES and above.
+  - At tracker = 100 a punitive expedition is dispatched; defeating it resets the tracker.
+    - Beating three strikes in a row completes the crisis and grants an armaments export bonus.
+      - Reward is WIP. Not really sure what to give at this stage.
+  - A deal is available from an Office intelligence agent at player colony bars.
+    - This will suppress the crisis, as long as you pay the monthly 'tithe'.
+    - Additionally, being commisioned also supresses the crisis.
+- NEW: Sigma Octantis skill - Can now clone enemy ships.
+  - "We call this a difficulty tweak."
+- NEW: Blind Eye questline - Short questline. (SUPER WIP - content subject to change.)
+    - Unlocks after reading the Fafnir Gate logs and discussing them with Fleet Admiral August.
+    - An AIO agent makes contact at Ring-Port and briefs you on a covert assault mission.
+    - Assault Ring-Port with marines to capture it for August's loyalist faction ahead of the AIO.
+- NEW: Alrakis-class Carrier - a cruiser-class battlecarrier.
+- NEW: Yinde-class Cruiser - an adanced highly mobile cruiser.
+- NEW: AIO Operative - a post-Blind Eye contact available at Ring-Port bar who can exchange credits for story points.
+  - Story point cost scale with purchase count per cycle, resetting each year.
+- NEW: Prototype Draconis ships - 7 new hulls. (WIP - not yet player-obtainable.)
+  - (Thuban, Rastaban, Giausar, Eltanin, Zhushi, Altais, Alwaid)
+  - Old sprites from the original mod concept, by popular demand.
+- NEW: Nuclear escalation - Draconis and the Forty Second upgrade to Daikyu weapons if the player fields 'nuclear arms'.
+    - Uses an opt-in system. Use nukes, they use nukes too!
+      - So it doesn't mess with the base game sandbox.
+  - NEW: Daikyu-class Torpedo Pod - medium nuclear torpedo launcher.
+  - NEW: Daikyu-class Torpedo Launcher - large nuclear torpedo launcher.
+- NEW: Tianbang-class Multirole Fighter - another multirole fighter
+  - NEW: Billhook-class Torpedo - a compact, unguided small-slot anti-fighter missile.
+  NEW: Tiangou-class Multirole Fighter - ANOTHER multirole fighter, but spicier.
+  - NEW: Claymore-class Railgun - a compact, railgun.
+- NEW: All Draconis Capital Ships now Transverse Jump into battle.
+  - Huge credit to the SEEKER mod, wouldn't even know where to begin making this without it as a reference.
+- NEW: Shangshu-class Bomber - a new DDA bomber wing.
+  - Carries the Scimitar-class Torpedo (high EMP vs shields) and a Guided version of the Annihilator Pod.
+- NEW: Tianlong Mk.II Battlecruiser - silly variant.
+- NEW: Misericorde Chaingun - a large ballistic, energy weapon.
+
+BALANCE CHANGES:
+- Trebuchet Cannon:
+  - Chargeup 0 -> 0.5s (to support new laser sight FX).
+  - Flux/shot 625 -> 650.
+  - Burst delay 0.2 -> 0.5s.
+  - Base value 5000 -> 3200.
+- Twin Spear Cannon:
+  - Range 1000 -> 900.
+  - Damage 400 -> 475.
+  - EMP damage 500 -> 475.
+  - OP 26 -> 26.
+  - Chargeup 0 -> 0.25.
+  - Chargedown 3 -> 0.25.
+  - And more...
+    - Overall a large change to function.
+    - Should fit into a more clear role.
+- Estoc Flak Cannon:
+  - Damage 20 -> 25.
+  - Projectile speed 1100 -> 990.
+  - Projectile hitpoints 10 -> 20.
+- Razor Flak Cannon:
+  - Range 450 -> 600.
+  - Damage 20 -> 25.
+  - Projectile speed 1100 -> 1250.
+- Cestus Gun Launcher:
+  - OP 13 -> 10.
+- Culverin Coilgun:
+  - OP 13 -> 11.
+- Longsword Autocannon:
+  - Damage 440 -> 400.
+  - Flux/shot 700 -> 400.
+- Mangonel Gun Launcher:
+  - Range 900 -> 700.
+  - Damage 1200 -> 600.
+  - EMP damage 350 -> 100.
+  - Flux/shot 1200 -> 750.
+  - Turn rate 12 -> 18.
+  - Added ammo/reload: 5 shots.
+- Mk.II Durendal Cannon:
+  - Range 1000 -> 900.
+- Fragarach Railgun:
+  - Damage 900 -> 1000.
+  - EMP damage 900 -> 1000.
+  - Flux/shot 1250 -> 1700.
+  - Chargeup 0 -> 1s.
+  - Chargedown 4 -> 3s.
+- Halberd-class Torpedo:
+  - Chargedown 20 -> 15.
+  - Flight time 9 -> 12.
+  - Removed DANGEROUS flag.
+- Halberd-class Torpedo Pod:
+  - Chargedown 10 -> 15.
+  - Flight time 9 -> 16.
+  - Removed DANGEROUS flag.
+- Falchion-class Torpedo:
+  - Damage 2000 -> 750.
+- Pulsar Jammer System:
+  - Cooldown 24 -> 18.
+- Flux Cycler System (Nushi):
+  - Reworked: Now is a 'damage absorption/buff' system.
+- Time Dash System (Asuia):
+  - Charge rate 0.1 -> 0.075.
+  - Charge-up 0.25 -> 0.5s.
+  - Charge-down 0.25 -> 0.5s.
+  - Cooldown 6 -> 0. (Only based on charges now)
+- Time Slip System (Sunsetter):
+  - Now drains 1 flux/sec while active.
+  - Added 0.25 f/u (base cap) cost per use.
+  - Charge-up 0.25 -> 4s; active duration 5.5 -> 7s; charge-down 0.25 -> 2s; cooldown 15 -> 12s.
+- Nushi:
+  - Hitpoints 6500 -> 8000.
+  - Armor rating 800 -> 1000.
+  - Flux dissipation 650 -> 675.
+  - Max speed 75 -> 85.
+  - Acceleration 80 -> 75.
+  - Deceleration 60 -> 55.
+  - Shield type FRONT -> OMNI (arc 360 -> 240).
+  - Shield efficiency 1.1 -> 1.0.
+  - DP 30 -> 22.
+- Nushi Mk.II:
+  - System changed: Plasma Jets -> Emergency Repairs.
+  - Hitpoints 6000 -> 8000.
+  - Armor rating 750 -> 1000.
+  - Flux dissipation 550 -> 525.
+  - Acceleration 80 -> 75.
+  - Deceleration 60 -> 55.
+  - Mass 1750 -> 1800.
+  - Shield type FRONT -> OMNI (arc 360 -> 240).
+  - Shield efficiency 1.0 -> 1.1.
+  - DP 25 -> 20.
+- Kuma:
+  - System changed: Fortress Shield -> Emergency Repairs.
+  - FP 30 -> 32.
+  - Ordnance points 270 -> 255.
+  - Deceleration 12 -> 10.
+  - Max turn rate 6 -> 4.
+  - Shield arc 240 -> 300.
+  - Shield efficiency 1.4 -> 1.2.
+  - DP 40 -> 45.
+  - Added built-in Advanced Targeting Core.
+- Yinde:
+  - FP 16 -> 18.
+  - DP 25 -> 26.
+- Yunu:
+  - Armor rating 850 -> 750.
+- Juza:
+  - Armor rating 1000 -> 1100.
+  - DP 35 -> 28.
+- Altais:
+  - DP 40 -> 35.
+- Dziban:
+  - FP 22 -> 20.
+- Tianlong:
+  - System changed: Combat Burn -> Capacitance Core.
+  - FP 24 -> 28.
+  - Max flux 21000 -> 26000.
+  - Flux dissipation 1000 -> 1350.
+  - Max speed 65 -> 75.
+  - Acceleration 30 -> 35.
+  - Deceleration 35 -> 45.
+  - Max turn rate 11 -> 16.
+  - Shield efficiency 1.1 -> 1.0.
+  - DP 45 -> 40.
+- Alwaid:
+  - Max flux 30000 -> 25000.
+  - Flux dissipation 1200 -> 1500.
+- Sunsetter:
+  - Max turn rate 40 -> 15.
+  - Turn acceleration 35 -> 20.
+  - Base value 1000000 -> 500000.
+- Sigma Octantis (AI core officer):
+  - Automated Ships deployment point multiplier 4x -> 1x.
+- XLII Fleet no longer partially inherits the full DDA ship blueprint pool; uses its own curated set.
+- Incomprehensible Horrors: hull restoration per activation 20% -> 10%.
+- Commissioned Crews - Alliance Trained Crews (hullmod): replaced CR loss reduction and ECCM bonus with flat -10% detection range.
+- REWORK: Asuia.
+  - Flux capacity 14000 -> 16000.
+  - Flux dissipation 700 -> 600.
+  - Ordnance points 105 -> 125.
+  - Shield type FRONT (260°) -> OMNI (270°).
+  - Shield upkeep 0.4 -> 0.5.
+  - Weapon layout overhauled: Durendal Mk.II replaced by built-in Koncerz Cannon; slots repositioned and types revised.
+- Phase Teleporter System:
+  - AI burst movement potential 750 -> 350.
+- Tianyi (EW Fighter):
+  - Flux dissipation 50 -> 100.
+  - Reclassified from ECM Fighter to EW Fighter.
+  - Tier 3 -> 2.
+- Arquebus SRM Launcher:
+  - Damage type Kinetic -> Energy.
+  - EMP damage 250 -> 125.
+  - Added anti-fighter and alternating fire mode.
+- Missile Control Matrix:
+  - Missile HP 1.5x -> 2x.
+- Draconis Wing Hull (hullmod) replaced by War Emergency Power ship system on all fighter wings.
+  - Was a passive time-dilation hullmod; now an active thruster-overdrive system.
+  - NEW: built-in fighter Overclock Core hullmod grants PD flare immunity, best-possible target leading, and bonus damage vs. missiles and fighters.
+- Sigma Octantis confrontation:
+  - Automated clone deploy cost multiplier 1x -> 2x.
+- Kestros Autocannon (fighter):
+  - Reworked as a point-defense burst weapon.
+  - Damage 25 -> 40. EMP damage 25 -> 40. Flux/shot 10 -> 20.
+  - Projectile speed 1200 -> 1250.
+  - Added PD and anti-fighter roles.
+- Halberd-class Torpedo (Fighter):
+  - Damage 5000 -> 6000.
+  - Changed from guided to unguided.
+- Particle Burst Lance:
+  - Damage/sec 1000 -> 1250.
+  - OP 13 -> 9.
+  - Flux/sec 1000 -> 850.
+  - Removed missile-pierce capability.
+- Aldibain:
+  - Reclassified from Heavy Fighter to Multirole Fighter.
+  - Gained War Emergency Power ship system.
+- Thorne:
+  - Reclassified from Heavy Interceptor to Interceptor.
+  - Gained War Emergency Power ship system.
+  - FP 12 -> 14. Wing count 1 -> 2.
+- Eldsich:
+  - Flux dissipation 50 -> 100.
+  - FP 8 -> 12.
+  - DP 20 -> 16.
+- Nodus (Strike Drone):
+  - FP 6 -> 8.
+- Grumium (base hull):
+  - Hitpoints 1500 -> 2000.
+  - Armor rating 150 -> 200.
+  - Flux dissipation 250 -> 100.
+- Grumium (Heavy Fighter, XLII variant):
+  - Flux dissipation 250 -> 100.
+  - FP 12 -> 10.
+  - Bomber wing: DP 16 -> 12. Wing count 2 -> 3.
+  - Fighter wing: DP 18 -> 14. Wing count 1 -> 2.
+- Shaobi:
+  - Removed COMBAT tag (now pure CARRIER).
+
+MINOR IMPROVEMENTS:
+- Completely overhauled Fragarach sprite, changed weapon function.
+  - New Montante Autocannon will use the old sprite.
+- Hopefully, improved the visual clarity of the AoE ship systems (Breach Jammer, Pulsar Jammer & Blackout Jammer).
+- Trebuchet Cannon now uses it's own weapon effect script instead of the Culverin's.
+- Added some more FXs to the Trebuchet Cannon, now has a cute little aiming laser.
+- Reworked the FXs for the Pulsar Jammer.
+  - "Your elemental power is GREEN."
+  - Tell me if this is too annoying, I'll tone it down.
+- Shadow fleet frequency reduced:
+  - Max concurrent patrols 12 -> 9.
+  - Spawn frequency multiplier 50 -> 45.
+    - Additionally, restricted to while the colony crisis is active.
+- Title screen ship pool expanded to include all standard ship classes.
+- Changed Itoron planet cloud texture.
+- Kori now has ambient radio chatter SFX.
+- Sunsetter bounty now accessible at lower DDA rep (1.0 -> 0.5) and player level (15 -> 10).
+- Sunsetter bounty now grants a small reputation reward and reduced preset fleet (4 Asuia ships -> 2).
+- DDA Nexerelin colony expedition frequency reduced.
+- Special forces and vengeance fleet size multipliers increased (1.5x -> 2.0x each).
+- Diplomacy stance updated: increased Tri-Tachyon friendliness; added Hegemony wariness.
+- Nodus reclassified as Bomber (was Fighter).
+- DDA fleet compositions updated: fleets are now generally larger and more numerous.
+- Kori radio chatter volume increased.
+- Adjusted AI scaler speed to match Extended Mode's intent game "length".
+  - Basically the AI core quality on Draconis ships will get better faster.
+- Updated Thorne's sprite.
+
+BUG FIXES:
+- Fixed Tianlong (XLII) variant not applying correctly.
+- Fixed SLAP-ER torpedo incorrectly applying Mist Cloud on-hit effect.
+- Fixed AI core theft not detecting AI core personas installed as market administrators.
+  - Real AI core admins were never stolen (this was a workaround while I figured out how to safely remove AI admins).
+- Fixed Draconis Remnant raid fleets generating AI cores when not actively on an expedition.
+
 Version 0.6.12 (Save-compatible with 0.6.11)
 BUG FIXES:
 - Fixed rules.csv stuff.

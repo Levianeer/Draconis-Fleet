@@ -2,10 +2,9 @@
 	"id":"XLII_arquebus_shot",
 	"specClass":"missile",
 	"missileType":"MISSILE",
-	"onFireEffect":"com.fs.starfarer.api.impl.combat.threat.NeutronTorpedoOnFireEffect",
 	"sprite":"graphics/missiles/XLII_mangonel_warhead.png",
 	"size":[8,14],
-	"center":[5,12],
+	"center":[4,7],
 	"collisionRadius":16,
 	"collisionClass":"MISSILE_NO_FF",
 	"explosionColor":[255,165,50,255],  # purely visual, will get a white additively blended core on top of this color
@@ -14,13 +13,13 @@
 	"noEngineGlowTime":0.5, # time spent without the engine glow being rendered
 	"fadeTime":0.5, # fadeout duration	
 	"glowColor":[255,150,150,55],
-	"glowRadius":5,
+	"glowRadius":3,
 	"engineSpec":{"turnAcc":2000,
 				  "turnRate":500,
 				  "acc":2000,
 				  "dec":2000},
 	"engineSlots":[{"id":"ES1",
-					"loc":[-7, 0],
+					"loc":[-9, 0],
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used

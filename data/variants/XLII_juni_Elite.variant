@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 9,
-    "fluxVents": 2,
+    "fluxCapacitors": 0,
+    "fluxVents": 9,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
@@ -33,8 +33,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "irautolance",
-                "WS0020": "irautolance"
+                "WS0003": "XLII_particlelance",
+                "WS0020": "XLII_particlelance"
             }
         },
         {

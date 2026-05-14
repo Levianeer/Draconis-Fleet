@@ -39,23 +39,23 @@
 				}],
 	"behaviorSpec":{
 					"behavior":"MIRV",
-					"splitRange":700,
-					"splitRangeRange":350,
-					"minTimeToSplit":0.75,
+					"splitRange":350,
+					"splitRangeRange":50,
+					"minTimeToSplit":0.005,
 					"canSplitEarly":true,
 					"splitSound":"sabot_srm_split",
 					"numShots":6,
-					"damage":200,
-					"impact":25,
-					"emp":350, # needs to match highlight in weapon_data.csv
+					"damage":100,
+					"impact":5,
+					"emp":100, # needs to match highlight in weapon_data.csv
 					"damageType":HIGH_EXPLOSIVE,
-					"hitpoints":100000,
+					"hitpoints":1000000,
 					"evenSpread":true,
 					"arc":10,
 					"spreadInaccuracy":5,
 					"spreadSpeed":1000,
 					"spreadSpeedRange":500,
-					"projectileRange":300, # only needed if not a missile
+					"projectileRange":350, # only needed if not a missile
 					"projectileSpec":"XLII_mangonel_warhead",
 					"smokeSpec":{
 								"particleSizeMin":20.0,

@@ -1,7 +1,7 @@
 {
   "variantId": "XLII_tianyi_Fighter",
   "hullId": "XLII_tianyi",
-  "displayName": "Electronic-Warfare Fighter",
+  "displayName": "EW Fighter",
   "goalVariant": false,
   "fluxCapacitors": 0,
   "fluxVents": 0,

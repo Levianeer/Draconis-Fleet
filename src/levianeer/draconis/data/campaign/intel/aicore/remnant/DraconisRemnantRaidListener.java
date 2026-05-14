@@ -81,7 +81,8 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
      */
     private boolean hasRemnantPresence(StarSystemAPI system) {
         for (com.fs.starfarer.api.campaign.SectorEntityToken entity : system.getAllEntities()) {
-            if (entity.getFaction() != null &&
+            if (entity instanceof CampaignFleetAPI &&
+                entity.getFaction() != null &&
                 Factions.REMNANTS.equals(entity.getFaction().getId())) {
                 return true;
             }
@@ -181,7 +182,7 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         for (String coreId : cores) {
             DraconisAICoreStockpile.add(coreId, 1);
         }
-        log.info("Draconis: Added " + cores.size() + " recovered core(s) to stockpile — attempting installation");
+        log.info("Draconis: Added " + cores.size() + " recovered core(s) to stockpile - attempting installation");
         DraconisAICoreStockpile.tryInstallStockpiledCores();
     }
 

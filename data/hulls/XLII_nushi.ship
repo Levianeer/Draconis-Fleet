@@ -13,6 +13,7 @@
   "viewOffset": 0,
   "builtInMods": [
     "XLII_draconishull",
+    "XLII_fluxreactivearmor",
     "hbi"
   ],
   "builtInWeapons": {
@@ -225,8 +226,8 @@
   "engineSlots": [
     {
       "location": [-44.5, 57],
-      "length": 132,
-      "width": 36,
+      "length": 64,
+      "width": 28,
       "angle": 147.5,
       "contrailSize": 36,
       "style": "CUSTOM",
@@ -234,8 +235,8 @@
     },
     {
       "location": [-44.5, -57],
-      "length": 132,
-      "width": 36,
+      "length": 64,
+      "width": 28,
       "angle": -147.5,
       "contrailSize": 36,
       "style": "CUSTOM",
@@ -263,7 +264,7 @@
       "location": [-77, 44],
       "length": 96,
       "width": 24,
-      "angle": 170,
+      "angle": 180,
       "contrailSize": 24,
       "style": "CUSTOM",
       "styleId": "DRACONIS_SECONDARY"
@@ -272,7 +273,7 @@
       "location": [-77, -44],
       "length": 96,
       "width": 24,
-      "angle": -170,
+      "angle": -180,
       "contrailSize": 24,
       "style": "CUSTOM",
       "styleId": "DRACONIS_SECONDARY"

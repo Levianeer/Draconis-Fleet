@@ -1,12 +1,14 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 50,
-    "fluxVents": 27,
+    "fluxCapacitors": 9,
+    "fluxVents": 28,
     "goalVariant": true,
     "hullId": "XLII_dziban",
     "hullMods": [
         "hardenedshieldemitter",
-        "extendedshieldemitter"
+        "extendedshieldemitter",
+        "frontemitter",
+        "converted_hangar"
     ],
     "permaMods": [],
     "sMods": [],
@@ -14,7 +16,7 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0001": "XLII_fragarch",
                 "WS0002": "XLII_fragarch"
@@ -57,5 +59,6 @@
                 "WS0006": "XLII_swordbreaker"
             }
         }
-    ]
+    ],
+    "wings": ["xyphos_wing"]
 }

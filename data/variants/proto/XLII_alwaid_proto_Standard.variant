@@ -1,0 +1,74 @@
+{
+    "displayName": "Prototype",
+    "fluxCapacitors": 0,
+    "fluxVents": 25,
+    "hullId": "XLII_alwaid_proto",
+    "hullMods": [
+        "shrouded_thunderhead",
+        "shrouded_lens",
+        "targetingunit"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_alwaid_proto_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0013": "realitydisruptor"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "resonatormrm",
+                "WS0006": "resonatormrm"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0017": "vpdriver",
+                "WS0018": "vpdriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_estocflak",
+                "WS0004": "XLII_estocflak",
+                "WS0009": "XLII_estocflak",
+                "WS0010": "XLII_estocflak",
+                "WS0011": "XLII_estocflak",
+                "WS0012": "XLII_estocflak",
+                "WS0015": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0014": "XLII_razorflak",
+                "WS0016": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker",
+                "WS0002": "XLII_swordbreaker",
+                "WS0007": "XLII_swordbreaker",
+                "WS0008": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "flash_wing",
+        "flash_wing",
+        "flash_wing",
+        "flash_wing"
+    ]
+}

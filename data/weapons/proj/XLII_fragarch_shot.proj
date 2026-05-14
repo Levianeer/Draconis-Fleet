@@ -3,7 +3,7 @@
 	"specClass":"projectile",
 	"spawnType":"BALLISTIC_AS_BEAM",
 	"onFireEffect":"levianeer.draconis.data.scripts.weapons.XLII_MuzzleFlashEffect",
-	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_SystemBurnOnHitEffect",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_FragarchOnHitEffect",
 	"collisionClass":"RAY",
 	"collisionClassByFighter":"RAY_FIGHTER",
 	"length":90.0,

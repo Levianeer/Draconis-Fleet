@@ -17,6 +17,14 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
 
     private static final float SYSTEM_COOLDOWN_DECREASE_PERCENT = 1f; // x+1 = %
 
+    private static final Color JITTER_UNDER_COLOR = new Color(255, 165, 90, 155);
+    private static final Color JITTER_COLOR = new Color(255, 165, 90, 55);
+    private static final float EPSILON = 0.001f;
+
+    // Per-instance cache to avoid redundant stat modifier calls
+    private float lastDamageBonus = -1f;
+    private float lastDamageTakenMult = -1f;
+
     public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {
         stats.getSystemRegenBonus().modifyMult(id, 1f / (1f + SYSTEM_COOLDOWN_DECREASE_PERCENT));
         stats.getSystemUsesBonus().modifyFlat(id, -1f);
@@ -41,60 +49,48 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
 
         MutableShipStatsAPI stats = ship.getMutableStats();
 
-        stats.getBallisticWeaponDamageMult().unmodify("XLII_DynamicBuffStat");
-        stats.getEnergyWeaponDamageMult().unmodify("XLII_DynamicBuffStat");
-        stats.getMissileWeaponDamageMult().unmodify("XLII_DynamicBuffStat");
+        if (Math.abs(damageBonus - lastDamageBonus) > EPSILON) {
+            lastDamageBonus = damageBonus;
+            stats.getBallisticWeaponDamageMult().unmodify("XLII_DynamicBuffStat");
+            stats.getEnergyWeaponDamageMult().unmodify("XLII_DynamicBuffStat");
+            stats.getMissileWeaponDamageMult().unmodify("XLII_DynamicBuffStat");
 
-        stats.getBallisticWeaponFluxCostMod().unmodify("XLII_DynamicBuffStat");
-        stats.getEnergyWeaponFluxCostMod().unmodify("XLII_DynamicBuffStat");
-        stats.getMissileWeaponFluxCostMod().unmodify("XLII_DynamicBuffStat");
+            stats.getBallisticWeaponFluxCostMod().unmodify("XLII_DynamicBuffStat");
+            stats.getEnergyWeaponFluxCostMod().unmodify("XLII_DynamicBuffStat");
+            stats.getMissileWeaponFluxCostMod().unmodify("XLII_DynamicBuffStat");
 
-        if (damageBonus > 0f) {
-            stats.getBallisticWeaponDamageMult().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
-            stats.getEnergyWeaponDamageMult().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
-            stats.getMissileWeaponDamageMult().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+            if (damageBonus > 0f) {
+                stats.getBallisticWeaponDamageMult().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+                stats.getEnergyWeaponDamageMult().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+                stats.getMissileWeaponDamageMult().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
 
-            stats.getBallisticWeaponFluxCostMod().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
-            stats.getEnergyWeaponFluxCostMod().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
-            stats.getMissileWeaponFluxCostMod().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+                stats.getBallisticWeaponFluxCostMod().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+                stats.getEnergyWeaponFluxCostMod().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+                stats.getMissileWeaponFluxCostMod().modifyPercent("XLII_DynamicBuffStat", damageBonus * 100f);
+            }
         }
 
         float damageReduction = MIN_DAMAGE_REDUCTION + (MAX_DAMAGE_REDUCTION - MIN_DAMAGE_REDUCTION) * scaledFluxLevel;
         float damageTakenMult = 1f - damageReduction;
 
-        stats.getShieldDamageTakenMult().unmodify("XLII_DynamicBuffStat");
-        stats.getArmorDamageTakenMult().unmodify("XLII_DynamicBuffStat");
-        stats.getHullDamageTakenMult().unmodify("XLII_DynamicBuffStat");
-        stats.getEmpDamageTakenMult().unmodify("XLII_DynamicBuffStat");
+        if (Math.abs(damageTakenMult - lastDamageTakenMult) > EPSILON) {
+            lastDamageTakenMult = damageTakenMult;
+            stats.getShieldDamageTakenMult().unmodify("XLII_DynamicBuffStat");
+            stats.getArmorDamageTakenMult().unmodify("XLII_DynamicBuffStat");
+            stats.getHullDamageTakenMult().unmodify("XLII_DynamicBuffStat");
+            stats.getEmpDamageTakenMult().unmodify("XLII_DynamicBuffStat");
 
-        if (damageReduction > 0f) {
-            stats.getShieldDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
-            stats.getArmorDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
-            stats.getHullDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
-            stats.getEmpDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
+            if (damageReduction > 0f) {
+                stats.getShieldDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
+                stats.getArmorDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
+                stats.getHullDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
+                stats.getEmpDamageTakenMult().modifyMult("XLII_DynamicBuffStat", damageTakenMult);
+            }
         }
 
         // FX
-        Color jitterUnderColor = new Color(255,165,90,155);
-        Color jitterColor = new Color(255,165,90,55);
-
-        ship.setJitterUnder(
-                this,
-                jitterUnderColor,
-                scaledFluxLevel,
-                Math.round(25 * scaledFluxLevel),
-                0f,
-                7f * scaledFluxLevel
-        );
-
-        ship.setJitter(
-                this,
-                jitterColor,
-                scaledFluxLevel,
-                Math.max(1, Math.round(2 * scaledFluxLevel)),
-                0f,
-                5f * scaledFluxLevel
-        );
+        ship.setJitterUnder(this, JITTER_UNDER_COLOR, scaledFluxLevel, Math.round(25 * scaledFluxLevel), 0f, 7f * scaledFluxLevel);
+        ship.setJitter(this, JITTER_COLOR, scaledFluxLevel, Math.max(1, Math.round(2 * scaledFluxLevel)), 0f, 5f * scaledFluxLevel);
     }
 
     @Override

@@ -18,23 +18,23 @@ public class DraconisAICoreScalingConfig {
     // System settings
     private boolean enabled = true;
     private float testCycleOverride = -1f; // For testing: override actual game cycle (-1 = disabled)
-    private float recheckIntervalDays = 120f; // How often to recheck fleets for new empty slots
+    private float recheckIntervalDays = 35f; // How often to recheck fleets for new empty slots
 
     // Cycle thresholds for scaling curve
     // NOTE: These are absolute cycle numbers (campaigns start at ~206)
-    private float earlyGameEnd = 211f;      // No AI cores before this (206+5)
-    private float midGameStart = 211f;      // Start adding AI cores (206+5)
-    private float midGameEnd = 226f;        // Increasing AI core usage (206+20)
-    private float lateGameStart = 226f;     // More AI cores (206+20)
-    private float lateGameEnd = 256f;       // Heavy AI core usage (206+50)
-    private float endGameStart = 256f;      // Very heavy usage (206+50)
-    private float endGameEnd = 306f;        // Maximum saturation (206+100)
+    private float earlyGameEnd = 208f;      // No AI cores before this (206+2)
+    private float midGameStart = 208f;      // Start adding AI cores (206+2)
+    private float midGameEnd = 213f;        // Increasing AI core usage (206+7)
+    private float lateGameStart = 213f;     // More AI cores (206+7)
+    private float lateGameEnd = 221f;       // Heavy AI core usage (206+15)
+    private float endGameStart = 221f;      // Very heavy usage (206+15)
+    private float endGameEnd = 231f;        // Maximum saturation (206+25)
 
     // Coverage percentages (how many empty slots to fill)
-    private float coverageEarlyGame = 0f;     // 0% at cycle 1-5
-    private float coverageMidGame = 0.30f;    // 30% at cycle 20
-    private float coverageLateGame = 0.70f;   // 70% at cycle 50
-    private float coverageEndGame = 1.0f;     // 100% at cycle 100+
+    private float coverageEarlyGame = 0f;     // 0% at cycle 206-208
+    private float coverageMidGame = 0.30f;    // 30% at cycle 208-213
+    private float coverageLateGame = 0.70f;   // 70% at cycle 213-221
+    private float coverageEndGame = 1.0f;     // 100% at cycle 221+
 
     // Core type distribution weights
     private final Map<String, Float> gammaWeights = new HashMap<>();
@@ -67,13 +67,13 @@ public class DraconisAICoreScalingConfig {
             // Load cycle thresholds
             JSONObject thresholds = settings.optJSONObject("cycleThresholds");
             if (thresholds != null) {
-                earlyGameEnd = (float) thresholds.optDouble("earlyGameEnd", 211.0);
-                midGameStart = (float) thresholds.optDouble("midGameStart", 211.0);
-                midGameEnd = (float) thresholds.optDouble("midGameEnd", 226.0);
-                lateGameStart = (float) thresholds.optDouble("lateGameStart", 226.0);
-                lateGameEnd = (float) thresholds.optDouble("lateGameEnd", 256.0);
-                endGameStart = (float) thresholds.optDouble("endGameStart", 256.0);
-                endGameEnd = (float) thresholds.optDouble("endGameEnd", 306.0);
+                earlyGameEnd = (float) thresholds.optDouble("earlyGameEnd", 208.0);
+                midGameStart = (float) thresholds.optDouble("midGameStart", 208.0);
+                midGameEnd = (float) thresholds.optDouble("midGameEnd", 213.0);
+                lateGameStart = (float) thresholds.optDouble("lateGameStart", 213.0);
+                lateGameEnd = (float) thresholds.optDouble("lateGameEnd", 221.0);
+                endGameStart = (float) thresholds.optDouble("endGameStart", 221.0);
+                endGameEnd = (float) thresholds.optDouble("endGameEnd", 231.0);
             }
 
             // Load coverage percentages
@@ -208,7 +208,6 @@ public class DraconisAICoreScalingConfig {
         if (total > 0) {
             gammaWeight /= total;
             betaWeight /= total;
-            alphaWeight /= total;
         }
 
         // Roll for core type using weighted random

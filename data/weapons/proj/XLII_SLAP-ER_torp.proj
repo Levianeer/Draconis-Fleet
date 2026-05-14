@@ -2,7 +2,6 @@
 	"id":"XLII_SLAP-ER_torp",
 	"specClass":"missile",
 	"missileType":"MISSILE",
-	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_MistCloudOnHitEffect",
 	"sprite":"graphics/missiles/XLII_SLAP-ER_torp.png",
 	"size":[16,77],
 	"center":[8,38],

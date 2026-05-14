@@ -13,11 +13,12 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.util.Misc;
-import levianeer.draconis.data.campaign.XLII_SigmaOctantisOfficerPlugin;
+import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisOfficerPlugin;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.ids.Factions;
 import org.apache.log4j.Logger;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.Random;
  * Monitors Draconis and Forty-Second fleets and fills empty officer slots
  * with AI cores based on game progression (cycles).
  */
-
 public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private static final Logger log = Global.getLogger(DraconisAICoreFleetInflater.class);
 
@@ -437,6 +437,181 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
             return Commodities.BETA_CORE;
         } else {
             return Commodities.ALPHA_CORE;
+        }
+    }
+
+    /**
+     * Immediately fill empty officer slots with AI cores (respecting the scaling config)
+     * and assign Sigma Octantis as flagship captain.
+     * Called at spawn time for hostile-activity patrol fleets and raid fleets.
+     * Uses forceReplace=false; existing trained human officers are preserved.
+     */
+    public static void inflateFleetNow(CampaignFleetAPI fleet) {
+        inflateFleetNow(fleet, false);
+    }
+
+    /**
+     * Immediately fill officer slots with AI cores and assign Sigma Octantis as flagship captain.
+     *
+     * @param forceReplace when true, human officers (trained or not) are displaced by AI cores;
+     *                     use this for freshly spawned crisis/raid fleets that may have
+     *                     quality-assigned officers from FleetCreatorMission.
+     *                     When false, only ships with no trained captain are eligible.
+     */
+    public static void inflateFleetNow(CampaignFleetAPI fleet, boolean forceReplace) {
+        if (fleet == null || !fleet.isAlive()) return;
+
+        DraconisAICoreScalingConfig config = DraconisAICoreScalingConfig.getInstance();
+        if (!config.isEnabled()) return;
+
+        float actualCycle = Global.getSector().getClock().getCycle();
+        float currentCycle = config.getEffectiveCycle(actualCycle);
+        float coveragePercent = config.calculateCoveragePercent(currentCycle);
+
+        int draconLevel = 5;
+        Object stored = Global.getSector().getMemoryWithoutUpdate().get(DraconManager.LEVEL_KEY);
+        if (stored instanceof Number) draconLevel = ((Number) stored).intValue();
+
+        if (coveragePercent <= 0f && draconLevel > 2) {
+            // No AI cores yet, but still assign Sigma Octantis to the flagship
+            assignSigmaOctantisToFlagship(fleet);
+            return;
+        }
+
+        float effectiveCoverage = coveragePercent;
+        if (draconLevel <= 2) {
+            effectiveCoverage = Math.min(1.0f, coveragePercent + DRACON_2_COVERAGE_BOOST);
+        }
+
+        // Collect eligible officer slots
+        List<FleetMemberAPI> emptySlots = new ArrayList<>();
+        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+            if (member.isFighterWing() || member.isCivilian()) continue;
+            PersonAPI captain = member.getCaptain();
+            if (captain != null && captain.isAICore()) continue;
+            boolean hasTrainedSkills = false;
+            if (captain != null) {
+                for (MutableCharacterStatsAPI.SkillLevelAPI skill : captain.getStats().getSkillsCopy()) {
+                    if (skill.getLevel() > 0) { hasTrainedSkills = true; break; }
+                }
+            }
+            if (!hasTrainedSkills || forceReplace) emptySlots.add(member);
+        }
+
+        emptySlots.sort(Comparator.comparing(FleetMemberAPI::getFleetPointCost).reversed());
+
+        int slotsToFill = Math.round(emptySlots.size() * effectiveCoverage);
+        Random random = new Random();
+        int coresAssigned = 0;
+
+        for (int i = 0; i < slotsToFill && i < emptySlots.size(); i++) {
+            FleetMemberAPI member = emptySlots.get(i);
+            String coreType;
+            if (draconLevel <= 2) {
+                float roll = random.nextFloat();
+                if (roll < DRACON_2_GAMMA_WEIGHT) coreType = Commodities.GAMMA_CORE;
+                else if (roll < DRACON_2_GAMMA_WEIGHT + DRACON_2_BETA_WEIGHT) coreType = Commodities.BETA_CORE;
+                else coreType = Commodities.ALPHA_CORE;
+            } else {
+                coreType = config.rollCoreType(currentCycle, random.nextFloat());
+            }
+            try {
+                AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(coreType);
+                if (plugin != null) {
+                    PersonAPI aiCore = plugin.createPerson(coreType, fleet.getFaction().getId(), random);
+                    if (aiCore != null) {
+                        // Remove displaced human officer from fleet data before assigning AI core
+                        PersonAPI existing = member.getCaptain();
+                        if (existing != null) fleet.getFleetData().removeOfficer(existing);
+                        fleet.getFleetData().addOfficer(aiCore);
+                        member.setCaptain(aiCore);
+                        coresAssigned++;
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Draconis: inflateFleetNow - failed to create AI core of type " + coreType, e);
+            }
+        }
+
+        if (coresAssigned > 0) {
+            log.debug(String.format("Draconis: inflateFleetNow assigned %d AI cores to %s",
+                    coresAssigned, fleet.getNameWithFaction()));
+        }
+    }
+
+    /**
+     * Assign Sigma Octantis as the captain of the highest-FP combat ship in the fleet.
+     * Properly adds Sigma to the fleet's officer list and sets them as ship captain,
+     * displacing any existing officer. Works regardless of whether the ship has an
+     * AI core or human officer already assigned.
+     * <p>
+     * One-shot script attached to a fleet at spawn time.
+     * Waits one advance frame (so the Starsector FleetInflater can assign its officers first),
+     * then calls inflateFleetNow to replace those human officers with AI cores.
+     */
+    public static class DeferredInflateScript implements EveryFrameScript, java.io.Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        private final CampaignFleetAPI fleet;
+        private final boolean forceReplace;
+        private transient boolean applied = false;
+        private transient boolean done = false;
+
+        public DeferredInflateScript(CampaignFleetAPI fleet, boolean forceReplace) {
+            this.fleet = fleet;
+            this.forceReplace = forceReplace;
+        }
+
+        @Override public boolean isDone() { return done; }
+        @Override public boolean runWhilePaused() { return false; }
+
+        @Override
+        public void advance(float amount) {
+            if (fleet == null || !fleet.isAlive()) { done = true; return; }
+            if (!applied) {
+                applied = true;
+                return; // Skip one frame so the Starsector FleetInflater runs first
+            }
+            inflateFleetNow(fleet, forceReplace);
+            done = true;
+        }
+    }
+
+    private static void assignSigmaOctantisToFlagship(CampaignFleetAPI fleet) {
+        FleetMemberAPI target = null;
+        float highestCost = -1f;
+
+        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+            if (member.isFighterWing() || member.isCivilian()) continue;
+            PersonAPI captain = member.getCaptain();
+            // Skip ships that already have Sigma
+            if (captain != null && XLII_SigmaOctantisOfficerPlugin.CORE_ID.equals(captain.getAICoreId())) continue;
+            float cost = member.getFleetPointCost();
+            if (cost > highestCost) {
+                highestCost = cost;
+                target = member;
+            }
+        }
+
+        if (target == null) return;
+
+        AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(XLII_SigmaOctantisOfficerPlugin.CORE_ID);
+        if (plugin == null) {
+            log.warn("Draconis: inflateFleetNow - could not find AICoreOfficerPlugin for Sigma Octantis");
+            return;
+        }
+
+        PersonAPI sigma = plugin.createPerson(
+                XLII_SigmaOctantisOfficerPlugin.CORE_ID, fleet.getFaction().getId(), new Random());
+        if (sigma != null) {
+            PersonAPI existing = target.getCaptain();
+            if (existing != null) fleet.getFleetData().removeOfficer(existing);
+            fleet.getFleetData().addOfficer(sigma);
+            target.setCaptain(sigma);
+            fleet.setCommander(sigma);
+            log.debug(String.format("Draconis: Assigned Sigma Octantis as flagship captain of %s (%.0f FP)",
+                    fleet.getNameWithFaction(), highestCost));
         }
     }
 }

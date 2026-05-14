@@ -1,7 +1,7 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 10,
+    "fluxVents": 14,
     "goalVariant": true,
     "hullId": "XLII_juza",
     "hullMods": [

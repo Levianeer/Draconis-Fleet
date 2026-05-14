@@ -1,0 +1,27 @@
+{
+	"id":"XLII_capacitance_core",
+	"type":"STAT_MOD",
+	"aiType":"WEAPON_BOOST",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_CapacitanceCore",
+
+	"weaponGlowColor":[0,0,255,155],
+	"weaponTypes":[BALLISTIC,ENERGY,MISSILE],
+
+	"jitterUnderColor":[155,155,155,25],
+	"jitterUnderCopies":10,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":9,
+	"jitterUnderRangeRadiusFraction":0.01,
+
+	"jitterColor":[155,155,155,25],
+	"jitterCopies":3,
+	"jitterMinRange":0,
+	"jitterRange":6,
+	"jitterRangeRadiusFraction":0.01,
+
+	"runScriptWhileIdle":true, # unapply() never gets called
+
+	"useSound":"energy_lash_activate",
+	"outOfUsesSound":"gun_out_of_ammo",
+}

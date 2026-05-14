@@ -1,0 +1,173 @@
+{
+  "hullName": "Tiangou",
+  "hullId": "XLII_tiangou",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/XLII_tiangou.png",
+  "style": "DRACONIS",
+  "height": 58,
+  "width": 38,
+  "center": [19, 29],
+  "collisionRadius": 42.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 40.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "XLII_autoflarelauncher",
+    "XLII_overclockcore",
+    "XLII_emergencyrecall"
+  ],
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [15.5, 2.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "LARGE",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [25, -5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-5, 11.5]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-5, -11.5]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-11, 16.5]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-11, -16.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": 0,
+      "locations": [9.5, 1.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": -0,
+      "locations": [9.5, -1.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": 90,
+      "locations": [-2.5, 2.5]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": -90,
+      "locations": [-2.5, -2.5]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": 90,
+      "locations": [-10.5, 0.5]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": -90,
+      "locations": [-10.5, -0.5]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": 145,
+      "locations": [-16.5, 0.5]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 75,
+      "angle": -145,
+      "locations": [-16.5, -0.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-30, 3],
+      "length": 46,
+      "width": 9,
+      "angle": 180,
+      "contrailSize": 9,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-30, -3],
+      "length": 46,
+      "width": 9,
+      "angle": -180,
+      "contrailSize": 9,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -15.5, -18.5,
+    -27.5, -0,
+    -15.5, 18.5,
+    28.5, -0
+  ]
+}

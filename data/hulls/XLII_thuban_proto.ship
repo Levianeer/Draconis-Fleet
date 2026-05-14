@@ -1,0 +1,115 @@
+{
+  "hullName": "Thuban",
+  "hullId": "XLII_thuban_proto",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/ships/proto/XLII_thuban_proto.png",
+  "style": "DRACONIS",
+  "height": 111,
+  "width": 52,
+  "center": [26, 55.5],
+  "collisionRadius": 107.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 94.5,
+  "viewOffset": 0,
+  "builtInMods": [
+  "rugged",
+    "XLII_adaptation"
+  ],
+  "builtInWeapons": {
+    "WS0001": "XLII_vernier",
+    "WS0002": "XLII_vernier",
+    "WS0005": "XLII_durendal"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 125,
+      "angle": 90,
+      "locations": [-28, 20]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 125,
+      "angle": -90,
+      "locations": [-28, -20]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 345,
+      "angle": 0,
+      "locations": [10.5, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 345,
+      "angle": 180,
+      "locations": [-35.5, -0]
+    },
+    {
+      "id": "WS0005",
+      "size": "LARGE",
+      "type": "BUILT_IN",
+      "mount": "HARDPOINT",
+      "arc": 0,
+      "angle": 0,
+      "locations": [37.5, -0]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-55.5, 11],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-55.5, -11],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-55.5, -0],
+      "length": 72,
+      "width": 21,
+      "angle": 180,
+      "contrailSize": 21,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    }
+  ],
+  "bounds": [
+    13.5, -20.5,
+    -15, -24.5,
+    -18, -15.5,
+    -54, -15.5,
+    -54, 15.5,
+    -18, 15.5,
+    -15, 24.5,
+    13.5, 20.5,
+    13.5, 16.5,
+    51, 12.5,
+    54, 9.5,
+    54, -9.5,
+    51, -12.5,
+    13.5, -16.5
+  ]
+}

@@ -1,10 +1,14 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 20,
-    "fluxVents": 7,
+    "fluxCapacitors": 0,
+    "fluxVents": 1,
     "goalVariant": true,
     "hullId": "XLII_errakis",
-    "hullMods": ["eccm"],
+    "hullMods": [
+        "eccm",
+        "missleracks",
+        "converted_hangar"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_errakis_Elite",
@@ -12,20 +16,20 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0004": "XLII_bardiche_large"}
+            "weapons": {"WS0004": "squall"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0005": "breachpod",
-                "WS0006": "breachpod"
+                "WS0005": "XLII_bardiche",
+                "WS0006": "XLII_bardiche"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0018": "XLII_rapier"}
+            "weapons": {"WS0018": "XLII_culverin"}
         },
         {
             "autofire": true,
@@ -40,5 +44,6 @@
             "mode": "LINKED",
             "weapons": {"WS0001": "XLII_swordbreaker"}
         }
-    ]
+    ],
+    "wings": ["wasp_wing"]
 }

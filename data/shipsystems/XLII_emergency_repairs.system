@@ -1,0 +1,17 @@
+{
+	"id":"XLII_emergency_repairs",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_EmergencyRepairsAI",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_EmergencyRepairsStats",
+
+	"useSound":"system_extraction_protocol",
+	"outOfUsesSound":"gun_out_of_ammo",
+
+	"aiHints":{
+		"activeSpeedIncrease":-50,
+		"burstMovementPotential":0,
+		"averageSpeedIncrease":-25,
+	}
+}

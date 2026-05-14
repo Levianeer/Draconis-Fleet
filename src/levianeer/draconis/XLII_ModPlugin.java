@@ -5,7 +5,8 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
 import levianeer.draconis.data.campaign.XLII_CampaignPlugin;
-import levianeer.draconis.data.campaign.XLII_SigmaOctantisWatchdog;
+import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirSystemMonitor;
+import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisWatchdog;
 import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.EveryFrameScript;
@@ -22,12 +23,20 @@ import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantRaid
 import levianeer.draconis.data.campaign.intel.aicore.remnant.DraconisRemnantTargetScanner;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import levianeer.draconis.data.campaign.intel.aicore.raids.DraconisAICoreRaidManager;
-import levianeer.draconis.data.campaign.intel.events.crisis.DraconisHostileActivityManager;
+import com.fs.starfarer.api.impl.campaign.intel.bar.events.BarEventManager;
+import levianeer.draconis.data.campaign.events.DraconisAIOPaymentBarEventCreator;
+import levianeer.draconis.data.campaign.events.XLII_FafnirTTBarEventCreator;
+import levianeer.draconis.data.campaign.events.XLII_AIOOperativeBarEventCreator;
+import levianeer.draconis.data.campaign.events.XLII_FafnirRingPortBarEventCreator;
+import levianeer.draconis.data.campaign.intel.events.crisis.util.DraconisHostileActivityManager;
+import levianeer.draconis.data.campaign.intel.events.crisis.listener.DraconisFleetCombatListener;
 import levianeer.draconis.data.campaign.econ.conditions.DraconConfig;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
+import levianeer.draconis.data.campaign.fleet.DraconisQRFManager;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreScalingConfig;
+import levianeer.draconis.data.campaign.fleet.DraconisWeaponEscalationMonitor;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_magicMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_PhaseTorpedoAI;
@@ -38,12 +47,15 @@ import levianeer.draconis.data.scripts.world.XLII_WorldGen;
 @SuppressWarnings("unused")
 public class XLII_ModPlugin extends BaseModPlugin {
 
+    // Terrible code, awful, possibly the worst.
+    // Psalm 86:1
     private static final Logger log = Global.getLogger(XLII_ModPlugin.class);
     public static final String PD_MISSILE_ID = "XLII_swordbreaker_shot";
     public static final String SWARM_MISSILE_ID = "XLII_bardiche_shot";
     public static final String PHASE_TORPEDO_ID = "XLII_phasetorp";
     public static final String SABRE_MISSILE_ID = "XLII_sabre_torp";
     public static final String SLAP_ER_MISSILE_ID = "XLII_SLAP-ER_torp";
+    public static final String BILLHOOK_ID = "XLII_billhook_shot";
     private static final String NEXERELIN_MOD_ID = "nexerelin";
     private static boolean hasNexerelin = false;
 
@@ -88,6 +100,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
             log.info("Draconis: Nexerelin not detected - AI core system will be disabled");
             log.info("Draconis: Story mission system disabled (requires Nexerelin)");
         }
+
     }
 
     @Override
@@ -124,6 +137,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
         // persists and a settings change between loads would be ignored.
         DraconConfig.reset();
         DraconisAICoreScalingConfig.reset();
+        DraconisWeaponEscalationMonitor.reset();
 
         // Remove old script instances from previous save/load cycles to prevent accumulation
         // Scripts are serialized into saves, so without cleanup they stack on each game load
@@ -134,6 +148,13 @@ public class XLII_ModPlugin extends BaseModPlugin {
         Global.getSector().unregisterPlugin(XLII_CampaignPlugin.PLUGIN_ID);
         Global.getSector().registerPlugin(new XLII_CampaignPlugin());
         log.info("Draconis: Registered campaign plugin");
+
+        // Register Fafnir system monitor whenever there is pending intercept work
+        // (BF dialog not yet fired, BF 3-day timer running, or transverse jump possible).
+        if (XLII_FafnirSystemMonitor.shouldRegister()) {
+            Global.getSector().addScript(new XLII_FafnirSystemMonitor());
+            log.info("Draconis:   - Fafnir System Monitor");
+        }
 
         // Register Sigma Octantis watchdog only once the core has been awarded (nanoforge
         // quest complete) and the confrontation hasn't fired yet. First-time registration
@@ -156,10 +177,41 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: Initializing characters");
         XLII_Characters.initializeAllCharacters();
 
+        // Register AIO payment bar event
+        BarEventManager bar = BarEventManager.getInstance();
+        if (bar != null && !bar.hasEventCreator(DraconisAIOPaymentBarEventCreator.class)) {
+            bar.addEventCreator(new DraconisAIOPaymentBarEventCreator());
+            log.info("Draconis:   - AIO Payment Bar Event");
+        }
+
+        // Fafnir bar event creators are serialized into saves; remove stale instances before
+        // re-registering to avoid accumulation across mod updates.
+        if (bar != null) {
+            bar.getCreators().removeIf(c ->
+                    c instanceof XLII_FafnirTTBarEventCreator ||
+                    c instanceof XLII_FafnirRingPortBarEventCreator ||
+                    c instanceof XLII_AIOOperativeBarEventCreator);
+        }
+
+        // Register Fafnir access bar events
+        if (bar != null) {
+            bar.addEventCreator(new XLII_FafnirTTBarEventCreator());
+            log.info("Draconis:   - Fafnir TT Courier Bar Event");
+            bar.addEventCreator(new XLII_FafnirRingPortBarEventCreator());
+            log.info("Draconis:   - Fafnir Ring-Port Bar Event");
+            bar.addEventCreator(new XLII_AIOOperativeBarEventCreator());
+            log.info("Draconis:   - AIO Operative Reveal Bar Event");
+        }
+
         // Add the crisis event system
         log.info("Draconis: Registering crisis systems");
         Global.getSector().addScript(new DraconisHostileActivityManager());
         log.info("Draconis:   - Hostile Activity Manager");
+
+        // Register fleet combat listener for AIO tracker one-time factors.
+        // Transient (not saved) - re-added fresh each game load, no cleanup needed.
+        Global.getSector().getListenerManager().addListener(new DraconisFleetCombatListener(), true);
+        log.info("Draconis:   - Fleet Combat Listener (AIO factors)");
 
         // Add AI Core Fleet Scaling system
         if (enableAICoreFleetScaling) {
@@ -169,6 +221,10 @@ public class XLII_ModPlugin extends BaseModPlugin {
         } else {
             log.info("Draconis: AI Core Fleet Scaling DISABLED by settings");
         }
+
+        // QRF Manager - dynamic assignment logic for HighCommand garrison fleets
+        Global.getSector().addScript(new DraconisQRFManager());
+        log.info("Draconis:   - QRF Manager");
 
         // If Nexerelin is present, add DRACON system and AI core acquisition
         if (hasNexerelin) {
@@ -224,15 +280,12 @@ public class XLII_ModPlugin extends BaseModPlugin {
             log.info("Draconis:   - Steel Curtain Monitor (Nexerelin not present)");
         }
 
-        // Clean up any old intel that wasn't properly expired (save compatibility fix)
-        cleanupOldIntel();
-
         log.info("Draconis: === Game load complete ===");
     }
 
     /**
      * Removes all Draconis EveryFrameScript instances from the sector before re-adding them.
-     * Prevents script accumulation across save/load cycles (scripts are serialized into saves,
+     * Meant to prevent script accumulation across save/load cycles (scripts are serialized into saves,
      * so without cleanup each onGameLoad() would add duplicates).
      * Also handles 0.6.0 -> 0.6.1 migration: removes old DraconisSteelCurtainMonitor instances
      * that would conflict with the new DraconManager.
@@ -252,7 +305,9 @@ public class XLII_ModPlugin extends BaseModPlugin {
                     || script instanceof DraconisRemnantTargetScanner
                     || script instanceof DraconisRemnantRaidManager
                     || script instanceof DraconisRemnantRaidListener
-                    || script instanceof XLII_SigmaOctantisWatchdog) {
+                    || script instanceof XLII_SigmaOctantisWatchdog
+                    || script instanceof XLII_FafnirSystemMonitor
+                    || script instanceof DraconisQRFManager) {
                 toRemove.add(script);
             }
         }
@@ -263,72 +318,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
         if (!toRemove.isEmpty()) {
             log.info("Draconis: Cleaned up " + toRemove.size() + " old script instance(s) from save");
-        }
-    }
-
-    /**
-     * Cleanup old AI core theft intel that may not have expired properly in previous versions
-     * This is save-compatible and runs on every game load
-     * NOTE TO SELF: Remove this at some point!!
-     */
-    private void cleanupOldIntel() {
-        try {
-            log.info("Draconis: === Starting Intel Cleanup ===");
-
-            int removedCount = 0;
-            int foundCount = 0;
-
-            // Defensive copy to prevent ConcurrentModificationException
-            java.util.List<com.fs.starfarer.api.campaign.comm.IntelInfoPlugin> allIntel =
-                new java.util.ArrayList<>(Global.getSector().getIntelManager().getIntel());
-
-            log.info("Draconis: Checking " + allIntel.size() + " total intel items");
-
-            for (com.fs.starfarer.api.campaign.comm.IntelInfoPlugin intel : allIntel) {
-                if (intel == null) continue;
-
-                // Use class name matching for better save compatibility
-                String className = intel.getClass().getName();
-
-                if (className.contains("DraconisAICoreTheftIntel")) {
-                    foundCount++;
-                    log.info("Draconis: Found AI core theft intel: " + className);
-
-                    try {
-                        // Cast to our intel type
-                        levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel theftIntel =
-                            (levianeer.draconis.data.campaign.intel.aicore.intel.DraconisAICoreTheftIntel) intel;
-
-                        // Check if intel is expired (no reflection needed!)
-                        if (theftIntel.isExpired()) {
-                            // Use the proper intel lifecycle method
-                            theftIntel.endImmediately();
-                            removedCount++;
-                            log.info("Draconis:   >>> REMOVED expired intel");
-                        } else {
-                            log.info("Draconis:   Intel not expired yet, keeping");
-                        }
-                    } catch (ClassCastException e) {
-                        log.warn("Draconis: Could not cast intel (save compatibility issue): " + e.getMessage());
-                    } catch (Exception e) {
-                        log.warn("Draconis: Could not process intel: " + e.getMessage());
-                    }
-                }
-            }
-
-            log.info("Draconis: Intel cleanup complete - Found: " + foundCount + ", Removed: " + removedCount);
-
-            if (removedCount > 0) {
-                log.info("Draconis: Successfully cleaned up " + removedCount + " expired AI core theft intel notifications");
-            } else if (foundCount > 0) {
-                log.info("Draconis: Found " + foundCount + " AI core theft intel items but none were expired");
-            } else {
-                log.info("Draconis: No AI core theft intel found to clean up");
-            }
-
-            log.info("Draconis: === Intel Cleanup Complete ===");
-        } catch (Exception e) {
-            log.error("Draconis: Error during intel cleanup (non-critical): " + e.getMessage(), e);
         }
     }
 
@@ -349,9 +338,8 @@ public class XLII_ModPlugin extends BaseModPlugin {
         if (missile.getProjectileSpecId().equals(SABRE_MISSILE_ID)) {
             return new PluginPick<>(new XLII_SabreAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
         }
-
         if (missile.getProjectileSpecId().equals(SLAP_ER_MISSILE_ID)) {
-            return new PluginPick<>(new XLII_SlapERMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
+            return new PluginPick<>(new XLII_SlapERMissileAI(missile), CampaignPlugin.PickPriority.MOD_SPECIFIC);
         }
         return null;
     }

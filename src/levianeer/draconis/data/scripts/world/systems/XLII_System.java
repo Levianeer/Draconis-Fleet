@@ -7,6 +7,7 @@ import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor;
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin;
+import com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -21,62 +22,58 @@ public class XLII_System implements SectorGeneratorPlugin {
     @Override
     public void generate(SectorAPI sector) {
 
-        // SCALING FACTOR
-        // 1.0 = original, 1.5 = 50% larger, 2.0 = twice as large, etc.
-        final float SCALE = 2.0f; // 2x is probably to highest this should go
-
         // Hyperspace Location
-        final float systemLocX = 4200f; // New location: -4200,9600
-        final float systemLocY = 9600f;  // Old location: -750,-5250
+        final float systemLocX = 4200f;     // New location: -4200,9600
+        final float systemLocY = 9600f;     // Old location: -750,-5250
 
         StarSystemAPI system = sector.createStarSystem("Fafnir");
         system.setBackgroundTextureFilename("graphics/mod/backgrounds/fafnirbg.png");
 
-        // Scaled distances - multiply by SCALE
-        final float asteroidsDistance = 7500f * SCALE;
+        // Scaled distances
+        final float asteroidsDistance = 7500;
         final float asteroidsOrbit = 460f;
-
-        final float athebyneAngle = 0f;
-        final float athebyneSize = 140f;
-        final float athebyneDistance = 2200f * SCALE;
-        final float athebyneOrbit = 225f;
 
         final float itoronAngle = 0f;
         final float itoronSize = 180f;
-        final float itoronDistance = 3400f * SCALE;
+        final float itoronDistance = 3400;
         final float itoronOrbit = 365f;
 
-        final float koriAngle = 0f;
-        final float koriSize = 40f;
-        final float koriDistance = 350f * SCALE;
-        final float koriOrbit = 30f;
+        final float athebyneAngle = itoronAngle + 180f;
+        final float athebyneSize = 140f;
+        final float athebyneDistance = itoronDistance;
+        final float athebyneOrbit = itoronOrbit;
 
         final float voriumAngle = 30f;
         final float voriumSize = 500f;
-        final float voriumDistance = 9000f * SCALE;
+        final float voriumDistance = 9000;
         final float voriumOrbit = 800f;
 
         final float pirateStationAngle = 170f;
-        final float pirateStationDistance = 12000f * SCALE;
+        final float pirateStationDistance = 12000;
         final float pirateStationOrbit = 640f;
 
         final float jp1Angle = 315f;
-        final float jp1Distance = 750f * SCALE;
+        final float jp1Distance = 750;
         final float jp1Orbit = 60f;
 
-        final float jp2Angle = 360f;
-        final float jp2Distance = 850f * SCALE;
+        final float koriSize = 80f;
+        final float koriAngle = jp1Angle + 180f;
+        final float koriDistance = jp1Distance;
+        final float koriOrbit = jp1Orbit;
+
+        final float jp2Angle = 300f;
+        final float jp2Distance = 950;
         final float jp2Orbit = 90f;
 
         final float jp3Angle = 200f;
-        final float jp3Distance = 1000f * SCALE;
+        final float jp3Distance = 1000;
         final float jp3Orbit = 75f;
 
         final float gateAngle = 180f;
-        final float gateDistance = 10000f * SCALE;
+        final float gateDistance = 10000;
         final float gateOrbit = 560f;
 
-        final float arrayDistance = 4100f * SCALE;
+        final float arrayDistance = 4100;
         final float arrayOrbit = 400f;
 
         // NEW CELESTIAL BODIES - Expansion
@@ -84,43 +81,31 @@ public class XLII_System implements SectorGeneratorPlugin {
         // Nidhogg - Inner scorched planet
         final float nidhoggAngle = 45f;
         final float nidhoggSize = 60f;
-        final float nidhoggDistance = 1500f * SCALE;
+        final float nidhoggDistance = 1500;
         final float nidhoggOrbit = 90f;
 
         // Shard - Athebyne's bombarded moon
         final float shardAngle = 180f;
-        final float shardDistance = 220f * SCALE;
+        final float shardDistance = 220;
         final float shardOrbit = 28f;
 
         // Tiamat - Vorium's metallic moon
         final float tiamatAngle = 120f;
         final float tiamatSize = 35f;
-        final float tiamatDistance = 670f * SCALE;
-        final float tiamatOrbit = 20f;
+        final float tiamatDistance = 950;
+        final float tiamatOrbit = 90f;
 
         // Jormungandr - Outer ice giant
         final float jormungandrAngle = 210f;
         final float jormungandrSize = 400f;
-        final float jormungandrDistance = 9000f * SCALE;
+        final float jormungandrDistance = 9000;
         final float jormungandrOrbit = 800f;
 
         // Hel - Jormungandr's frozen moon
         final float helAngle = 0f;
         final float helSize = 45f;
-        final float helDistance = 900f * SCALE;
+        final float helDistance = 900;
         final float helOrbit = 26f;
-
-        // Ladon - Distant dwarf planet
-        final float ladonAngle = 135f;
-        final float ladonSize = 28f;
-        final float ladonDistance = 11000f * SCALE;
-        final float ladonOrbit = 12000f;
-
-        // Vritra - Elliptical dwarf planet
-        final float vritraAngle = 315f;
-        final float vritraSize = 26f;
-        final float vritraDistance = 12000f * SCALE;
-        final float vritraOrbit = 15000f;
 
         PlanetAPI star = system.initStar(
                 "XLII_fafnir",
@@ -133,42 +118,21 @@ public class XLII_System implements SectorGeneratorPlugin {
 
         system.addAsteroidBelt(
                 star,
-                1000,
-                asteroidsDistance - 435,
-                350,
+                100,
+                asteroidsDistance - 300,
+                1400,
                 320,
                 1280,
                 Terrain.ASTEROID_BELT,
                 "Fafnir's Inner Belt"
         );
 
-        system.addAsteroidBelt(
-                star,
-                2000,
-                pirateStationDistance,
-                400,
-                1200,
-                2400,
-                Terrain.ASTEROID_BELT,
-                "Fafnir's Outer Belt"
-        );
-
-        // ASTEROID BELT - Offsets stay the same for visual consistency
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, asteroidsDistance - 1300, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance - 1100, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, asteroidsDistance - 900, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance - 700, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, asteroidsDistance + 500, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance + 400, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, asteroidsDistance + 300, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 3, Color.white, 256f, asteroidsDistance - 200, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 2, Color.white, 256f, asteroidsDistance - 100, asteroidsOrbit);
-
-        system.addRingBand(star, "misc", "rings_ice0", 256f, 0, Color.white, 256f, asteroidsDistance, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, asteroidsDistance + 100, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_ice0", 256f, 1, Color.white, 256f, asteroidsDistance + 200, asteroidsOrbit);
-        system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, asteroidsDistance + 300, asteroidsOrbit);
+        // ASTEROID BELT
+        system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, asteroidsDistance - 900, asteroidsOrbit);
+        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, asteroidsDistance - 200, asteroidsOrbit);
+        system.addRingBand(star, "misc", "rings_ice0", 256f, 2, Color.white, 256f, asteroidsDistance, asteroidsOrbit);
+        system.addRingBand(star, "misc", "rings_dust0", 256f, 3, Color.white, 256f, asteroidsDistance, asteroidsOrbit);
+        system.addRingBand(star, "misc", "rings_dust0", 256f, 4, Color.white, 256f, asteroidsDistance + 300, asteroidsOrbit);
 
         // Fafnir Mirror system
         SectorEntityToken fafnir_mirror1 = system.addCustomEntity("fafnir_mirror1", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
@@ -183,18 +147,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         fafnir_mirror3.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 240, 1500, 90);
         fafnir_mirror3.setCustomDescriptionId("XLII_stellar_mirror");
 
-        SectorEntityToken fafnir_mirror4 = system.addCustomEntity("fafnir_mirror4", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
-        fafnir_mirror4.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 60, 1500, 90);
-        fafnir_mirror4.setCustomDescriptionId("XLII_stellar_mirror");
-
-        SectorEntityToken fafnir_mirror5 = system.addCustomEntity("fafnir_mirror5", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
-        fafnir_mirror5.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 180, 1500, 90);
-        fafnir_mirror5.setCustomDescriptionId("XLII_stellar_mirror");
-
-        SectorEntityToken fafnir_mirror6 = system.addCustomEntity("fafnir_mirror6", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
-        fafnir_mirror6.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 300, 1500, 90);
-        fafnir_mirror6.setCustomDescriptionId("XLII_stellar_mirror");
-
         // PLANETS
 
         // Nidhogg - Scorched inner planet (tidally locked)
@@ -206,10 +158,13 @@ public class XLII_System implements SectorGeneratorPlugin {
                 "barren-bombarded", athebyneAngle, athebyneSize, athebyneDistance, athebyneOrbit);
         athebyne.setFaction(DRACONIS);
         athebyne.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "XLII_athebyne"));
+        //athebyne.getSpec().setGlowTexture(Global.getSettings().getSpriteName("hab_glows", "XLII_athebyne_glow"));
+        //athebyne.getSpec().setGlowColor(new Color(255, 255,255, 255));
+        //athebyne.getSpec().setUseReverseLightForGlow(false);
         athebyne.setCustomDescriptionId("planet_athebyne");
         athebyne.applySpecChanges();
-
-        // Shard - Abandoned Terraforming Platform
+        
+        // Abandoned Terraforming Platform
         SectorEntityToken shardStation = system.addCustomEntity("shard_abandoned_station",
                 "Abandoned Terraforming Platform", "station_side06", "neutral");
 
@@ -223,6 +178,9 @@ public class XLII_System implements SectorGeneratorPlugin {
                 "terran", itoronAngle, itoronSize, itoronDistance, itoronOrbit);
         itoron.setFaction(DRACONIS);
         itoron.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "XLII_itoron"));
+        //itoron.getSpec().setGlowTexture(Global.getSettings().getSpriteName("hab_glows", "XLII_itoron_glow"));
+        //itoron.getSpec().setGlowColor(new Color(255, 255,255, 255));
+        //itoron.getSpec().setUseReverseLightForGlow(false);
         itoron.setCustomDescriptionId("planet_itoron");
         itoron.applySpecChanges();
 
@@ -235,8 +193,16 @@ public class XLII_System implements SectorGeneratorPlugin {
                 "frozen", koriAngle, koriSize, koriDistance, koriOrbit);
         kori.setFaction(DRACONIS);
         kori.getSpec().setTexture(Global.getSettings().getSpriteName("planets", "XLII_kori"));
+        //kori.getSpec().setGlowTexture(Global.getSettings().getSpriteName("hab_glows", "XLII_kori_glow"));
+        //kori.getSpec().setGlowColor(new Color(255, 255,255, 255));
+        //kori.getSpec().setUseReverseLightForGlow(false);
         kori.setCustomDescriptionId("planet_kori");
         kori.applySpecChanges();
+
+        // Radio chatter terrain - orbits in sync with Kori so it stays co-located with the planet
+        SectorEntityToken koriChatter = system.addTerrain("XLII_kori_chatter",
+                new RadioChatterTerrainPlugin.RadioChatterParams(700f, 0f, kori));
+        koriChatter.setCircularOrbit(itoron, koriAngle, koriDistance, koriOrbit);
 
         PlanetAPI vorium = system.addPlanet("vorium", star, "Vorium",
                 "gas_giant", voriumAngle, voriumSize, voriumDistance, voriumOrbit);
@@ -251,10 +217,8 @@ public class XLII_System implements SectorGeneratorPlugin {
         tiamat.setCustomDescriptionId("planet_tiamat");
 
         // Vorium ring systems (Jupiter/Saturn-like)
-        system.addRingBand(vorium, "misc", "rings_dust0", 256f, 0, Color.white, 256f, 550f * SCALE, 15f);
-        system.addRingBand(vorium, "misc", "rings_ice0", 256f, 1, Color.white, 256f, 600f * SCALE, 15f);
-        system.addRingBand(vorium, "misc", "rings_asteroids0", 256f, 2, Color.white, 256f, 750f * SCALE, 15f);
-
+        system.addRingBand(vorium, "misc", "rings_dust0", 256f, 0, Color.white, 256f, 650f, 15f);
+        system.addRingBand(vorium, "misc", "rings_ice0", 256f, 1, Color.white, 256f, 725f, 15f);
         JumpPointAPI jp2 = Global.getFactory().createJumpPoint("XLII_fafnir_jump_point_out", "Fringe Jump Point");
         jp2.setCircularOrbit(vorium, jp2Angle, jp2Distance, jp2Orbit);
         jp2.setStandardWormholeToHyperspaceVisual();
@@ -271,35 +235,25 @@ public class XLII_System implements SectorGeneratorPlugin {
         hel.setCustomDescriptionId("planet_hel");
 
         // Jormungandr ring systems (Uranus/Neptune-like faint rings)
-        system.addRingBand(jormungandr, "misc", "rings_ice0", 256f, 0, new Color(100, 150, 200, 100), 256f, 450f * SCALE, 10f);
-        system.addRingBand(jormungandr, "misc", "rings_dust0", 256f, 1, new Color(120, 170, 220, 80), 256f, 500f * SCALE, 10f);
-
-        // Ladon - Distant dwarf planet
-        PlanetAPI ladon = system.addPlanet("ladon", star, "Ladon",
-                "frozen", ladonAngle, ladonSize, ladonDistance, ladonOrbit);
-        ladon.setCustomDescriptionId("planet_ladon");
-
-        // Vritra - Elliptical dwarf planet
-        PlanetAPI vritra = system.addPlanet("vritra", star, "Vritra",
-                "frozen", vritraAngle, vritraSize, vritraDistance, vritraOrbit);
-        vritra.setCustomDescriptionId("planet_vritra");
+        system.addRingBand(jormungandr, "misc", "rings_ice0", 256f, 0, new Color(100, 150, 200, 100), 256f, 450f, 10f);
+        system.addRingBand(jormungandr, "misc", "rings_dust0", 256f, 1, new Color(120, 170, 220, 80), 256f, 500f, 10f);
 
         // Outer asteroid belt (Kuiper belt analog)
         system.addAsteroidBelt(
                 star,
-                1500,
-                21000f, // No SCALE - keeps within system bounds
-                600,
+                150,
+                12000f,
+                750,
                 1800,
                 3600,
                 Terrain.ASTEROID_BELT,
                 "Fafnir's Outer Ice Belt"
         );
+        system.addRingBand(star, "misc", "rings_dust0", 256f, 0, Color.white, 256f, pirateStationDistance - 100, pirateStationOrbit);
+        system.addRingBand(star, "misc", "rings_ice0", 256f, 0, new Color(200, 220, 255, 180), 256f, pirateStationDistance, pirateStationOrbit);
+        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, new Color(120, 170, 220, 80), 256f, pirateStationDistance, pirateStationOrbit);
 
-        system.addRingBand(star, "misc", "rings_ice0", 256f, 0, Color.white, 256f, 21000f, 800f);
-        system.addRingBand(star, "misc", "rings_dust0", 256f, 1, Color.white, 256f, 21500f, 800f);
-        system.addRingBand(star, "misc", "rings_asteroids0", 256f, 2, Color.white, 256f, 22000f, 800f);
-
+        // Ring-Port Station
         SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station", "Ring-Port Station",
                 "station_lowtech3", Factions.PIRATES);
         pirateStation.setCircularOrbitPointingDown(star, pirateStationAngle, pirateStationDistance, pirateStationOrbit);

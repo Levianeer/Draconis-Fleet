@@ -12,7 +12,8 @@
   "shieldRadius": 135,
   "viewOffset": 0,
   "builtInMods": [
-    "XLII_draconishull"
+    "XLII_draconishull",
+    "hardenedshieldemitter"
   ],
   "builtInWeapons": {
     "WS0007": "XLII_vernier",
@@ -23,7 +24,7 @@
     "WS0012": "XLII_vernier",
     "WS0013": "XLII_vernier",
     "WS0014": "XLII_vernier",
-    "WS0020": "XLII_durendal_mkii"
+    "WS0020": "XLII_koncerz"
   },
   "weaponSlots": [
     {
@@ -42,20 +43,11 @@
     {
       "id": "WS0006",
       "size": "SMALL",
-      "type": "BALLISTIC",
+      "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 130,
+      "arc": 250,
       "angle": 0,
       "locations": [56, -34]
-    },
-    {
-      "id": "WS0005",
-      "size": "SMALL",
-      "type": "BALLISTIC",
-      "mount": "TURRET",
-      "arc": 130,
-      "angle": -0,
-      "locations": [56, 34]
     },
     {
       "id": "WS0007",
@@ -91,7 +83,7 @@
       "mount": "TURRET",
       "arc": 0,
       "angle": 90,
-      "locations": [64, 54.5]
+      "locations": [71, 40]
     },
     {
       "id": "WS0011",
@@ -172,7 +164,8 @@
       "mount": "HARDPOINT",
       "arc": 8,
       "angle": 0,
-      "locations": [46, -63]
+      "locations": [52, 45],
+      "renderOrderMod": 1000
     },
     {
       "id": "WS0019",
@@ -181,23 +174,24 @@
       "mount": "HARDPOINT",
       "arc": 8,
       "angle": -0,
-      "locations": [46, 63]
+      "locations": [46, 63],
+      "renderOrderMod": -1000
     },
     {
       "id": "WS0003",
-      "size": "LARGE",
-      "type": "BALLISTIC",
+      "size": "MEDIUM",
+      "type": "HYBRID",
       "mount": "TURRET",
-      "arc": 90,
-      "angle": 0,
-      "locations": [-21, 40]
+      "arc": 260,
+      "angle": 90,
+      "locations": [-20, 40]
     },
     {
       "id": "WS0020",
       "size": "LARGE",
       "type": "BUILT_IN",
       "mount": "TURRET",
-      "arc": 20,
+      "arc": 5,
       "angle": -0,
       "locations": [-21, -40]
     },
@@ -213,11 +207,11 @@
     {
       "id": "WS0002",
       "size": "MEDIUM",
-      "type": "COMPOSITE",
-      "mount": "TURRET",
-      "arc": 30,
-      "angle": -0,
-      "locations": [-5, 0]
+      "type": "MISSILE",
+      "mount": "HARDPOINT",
+      "arc": 5,
+      "angle": 0,
+      "locations": [46, -63]
     },
     {
       "id": "WS0001",
@@ -254,6 +248,18 @@
       "arc": 45,
       "angle": -180,
       "locations": [-64.5, -11.5]
+    },
+    {
+      "id": "LB 2",
+      "size": "LARGE",
+      "type": "LAUNCH_BAY",
+      "mount": "HIDDEN",
+      "arc": 360,
+      "angle": 0,
+      "locations": [
+        15.5, 5.5,
+        15.5, -5.5
+      ]
     }
   ],
   "engineSlots": [
@@ -276,7 +282,7 @@
       "styleId": "DRACONIS_PRIMARY"
     },
     {
-      "location": [-91.5, 31],
+      "location": [-92, 29.5],
       "length": 35,
       "width": 8,
       "angle": 180,
@@ -285,7 +291,7 @@
       "styleId": "DRACONIS_SECONDARY"
     },
     {
-      "location": [-91.5, -31],
+      "location": [-92, -29.5],
       "length": 35,
       "width": 8,
       "angle": -180,
@@ -312,7 +318,7 @@
       "styleId": "DRACONIS_SECONDARY"
     },
     {
-      "location": [-89, 40],
+      "location": [-87, 44.5],
       "length": 35,
       "width": 8,
       "angle": 180,
@@ -321,7 +327,97 @@
       "styleId": "DRACONIS_SECONDARY"
     },
     {
-      "location": [-89, -40],
+      "location": [-87, -44.5],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-88, 41.5],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-88, -41.5],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-86, 47.5],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-86, -47.5],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-90, 35.5],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-90, -35.5],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-91, 32.5],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-91, -32.5],
+      "length": 35,
+      "width": 8,
+      "angle": -180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-89, 38.5],
+      "length": 35,
+      "width": 8,
+      "angle": 180,
+      "contrailSize": 36,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-89, -38.5],
       "length": 35,
       "width": 8,
       "angle": -180,
@@ -331,14 +427,14 @@
     }
   ],
   "bounds": [
-    90, -31,
-    69.5, -49.5,
-    47, -51,
-    49, -71,
-    12, -76,
+    90.5, -31.5,
+    70.5, -50.5,
+    50.5, -50.5,
+    50.5, -71,
+    11.5, -76.5,
     0.5, -65.5,
-    -26, -72,
-    -57.5, -77.5,
+    -27.5, -73.5,
+    -57.5, -78.5,
     -80, -54.5,
     -94, -25,
     -94.5, -10.5,
@@ -346,15 +442,15 @@
     -94.5, 10.5,
     -94, 25,
     -80, 54.5,
-    -57.5, 77.5,
+    -57.5, 78.5,
     -26, 72,
     0.5, 65.5,
     12, 76,
-    49, 71,
-    47, 51,
-    69.5, 49.5,
-    90, 31,
-    74.5, 21.5,
-    74.5, -21.5
+    50.5, 71.5,
+    58, 39,
+    71, 38.5,
+    85.5, 23.5,
+    78.5, 21.5,
+    78.5, -20.5
   ]
 }

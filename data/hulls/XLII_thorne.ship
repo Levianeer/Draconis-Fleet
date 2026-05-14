@@ -1,122 +1,149 @@
 {
-    "hullName": "Thorne",
-    "hullId": "XLII_thorne",
-    "hullSize": "FIGHTER",
-    "style": "DRACONIS",
-    "spriteName": "graphics/ships/XLII_thorne.png",
-    "height": 60,
-    "width": 50,
-    "center": [
-        25, 30
-    ],
-    "collisionRadius": 42,
-    "coversColor": "",
-    "shieldCenter": [
-        0, 0
-    ],
-    "shieldRadius": 38,
-    "viewOffset": 0,
-    "builtInMods": [
-        "no_weapon_flux",
-        "insulatedengine",
-        "XLII_autoflarelauncher"
-    ],
-    "builtInWings": [],
-    "builtInModules": null,
-    "weaponSlots": [
-        {
-            "id": "WS 000",
-            "size": "SMALL",
-            "type": "BALLISTIC",
-            "mount": "HIDDEN",
-            "arc": 0,
-            "angle": 0,
-            "locations": [
-                    12.5,      2.5
-            ]
-        },
-        {
-            "id": "WS 001",
-            "size": "SMALL",
-            "type": "MISSILE",
-            "mount": "HIDDEN",
-            "arc": 0,
-            "angle": 0,
-            "locations": [
-                    -4.5,    -23.5
-            ]
-        },
-        {
-            "id": "WS 002",
-            "size": "SMALL",
-            "type": "MISSILE",
-            "mount": "HIDDEN",
-            "arc": 0,
-            "angle": 0,
-            "locations": [
-                    -4.5,     23.5
-            ]
-        },
-        {
-            "id": "WS 003",
-            "size": "SMALL",
-            "type": "SYSTEM",
-            "mount": "TURRET",
-            "arc": 20,
-            "angle": 180,
-            "locations": [
-                     -25,        0
-            ]
-        },
-        {
-            "id": "WS 004",
-            "size": "SMALL",
-            "type": "SYSTEM",
-            "mount": "TURRET",
-            "arc": 20,
-            "angle": 180,
-            "locations": [
-                     -25,     -0.5
-            ]
-        },
-        {
-            "id": "WS 005",
-            "size": "SMALL",
-            "type": "SYSTEM",
-            "mount": "TURRET",
-            "arc": 20,
-            "angle": 180,
-            "locations": [
-                     -25,      0.5
-            ]
-        }
-    ],
-    "engineSlots": [
-        {
-            "location": [
-                -29.5, -4
-            ],
-            "length": 32,
-            "width": 9,
-            "angle": 180,
-            "contrailSize": 12,
-            "style": "DRACONIS_FIGHTER"
-        },
-        {
-            "location": [
-                -29.5, 4
-            ],
-            "length": 32,
-            "width": 9,
-            "angle": 180,
-            "contrailSize": 12,
-            "style": "DRACONIS_FIGHTER"
-        }
-    ],
-    "bounds": [
-             -25,        0,
-            -9.5,     23.5,
-            28.5,        0,
-            -9.5,    -23.5
-    ]
+  "hullName": "Thorne",
+  "hullId": "XLII_thorne",
+  "hullSize": "FIGHTER",
+  "spriteName": "graphics/ships/XLII_thorne.png",
+  "style": "DRACONIS",
+  "height": 56,
+  "width": 44,
+  "center": [22, 30],
+  "collisionRadius": 42,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 38,
+  "viewOffset": 0,
+  "builtInMods": [
+    "XLII_autoflarelauncher"
+  ],
+  "weaponSlots": [
+    {
+      "id": "WS0000",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [12.5, 2.5]
+    },
+    {
+      "id": "WS0001",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-9.5, -20.5]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-9.5, 20.5]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-2.5, 7.5]
+    },
+    {
+      "id": "WS0004",
+      "size": "SMALL",
+      "type": "MISSILE",
+      "mount": "HIDDEN",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-2.5, -7.5]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 20,
+      "angle": 180,
+      "locations": [-18.5, -0]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 20,
+      "angle": 180,
+      "locations": [-17.5, -1.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 20,
+      "angle": 180,
+      "locations": [-17.5, 1.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 20,
+      "angle": 45,
+      "locations": [-11, 3.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "SYSTEM",
+      "mount": "TURRET",
+      "arc": 20,
+      "angle": -45,
+      "locations": [-11, -3.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-29, -4.5],
+      "length": 32,
+      "width": 9,
+      "angle": 180,
+      "contrailSize": 12,
+      "style": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-29, 4.5],
+      "length": 32,
+      "width": 9,
+      "angle": 180,
+      "contrailSize": 12,
+      "style": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-29, -2.5],
+      "length": 32,
+      "width": 9,
+      "angle": 180,
+      "contrailSize": 12,
+      "style": "DRACONIS_FIGHTER"
+    },
+    {
+      "location": [-29, 2.5],
+      "length": 32,
+      "width": 9,
+      "angle": -180,
+      "contrailSize": 12,
+      "style": "DRACONIS_FIGHTER"
+    }
+  ],
+  "bounds": [
+    -25.5, 0,
+    -15, 20.5,
+    24.5, 0,
+    -15, -20.5
+  ]
 }

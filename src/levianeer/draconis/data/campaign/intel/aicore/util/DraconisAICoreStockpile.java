@@ -25,8 +25,8 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * <p>
  * CME SAFETY: Starsector is single-threaded; the CME risk is exclusively from iterating a
  * collection while modifying it in the same call stack.
- *   - add() and consume() only call put() on the backing map — never iterate it.
- *   - getStockpileCopy() returns new HashMap<>(backing) — callers iterate the copy, not the live map.
+ *   - add() and consume() only call put() on the backing map - never iterate it.
+ *   - getStockpileCopy() returns new HashMap<>(backing) - callers iterate the copy, not the live map.
  *   - tryInstallStockpiledCores() builds its work list from the copy, iterates local lists only,
  *     and calls consume() (put() only) on the live map mid-loop.
  */
@@ -39,7 +39,7 @@ public class DraconisAICoreStockpile {
 
     private static final int MAX_INSTALL_ROUNDS = 100;
 
-    // Static utility class — no instances
+    // Static utility class - no instances
     private DraconisAICoreStockpile() {}
 
     // -------------------------------------------------------------------------
@@ -49,7 +49,7 @@ public class DraconisAICoreStockpile {
     /**
      * Adds cores to the stockpile.
      * Safe to call from any acquisition source (theft, Remnant, donation).
-     * No iteration of the backing map — only calls put().
+     * No iteration of the backing map - only calls put().
      *
      * @param coreId Commodity ID (e.g. Commodities.ALPHA_CORE)
      * @param count  Number to add. Values <= 0 are ignored.
@@ -70,7 +70,7 @@ public class DraconisAICoreStockpile {
 
     /**
      * Removes cores from the stockpile after a confirmed installation.
-     * No iteration — only calls put().
+     * No iteration - only calls put().
      *
      * @param coreId Commodity ID
      * @param count  Number to consume
@@ -85,7 +85,7 @@ public class DraconisAICoreStockpile {
 
         int current = stockpile.getOrDefault(coreId, 0);
         if (current < count) {
-            log.warn("Draconis: Stockpile CONSUME failed — requested " + count + "x " +
+            log.warn("Draconis: Stockpile CONSUME failed - requested " + count + "x " +
                     DraconisAICorePriorityManager.getCoreDisplayName(coreId) +
                     " but only " + current + " available");
             return false;
@@ -101,7 +101,7 @@ public class DraconisAICoreStockpile {
 
     /**
      * Returns the current count for a specific core type.
-     * Reads a single key — no iteration, CME-safe.
+     * Reads a single key - no iteration, CME-safe.
      *
      * @param coreId Commodity ID
      * @return Count, or 0 if absent or faction unavailable.
@@ -127,7 +127,7 @@ public class DraconisAICoreStockpile {
     /**
      * Weighted score across all stockpiled cores for buff calculations.
      * Formula: (alpha * 3) + (beta * 2) + (gamma * 1)
-     * Reads three specific keys — no entry-set iteration, CME-safe.
+     * Reads three specific keys - no entry-set iteration, CME-safe.
      *
      * @return Weighted score; 0 if stockpile is empty or faction unavailable.
      */
@@ -147,7 +147,7 @@ public class DraconisAICoreStockpile {
      * For each core successfully installed, calls consume() to decrement the stockpile.
      * Cores that cannot be installed (all slots full) remain in the stockpile.
      * <p>
-     * Safe to call frequently — returns immediately if stockpile is empty.
+     * Safe to call frequently - returns immediately if stockpile is empty.
      * <p>
      * Uses the round-based loop pattern from DraconisAICoreDonationListener.handleDonatedCores():
      * - Deferred removeAll() after inner loop (no CME from list modification during iteration)
@@ -156,7 +156,7 @@ public class DraconisAICoreStockpile {
      * - MAX_INSTALL_ROUNDS safety ceiling
      */
     public static void tryInstallStockpiledCores() {
-        // Build work list from a snapshot — never iterate the live backing map
+        // Build work list from a snapshot - never iterate the live backing map
         Map<String, Integer> snapshot = getStockpileCopy();
 
         List<String> coresToInstall = new ArrayList<>();
@@ -172,14 +172,14 @@ public class DraconisAICoreStockpile {
 
         if (coresToInstall.isEmpty()) return;
 
-        log.info("Draconis: Stockpile drain — attempting to install " + coresToInstall.size() + " core(s)");
+        log.info("Draconis: Stockpile drain - attempting to install " + coresToInstall.size() + " core(s)");
 
         List<MarketAPI> availableAdminMarkets = findAvailableDraconisAdminMarkets();
         List<Industry>  availableIndustries   = findAvailableDraconisIndustries();
         List<Industry>  upgradeableIndustries = findUpgradeableDraconisIndustries();
 
         if (availableAdminMarkets.isEmpty() && availableIndustries.isEmpty() && upgradeableIndustries.isEmpty()) {
-            log.info("Draconis: Stockpile drain — no available slots, stockpile unchanged");
+            log.info("Draconis: Stockpile drain - no available slots, stockpile unchanged");
             return;
         }
 
@@ -192,9 +192,8 @@ public class DraconisAICoreStockpile {
             List<String> displacedCores  = new ArrayList<>();
             List<String> failedCores     = new ArrayList<>();
 
-            // Deferred removal — safe to call removeAll after the inner loop finishes
-            Set<Industry>  industriesToRemove = new HashSet<>();
-            Set<MarketAPI> marketsToRemove    = new HashSet<>();
+            // Deferred removal - safe to call removeAll after the inner loop finishes
+            Set<Industry> industriesToRemove = new HashSet<>();
 
             int installedThisRound = 0;
 
@@ -206,7 +205,9 @@ public class DraconisAICoreStockpile {
                     MarketAPI target = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
                     if (target != null && DraconisAICorePriorityManager.installAICoreAdmin(target, coreId, DRACONIS)) {
                         if (consume(coreId, 1)) {
-                            marketsToRemove.add(target);
+                            // Remove immediately - iterating remainingCores, not availableAdminMarkets,
+                            // so no CME risk. Deferred removal lets the same market absorb every core.
+                            availableAdminMarkets.remove(target);
                             totalInstalled++;
                             installedThisRound++;
                             installed = true;
@@ -234,13 +235,13 @@ public class DraconisAICoreStockpile {
                                 installed = true;
 
                                 // Displaced cores circulate within this drain pass only.
-                                // They are NOT re-added via add() — they were already consumed
+                                // They are NOT re-added via add() - they were already consumed
                                 // from the stockpile in a previous cycle when first installed.
                                 if (displacedCore != null) {
                                     displacedCores.add(displacedCore);
                                     log.info("Draconis: Stockpile displaced " +
                                             DraconisAICorePriorityManager.getCoreDisplayName(displacedCore) +
-                                            " from " + target.getCurrentName() + " — re-queuing for redistribution");
+                                            " from " + target.getCurrentName() + " - re-queuing for redistribution");
                                 }
                             }
                         }
@@ -252,8 +253,7 @@ public class DraconisAICoreStockpile {
                 }
             }
 
-            // Safe deferred removal — inner loop is finished
-            availableAdminMarkets.removeAll(marketsToRemove);
+            // Safe deferred removal for industries - inner loop is finished
             availableIndustries.removeAll(industriesToRemove);
             upgradeableIndustries.removeAll(industriesToRemove);
 
@@ -262,17 +262,27 @@ public class DraconisAICoreStockpile {
             remainingCores.addAll(displacedCores);
 
             if (installedThisRound == 0 && !failedCores.isEmpty()) {
-                log.info("Draconis: Stockpile drain stalled — " + failedCores.size() +
+                // Displaced cores that couldn't find a new home must be saved back to the
+                // stockpile. Without this they would be silently dropped (they were consumed
+                // from the stockpile when originally installed, so the backing map has no
+                // record of them after displacement).
+                for (String displaced : remainingCores) {
+                    add(displaced, 1);
+                    log.info("Draconis: Stockpile re-saved displaced " +
+                            DraconisAICorePriorityManager.getCoreDisplayName(displaced) +
+                            " - no available slot this drain pass");
+                }
+                log.info("Draconis: Stockpile drain stalled - " + failedCores.size() +
                         " core(s) remain in stockpile pending available slot");
                 break;
             }
         }
 
         if (round >= MAX_INSTALL_ROUNDS) {
-            log.error("Draconis: Stockpile drain exceeded MAX_INSTALL_ROUNDS — possible logic error");
+            log.error("Draconis: Stockpile drain exceeded MAX_INSTALL_ROUNDS - possible logic error");
         }
 
-        log.info("Draconis: Stockpile drain complete — installed " + totalInstalled +
+        log.info("Draconis: Stockpile drain complete - installed " + totalInstalled +
                 " core(s) in " + round + " round(s). Remaining score: " + getTotalWeightedScore());
     }
 
@@ -282,7 +292,7 @@ public class DraconisAICoreStockpile {
 
     /**
      * Gets or initializes the live backing map from faction memory.
-     * NEVER iterate the returned map directly — use getStockpileCopy() for iteration.
+     * NEVER iterate the returned map directly - use getStockpileCopy() for iteration.
      *
      * @return Live backing map, or null if the Draconis faction is unavailable.
      */
@@ -290,7 +300,7 @@ public class DraconisAICoreStockpile {
     private static Map<String, Integer> getOrInitStockpile() {
         FactionAPI faction = Global.getSector().getFaction(DRACONIS);
         if (faction == null) {
-            log.error("Draconis: DraconisAICoreStockpile — Draconis faction not found");
+            log.error("Draconis: DraconisAICoreStockpile - Draconis faction not found");
             return null;
         }
 
@@ -300,7 +310,7 @@ public class DraconisAICoreStockpile {
             if (existing != null) return existing;
         }
 
-        // Initialize fresh — save-compatible: old saves start at zero and accumulate forward
+        // Initialize fresh - save-compatible: old saves start at zero and accumulate forward
         Map<String, Integer> stockpile = new HashMap<>();
         stockpile.put(Commodities.ALPHA_CORE, 0);
         stockpile.put(Commodities.BETA_CORE,  0);
@@ -333,8 +343,8 @@ public class DraconisAICoreStockpile {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
             if ("kori_market".equals(market.getId())) continue;
-            if (market.getAdmin() != null &&
-                    market.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) continue;
+            if (market.getAdmin() == null) continue; // installAICoreAdmin would fail - skip
+            if (market.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) continue;
             available.add(market);
         }
         return available;

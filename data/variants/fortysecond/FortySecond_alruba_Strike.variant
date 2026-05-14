@@ -1,0 +1,34 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 10,
+    "fluxVents": 2,
+    "goalVariant": true,
+    "hullId": "XLII_alruba_fortysecond",
+    "hullMods": [
+        "targetingunit",
+        "extendedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "FortySecond_alruba_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "XLII_culverin"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0004": "XLII_halberd",
+                "WS0005": "XLII_halberd"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0002": "XLII_rapier"}
+        }
+    ]
+}

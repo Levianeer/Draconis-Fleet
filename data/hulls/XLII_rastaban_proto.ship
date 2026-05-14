@@ -1,0 +1,276 @@
+{
+  "hullName": "Rastabam",
+  "hullId": "XLII_rastaban_proto",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/ships/proto/XLII_rastaban_proto.png",
+  "style": "DRACONIS",
+  "height": 198,
+  "width": 116,
+  "center": [58, 99],
+  "collisionRadius": 157.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 146.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "rugged",
+    "XLII_advancedweaponsystems",
+    "XLII_adaptation"
+  ],
+  "builtInWings": [
+    "XLII_excalibur_wing"
+  ],
+  "builtInWeapons": {
+    "WS0008": "XLII_vernier",
+    "WS0009": "XLII_vernier",
+    "WS0010": "XLII_vernier",
+    "WS0011": "XLII_vernier",
+    "WS0012": "XLII_vernier",
+    "WS0013": "XLII_vernier",
+    "WS0014": "XLII_vernier",
+    "WS0015": "XLII_vernier",
+    "WS0016": "XLII_vernier",
+    "WS0017": "XLII_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "MEDIUM",
+      "type": "COMPOSITE",
+      "mount": "TURRET",
+      "arc": 5,
+      "angle": 0,
+      "locations": [86.5, -0]
+    },
+    {
+      "id": "WS0002",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 295,
+      "angle": 0,
+      "locations": [61, -0]
+    },
+    {
+      "id": "WS0003",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 250,
+      "angle": 0,
+      "locations": [39, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 300,
+      "angle": 0,
+      "locations": [13, -0]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 325,
+      "angle": 180,
+      "locations": [-65, -0]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 100,
+      "angle": 0,
+      "locations": [8, 26]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 100,
+      "angle": -0,
+      "locations": [8, -26]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-4, 37]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-4, -37]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [28, 24]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [28, -24]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-75, 35]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-75, -35]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-66, 35]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-66, -35]
+    },
+    {
+      "id": "WS0016",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [86, 13]
+    },
+    {
+      "id": "WS0017",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [86, -13]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-93, 26.5],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-93, -26.5],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-96, 19],
+      "length": 30,
+      "width": 10,
+      "angle": 180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-96, -19],
+      "length": 30,
+      "width": 10,
+      "angle": -180,
+      "contrailSize": 30,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_SECONDARY"
+    },
+    {
+      "location": [-99, 7],
+      "length": 70,
+      "width": 14,
+      "angle": 180,
+      "contrailSize": 14,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    },
+    {
+      "location": [-99, -7],
+      "length": 70,
+      "width": 14,
+      "angle": -180,
+      "contrailSize": 14,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    },
+    {
+      "location": [-99, -0],
+      "length": 112,
+      "width": 16,
+      "angle": 180,
+      "contrailSize": 16,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    }
+  ],
+  "bounds": [
+    22.5, -28.5,
+    -21.5, -38.5,
+    -57.5, -52.5,
+    -26.5, -28.5,
+    -70.5, -31.5,
+    -91.5, -29.5,
+    -97.5, -13.5,
+    -97.5, 13.5,
+    -91.5, 29.5,
+    -70.5, 31.5,
+    -26.5, 28.5,
+    -57.5, 52.5,
+    -21.5, 38.5,
+    22.5, 28.5,
+    22.5, 17.5,
+    87.5, 11.5,
+    97.5, 6.5,
+    97.5, -6.5,
+    87.5, -11.5,
+    22.5, -17.5
+  ]
+}

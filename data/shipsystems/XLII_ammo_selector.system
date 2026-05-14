@@ -1,0 +1,11 @@
+{
+	"id":"XLII_ammo_selector",
+	"type":"STAT_MOD",
+	"aiType":"NONE",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_AmmoSelectorStats",
+
+	"runScriptWhileIdle":true, # keep mode stat mods applied at all times
+
+	"useSound":"system_ammo_feeder",
+}

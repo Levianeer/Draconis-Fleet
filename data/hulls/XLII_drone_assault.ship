@@ -12,8 +12,7 @@
   "shieldRadius": 26.5,
   "viewOffset": 0,
   "builtInMods": [
-    "no_weapon_flux",
-    "terminator_core"
+    "XLII_overclockcore"
   ],
   "builtInWeapons": {
     "WS0001": "blinker_red",

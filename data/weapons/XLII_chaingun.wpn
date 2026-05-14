@@ -1,0 +1,27 @@
+{
+	"id":"XLII_chaingun",
+	"specClass":"projectile",
+	"type":"BALLISTIC",
+	"size":"LARGE",
+	"onFireEffect":"levianeer.draconis.data.scripts.weapons.XLII_ChaingunEffect",
+	"everyFrameEffect":"levianeer.draconis.data.scripts.weapons.XLII_ChaingunEffect",
+	"turretSprite":"graphics/weapons/XLII_chaingun/XLII_chaingun_turret_base00.png",
+	"hardpointSprite":"graphics/weapons/XLII_chaingun/XLII_chaingun_hardpoint_base00.png",
+	"numFrames":4,
+	"frameRate":60,
+	"turretOffsets":[36, 0.5],
+	"turretAngleOffsets":[0],
+	"hardpointOffsets":[41.5, 0.5],
+	"hardpointAngleOffsets":[0],		
+	"barrelMode":"ALTERNATING", # or LINKED.  whether barrels fire at the same time or alternate.
+	"animationType":"MUZZLE_FLASH",  # NONE, GLOW, MUZZLE_FLASH, SMOKE
+	"muzzleFlashSpec":{"length":35.0,   # only used if animationType = MUZZLE_FLASH
+					   "spread":5.0,
+					   "particleSizeMin":10.0,
+					   "particleSizeRange":16.0,
+					   "particleDuration":0.15,
+					   "particleCount":12,
+					   "particleColor":[235,235,155,200]},	
+	"projectileSpecId":"XLII_chaingun_shot",  # projectile that will be fired
+	# fireSoundOne and fireSoundTwo handled by XLII_ChaingunEffect script
+}
