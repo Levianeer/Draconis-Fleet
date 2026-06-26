@@ -1,3 +1,7 @@
+Version 0.7.1 (Save-compatible with 0.7.0)
+MINOR IMPROVEMENTS:
+- Made the AI Core raids a little less common, and added some variation to their targets.
+
 Version 0.7.0
 - WARNING: Breaking change - NOT compatible with saves from 0.6.12 or earlier.
   - Internal restructuring: Colony crisis system.

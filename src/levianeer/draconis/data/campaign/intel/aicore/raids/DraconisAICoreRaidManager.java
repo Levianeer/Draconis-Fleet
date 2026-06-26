@@ -7,6 +7,8 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
@@ -34,6 +36,13 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private static final String COOLDOWN_END_TIMESTAMP_KEY = "$draconis_cooldownEndTimestamp";
     private static final String LAST_RAID_WAS_SUCCESS_KEY = "$draconis_lastRaidWasSuccess";
     private static final String SYSTEM_START_TIMESTAMP_KEY = "$draconis_raidSystemStartTimestamp";
+
+    // Per-faction anti-harassment keys
+    private static final String LAST_RAIDED_FACTION_KEY = "$draconis_lastRaidedFactionId";
+    private static final String FACTION_RAID_ATTEMPTS_KEY = "$draconis_factionRaidAttempts";
+    private static final String FACTION_LAST_RAID_TIMESTAMP_KEY = "$draconis_factionLastRaidTimestamp";
+
+    public static final float FACTION_COOLDOWN_BASE_DAYS = 60f;
 
     @Override
     public boolean isDone() {
@@ -226,10 +235,11 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     }
 
     /**
-     * Start a cooldown period after a raid completes
+     * Start a cooldown period after a raid completes and record per-faction tracking data.
      * @param success Whether the raid was successful
+     * @param targetFactionId The faction that was raided (for anti-harassment tracking)
      */
-    public static void startCooldown(boolean success) {
+    public static void startCooldown(boolean success, String targetFactionId) {
         long currentTimestamp = Global.getSector().getClock().getTimestamp();
         float cooldownDays = success ? COOLDOWN_SUCCESS_DAYS : COOLDOWN_FAILURE_DAYS;
 
@@ -242,7 +252,91 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_TIMESTAMP_KEY, currentTimestamp);
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_WAS_SUCCESS_KEY, success);
 
-        log.info("Draconis: Raid cooldown started: " + cooldownDays + " days (" + (success ? "success" : "failure") + ")");
+        // Record per-faction anti-harassment data
+        if (targetFactionId != null) {
+            recordRaidAttempt(targetFactionId, currentTimestamp);
+        }
+
+        log.info("Draconis: Raid cooldown started: " + cooldownDays + " days (" + (success ? "success" : "failure") + ")" +
+            (targetFactionId != null ? " against " + targetFactionId : ""));
+    }
+
+    /**
+     * Record a raid attempt against a faction for anti-harassment tracking.
+     * Sets the forced-switch flag, increments the per-faction attempt counter,
+     * and records the per-faction timestamp.
+     */
+    @SuppressWarnings("unchecked")
+    private static void recordRaidAttempt(String factionId, long timestamp) {
+        // Forced switch: remember the last-raided faction
+        Global.getSector().getMemoryWithoutUpdate().set(LAST_RAIDED_FACTION_KEY, factionId);
+
+        // Compounding cooldown: increment attempt count
+        Map<String, Integer> attempts = (Map<String, Integer>)
+            Global.getSector().getMemoryWithoutUpdate().get(FACTION_RAID_ATTEMPTS_KEY);
+        if (attempts == null) {
+            attempts = new HashMap<>();
+        }
+        int count = attempts.getOrDefault(factionId, 0) + 1;
+        attempts.put(factionId, count);
+        Global.getSector().getMemoryWithoutUpdate().set(FACTION_RAID_ATTEMPTS_KEY, attempts);
+
+        // Per-faction timestamp
+        Map<String, Long> timestamps = (Map<String, Long>)
+            Global.getSector().getMemoryWithoutUpdate().get(FACTION_LAST_RAID_TIMESTAMP_KEY);
+        if (timestamps == null) {
+            timestamps = new HashMap<>();
+        }
+        timestamps.put(factionId, timestamp);
+        Global.getSector().getMemoryWithoutUpdate().set(FACTION_LAST_RAID_TIMESTAMP_KEY, timestamps);
+
+        float cooldownDays = FACTION_COOLDOWN_BASE_DAYS * count;
+        log.info("Draconis: Recorded raid attempt #" + count + " against " + factionId +
+            " - faction cooldown: " + cooldownDays + " days");
+    }
+
+    /**
+     * Get the faction ID of the last raid target (for forced switching).
+     */
+    public static String getLastRaidedFactionId() {
+        return (String) Global.getSector().getMemoryWithoutUpdate().get(LAST_RAIDED_FACTION_KEY);
+    }
+
+    /**
+     * Get the number of raid attempts against a specific faction.
+     */
+    @SuppressWarnings("unchecked")
+    public static int getFactionRaidAttempts(String factionId) {
+        Map<String, Integer> attempts = (Map<String, Integer>)
+            Global.getSector().getMemoryWithoutUpdate().get(FACTION_RAID_ATTEMPTS_KEY);
+        if (attempts == null) return 0;
+        return attempts.getOrDefault(factionId, 0);
+    }
+
+    /**
+     * Get the timestamp of the last raid attempt against a specific faction.
+     */
+    @SuppressWarnings("unchecked")
+    public static long getFactionLastRaidTimestamp(String factionId) {
+        Map<String, Long> timestamps = (Map<String, Long>)
+            Global.getSector().getMemoryWithoutUpdate().get(FACTION_LAST_RAID_TIMESTAMP_KEY);
+        if (timestamps == null) return 0;
+        return timestamps.getOrDefault(factionId, 0L);
+    }
+
+    /**
+     * Check if a faction is on its compounding cooldown.
+     */
+    public static boolean isFactionOnCooldown(String factionId) {
+        int attempts = getFactionRaidAttempts(factionId);
+        if (attempts == 0) return false;
+
+        long lastTimestamp = getFactionLastRaidTimestamp(factionId);
+        if (lastTimestamp == 0) return false;
+
+        float daysSince = Global.getSector().getClock().getElapsedDaysSince(lastTimestamp);
+        float cooldownDays = FACTION_COOLDOWN_BASE_DAYS * attempts;
+        return daysSince < cooldownDays;
     }
 
     /**

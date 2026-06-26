@@ -103,6 +103,9 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
         // Check raid outcome using base game success tracking
         boolean succeeded = !isAbort && isSucceeded();
 
+        // Resolve the target faction for anti-harassment tracking
+        String targetFactionId = (target != null) ? target.getFactionId() : null;
+
         // Handle raid success - steal AI cores
         if (succeeded && target != null) {
             // Steal AI cores from the successfully raided market
@@ -116,8 +119,8 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
             // Decrement active raid count
             DraconisAICoreRaidManager.decrementActiveRaidCount();
 
-            // Start success cooldown (75 days)
-            DraconisAICoreRaidManager.startCooldown(true);
+            // Start success cooldown (75 days) and record per-faction data
+            DraconisAICoreRaidManager.startCooldown(true, targetFactionId);
         }
         // Handle raid failure/abort - cleanup without theft
         else {
@@ -129,8 +132,8 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
             // Decrement active raid count
             DraconisAICoreRaidManager.decrementActiveRaidCount();
 
-            // Start failure cooldown (150 days)
-            DraconisAICoreRaidManager.startCooldown(false);
+            // Start failure cooldown (150 days) and record per-faction data
+            DraconisAICoreRaidManager.startCooldown(false, targetFactionId);
         }
 
         // Call parent implementation to complete the raid lifecycle

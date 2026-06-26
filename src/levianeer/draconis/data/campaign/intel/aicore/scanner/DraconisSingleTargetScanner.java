@@ -10,6 +10,8 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
 import org.apache.log4j.Logger;
 
+import levianeer.draconis.data.campaign.intel.aicore.raids.DraconisAICoreRaidManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +94,6 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         int skippedSmall = 0;
         int skippedHidden = 0;
         int skippedFriendly = 0;
-        int skippedNoCores = 0;
 
         // Scan all markets
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
@@ -129,39 +130,82 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
                 continue;
             }
 
-            // Scan for AI cores
+            // Scan for AI cores (coreless markets are valid targets with value 0 — fallback generation handles them)
             CoreData cores = scanMarketCores(market);
-
-            if (cores.totalCores == 0) {
-                skippedNoCores++;
-                continue;
-            }
-
             float value = calculateValue(cores);
             candidates.add(new MarketCandidate(market, cores, value));
         }
 
-        log.info(String.format("Draconis: Scanned %d markets, found %d valid AI core targets",
+        log.info(String.format("Draconis: Scanned %d markets, found %d valid targets",
                 totalMarkets, candidates.size()));
 
         if (candidates.isEmpty()) {
-            log.info("Draconis: No valid AI core targets found - clearing any existing target");
+            log.info("Draconis: No valid targets found - clearing any existing target");
+            clearCurrentTarget();
+            return;
+        }
+
+        // Apply anti-harassment filters
+        String lastRaidedFaction = DraconisAICoreRaidManager.getLastRaidedFactionId();
+        List<MarketCandidate> filtered = new ArrayList<>();
+        int skippedForcedSwitch = 0;
+        int skippedFactionCooldown = 0;
+
+        for (MarketCandidate candidate : candidates) {
+            String factionId = candidate.market.getFactionId();
+
+            // Forced switch: skip the faction we just raided
+            if (factionId.equals(lastRaidedFaction)) {
+                skippedForcedSwitch++;
+                continue;
+            }
+
+            // Compounding cooldown: skip factions still on their per-faction cooldown
+            if (DraconisAICoreRaidManager.isFactionOnCooldown(factionId)) {
+                skippedFactionCooldown++;
+                continue;
+            }
+
+            filtered.add(candidate);
+        }
+
+        if (skippedForcedSwitch > 0) {
+            log.info("Draconis: Skipped " + skippedForcedSwitch + " markets (forced switch from " + lastRaidedFaction + ")");
+        }
+        if (skippedFactionCooldown > 0) {
+            log.info("Draconis: Skipped " + skippedFactionCooldown + " markets (faction compounding cooldown)");
+        }
+
+        // Fallback: if the forced switch eliminated everything, lift it (compounding cooldown still applies)
+        if (filtered.isEmpty() && skippedForcedSwitch > 0) {
+            log.info("Draconis: Forced switch left no candidates - lifting restriction");
+            for (MarketCandidate candidate : candidates) {
+                String factionId = candidate.market.getFactionId();
+                if (!DraconisAICoreRaidManager.isFactionOnCooldown(factionId)) {
+                    filtered.add(candidate);
+                }
+            }
+        }
+
+        if (filtered.isEmpty()) {
+            log.info("Draconis: All factions filtered by anti-harassment systems - clearing target");
             clearCurrentTarget();
             return;
         }
 
         // Sort by value (highest first)
-        candidates.sort((a, b) -> Float.compare(b.value, a.value));
+        filtered.sort((a, b) -> Float.compare(b.value, a.value));
 
         // Log top 5 candidates
         log.info("Draconis: Top candidates by value:");
-        for (int i = 0; i < Math.min(5, candidates.size()); i++) {
-            MarketCandidate candidate = candidates.get(i);
-            log.info(String.format("Draconis:   %d. %s - value %.1f (%d cores)",
-                    i + 1, candidate.market.getName(), candidate.value, candidate.cores.totalCores));
+        for (int i = 0; i < Math.min(5, filtered.size()); i++) {
+            MarketCandidate candidate = filtered.get(i);
+            log.info(String.format("Draconis:   %d. %s (%s) - value %.1f (%d cores)",
+                    i + 1, candidate.market.getName(), candidate.market.getFactionId(),
+                    candidate.value, candidate.cores.totalCores));
         }
 
-        MarketCandidate bestCandidate = candidates.get(0);
+        MarketCandidate bestCandidate = filtered.get(0);
 
         log.info(String.format("Draconis: >>> BEST TARGET: %s - %d cores (value: %.1f)",
                 bestCandidate.market.getName(),
