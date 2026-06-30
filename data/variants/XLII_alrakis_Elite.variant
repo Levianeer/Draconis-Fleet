@@ -1,12 +1,12 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 0,
-    "fluxVents": 27,
+    "fluxCapacitors": 2,
+    "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_alrakis",
     "hullMods": [
         "targetingunit",
-        "magazines"
+        "frontemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -19,7 +19,7 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0006": "breach",
                 "WS0007": "breach",
@@ -28,9 +28,9 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "XLII_longsword"}
+            "weapons": {"WS0001": "XLII_montante"}
         },
         {
             "autofire": true,

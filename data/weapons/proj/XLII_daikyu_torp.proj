@@ -10,7 +10,7 @@
 	"collisionClass":"MISSILE_FF",
 	"explosionColor":[125,125,255,255],
 	"explosionRadius":1500,
-	"glowColor":[205,25,125,75],
+	"glowColor":[228,105,15,75],
 	"glowRadius":275,
 	"flameoutTime":3,
 	"armingTime":1.0,
@@ -37,7 +37,7 @@
 						"contrailMaxSpeedMult":0.75f,
 						"contrailAngularVelocityMult":0.1f,
 						"contrailColor":[235,235,235,75],
-						"glowAlternateColor":[255,15,175,205],
+						"glowAlternateColor":[255,15,15,205],
 						"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
 					},
 				    "width":15.0,

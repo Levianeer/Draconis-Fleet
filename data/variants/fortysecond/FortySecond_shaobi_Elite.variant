@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 2,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_shaobi_fortysecond",
     "hullMods": ["targetingunit"],
@@ -13,14 +13,25 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0007": "hveldriver",
-                "WS0008": "hveldriver"
+                "WS0007": "XLII_rapier",
+                "WS0008": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "atropos",
+                "WS0004": "atropos"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0005": "XLII_razorflak"}
+            "weapons": {
+                "WS0001": "lightmg",
+                "WS0002": "lightmg"
+            }
         }
     ],
     "wings": [

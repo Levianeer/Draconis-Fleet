@@ -1,39 +1,42 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 2,
+    "fluxVents": 16,
+    "goalVariant": true,
     "hullId": "XLII_tianlong_fortysecond",
     "hullMods": [
         "XLII_fortysecond_mk2",
         "targetingunit",
-        "frontemitter",
-        "missleracks",
-        "fluxbreakers"
+        "missleracks"
     ],
     "permaMods": ["XLII_fortysecond_mk2"],
     "sMods": [],
-    "goalVariant": true,
     "variantId": "FortySecond_tianlong_Elite",
     "weaponGroups": [
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0029": "XLII_twinspear",
-                "WS0030": "XLII_twinspear"
+                "WS0029": "XLII_chaingun",
+                "WS0030": "XLII_chaingun"
             }
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0019": "sabot",
-                "WS0020": "sabot",
-                "WS0021": "sabot",
-                "WS0022": "sabot",
-                "WS0023": "sabot",
-                "WS0024": "sabot"
+                "WS0019": "XLII_halberd",
+                "WS0020": "XLII_halberd",
+                "WS0021": "XLII_halberd",
+                "WS0022": "XLII_halberd",
+                "WS0023": "XLII_halberd",
+                "WS0024": "XLII_halberd"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0028": "gravitonbeam"}
         },
         {
             "autofire": true,

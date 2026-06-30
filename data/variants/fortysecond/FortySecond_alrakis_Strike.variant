@@ -16,12 +16,10 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0006": "atropos",
-                "WS0007": "atropos",
-                "WS0008": "atropos",
-                "WS0009": "atropos"
+                "WS0008": "XLII_halberd",
+                "WS0009": "XLII_halberd"
             }
         },
         {

@@ -45,7 +45,7 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     public static final String JP_ID_OUT    = "XLII_fafnir_jump_point_out";
     public static final String JP_ID_PIRATE = "XLII_fafnir_jump_point_pirate";
 
-    static final int   BRUTE_FORCE_SP_COST      = 10;
+    static final int   BRUTE_FORCE_SP_COST      = 5;
     static final float BRUTE_FORCE_CR_PENALTY   = 0.35f;
     static final int   BRUTE_FORCE_CR_PENALTY_PCT = 35;
 
@@ -111,20 +111,24 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     @Override
     public void optionSelected(String text, Object optionData) {
         String key = (String) optionData;
-        dialog.getOptionPanel().clearOptions();
 
         switch (state) {
             case DENIED:
                 if (OPT_ACKNOWLEDGE.equals(key)) {
                     dialog.dismiss();
                 } else if (OPT_TT_CREDENTIALS.equals(key)) {
+                    dialog.getOptionPanel().clearOptions();
                     pendingPath = FafnirAccessStrings.PATH_TT_COURIER;
                     grantAccess(pendingPath);
                     showAccessGranted();
                 } else if (OPT_RING_PORT_CREDENTIALS.equals(key)) {
+                    dialog.getOptionPanel().clearOptions();
                     pendingPath = FafnirAccessStrings.PATH_RING_PORT;
                     grantAccess(pendingPath);
                     showAccessGranted();
+                } else {
+                    log.warn("Draconis: FafnirBlockedDialog - unexpected option '" + key + "' in DENIED state, dismissing");
+                    dialog.dismiss();
                 }
                 break;
 
@@ -134,9 +138,13 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
                     openJPNextFrame();
                 } else if (OPT_BRUTE_FORCE.equals(key)) {
                     // SetStoryOption calls optionSelected(OPT_BRUTE_FORCE) after confirm() returns.
-                    // By then state is ACCESS_GRANTED and confirm() has already added OPT_PROCEED -
-                    // but the clearOptions() at the top of this method wiped it. Re-add it.
+                    // confirm() already called showAccessGranted() which added OPT_PROCEED.
+                    // Clear and re-add since the framework may have modified options during confirmation.
+                    dialog.getOptionPanel().clearOptions();
                     dialog.getOptionPanel().addOption(FafnirAccessStrings.OPT_APPROACH_JP, OPT_PROCEED);
+                } else {
+                    log.warn("Draconis: FafnirBlockedDialog - unexpected option '" + key + "' in ACCESS_GRANTED state, dismissing");
+                    dialog.dismiss();
                 }
                 break;
 

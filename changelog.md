@@ -1,3 +1,11 @@
+Version 0.7.2 (Save-compatible with 0.7.1)
+MINOR IMPROVEMENTS:
+- Reduced SP cost to enter Fafnir for the first time. 10 -> 5.
+- Fixed some odd ship variants.
+
+BUG FIXES:
+- Fixed a bug with not being able to withdraw from Fafnir's Jump Points.
+
 Version 0.7.1 (Save-compatible with 0.7.0)
 MINOR IMPROVEMENTS:
 - Made the AI Core raids a little less common, and added some variation to their targets.

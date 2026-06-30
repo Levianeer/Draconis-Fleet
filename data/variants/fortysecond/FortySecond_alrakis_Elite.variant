@@ -16,7 +16,7 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0006": "breach",
                 "WS0007": "breach",

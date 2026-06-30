@@ -2,6 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 0,
     "fluxVents": 0,
+    "goalVariant": true,
     "hullId": "XLII_alwaid_fortysecond",
     "hullMods": [
         "targetingunit",
@@ -11,12 +12,11 @@
     ],
     "permaMods": [],
     "sMods": [],
-    "goalVariant": true,
     "variantId": "FortySecond_alwaid_Elite",
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0013": "XLII_naginata",
                 "WS0014": "XLII_naginata"
@@ -24,7 +24,7 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0011": "sabotpod",
                 "WS0012": "sabotpod"
@@ -32,7 +32,7 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0003": "breach",
                 "WS0004": "breach",
