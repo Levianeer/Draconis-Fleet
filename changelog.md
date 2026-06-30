@@ -1,3 +1,8 @@
+Version 0.7.3 (Save-compatible with 0.7.2)
+BUG FIXES:
+- Fixed a bug with not being able to withdraw from Fafnir's Jump Points.
+  - (For real this time :sob:)
+
 Version 0.7.2 (Save-compatible with 0.7.1)
 MINOR IMPROVEMENTS:
 - Reduced SP cost to enter Fafnir for the first time. 10 -> 5.

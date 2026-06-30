@@ -49,6 +49,10 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     static final float BRUTE_FORCE_CR_PENALTY   = 0.35f;
     static final int   BRUTE_FORCE_CR_PENALTY_PCT = 35;
 
+    /** Wall-clock cooldown to prevent autopilot from re-triggering the dialog after dismiss. */
+    private static final long DISMISS_COOLDOWN_MS = 3000;
+    private static long lastDismissTime;
+
     // -------------------------------------------------------------------------
     // State
     // -------------------------------------------------------------------------
@@ -105,6 +109,10 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     @Override
     public void init(InteractionDialogAPI dialog) {
         this.dialog = dialog;
+        if (System.currentTimeMillis() - lastDismissTime < DISMISS_COOLDOWN_MS) {
+            dialog.dismiss();
+            return;
+        }
         showDenied();
     }
 
@@ -115,7 +123,7 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
         switch (state) {
             case DENIED:
                 if (OPT_ACKNOWLEDGE.equals(key)) {
-                    dialog.dismiss();
+                    dismissAndClearCourse();
                 } else if (OPT_TT_CREDENTIALS.equals(key)) {
                     dialog.getOptionPanel().clearOptions();
                     pendingPath = FafnirAccessStrings.PATH_TT_COURIER;
@@ -128,7 +136,7 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
                     showAccessGranted();
                 } else {
                     log.warn("Draconis: FafnirBlockedDialog - unexpected option '" + key + "' in DENIED state, dismissing");
-                    dialog.dismiss();
+                    dismissAndClearCourse();
                 }
                 break;
 
@@ -246,6 +254,21 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+    /**
+     * Clears the player's autopilot course if it targets this jump point, then dismisses
+     * the dialog. Without this, a player who set the JP as a course destination would have
+     * the dialog immediately re-triggered by the autopilot after every dismiss.
+     */
+    private void dismissAndClearCourse() {
+        lastDismissTime = System.currentTimeMillis();
+        SectorEntityToken target = dialog.getInteractionTarget();
+        if (Global.getSector().getUIData().getCourseTarget() == target) {
+            Global.getSector().getCampaignUI().clearLaidInCourse();
+        }
+        Global.getSector().getPlayerFleet().setInteractionTarget(null);
+        dialog.dismiss();
+    }
 
     /**
      * Re-opens the vanilla jump point interaction on the next frame after this dialog
