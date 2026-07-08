@@ -38,6 +38,7 @@
     "invasionSupportFleetName":"Support Fleet",
     "stationName":"SATCOM",
 
+    "factionIdForHqResponse":"XLII_intelligence_office",
 	"specialForcesSizeMult":2.0,
     "specialForcesNamerClass":"levianeer.draconis.data.campaign.intel.specialforces.namer.DraconisRomanNumeralNamer",
 

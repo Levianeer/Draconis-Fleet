@@ -45,7 +45,7 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     public static final String JP_ID_OUT    = "XLII_fafnir_jump_point_out";
     public static final String JP_ID_PIRATE = "XLII_fafnir_jump_point_pirate";
 
-    static final int   BRUTE_FORCE_SP_COST      = 5;
+    static final int   BRUTE_FORCE_SP_COST      = 3;
     static final float BRUTE_FORCE_CR_PENALTY   = 0.35f;
     static final int   BRUTE_FORCE_CR_PENALTY_PCT = 35;
 
@@ -80,7 +80,7 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
 
     public XLII_FafnirBlockedDialogPlugin(SectorEntityToken jumpPoint) {
         this.jumpPoint = jumpPoint;
-        isPirateJP = isLinkedToInSystemJP(jumpPoint, JP_ID_PIRATE);
+        isPirateJP = isLinkedToInSystemJP(jumpPoint);
     }
 
     /**
@@ -90,12 +90,11 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
      * {@code autogenerateHyperspaceJumpPoints()} populates each in-system JP's
      * {@code getDestinations()} with the associated hyperspace entry it generated.
      */
-    private static boolean isLinkedToInSystemJP(SectorEntityToken hyperJP, String inSystemJPId) {
+    private static boolean isLinkedToInSystemJP(SectorEntityToken hyperJP) {
         StarSystemAPI fafnir = Global.getSector().getStarSystem("Fafnir");
         if (fafnir == null) return false;
-        SectorEntityToken inSystemToken = fafnir.getEntityById(inSystemJPId);
-        if (!(inSystemToken instanceof JumpPointAPI)) return false;
-        JumpPointAPI inSystemJP = (JumpPointAPI) inSystemToken;
+        SectorEntityToken inSystemToken = fafnir.getEntityById(XLII_FafnirBlockedDialogPlugin.JP_ID_PIRATE);
+        if (!(inSystemToken instanceof JumpPointAPI inSystemJP)) return false;
         for (JumpPointAPI.JumpDestination dest : inSystemJP.getDestinations()) {
             if (dest.getDestination() == hyperJP) return true;
         }
@@ -313,10 +312,8 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
         } else {
             repDelta = FafnirAccessStrings.REP_GRANT_BF;
         }
-        if (repDelta != 0f) {
-            FactionAPI player = Global.getSector().getPlayerFaction();
-            player.adjustRelationship("XLII_draconis", repDelta);
-        }
+        FactionAPI player = Global.getSector().getPlayerFaction();
+        player.adjustRelationship("XLII_draconis", repDelta);
 
         log.info("Draconis: Fafnir access granted via path=" + path + ", repDelta=" + repDelta);
     }

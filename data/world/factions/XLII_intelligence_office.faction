@@ -1,6 +1,6 @@
 {
-	"id":"XLII_fortysecond",
-
+	"id":"XLII_intelligence_office",
+	
 	"illegalCommodities":["drugs","organs","ai_cores"],
 	
 	"color":[50,60,80,255],
@@ -12,19 +12,19 @@
 		"gridUIColor":[95,115,140,50],
 		"brightUIColor":[180,85,45,255],
 	
-	"showInIntelTab":false,
-	
-	"displayName":"Draconis XLII",
-		"displayNameWithArticle":"the Draconis XLII",
+	"displayName":"Draconis Intelligence Office",
+		"displayNameWithArticle":"the Draconis Intelligence Office",
 		
-	"displayNameLong":"Draconis Defence Alliance XLII Battlegroup",
-		"displayNameLongWithArticle":"the Draconis Defence Alliance XLII Battlegroup",
+	"displayNameLong":"Draconis Defence Alliance Intelligence Office",
+		"displayNameLongWithArticle":"the Draconis Defence Alliance Intelligence Office",
 	
-	"logo":"graphics/factions/draconis_2.png",
-		"crest":"graphics/factions/crest_draconis_2.png",
-	
+	"logo":"graphics/factions/draconis.png",
+		"crest":"graphics/factions/crest_draconis.png",
+		
 	"shipNamePrefix":"DNS",
 	
+	"showInIntelTab":false,
+
 	"shipNameSources":{
 		"DRACONIS":10,
 	},
@@ -54,20 +54,15 @@
 	},
 	
 	"knownShips":{
-		"tags":["XLII_fortysecond_bp"],
+		"tags":["XLII_ship_bp"],
 		"hulls":[
-			"XLII_alsafi",
-			"XLII_alsafi_cargo"
 		],
 	},
 	
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":["XLII_fortysecond_bp"],
+		"tags":["XLII_ship_bp"],
 		"hulls":[
-			"XLII_alwaid_fortysecond",
-			"XLII_tianlong_fortysecond",
-			"XLII_juza_fortysecond"
 		],
 	},
 	
@@ -105,50 +100,41 @@
 	},
 	
 	"hullmodSellFrequency":{
+		"missleracks":5,
+		"eccm":5,
+		"missile_autoloader":5,
 	},
 	
 	"factionDoctrine":{
-		"warships":2,
-		"carriers":2,
-		"phaseShips":1,
+		"warships":1,
+		"carriers":3,
+		"phaseShips":2,
 
-		"officerQuality":7,
-		"shipQuality":5,
+		"officerQuality":3,
+		"shipQuality":2,
 		"numShips":1,
 
-		"shipSize":5,
+		"shipSize":4,
 
 		"aggression":3,
 		
-		"combatFreighterProbability":0,      				# instead of some portion of the freighters in a fleet
-		"combatFreighterCombatUseFraction":0,  				# as part of the normal combat lineup
-		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
-		"autofitRandomizeProbability":0,
+		"combatFreighterProbability":1.5,						# instead of some portion of the freighters in a fleet
+		"combatFreighterCombatUseFraction":1.25,				# as part of the normal combat lineup
+		"combatFreighterCombatUseFractionWhenPriority":2.0,		# as part of normal combat lineup, when marked as priority ship
+		"autofitRandomizeProbability":0.0,
 
-		"officerSkillsShuffleProbability":0,
+		"officerSkillsShuffleProbability":1,
 		"officerSkills":[
 			"combat_endurance",
-			"ballistic_mastery",
-			"ordnance_expert"
+			"missile_specialization"
 		],
 
-		"commanderSkillsShuffleProbability":0,
+		"commanderSkillsShuffleProbability":1,
 		"commanderSkills":[
+			"crew_training",
 			"officer_training",
-			"cybernetic_augmentation"
+			"electronic_warfare"
 		]
-	},
-	
-	"music":{
-		"theme":"music_XLII_draconis_neutral",
-		
-		"market_neutral":"music_XLII_draconis_neutral",
-		"market_hostile":"music_XLII_draconis_hostile",
-		"market_friendly":"music_XLII_draconis_friendly",
-		
-		"encounter_neutral":"music_XLII_draconis_neutral",
-		"encounter_hostile":"music_XLII_draconis_hostile",
-		"encounter_friendly":"music_XLII_draconis_friendly",
 	},
 	
 	"barSound":"bar_ambience",
@@ -203,26 +189,16 @@
 	},
 	
 	"custom":{
-		"allowsTransponderOffTrade":true,
-		"postsNoBounties":true,
-		"engageWhenEvenStrength":true,
-		"offersCommissions":true,
-		"engagesInHostilities":true,
-		"buysAICores":true,
-		"AICoreValueMult":1,
-		"AICoreRepMult":1,
-		"buysSurveyData":true,
-		"hostilityImpactOnGrowth":true,
-		"caresAboutAtrocities":true,
-		"punitiveExpeditionData":{
-			"vsCompetitors":true,
-			"vsFreePort":false,
-			"canBombard":true,
-			"territorial":true,
-		},
 		"simulatorData":{
-			"showInSimulatorDevModeOnly":true,
-			"includeCivShipsWithFaction":false,
-		}
+			"showInSimulator":true,
+		},
 	},
+	
+	"fleetTypeNames":{
+		"patrolSmall":"AIO Surveillance Detachment",
+		"patrolMedium":"AIO Interdiction Group",
+		"patrolLarge":"AIO Strike Battlegroup",
+		
+		"shadowFleet":"AIO Shadow Fleet"
+	}
 }

@@ -37,6 +37,9 @@
 		"FortySecond_errakis_Elite":1,
 		"FortySecond_errakis_Strike":1,
 
+		"XLII_pojun_Elite":1.0,
+		"XLII_pojun_Strike":1.0,
+
 		"XLII_giausar_Elite":0.5,
 		
 		"XLII_shaowei_Elite":0.1,
@@ -73,6 +76,8 @@
 	"combatCapital":{
 		"XLII_altais_Elite":1,
 		"XLII_altais_Strike":1,
+		
+		"XLII_jufeng_Elite":1,
 
 		"XLII_tianlong_Elite":1,
 		"FortySecond_tianlong_Elite":1,

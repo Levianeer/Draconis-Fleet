@@ -14,8 +14,8 @@ import java.util.Map;
  * Covers two scenarios distinguished by {@link EntryType}:
  * <ul>
  *   <li>{@link EntryType#BRUTE_FORCE} - player forced Rift transit at the jump point.
- *       Warns that the DDA will turn hostile in 72 hours. Rep consequence is deferred
- *       to the {@link XLII_FafnirSystemMonitor} 3-day timer.</li>
+ *       Flavor-only: the violation is logged and the matter considered closed. The rep
+ *       penalty was already applied at JP transit, not by this dialog.</li>
  *   <li>{@link EntryType#TRANSVERSE_JUMP} - player bypassed all jump points via
  *       Transverse Jump. DDA has no legal basis to deny entry; they log it and
  *       promise to watch. Small rep penalty is applied by the monitor before this

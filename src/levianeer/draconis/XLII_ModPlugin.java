@@ -38,7 +38,6 @@ import levianeer.draconis.data.campaign.fleet.DraconisQRFManager;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreScalingConfig;
 import levianeer.draconis.data.campaign.fleet.DraconisWeaponEscalationMonitor;
 import levianeer.draconis.data.scripts.ai.XLII_antiMissileAI;
-import levianeer.draconis.data.scripts.ai.XLII_magicMissileAI;
 import levianeer.draconis.data.scripts.ai.XLII_PhaseTorpedoAI;
 import levianeer.draconis.data.scripts.ai.XLII_SabreAI;
 import levianeer.draconis.data.scripts.ai.XLII_SlapERMissileAI;
@@ -51,7 +50,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
     // Psalm 86:1
     private static final Logger log = Global.getLogger(XLII_ModPlugin.class);
     public static final String PD_MISSILE_ID = "XLII_swordbreaker_shot";
-    public static final String SWARM_MISSILE_ID = "XLII_bardiche_shot";
     public static final String PHASE_TORPEDO_ID = "XLII_phasetorp";
     public static final String SABRE_MISSILE_ID = "XLII_sabre_torp";
     public static final String SLAP_ER_MISSILE_ID = "XLII_SLAP-ER_torp";
@@ -325,9 +323,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
     public PluginPick<MissileAIPlugin> pickMissileAI(MissileAPI missile, ShipAPI launchingShip) {
         if (missile.getProjectileSpecId().equals(PD_MISSILE_ID)) {
             return new PluginPick<>(new XLII_antiMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
-        }
-        if (missile.getProjectileSpecId().equals(SWARM_MISSILE_ID)) {
-            return new PluginPick<>(new XLII_magicMissileAI(missile, launchingShip), CampaignPlugin.PickPriority.MOD_SPECIFIC);
         }
         if (missile.getProjectileSpecId().equals(PHASE_TORPEDO_ID)) {
             // Phase torpedoes launched from weapons (not ship system) start unphased

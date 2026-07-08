@@ -1,0 +1,49 @@
+{
+    "hullName": "Armor Module",
+    "hullId": "XLII_module_jufeng_armor_left",
+    "hullSize": "FRIGATE",
+    "spriteName": "mods/Draconis-Fleet/graphics/ships/jufeng/XLII_jufeng_armor_left.png",
+    "style": "DRACONIS",
+    "height": 324,
+    "width": 53,
+    "center": [
+        26.5, 162
+    ],
+    "collisionRadius": 186,
+    "coversColor": "",
+    "shieldCenter": [
+        0, 0
+    ],
+    "shieldRadius": 194,
+    "viewOffset": 0,
+    "builtInMods": [
+        "reduced_explosion",
+        "always_detaches"
+    ],
+    "bounds": [
+          -160.5,     -4.5,
+           -92.5,      -10,
+           -91.5,       -3,
+           -79.5,       -3,
+           -79.5,      -10,
+        
+           -23.5,      -13,
+           -23.5,       -9,
+            -9.5,       -9,
+              -8,      -15,
+           160.5,      -24,
+        
+           143.5,       -8,
+           -14.5,        9,
+            -9.5,       -9,
+           -23.5,       -9,
+           -25.5,     11.5,
+        
+             -80,     17.5,
+           -79.5,       -3,
+           -91.5,       -3,
+           -90.5,       19,
+          -154.5,       25
+    # 20 points total.
+    ]
+}

@@ -2,16 +2,16 @@
     "displayName": "Elite",
     "fluxCapacitors": 0,
     "fluxVents": 0,
+    "goalVariant": true,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
-        "targetingunit",
         "hardenedshieldemitter",
         "safetyoverrides",
-        "hardened_subsystems"
+        "hardened_subsystems",
+        "unstable_injector"
     ],
     "permaMods": [],
     "sMods": [],
-    "goalVariant": true,
     "variantId": "FortySecond_juza_Elite",
     "weaponGroups": [
         {
@@ -23,12 +23,12 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "breach",
-                "WS0021": "breach",
-                "WS0026": "breach",
-                "WS0027": "breach",
-                "WS0028": "breach",
-                "WS0029": "breach"
+                "WS0001": "heatseeker",
+                "WS0021": "heatseeker",
+                "WS0026": "heatseeker",
+                "WS0027": "heatseeker",
+                "WS0028": "heatseeker",
+                "WS0029": "heatseeker"
             }
         },
         {

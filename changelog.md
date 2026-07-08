@@ -1,3 +1,31 @@
+Version 0.7.4 (Save-compatible with 0.7.3)
+NEW CONTENT:
+- NEW: Jufeng-class Battlecruiser - a coilgun-focused capital built around a single Flamberge Coilgun.
+  - Carries 4x built-in Gundao MLRS Launchers, the Flamberge Coilgun and two applique armor modules.
+  - Shunt Drive ship system - a forward speed/acceleration surge.
+  - Heavily inspired by Navarchy of Tania's Black Hawk!
+- NEW: Pojun-class Heavy Destroyer - a successor to the Rastaban.
+  - Built-in flux-reactive armor and the Apostate Jammer system.
+  - Apostate Jammer (Signal Hijack) ship system - converts all enemy missiles within 1000 su to the player's control.
+- NEW: Flamberge Coilgun - large energy strike weapon; charges up a beam, then detonates on impact.
+- NEW: Gundao MLRS Launcher - large fragmentation suppression missile launcher, built into the Jufeng.
+
+BALANCE CHANGES:
+- Kuma: shield efficiency 1.2 -> 0.9, armor rating 45 -> 50, DP (deploy) & DP (maintenance) 45 -> 50, base value 450,000 -> 500,000.
+- Tianlong / Tianlong Mk.II: base value 500,000 -> 450,000.
+- Altais: base value 400,000 -> 325,000.
+- Hankyu-class Torpedo (all variants): ammo/reload 1000 -> 750.
+- Removed the req_military production tag from Errakis, Giausar, Shaobi, Shaowei, Eltanin, Juni, Nushi Mk.II, Alrakis, and Yunu - now buildable without a military market.
+- Reworked Fafnir brute-force jump point entry:
+  - SP cost 5 -> 3.
+  - Reputation penalty is now applied immediately at transit instead of via a 3-day grace-period hostility timer (removed).
+  - Transverse Jump reputation penalty floor -0.5 -> -0.25.
+
+MINOR IMPROVEMENTS:
+- Bardiche-family missiles no longer use a custom swarm AI; they now fly with standard missile guidance.
+- Bardiche missile trail now has a subtle glow.
+- Corrected Culverin flavor text (rail -> coil tolerances).
+
 Version 0.7.3 (Save-compatible with 0.7.2)
 BUG FIXES:
 - Fixed a bug with not being able to withdraw from Fafnir's Jump Points.

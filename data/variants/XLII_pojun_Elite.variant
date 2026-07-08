@@ -1,0 +1,40 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 8,
+    "fluxVents": 0,
+    "goalVariant": true,
+    "hullId": "XLII_pojun",
+    "hullMods": [
+        "targetingunit",
+        "escort_package",
+        "missleracks",
+        "hardenedshieldemitter",
+        "extendedshieldemitter"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_pojun_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_culverin",
+                "WS0004": "XLII_culverin"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_bardiche",
+                "WS0002": "XLII_bardiche"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "XLII_estocflak"}
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 3,
+    "fluxVents": 14,
+    "goalVariant": true,
+    "hullId": "XLII_pojun",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "extendedshieldemitter",
+        "magazines"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_pojun_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_rapier",
+                "WS0002": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0004": "XLII_culverin"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0003": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0005": "XLII_estocflak"}
+        }
+    ]
+}

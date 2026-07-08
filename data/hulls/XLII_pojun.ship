@@ -1,0 +1,196 @@
+{
+  "hullName": "Pojun",
+  "hullId": "XLII_pojun",
+  "hullSize": "DESTROYER",
+  "spriteName": "graphics/ships/XLII_pojun.png",
+  "style": "DRACONIS",
+  "height": 156,
+  "width": 110,
+  "center": [55, 78],
+  "collisionRadius": 141.5,
+  "shieldCenter": [0, 0],
+  "shieldRadius": 124.5,
+  "viewOffset": 0,
+  "builtInMods": [
+    "XLII_draconishull",
+    "XLII_fluxreactivearmor"
+  ],
+  "builtInWeapons": {
+    "WS0006": "blinker_red",
+    "WS0007": "blinker_green",
+    "WS0008": "blinker_red",
+    "WS0009": "blinker_green",
+    "WS0010": "XLII_vernier",
+    "WS0011": "XLII_vernier",
+    "WS0012": "XLII_vernier",
+    "WS0013": "XLII_vernier",
+    "WS0014": "XLII_vernier",
+    "WS0015": "XLII_vernier"
+  },
+  "weaponSlots": [
+    {
+      "id": "WS0001",
+      "size": "MEDIUM",
+      "type": "COMPOSITE",
+      "mount": "HARDPOINT",
+      "arc": 39,
+      "angle": 0,
+      "locations": [-5, 35]
+    },
+    {
+      "id": "WS0002",
+      "size": "MEDIUM",
+      "type": "COMPOSITE",
+      "mount": "HARDPOINT",
+      "arc": 39,
+      "angle": -0,
+      "locations": [-5, -35]
+    },
+    {
+      "id": "WS0003",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 275,
+      "angle": 0,
+      "locations": [40, -0]
+    },
+    {
+      "id": "WS0004",
+      "size": "MEDIUM",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 275,
+      "angle": -0,
+      "locations": [7, -0]
+    },
+    {
+      "id": "WS0005",
+      "size": "SMALL",
+      "type": "BALLISTIC",
+      "mount": "TURRET",
+      "arc": 275,
+      "angle": 180,
+      "locations": [-57, -0]
+    },
+    {
+      "id": "WS0006",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [-73.5, 21.5]
+    },
+    {
+      "id": "WS0007",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [-73.5, -21.5]
+    },
+    {
+      "id": "WS0008",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [18.5, 49.5]
+    },
+    {
+      "id": "WS0009",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [18.5, -49.5]
+    },
+    {
+      "id": "WS0010",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [-38, 50]
+    },
+    {
+      "id": "WS0011",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [-38, -50]
+    },
+    {
+      "id": "WS0012",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 90,
+      "locations": [37, 24]
+    },
+    {
+      "id": "WS0013",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -90,
+      "locations": [37, -24]
+    },
+    {
+      "id": "WS0014",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": 0,
+      "locations": [64, 12.5]
+    },
+    {
+      "id": "WS0015",
+      "size": "SMALL",
+      "type": "DECORATIVE",
+      "mount": "TURRET",
+      "arc": 0,
+      "angle": -0,
+      "locations": [64, -12.5]
+    }
+  ],
+  "engineSlots": [
+    {
+      "location": [-77, -0],
+      "length": 116,
+      "width": 34,
+      "angle": 180,
+      "contrailSize": 34,
+      "style": "CUSTOM",
+      "styleId": "DRACONIS_PRIMARY"
+    }
+  ],
+  "bounds": [
+    76.5, -4.5,
+    40.5, -22.5,
+    1.5, -26.5,
+    1.5, -42.5,
+    -33.5, -53.5,
+    -33.5, -45.5,
+    -61.5, -45.5,
+    -76.5, -8.5,
+    -76.5, 8.5,
+    -61.5, 45.5,
+    -33.5, 45.5,
+    -33.5, 53.5,
+    1.5, 42.5,
+    1.5, 26.5,
+    40.5, 22.5,
+    76.5, 4.5
+  ]
+}

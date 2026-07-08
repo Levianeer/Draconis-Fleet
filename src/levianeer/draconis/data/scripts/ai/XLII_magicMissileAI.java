@@ -1,4 +1,6 @@
 //By Tartiflette, fast and highly customizable Missile AI.
+
+// No longer used.
 package levianeer.draconis.data.scripts.ai;
 
 import com.fs.starfarer.api.Global;

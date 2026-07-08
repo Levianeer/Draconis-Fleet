@@ -27,10 +27,8 @@ public class FafnirAccessStrings {
      */
     public static final String MEM_FLEET_INTERCEPT_TAG      = "$fafnirInterceptFleet";
 
-    /** Set when the brute-force in-system intercept dialog has fired. */
+    /** Set when the brute-force in-system intercept dialog has fired; guards against re-triggering it. */
     public static final String MEM_BF_INTERCEPT_DONE        = "$fafnirBFInterceptDone";
-    /** Timestamp (Long) stored when the BF intercept fires; used to track the 3-day grace period. */
-    public static final String MEM_BF_WARNING_TIMESTAMP     = "$fafnirBFWarningTimestamp";
     /** Set when the transverse-jump intercept dialog has fired. */
     public static final String MEM_TRANSVERSE_INTERCEPT_DONE = "$fafnirTransverseInterceptDone";
 
@@ -43,20 +41,16 @@ public class FafnirAccessStrings {
     // Reputation deltas applied at access time (0-1 float, Starsector rep scale)
     // =========================================================================
 
-    /** +5 rep: sanctioned TT-coordinated entry */
+    /** +rep: sanctioned TT-coordinated entry */
     public static final float REP_GRANT_TT = 0.1f;
-    /** No immediate penalty: brute forced through. Hostility is deferred to the 3-day grace timer. */
-    public static final float REP_GRANT_BF = 0f;
-    /** -3 rep: pirate-channel arrival noted in the ledger */
+    /** -rep: forced Rift transit, flagged and logged as a jurisdictional violation */
+    public static final float REP_GRANT_BF = -0.1f;
+    /** -rep: pirate-channel arrival noted in the ledger */
     public static final float REP_GRANT_RP = -0.1f;
-    /** Rep delta applied after the 3-day BF grace period expires; pushes well past hostile threshold. */
-    public static final float REP_BF_HOSTILE_DELTA  = -0.8f;
     /** Small rep hit on transverse-jump entry. */
     public static final float REP_TRANSVERSE_DELTA  = -0.1f;
     /** Transverse-jump rep penalty is floored here - never push the player to hostile on entry. */
-    public static final float REP_TRANSVERSE_FLOOR  = -0.5f;
-    /** In-game days before DDA turns hostile after a brute-force entry. */
-    public static final float BRUTE_FORCE_GRACE_DAYS = 3f;
+    public static final float REP_TRANSVERSE_FLOOR  = -0.25f;
 
     // =========================================================================
     // Jump Point - Military IFF denial (Itoron's JP, Fringe JP)
@@ -70,7 +64,8 @@ public class FafnirAccessStrings {
             + "the Rift ahead is just radiation - no path, no bearing, nothing to follow through.";
 
     public static final String MILITARY_DENIED_PARA3 =
-            "Your sensors catch a faint return from inside. Something registered the approach. The response was silence.";
+            "However, given traffic frequency, someone has to know how to make the approach. Draconis has been known to do "
+            + "dealings with the Tri-Tachyon Corperation, and the Pirates often run guns to the First Fleet Rebels in Ring-Port.";
 
     // =========================================================================
     // Jump Point - Option labels
@@ -335,11 +330,10 @@ public class FafnirAccessStrings {
             "\"Your entry has been flagged, your fleet logged, and the matter referred to Command.\"";
 
     public static final String BF_INTERCEPT_PARA3 =
-            "\"You are directed to clear Fafnir space immediately. Failure to comply within the "
-            + "prescribed window will be treated as a hostile incursion.\"";
+            "\"The appropriate adjustment to your standing has been made. Command does not require an explanation.\"";
 
     public static final String BF_INTERCEPT_PARA4 =
-            "\"You have seventy-two hours. This frequency will not respond again.\"";
+            "\"Proceed as you intend. This frequency will not respond again.\"";
 
     public static final String OPT_BF_ACKNOWLEDGE = "Understood.";
 

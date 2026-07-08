@@ -1,0 +1,49 @@
+{
+    "playableFaction":false,
+    "corvusCompatible":true,
+    "spawnAsFactionId":"XLII_draconis",
+    "rebelFleetSuffix":"Treasonists",
+    "startRelationships":{ "XLII_draconis":1 },
+
+    "responseFleetName":"AIO Quick Reaction Force",
+
+    "morality":"amoral",
+
+    "startShipsSolo":[
+        ["XLII_thuban_Standard"],
+        ["XLII_alruba_Standard"],
+        ["XLII_aldhibah_Standard"]
+        ],
+
+    "startShipsCombatSmall":[
+        ["XLII_thuban_Standard","XLII_rastaban_Standard"],
+        ["XLII_alruba_Standard","XLII_errakis_Standard"],
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard"]
+        ],
+
+    "startShipsCombatLarge":[
+        ["XLII_alruba_Standard","XLII_errakis_Standard","XLII_juni_Standard"],
+        ["XLII_thuban_Standard","XLII_rastaban_Standard","XLII_eltanin_Standard"],
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_juza_Standard"]
+        ],
+
+    "startShipsCarrierSmall":[
+        ["XLII_thuban_Standard", "XLII_shaobi_Standard"],
+        ["XLII_alruba_Standard", "XLII_shaobi_Standard"],
+        ["XLII_aldhibah_Standard", "XLII_shaobi_Standard"]
+        ],
+
+    "startShipsTradeSmall":[
+        ["XLII_thuban_Standard", "XLII_rastaban_Standard", "XLII_alsafi_Cargo_Standard"],
+        ["XLII_alruba_Standard", "XLII_errakis_Standard", "XLII_alsafi_Cargo_Standard"],
+        ["XLII_aldhibah_Standard","XLII_giausar_Standard","XLII_alsafi_Cargo_Standard"]
+        ],
+
+    "startShipsSuper":[["XLII_shaowei_Standard"]],
+
+    "startSpecialItems":[
+        [["XLII_ship_package",""]],
+        [["XLII_weapon_package",""]],
+        [["XLII_fighter_package",""]]
+    ],
+}

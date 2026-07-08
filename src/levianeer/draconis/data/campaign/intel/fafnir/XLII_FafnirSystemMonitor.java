@@ -26,11 +26,11 @@ import org.apache.log4j.Logger;
  * <ul>
  *   <li><b>Brute Force</b> – player used 10 SP + 35% CR at a Fafnir jump point.
  *       {@code $fafnirAccessGranted} and {@code $fafnirEntryPath = "brute_force"} are
- *       set before transit. On entry, the monitor finds the nearest DDA fleet, tags it
- *       with {@link FafnirAccessStrings#MEM_FLEET_INTERCEPT_TAG}, and issues an INTERCEPT
- *       order. {@link levianeer.draconis.data.campaign.XLII_CampaignPlugin} intercepts
- *       the resulting fleet interaction and shows the BF dialog. The monitor then runs
- *       the {@link FafnirAccessStrings#BRUTE_FORCE_GRACE_DAYS} hostility timer.</li>
+ *       set before transit, and the rep penalty is applied then. On entry, the monitor
+ *       finds the nearest DDA fleet, tags it with {@link FafnirAccessStrings#MEM_FLEET_INTERCEPT_TAG},
+ *       and issues an INTERCEPT order. {@link levianeer.draconis.data.campaign.XLII_CampaignPlugin}
+ *       intercepts the resulting fleet interaction and shows the BF dialog (flavor only;
+ *       no further rep consequence).</li>
  *   <li><b>Transverse Jump</b> – player bypassed all JPs. Same fleet dispatch; the
  *       campaign plugin shows the TJ dialog and applies effects on interaction.</li>
  * </ul>
@@ -104,27 +104,11 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
 
         MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
 
-        // --- BF timer phase ---
-        // Dialog was already shown by pickInteractionDialogPlugin; counting down to hostility.
-        // If the player leaves Fafnir before the timer expires, cancel it - leaving peacefully
-        // is treated as compliance with the 72-hour order. Apply the lighter transverse-jump
-        // rep penalty instead so there is still a consequence for the intrusion.
+        // --- BF intercept already fired: nothing left to do ---
+        // Rep penalty was applied at JP transit; the dialog is flavor-only, so once it has
+        // shown there's no further consequence to track.
         if (mem.getBoolean(FafnirAccessStrings.MEM_BF_INTERCEPT_DONE)) {
-            if (!playerInFafnir) {
-                log.info("Draconis: Fafnir BF timer cancelled - player left system, applying TJ rep penalty");
-                applyTransverseRepPenalty();
-                mem.unset(FafnirAccessStrings.MEM_BF_WARNING_TIMESTAMP);
-                done = true;
-                return;
-            }
-            Long ts = (Long) mem.get(FafnirAccessStrings.MEM_BF_WARNING_TIMESTAMP);
-            if (ts != null) {
-                float elapsed = Global.getSector().getClock().getElapsedDaysSince(ts);
-                if (elapsed >= FafnirAccessStrings.BRUTE_FORCE_GRACE_DAYS) {
-                    applyBFHostility(mem);
-                    done = true;
-                }
-            }
+            done = true;
             return;
         }
 
@@ -186,7 +170,7 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
     }
 
     // -------------------------------------------------------------------------
-    // Hostility application (called after 3-day BF grace period)
+    // Rep penalty application
     // -------------------------------------------------------------------------
 
     /** Applies the transverse-jump rep penalty, floored so the player is never pushed to hostile. */
@@ -204,14 +188,6 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
         }
     }
 
-    public static void applyBFHostility(MemoryAPI mem) {
-        log.info("Draconis: Fafnir BF grace period expired - applying hostility");
-        Global.getSector().getPlayerFaction()
-                .adjustRelationship(DRACONIS_FACTION_ID, FafnirAccessStrings.REP_BF_HOSTILE_DELTA);
-        mem.unset(FafnirAccessStrings.MEM_BF_WARNING_TIMESTAMP);
-        log.info("Draconis: DDA rep delta applied: " + FafnirAccessStrings.REP_BF_HOSTILE_DELTA);
-    }
-
     // -------------------------------------------------------------------------
     // Effects applied by XLII_CampaignPlugin when the interaction fires
     // -------------------------------------------------------------------------
@@ -227,8 +203,6 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
     public static void onBruteForceInterceptFired(CampaignFleetAPI fleet, MemoryAPI mem) {
         log.info("Draconis: Fafnir BF intercept - interaction intercepted by campaign plugin");
         mem.set(FafnirAccessStrings.MEM_BF_INTERCEPT_DONE, true);
-        mem.set(FafnirAccessStrings.MEM_BF_WARNING_TIMESTAMP,
-                Global.getSector().getClock().getTimestamp());
         releaseFleet(fleet);
     }
 
@@ -362,12 +336,6 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
         // BF intercept not yet fired
         if (FafnirAccessStrings.PATH_BRUTE_FORCE.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
                 && !mem.getBoolean(FafnirAccessStrings.MEM_BF_INTERCEPT_DONE)) {
-            return true;
-        }
-
-        // BF timer still counting down
-        if (mem.getBoolean(FafnirAccessStrings.MEM_BF_INTERCEPT_DONE)
-                && mem.get(FafnirAccessStrings.MEM_BF_WARNING_TIMESTAMP) != null) {
             return true;
         }
 

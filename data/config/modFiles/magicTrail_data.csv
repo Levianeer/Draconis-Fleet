@@ -51,5 +51,8 @@ trails_montante_1,XLII_montante_shot,XLII_shock_contrail,35,0.1,0,0.8,14,6,"[175
 trails_montante_2,XLII_montante_shot,XLII_shock_contrail,35,0.1,0,0.8,14,6,"[175,175,175]","[180,180,180]",0.35,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,15,80,0.4,0,0,90,TRUE,FALSE
 trails_montante_glow,XLII_montante_shot,XLII_blur_contrail,35,0,0.05,0.15,30,15,"[255,120,120]","[25,100,100]",0.6,-1,0,TRUE,30,0,1,TRUE,FALSE,TRUE,0,0,0,0,0,0,FALSE,FALSE
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+trails_flamberge_1,XLII_flamberge_shot,XLII_blur_contrail,35,0,1.4,0.6,22,9,"[240,155,155]","[5,5,0]",1,600,400,TRUE,50,0,1,FALSE,FALSE,TRUE,0,0,0,0,0,0,FALSE,FALSE
+trails_flamberge_2,XLII_flamberge_shot,XLII_blur_contrail,35,0,0,1,26,14,"[205,105,105]","[45,45,45]",0.8,600,400,TRUE,50,0,1,FALSE,FALSE,TRUE,15,20,0.3,0,40,120,TRUE,FALSE
+trails_flamberge_3,XLII_flamberge_shot,XLII_beam_contrail,35,0,3,0.35,65,26,"[255,125,75]","[5,5,0]",0.6,600,400,TRUE,50,0,1,TRUE,FALSE,TRUE,0,0,0,0,0,0,TRUE,FALSE
+trails_flamberge_4,XLII_flamberge_shot,XLII_beam_contrail,55,0,1.4,0.125,12,16,"[235,115,75]","[5,5,0]",0.9,600,-600,TRUE,-100,0,1,FALSE,TRUE,TRUE,0,0,0,0,0,0,FALSE,FALSE
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
