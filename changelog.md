@@ -1,3 +1,7 @@
+Version 0.7.5 (Save-compatible with 0.7.4)
+BUG FIXES:
+- Fixed crash related to the Jufeng's armor plates having the wrong file dir.
+
 Version 0.7.4 (Save-compatible with 0.7.3)
 NEW CONTENT:
 - NEW: Jufeng-class Battlecruiser - a coilgun-focused capital built around a single Flamberge Coilgun.

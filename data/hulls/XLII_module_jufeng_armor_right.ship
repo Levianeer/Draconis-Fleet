@@ -2,7 +2,7 @@
     "hullName": "Armor Module",
     "hullId": "XLII_module_jufeng_armor_right",
     "hullSize": "FRIGATE",
-    "spriteName": "mods/Draconis-Fleet/graphics/ships/jufeng/XLII_jufeng_armor_right.png",
+    "spriteName": "graphics/ships/jufeng/XLII_jufeng_armor_right.png",
     "style": "DRACONIS",
     "height": 324,
     "width": 53,
