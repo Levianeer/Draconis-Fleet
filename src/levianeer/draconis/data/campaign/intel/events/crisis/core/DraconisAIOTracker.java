@@ -110,6 +110,7 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
     public static void createIfNecessary() {
         if (get() != null) return;
+        if (DRACONIS.equals(Misc.getCommissionFactionId())) return;
         new DraconisAIOTracker();
     }
 

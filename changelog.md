@@ -1,3 +1,33 @@
+Version 0.7.6 (Save-compatible with 0.7.5)
+BALANCE CHANGES:
+- Juni: OP 130 -> 140.
+  - Breach Jammer: Range 1500 -> 1800.
+- Misericorde: Damage 70 -> 80.
+- Kestros Autocannon: EMP 40 -> 0.
+- Tianbang: Hitpoints 500 -> 600.
+- Tianbang: Armor rating 100 -> 150.
+- Tianbang: Max flux 2000 -> 1000.
+- Tianbang: Flux dissipation 200 -> 100.
+- Tiangou: Max flux: 3500 -> 2500.
+- Tiangou: Flux dissipation: 350 -> 250.
+- Tiangou: Hitpoints: 500 -> 600.
+- Thorne: Range: 6000 -> 4000.
+- Thorne: Max flux: 2500 -> 2000.
+- Thorne: Flux dissipation: 250 -> 200.
+
+MINOR IMPROVEMENTS:
+- The Colony Crisis can no longer trigger if commisioned.
+- Increased the Shadow Fleets spawn rate.
+- Improved the AI's use of the Breach Jammer, Blackout Jammer, Apostate Jammer ship systems.
+- Improved the Throne's sprite a little.
+
+BUG FIXES:
+- Shadow Fleets already spawned no longer progress the Crisis if commisioned.
+- Fixed the Fafnir TT Courier, Fafnir Ring-Port, AIO operative reveal, and AIO payment negotiation bar contacts sometimes failing to show up even when their conditions were met.
+  - These now reliably appear on your next bar visit once eligible, instead of depending on a random roll.
+- Fixed the Fafnir TT Courier and Ring-Port arrival acknowledgements sometimes never appearing at Kori/Ring-Port, permanently stalling those deliveries.
+  - This happened if you reached Fafnir without resolving the jump point credentials check (e.g. bypassing it) while still holding valid credentials. Existing saves stuck in this state will resolve it automatically the next time you dock at Kori/Ring-Port.
+
 Version 0.7.5 (Save-compatible with 0.7.4)
 BUG FIXES:
 - Fixed crash related to the Jufeng's armor plates having the wrong file dir.

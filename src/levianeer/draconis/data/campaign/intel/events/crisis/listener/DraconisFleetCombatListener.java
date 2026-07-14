@@ -47,6 +47,10 @@ public class DraconisFleetCombatListener implements FleetEventListener {
             log.info("DDA: Combat listener skipping - AIO tracker not yet active");
             return;
         }
+        if (tracker.isCommissioned() || tracker.isPaymentActive()) {
+            log.info("DDA: Combat listener skipping - tracker suppressed (commission/payment deal)");
+            return;
+        }
 
         List<CampaignFleetAPI> opposing = battle.getNonPlayerSideSnapshot();
         if (opposing == null) return;

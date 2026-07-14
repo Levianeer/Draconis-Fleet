@@ -1,7 +1,7 @@
 {
     "displayName": "Support",
     "fluxCapacitors": 0,
-    "fluxVents": 16,
+    "fluxVents": 27,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
@@ -22,10 +22,10 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0018": "XLII_bardiche_single",
-                "WS0019": "XLII_bardiche_single"
+                "WS0018": "atropos",
+                "WS0019": "atropos"
             }
         },
         {
@@ -33,13 +33,9 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0003": "gravitonbeam",
-                "WS0020": "gravitonbeam"
+                "WS0020": "gravitonbeam",
+                "WS0050": "gravitonbeam"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0050": "ionbeam"}
         },
         {
             "autofire": true,
@@ -53,8 +49,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "lrpdlaser",
-                "WS0006": "lrpdlaser"
+                "WS0005": "pdburst",
+                "WS0006": "pdburst"
             }
         },
         {

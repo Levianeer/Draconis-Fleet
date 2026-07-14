@@ -8,13 +8,33 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
 
+    // Signal Hijack redirects missiles at enemies instead of disabling them - useless against
+    // unguided bombs, unlike the ECM Suite, so it shouldn't bother jamming them.
+    private static final String HIJACK_SYSTEM_ID = "XLII_signal_hijack";
+
     private ShipAPI ship;
     private CombatEngineAPI engine;
     private ShipwideAIFlags flags;
     private ShipSystemAPI system;
+    private boolean isHijack;
 
     private final IntervalUtil tracker = new IntervalUtil(0.1f, 0.2f);
     private float bestValueEver = 0f;
+
+    // OMG INHUMAN REACTIONS.
+    private static final float REACTION_DELAY_MIN = 0.2f;
+    private static final float REACTION_DELAY_MAX = 0.4f;
+    private boolean activationPending = false;
+    private float reactionTimer = 0f;
+
+    // Hold fire briefly so one activation catches as many missiles as possible.
+    private static final float MAX_WAVE_WAIT = 1f;
+    private static final float IMPACT_SAFETY_MARGIN = 0.6f;
+    private boolean waitingForWave = false;
+    private float waveHoldTimer = 0f;
+
+    // Missiles about to flame out on their own aren't worth jamming.
+    private static final float FADE_OUT_MARGIN = 1f;
 
     @Override
     public void init(ShipAPI ship, ShipSystemAPI system, ShipwideAIFlags flags, CombatEngineAPI engine) {
@@ -22,60 +42,114 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
         this.engine = engine;
         this.flags = flags;
         this.system = system;
+        this.isHijack = HIJACK_SYSTEM_ID.equals(system.getId());
     }
 
     @Override
     public void advance(float amount, Vector2f missileDangerDir, Vector2f collisionDangerDir, ShipAPI target) {
         if (engine.isPaused()) return;
 
+        if (waitingForWave) {
+            waveHoldTimer += amount;
+        }
+
+        if (activationPending) {
+            reactionTimer -= amount;
+            if (reactionTimer <= 0f) {
+                activationPending = false;
+                if (AIUtils.canUseSystemThisFrame(ship)) {
+                    ship.useSystem();
+                }
+            }
+            return;
+        }
+
         tracker.advance(amount);
 
         if (tracker.intervalElapsed()) {
-            if (!AIUtils.canUseSystemThisFrame(ship)) return;
+            if (!AIUtils.canUseSystemThisFrame(ship)) {
+                waitingForWave = false;
+                waveHoldTimer = 0f;
+                return;
+            }
 
-            float currentValue = calculateMissileThreats();
+            ThreatAssessment threats = calculateMissileThreats();
 
-            if (currentValue > bestValueEver) {
-                bestValueEver = currentValue;
+            if (threats.value > bestValueEver) {
+                bestValueEver = threats.value;
             }
 
             // Activation thresholds - be more conservative with limited charges
-            if (currentValue >= 0.7f) {
-                ship.useSystem();
-            } else if (currentValue >= 0.5f && system.getAmmo() > 1) {
-                // Use more liberally if we have multiple charges
-                ship.useSystem();
-            } else if (currentValue >= 0.4f && ship.getHullLevel() < 0.3f) {
-                // Use defensively when critically damaged
-                ship.useSystem();
+            boolean isEmergency = threats.value >= 0.4f && ship.getHullLevel() < 0.3f;
+            boolean wantsToFire = threats.value >= 0.7f
+                    || (threats.value >= 0.5f && system.getAmmo() > 1)
+                    || isEmergency;
+
+            if (!wantsToFire) {
+                waitingForWave = false;
+                waveHoldTimer = 0f;
+                return;
             }
+
+            boolean impactImminent = threats.minTimeToImpact <= IMPACT_SAFETY_MARGIN;
+
+            if (!isEmergency && !impactImminent && threats.incomingSoon > 0 && waveHoldTimer < MAX_WAVE_WAIT) {
+                waitingForWave = true;
+                return;
+            }
+
+            waitingForWave = false;
+            waveHoldTimer = 0f;
+            activationPending = true;
+            reactionTimer = REACTION_DELAY_MIN + (REACTION_DELAY_MAX - REACTION_DELAY_MIN) * (float) Math.random();
         }
     }
 
-    private float calculateMissileThreats() {
+    private ThreatAssessment calculateMissileThreats() {
         Vector2f shipLoc = ship.getLocation();
         // Fighters have reduced ECM range when they use this system
         float disableRadius = ship.isFighter() ? 250f : 1000f;
+        // How far beyond the disable radius to watch for missiles that are about to close in.
+        float watchRadius = disableRadius + (ship.isFighter() ? 150f : 500f);
 
         int threateningMissiles = 0;
         float totalThreatValue = 0f;
+        int incomingSoon = 0;
+        float minTimeToImpact = Float.MAX_VALUE;
 
         for (MissileAPI missile : engine.getMissiles()) {
             if (missile.getSource() == null) continue;
             if (missile.getSource().getOwner() == ship.getOwner()) continue;
             if (missile.isFading() || missile.didDamage()) continue;
+            if (missile.isFlare() || (isHijack && isBomb(missile))) continue;
+            if (isAboutToFadeOut(missile)) continue;
 
             float distance = Misc.getDistance(shipLoc, missile.getLocation());
-            if (distance > disableRadius) continue;
+            if (distance > watchRadius) continue;
 
-            float threatValue = assessMissileThreat(missile, distance);
-            if (threatValue > 0f) {
-                threateningMissiles++;
-                totalThreatValue += threatValue;
+            if (distance <= disableRadius) {
+                float threatValue = assessMissileThreat(missile, distance);
+                if (threatValue > 0f) {
+                    threateningMissiles++;
+                    totalThreatValue += threatValue;
+
+                    float closingSpeed = getClosingSpeed(missile);
+                    if (closingSpeed > 0f) {
+                        float timeToImpact = distance / closingSpeed;
+                        if (timeToImpact < minTimeToImpact) minTimeToImpact = timeToImpact;
+                    }
+                }
+            } else {
+                // Just outside jamming range - count it if it'll be in range before we'd give up waiting.
+                float closingSpeed = getClosingSpeed(missile);
+                if (closingSpeed > 0f) {
+                    float timeToRange = (distance - disableRadius) / closingSpeed;
+                    if (timeToRange <= MAX_WAVE_WAIT) incomingSoon++;
+                }
             }
         }
 
-        if (threateningMissiles == 0) return 0f;
+        if (threateningMissiles == 0) return new ThreatAssessment(0f, incomingSoon, minTimeToImpact);
 
         // Base value from missile threat
         float value = Math.min(totalThreatValue, 1f);
@@ -97,7 +171,14 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
             value *= 1.2f; // Help when overwhelmed
         }
 
-        return Math.min(value, 1f);
+        return new ThreatAssessment(Math.min(value, 1f), incomingSoon, minTimeToImpact);
+    }
+
+    private float getClosingSpeed(MissileAPI missile) {
+        Vector2f toShip = Vector2f.sub(ship.getLocation(), missile.getLocation(), new Vector2f());
+        if (toShip.length() <= 0f) return 0f;
+        toShip.normalise();
+        return Vector2f.dot(toShip, missile.getVelocity());
     }
 
     private float assessMissileThreat(MissileAPI missile, float distance) {
@@ -160,6 +241,16 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
         return false;
     }
 
+    private boolean isBomb(MissileAPI missile) {
+        return missile.getWeaponSpec() != null
+                && missile.getWeaponSpec().getAIHints().contains(WeaponAPI.AIHints.BOMB);
+    }
+
+    private boolean isAboutToFadeOut(MissileAPI missile) {
+        float remainingFlightTime = missile.getMaxFlightTime() - missile.getFlightTime();
+        return remainingFlightTime <= FADE_OUT_MARGIN;
+    }
+
     private boolean isTorpedo(MissileAPI missile) {
         // Add null check for weapon spec
         if (missile.getWeaponSpec() == null) {
@@ -168,5 +259,17 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
         // Large, slow missiles are likely torpedoes
         return missile.getWeaponSpec().getSize() == WeaponAPI.WeaponSize.LARGE &&
                 missile.getVelocity().length() < 200f;
+    }
+
+    private static final class ThreatAssessment {
+        final float value;
+        final int incomingSoon;
+        final float minTimeToImpact;
+
+        ThreatAssessment(float value, int incomingSoon, float minTimeToImpact) {
+            this.value = value;
+            this.incomingSoon = incomingSoon;
+            this.minTimeToImpact = minTimeToImpact;
+        }
     }
 }

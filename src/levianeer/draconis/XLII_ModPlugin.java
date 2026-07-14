@@ -28,6 +28,7 @@ import levianeer.draconis.data.campaign.events.DraconisAIOPaymentBarEventCreator
 import levianeer.draconis.data.campaign.events.XLII_FafnirTTBarEventCreator;
 import levianeer.draconis.data.campaign.events.XLII_AIOOperativeBarEventCreator;
 import levianeer.draconis.data.campaign.events.XLII_FafnirRingPortBarEventCreator;
+import levianeer.draconis.data.campaign.events.XLII_MissionBarEventWatchdog;
 import levianeer.draconis.data.campaign.intel.events.crisis.util.DraconisHostileActivityManager;
 import levianeer.draconis.data.campaign.intel.events.crisis.listener.DraconisFleetCombatListener;
 import levianeer.draconis.data.campaign.econ.conditions.DraconConfig;
@@ -175,31 +176,22 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: Initializing characters");
         XLII_Characters.initializeAllCharacters();
 
-        // Register AIO payment bar event
+        // These four bar events used to be registered as BarEventCreators, which subjects them
+        // to BarEventManager's random, capacity-limited sector-wide pick - unreliable for
+        // narrative content that should show up as soon as its trigger condition is met.
+        // XLII_MissionBarEventWatchdog now creates them deterministically instead. The old
+        // creator instances are serialized into saves from prior mod versions, so strip any
+        // stale ones on load to avoid the random path ever creating a duplicate instance.
         BarEventManager bar = BarEventManager.getInstance();
-        if (bar != null && !bar.hasEventCreator(DraconisAIOPaymentBarEventCreator.class)) {
-            bar.addEventCreator(new DraconisAIOPaymentBarEventCreator());
-            log.info("Draconis:   - AIO Payment Bar Event");
-        }
-
-        // Fafnir bar event creators are serialized into saves; remove stale instances before
-        // re-registering to avoid accumulation across mod updates.
         if (bar != null) {
             bar.getCreators().removeIf(c ->
                     c instanceof XLII_FafnirTTBarEventCreator ||
                     c instanceof XLII_FafnirRingPortBarEventCreator ||
-                    c instanceof XLII_AIOOperativeBarEventCreator);
+                    c instanceof XLII_AIOOperativeBarEventCreator ||
+                    c instanceof DraconisAIOPaymentBarEventCreator);
         }
-
-        // Register Fafnir access bar events
-        if (bar != null) {
-            bar.addEventCreator(new XLII_FafnirTTBarEventCreator());
-            log.info("Draconis:   - Fafnir TT Courier Bar Event");
-            bar.addEventCreator(new XLII_FafnirRingPortBarEventCreator());
-            log.info("Draconis:   - Fafnir Ring-Port Bar Event");
-            bar.addEventCreator(new XLII_AIOOperativeBarEventCreator());
-            log.info("Draconis:   - AIO Operative Reveal Bar Event");
-        }
+        Global.getSector().addScript(new XLII_MissionBarEventWatchdog());
+        log.info("Draconis:   - Mission Bar Event Watchdog");
 
         // Add the crisis event system
         log.info("Draconis: Registering crisis systems");

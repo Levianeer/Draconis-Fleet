@@ -12,14 +12,16 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0011": "squall"}
+            "weapons": {"WS0011": "XLII_naginata"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0008": "XLII_halberd",
-                "WS0009": "XLII_halberd"
+                "WS0006": "atropos",
+                "WS0007": "atropos",
+                "WS0008": "atropos",
+                "WS0009": "atropos"
             }
         },
         {
@@ -31,8 +33,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "XLII_rapier",
-                "WS0003": "XLII_rapier"
+                "WS0002": "hveldriver",
+                "WS0003": "hveldriver"
             }
         },
         {
@@ -50,8 +52,8 @@
         }
     ],
     "wings": [
-        "XLII_tiangou_wing",
-        "XLII_nodus_wing",
-        "XLII_nodus_wing"
+        "XLII_thorne_wing",
+        "XLII_thorne_wing",
+        "XLII_thorne_wing"
     ]
 }

@@ -17,13 +17,13 @@ XLII_tianyi_wing,XLII_tianyi_Fighter,"XLII_fighter_bp, interceptor, interceptor4
 #Third Generation,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 XLII_tianbang_wing,XLII_tianbang_Fighter,"XLII_fortysecond_bp, fighter, fighter6, leader_no_swarm, wingmen_no_swarm, stay_in_front_of_ship, no_drop, no_dealer, no_sell, codex_unlockable",3,,18,23,CLAW,4000,700,100,3,FIGHTER,Multirole Fighter,20,34000,,,,,,,,,,,,,711000
 XLII_shangshu_wing,XLII_shangshu_Bomber,"XLII_fortysecond_bp, bomber, bomber5, no_drop, no_dealer, no_sell, codex_unlockable",3,,9,20,V,4000,1500,700,2,BOMBER,Strike Bomber,25,12000,,,,,,,,,,,,,711000
-XLII_thorne_wing,XLII_thorne_Fighter,"XLII_fortysecond_bp, interceptor, interceptor5, rapid_reform, attack_at_an_angle, no_drop, no_dealer, no_sell, codex_unlockable",3,,12,18,BOX,6000,700,900,2,INTERCEPTOR,Interceptor,16,16000,,,,,,,,,,,,,711000
+XLII_shangshu_heavy_wing,XLII_shangshu_Heavy,"XLII_fortysecond_bp, bomber, bomber6, no_drop, no_dealer, no_sell, codex_unlockable",3,,12,24,V,4000,2000,700,2,BOMBER,Strategic Bomber,25,12000,,,,,,,,,,,,,711000
+XLII_thorne_wing,XLII_thorne_Fighter,"XLII_fortysecond_bp, interceptor, interceptor5, rapid_reform, attack_at_an_angle, no_drop, no_dealer, no_sell, codex_unlockable",3,,12,18,BOX,4000,700,900,2,INTERCEPTOR,Interceptor,16,16000,,,,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Fourth Generation,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 XLII_tiangou_wing,XLII_tiangou_Fighter,"XLII_fortysecond_bp, fighter, fighter6, leader_no_swarm, wingmen_no_swarm, stay_in_front_of_ship, no_drop, no_dealer, no_sell, codex_unlockable",3,,20,30,CLAW,4000,800,900,1,FIGHTER,Multirole Fighter,30,96000,,,,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#WMD,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-XLII_shangshu_heavy_wing,XLII_shangshu_Heavy,"bomber, bomber6, no_drop, no_dealer, no_sell, codex_unlockable",3,,12,24,V,4000,2000,700,2,BOMBER,Strategic Bomber,25,12000,,,,,,,,,,,,,711000
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,

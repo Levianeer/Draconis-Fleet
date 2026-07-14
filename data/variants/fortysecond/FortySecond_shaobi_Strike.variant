@@ -1,12 +1,15 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 3,
+    "fluxVents": 4,
+    "goalVariant": true,
     "hullId": "XLII_shaobi_fortysecond",
-    "hullMods": [],
+    "hullMods": [
+        "targetingunit",
+        "escort_package"
+    ],
     "permaMods": [],
     "sMods": [],
-    "goalVariant": true,
     "variantId": "FortySecond_shaobi_Strike",
     "weaponGroups": [
         {
@@ -29,16 +32,6 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {"WS0005": "XLII_particlelance"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "XLII_estocflak",
-                "WS0002": "XLII_estocflak",
-                "WS0006": "XLII_estocflak",
-                "WS0009": "XLII_estocflak"
-            }
         }
     ],
     "wings": [

@@ -1,13 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 0,
-    "fluxVents": 9,
+    "fluxCapacitors": 4,
+    "fluxVents": 3,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
-        "magazines",
-        "hardenedshieldemitter",
-        "dedicated_targeting_core"
+        "targetingunit",
+        "missile_autoloader",
+        "missleracks"
     ],
     "permaMods": [],
     "sMods": [],
@@ -33,14 +33,14 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_particlelance",
-                "WS0020": "XLII_particlelance"
+                "WS0003": "irautolance",
+                "WS0020": "irautolance"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0050": "XLII_rapier"}
+            "weapons": {"WS0050": "heavymauler"}
         },
         {
             "autofire": true,
@@ -54,8 +54,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "pdburst",
-                "WS0006": "pdburst"
+                "WS0005": "lrpdlaser",
+                "WS0006": "lrpdlaser"
             }
         },
         {

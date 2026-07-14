@@ -238,7 +238,7 @@ public class DraconisAIOPaymentBarEvent extends BaseBarEvent {
      */
     @Override
     public boolean isAlwaysShow() {
-        return false;
+        return true;
     }
 
     @Override

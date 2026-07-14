@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 20,
+    "fluxVents": 19,
     "goalVariant": true,
     "hullId": "XLII_nushi",
     "hullMods": [
@@ -21,17 +21,19 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0016": "XLII_swordbreaker"}
+            "weapons": {"WS0015": "XLII_particlelance"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0015": "XLII_razorflak",
-                "WS0017": "XLII_razorflak"
-            }
+            "weapons": {"WS0017": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0016": "XLII_swordbreaker"}
         }
     ]
 }

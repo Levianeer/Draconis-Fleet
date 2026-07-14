@@ -16,7 +16,7 @@ import static com.fs.starfarer.api.impl.combat.EntropyAmplifierStats.KEY_TARGET;
 
 public class XLII_EAM_SuiteStats extends BaseShipSystemScript {
 
-    private static final float MAX_RANGE = 1500f;
+    private static final float MAX_RANGE = 1800f;
     private static final float DAMAGE_VULNERABILITY = 1.25f;
     private static final float SELF_DAMAGE_VULNERABILITY = 1.25f;
     private static final Color TEXT_COLOR = new Color(200, 200, 200, 200);

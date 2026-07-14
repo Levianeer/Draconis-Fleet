@@ -111,10 +111,15 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
         // --- Kori first-arrival intercept (TT Courier path) ---
         if ("kori".equals(interactionTarget.getId())) {
             var mem = Global.getSector().getMemoryWithoutUpdate();
-            if (mem.getBoolean(FafnirAccessStrings.MEM_ACCESS_GRANTED)
-                    && FafnirAccessStrings.PATH_TT_COURIER.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
-                    && !mem.getBoolean(FafnirAccessStrings.MEM_KORI_ARRIVAL_DONE)) {
+            // Entry path already recorded (normal flow), OR the player still holds unredeemed
+            // TT credentials and simply reached Kori without ever resolving the JP credentials
+            // exchange (e.g. a transverse jump bypass). Standing at Kori's market is itself
+            // proof of access, so we don't require $fafnirAccessGranted to already be true.
+            boolean onTTCourierPath = FafnirAccessStrings.PATH_TT_COURIER.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
+                    || mem.getBoolean(FafnirAccessStrings.MEM_TT_QUEST_ACTIVE);
+            if (onTTCourierPath && !mem.getBoolean(FafnirAccessStrings.MEM_KORI_ARRIVAL_DONE)) {
                 log.debug("Draconis: Kori first-arrival intercept");
+                backfillAccessIfNeeded(mem, FafnirAccessStrings.PATH_TT_COURIER);
                 return new PluginPick<>(
                         new XLII_FafnirKoriArrivalDialogPlugin(interactionTarget),
                         CampaignPlugin.PickPriority.MOD_SPECIFIC
@@ -126,11 +131,15 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
         if ("fafnir_pirate_station".equals(interactionTarget.getId())) {
             var mem = Global.getSector().getMemoryWithoutUpdate();
 
+            // Same reasoning as the Kori check above: don't require $fafnirAccessGranted to
+            // already be true, since being docked at Ring-Port is itself proof of access.
+            boolean onRingPortPath = FafnirAccessStrings.PATH_RING_PORT.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
+                    || mem.getBoolean(FafnirAccessStrings.MEM_RP_QUEST_ACTIVE);
+
             // Fafnir Ring-Port contractor delivery (takes priority - one-time, gates Fafnir access)
-            if (mem.getBoolean(FafnirAccessStrings.MEM_ACCESS_GRANTED)
-                    && FafnirAccessStrings.PATH_RING_PORT.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
-                    && !mem.getBoolean(FafnirAccessStrings.MEM_RP_DELIVERY_DONE)) {
+            if (onRingPortPath && !mem.getBoolean(FafnirAccessStrings.MEM_RP_DELIVERY_DONE)) {
                 log.debug("Draconis: Ring-Port Station delivery intercept");
+                backfillAccessIfNeeded(mem, FafnirAccessStrings.PATH_RING_PORT);
                 return new PluginPick<>(
                         new XLII_FafnirRingPortDeliveryDialogPlugin(interactionTarget),
                         CampaignPlugin.PickPriority.MOD_SPECIFIC
@@ -198,5 +207,26 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
                 new XLII_FafnirBlockedDialogPlugin(interactionTarget),
                 CampaignPlugin.PickPriority.MOD_SPECIFIC
         );
+    }
+
+    /**
+     * Backfills {@code $fafnirAccessGranted} / {@code $fafnirEntryPath} when a player reaches Kori
+     * or Ring-Port without ever resolving the JP credentials exchange in
+     * {@link XLII_FafnirBlockedDialogPlugin} (e.g. a transverse jump bypass while still holding
+     * valid credentials). No-op if access was already granted normally. Pure bookkeeping - no rep
+     * or other player-visible side effects.
+     * <p>
+     * This keeps other systems that read these flags consistent - most importantly
+     * {@link XLII_FafnirSystemMonitor#shouldRegister()}, which would otherwise keep re-registering
+     * the monitor, and could eventually mistake the player for a live transverse-jump violator
+     * after they've already peacefully completed the delivery.
+     */
+    private static void backfillAccessIfNeeded(MemoryAPI mem, String path) {
+        if (mem.getBoolean(FafnirAccessStrings.MEM_ACCESS_GRANTED)) return;
+
+        mem.set(FafnirAccessStrings.MEM_ACCESS_GRANTED, true);
+        mem.set(FafnirAccessStrings.MEM_ENTRY_PATH, path);
+
+        log.info("Draconis: Fafnir access backfilled at arrival, path=" + path);
     }
 }

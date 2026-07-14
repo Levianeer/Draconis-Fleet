@@ -11,8 +11,9 @@ import java.util.List;
 
 /**
  * AI for the Breach Jammer
- * Activates when allied firepower exploitation exceeds self-vulnerability risk.
- * Requires 1+ enemies in range, equal/better firepower ratio, and minimal allied support.
+ * Activates whenever allies have enough firepower on enemies in the aura to
+ * benefit from the damage-taken debuff, regardless of enemy return fire.
+ * Self-preservation is handled separately via hard blocks (flux, hull, torpedoes).
  */
 public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
 
@@ -30,9 +31,11 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
     // Constants
     private static final float MIN_TOGGLE_INTERVAL = 2.5f;
     private static final float ACTIVATION_COMMITMENT = 2.0f;
-    private static final float SYSTEM_RANGE = 1500f;
+    private static final float SYSTEM_RANGE = 1800f;
     private static final float DEBUFF_MULTIPLIER = 1.25f;
     private static final float TORPEDO_THREAT_ANGLE = 0.85f; // Dot product threshold for torpedo threat
+    private static final float MIN_ALLIED_FP_TO_ACTIVATE = 10f;
+    private static final float MIN_ALLIED_FP_TO_DEACTIVATE = 5f; // Lower than activation threshold to avoid flicker
 
     @Override
     public void init(ShipAPI ship, ShipSystemAPI system, ShipwideAIFlags flags, CombatEngineAPI engine) {
@@ -91,11 +94,9 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
         if (hasIncomingTorpedoes()) return true;
         if (enemiesInAura.isEmpty()) return true;
 
+        // Allies have stopped exploiting the debuff - no longer worth the self-vulnerability
         float alliedFP = calculateAlliedFirepowerOnAura(enemiesInAura);
-        float enemyFP = calculateEnemyFirepowerOnHost(enemiesInAura);
-
-        // Lost advantage - deactivate (1.2x tolerance for fluctuations)
-        return alliedFP < enemyFP * 1.2f;
+        return alliedFP < MIN_ALLIED_FP_TO_DEACTIVATE;
     }
 
     private boolean shouldActivate(List<ShipAPI> enemiesInAura) {
@@ -104,12 +105,11 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
         if (enemiesInAura.isEmpty()) return false;
         if (is1v1Scenario(enemiesInAura)) return false;
 
-        // Firepower comparison - need equal or better
+        // The debuff amplifies allied damage - activate whenever allies have enough
+        // firepower on these enemies to benefit, regardless of enemy return fire
+        // (hard blocks above already cover self-preservation).
         float alliedFP = calculateAlliedFirepowerOnAura(enemiesInAura);
-        float enemyFP = calculateEnemyFirepowerOnHost(enemiesInAura);
-
-        if (alliedFP < enemyFP) return false;
-        return !(alliedFP < 10f); // Minimum allied support
+        return alliedFP >= MIN_ALLIED_FP_TO_ACTIVATE;
     }
 
     // ==================== HARD BLOCKS ====================
@@ -168,7 +168,7 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
                missile.getDamageAmount() > 500f;
     }
 
-    // ==================== ENEMY ANALYSIS ====================
+    // ==================== ENEMY DETECTION ====================
 
     private List<ShipAPI> getEnemiesInAura() {
         List<ShipAPI> enemies = new ArrayList<>();
@@ -191,51 +191,6 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
         }
 
         return enemies;
-    }
-
-    private float calculateEnemyFirepowerOnHost(List<ShipAPI> enemiesInAura) {
-        float totalFP = 0f;
-
-        for (ShipAPI enemy : enemiesInAura) {
-            if (!canEnemyEngageHost(enemy)) continue;
-
-            for (WeaponAPI weapon : enemy.getAllWeapons()) {
-                if (weapon.isDisabled() || weapon.getSpec().getMaxRange() < 100f) continue;
-
-                float distance = MathUtils.getDistance(enemy.getLocation(), ship.getLocation());
-
-                if (weapon.getSpec().getMaxRange() >= distance) {
-                    float angleToUs = VectorUtils.getAngle(enemy.getLocation(), ship.getLocation());
-                    float arcFacing = weapon.getCurrAngle();
-                    float arcWidth = weapon.getArc();
-
-                    if (arcWidth >= 360f || Math.abs(MathUtils.getShortestRotation(arcFacing, angleToUs)) <= arcWidth / 2f) {
-                        totalFP += estimateWeaponDPS(weapon);
-                    }
-                }
-            }
-        }
-
-        return totalFP * DEBUFF_MULTIPLIER;
-    }
-
-    private boolean canEnemyEngageHost(ShipAPI enemy) {
-        // Check if enemy is in position to shoot at us
-        float distance = MathUtils.getDistance(ship.getLocation(), enemy.getLocation());
-
-        // Check if enemy has weapons in range
-        boolean hasRangedWeapons = false;
-        for (WeaponAPI weapon : enemy.getAllWeapons()) {
-            if (weapon.getSpec().getMaxRange() >= distance) {
-                hasRangedWeapons = true;
-                break;
-            }
-        }
-
-        if (!hasRangedWeapons) return false;
-
-        // Enemy can't shoot effectively if overloaded
-        return !enemy.getFluxTracker().isOverloaded();
     }
 
     // ==================== ALLIED ANALYSIS ====================

@@ -255,14 +255,19 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
     // -------------------------------------------------------------------------
 
     /**
-     * Clears the player's autopilot course if it targets this jump point, then dismisses
-     * the dialog. Without this, a player who set the JP as a course destination would have
-     * the dialog immediately re-triggered by the autopilot after every dismiss.
+     * Clears the player's autopilot course if it targets this jump point - or anything beyond
+     * it, inside Fafnir - then dismisses the dialog. Without this, a player who laid in a course
+     * to an object inside Fafnir (not just the JP itself) would have the autopilot keep steering
+     * back into the JP after every dismiss, retriggering the dialog every frame.
      */
     private void dismissAndClearCourse() {
         lastDismissTime = System.currentTimeMillis();
         SectorEntityToken target = dialog.getInteractionTarget();
-        if (Global.getSector().getUIData().getCourseTarget() == target) {
+        SectorEntityToken courseTarget = Global.getSector().getUIData().getCourseTarget();
+        StarSystemAPI fafnir = Global.getSector().getStarSystem("Fafnir");
+        boolean courseLeadsThroughThisJP = courseTarget == target
+                || (courseTarget != null && fafnir != null && fafnir.equals(courseTarget.getContainingLocation()));
+        if (courseLeadsThroughThisJP) {
             Global.getSector().getCampaignUI().clearLaidInCourse();
         }
         Global.getSector().getPlayerFleet().setInteractionTarget(null);

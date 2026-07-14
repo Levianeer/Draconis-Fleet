@@ -1,9 +1,12 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 9,
+    "fluxCapacitors": 0,
     "fluxVents": 30,
     "hullId": "XLII_juni",
-    "hullMods": ["dedicated_targeting_core"],
+    "hullMods": [
+        "dedicated_targeting_core",
+        "advancedoptics"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_juni_Standard",
@@ -13,7 +16,8 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0001": "heavyac",
-                "WS0021": "heavyac"
+                "WS0021": "heavyac",
+                "WS0050": "heavyac"
             }
         },
         {
@@ -28,14 +32,9 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "irautolance",
-                "WS0020": "irautolance"
+                "WS0003": "phasebeam",
+                "WS0020": "phasebeam"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0050": "heavyac"}
         },
         {
             "autofire": true,

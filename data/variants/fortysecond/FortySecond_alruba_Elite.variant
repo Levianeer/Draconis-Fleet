@@ -2,13 +2,13 @@
     "displayName": "Elite",
     "fluxCapacitors": 0,
     "fluxVents": 9,
+    "goalVariant": true,
     "hullId": "XLII_alruba_fortysecond",
     "hullMods": [
         "safetyoverrides",
         "hardened_subsystems"
     ],
     "permaMods": [],
-    "goalVariant": true,
     "sMods": [],
     "variantId": "FortySecond_alruba_Elite",
     "weaponGroups": [
@@ -24,8 +24,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0004": "breach",
-                "WS0005": "breach"
+                "WS0004": "atropos",
+                "WS0005": "atropos"
             }
         }
     ]

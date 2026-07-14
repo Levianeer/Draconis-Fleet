@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 0,
+    "fluxCapacitors": 6,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_shaobi_fortysecond",
@@ -19,18 +19,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0003": "atropos",
                 "WS0004": "atropos"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "lightmg",
-                "WS0002": "lightmg"
             }
         }
     ],

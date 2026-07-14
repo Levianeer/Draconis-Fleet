@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 1,
+    "fluxVents": 8,
     "goalVariant": true,
     "hullId": "XLII_alrakis_fortysecond",
     "hullMods": ["targetingunit"],
@@ -12,11 +12,11 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0011": "XLII_naginata"}
+            "weapons": {"WS0011": "squall"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0006": "breach",
                 "WS0007": "breach",
@@ -52,7 +52,7 @@
         }
     ],
     "wings": [
-        "XLII_tianbang_wing",
+        "XLII_shangshu_wing",
         "XLII_shangshu_wing",
         "XLII_shangshu_wing"
     ]

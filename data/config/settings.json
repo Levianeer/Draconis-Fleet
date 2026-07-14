@@ -16,7 +16,7 @@
 	"draconisPatrolDifficultyBase": 4,					# Base patrol difficulty	#	Default : 4
 	"draconisPatrolDifficultyMult": 4.0,				# Patrol difficulty scaling with market presence	#	Default : 4.0
 	"draconisMaxFleets": 9,								# Maximum concurrent patrols per system	#	Default : 9
-	"draconisSpawnFrequencyMult": 45.0,					# Spawn frequency multiplier (higher = more frequent spawns, competes with other factions)	#	Default : 45.0
+	"draconisSpawnFrequencyMult": 90.0,					# Spawn frequency multiplier (higher = more frequent spawns, competes with other factions)	#	Default : 90.0
 
 	# ========================================
 	# PUNITIVE EXPEDITIONS (COLONY CRISIS)
