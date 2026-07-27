@@ -12,18 +12,18 @@
 		"gridUIColor":[95,115,140,50],
 		"brightUIColor":[180,85,45,255],
 	
+	"showInIntelTab":false,
+
 	"displayName":"Draconis Intelligence Office",
 		"displayNameWithArticle":"the Draconis Intelligence Office",
 		
 	"displayNameLong":"Draconis Defence Alliance Intelligence Office",
 		"displayNameLongWithArticle":"the Draconis Defence Alliance Intelligence Office",
 	
-	"logo":"graphics/factions/draconis.png",
-		"crest":"graphics/factions/crest_draconis.png",
+	"logo":"graphics/factions/draconis_2.png",
+		"crest":"graphics/factions/crest_draconis_2.png",
 		
 	"shipNamePrefix":"DNS",
-	
-	"showInIntelTab":false,
 
 	"shipNameSources":{
 		"DRACONIS":10,

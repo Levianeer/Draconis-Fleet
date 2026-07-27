@@ -153,7 +153,7 @@ public class XLII_FortySecond extends BaseHullMod {
             if (Math.random() > effectiveChance) continue;
 
             // Check if missile is guided - unguided missiles can't be retargeted
-            boolean isGuided = missile.getAI() instanceof GuidedMissileAI;
+            boolean isGuided = missile.getUnwrappedMissileAI() instanceof GuidedMissileAI;
 
             // 50/50 chance: jam or convert (but only convert if guided)
             boolean shouldJam = Math.random() < 0.5f;
@@ -182,7 +182,7 @@ public class XLII_FortySecond extends BaseHullMod {
 
     private void convertMissile(MissileAPI missile, ShipAPI ship) {
         // Double-check that this is a guided missile (should already be checked in advance)
-        if (!(missile.getAI() instanceof GuidedMissileAI ai)) {
+        if (!(missile.getUnwrappedMissileAI() instanceof GuidedMissileAI ai)) {
             jamMissile(missile);
             return;
         }

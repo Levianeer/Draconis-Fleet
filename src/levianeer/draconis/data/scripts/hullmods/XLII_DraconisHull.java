@@ -19,7 +19,7 @@ import java.util.Map;
 public class XLII_DraconisHull extends BaseHullMod {
 
     // Stats
-    public static final float DEGRADE_INCREASE_PERCENT = 25f;
+    public static final float DEGRADE_INCREASE_PERCENT = 50f;
     private static final float CR_LOSS_ON_WARP = 1f;
 
     private static final Map<HullSize, Float> CHARGE_TIMES = new EnumMap<>(HullSize.class);
@@ -57,13 +57,19 @@ public class XLII_DraconisHull extends BaseHullMod {
 
         @Override
         protected void onWarpComplete() {
+            // Direct Retreat costs 1 command point by default; refund it since Transverse Jump replaces the order.
+            // Only refunded here (ship survived to complete the jump), not at charge start, so a ship destroyed
+            // mid-charge does not get a free refund.
             CombatEngineAPI engine = Global.getCombatEngine();
-            if (engine != null) {
-                CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
-                if (fleetManager != null) {
-                    fleetManager.removeDeployed(ship, true);
-                }
-            }
+            if (engine == null) return;
+            CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
+            if (fleetManager == null) return;
+
+            String key = modId + "_cpRefund";
+            fleetManager.getTaskManager(false).getCommandPointsStat().modifyFlat(key, 1f);
+            fleetManager.getTaskManager(true).getCommandPointsStat().modifyFlat(key, 1f);
+
+            fleetManager.removeDeployed(ship, true);
         }
 
         @Override

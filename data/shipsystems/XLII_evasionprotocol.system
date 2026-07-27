@@ -3,9 +3,6 @@
 	"type":"ENGINE_MOD",
 	"aiType":"CUSTOM",
 	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_EvasionProtocolAI",
-	#"aiType":"MANEUVERING_JETS", # Tried a custom script, but I cannot improve upon perfection
-	
-	#"weaponDataId":"XLII_flarelauncher",
 	
 	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_EvasionProtocolStats",
 

@@ -1,7 +1,7 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 10,
+    "fluxVents": 3,
     "goalVariant": true,
     "hullId": "XLII_aldhibah",
     "hullMods": ["missleracks"],
@@ -12,7 +12,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS 004": "heavyblaster"}
+            "weapons": {"WS 004": "XLII_shashka"}
         },
         {
             "autofire": false,
@@ -25,7 +25,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS 001": "XLII_estocflak"}
+            "weapons": {"WS 001": "railgun"}
         },
         {
             "autofire": true,

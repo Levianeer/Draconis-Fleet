@@ -14,10 +14,10 @@
 	"glowRadius":5,
 	"engineSpec":{"turnAcc":200,
 				  "turnRate":200,
-				  "acc":150,
-				  "dec":10},
+				  "acc":200,
+				  "dec":100},
 	"engineSlots":[{"id":"ES1",
-					"loc":[-6, 0],
+					"loc":[-9, 0],
 				    "style":"CUSTOM",
 					"styleSpec":{
 						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used

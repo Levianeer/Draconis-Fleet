@@ -27,6 +27,10 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
     private static final String WEAPON_ID = "XLII_sabre";
     private static final float LAUNCH_DELAY_PER_MISSILE = 0.25f; // 250ms between each missile for visual effect
 
+    // Flux safety switch
+    private static final float FLUX_COST_PER_MISSILE = 500f; // hard flux added per missile launch
+    private static final float OVERLOAD_SAFETY_MARGIN_MISSILES = 2f; // abort if this many missiles' worth of flux or less remains before overload
+
     // Toggle system penalties
     private static final float SPEED_MULT = 0.9f; // 10% speed reduction
 
@@ -217,6 +221,8 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
      */
     private void launchMissileFromSlot(ShipAPI ship, WeaponSlotAPI slot, ShipAPI target,
                                        CombatEngineAPI engine) {
+        if (!hasSafeFluxMargin(ship)) return;
+
         Vector2f slotPos = slot.computePosition(ship);
         float slotAngle = slot.computeMidArcAngle(ship);
 
@@ -238,7 +244,7 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
 
         if (missile != null) {
             // Apply flux cost for firing the missile
-            ship.getFluxTracker().increaseFlux(500f, true);
+            ship.getFluxTracker().increaseFlux(FLUX_COST_PER_MISSILE, false);
 
             // Set velocity toward target
             Vector2f velocity = Misc.getUnitVectorAtDegreeAngle(launchAngle);
@@ -276,6 +282,17 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
                 );
             }
         }
+    }
+
+    /**
+     * Checks whether the ship has enough flux headroom to safely fire another missile.
+     * Prevents the barrage from overloading its own ship: aborts if the remaining
+     * headroom before overload is at or below the safety margin.
+     */
+    private boolean hasSafeFluxMargin(ShipAPI ship) {
+        FluxTrackerAPI tracker = ship.getFluxTracker();
+        float headroom = tracker.getMaxFlux() - tracker.getCurrFlux();
+        return headroom > FLUX_COST_PER_MISSILE * OVERLOAD_SAFETY_MARGIN_MISSILES;
     }
 
     /**

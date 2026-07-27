@@ -1,3 +1,219 @@
+Version 0.7.7 (Save-compatible with 0.7.6)
+NEW CONTENT:
+- NEW: Shashka Mass Driver - medium energy strike weapon.
+
+BALANCE CHANGES:
+- Rebalanced Draconis Hull:
+  - CR loss after Peak performance 25% -> 50%.
+
+- Rebalanced Pojun:
+  - Max flux 8000 -> 7000.
+- Rebalanced Rastaban:
+  - Shield type: Front -> Omni.
+- Rebalanced Jufeng:
+  - Armor rating 750 -> 600.
+    - Armor Modules:
+      - Armor rating 1500 -> 750.
+      - Hhull 10000 -> 7500.
+- Rebalanced Juni:
+  - Armor rating 900 -> 700.
+  - Max speed 85 -> 90.
+  - Shield type: Front -> Omni.
+- Rebalanced Nushi:
+  - Armor rating 1000 -> 750.
+  - Max speed 85 -> 90.
+- Rebalanced Nushi Mk.II:
+  - Armor rating 1000 -> 750.
+  - Max speed 85 -> 90.
+- Rebalanced Alrakis:
+  - Armor rating 1100 -> 850.
+  - Flux dissipation: 625 -> 575.
+  - Max speed 65 -> 70.
+- Rebalanced Dziban:
+  - Armor rating 1100 -> 850.
+  - Max speed 60 -> 65.
+- Rebalanced Altais:
+  - Flux dissipation 1200 -> 1000.
+  - Armor rating 1000 -> 750.
+  - Max flux 20000 -> 17000.
+  - Max speed 60 -> 70.
+  - Shield type: Front -> Omni.
+- Rebalanced Tianlong:
+  - Armor rating 1000 -> 750.
+  - Max speed 75 -> 85.
+- Rebalanced Tianlong Mk.II:
+  - Armor rating 1000 -> 750.
+  - Max speed 75 -> 85.
+- Rebalanced Jufeng:
+  - Armor rating 1000 -> 750.
+  - Max speed 55 -> 60.
+- Rebalanced Kuma:
+  - Armor rating 1000 -> 750.
+  - Max flux 22000 -> 18000.
+  - Max speed 45 -> 50.
+- Rebalanced Alwaid:
+  - Armor rating 950 -> 700.
+  - Max speed 45 -> 55.
+- Rebalanced War Emergency Power (Thorne, Tianbang, Shangshu, Tiangou):
+  - Removed shield/armor/hull/EMP damage reduction while active; the system now only affects speed and time dilation.
+- Rebalanced Juza:
+  - Armor rating 1100 -> 850.
+  - Max speed 35 -> 40.
+  - Shield type: Front -> Omni.
+  - 2x medium mounts: Ballistic -> Hybrid.
+- Rebalanced Tiangou:
+  - Max flux 2500 -> 700.
+  - Flux dissipation 250 -> 220.
+  - FP 20 -> 9.
+  - DP 30 -> 21.
+  - Refit time 30 -> 24.
+- Rebalanced Claymore Railgun (Fighter):
+  - Flux/shot 850 -> 400.
+  - Chargedown 4.75 -> 5.75.
+  - Damage 500 -> 1000.
+- Rebalanced Tianbang:
+  - Max flux 2000 -> 700.
+  - FP 18 -> 9.
+  - DP 23 -> 22.
+- Rebalanced Thorne:
+  - Removed shield.
+  - Max flux 2000 -> 550.
+  - Flux dissipation 200 -> 130.
+  - Armor rating 125 -> 90.
+  - Max speed 500 -> 380.
+  - FP 12 -> 9.
+- Rebalanced Shangshu (Strategic Bomber):
+  - Max flux 1000 -> 700.
+  - FP 12 -> 9.
+  - DP 24 -> 21.
+- Rebalanced Aldibain:
+  - Max flux 1000 -> 500.
+- Rebalanced Eldsich:
+  - Hitpoints 350 -> 440.
+  - Armor rating 25 -> 60.
+- Rebalanced Tianyi:
+  - Now carries a built-in Blackout Jammer.
+  - No longer rapidly reforms or attacks at an angle.
+- Rebalanced Grumium (Bomber):
+  - Turn acceleration 60 -> 95.
+- Rebalanced Grumium (Fighter):
+  - Turn acceleration 60 -> 200.
+- Renamed Flamberge Coilgun -> Flamberge Mass Driver.
+- Rebalanced Flamberge Mass Driver:
+  - Chargedown 6 -> 9.
+- Rebalanced Micro Bardiche Launcher:
+  - Ammo 100 -> 50.
+  - Burst Delay: 0.3 -> 0.4.
+  - Chargedown 4 -> 5.
+  - Projectile speed 400 -> 325, launch speed 200 -> 400.
+  - Flight time 16 -> 12.
+- Rebalanced Bardiche MRM Launcher:
+  - Ammo 400 -> 200.
+  - Flight time 16 -> 12.
+  - Projectile speed 400 -> 325, launch speed 200 -> 400.
+  - Chargedown 5 -> 6.
+  - Burst Delay: 0.2 -> 0.3
+- Rebalanced Bardiche MLRS Launcher:
+  - Ammo 600 -> 300.
+  - Chargedown 6 -> 9.
+  - Flight time 16 -> 12.
+  - Burst Delay: 0.1 -> 0.2.
+  - Projectile speed 400 -> 325.
+- Rebalanced Naginata MLRS Launcher:
+  - Damage 2500 -> 1500.
+  - Impact 125 -> 75.
+  - Chargedown 25 -> 20.
+  - Burst Delay: 0.5 -> 0.35.
+  - Flight time 18 -> 14.
+  - Projectile speed 350 -> 400.
+  - Projectile hitpoints 350 -> 600.
+- Rebalanced Kestros Autocannon:
+  - Damage 40 -> 30.
+  - Flux/shot 20 -> 15.
+- Rebalanced Razor Flak Cannon:
+  - Turn rate 400 -> 90.
+- Rebalanced Estoc Flak Cannon:
+  - Turn rate 150 -> 160.
+- Rebalanced Rapier Autocannon:
+  - Damage 160 -> 150.
+  - Turn rate 60 -> 16.
+- Rebalanced Culverin Coilgun:
+  - Turn rate 20 -> 9.
+- Rebalanced Cestus Gun Launcher:
+  - Flight time 750 -> 500.
+  - Turn rate 20 -> 12.
+- Rebalanced Halberd-class Torpedo (all variants):
+  - Damage 5000 -> 4000.
+  - Halberd-class Torpedo Pod: Tracking 16 -> 14.
+- Rebalanced Hankyu-class Torpedo (all variants):
+  - Damage 4000 -> 3000.
+- Rebalanced Errakis:
+  - FP 11 -> 12.
+  - DP 12 -> 14.
+  - Max speed 75 -> 70.
+  - Acceleration 60 -> 55.
+  - Shield efficiency 1.2 -> 1.3.
+  - Shield arc 140 -> 160.
+- Rebalanced Pojun
+  - Max speed 100 -> 90.
+  - 2x medium hardpoint mounts: Composite -> Ballistic.
+  - 2x medium turret mounts: Ballistic -> Hybrid.
+  - Rebalanced Apostate Jammer:
+    - Reworked from an instant hijack into a dwell-based timer for each missiles.
+    - Duration 0.5 -> 3, cooldown 6 -> 12.
+    - Detection radius 1000 -> 1500 su.
+    - Enemy missiles must now stay continuously within the detection radius for a short duration before converting; leaving the radius at any point resets their progress.
+    - Added a target-lock marker on tracked missiles and an expanding/shrinking ring to show when the system's is about to start/end.
+- Rebalanced Estoc Flak Cannon:
+  - Min spread 0 -> 2.
+  - Spread/shot 5 -> 6.
+  - Spread decay/sec 5 -> 6.
+- Rebalanced Flux Reactive Armor:
+  - Now converts hull damage into Hard Flux instead of Soft Flux.
+  - No longer disabled while the ship is overloaded.
+  - Now converts 50% hull damage into 50% flux. Insead of 50% -> 25%.
+- Rebalanced Shaowei:
+  - Max flux 6000 -> 8000.
+- Rebalanced Yunu:
+  - Max flux 16000 -> 14000.
+  - Flux dissipation 800 -> 600.
+- Rebalanced Dziban:
+  - Flux dissipation 900 -> 700.
+- Rebalanced Tianlong:
+  - Armor rating 1250 -> 1000.
+  - Max flux 26000 -> 20000.
+  - Flux dissipation 1350 -> 800.
+- Rebalanced Tianlong Mk.II:
+  - Armor rating 1250 -> 1000.
+  - Max flux 26000 -> 20000.
+  - Flux dissipation 1350 -> 800.
+- Rebalanced Kuma:
+  - Max flux 28000 -> 22000.
+  - Flux dissipation 1100 -> 880.
+- Rebalanced Alwaid:
+  - Armor rating 1200 -> 950.
+  - Max flux 25000 -> 20000.
+  - Flux dissipation 1500 -> 950.
+- Rebalanced Alwaid Prototype:
+  - Armor rating 1250 -> 950.
+  - Max flux 30000 -> 20000.
+  - Flux dissipation 1200 -> 950.
+- Rebalanced Emergency Repairs:
+  - Charges 3 -> 2.
+  - Cooldown 12 -> 16.
+  
+MINOR IMPROVEMENTS:
+- Removed redundant preamble from the Hankyu's and Daikyu's descriptions.
+- Improved the retreat Tranverse Jump FX.
+- Transverse Jump charge-up no longer penalises turn acceleration.
+- Renamed the Draconis XLII faction to the Draconis XLII Battlegroup.
+- Updated the Draconis Intelligence Office's faction logo and crest.
+
+BUG FIXES:
+- Fixed Flux Reactive Armor rounding down damage into sub 0 damage, making it effectively immortal to low hit-strength weapons.
+- Fixed Transverse Jump not refunding the Direct Retreat command point it consumes, effectively double-charging command points for retreating ships.
+- Fixed missiles hijacked by the Apostate Jammer or Fortysecond's ECM Suite sometimes getting stuck harmlessly still aiming at their original target instead of being disabled, when their guidance couldn't be redirected (Gorgon/Gazer/Dragon/Hydra etc).
+
 Version 0.7.6 (Save-compatible with 0.7.5)
 BALANCE CHANGES:
 - Juni: OP 130 -> 140.

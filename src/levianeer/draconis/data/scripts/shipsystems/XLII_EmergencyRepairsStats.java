@@ -79,7 +79,7 @@ public class XLII_EmergencyRepairsStats extends BaseShipSystemScript {
      * Every zero-value cell on the perimeter is seeded as "exterior" and the BFS expands
      * 4-connectedly through adjacent zero-value cells. Anything reached is outside the ship's
      * silhouette or part of a destroyed section open to the edge. Anything NOT reached is a
-     * valid interior cell — either an armor-bearing cell or an enclosed destroyed region.
+     * valid interior cell - either an armor-bearing cell or an enclosed destroyed region.
      */
     private void snapshotValidCells(ArmorGridAPI armorGrid) {
         float[][] grid = armorGrid.getGrid();

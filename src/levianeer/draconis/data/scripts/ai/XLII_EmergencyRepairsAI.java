@@ -37,7 +37,7 @@ public class XLII_EmergencyRepairsAI implements ShipSystemAIScript {
         tracker.advance(amount);
         if (!tracker.intervalElapsed()) return;
 
-        // Do not use while in danger — system imposes a speed penalty
+        // Do not use while in danger - system imposes a speed penalty
         if (missileDangerDir != null) return;
         if (collisionDangerDir != null) return;
         if (flags.hasFlag(ShipwideAIFlags.AIFlags.HAS_INCOMING_DAMAGE)) return;

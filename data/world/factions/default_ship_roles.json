@@ -30,6 +30,7 @@
 	"combatMedium":{
 		"XLII_rastaban_Elite":1.5,
 		"XLII_rastaban_Strike":1,
+		"XLII_rastaban_Assault":1,
 
 		"XLII_errakis_Elite":1,
 		"XLII_errakis_Strike":1,
@@ -69,7 +70,8 @@
 		"XLII_nushi_mk2_Elite":0.75,
 		"XLII_nushi_mk2_Strike":0.75,
 
-		"XLII_yinde_Elite":0.125,
+		"XLII_yinde_Elite":0.1,
+		"XLII_yinde_Strike":0.1,
 
 		"fallback":{"combatMedium":1}
 	},

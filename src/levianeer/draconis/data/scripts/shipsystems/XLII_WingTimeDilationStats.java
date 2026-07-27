@@ -84,13 +84,6 @@ public class XLII_WingTimeDilationStats extends BaseShipSystemScript {
         // Speed debuff (half-inverse: 1.0 at 1x -> ~0.5 at 3x)
         stats.getMaxSpeed().modifyMult(id, 2f / (timeMult + 1f));
 
-        // Damage reduction scales with effectLevel (0 -> 50% at full)
-        float damageMult = 1f - 0.5f * effectLevel;
-        stats.getShieldDamageTakenMult().modifyMult(id, damageMult);
-        stats.getArmorDamageTakenMult().modifyMult(id, damageMult);
-        stats.getHullDamageTakenMult().modifyMult(id, damageMult);
-        stats.getEmpDamageTakenMult().modifyMult(id, damageMult);
-
         // Engine trails and afterimage - only when meaningfully active
         if (effectLevel > 0.01f) {
             advanceTrails(ship);
@@ -113,10 +106,6 @@ public class XLII_WingTimeDilationStats extends BaseShipSystemScript {
         stats.getMissileRoFMult().unmodify(id);
         stats.getEnergyRoFMult().unmodify(id);
         stats.getMaxSpeed().unmodify(id);
-        stats.getShieldDamageTakenMult().unmodify(id);
-        stats.getArmorDamageTakenMult().unmodify(id);
-        stats.getHullDamageTakenMult().unmodify(id);
-        stats.getEmpDamageTakenMult().unmodify(id);
     }
 
     @Override
@@ -124,7 +113,6 @@ public class XLII_WingTimeDilationStats extends BaseShipSystemScript {
         float timeMult = 1f + (MAX_TIME_MULT - 1f) * effectLevel;
         return switch (index) {
             case 0 -> new StatusData("time dilation x" + String.format("%.1f", timeMult), false);
-            case 1 -> new StatusData("damage reduced by " + (int)(50f * effectLevel) + "%", false);
             default -> null;
         };
     }

@@ -3,6 +3,7 @@ package levianeer.draconis.data.scripts.ai;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.scripts.shipsystems.XLII_MissileHijackStats;
 import org.lazywizard.lazylib.combat.AIUtils;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -34,7 +35,12 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
     private float waveHoldTimer = 0f;
 
     // Missiles about to flame out on their own aren't worth jamming.
-    private static final float FADE_OUT_MARGIN = 1f;
+    private static final float FADE_OUT_MARGIN = 1f; // non-hijack (near-instant ECM) path only
+
+    // Hijack has to survive the AI reaction delay, the chargeup, and then dwell continuously in range for
+    // DWELL_THRESHOLD before ownership actually changes hands - a missile that flames out before then would
+    // waste a limited-ammo activation converting nothing.
+    private static final float HIJACK_CONVERSION_SLACK = 0.5f;
 
     @Override
     public void init(ShipAPI ship, ShipSystemAPI system, ShipwideAIFlags flags, CombatEngineAPI engine) {
@@ -248,7 +254,10 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
 
     private boolean isAboutToFadeOut(MissileAPI missile) {
         float remainingFlightTime = missile.getMaxFlightTime() - missile.getFlightTime();
-        return remainingFlightTime <= FADE_OUT_MARGIN;
+        float margin = isHijack
+                ? REACTION_DELAY_MAX + system.getChargeUpDur() + XLII_MissileHijackStats.DWELL_THRESHOLD + HIJACK_CONVERSION_SLACK
+                : FADE_OUT_MARGIN;
+        return remainingFlightTime <= margin;
     }
 
     private boolean isTorpedo(MissileAPI missile) {

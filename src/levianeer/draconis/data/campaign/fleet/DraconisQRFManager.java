@@ -25,7 +25,7 @@ import java.util.*;
  * <p>
  * Threat awareness is persistent: a threat spotted by any DDA or FortySecond fleet is remembered
  * for up to ~10 days after it leaves sensor range (DATALINK). Fleets already in sensor range
- * of hostiles are treated as "busy" and not reassigned — Starsector's fleet AI handles them.
+ * of hostiles are treated as "busy" and not reassigned - Starsector's fleet AI handles them.
  */
 public class DraconisQRFManager implements EveryFrameScript {
 
@@ -175,7 +175,7 @@ public class DraconisQRFManager implements EveryFrameScript {
         for (CampaignFleetAPI qrf : qrfFleets) {
             long key = fleetRoutes.get(qrf).getTimestamp();
 
-            // Busy fleets keep their current orders — don't interfere with fleet AI
+            // Busy fleets keep their current orders - don't interfere with fleet AI
             if (busyFleetThreats.containsKey(qrf)) continue;
 
             ThreatEntry threatEntry = assignment.get(qrf);
@@ -239,7 +239,7 @@ public class DraconisQRFManager implements EveryFrameScript {
                 for (ThreatEntry threat : threats) {
                     if (threat.fleet.isVisibleToSensorsOf(qrf)) {
                         nearest = threat;
-                        break; // threats are sorted by strength desc — take the strongest visible one
+                        break; // threats are sorted by strength desc - take the strongest visible one
                     }
                 }
                 busy.put(qrf, nearest);

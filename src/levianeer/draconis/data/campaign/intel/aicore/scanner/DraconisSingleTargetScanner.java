@@ -130,7 +130,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
                 continue;
             }
 
-            // Scan for AI cores (coreless markets are valid targets with value 0 — fallback generation handles them)
+            // Scan for AI cores (coreless markets are valid targets with value 0 - fallback generation handles them)
             CoreData cores = scanMarketCores(market);
             float value = calculateValue(cores);
             candidates.add(new MarketCandidate(market, cores, value));

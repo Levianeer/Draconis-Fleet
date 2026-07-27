@@ -8,6 +8,7 @@ import com.fs.starfarer.api.util.FaderUtil;
 import com.fs.starfarer.api.util.Misc;
 import org.dark.shaders.distortion.DistortionShader;
 import org.dark.shaders.distortion.RippleDistortion;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.Color;
@@ -116,8 +117,8 @@ public abstract class XLII_TransverseJumpScript implements AdvanceableListener {
             spawnChargingLightningFlicker(chargePercent);
         }
 
-        ship.setJitter(this, WARP_COLOR, chargePercent, (int)(10 * chargePercent),
-                ship.getCollisionRadius() * chargePercent * 0.5f);
+        ship.setJitter(this, WARP_COLOR, chargePercent, (int)(2.5 * chargePercent),
+                ship.getCollisionRadius() * chargePercent * 0.25f);
 
         if (chargeProgress >= chargeTime) {
             completeCharge();
@@ -127,7 +128,6 @@ public abstract class XLII_TransverseJumpScript implements AdvanceableListener {
     private void applyChargePenalties(float chargePercent) {
         ship.getMutableStats().getMaxSpeed().modifyMult(modId + "_charge", 1f - (chargePercent * 0.8f));
         ship.getMutableStats().getAcceleration().modifyMult(modId + "_charge", 1f - (chargePercent * 0.7f));
-        ship.getMutableStats().getTurnAcceleration().modifyMult(modId + "_charge", 1f - (chargePercent * 0.6f));
     }
 
     private void blockMovementCommands() {
@@ -188,7 +188,27 @@ public abstract class XLII_TransverseJumpScript implements AdvanceableListener {
         playWarpSounds();
         spawnWarpFlash();
         spawnWarpLightningStorm();
+        spawnAfterimageTrail();
         ship.getFluxTracker().showOverloadFloatyIfNeeded("Emergency jump!", Color.WHITE, 2f, true);
+    }
+
+    /** Afterimage trail matching {@link XLII_WarpInScript}'s warp-in burst effect. */
+    private void spawnAfterimageTrail() {
+        for (int i = 1; i < 50; i++) {
+            Vector2f offset   = MathUtils.getPoint(new Vector2f(), (float) (i * (i + 5)), ship.getFacing() + 180f);
+            Vector2f trailVel = MathUtils.getPoint(new Vector2f(), 5f * i - 4f, ship.getFacing());
+            float    duration = 5.1f - (0.1f * i);
+            Color    color    = new Color(0.5f, 0.25f, 1f, 0.15f);
+
+            for (ShipAPI module : ship.getChildModulesCopy()) {
+                if (module.isAlive()) {
+                    module.addAfterimage(color, offset.x, offset.y, trailVel.x, trailVel.y,
+                            0.1f, 0f, 0.1f, duration, false, true, false);
+                }
+            }
+            ship.addAfterimage(color, offset.x, offset.y, trailVel.x, trailVel.y,
+                    0.1f, 0f, 0.1f, duration, false, true, false);
+        }
     }
 
     private void playWarpSounds() {
@@ -277,7 +297,6 @@ public abstract class XLII_TransverseJumpScript implements AdvanceableListener {
         MutableShipStatsAPI stats = ship.getMutableStats();
         stats.getMaxSpeed().unmodifyMult(modId + "_charge");
         stats.getAcceleration().unmodifyMult(modId + "_charge");
-        stats.getTurnAcceleration().unmodifyMult(modId + "_charge");
     }
 
     private void spawnWarpLightningStorm() {

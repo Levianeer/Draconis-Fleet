@@ -70,13 +70,13 @@ public class XLII_EmergencyRecall extends BaseHullMod {
         String shipKey = ship.getId();
         if (listeners.containsKey(shipKey)) return; // already handled this instance
 
-        // New fighter instance — check if this slot used recall last life
+        // New fighter instance - check if this slot used recall last life
         String slotKey = getSlotKey(ship);
         if (slotKey != null && usedRecallSlots.remove(slotKey)) {
-            // Redeployed after recall — no recall this life, store sentinel
+            // Redeployed after recall - no recall this life, store sentinel
             listeners.put(shipKey, new RecallListener(ship, true));
         } else {
-            // Fresh life — recall available
+            // Fresh life - recall available
             RecallListener listener = new RecallListener(ship, false);
             ship.addListener(listener);
             listeners.put(shipKey, listener);
@@ -103,10 +103,10 @@ public class XLII_EmergencyRecall extends BaseHullMod {
         public boolean notifyAboutToTakeHullDamage(Object param, ShipAPI ship, Vector2f point, float damageAmount) {
             if (used || ship != this.ship || ship.isHulk()) return false;
 
-            // Not lethal — let it through
+            // Not lethal - let it through
             if (ship.getHitpoints() - damageAmount > 0f) return false;
 
-            // No carrier to recall to — don't activate
+            // No carrier to recall to - don't activate
             if (ship.getWing() == null || ship.getWing().getSource() == null) return false;
             ShipAPI carrier = ship.getWing().getSourceShip();
             if (carrier == null || !carrier.isAlive()) return false;
@@ -185,7 +185,7 @@ public class XLII_EmergencyRecall extends BaseHullMod {
                     ship.getWing().getSource().makeCurrentIntervalFast();
                     ship.getWing().getSource().land(ship);
                 } else {
-                    // Carrier was destroyed during phase-out — restore visibility
+                    // Carrier was destroyed during phase-out - restore visibility
                     ship.setExtraAlphaMult(1f);
                     ship.setPhased(false);
                 }
