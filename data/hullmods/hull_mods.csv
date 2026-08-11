@@ -26,6 +26,7 @@ Overclock Core,XLII_overclockcore,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.dr
 Flux Reactive Armor,XLII_fluxreactivearmor,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_FluxReactiveArmor,Description created in script.,,,graphics/icons/codex/manual_flux.png
 Emergency Recall,XLII_emergencyrecall,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_EmergencyRecall,"When this fighter would be destroyed, it is instead recalled to its carrier bay for the first time each deployment.",Recalls fighter to carrier bay on lethal damage.,,graphics/hullmods/quantum_disruptor.png
 Adaptation Field,XLII_adaptation,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_AdaptationField,Hidden hullmod for prewar prototype ships. Description created in script.,,,graphics/icons/codex/manual_shields.png
+Discharge Coil Array,XLII_phaseshuntcoils,,,Draconis,,,10000,,TRUE,,0,0,0,0,levianeer.draconis.data.scripts.hullmods.XLII_PhaseShuntCoils,Description created in script.,,,graphics/icons/codex/manual_venting.png
 ,,,,,,,,,,,,,,,,,,,
 #Commissioned Crews,,,,,,,,,,,,,,,,,,,
 Alliance Trained Crews,CHM_XLII_draconis,,,Draconis,,,,,TRUE,,0,0,0,0,data.scripts.hullmods.CHM_XLII_draconis,"Draconis Alliance crews are trained in emissions discipline and signal masking, reducing the ship's detection range by %s.",Reduces detection range by 10%.,,graphics/hullmods/crest_draconis.png

@@ -1,24 +1,25 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 29,
+    "fluxVents": 24,
     "goalVariant": true,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
         "targetingunit",
         "missleracks",
-        "ecm"
+        "ecm",
+        "eccm"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "FortySecond_juza_Strike",
     "weaponGroups": [
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_fragarch",
-                "WS0020": "XLII_fragarch"
+                "WS0003": "XLII_montante",
+                "WS0020": "XLII_montante"
             }
         },
         {
@@ -31,6 +32,14 @@
                 "WS0027": "breach",
                 "WS0028": "breach",
                 "WS0029": "breach"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_razorflak",
+                "WS0019": "XLII_razorflak"
             }
         }
     ]

@@ -3,6 +3,7 @@ package levianeer.draconis.data.scripts.weapons;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.loading.DamagingExplosionSpec;
 import org.dark.shaders.distortion.DistortionShader;
 import org.dark.shaders.distortion.RippleDistortion;
@@ -36,7 +37,7 @@ public class XLII_ShashkaOnHitEffect implements OnHitEffectPlugin {
     // EMP arcs
     private static final int EMP_ARC_MIN = 3;
     private static final int EMP_ARC_MAX = 5;
-    private static final float EMP_ARC_EMP_PER_ARC = 100f;
+    private static final float EMP_ARC_TOTAL_EMP = 500f;
     private static final float EMP_ARC_THICKNESS = 9.75f;
 
     // Lens flares
@@ -61,6 +62,7 @@ public class XLII_ShashkaOnHitEffect implements OnHitEffectPlugin {
 
         if (point == null) return;
         if (!(target instanceof ShipAPI)) return;
+        ShipAPI ship = (ShipAPI) target;
 
         float damage = projectile.getDamageAmount();
         ShipAPI source = projectile.getSource();
@@ -71,15 +73,22 @@ public class XLII_ShashkaOnHitEffect implements OnHitEffectPlugin {
         // Visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
 
-        // EMP arcs on hull hit
-        if (!shieldHit) {
+        // EMP arcs on hull hit, or on a successful shield pierce (mirrors PilumOnHitEffect)
+        boolean piercedShield = false;
+        if (shieldHit) {
+            float pierceChance = ship.getHardFluxLevel() - 0.1f;
+            pierceChance *= ship.getMutableStats().getDynamic().getValue(Stats.SHIELD_PIERCED_MULT);
+            piercedShield = (float) Math.random() < pierceChance;
+        }
+
+        if (!shieldHit || piercedShield) {
             int arcCount = MathUtils.getRandomNumberInRange(EMP_ARC_MIN, EMP_ARC_MAX);
             for (int i = 0; i < arcCount; i++) {
-                engine.spawnEmpArc(
+                engine.spawnEmpArcPierceShields(
                         source, point, target, target,
                         DamageType.ENERGY,
                         0f,
-                        EMP_ARC_EMP_PER_ARC,
+                        EMP_ARC_TOTAL_EMP / arcCount,
                         100000f,
                         "tachyon_lance_emp_impact",
                         EMP_ARC_THICKNESS + (float) Math.random() * 5.2f,

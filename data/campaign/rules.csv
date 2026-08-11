@@ -262,6 +262,12 @@ XLII_admiral_narrative_generic,XLII_AdmiralNarrative,,,"""A capable hull."" He k
 A brief pause as the transfer finalizes.
 
 ""Good hunting, Commander.""","1:transaction_complete:Continue","Fallback narrative for any store item without a specific story"
+XLII_admiral_narrative_denied_credits,XLII_AdmiralNarrative,"$XLII_store_purchase_failed == true
+$XLII_store_purchase_fail_reason == credits",,"""We already price these hulls below their worth."" A beat. ""There's no further margin to extend. Return when your accounts allow it, Commander.""","1:reopen_store:Browse more vessels.
+2:dismiss:End transmission",Fires instead of the purchase narrative when XLII_BuyShip denies for insufficient credits. 2 conditions beats the 1-condition ship narratives via FireBest.
+XLII_admiral_narrative_denied_rep,XLII_AdmiralNarrative,"$XLII_store_purchase_failed == true
+$XLII_store_purchase_fail_reason == rep",,"""Your standing with the Alliance doesn't cover an authorization of this size."" A pause. ""Close the gap, then we'll speak again.""","1:reopen_store:Browse more vessels.
+2:dismiss:End transmission",Fires instead of the purchase narrative when XLII_BuyShip denies for reputation floor. 2 conditions beats the 1-condition ship narratives via FireBest.
 XLII_admiral_accept,DialogOptionSelected,"$option == transaction_complete",,"The figure inclines his head slightly. ""Officers like you are why we'll survive what's coming. Safe travels, Commander.""","1:reopen_store:Browse more vessels.
 2:dismiss:End transmission",
 XLII_admiral_decline,DialogOptionSelected,"$option == decline",,"""The offer stands. When you're ready, whenever that may be, the authorization remains active in your file."" A beat. ""However, we don't make these offers lightly, Commander""

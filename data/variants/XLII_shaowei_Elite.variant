@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 14,
+    "fluxCapacitors": 5,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_shaowei",
@@ -16,16 +16,16 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "XLII_culverin",
-                "WS0003": "XLII_culverin"
+                "WS0002": "XLII_shashka",
+                "WS0003": "XLII_shashka"
             }
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0004": "sabot",
-                "WS0005": "sabot"
+                "WS0004": "atropos",
+                "WS0005": "atropos"
             }
         },
         {
@@ -36,12 +36,10 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0017": "XLII_estocflak"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0016": "XLII_swordbreaker"}
+            "weapons": {
+                "WS0016": "XLII_swordbreaker",
+                "WS0017": "XLII_swordbreaker"
+            }
         }
     ]
 }

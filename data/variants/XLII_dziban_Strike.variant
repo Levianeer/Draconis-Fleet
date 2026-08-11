@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 7,
+    "fluxCapacitors": 3,
     "fluxVents": 50,
     "goalVariant": true,
     "hullId": "XLII_dziban",
@@ -8,7 +8,7 @@
         "hardenedshieldemitter",
         "extendedshieldemitter",
         "frontemitter",
-        "auxiliarythrusters"
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],
@@ -18,13 +18,13 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_chaingun",
-                "WS0002": "XLII_chaingun"
+                "WS0001": "mjolnir",
+                "WS0002": "mjolnir"
             }
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0030": "XLII_halberd",
                 "WS0031": "XLII_halberd"
@@ -32,7 +32,7 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0013": "pilum",
                 "WS0014": "pilum"

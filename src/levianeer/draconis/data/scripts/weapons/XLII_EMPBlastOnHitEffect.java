@@ -14,6 +14,7 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
     private static final float BASE_PIERCE_CHANCE = 0.10f; // 10% at 0 hard flux
     private static final float MAX_PIERCE_CHANCE = 0.75f;  // 50% at max hard flux
     private static final float PIERCE_EMP_MULT = 1.5f;     // Multiply EMP damage by this when piercing
+    private static final float HULL_HIT_ARC_TOTAL_EMP = 500f; // Total EMP delivered via arcs on a direct hull hit
     private static final DamagingExplosionSpec VISUAL_EXPLOSION_SPEC = createCachedVisualExplosionSpec();
 
     private static final Color EMP_PARTICLE_COLOR = new Color(100, 150, 255, 130);
@@ -37,9 +38,11 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
         float empDamage = projectile.getEmpAmount();
         ShipAPI source = projectile.getSource();
 
-        // Handle shield hit with arc-through chance
+        // Handle shield hit with arc-through chance, or arc on a direct hull hit
         if (shieldHit) {
             handleShieldPierce(ship, source, point, empDamage, engine);
+        } else {
+            spawnHullHitArcs(ship, source, point, engine);
         }
 
         // Spawn EMP explosion (deals EMP damage in area)
@@ -119,6 +122,30 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                         PIERCE_ARC2_CORE
                 );
             }
+        }
+    }
+
+    /**
+     * Spawns EMP arcs on a direct hull hit (no shield to pierce)
+     */
+    private void spawnHullHitArcs(ShipAPI target, ShipAPI source, Vector2f point, CombatEngineAPI engine) {
+        int arcCount = 2 + (int)(Math.random() * 2); // 2-3 arcs
+
+        for (int i = 0; i < arcCount; i++) {
+            engine.spawnEmpArc(
+                    source,
+                    point,
+                    target,
+                    target,
+                    DamageType.ENERGY,
+                    0f,
+                    HULL_HIT_ARC_TOTAL_EMP / arcCount,
+                    100000f,
+                    "tachyon_lance_emp_impact",
+                    12f + (float)Math.random() * 10f,
+                    PIERCE_ARC_FRINGE,
+                    PIERCE_ARC_CORE
+            );
         }
     }
 

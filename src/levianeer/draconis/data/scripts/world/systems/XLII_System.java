@@ -23,8 +23,8 @@ public class XLII_System implements SectorGeneratorPlugin {
     public void generate(SectorAPI sector) {
 
         // Hyperspace Location
-        final float systemLocX = 4200f;     // New location: -4200,9600
-        final float systemLocY = 9600f;     // Old location: -750,-5250
+        final float systemLocX = 820f;
+        final float systemLocY = 11600f;
 
         StarSystemAPI system = sector.createStarSystem("Fafnir");
         system.setBackgroundTextureFilename("graphics/mod/backgrounds/fafnirbg.png");

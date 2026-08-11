@@ -1,3 +1,74 @@
+Version 0.7.8 (Save-compatible with 0.7.7)
+- Shaowei: added built-in Phase Field hullmod.
+
+BALANCE CHANGES:
+- Rebalanced Shaowei:
+  - FP 22 -> 16.
+  - Armor rating 400 -> 600.
+  - Max flux 8000 -> 7500.
+  - Max speed 140 -> 105.
+  - Acceleration 90 -> 85.
+  - Deceleration 90 -> 60.
+  - Max turn rate 50 -> 40.
+  - Turn acceleration 60 -> 40.
+  - Phase upkeep 0.05 -> 0.04.
+  - Base value 100000 -> 90000.
+  - Peak CR time 300 -> 360.
+  - DP (deploy) 35 -> 20.
+  - DP (maintenance) 35 -> 20.
+- Rebalanced Jufeng-class:
+  - Shield arc 10 -> 30.
+- Rebalanced Sunsetter-class
+  - Hull 30000 -> 20000.
+  - Armor 1500 -> 1000.
+- Rebalanced Shangshu Strike Bomber:
+  - Number 2 -> 3.
+  - Refit 25 -> 20.
+- Rebalanced Cestus Gun Launcher
+  - Damage 300 -> 350.
+  - EMP damage 500 -> 350.
+  - Amoo 40 -> 80.
+- Rebalanced Hankyu-class Torpedo (all variants):
+  - Damage 3000 -> 2000.
+- Rebalanced Hankyu-class Torpedo (ship & pod variants):
+  - Proj hitpoints 750 -> 350.
+- Rebalanced Hankyu-class Torpedo Pod:
+  - Burst delay 0.1 -> 0.3.
+- Rebalanced Scimitar-class Torpedo:
+  - Hits on shields now arc.
+- Rebalanced Razor Flak Cannon:
+  - Damage 25 -> 20.
+  - OP 8 -> 9.
+  - Flux 2 -> 10.
+  - Added charges:
+    - Ammo 400.
+    - Ammo/sec 200.
+    - Reload size 20.
+- Montante Autocannon:
+  - Damage 325 -> 245.
+  - Chargedown 1 -> 0.75
+- Particle Burst Lance:
+  - Damage/sec 1250 -> 850.
+  - OP 9 -> 11.
+- Rebalanced Shashka Mass Driver:
+  - Hits on shields now arc.
+  - Type ENERGY -> HYBRID.
+  - Damage 1000 -> 1400.
+  - Range 700 -> 900.
+  - Chargeup 3 -> 2.
+  - Turn rate 14 -> 18.
+- Rebalanced Flamberge Mass Driver:
+  - Hits on shields now arc.
+  - Range 900 -> 1200.
+  - Flux 5000 -> 4000.
+
+MINOR IMPROVEMENTS:
+- Moved Fafnir system, hopefully a little out of the way of everything.
+  - It's kind of hard to find empty space, in space...
+- DRACON threat score's war factor now scales with diminishing returns per hostile faction, instead of a flat amount each.
+  - Should stop heavily-modded faction lists from permanently pinning DRACON at DEAD LIGHT.
+- Moved Shashka Mass Driver and Flamberge Mass Driver tooltip text.
+
 Version 0.7.7 (Save-compatible with 0.7.6)
 NEW CONTENT:
 - NEW: Shashka Mass Driver - medium energy strike weapon.

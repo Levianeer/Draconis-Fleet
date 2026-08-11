@@ -23,7 +23,9 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * and manages the DRACON condition on all DDA markets.
  * <p>
  * Threat score factors:
- *   1. Active wars:        +12 per faction at war with DDA
+ *   1. Active wars:        warScorePerWar * sqrt(hostile faction count), diminishing per
+ *                          additional war so faction-heavy modlists don't permanently
+ *                          saturate the score
  * <p>
  *   2. Lost colonies:      +20 per baseline market no longer controlled
  * <p>
@@ -241,9 +243,10 @@ public class DraconManager implements EveryFrameScript {
         FactionAPI draconis = Global.getSector().getFaction(DRACONIS);
         if (draconis == null) return 0;
 
-        // Factor 1: Active wars
+        // Factor 1: Active wars (diminishing returns per additional hostile faction,
+        // so a large modded faction roster doesn't permanently saturate the score)
         int warCount = countActiveWars(draconis);
-        int warScore = warCount * config.getWarScorePerWar();
+        int warScore = (int) Math.round(config.getWarScorePerWar() * Math.sqrt(warCount));
 
         // Factor 2: Lost colonies
         int lostCount = countLostColonies();

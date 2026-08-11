@@ -13,3 +13,7 @@ nul
 # The jars/ directory contains the compiled mod jar
 out/
 production/
+
+# Lore fluff
+kb/
+work/

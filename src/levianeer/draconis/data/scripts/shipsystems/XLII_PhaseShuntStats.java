@@ -11,9 +11,12 @@ import com.fs.starfarer.api.impl.combat.BaseShipSystemScript;
 public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 
 	// System configuration constants
-	private static final float
+	// Referenced by XLII_PhaseShuntCoils for its tooltip - keep public and in sync with any balance changes.
+	public static final float
 		MAX_FLUX_SCALING = 2f,        // Max EMP multiplier at high flux
-		MIN_FLUX_SCALING = 0.5f,     // Min EMP multiplier at low flux
+		MIN_FLUX_SCALING = 0.5f;      // Min EMP multiplier at low flux
+
+	private static final float
 		FLUX_SCALING_START = 0.2f,   // Flux level where scaling begins
 		FLUX_SCALING_END = 0.7f;     // Flux level where scaling caps
 
@@ -28,15 +31,20 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		FLUX_LEVEL_AFFECTS_SPEED = true;
 
 	// EMP effect parameters
-	private static final float
+	// BASE_EMP_RANGE, BASE_EMP_AMOUNT, SHIP_EMP_ARCS are referenced by XLII_PhaseShuntCoils for its tooltip.
+	public static final float
 		BASE_EMP_RANGE = 900f,
-		BASE_EMP_AMOUNT = 250f,
+		BASE_EMP_AMOUNT = 250f;
+
+	private static final float
 		EMP_THICKNESS = 10f,
 		ARC_SPAWN_RADIUS = 100f,     // Distance from ship where arcs start
 		ARC_VARIABILITY = 0.7f;      // How erratic the arcs are (0-1)
 
+	public static final int
+		SHIP_EMP_ARCS = 6;             // EMP arcs per ship
+
 	private static final int
-		SHIP_EMP_ARCS = 6,             // EMP arcs per ship
 		VISUAL_EMP_ARCS = 12,          // Visual-only arcs for storm effect
 		MAX_PROJ_AFFECTED = 32;        // Performance limiter
 

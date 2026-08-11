@@ -6,6 +6,7 @@ import com.fs.starfarer.api.combat.ShipHullSpecAPI;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.campaign.rules.MemKeys;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -90,6 +91,7 @@ public class XLII_BuyShip extends BaseCommandPlugin {
             String itemType = isWing ? "wing" : "ship";
             dialog.getTextPanel().addPara("Insufficient credits. This " + itemType + " costs " + Misc.getDGSCredits(cost) + ".");
             log.info("XLII_BuyShip: Purchase denied - insufficient credits for " + variantId);
+            setPurchaseFailed(memoryMap, "credits");
             return false;
         }
 
@@ -102,8 +104,11 @@ public class XLII_BuyShip extends BaseCommandPlugin {
                     ", After purchase: " + Misc.getRoundedValueMaxOneAfterDecimal(newRep) +
                     ", Minimum allowed: " + Misc.getRoundedValueMaxOneAfterDecimal(minRep) + ")");
             log.info("XLII_BuyShip: Purchase denied - reputation would drop too low for " + variantId);
+            setPurchaseFailed(memoryMap, "rep");
             return false;
         }
+
+        setPurchaseFailed(memoryMap, null);
 
         // Deduct credits
         AddRemoveCommodity.addCreditsLossText(cost, dialog.getTextPanel());
@@ -139,6 +144,24 @@ public class XLII_BuyShip extends BaseCommandPlugin {
         XLII_PersonEmilAugust.updatePortrait();
 
         return true;
+    }
+
+    /**
+     * Records whether the purchase was denied, so rules.csv can branch the
+     * XLII_AdmiralNarrative fired after this command instead of always
+     * playing a "sale completed" flavor line regardless of outcome.
+     * @param reason "credits", "rep", or null to clear (purchase succeeded)
+     */
+    private void setPurchaseFailed(Map<String, MemoryAPI> memoryMap, String reason) {
+        MemoryAPI memory = memoryMap.get(MemKeys.LOCAL);
+        if (memory == null) return;
+        if (reason == null) {
+            memory.set("$XLII_store_purchase_failed", false, 0);
+            memory.unset("$XLII_store_purchase_fail_reason");
+        } else {
+            memory.set("$XLII_store_purchase_failed", true, 0);
+            memory.set("$XLII_store_purchase_fail_reason", reason, 0);
+        }
     }
 
     /**

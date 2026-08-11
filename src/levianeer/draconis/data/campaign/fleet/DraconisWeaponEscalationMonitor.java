@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,11 +26,10 @@ import java.util.Set;
  * so the list can be extended without touching code. The system is toggled via
  * "draconisEnableWeaponEscalation" in settings.json.
  * <p>
- * Swap mappings (slot-for-slot, applied at fleet interaction time):
- *   XLII_halberd       -> XLII_hankyu_torpedo          (small)
- *   XLII_halberd_pod   -> XLII_hankyu_torpedo_pod      (medium)
- *   XLII_naginata      -> XLII_daikyu_torpedo_large    (large)
- *   XLII_shangshu_wing -> XLII_shangshu_heavy_wing     (fighter wing)
+ * Swap mapping (slot-for-slot, applied at fleet interaction time):
+ *   XLII_naginata       -> XLII_daikyu_torpedo_large (large)
+ *   XLII_bardiche_large -> XLII_daikyu_torpedo_large (large)
+ *   XLII_pike           -> XLII_daikyu_torpedo_large (large)
  */
 public class DraconisWeaponEscalationMonitor {
 
@@ -41,18 +39,12 @@ public class DraconisWeaponEscalationMonitor {
     private static final String SETTING_ENABLED = "draconisEnableWeaponEscalation";
 
     // Weapons to replace
-    private static final String HALBERD         = "XLII_halberd";
-    private static final String HALBERD_POD     = "XLII_halberd_pod";
     private static final String NAGINATA        = "XLII_naginata";
+    private static final String BARDICHE_LARGE  = "XLII_bardiche_large";
+    private static final String PIKE            = "XLII_pike";
 
     // WMD to override
-    private static final String HANKYU_SMALL    = "XLII_hankyu_torpedo";
-    private static final String HANKYU_MEDIUM   = "XLII_hankyu_torpedo_pod";
     private static final String DAIKYU_LARGE    = "XLII_daikyu_torpedo_large";
-
-    // Fighter wing swap
-    private static final String SHANGSHU_WING       = "XLII_shangshu_wing";
-    private static final String SHANGSHU_HEAVY_WING = "XLII_shangshu_heavy_wing";
 
     // Lazily loaded
     private static Boolean cachedEnabled = null;
@@ -120,8 +112,8 @@ public class DraconisWeaponEscalationMonitor {
     }
 
     /**
-     * Replaces Halberd and Naginata mounts on all ships in the given fleet
-     * with their equivalents.
+     * Replaces Naginata, Bardiche MLRS, and Pike MLRS mounts on all ships
+     * in the given fleet with their equivalent.
      */
     public static void applyEscalationTo(CampaignFleetAPI fleet) {
         int swapCount = 0;
@@ -134,34 +126,11 @@ public class DraconisWeaponEscalationMonitor {
 
             for (String slot : mutable.getNonBuiltInWeaponSlots()) {
                 String weaponId = mutable.getWeaponId(slot);
-                if (HALBERD.equals(weaponId)) {
-                    mutable.addWeapon(slot, HANKYU_SMALL);
-                    modified = true;
-                    swapCount++;
-                    log.debug("Draconis: Escalation swap: " + HALBERD + " -> " + HANKYU_SMALL
-                            + " on " + member.getShipName());
-                } else if (HALBERD_POD.equals(weaponId)) {
-                    mutable.addWeapon(slot, HANKYU_MEDIUM);
-                    modified = true;
-                    swapCount++;
-                    log.debug("Draconis: Escalation swap: " + HALBERD_POD + " -> " + HANKYU_MEDIUM
-                            + " on " + member.getShipName());
-                } else if (NAGINATA.equals(weaponId)) {
+                if (NAGINATA.equals(weaponId) || BARDICHE_LARGE.equals(weaponId) || PIKE.equals(weaponId)) {
                     mutable.addWeapon(slot, DAIKYU_LARGE);
                     modified = true;
                     swapCount++;
-                    log.debug("Draconis: Escalation swap: " + NAGINATA + " -> " + DAIKYU_LARGE
-                            + " on " + member.getShipName());
-                }
-            }
-
-            List<String> wings = mutable.getWings();
-            for (int i = 0; i < wings.size(); i++) {
-                if (SHANGSHU_WING.equals(wings.get(i))) {
-                    mutable.setWingId(i, SHANGSHU_HEAVY_WING);
-                    modified = true;
-                    swapCount++;
-                    log.debug("Draconis: Escalation swap: " + SHANGSHU_WING + " -> " + SHANGSHU_HEAVY_WING
+                    log.debug("Draconis: Escalation swap: " + weaponId + " -> " + DAIKYU_LARGE
                             + " on " + member.getShipName());
                 }
             }

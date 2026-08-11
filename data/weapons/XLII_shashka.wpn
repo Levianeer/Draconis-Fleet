@@ -2,6 +2,7 @@
     "id": "XLII_shashka",
     "specClass": "projectile",
 	"type":"ENERGY",
+	"mountTypeOverride":"HYBRID",
     "size": "MEDIUM",
     "everyFrameEffect":"levianeer.draconis.data.scripts.weapons.XLII_ShashkaChargeEffect",
 

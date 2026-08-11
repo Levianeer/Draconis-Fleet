@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 8,
+    "fluxVents": 10,
     "goalVariant": true,
     "hullId": "XLII_alrakis_fortysecond",
     "hullMods": ["targetingunit"],
@@ -25,9 +25,9 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "XLII_longsword"}
+            "weapons": {"WS0001": "XLII_montante"}
         },
         {
             "autofire": true,
@@ -52,8 +52,8 @@
         }
     ],
     "wings": [
-        "XLII_shangshu_wing",
-        "XLII_shangshu_wing",
-        "XLII_shangshu_wing"
+        "XLII_shangshu_heavy_wing",
+        "XLII_shangshu_heavy_wing",
+        "XLII_shangshu_heavy_wing"
     ]
 }

@@ -1,7 +1,7 @@
 {
     "displayName": "Escort",
     "fluxCapacitors": 0,
-    "fluxVents": 22,
+    "fluxVents": 21,
     "goalVariant": true,
     "hullId": "XLII_alrakis",
     "hullMods": ["targetingunit"],
@@ -16,12 +16,12 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0006": "breach",
-                "WS0007": "breach",
-                "WS0008": "breach",
-                "WS0009": "breach"
+                "WS0006": "atropos",
+                "WS0007": "atropos",
+                "WS0008": "atropos",
+                "WS0009": "atropos"
             }
         },
         {

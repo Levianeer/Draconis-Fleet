@@ -1,12 +1,12 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 12,
-    "fluxVents": 0,
+    "fluxCapacitors": 0,
+    "fluxVents": 10,
     "goalVariant": true,
     "hullId": "XLII_eltanin_fortysecond",
     "hullMods": [
         "converted_hangar",
-        "unstable_injector"
+        "targetingunit"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,7 +15,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0006": "breachpod"}
+            "weapons": {"WS0006": "XLII_hankyu_torpedo_pod"}
         },
         {
             "autofire": false,
@@ -28,16 +28,25 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_mangonel"}
+            "weapons": {"WS0015": "XLII_montante"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_rapier",
-                "WS0007": "XLII_rapier"
+                "WS0005": "XLII_razorflak",
+                "WS0007": "XLII_razorflak",
+                "WS0017": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_swordbreaker",
+                "WS0009": "XLII_swordbreaker"
             }
         }
     ],
-    "wings": ["XLII_tiangou_wing"]
+    "wings": ["XLII_shangshu_heavy_wing"]
 }

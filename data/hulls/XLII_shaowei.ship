@@ -14,8 +14,10 @@
   "builtInMods": [
     "XLII_draconishull",
     "XLII_phasetorparray_automod",
-    "delicate"
-  ],
+    "phasefield",
+    "delicate",
+    "XLII_phaseshuntcoils"
+    ],
   "builtInWeapons": {
     "WS0001": "blinker_red",
     "WS0006": "blinker_green",

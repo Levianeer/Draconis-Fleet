@@ -1,13 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 2,
+    "fluxCapacitors": 3,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_alrakis",
-    "hullMods": [
-        "targetingunit",
-        "frontemitter"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_alrakis_Elite",
@@ -19,7 +16,7 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0006": "breach",
                 "WS0007": "breach",
@@ -36,14 +33,10 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "XLII_particlelance",
-                "WS0003": "XLII_particlelance"
+                "WS0002": "XLII_razorflak",
+                "WS0003": "XLII_razorflak",
+                "WS0010": "XLII_razorflak"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0010": "XLII_razorflak"}
         },
         {
             "autofire": true,
@@ -57,6 +50,6 @@
     "wings": [
         "XLII_tianyi_wing",
         "XLII_nodus_wing",
-        "XLII_nodus_wing"
+        "XLII_shangshu_heavy_wing"
     ]
 }

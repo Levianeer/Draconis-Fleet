@@ -1,13 +1,12 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 4,
-    "fluxVents": 3,
+    "fluxCapacitors": 0,
+    "fluxVents": 13,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
         "targetingunit",
-        "missile_autoloader",
-        "missleracks"
+        "missile_autoloader"
     ],
     "permaMods": [],
     "sMods": [],
@@ -15,10 +14,10 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "XLII_rapier",
-                "WS0021": "XLII_rapier"
+                "WS0003": "XLII_shashka",
+                "WS0020": "XLII_shashka"
             }
         },
         {
@@ -30,17 +29,17 @@
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "irautolance",
-                "WS0020": "irautolance"
+                "WS0001": "XLII_rapier",
+                "WS0021": "XLII_rapier"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0050": "heavymauler"}
+            "weapons": {"WS0050": "XLII_cestus"}
         },
         {
             "autofire": true,
