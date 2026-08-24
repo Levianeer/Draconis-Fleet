@@ -1,13 +1,10 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 0,
-    "fluxVents": 10,
+    "fluxCapacitors": 12,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_eltanin_fortysecond",
-    "hullMods": [
-        "converted_hangar",
-        "targetingunit"
-    ],
+    "hullMods": ["converted_hangar"],
     "permaMods": [],
     "sMods": [],
     "variantId": "FortySecond_eltanin_Strike",
@@ -26,23 +23,25 @@
             }
         },
         {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_montante"}
-        },
-        {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_razorflak",
-                "WS0007": "XLII_razorflak",
-                "WS0017": "XLII_razorflak"
+                "WS0005": "XLII_cestus",
+                "WS0007": "XLII_cestus",
+                "WS0017": "XLII_cestus"
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
+            "weapons": {"WS0015": "guardian"}
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
             "weapons": {
+                "WS0001": "XLII_swordbreaker",
+                "WS0002": "XLII_swordbreaker",
                 "WS0004": "XLII_swordbreaker",
                 "WS0009": "XLII_swordbreaker"
             }

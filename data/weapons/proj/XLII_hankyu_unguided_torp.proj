@@ -10,9 +10,9 @@
 	"collisionRadius":48,
 	"collisionClass":"MISSILE_FF",
 	"explosionColor":[125,125,255,255],
-	"explosionRadius":250,
+	"explosionRadius":50,
 	"glowColor":[255,25,25,75],
-	"glowRadius":75,
+	"glowRadius":25,
 	"flameoutTime":3,
 	"armingTime":1.0,
 	"noEngineGlowTime":0.5,
@@ -28,8 +28,8 @@
 	"behaviorSpec":{"behavior":"PROXIMITY_FUSE",
 					"range":75,
 					"explosionSpec":{"duration":0.5f,
-									 "radius":350,
-									 "coreRadius":150, # full damage within core radius - also equal to proximity fuse range
+									 "radius":175,
+									 "coreRadius":75, # full damage within core radius - also equal to proximity fuse range
 									 "collisionClass":PROJECTILE_FF,
 									 "collisionClassByFighter":PROJECTILE_FIGHTER,
 									 "particleSizeMin":3.0,

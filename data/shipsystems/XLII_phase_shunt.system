@@ -26,6 +26,5 @@
 	"shipAlpha":1, # handled in stats script
 	
 	"useSound":"energy_lash_activate",
-	"deactivateSound":"energy_lash_fire",
 	"outOfUsesSound":"system_phase_cloak_collision",
 }

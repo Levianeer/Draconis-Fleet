@@ -6,7 +6,6 @@
     "hullId": "XLII_errakis",
     "hullMods": [
         "converted_hangar",
-        "targetingunit",
         "missleracks"
     ],
     "permaMods": [],
@@ -16,34 +15,30 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0004": "squall"}
+            "weapons": {"WS0004": "XLII_bardiche_large"}
         },
         {
             "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_halberd",
+                "WS0006": "XLII_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0018": "XLII_razorflak"}
+        },
+        {
+            "autofire": true,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0005": "breachpod",
-                "WS0006": "breachpod"
+                "WS0001": "XLII_swordbreaker",
+                "WS0002": "XLII_swordbreaker",
+                "WS0003": "XLII_swordbreaker"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0002": "lightac",
-                "WS0003": "lightac"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0018": "shredder"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0001": "lightmg"}
         }
     ],
-    "wings": ["wasp_wing"]
+    "wings": ["XLII_tianbang_wing"]
 }

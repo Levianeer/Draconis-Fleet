@@ -898,22 +898,4 @@ The Rift is not weather. The Rift is exhaust - and the machinery that makes it h
 
 Which leaves one question, and your Ops Chief has the good sense not to ask it. What becomes of the wall, if the machinery ever stops.",,"Sets $global.XLII_mirrorSurveyComplete - dormant hook for later AIO/Iron Moth dialogue referencing the player having worked this out."
 "#END Stellar Arrays",,,,,,
-,,,,,,
-# Rift Warning Beacon,,,,,,
-XLII_rift_beacon_dialog,OpenInteractionDialog,"$tag:warning_beacon
-$XLII_riftBeacon score:100","ShowDefaultVisual
-SetShortcut beaconLeave ""ESCAPE""","The beacon is old. Domain-pattern casing, pitted grey by cycles of particle wash, its solar collectors long since scoured blind. Its transmitter is not old at all.
-
-The loop is Alliance-issue.
-
-""NAVIGATIONAL HAZARD. Particle flux beyond this marker exceeds survivable tolerance for unshielded hulls. Turn back.""
-
-""The Fafnir system is closed to unauthorised traffic by standing order of the Draconis Defence Alliance. Vessels attempting transit without current approach data will be intercepted. Consider this your notification.""
-
-Underneath it, on a subcarrier nobody troubled to strip out, the buoy's original signal is still running. Survey-standard, pre-Collapse, patient as anything.
-
-""...unresolved anomaly. Origin unknown. Do not approach. Do not approach. Do not...""
-
-Your comms officer holds the second channel a moment longer than necessary, then closes it.","beaconLeave:Leave","Fafnir approach beacon, hyperspace. Placed by XLII_System.ensureRiftBeacon(). Outscores vanilla beaconOpenDialog via the score:100 on $XLII_riftBeacon, which is set on the beacon entity memory. Reuses vanilla beaconLeave option handler."
-"#END Rift Warning Beacon",,,,,,
 

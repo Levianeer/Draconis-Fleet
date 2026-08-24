@@ -1,13 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 5,
-    "fluxVents": 0,
+    "fluxCapacitors": 15,
+    "fluxVents": 14,
     "goalVariant": true,
     "hullId": "XLII_shaowei",
-    "hullMods": [
-        "adaptive_coils",
-        "hardened_subsystems"
-    ],
+    "hullMods": ["eccm"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_shaowei_Elite",
@@ -16,16 +13,16 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "XLII_shashka",
-                "WS0003": "XLII_shashka"
+                "WS0002": "XLII_cestus",
+                "WS0003": "XLII_cestus"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0004": "atropos",
-                "WS0005": "atropos"
+                "WS0004": "heatseeker",
+                "WS0005": "heatseeker"
             }
         },
         {

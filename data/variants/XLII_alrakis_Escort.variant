@@ -1,7 +1,7 @@
 {
     "displayName": "Escort",
-    "fluxCapacitors": 0,
-    "fluxVents": 21,
+    "fluxCapacitors": 1,
+    "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_alrakis",
     "hullMods": ["targetingunit"],

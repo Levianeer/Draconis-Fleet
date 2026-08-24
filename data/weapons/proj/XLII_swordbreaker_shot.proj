@@ -7,6 +7,7 @@
 	"center":[3,7],
 	"collisionRadius":12,
 	"collisionClass":"MISSILE_NO_FF",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_SwordbreakerOnHitEffect",
 	"explosionColor":[255,175,50,255],  # purely visual, will get a white additively blended core on top of this color
 	"explosionRadius":10, # purely visual
 	"maxFlightTime":3,

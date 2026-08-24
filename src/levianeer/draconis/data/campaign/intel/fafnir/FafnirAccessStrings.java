@@ -20,6 +20,9 @@ public class FafnirAccessStrings {
     public static final String MEM_RP_DELIVERY_DONE      = "$fafnirRingPortDeliveryDone";
     public static final String MEM_KORI_ARRIVAL_DONE     = "$fafnirKoriArrivalDone";
 
+    /** Set once the first-entry Rift dialog has fired (or been deliberately skipped). */
+    public static final String MEM_RIFT_FIRST_ENTRY_DONE = "$fafnirRiftFirstEntryDone";
+
     /**
      * Set on a fleet entity (via {@code fleet.getMemoryWithoutUpdate()}) when the
      * monitor dispatches it to intercept the player. Cleared by
@@ -51,6 +54,31 @@ public class FafnirAccessStrings {
     public static final float REP_TRANSVERSE_DELTA  = -0.1f;
     /** Transverse-jump rep penalty is floored here - never push the player to hostile on entry. */
     public static final float REP_TRANSVERSE_FLOOR  = -0.25f;
+
+    // =========================================================================
+    // The Rift - first entry
+    // =========================================================================
+
+    public static final String RIFT_ENTRY_PARA1 =
+            "The particle count climbs before your sensors will admit what they are looking at.";
+
+    public static final String RIFT_ENTRY_PARA2 =
+            "The radiation ahead is not weather your helm can read - it is high-energy wash with no "
+            + "coherent structure, and the instruments render it as noise the whole way down. Combat readiness is "
+            + "already bleeding off the boards.";
+
+    public static final String RIFT_ENTRY_PARA3 =
+            "Your navigation officer lets the returns run a while longer than the plot needs.";
+
+    public static final String RIFT_ENTRY_PARA4 =
+            "\"We could try to push through. I'd rather not say how far.\" A pause. \"But traffic goes through here, Captain. "
+            + "Regularly. Somebody is definitely selling the approach.\"";
+
+    public static final String RIFT_ENTRY_PARA5 =
+            "\"I've heard Tri-Tachyon runs couriers into Fafnir often. And the pirates have been running guns to Ring-Port for thirty "
+            + "cycles now. Neither of them is doing it blind.\" The plot goes dark. \"Could ask in the right bar?\"";
+
+    public static final String OPT_RIFT_ENTRY_NOTED = "Noted.";
 
     // =========================================================================
     // Jump Point - Military IFF denial (Itoron's JP, Fringe JP)
@@ -167,10 +195,10 @@ public class FafnirAccessStrings {
     public static final String TT_ASK_WHO_PARA1 =
             "\"The right people will find you once you're docked at Kori.\" "
             + "She gives a dramatic sigh. "
-            + "\"If you must know, it's for the Alliance Intelligence Office.\"";
+            + "\"If you must know, it's for the local security - nothing illegal, not there anyway.\"";
 
     public static final String TT_ASK_WHO_PARA2 =
-            "She gieves a brief a pause.";
+            "She gives a brief pause.";
 
     public static final String TT_ASK_WHO_PARA3 =
             "\"Don't ask about them at the door. They're kind of jumpy...\"";
@@ -266,13 +294,13 @@ public class FafnirAccessStrings {
 
     public static final String KORI_ARRIVAL_DIALOG_PARA1 =
             "He doesn't offer anything except a brief glance at your vessel registration tag, "
-            + "then back to you.";
+            + "then to you - then down to his datapad.";
 
     public static final String KORI_ARRIVAL_DIALOG_PARA2 =
-            "\"Transit log confirmed. Credentials reconciled.\"";
+            "\"Transit log confirmed... Credentials reconciled... Done.\"";
 
     public static final String KORI_ARRIVAL_DIALOG_PARA3 =
-            "He turns away. The conversation appears to be complete.";
+            "He gives a nod and turns away. The conversation appears to be complete.";
 
     // =========================================================================
     // Ring-Port Delivery Dialog (Ring-Port path: contact processes shipment)

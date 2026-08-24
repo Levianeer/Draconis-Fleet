@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 2,
+    "fluxCapacitors": 12,
     "fluxVents": 30,
     "hullId": "XLII_alrakis",
     "hullMods": ["targetingunit"],

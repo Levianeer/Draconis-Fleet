@@ -1,17 +1,12 @@
 {
-    "displayName": "Elite",
-    "fluxCapacitors": 6,
-    "fluxVents": 0,
-    "goalVariant": true,
-    "hullId": "XLII_errakis_fortysecond",
-    "hullMods": [
-        "targetingunit",
-        "missleracks",
-        "eccm"
-    ],
+    "displayName": "Standard",
+    "fluxCapacitors": 20,
+    "fluxVents": 14,
+    "hullId": "XLII_errakis_mk2",
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
-    "variantId": "FortySecond_errakis_Elite",
+    "variantId": "XLII_errakis_mk2_Standard",
     "weaponGroups": [
         {
             "autofire": false,
@@ -22,8 +17,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_hankyu_torpedo",
-                "WS0006": "XLII_hankyu_torpedo"
+                "WS0005": "harpoon",
+                "WS0006": "harpoon"
             }
         },
         {
@@ -35,9 +30,9 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_swordbreaker",
-                "WS0002": "XLII_swordbreaker",
-                "WS0003": "XLII_swordbreaker"
+                "WS0001": "vulcan",
+                "WS0002": "vulcan",
+                "WS0003": "vulcan"
             }
         }
     ]

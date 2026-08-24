@@ -21,9 +21,7 @@
       "mode": "ALTERNATING",
       "weapons": {
         "WS0002": "XLII_billhook",
-        "WS0003": "XLII_billhook",
-        "WS0004": "XLII_billhook",
-        "WS0005": "XLII_billhook"
+        "WS0003": "XLII_billhook"
       }
     }
   ],

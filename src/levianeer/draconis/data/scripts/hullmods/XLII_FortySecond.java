@@ -48,12 +48,12 @@ public class XLII_FortySecond extends BaseHullMod {
         missileDefenseRange.put(HullSize.CAPITAL_SHIP, 2f);
     }
 
-    public static float PROFILE_MULT = 0.75f;
-    public static float MISSILE_AFFECT_CHANCE = 0.5f; // % chance to affect each missile
+    public static float PROFILE_MULT = 0.9f;
+    public static float MISSILE_AFFECT_CHANCE = 0.25f; // % chance to affect each missile
 
     // ID and bonus for the upgrade hullmod (@XLII_FortySecondMk2)
     public static final String UPGRADE_HULLMOD_ID = "XLII_fortysecond_mk2";
-    public static final float UPGRADE_CHANCE_BONUS = 0.4f;
+    public static final float UPGRADE_CHANCE_BONUS = 0.25f;
     private static final Color JAMMER_COLOR = new Color(50, 50, 255, 155);
     private static final Color CONVERSION_COLOR = new Color(50, 255, 50, 155);
 

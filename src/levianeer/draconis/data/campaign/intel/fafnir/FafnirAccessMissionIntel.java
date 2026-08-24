@@ -2,7 +2,9 @@ package levianeer.draconis.data.campaign.intel.fafnir;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.FactionAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.comm.IntelInfoPlugin;
+import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin;
@@ -32,6 +34,12 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
     private boolean completed = false;
     private long completionTime = -1;
 
+    /**
+     * Not serialised: forces {@link #syncObjectiveMarker} to run once per game load, which is what
+     * puts the objective marker onto saves whose mission was accepted before markers existed.
+     */
+    private transient boolean markerSynced = false;
+
     // =========================================================================
     // Construction / static accessor
     // =========================================================================
@@ -41,6 +49,7 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
         Global.getSector().getIntelManager().addIntel(this, false);
         Global.getSector().addScript(this);
         setImportant(true);
+        syncObjectiveMarker();
     }
 
     /**
@@ -71,7 +80,20 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
                 : FafnirAccessStrings.REWARD_RP;
         Global.getSector().getPlayerFleet().getCargo().getCredits().add(reward);
         sendUpdateIfPlayerHasIntel(null, false);
+        clearObjectiveMarker();
         endAfterDelay();
+    }
+
+    /**
+     * Re-applies the objective marker once per game load. {@code markerSynced} is transient, so
+     * this fires on the first frame after every load and backfills missions accepted before the
+     * marker existed. Cheap: one memory read, then a no-op for the rest of the session.
+     */
+    @Override
+    protected void advanceImpl(float amount) {
+        if (markerSynced) return;
+        markerSynced = true;
+        if (!completed) syncObjectiveMarker();
     }
 
     @Override
@@ -87,7 +109,37 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
     @Override
     protected void notifyEnded() {
         super.notifyEnded();
+        clearObjectiveMarker();
         Global.getSector().removeScript(this);
+    }
+
+    // =========================================================================
+    // Objective marker
+    // =========================================================================
+
+    /**
+     * Reason key for {@code MemFlags.ENTITY_MISSION_IMPORTANT}. Only one access mission can be
+     * active at a time, so a constant is safe.
+     */
+    private static final String MARKER_REASON = "XLII_fafnirAccessMission";
+
+    /**
+     * Flags the delivery destination as a mission objective. This - not {@link #getMapLocation} -
+     * is what draws the marker on the target in the campaign and system views; {@code getMapLocation}
+     * only tells the intel screen where to pan. {@code BaseHubMission.makeImportant} does the same
+     * thing for the Blind Eye questline.
+     */
+    private void syncObjectiveMarker() {
+        MarketAPI market = getDestinationMarket();
+        if (market == null) return;
+        Misc.makeImportant(market.getMemoryWithoutUpdate(), MARKER_REASON);
+    }
+
+    /** Removes the objective marker. Safe to call when it was never set. */
+    private void clearObjectiveMarker() {
+        MarketAPI market = getDestinationMarket();
+        if (market == null) return;
+        Misc.makeUnimportant(market.getMemoryWithoutUpdate(), MARKER_REASON);
     }
 
     @Override
@@ -127,10 +179,35 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
         return Global.getSector().getFaction(factionId);
     }
 
+    /** Market id of the delivery destination for each path. */
+    private static final String KORI_MARKET_ID      = "kori_market";
+    private static final String RING_PORT_MARKET_ID = "pirateStation_market";
+
+    /**
+     * Points the intel entry's map marker at the delivery destination - Kori on the TT Courier
+     * path, Ring-Port on the contractor path. Both sit inside Fafnir, so the marker doubles as
+     * a pointer at the system the player is being paid to reach.
+     */
+    @Override
+    public SectorEntityToken getMapLocation(SectorMapAPI map) {
+        MarketAPI market = getDestinationMarket();
+        return market != null ? market.getPrimaryEntity() : null;
+    }
+
+    /** Kori on the TT Courier path, Ring-Port on the contractor path. */
+    private MarketAPI getDestinationMarket() {
+        String marketId = FafnirAccessStrings.PATH_TT_COURIER.equals(path)
+                ? KORI_MARKET_ID
+                : RING_PORT_MARKET_ID;
+        return Global.getSector().getEconomy().getMarket(marketId);
+    }
+
     @Override
     public Set<String> getIntelTags(SectorMapAPI map) {
         Set<String> tags = super.getIntelTags(map);
         tags.add(Tags.INTEL_MISSIONS);
+        tags.add(Tags.INTEL_ACCEPTED);
+        tags.add(Tags.INTEL_STORY);
         tags.add(FafnirAccessStrings.PATH_TT_COURIER.equals(path) ? Factions.TRITACHYON : Factions.PIRATES);
         return tags;
     }

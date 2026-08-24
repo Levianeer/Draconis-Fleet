@@ -1,19 +1,27 @@
 package levianeer.draconis.data.scripts.weapons;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI;
+import com.fs.starfarer.api.graphics.SpriteAPI;
 import com.fs.starfarer.api.loading.DamagingExplosionSpec;
-import org.dark.shaders.distortion.DistortionShader;
-import org.dark.shaders.distortion.RippleDistortion;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 import org.magiclib.util.MagicLensFlare;
+import org.magiclib.util.MagicRender;
 
 import java.awt.*;
 
 public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
 
     private static final DamagingExplosionSpec VISUAL_EXPLOSION_SPEC = createCachedVisualExplosionSpec();
+
+    // Layered blast FX, styled after XLII_LargeTorpOnHitEffect
+    private static final Color COLOR_FRINGE    = new Color(255, 140, 200, 140);
+    private static final Color COLOR_MID       = new Color(255,  40, 160, 200);
+    private static final Color COLOR_RING      = new Color(255, 210, 235,  90);
+    private static final Color COLOR_HAZE      = new Color( 70,  20,  55, 150);
+    private static final Color COLOR_AFTERGLOW = new Color(255, 120, 190, 120);
 
     @Override
     public void onHit(DamagingProjectileAPI projectile, CombatEntityAPI target,
@@ -59,8 +67,8 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
         // Sharp lens flares
         spawnLensFlares(engine, source, point);
 
-        // Nuclear shockwave distortion ring
-        spawnNuclearShockwave(engine, point);
+        // Layered blast visuals
+        spawnBlastVisuals(point);
     }
 
     private static DamagingExplosionSpec createExplosionSpec() {
@@ -72,15 +80,16 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
                 0,     // min damage
                 CollisionClass.NONE,
                 CollisionClass.NONE,
-                1f,   // particle size
-                5f,  // duration
-                0.1f,// particle count
-                5,   // particle count (int)
+                1f,
+                1f,
+                1f,
+                1,
                 new Color(255, 161, 201, 255),
                 new Color(255, 59, 141, 255)
         );
         spec.setDamageType(DamageType.FRAGMENTATION);
         spec.setSoundSetId("XLII_halberd_explosion");
+        spec.setShowGraphic(false); // damage-only; VISUAL_EXPLOSION_SPEC + spawnBlastVisuals handle the look
         return spec;
     }
 
@@ -93,10 +102,10 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
                 0f,
                 CollisionClass.NONE,
                 CollisionClass.NONE,
-                5f,
-                10f,
+                3.0f,
                 1.0f,
-                80,
+                1.0f,
+                1280,
                 new Color(255, 161, 201, 255),
                 new Color(255, 59, 141, 255)
         );
@@ -134,25 +143,37 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
         }
     }
 
-    private static void spawnNuclearShockwave(CombatEngineAPI engine, Vector2f point) {
-        // GraphicsLib radial distortion ring (nuclear shockwave effect)
-        float startSize = 75f;
-        float finalSize = 450f;
-        float intensity = 150f;
-        float duration = 0.8f;
-        float expansionTime = 0.7f;
-        float fadeTime = 1.2f;
+    /**
+     * Layered blob/ring/haze/afterglow blast (per XLII_LargeTorpOnHitEffect), scaled 1.5x for
+     * the nuke's larger blast radius and re-themed pink/magenta. No distortion ripple - this
+     * weapon's "storm" identity comes from the lens flares above, not a shockwave.
+     */
+    private static void spawnBlastVisuals(Vector2f center) {
+        SpriteAPI spr = Global.getSettings().getSprite("fx", "XLII_explosion");
 
-        Vector2f zeroVel = new Vector2f(0, 0);
+        // Single shared rotation so every layer reads as one coherent blast.
+        float angle = 360f * (float) Math.random();
 
-        RippleDistortion ripple = new RippleDistortion(point, zeroVel);
-        ripple.setSize(finalSize);
-        ripple.setIntensity(intensity);
-        ripple.setFrameRate(60f / duration); // 50 fps animation
-        ripple.fadeInSize(expansionTime); // Rapidly expanding wavefront
-        ripple.fadeOutIntensity(fadeTime); // Fading distortion
-        ripple.setSize(startSize); // Reset to starting size after setting final size
+        // Soft growing blob.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(108, 108), new Vector2f(900, 900),
+                angle, 0, COLOR_FRINGE, false, 0, 0.1f, 0.15f);
+        // Denser, contracting core.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(144, 144), new Vector2f(-120, -120),
+                angle, 0, COLOR_MID, false, 0.1f, 0.2f, 0.5f);
 
-        DistortionShader.addDistortion(ripple);
+        // Fast, subtle shockwave ring.
+        SpriteAPI ring = Global.getSettings().getSprite("graphics/fx/explosion_ring0.png");
+        MagicRender.battlespace(ring, center, new Vector2f(), new Vector2f(180, 180), new Vector2f(2400, 2400),
+                angle, 0, COLOR_RING, true, 0, 0.05f, 0.2f);
+
+        // Afterglow - appears near the flash blobs' peak size and just hangs, dimming
+        // slowly, giving the blast its lingering hang time instead of a quick flash.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(300, 300), new Vector2f(90, 90),
+                angle, 0, COLOR_AFTERGLOW, true, 0.15f, 0.6f, 1.8f);
+
+        // Lingering haze.
+        SpriteAPI haze = Global.getSettings().getSprite("graphics/fx/explosion3.png");
+        MagicRender.battlespace(haze, center, new Vector2f(), new Vector2f(195, 195), new Vector2f(135, 135),
+                angle, 5, COLOR_HAZE, false, 0.3f, 1.2f, 2.2f);
     }
 }

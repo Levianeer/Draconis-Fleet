@@ -1,7 +1,7 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 4,
+    "fluxVents": 13,
     "goalVariant": true,
     "hullId": "XLII_alrakis_fortysecond",
     "hullMods": ["targetingunit"],
@@ -12,22 +12,16 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0011": "XLII_naginata"}
+            "weapons": {"WS0011": "XLII_bardiche_large"}
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
+                "WS0006": "XLII_hankyu_torpedo",
+                "WS0007": "XLII_hankyu_torpedo",
                 "WS0008": "XLII_hankyu_torpedo",
                 "WS0009": "XLII_hankyu_torpedo"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0006": "breach",
-                "WS0007": "breach"
             }
         },
         {
@@ -39,14 +33,10 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "XLII_rapier",
-                "WS0003": "XLII_rapier"
+                "WS0002": "XLII_razorflak",
+                "WS0003": "XLII_razorflak",
+                "WS0010": "XLII_razorflak"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0010": "XLII_razorflak"}
         },
         {
             "autofire": true,
@@ -58,8 +48,8 @@
         }
     ],
     "wings": [
+        "XLII_grumium_alt_wing",
         "XLII_tianbang_wing",
-        "XLII_shangshu_wing",
-        "XLII_aldibain_wing"
+        "XLII_tianbang_wing"
     ]
 }

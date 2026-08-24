@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
     "fluxCapacitors": 20,
-    "fluxVents": 4,
+    "fluxVents": 18,
     "hullId": "XLII_errakis",
     "hullMods": ["eccm"],
     "permaMods": [],
@@ -15,10 +15,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0005": "breachpod",
-                "WS0006": "breachpod"
+                "WS0005": "breach",
+                "WS0006": "breach"
             }
         },
         {

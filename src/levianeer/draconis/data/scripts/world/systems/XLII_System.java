@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin;
 import com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.awt.*;
@@ -135,15 +136,15 @@ public class XLII_System implements SectorGeneratorPlugin {
         system.addRingBand(star, "misc", "rings_dust0", 256f, 4, Color.white, 256f, asteroidsDistance + 300, asteroidsOrbit);
 
         // Fafnir Mirror system
-        SectorEntityToken fafnir_mirror1 = system.addCustomEntity("fafnir_mirror1", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
+        SectorEntityToken fafnir_mirror1 = system.addCustomEntity("fafnir_mirror1", "Stellar Array Alpha", "stellar_mirror", DRACONIS);
         fafnir_mirror1.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 0, 1500, 90);
         fafnir_mirror1.setCustomDescriptionId("XLII_stellar_mirror");
 
-        SectorEntityToken fafnir_mirror2 = system.addCustomEntity("fafnir_mirror2", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
+        SectorEntityToken fafnir_mirror2 = system.addCustomEntity("fafnir_mirror2", "Stellar Array Bravo", "stellar_mirror", DRACONIS);
         fafnir_mirror2.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 120, 1500, 90);
         fafnir_mirror2.setCustomDescriptionId("XLII_stellar_mirror");
 
-        SectorEntityToken fafnir_mirror3 = system.addCustomEntity("fafnir_mirror3", "Fafnir Stellar Mirror", "stellar_mirror", DRACONIS);
+        SectorEntityToken fafnir_mirror3 = system.addCustomEntity("fafnir_mirror3", "Stellar Array Charlie", "stellar_mirror", DRACONIS);
         fafnir_mirror3.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 240, 1500, 90);
         fafnir_mirror3.setCustomDescriptionId("XLII_stellar_mirror");
 
@@ -496,5 +497,57 @@ public class XLII_System implements SectorGeneratorPlugin {
                 null
         );
         outerHaze.setFixedLocation(location.x, location.y);
+
+        ensureRiftBeacon();
+    }
+
+    /** Entity id of the warning beacon marking the Rift's core-ward boundary. */
+    public static final String RIFT_BEACON_ID = "XLII_rift_beacon";
+
+    /** Set on the beacon's own memory so rules.csv can tell it apart from any other warning beacon. */
+    public static final String RIFT_BEACON_MEM_FLAG = "$XLII_riftBeacon";
+
+    /** How far outside {@link XLII_RiftTerrainPlugin#RIFT_RADIUS} the beacon sits. */
+    private static final float RIFT_BEACON_OFFSET = 250f;
+
+    /**
+     * Places the Rift warning beacon in hyperspace if it is not already there.
+     * <p>
+     * Called from {@link #createRiftTerrain} at world generation and again from
+     * {@code XLII_ModPlugin.onGameLoad} - the second call is what puts the beacon into saves
+     * created before it existed. Both paths are no-ops once the entity is present.
+     * <p>
+     * No-op if the Rift itself was never generated (Nexerelin random sector).
+     */
+    public static void ensureRiftBeacon() {
+        LocationAPI hyperspace = Global.getSector().getHyperspace();
+        if (hyperspace.getEntityById(RIFT_BEACON_ID) != null) return;
+
+        SectorEntityToken rift = hyperspace.getEntityById("XLII_rift_storm");
+        if (rift == null) return;
+
+        CustomCampaignEntityAPI beacon = hyperspace.addCustomEntity(
+                RIFT_BEACON_ID,
+                "Rift Warning Beacon",
+                Entities.WARNING_BEACON,
+                Factions.NEUTRAL);
+
+        beacon.addTag(Tags.BEACON_HIGH);
+        beacon.getMemoryWithoutUpdate().set(RIFT_BEACON_MEM_FLAG, true);
+
+        // Sit on the core-ward side of the Rift, just outside the storm boundary, so fleets
+        // approaching Fafnir from the populated Sector meet the beacon before the radiation.
+        // Fixed rather than orbiting: an orbiting beacon would drift to the far side over time.
+        Vector2f center = rift.getLocation();
+        float angle = Misc.getAngleInDegrees(center, new Vector2f(0f, 0f));
+        Vector2f loc = Misc.getUnitVectorAtDegreeAngle(angle);
+        loc.scale(XLII_RiftTerrainPlugin.RIFT_RADIUS + RIFT_BEACON_OFFSET);
+        Vector2f.add(loc, center, loc);
+        beacon.setFixedLocation(loc.x, loc.y);
+        beacon.setFacing(angle + 180f); // face the Rift, mirroring vanilla's pointing-down beacons
+
+        Misc.setWarningBeaconColors(beacon,
+                new Color(180, 85, 45, 255),   // DDA bright UI colour - the Alliance owns the loop now
+                new Color(250, 125, 0, 255));
     }
 }

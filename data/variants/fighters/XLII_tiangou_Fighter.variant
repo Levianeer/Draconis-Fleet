@@ -22,16 +22,6 @@
       "weapons": {
         "WS0002": "XLII_fragarch_fighter"
       }
-    },
-    {
-      "autofire": false,
-      "mode": "ALTERNATING",
-      "weapons": {
-        "WS0003": "XLII_arquebus",
-        "WS0004": "XLII_arquebus",
-        "WS0005": "XLII_arquebus",
-        "WS0006": "XLII_arquebus"
-      }
     }
   ],
   "modules": [],

@@ -2,6 +2,7 @@ package levianeer.draconis.data.campaign.intel.blind_eye;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
@@ -86,15 +87,96 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         setStageOnGlobalFlag(Stage.COMPLETED,          XLII_SigmaOctantisWatchdog.NANOFORGE_QUEST_FLAG);
         setStageOnGlobalFlag(Stage.COMPLETED,          "$XLII_ringPortTakenExternally");
 
+        addStageMarkers();
+
         return true;
     }
 
     private static final String RING_PORT_MARKET_ID = "pirateStation_market";
+    private static final String ADMIRAL_ID = "XLII_fleet_admiral_emil";
+
+    /**
+     * Registers the per-stage map location for the intel entry, and the "important" indicator on
+     * the target itself. Without these, {@code BaseHubMission.getMapLocation} has nothing to
+     * return and the quest shows no marker at all.
+     * <p>
+     * {@code FIND_NANOFORGE} and {@code COMPLETED} are deliberately unmarked - there is no
+     * fixed location for either.
+     * <p>
+     * {@code DEBRIEF_KORRIN} marks both: Korrin at Ring-Port is optional, August is where the
+     * player actually needs to go next. August is registered first, so {@code getMapLocation}
+     * returns him while Ring-Port keeps its own indicator.
+     */
+    private void addStageMarkers() {
+        PersonAPI august = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
+        if (august != null) {
+            makeImportant(august, null,
+                    Stage.EXPLORE_GATE,
+                    Stage.RECEIVE_NOTE,
+                    Stage.DEBRIEF_KORRIN,
+                    Stage.RETURN_TO_AUGUST,
+                    Stage.ASK_ANOTHER_MATTER,
+                    Stage.DELIVER_NANOFORGE);
+        }
+
+        MarketAPI ringPort = Global.getSector().getEconomy().getMarket(RING_PORT_MARKET_ID);
+        if (ringPort != null) {
+            makeImportant(ringPort, null,
+                    Stage.SPEAK_WITH_KORRIN,
+                    Stage.PREPARE_FOR_RAID,
+                    Stage.ASSAULT_RING_PORT,
+                    Stage.DEBRIEF_KORRIN);
+        }
+    }
+
+    /**
+     * How far the player has to get from Ring-Port before {@code DEBRIEF_KORRIN} counts as passed.
+     * Ring-Port orbits at 12000 from Fafnir's star and Kori at 750, so anything short of staying
+     * on the station clears this comfortably and there is no way to be near both.
+     */
+    private static final float LEFT_RING_PORT_RANGE = 2000f;
 
     @Override
+    protected void advanceImpl(float amount) {
+        super.advanceImpl(amount);
+        updateStageFixups();
+    }
+
+    /**
+     * Also route the rules-driven path here, in case a future rule ever calls
+     * {@code Call $XLII_blindEye_missionRef updateData}. Nothing does today.
+     */
+    @Override
     protected void updateInteractionDataImpl() {
+        updateStageFixups();
+    }
+
+    /**
+     * Stage corrections that {@code setStageOnGlobalFlag} cannot express, because their conditions
+     * are not single global flags.
+     * <p>
+     * These must run from {@link #advanceImpl}, not {@code updateInteractionDataImpl}:
+     * {@code BaseHubMission.updateInteractionData} only fires when a rule invokes
+     * {@code Call $ref updateData}, and no Blind Eye rule references
+     * {@code $XLII_blindEye_missionRef} at all. {@code advanceImpl} runs on the mission's own
+     * tracker, so it is the hook that actually executes.
+     * <p>
+     * Safe against the flag-driven transitions fighting back: {@code checkStageChangesAndTriggers}
+     * removes each {@code StageConnection} once it fires, so a consumed transition cannot re-assert
+     * an earlier stage.
+     */
+    private void updateStageFixups() {
         if (currentStage == Stage.FIND_NANOFORGE && hasNanoforgeInCargo()) {
             setCurrentStage(Stage.DELIVER_NANOFORGE, null, null);
+            return;
+        }
+
+        // Korrin's post-assault conversation is optional and August's debrief only needs
+        // $XLII_ringPortTaken. A player who skips Korrin would otherwise sit on DEBRIEF_KORRIN
+        // until the debrief itself set $XLII_blindEyeComplete, with the marker stuck on Ring-Port.
+        if (currentStage == Stage.DEBRIEF_KORRIN && hasLeftRingPort()) {
+            setCurrentStage(Stage.RETURN_TO_AUGUST, null, null);
+            return;
         }
 
         // External Ring-Port capture: advance to RETURN_TO_AUGUST before debrief
@@ -104,6 +186,16 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
             setCurrentStage(Stage.RETURN_TO_AUGUST, null, null);
             XLII_PersonEliasKorrin.hideIfExternalCapture();
         }
+    }
+
+    /** True once the player fleet has left Ring-Port's vicinity, or the system it sits in. */
+    private boolean hasLeftRingPort() {
+        CampaignFleetAPI fleet = Global.getSector().getPlayerFleet();
+        SectorEntityToken station =
+                Global.getSector().getEntityById(XLII_RingPortAssault.STATION_ENTITY_ID);
+        if (fleet == null || station == null) return false;
+        if (fleet.getContainingLocation() != station.getContainingLocation()) return true;
+        return Misc.getDistance(fleet.getLocation(), station.getLocation()) > LEFT_RING_PORT_RANGE;
     }
 
     /**
@@ -154,14 +246,26 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         return super.getPostfixForState();
     }
 
+    // =========================================================================
+    // Player-facing guidance
+    //
+    // Every gate the player has to satisfy is named here, including the two that are
+    // invisible in-game: the Draconis commission (without it August's comm link closes
+    // before the menu opens, blocking four stages) and the fact that the rep thresholds
+    // read August's PERSONAL standing, which only moves when buying from his off-books
+    // store. See .claude/systems/blind-eye.md for the full trace.
+    // =========================================================================
+
     @Override
     public boolean addNextStepText(TooltipMakerAPI info, Color tc, float pad) {
         if (currentStage == null) return false;
         float rep = getAdmiralRep();
         switch ((Stage) currentStage) {
             case EXPLORE_GATE:
-                if (rep < REP_GATE_LOGS)
-                    info.addPara("The Admiral is not yet ready to discuss it", tc, pad);
+                if (!hasCommission())
+                    info.addPara("Requires a Draconis Defence Alliance commission", tc, pad);
+                else if (rep < REP_GATE_LOGS)
+                    info.addPara("Requires Welcoming standing with Admiral August", tc, pad);
                 else
                     info.addPara("Ask Admiral August about the Fafnir Gate logs", tc, pad);
                 return true;
@@ -169,26 +273,37 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
                 if (rep < REP_GATE_NOTE)
                     info.addPara("Requires Friendly standing with Admiral August", tc, pad);
                 else
-                    info.addPara("Wait to be contacted", tc, pad);
+                    info.addPara("Dock at any Alliance market", tc, pad);
                 return true;
             case SPEAK_WITH_KORRIN:
-                info.addPara("Find Korrin at Ring-Port Station", tc, pad);
+                info.addPara("Dock at Ring-Port with your transponder off", tc, pad);
                 return true;
             case PREPARE_FOR_RAID:
-                info.addPara("Prepare for the assault on Ring-Port", tc, pad);
+                if (getMarines() < XLII_RingPortAssault.MINIMUM_MARINES)
+                    info.addPara("Requires " + XLII_RingPortAssault.MINIMUM_MARINES + " marines", tc, pad);
+                else
+                    info.addPara("Comm Korrin at Ring-Port to launch", tc, pad);
                 return true;
             case ASSAULT_RING_PORT:
                 info.addPara("Assault Ring-Port Station", tc, pad);
                 return true;
             case DEBRIEF_KORRIN:
-                info.addPara("Speak with Korrin (optional)", tc, pad);
+                // Deliberately points at August, not Korrin: the debrief only requires
+                // $XLII_ringPortTaken, so the player can go straight there. Korrin is optional
+                // and the description below says so.
+                info.addPara("Report to Fleet Admiral August at Kori", tc, pad);
                 return true;
             case RETURN_TO_AUGUST:
-                info.addPara("Return to Fleet Admiral August", tc, pad);
+                if (!hasCommission())
+                    info.addPara("Requires a Draconis Defence Alliance commission", tc, pad);
+                else
+                    info.addPara("Return to Fleet Admiral August at Kori", tc, pad);
                 return true;
             case ASK_ANOTHER_MATTER:
-                if (rep < REP_GATE_NANOFORGE)
-                    info.addPara("The Admiral is not yet ready to raise it", tc, pad);
+                if (!hasCommission())
+                    info.addPara("Requires a Draconis Defence Alliance commission", tc, pad);
+                else if (rep < REP_GATE_NANOFORGE)
+                    info.addPara("Requires Cooperative standing with Admiral August", tc, pad);
                 else
                     info.addPara("Speak with Fleet Admiral August", tc, pad);
                 return true;
@@ -196,7 +311,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
                 info.addPara("Find a Pristine Nanoforge", tc, pad);
                 return true;
             case DELIVER_NANOFORGE:
-                info.addPara("Return to Fleet Admiral August", tc, pad);
+                info.addPara("Return to Fleet Admiral August at Kori", tc, pad);
                 return true;
         }
         return false;
@@ -210,61 +325,112 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         Color h = Misc.getHighlightColor();
         switch ((Stage) currentStage) {
             case EXPLORE_GATE:
-                if (rep < REP_GATE_LOGS) {
-                    info.addPara("Admiral August keeps detailed records on the Fafnir Gate salvage findings. He does not discuss them with those he hasn't learned to trust.", opad);
+                if (!hasCommission()) {
+                    addCommissionLine(info, opad);
+                    info.addPara("Beyond that, the Gate salvage findings are restricted. Reaching them takes %s standing with August personally.", 5f, h, "Welcoming");
+                } else if (rep < REP_GATE_LOGS) {
+                    info.addPara("The Gate salvage findings are restricted. August does not open them to those he hasn't learned to trust.", opad);
+                    info.addPara("Requires %s standing with August personally - not with the Alliance.", 5f, h, "Welcoming");
+                    addRegardLine(info, 5f);
                 } else {
                     info.addPara("Ask Fleet Admiral August about the logs recovered from the Fafnir Gate. He has restricted access to them. They are not available to civilians.", opad);
                 }
                 break;
             case RECEIVE_NOTE:
                 if (rep < REP_GATE_NOTE) {
-                    info.addPara("August will not authorize the next step until your standing with the Alliance is better established.", opad);
-                    info.addPara("Requires %s standing.", 5f, h, "Friendly");
+                    info.addPara("August will not authorize the next step until he trusts you further.", opad);
+                    info.addPara("Requires %s standing with August personally - not with the Alliance.", 5f, h, "Friendly");
+                    addRegardLine(info, 5f);
                 } else {
-                    info.addPara("Keep your ear to the ground. When the Admiral is ready, someone will make contact.", opad);
+                    info.addPara("Dock at any Alliance market and keep your ear to the ground. Someone will find you.", opad);
                 }
                 break;
             case SPEAK_WITH_KORRIN:
-                info.addPara("Travel to Ring-Port Station. Approach with your %s.", opad, h, "transponder off");
-                info.addPara("Ask for Korrin.", 5f);
+                info.addPara("Dock at Ring-Port Station with your %s.", opad, h, "transponder off");
+                info.addPara("Dock with it lit and nothing happens - no refusal, no contact, no explanation. Undock, cut the transponder, and come back in.", 5f);
+                info.addPara("Then ask for Korrin.", 5f);
                 break;
             case PREPARE_FOR_RAID:
                 info.addPara("You have spoken with Korrin. The operation is clear.", opad);
-                info.addPara("Gather sufficient marines and return to Ring-Port Station when you are ready to begin.", 5f);
+                info.addPara("Korrin will not launch with fewer than %s aboard.", 5f, h,
+                        XLII_RingPortAssault.MINIMUM_MARINES + " marines");
+                info.addPara("That is the floor to begin, not the cost. Expect to lose between 25 and 275 of them depending on how the assault is fought.", 5f);
+                info.addPara("Comm Korrin from Ring-Port when you have the numbers.", 5f);
                 break;
             case ASSAULT_RING_PORT:
                 info.addPara("Ring-Port's occupants have held that station for three decades. Fleet Admiral August requires that to end.", opad);
-                info.addPara("Dock at Ring-Port Station and begin the operation.", 5f);
+                info.addPara("The operation is live. Dock at Ring-Port to resume it.", 5f);
                 break;
             case DEBRIEF_KORRIN:
                 info.addPara("Ring-Port is secured - off the books, as agreed.", opad);
-                info.addPara("Korrin remains at the station. There is a conversation to be had, if you are inclined. Either way, the Admiral is waiting.", 5f);
+                info.addPara("Korrin is still at the station if you want the conversation. It is %s.", 5f, h, "optional");
+                info.addPara("Either way, report to Fleet Admiral August at Kori. You can go straight there now.", 5f);
                 break;
             case RETURN_TO_AUGUST:
                 if (isRingPortTakenExternally()) {
                     info.addPara("Ring-Port Station has changed hands. Fleet Admiral August should be informed.", opad);
                 } else {
-                    info.addPara("The operation is complete. Report to Fleet Admiral August.", opad);
+                    info.addPara("The operation is complete. Report to Fleet Admiral August at Kori.", opad);
+                    if (!Global.getSector().getMemoryWithoutUpdate().getBoolean("$XLII_blindEyeVictoryAcked")) {
+                        info.addPara("Korrin is still at Ring-Port if you want that conversation. It is %s.", 5f, h, "optional");
+                    }
                 }
+                if (!hasCommission()) addCommissionLine(info, 5f);
                 break;
             case ASK_ANOTHER_MATTER:
-                if (rep < REP_GATE_NANOFORGE) {
-                    info.addPara("August has something further to discuss. He will raise it when he's ready. Keep doing what you're doing.", opad);
+                if (!hasCommission()) {
+                    addCommissionLine(info, opad);
+                } else if (rep < REP_GATE_NANOFORGE) {
+                    info.addPara("August has something further to raise and will not raise it below %s standing with him personally.", opad, h, "Cooperative");
+                    info.addPara("Ask him early and he will deflect you politely, at no cost.", 5f);
+                    addRegardLine(info, 5f);
                 } else {
-                    info.addPara("Return to Fleet Admiral August. He has another matter to raise.", opad);
+                    info.addPara("Return to Fleet Admiral August at Kori. He has another matter to raise.", opad);
                 }
                 break;
             case FIND_NANOFORGE:
                 info.addPara("The Alliance requires a %s - Domain-era, undamaged. August will not ask how you acquire it.", opad, h, "Pristine Nanoforge");
                 break;
             case DELIVER_NANOFORGE:
-                info.addPara("You have a %s. Return to Fleet Admiral August to complete the exchange.", opad, h, "Pristine Nanoforge");
+                info.addPara("You have a %s. Return to Fleet Admiral August at Kori to complete the exchange.", opad, h, "Pristine Nanoforge");
+                if (!hasCommission()) addCommissionLine(info, 5f);
                 break;
         }
     }
 
+    /**
+     * The commission gate. Without a Draconis commission {@code admiralPickGreeting} falls through
+     * to the zero-condition rule, August cuts the link, and {@code XLII_AdmiralMainMenu} is never
+     * reached - so every August-facing stage is hard-blocked with no in-game explanation.
+     */
+    private void addCommissionLine(TooltipMakerAPI info, float pad) {
+        info.addPara("August takes no channel from anyone without a %s. Without one the link closes before it opens.",
+                pad, Misc.getHighlightColor(), "Draconis Defence Alliance commission");
+    }
+
+    /**
+     * The rep gates read August's personal standing, and the only thing that moves it is buying from
+     * his off-books list. Repeated on every unmet rep gate because it is the one fact the player
+     * cannot deduce from anywhere else in the game.
+     */
+    private void addRegardLine(TooltipMakerAPI info, float pad) {
+        info.addPara("His regard is his own. It rises when you buy from the list he keeps off the books, and it does not move for Alliance faction standing, contract work, or donated cores.",
+                Misc.getGrayColor(), pad);
+    }
+
+    private boolean hasCommission() {
+        // Fully qualified: this file imports the vanilla ids.Factions for PIRATES.
+        return levianeer.draconis.data.campaign.ids.Factions.DRACONIS
+                .equals(Misc.getCommissionFactionId());
+    }
+
+    private int getMarines() {
+        CampaignFleetAPI fleet = Global.getSector().getPlayerFleet();
+        return fleet != null ? fleet.getCargo().getMarines() : 0;
+    }
+
     private float getAdmiralRep() {
-        PersonAPI admiral = Global.getSector().getImportantPeople().getPerson("XLII_fleet_admiral_emil");
+        PersonAPI admiral = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
         return admiral != null ? admiral.getRelToPlayer().getRel() : 0f;
     }
 

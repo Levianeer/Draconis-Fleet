@@ -2,7 +2,7 @@ name,id,flux/second,f/s (base rate),f/s (base cap),flux/use,f/u (base rate),f/u 
 #Ship,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Evasion Protocol,XLII_evasionprotocol,,,,,,0.075,,2,0.125,0.1,1,0.1,0.75,,,,,,,,,,,,movement,graphics/icons/hullsys/XLII_evasionprotocol.png
 Breach Jammer,XLII_eam_suite,1,,,,,,,,,0.5,,0.5,,TRUE,,,,,,,,,,,offensive,graphics/icons/hullsys/XLII_eam_suite.png
-Pulsar Jammer,XLII_esw_suite,1,,,,,0.25,,,,0.5,12,0.5,18,,,,,,,,,,,,,graphics/icons/hullsys/XLII_esw_suite.png
+Pulsar Jammer,XLII_esw_suite,,,,,,0.25,,,,0.5,12,0.5,18,,,,,,,,,,,,,graphics/icons/hullsys/XLII_esw_suite.png
 Blackout Jammer,XLII_ecm_suite,1,,,,,,,2,0.05,0.1,0.1,0.1,3,,,,,,,,,,,,,graphics/icons/hullsys/XLII_ecm_suite.png
 Apostate Jammer,XLII_signal_hijack,1,,,,,,,,,0.25,3,0.25,12,,,,,,,,,,,,,graphics/icons/hullsys/XLII_ecm_suite.png
 Excalibur Strike,XLII_mrm_strike,,,,,,,,,,0,0.05,0.2,2,,,,,,,,,,,,offensive,graphics/icons/hullsys/drone_pd_high.png

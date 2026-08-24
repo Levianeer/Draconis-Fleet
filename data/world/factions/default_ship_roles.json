@@ -38,12 +38,14 @@
 		"FortySecond_errakis_Elite":1,
 		"FortySecond_errakis_Strike":1,
 
+		"XLII_errakis_mk2_Elite":1,
+
 		"XLII_pojun_Elite":1.25,
 		"XLII_pojun_Strike":0.75,
 
 		"XLII_giausar_Elite":0.5,
 		
-		"XLII_shaowei_Elite":0.1,
+		"XLII_shaowei_Elite":0.25,
 
 		"fallback":{"combatSmall":1}
 	},

@@ -43,6 +43,7 @@ import levianeer.draconis.data.scripts.ai.XLII_PhaseTorpedoAI;
 import levianeer.draconis.data.scripts.ai.XLII_SabreAI;
 import levianeer.draconis.data.scripts.ai.XLII_SlapERMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
+import levianeer.draconis.data.scripts.world.systems.XLII_System;
 
 @SuppressWarnings("unused")
 public class XLII_ModPlugin extends BaseModPlugin {
@@ -141,6 +142,11 @@ public class XLII_ModPlugin extends BaseModPlugin {
         // Remove old script instances from previous save/load cycles to prevent accumulation
         // Scripts are serialized into saves, so without cleanup they stack on each game load
         cleanupOldScripts();
+
+        // Place the Rift warning beacon if it isn't in the sector yet. Idempotent, and a no-op
+        // when the Rift was never generated - this is also what backfills the beacon into saves
+        // made before it existed.
+        XLII_System.ensureRiftBeacon();
 
         // Register campaign plugin (handles AI core officer picks, etc.)
         // Unregister first to prevent duplicates across save/load cycles

@@ -6,6 +6,7 @@ import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.characters.ShipSkillEffect;
 import com.fs.starfarer.api.impl.campaign.ids.Personalities;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
@@ -17,6 +18,7 @@ import com.fs.starfarer.api.impl.hullmods.ShardSpawner;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.scripts.XLII_WarpInScript;
 import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.combat.CombatUtils;
 import org.lwjgl.util.vector.Vector2f;
@@ -748,10 +750,13 @@ public class XLII_MarginalAllocation {
             // Use FactoryAPI (not SettingsAPI) to create a purely temporary fleet member
             // from the target's cloned variant - gives exact weapon/hullmod copy with no
             // campaign-layer attachment (so removeDeployed stays clean).
+            ShipVariantAPI ghostVariant = target.getVariant().clone();
+            // Belt and braces with GhostDeathListener: a ghost that does somehow register
+            // as a casualty must never be offered as a recoverable copy of the real ship.
+            ghostVariant.addTag(Tags.VARIANT_UNBOARDABLE);
             com.fs.starfarer.api.fleet.FleetMemberAPI ghostMember =
                     Global.getFactory().createFleetMember(
-                            com.fs.starfarer.api.fleet.FleetMemberType.SHIP,
-                            target.getVariant().clone());
+                            com.fs.starfarer.api.fleet.FleetMemberType.SHIP, ghostVariant);
             ghostMember.setOwner(source.getOwner());
             ghostMember.getCrewComposition().addCrew(ghostMember.getNeededCrew());
 
@@ -772,6 +777,10 @@ public class XLII_MarginalAllocation {
             fleetMgr.setSuppressDeploymentMessages(false);
 
             if (clone == null) return;
+
+            // A cloned Draconis capital would otherwise run its own warp-in sequence and
+            // sit frozen off-map for the first several seconds of its short life.
+            clone.removeListenerOfClass(XLII_WarpInScript.class);
 
             // Suppress vanilla death explosion so our custom FX aren't covered
             clone.setExplosionScale(0.001f);
@@ -819,7 +828,9 @@ public class XLII_MarginalAllocation {
             }
 
             activeClones.put(source, clone);
-            engine.addPlugin(new GhostClonePlugin(clone, source, this));
+            GhostClonePlugin clonePlugin = new GhostClonePlugin(clone, source, this);
+            clone.addListener(new GhostDeathListener(clone, clonePlugin));
+            engine.addPlugin(clonePlugin);
         }
 
     }
@@ -836,6 +847,7 @@ public class XLII_MarginalAllocation {
         private float      elapsed      = 0f;
         private float      currentAlpha = GHOST_ALPHA;
         private boolean    fading       = false;
+        private boolean    destroyed    = false;
 
         private final IntervalUtil afterimageInterval = new IntervalUtil(0.25f, 0.25f);
         private final IntervalUtil reorderInterval    = new IntervalUtil(5f, 5f);
@@ -865,19 +877,9 @@ public class XLII_MarginalAllocation {
                 );
             }
 
-            // ── Natural death: FX burst then cleanup ──────────────────────────
-            if (clone.isHulk() || !clone.isAlive()) {
-                float r = clone.getCollisionRadius();
-                engine.addSmoothParticle(clone.getLocation(), new Vector2f(), r * 2.5f, 1f, 0.4f,
-                        ShardSpawner.JITTER_COLOR);
-                engine.addSmoothParticle(clone.getLocation(), new Vector2f(), r * 1.2f, 1f, 0.25f,
-                        Color.WHITE);
-                emitRiftParticles(engine, clone, 4);
-                clone.getMutableStats().getTimeMult().unmodify(GHOST_TIME_KEY);
-                for (ShipAPI m : modules) m.getMutableStats().getTimeMult().unmodify(GHOST_TIME_KEY);
-                engine.getCustomData().remove(GHOST_CLONE_TAG + "_" + clone.getId());
-                manager.removeClone(source);
-                engine.removePlugin(this);
+            // ── Death: FX burst then cleanup ──────────────────────────────────
+            if (destroyed || clone.isHulk() || !clone.isAlive()) {
+                destroyGhost(engine);
                 return;
             }
 
@@ -886,10 +888,10 @@ public class XLII_MarginalAllocation {
             // ── Fade-out phase ────────────────────────────────────────────────
             if (elapsed > GHOST_LIFESPAN) {
                 fading = true;
-                currentAlpha -= amount / GHOST_FADE_DURATION;
 
                 // Jitter intensifies as alpha drops
                 float fadeProgress = Math.min((elapsed - GHOST_LIFESPAN) / GHOST_FADE_DURATION, 1f);
+                currentAlpha = GHOST_ALPHA * (1f - fadeProgress);
                 float jitterLevel = fadeProgress * 0.6f;
                 clone.setJitter(this,
                         Misc.setAlpha(ShardSpawner.JITTER_COLOR, (int)(50 + 150 * fadeProgress)),
@@ -912,6 +914,7 @@ public class XLII_MarginalAllocation {
                     engine.getCustomData().remove(GHOST_CLONE_TAG + "_" + clone.getId());
                     CombatFleetManagerAPI fleetMgr = engine.getFleetManager(source.getOwner());
                     fleetMgr.removeDeployed(clone, true);
+                    despawn(engine);
                     manager.removeClone(source);
                     engine.removePlugin(this);
                     return;
@@ -958,6 +961,68 @@ public class XLII_MarginalAllocation {
                     renderAfterimage(clone);
                     for (ShipAPI m : modules) renderAfterimage(m);
                 }
+            }
+        }
+
+        /**
+         * The ghost has taken a killing blow. The blow itself is negated so the engine
+         * never records a kill - a dead ghost enters the engagement result as an enemy
+         * casualty, which offers a copy of the cloned ship as post-battle salvage. It is
+         * silenced and made intangible here and torn down on the next advance, so from
+         * the player's side it dies to that shot like anything else.
+         */
+        void markDestroyed() {
+            if (destroyed) return;
+            destroyed = true;
+            clone.setCollisionClass(CollisionClass.NONE);
+            disableWeapons(clone);
+            for (ShipAPI m : modules) {
+                m.setCollisionClass(CollisionClass.NONE);
+                disableWeapons(m);
+            }
+        }
+
+        /** Death FX, then remove the ghost without it counting as a loss for its side. */
+        private void destroyGhost(CombatEngineAPI engine) {
+            float r = clone.getCollisionRadius();
+            engine.addSmoothParticle(clone.getLocation(), new Vector2f(), r * 2.5f, 1f, 0.4f,
+                    ShardSpawner.JITTER_COLOR);
+            engine.addSmoothParticle(clone.getLocation(), new Vector2f(), r * 1.2f, 1f, 0.25f,
+                    Color.WHITE);
+            emitRiftParticles(engine, clone, 4);
+            clone.getMutableStats().getTimeMult().unmodify(GHOST_TIME_KEY);
+            for (ShipAPI m : modules) m.getMutableStats().getTimeMult().unmodify(GHOST_TIME_KEY);
+            engine.getCustomData().remove(GHOST_CLONE_TAG + "_" + clone.getId());
+            engine.getFleetManager(source.getOwner()).removeDeployed(clone, true);
+            despawn(engine);
+            manager.removeClone(source);
+            engine.removePlugin(this);
+        }
+
+        /**
+         * removeDeployed only clears fleet-manager bookkeeping - the hull stays in the
+         * engine at zero alpha, invisible but targetable and damageable. Pull it out the
+         * same way vanilla despawns shards.
+         */
+        private void despawn(CombatEngineAPI engine) {
+            // Fighters outlive their carrier's entity, so take them out first
+            for (FighterWingAPI wing : clone.getAllWings()) {
+                for (ShipAPI fighter : new ArrayList<>(wing.getWingMembers())) {
+                    engine.removeEntity(fighter);
+                }
+            }
+            clone.setHitpoints(0f);
+            engine.removeEntity(clone);
+            for (ShipAPI m : modules) {
+                m.setHitpoints(0f);
+                engine.removeEntity(m);
+            }
+        }
+
+        /** A ghost that has taken its killing blow must not fire again before teardown. */
+        private void disableWeapons(ShipAPI ship) {
+            for (WeaponAPI weapon : ship.getAllWeapons()) {
+                weapon.disable(true);
             }
         }
 
@@ -1010,6 +1075,28 @@ public class XLII_MarginalAllocation {
                     (int)(c1.getBlue()  + t * (c2.getBlue()  - c1.getBlue())),
                     (int)(c1.getAlpha() + t * (c2.getAlpha() - c1.getAlpha()))
             );
+        }
+    }
+
+    // ── Ghost death interception ─────────────────────────────────────────────
+
+    /** Hands a ghost's killing blow to the plugin - see GhostClonePlugin.markDestroyed(). */
+    public static class GhostDeathListener implements HullDamageAboutToBeTakenListener {
+
+        private final ShipAPI          clone;
+        private final GhostClonePlugin plugin;
+
+        public GhostDeathListener(ShipAPI clone, GhostClonePlugin plugin) {
+            this.clone  = clone;
+            this.plugin = plugin;
+        }
+
+        @Override
+        public boolean notifyAboutToTakeHullDamage(Object param, ShipAPI ship, Vector2f point, float damageAmount) {
+            if (ship != clone || clone.isHulk()) return false;
+            if (clone.getHitpoints() - damageAmount > 0f) return false;
+            plugin.markDestroyed();
+            return true; // negate the blow only so no kill is recorded; the ghost dies anyway
         }
     }
 

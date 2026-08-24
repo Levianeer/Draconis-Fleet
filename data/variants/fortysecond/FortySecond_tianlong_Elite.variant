@@ -1,13 +1,12 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 0,
-    "fluxVents": 35,
+    "fluxCapacitors": 21,
+    "fluxVents": 50,
     "goalVariant": true,
     "hullId": "XLII_tianlong_fortysecond",
     "hullMods": [
         "XLII_fortysecond_mk2",
-        "targetingunit",
-        "missleracks"
+        "targetingunit"
     ],
     "permaMods": ["XLII_fortysecond_mk2"],
     "sMods": [],
@@ -17,35 +16,44 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0029": "mjolnir",
+                "WS0029": "XLII_chaingun",
                 "WS0030": "XLII_chaingun"
             }
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0019": "XLII_halberd",
-                "WS0020": "XLII_halberd",
-                "WS0021": "XLII_halberd",
-                "WS0022": "XLII_halberd",
-                "WS0023": "XLII_halberd",
-                "WS0024": "XLII_halberd"
+                "WS0019": "breach",
+                "WS0020": "breach",
+                "WS0021": "breach",
+                "WS0022": "breach",
+                "WS0023": "breach",
+                "WS0024": "breach"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0028": "gravitonbeam"}
+            "weapons": {"WS0031": "XLII_chaingun"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0031": "devastator"}
+            "weapons": {"WS0028": "XLII_razorflak"}
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0025": "XLII_swordbreaker",
+                "WS0026": "XLII_swordbreaker",
+                "WS0027": "XLII_swordbreaker"
+            }
         }
     ],
     "wings": [
-        "XLII_tiangou_wing",
-        "XLII_thorne_wing"
+        "XLII_shangshu_heavy_wing",
+        "XLII_shangshu_heavy_wing"
     ]
 }

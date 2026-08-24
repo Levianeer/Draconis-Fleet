@@ -1,33 +1,39 @@
 package levianeer.draconis.data.scripts.weapons;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.combat.listeners.ApplyDamageResultAPI;
+import com.fs.starfarer.api.graphics.SpriteAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.loading.DamagingExplosionSpec;
+import org.dark.shaders.distortion.DistortionShader;
+import org.dark.shaders.distortion.RippleDistortion;
 import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
-import org.magiclib.util.MagicLensFlare;
+import org.magiclib.util.MagicRender;
 
 import java.awt.*;
 
 public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
 
-    private static final float BASE_PIERCE_CHANCE = 0.10f; // 10% at 0 hard flux
-    private static final float MAX_PIERCE_CHANCE = 0.75f;  // 50% at max hard flux
-    private static final float PIERCE_EMP_MULT = 1.5f;     // Multiply EMP damage by this when piercing
-    private static final float HULL_HIT_ARC_TOTAL_EMP = 500f; // Total EMP delivered via arcs on a direct hull hit
     private static final DamagingExplosionSpec VISUAL_EXPLOSION_SPEC = createCachedVisualExplosionSpec();
 
-    private static final Color EMP_PARTICLE_COLOR = new Color(100, 150, 255, 130);
-    private static final Color EMP_PARTICLE_COLOR_2 = new Color(200, 220, 255, 80);
-    private static final Color PIERCE_ARC_FRINGE = new Color(100, 150, 255, 255);
-    private static final Color PIERCE_ARC_CORE = new Color(200, 220, 255, 255);
-    private static final Color PIERCE_ARC2_FRINGE = new Color(150, 180, 255, 180);
-    private static final Color PIERCE_ARC2_CORE = new Color(220, 230, 255, 120);
-    private static final Color VISUAL_PARTICLE_COLOR = new Color(100, 150, 255, 130);
-    private static final Color VISUAL_PARTICLE_COLOR_RING2 = new Color(100, 150, 255, 100);
-    private static final Color VISUAL_FLARE_COLOR = new Color(100, 150, 255, 255);
-    private static final Color VISUAL_FLARE_CORE = new Color(220, 230, 255, 255);
-    private static final Color VISUAL_HIT_COLOR = new Color(150, 180, 255, 200);
+    // EMP arcs - same pierce-chance/arc-spawning pattern as XLII_FlambergeOnHitEffect
+    // and XLII_ShashkaOnHitEffect.
+    private static final int   EMP_ARC_MIN = 3;
+    private static final int   EMP_ARC_MAX = 5;
+    private static final float EMP_DAMAGE_FRACTION = 1.5f;
+    private static final float EMP_ARC_THICKNESS = 9.75f;
+    private static final Color ARC_FRINGE = new Color(80, 120, 255, 255);
+    private static final Color ARC_CORE   = new Color(200, 220, 255, 255);
+
+    // Layered blast FX, styled after XLII_LargeTorpOnHitEffect's lingering blob/afterglow
+    // recipe and XLII_NukeOnHitEffect's ripple treatment, re-themed electric blue.
+    private static final Color COLOR_FRINGE    = new Color(100, 150, 255, 140);
+    private static final Color COLOR_CORE      = new Color(200, 220, 255, 200);
+    private static final Color COLOR_RING      = new Color(220, 235, 255, 90);
+    private static final Color COLOR_HAZE      = new Color(140, 160, 210, 110);
+    private static final Color COLOR_AFTERGLOW = new Color(140, 190, 255, 120);
 
     @Override
     public void onHit(DamagingProjectileAPI projectile, CombatEntityAPI target,
@@ -38,11 +44,30 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
         float empDamage = projectile.getEmpAmount();
         ShipAPI source = projectile.getSource();
 
-        // Handle shield hit with arc-through chance, or arc on a direct hull hit
+        // EMP arcs on hull hit, or on a successful shield pierce (mirrors Flamberge/Shashka)
+        boolean piercedShield = false;
         if (shieldHit) {
-            handleShieldPierce(ship, source, point, empDamage, engine);
-        } else {
-            spawnHullHitArcs(ship, source, point, engine);
+            float pierceChance = ship.getHardFluxLevel() - 0.1f;
+            pierceChance *= ship.getMutableStats().getDynamic().getValue(Stats.SHIELD_PIERCED_MULT);
+            pierceChance *= 3f;
+            piercedShield = (float) Math.random() < pierceChance;
+        }
+
+        if (!shieldHit || piercedShield) {
+            int arcCount = MathUtils.getRandomNumberInRange(EMP_ARC_MIN, EMP_ARC_MAX);
+            for (int i = 0; i < arcCount; i++) {
+                engine.spawnEmpArcPierceShields(
+                        source, point, target, target,
+                        DamageType.ENERGY,
+                        0f,
+                        (empDamage * EMP_DAMAGE_FRACTION) / arcCount,
+                        100000f,
+                        "tachyon_lance_emp_impact",
+                        EMP_ARC_THICKNESS + (float) Math.random() * 5.2f,
+                        ARC_FRINGE,
+                        ARC_CORE
+                );
+            }
         }
 
         // Spawn EMP explosion (deals EMP damage in area)
@@ -52,113 +77,7 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
 
         // Spawn EMP visual effects
-        spawnEMPVisuals(engine, point);
-    }
-
-    /**
-     * Handles shield pierce mechanics based on target's hard flux level
-     */
-    private void handleShieldPierce(ShipAPI target, ShipAPI source, Vector2f point, float empDamage, CombatEngineAPI engine) {
-        if (target.getFluxTracker() == null) return;
-
-        // Calculate pierce chance based on hard flux level
-        float hardFluxLevel = target.getFluxTracker().getHardFlux() / target.getFluxTracker().getMaxFlux();
-        float pierceChance = BASE_PIERCE_CHANCE + (MAX_PIERCE_CHANCE - BASE_PIERCE_CHANCE) * hardFluxLevel;
-
-        // Roll for pierce
-        if (Math.random() < pierceChance) {
-            // Pierce successful - arc to weapons and engines
-            spawnShieldPierceArcs(target, source, point, empDamage, engine);
-
-            // Apply EMP damage to systems (scaled by pierce multiplier)
-            target.getFluxTracker().increaseFlux(empDamage * PIERCE_EMP_MULT, false);
-
-            // Small chance to disable a random weapon
-            if (Math.random() < 0.2f) {
-                disableRandomWeapon(target);
-            }
-        }
-    }
-
-    /**
-     * Spawns visual EMP arcs that pierce through shields
-     */
-    private void spawnShieldPierceArcs(ShipAPI target, ShipAPI source, Vector2f point, float empDamage, CombatEngineAPI engine) {
-        int arcCount = 2 + (int)(Math.random() * 2); // 2-3 arcs
-
-        for (int i = 0; i < arcCount; i++) {
-            // Target random point on the ship
-            Vector2f targetPoint = MathUtils.getRandomPointInCircle(target.getLocation(), target.getCollisionRadius() * 0.5f);
-
-            engine.spawnEmpArcPierceShields(
-                    source,
-                    point,
-                    target,
-                    target,
-                    DamageType.ENERGY,
-                    0f, // no damage from arc itself
-                    empDamage * PIERCE_EMP_MULT / arcCount, // split EMP damage across arcs
-                    100000f, // max range
-                    "tachyon_lance_emp_impact",
-                    12f + (float)Math.random() * 10f, // thickness variation
-                    PIERCE_ARC_FRINGE,
-                    PIERCE_ARC_CORE
-            );
-
-            // Secondary smaller arcs (fewer)
-            if (Math.random() < 0.4f) {
-                engine.spawnEmpArc(
-                        source,
-                        targetPoint,
-                        target,
-                        target,
-                        DamageType.ENERGY,
-                        0f,
-                        0f,
-                        100000f,
-                        null,
-                        6f + (float)Math.random() * 6f,
-                        PIERCE_ARC2_FRINGE,
-                        PIERCE_ARC2_CORE
-                );
-            }
-        }
-    }
-
-    /**
-     * Spawns EMP arcs on a direct hull hit (no shield to pierce)
-     */
-    private void spawnHullHitArcs(ShipAPI target, ShipAPI source, Vector2f point, CombatEngineAPI engine) {
-        int arcCount = 2 + (int)(Math.random() * 2); // 2-3 arcs
-
-        for (int i = 0; i < arcCount; i++) {
-            engine.spawnEmpArc(
-                    source,
-                    point,
-                    target,
-                    target,
-                    DamageType.ENERGY,
-                    0f,
-                    HULL_HIT_ARC_TOTAL_EMP / arcCount,
-                    100000f,
-                    "tachyon_lance_emp_impact",
-                    12f + (float)Math.random() * 10f,
-                    PIERCE_ARC_FRINGE,
-                    PIERCE_ARC_CORE
-            );
-        }
-    }
-
-    /**
-     * Disables a random weapon on the target
-     */
-    private void disableRandomWeapon(ShipAPI target) {
-        if (target.getAllWeapons().isEmpty()) return;
-
-        WeaponAPI weapon = target.getAllWeapons().get((int)(Math.random() * target.getAllWeapons().size()));
-        if (weapon != null && !weapon.isPermanentlyDisabled() && !weapon.isDecorative()) {
-            weapon.disable(true);
-        }
+        spawnEMPVisuals(point);
     }
 
     /**
@@ -177,11 +96,12 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
                 6f,                // particle size range
                 0.4f,              // particle duration
                 20,                // particle count
-                EMP_PARTICLE_COLOR,
-                EMP_PARTICLE_COLOR_2
+                COLOR_FRINGE,
+                COLOR_CORE
         );
         spec.setDamageType(DamageType.ENERGY);
         spec.setSoundSetId("system_emp_emitter_activate");
+        spec.setShowGraphic(false); // damage-only; VISUAL_EXPLOSION_SPEC + spawnEMPVisuals handle the look
         return spec;
     }
 
@@ -218,64 +138,60 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
     }
 
     /**
-     * Spawns EMP-themed visual effects
+     * Spawns EMP-themed visual effects: layered blob/afterglow blast (per
+     * XLII_LargeTorpOnHitEffect) plus a distortion shockwave (per
+     * XLII_NukeOnHitEffect), all re-themed electric blue. No arc sprites or lens
+     * flares - both read as arc-like streaks, so this is deliberately just the
+     * soft blob/ring/haze layers plus the ripple.
      */
-    private static void spawnEMPVisuals(CombatEngineAPI engine, Vector2f center) {
-        // Electrical ring effect - using particles instead of entity targets
-        final int ringCount = 2;
-        for (int ring = 0; ring < ringCount; ring++) {
-            float ringRadius = 120f + (ring * 80f);
-            int arcCount = 6 + (ring * 3);
+    private static void spawnEMPVisuals(Vector2f center) {
+        SpriteAPI spr = Global.getSettings().getSprite("fx", "XLII_explosion");
 
-            for (int i = 0; i < arcCount; i++) {
-                float angle = (360f / arcCount) * i;
-                Vector2f point = MathUtils.getPointOnCircumference(center, ringRadius, angle);
+        // Single shared rotation so every layer reads as one coherent blast.
+        float angle = 360f * (float) Math.random();
 
-                engine.addSmoothParticle(
-                        point,
-                        new Vector2f(0f, 0f),
-                        40f + (float)Math.random() * 25f,
-                        1f,
-                        0.25f + (float)Math.random() * 0.15f,
-                        ring == 0 ? VISUAL_PARTICLE_COLOR : VISUAL_PARTICLE_COLOR_RING2
-                );
-            }
-        }
+        // Soft growing blob.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(28, 28), new Vector2f(220, 220),
+                angle, 0, COLOR_FRINGE, false, 0, 0.1f, 0.15f);
+        // Denser, contracting core.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(40, 40), new Vector2f(-30, -30),
+                angle, 0, COLOR_CORE, false, 0.1f, 0.2f, 0.5f);
 
-        // Sharp lens flares for EMP burst (reduced count)
-        final int flareCount = 10;
-        final float flareRange = 100f;
+        // Fast, subtle shockwave ring.
+        SpriteAPI ring = Global.getSettings().getSprite("graphics/fx/explosion_ring0.png");
+        MagicRender.battlespace(ring, center, new Vector2f(), new Vector2f(50, 50), new Vector2f(650, 650),
+                angle, 0, COLOR_RING, true, 0, 0.05f, 0.2f);
 
-        for (int i = 0; i < flareCount; i++) {
-            Vector2f flarePoint = MathUtils.getRandomPointInCircle(center, flareRange);
-            float angle = (float) Math.random() * 360f;
+        // Afterglow - appears near the flash blobs' peak size and just hangs, dimming
+        // slowly, giving the blast its lingering hang time instead of a quick flash.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(85, 85), new Vector2f(25, 25),
+                angle, 0, COLOR_AFTERGLOW, true, 0.15f, 0.6f, 1.8f);
 
-            MagicLensFlare.createSharpFlare(
-                    engine,
-                    null,
-                    flarePoint,
-                    320f,
-                    120f,
-                    angle,
-                    VISUAL_FLARE_COLOR,
-                    VISUAL_FLARE_CORE
-            );
-        }
+        // Lingering ionized haze.
+        SpriteAPI haze = Global.getSettings().getSprite("graphics/fx/explosion3.png");
+        MagicRender.battlespace(haze, center, new Vector2f(), new Vector2f(55, 55), new Vector2f(40, 40),
+                angle, 5, COLOR_HAZE, false, 0.3f, 1.2f, 2.2f);
 
-        // Random branching arcs - add hit particles only
-        final int branchArcCount = 8;
-        for (int i = 0; i < branchArcCount; i++) {
-            Vector2f endPoint = MathUtils.getRandomPointInCircle(center, 300f);
+        // Electric distortion shockwave.
+        spawnDistortionShockwave(center);
+    }
 
-            // Add visual particles for branching effect
-            engine.addHitParticle(
-                    endPoint,
-                    new Vector2f(0f, 0f),
-                    60f + (float)Math.random() * 30f,
-                    1f,
-                    0.3f + (float)Math.random() * 0.2f,
-                    VISUAL_HIT_COLOR
-            );
-        }
+    private static void spawnDistortionShockwave(Vector2f point) {
+        float startSize = 30f;
+        float finalSize = 150f;
+        float intensity = 60f;
+        float duration = 0.5f;
+        float expansionTime = 0.35f;
+        float fadeTime = 0.6f;
+
+        RippleDistortion ripple = new RippleDistortion(point, new Vector2f(0f, 0f));
+        ripple.setSize(finalSize);
+        ripple.setIntensity(intensity);
+        ripple.setFrameRate(60f / duration);
+        ripple.fadeInSize(expansionTime);
+        ripple.fadeOutIntensity(fadeTime);
+        ripple.setSize(startSize);
+
+        DistortionShader.addDistortion(ripple);
     }
 }

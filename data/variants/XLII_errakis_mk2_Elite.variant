@@ -1,16 +1,13 @@
 {
-    "displayName": "Strike",
-    "fluxCapacitors": 19,
-    "fluxVents": 0,
+    "displayName": "Elite",
+    "fluxCapacitors": 20,
+    "fluxVents": 2,
     "goalVariant": true,
-    "hullId": "XLII_errakis",
-    "hullMods": [
-        "missleracks",
-        "extendedshieldemitter"
-    ],
+    "hullId": "XLII_errakis_mk2",
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
-    "variantId": "XLII_errakis_Strike",
+    "variantId": "XLII_errakis_mk2_Elite",
     "weaponGroups": [
         {
             "autofire": false,
@@ -21,27 +18,27 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0005": "sabot",
-                "WS0006": "sabot"
+                "WS0005": "XLII_hankyu_torpedo",
+                "WS0006": "XLII_hankyu_torpedo"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0018": "XLII_rapier"}
+            "weapons": {"WS0018": "hveldriver"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0001": "XLII_estocflak"}
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0002": "XLII_estocflak",
-                "WS0003": "XLII_estocflak"
+                "WS0002": "XLII_swordbreaker",
+                "WS0003": "XLII_swordbreaker"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0001": "XLII_swordbreaker"}
         }
     ]
 }

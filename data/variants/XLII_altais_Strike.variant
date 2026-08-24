@@ -1,16 +1,10 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 25,
-    "fluxVents": 0,
+    "fluxCapacitors": 0,
+    "fluxVents": 35,
     "goalVariant": true,
     "hullId": "XLII_altais",
-    "hullMods": [
-        "targetingunit",
-        "eccm",
-        "stabilizedshieldemitter",
-        "hardenedshieldemitter",
-        "magazines"
-    ],
+    "hullMods": ["targetingunit"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_altais_Strike",
@@ -19,57 +13,55 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0014": "XLII_naginata",
-                "WS0015": "XLII_naginata"
+                "WS0001": "XLII_shashka",
+                "WS0002": "XLII_shashka",
+                "WS0003": "XLII_shashka",
+                "WS0004": "XLII_shashka",
+                "WS0005": "XLII_shashka",
+                "WS0006": "XLII_shashka"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_bardiche_single",
-                "WS0019": "XLII_bardiche_single",
-                "WS0028": "XLII_bardiche",
-                "WS0029": "XLII_bardiche"
+                "WS0014": "XLII_pike",
+                "WS0015": "XLII_pike"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_hankyu_torpedo",
+                "WS0019": "XLII_hankyu_torpedo",
+                "WS0028": "XLII_hankyu_torpedo_pod",
+                "WS0029": "XLII_hankyu_torpedo_pod"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_rapier",
-                "WS0002": "XLII_rapier",
-                "WS0003": "XLII_rapier",
-                "WS0004": "XLII_rapier"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_culverin",
-                "WS0006": "XLII_culverin",
-                "WS0024": "XLII_culverin"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0007": "XLII_estocflak",
-                "WS0008": "XLII_estocflak",
-                "WS0009": "XLII_estocflak",
-                "WS0010": "XLII_estocflak",
                 "WS0011": "XLII_estocflak",
+                "WS0023": "XLII_estocflak",
                 "WS0027": "XLII_estocflak"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0024": "XLII_razorflak"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
             "weapons": {
-                "WS0012": "XLII_swordbreaker",
-                "WS0023": "XLII_swordbreaker"
+                "WS0007": "XLII_swordbreaker",
+                "WS0008": "XLII_swordbreaker",
+                "WS0009": "XLII_swordbreaker",
+                "WS0010": "XLII_swordbreaker",
+                "WS0012": "XLII_swordbreaker"
             }
         }
     ]

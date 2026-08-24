@@ -3,7 +3,9 @@ package levianeer.draconis.data.campaign.terrain;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignEngineLayers;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.CampaignUIAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.terrain.BaseTerrain;
@@ -11,6 +13,8 @@ import com.fs.starfarer.api.loading.Description.Type;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
+import levianeer.draconis.data.campaign.intel.fafnir.XLII_RiftEntryDialogPlugin;
 import org.apache.log4j.Logger;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -80,8 +84,34 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
             float distance = Misc.getDistance(playerFleet.getLocation(), entity.getLocation());
             if (distance <= RIFT_RADIUS) {
                 applyAbyssalAudio(playerFleet);
+                maybeShowFirstEntryDialog();
             }
         }
+    }
+
+    /**
+     * One-shot narrative beat on the player's first crossing into the Rift: the navigation
+     * officer names the two channels that sell the Fafnir approach.
+     * <p>
+     * Skipped - and the gate flag set anyway - if the player already has a way in, since the
+     * hint would be telling them something they've already acted on.
+     */
+    private void maybeShowFirstEntryDialog() {
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+        if (mem.getBoolean(FafnirAccessStrings.MEM_RIFT_FIRST_ENTRY_DONE)) return;
+
+        if (mem.getBoolean(FafnirAccessStrings.MEM_ACCESS_GRANTED)
+                || "XLII_draconis".equals(Misc.getCommissionFactionId())) {
+            mem.set(FafnirAccessStrings.MEM_RIFT_FIRST_ENTRY_DONE, true);
+            return;
+        }
+
+        // Don't stomp on a dialog or menu already on screen - try again on a later frame.
+        CampaignUIAPI ui = Global.getSector().getCampaignUI();
+        if (ui.isShowingDialog() || ui.isShowingMenu()) return;
+
+        mem.set(FafnirAccessStrings.MEM_RIFT_FIRST_ENTRY_DONE, true);
+        ui.showInteractionDialog(new XLII_RiftEntryDialogPlugin(), entity);
     }
 
     @Override

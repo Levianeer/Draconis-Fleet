@@ -1,7 +1,94 @@
-Version 0.7.8 (Save-compatible with 0.7.7)
-- Shaowei: added built-in Phase Field hullmod.
+Version 0.7.9 (Save-compatible with 0.7.8)
+
+NEW CONTENT:
+- NEW: Errakis-class Mk.II - sillier than ever :)
+- NEW: Stellar Array interactions - the three arrays orbiting Fafnir can now be surveyed.
+  - A separate survey at each array, in any order, each turning up a different piece of what they are.
+- NEW: Fafnir Approach Beacon - a warning beacon sits in hyperspace on the core-ward edge of the Rift.
+  - Carries an Alliance interdiction loop over the original pre-Collapse hazard signal.
+  - Appears in existing saves on load.
+- NEW: First entry into the Rift now opens a short scene pointing at the Tri-Tachyon and Ring-Port
+  channels that sell the Fafnir approach. Fires once, and only if you don't already have a way in.
 
 BALANCE CHANGES:
+- Rebalanced Tiangou:
+  - Removed Arquebus missiles.
+- Rebalanced Tianbang:
+  - Removed 1/2 Billhook missiles.
+- Rebalanced Alrakis-class:
+  - DP 32 -> 28.
+  - OP 175 -> 185.
+  - Hull 9000 -> 10000.
+  - Armor 850 -> 900.
+  - Min Crew 225 -> 200.
+  - Cost 135000 -> 120000.
+- Rebalanced Errakis-class:
+  - 2 x Medium Missile Mounts -> 2x Small Missile Mounts.
+  - Max flux 6300 -> 7000.
+  - Flux dissipation 380 -> 450.
+  - Shield arc 160 -> 180.
+  - Shield efficiency 1.3 -> 1.2.
+  - DP 14 -> 11.
+- Rebalanced Juni-class:
+  - Breach Jammer:
+    - Range increased 1800 -> 2000.
+    - Self-damage taken 25% -> 10%.
+    - Enemy damage taken 25% -> 35%.
+- Pulsar Jammer: no longer costs flux per second while active.
+- Rebalanced Misericorde Chaingun:
+  - Damage/shot 80 -> 120.
+  - Damage type Energy -> Fragmentation.
+  - Impact 25 -> 5.
+  - OP cost 22 -> 25.
+  - Flux/shot 35 -> 30.
+  - Spool up time 1.75 -> 2 seconds.
+  - Spool down time 1.75 -> 1 second.
+  - Now has a lower base accuracy.
+  - Gets more accurate as it spools up.
+- Rebalanced Razor Flak Cannon:
+  - Damage 20 -> 18.
+  - Flux 10 -> 4.
+  - Range 600 -> 700.
+  - Ammo/sec 200 -> 100.
+  - Reload size 20 -> 40.
+- Montante Autocannon:
+  - Flux 275 -> 205 (I forgor).
+- Flamberge Mass Driver: now an energy weapon, and fits hybrid mounts.
+- Rebalanced the shield-piercing EMP on the Shashka Mass Driver and Scimitar-class Torpedo:
+  - EMP damage on a pierce: flat 500 -> 150% of the weapon's base damage.
+  - Pierce chance now tracks the target's hard flux level directly, and respects shield-pierce modifiers.
+- Rebalanced Hankyu-class Torpedo (all variants):
+  - Blast radius 350 -> 175.
+  - Full-damage core radius 150 -> 75.
+- Draconis Intelligence Office fleets are far heavier than before:
+  - Officer quality 3 -> 7.
+  - Ship quality 2 -> 5.
+  - Fleet size 1 -> 5.
+
+MINOR IMPROVEMENTS:
+- Improved FX of the Hankyu, Halberd and Scimitar Torpedos.
+- Added FX to the Swordbreaker.
+- Fixed some Lore inconsistencies.
+- Draconis capital ships now hold their warp-in until the rest of their fleet has deployed, and arrive behind their own line instead of alongside the enemy.
+- A small number of Draconis capital ships now warp in wide of the enemy formation and close from the flank.
+- The three Fafnir stellar mirrors are now named Stellar Array Alpha, Bravo and Charlie instead of sharing one name.
+- Shaowei-class now shows up more often in Draconis medium combat fleet slots (0.1 -> 0.25).
+- Blind Eye and the Fafnir access contracts now put a location marker on the sector map for the
+  current objective.
+
+BUG FIXES:
+- Fixed Draconis capital ships warping in on top of other ships or stations, destroying them or themselves.
+  - Arrival points are now checked for clearance against every hull on the field, stations included, and rechecked at the moment of arrival.
+- Fixed capital ships being targetable and damageable while held off the map waiting to warp in.
+- Fixed Ghost Echo copies sometimes remaining as completely invisible ships that could still be targeted and damaged.
+- Fixed Ghost Echo copies of Draconis capital ships vanishing off the map for the first seconds of their existence.
+- Fixed Ghost Echo copies fading out four times faster than intended.
+- Fixed destroyed Ghost Echo copies being offered as recoverable salvage after the battle.
+
+Version 0.7.8 (Save-compatible with 0.7.7)
+
+BALANCE CHANGES:
+- Shaowei: added built-in Phase Field hullmod.
 - Rebalanced Shaowei:
   - FP 22 -> 16.
   - Armor rating 400 -> 600.
@@ -27,7 +114,7 @@ BALANCE CHANGES:
 - Rebalanced Cestus Gun Launcher
   - Damage 300 -> 350.
   - EMP damage 500 -> 350.
-  - Amoo 40 -> 80.
+  - Ammo 40 -> 80.
 - Rebalanced Hankyu-class Torpedo (all variants):
   - Damage 3000 -> 2000.
 - Rebalanced Hankyu-class Torpedo (ship & pod variants):

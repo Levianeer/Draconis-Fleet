@@ -3,6 +3,7 @@ package levianeer.draconis.data.campaign.econ.conditions;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.LocationAPI;
+import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.econ.BaseMarketConditionPlugin;
@@ -35,6 +36,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 public class DraconCondition extends BaseMarketConditionPlugin {
 
     private static final String PEACEKEEPER_SUFFIX = "_peacekeeper";
+    private static final String FAFNIR_SYSTEM_NAME = "Fafnir";
 
     @Override
     public void apply(String id) {
@@ -187,6 +189,9 @@ public class DraconCondition extends BaseMarketConditionPlugin {
 
     private int countDetachmentsInSystem() {
         LocationAPI loc = market.getContainingLocation();
+        StarSystemAPI fafnir = Global.getSector().getStarSystem(FAFNIR_SYSTEM_NAME);
+        if (fafnir == null || loc != fafnir) return 0;
+
         int count = 0;
         for (MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
             if (m.getContainingLocation() != loc) continue;
