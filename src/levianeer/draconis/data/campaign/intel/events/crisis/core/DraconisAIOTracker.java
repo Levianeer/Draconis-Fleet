@@ -44,7 +44,8 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
  * <p>
  * A separate BaseEventIntel (like TriTachyonCommerceRaiding) visible to the player after triggering the crisis.
  * Progress 0–100, ticking monthly based on AI core usage, armaments production, and DDA relations.
- * Commission pauses the tracker. Defeating the expedition at 100 resets it to 0 and grants a reward.
+ * Commission pauses the tracker. No AI cores installed anywhere also holds it (zero escalation).
+ * Defeating the expedition at 100 resets it to 0 and grants a reward.
  * Combat against shadow fleets does not slow the tracker.
  * <p>
  * Phases (internal - player sees the number, not the thresholds):
@@ -225,16 +226,19 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
     /**
      * Calculates the monthly increment.
-     * Formula: max(baseFloor, aiCoreContrib * relationsMultiplier)
-     * The baseFloor is intentionally unaffected - the tracker never fully stalls.
+     * Formula: max(baseFloor, aiCoreContrib * relationsMultiplier), or 0 with no AI cores installed.
+     * The baseFloor keeps the tracker from stalling while the player actually runs AI cores;
+     * with zero cores installed there is nothing to escalate and the tracker holds its value.
      */
     private float calculateMonthlyIncrement() {
         float aiCoreRate = getSetting("draconisAIOAICoreRate", 0.4f);
         float relationsMaxReduction = getSetting("draconisAIORelationsMaxReduction", 0.7f);
         float baseFloor = getSetting("draconisAIOBaseFloor", 0.5f);
 
-        float raw = computeAICoreContrib(aiCoreRate)
-                * computeRelationsMultiplier(relationsMaxReduction);
+        float contrib = computeAICoreContrib(aiCoreRate);
+        if (contrib <= 0f) return 0f;
+
+        float raw = contrib * computeRelationsMultiplier(relationsMaxReduction);
 
         return Math.max(baseFloor, raw);
     }

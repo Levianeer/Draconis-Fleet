@@ -219,6 +219,10 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
     public float getEventFrequency(HostileActivityEventIntel intel, EventStageData stage) {
         if (!playerMeetsColonyThreshold()) return 0f;
         if (isCrisisPermanentlyEnded()) return 0f;
+        // Same gate as shouldShow(): without AI cores in any player industry the DDA has no
+        // casus belli, so HAE must never select it (previously the tracker could be created
+        // invisibly and the baseline floor would drive it to invasion on its own).
+        if (computeHAEAICoreProgress() <= 0) return 0f;
         if (stage.id != Stage.HA_EVENT) return 0f;
         if (DraconisAIOTracker.get() != null) return 0f; // tracker already running
         // Homeworld check removed: tracker can exist without a homeworld.

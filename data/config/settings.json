@@ -60,7 +60,7 @@
 	# aiCoreContrib = sum(weightedCores per market) * aiCoreRate   (Alpha=3, Beta=2, Gamma=1, Admin=1)
 	# relationsMultiplier = 1 - clamp(ddaRelation, 0, 1) * relationsMaxReduction
 
-	"draconisAIOBaseFloor": 0.5,						# Minimum increment per month - never zero while crisis is active	#	Default : 0.5
+	"draconisAIOBaseFloor": 0.5,						# Minimum increment per month while AI cores are installed (zero cores hold the tracker)	#	Default : 0.5
 	"draconisAIOAICoreRate": 0.4,						# Increment per weighted AI core per month	#	Default : 0.4
 	"draconisAIOProgressUnit": 10,					# Diminishing-returns unit for AI core contrib (matching Hegemony)	#	Default : 10
 	"draconisAIOProgressMult": 0.75,				# Decay factor per unit (matching Hegemony)		#	Default : 0.75

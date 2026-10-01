@@ -77,6 +77,11 @@ MINOR IMPROVEMENTS:
   current objective.
 
 BUG FIXES:
+- Fixed the DDA colony crisis being triggerable with zero AI cores installed.
+  - The Alliance Intelligence Office could previously be selected by the hostile activity system (invisibly, since its
+    bar row was already hidden at zero cores) and its baseline floor then drove the assessment to a punitive expedition
+    on its own. HAE selection now requires at least one AI core in a player industry or administrator, and with zero
+    cores installed the assessment holds its value instead of advancing.
 - Fixed Draconis capital ships warping in on top of other ships or stations, destroying them or themselves.
   - Arrival points are now checked for clearance against every hull on the field, stations included, and rechecked at the moment of arrival.
 - Fixed capital ships being targetable and damageable while held off the map waiting to warp in.
