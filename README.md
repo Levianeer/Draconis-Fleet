@@ -56,3 +56,19 @@ This mod is licensed under: **[CC BY-NC-SA 4.0](https://creativecommons.org/lice
 #### **You CANNOT:**
 - Use this mod or its contents for commercial purposes (selling, monetized distribution, etc.)
 - Apply additional restrictions that contradict this license
+
+___
+
+## __AI Use Disclaimer:__
+
+<details>
+<summary>Click to expand</summary>
+
+Some code in this mod was created using AI tools:
+- Code: Claude Code (Anthropic, Sonnet models)
+
+AI is used as a coding assistant for implementation, refactoring and debugging of Java and campaign script code, based on my own design and direction. All code is reviewed, tested in-game, and edited by hand before release.
+
+No narrative, lore, dialogue or flavor text in this mod is AI-generated - all writing is my own. No art (portraits, ships, sprites) in this mod is AI-generated - all art is hand-drawn.
+
+</details>
