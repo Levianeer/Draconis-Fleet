@@ -13,6 +13,8 @@ import levianeer.draconis.data.campaign.econ.XLII_MarketTransfer;
 import levianeer.draconis.data.campaign.ids.Factions;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -126,6 +128,94 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
         return Global.getSector().getMemoryWithoutUpdate().getBoolean(REVEALED_KEY);
     }
 
+    // ==================== Captured colonies ====================
+
+    /**
+     * Set on a market's memory by {@code XLII_LongsightBastionIntel.resolveInvasionOutcome()} the
+     * moment this crisis captures it. Never cleared from here - {@code
+     * XLII_LongsightCrisisTrackerIntel.getCapturedMarkets()} filters on current Draconis ownership
+     * as well, so a market later retaken by anyone else drops off that list on its own with no
+     * separate liberation bookkeeping needed.
+     */
+    public static final String CAPTURED_FLAG = "$XLII_longsightCrisisCaptured";
+
+    /**
+     * Set alongside {@link #CAPTURED_FLAG} to the market's faction id at the moment of capture,
+     * before {@code XLII_MarketTransfer.transferMarket()} overwrites it to Draconis - read by
+     * {@code XLII_LongsightCrisisTrackerIntel} so the "Colonies Captured" list can show who
+     * actually lost the place instead of just "Draconis" (which every row would otherwise say,
+     * unhelpfully, since that's who owns it now).
+     */
+    public static final String PREVIOUS_OWNER_FLAG = "$XLII_longsightCrisisPreviousOwner";
+
+    // ==================== Destroyed colonies ====================
+    // Unlike a capture, XLII_LongsightBastionIntel.resolveInvasionOutcome()'s destroy branch calls
+    // DecivTracker.decivilize(target, true, true) - fullDestroy=true, which unconditionally calls
+    // Economy.removeMarket() regardless of that flag. The MarketAPI is gone from
+    // getEconomy().getMarketsCopy() from that point on, so unlike captured colonies (tagged via a
+    // memory flag and found by a live market scan), a destroyed one can only be listed by snapshotting
+    // its name/former owner into this plain record list at the moment of destruction.
+
+    public static class DestroyedMarketRecord {
+        public final String name;
+        public final String previousOwnerId;
+        public DestroyedMarketRecord(String name, String previousOwnerId) {
+            this.name = name;
+            this.previousOwnerId = previousOwnerId;
+        }
+    }
+
+    private final List<DestroyedMarketRecord> destroyedMarkets = new ArrayList<>();
+
+    /** Called by {@code XLII_LongsightBastionIntel.resolveInvasionOutcome()}'s destroy branch,
+     *  before the market reference becomes unreachable through the economy. */
+    public void recordMarketDestroyed(String name, String previousOwnerId) {
+        destroyedMarkets.add(new DestroyedMarketRecord(name, previousOwnerId));
+    }
+
+    public List<DestroyedMarketRecord> getDestroyedMarkets() {
+        return destroyedMarkets;
+    }
+
+    // ==================== Destroyed-Bastion slowdown ====================
+    // Decaying friction: each Bastion the player destroys temporarily slows the next one's
+    // appearance via getIntervalRateMult() below, fading back to nothing over FRICTION_DECAY_DAYS.
+    // Placeholder tuning, consistent with every other "TEMP"/"PLACEHOLDER" constant in this class -
+    // not yet balanced against real play.
+
+    private static final float FRICTION_PER_DESTRUCTION = 0.15f;
+    private static final float FRICTION_DECAY_DAYS = 30f;
+    private static final float MAX_SLOWDOWN_FRACTION = 0.75f;
+
+    private final List<Long> destructionTimestamps = new ArrayList<>();
+
+    /** Called by {@code XLII_LongsightBastionIntel.advanceImpl()} the moment a Bastion is found gone. */
+    public void recordBastionDestroyed() {
+        long now = Global.getSector().getClock().getTimestamp();
+        destructionTimestamps.add(now);
+        destructionTimestamps.removeIf(
+                ts -> Global.getSector().getClock().getElapsedDaysSince(ts) >= FRICTION_DECAY_DAYS);
+        log.info("Draconis: Longsight Bastion destruction recorded - slowdown now "
+                + Math.round(getSlowdownFraction() * 100f) + "%");
+    }
+
+    /** 0 (no recent destructions) to {@link #MAX_SLOWDOWN_FRACTION} - read by both
+     *  {@link #getIntervalRateMult()} and {@link XLII_LongsightDestroyedBastionFactor} for display. */
+    public float getSlowdownFraction() {
+        float total = 0f;
+        for (long ts : destructionTimestamps) {
+            float daysAgo = Global.getSector().getClock().getElapsedDaysSince(ts);
+            if (daysAgo >= FRICTION_DECAY_DAYS) continue;
+            total += FRICTION_PER_DESTRUCTION * (1f - daysAgo / FRICTION_DECAY_DAYS);
+        }
+        return Math.min(MAX_SLOWDOWN_FRACTION, total);
+    }
+
+    @Override
+    protected float getIntervalRateMult() {
+        return 1f - getSlowdownFraction();
+    }
+
     /**
      * Fires once, the moment elapsed days since {@link #CREATED_TIMESTAMP_KEY} crosses
      * {@link #REVEAL_THRESHOLD_DAYS}. Sets the sector-wide flag {@link #isRevealed} reads, tells
@@ -189,6 +279,7 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
         Global.getSector().getMemoryWithoutUpdate().set(
                 CREATED_TIMESTAMP_KEY, Global.getSector().getClock().getTimestamp());
         Global.getSector().addScript(manager);
+        XLII_LongsightCrisisTrackerIntel.createIfNecessary();
         log.info("Draconis: Longsight Crisis Manager created");
     }
 
@@ -254,6 +345,9 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
         crisisResolved = true;
         Global.getSector().getMemoryWithoutUpdate().set(RESOLVED_KEY, true);
         Global.getSector().getMemoryWithoutUpdate().set(RESOLVED_OUTCOME_KEY, outcome);
+
+        XLII_LongsightCrisisTrackerIntel trackerIntel = XLII_LongsightCrisisTrackerIntel.get();
+        if (trackerIntel != null) trackerIntel.endImmediately();
 
         if ("LONGSIGHT_WINS".equals(outcome)) {
             Global.getSector().getCampaignUI().addMessage(

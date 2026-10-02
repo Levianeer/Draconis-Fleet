@@ -386,6 +386,16 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
      * excludes (matches {@link #pickInvasionTarget()}'s own targeting exclusion - otherwise a fleet
      * would open fire on a protected ally just passing by, despite that ally's markets never being
      * eligible targets in the first place).
+     * <p>
+     * <b>Bug fix: the per-faction exclusion must actively {@code unset()}, not just skip
+     * {@code set()}.</b> This method is called every tick on every live crisis fleet (garrison
+     * patrols, the Bastion's own station fleet, an invasion fleet once it reaches its target's
+     * system - see each call site), so a faction that becomes protected only *after* a fleet
+     * already set its hostility flag true would otherwise stay permanently hostile on that fleet -
+     * skipping the {@code set()} call on a later tick does nothing to a flag already persisted true
+     * from an earlier one. This is why "never target allies" could look inconsistent: an older
+     * fleet (flagged before the alliance/reputation formed) stays hostile to that faction forever,
+     * while a fleet spawned after the fact correctly never flags it at all.
      */
     public static void applyCrisisHostility(CampaignFleetAPI fleet) {
         fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_HOSTILE, true);
@@ -395,9 +405,13 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
         for (FactionAPI faction : Global.getSector().getAllFactions()) {
             String id = faction.getId();
             if (Factions.INTELLIGENCE_OFFICE.equals(id) || Factions.DRACONIS.equals(id)) continue;
-            if (XLII_MarketTransfer.isProtectedFromCrisisInvasion(id)) continue;
-            fleet.getMemoryWithoutUpdate().set(
-                    MemFlags.MEMORY_KEY_MAKE_HOSTILE + "_" + id, true);
+
+            String key = MemFlags.MEMORY_KEY_MAKE_HOSTILE + "_" + id;
+            if (XLII_MarketTransfer.isProtectedFromCrisisInvasion(id)) {
+                fleet.getMemoryWithoutUpdate().unset(key);
+            } else {
+                fleet.getMemoryWithoutUpdate().set(key, true);
+            }
         }
     }
 
@@ -409,6 +423,8 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
     protected void advanceImpl(float amount) {
         if (isBastionGone()) {
             log.info("Draconis: Longsight Bastion destroyed in [" + system.getName() + "]");
+            XLII_LongsightCrisisManager manager = XLII_LongsightCrisisManager.get();
+            if (manager != null) manager.recordBastionDestroyed();
             endImmediately();
             return;
         }
@@ -907,6 +923,12 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
      * </ul>
      * Protected markets are still valid invasion targets and can still be captured - only the
      * destroy outcome is blocked, forced to capture instead.
+     * <p>
+     * A third protection, same two-outcomes-allowed shape: any market tagged
+     * {@code XLII_MarketTransfer.ORIGINAL_DRACONIS_MARKET_FLAG} - one Draconis started the game
+     * owning (see that flag's own doc). The Office shouldn't be razing Draconis's own founding
+     * colonies even if one was lost to someone else in the meantime and came back up as a target;
+     * recapturing it for Draconis is still a fine outcome, only destroying it is blocked.
      */
     public static final String NO_CRISIS_DESTROY_KEY = "$XLII_longsightNoDestroy";
 
@@ -916,6 +938,7 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
 
     private static boolean isDestroyProtected(MarketAPI market) {
         if (market.getMemoryWithoutUpdate().getBoolean(NO_CRISIS_DESTROY_KEY)) return true;
+        if (market.getMemoryWithoutUpdate().getBoolean(XLII_MarketTransfer.ORIGINAL_DRACONIS_MARKET_FLAG)) return true;
         for (String id : KNOWN_FRAGILE_MARKET_IDS) {
             if (id.equals(market.getId())) return true;
         }
@@ -933,12 +956,23 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
 
         lastEventTargetName = target.getName();
 
+        // Snapshot before either branch below mutates it (transferMarket() overwrites it to
+        // Draconis; decivilize() overwrites it to NEUTRAL) - both branches need this to tell the
+        // tracker intel who actually lost the place.
+        String previousOwnerId = target.getFactionId();
+
         if (capture) {
             log.info("Draconis: Longsight invasion captured " + target.getName() + " for Draconis");
             XLII_MarketTransfer.transferMarket(target, Factions.DRACONIS);
+            target.getMemoryWithoutUpdate().set(XLII_LongsightCrisisManager.CAPTURED_FLAG, true);
+            target.getMemoryWithoutUpdate().set(XLII_LongsightCrisisManager.PREVIOUS_OWNER_FLAG, previousOwnerId);
             sendUpdateIfPlayerHasIntel(INVASION_CAPTURED_PARAM, true);
         } else {
             log.info("Draconis: Longsight invasion destroyed " + target.getName());
+            // Snapshotted here, not after - decivilize(fullDestroy=true) unconditionally removes
+            // the market from the economy, so this is the last point target.getName() is reliable.
+            XLII_LongsightCrisisManager manager = XLII_LongsightCrisisManager.get();
+            if (manager != null) manager.recordMarketDestroyed(target.getName(), previousOwnerId);
             DecivTracker.decivilize(target, true, true);
             sendUpdateIfPlayerHasIntel(INVASION_DESTROYED_PARAM, true);
         }
@@ -1010,6 +1044,11 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
                 issueHoldAssignment(fleet, defending.market, "dormant");
             }
 
+            // Same reasoning as every other applyCrisisHostility() call site - this fleet can sit
+            // here for up to POST_RESOLUTION_DEFEND_DAYS (60), easily long enough for relations to
+            // change; without a refresh here it would keep whatever hostility it had at the moment
+            // it started defending.
+            applyCrisisHostility(fleet);
             fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_FLEET_DO_NOT_GET_SIDETRACKED, true, 1f);
         }
     }

@@ -155,4 +155,13 @@ public class XLII_MarketTransfer {
     public static boolean isProtectedFromCrisisInvasion(String factionId) {
         return isAllyOfDraconis(factionId) || isRepProtected(factionId);
     }
+
+    /**
+     * Set by {@code XLII_WorldGen.generate()} on every market Draconis starts the game owning.
+     * Read by the Office Takeover crisis ({@code XLII_LongsightBastionIntel.isDestroyProtected()})
+     * so it never razes one of Draconis's own founding colonies, even one later lost to someone
+     * else and offered back up as a nominally-valid invasion target - capturing it back is still
+     * fine, only the destroy outcome is blocked.
+     */
+    public static final String ORIGINAL_DRACONIS_MARKET_FLAG = "$XLII_draconisOriginalMarket";
 }

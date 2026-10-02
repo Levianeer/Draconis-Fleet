@@ -317,6 +317,7 @@
 			"XLII_hostile_activity_2":"graphics/icons/campaign/hostile_activity2.png",
 			"XLII_hostile_activity_3":"graphics/icons/campaign/hostile_activity3.png",
 			"XLII_hostile_activity_4":"graphics/icons/campaign/hostile_activity4.png",
+			"XLII_bastion_stage":"graphics/icons/industry/battlestation.png",
 		},
 		"missiles":{
 			"XLII_phasetorp_glow1":"graphics/missiles/XLII_phasetorp_glow1.png",
