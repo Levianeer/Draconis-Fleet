@@ -351,13 +351,11 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
 
         if ("LONGSIGHT_WINS".equals(outcome)) {
             Global.getSector().getCampaignUI().addMessage(
-                    "The Office Takeover crisis has consumed the Sector - no market remains outside "
-                            + "Draconis control.",
+                    "The Office Takeover crisis has consumed the Sector - no market remains outside Draconis control.",
                     Misc.getNegativeHighlightColor());
         } else {
             Global.getSector().getCampaignUI().addMessage(
-                    "The Office Takeover crisis has been contained - no unmarked installations remain "
-                            + "active.",
+                    "The Office Takeover crisis has been contained - no bases remain active.",
                     Misc.getPositiveHighlightColor());
         }
 

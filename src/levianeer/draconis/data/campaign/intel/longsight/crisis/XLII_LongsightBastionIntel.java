@@ -454,7 +454,7 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
     protected String getName() {
         // Placeholder - not real writing yet. See checklist Stage 8. Suffixed with the system name
         // so multiple concurrently active Bastions are distinguishable on the intel list.
-        String base = "Unmarked Installation - " + system.getBaseName();
+        String base = "Forward operating base - " + system.getBaseName();
 
         // State-reactive suffix, matching PirateBaseIntel's own layered getName(): a pending
         // notification's param takes priority, then whatever's actually happening, then the default.
@@ -576,7 +576,7 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
 
         // Placeholder - not real writing yet. See checklist Stage 8.
         info.addPara(
-            "An installation of unclear origin, running dark. Hostile to everything that comes near.",
+            "An installation of the Alliance Office of Intelligence, running dark and hostile to everything that comes near.",
             10f
         );
 

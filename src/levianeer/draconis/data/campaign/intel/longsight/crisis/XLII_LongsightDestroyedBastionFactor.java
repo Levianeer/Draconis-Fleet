@@ -33,7 +33,7 @@ public class XLII_LongsightDestroyedBastionFactor extends BaseEventFactor {
 
     @Override
     public String getDesc(BaseEventIntel intel) {
-        return "Destroyed Bastions";
+        return "Destroyed Bases";
     }
 
     @Override
@@ -53,7 +53,7 @@ public class XLII_LongsightDestroyedBastionFactor extends BaseEventFactor {
         return new BaseFactorTooltip() {
             @Override
             public void createTooltip(TooltipMakerAPI tooltip, boolean expanded, Object tooltipParam) {
-                tooltip.addPara("Every Bastion the player destroys slows the next spawn check "
+                tooltip.addPara("Every base the player destroys slows the next spawn check "
                         + "temporarily, fading back to nothing over time. Destroying several in "
                         + "quick succession stacks the slowdown further.", 0f);
             }

@@ -48,7 +48,7 @@ public class XLII_LongsightBaseRateFactor extends BaseEventFactor {
         return new BaseFactorTooltip() {
             @Override
             public void createTooltip(TooltipMakerAPI tooltip, boolean expanded, Object tooltipParam) {
-                tooltip.addPara("How often the Office checks whether to stand up a new Bastion, "
+                tooltip.addPara("How often the Office checks whether to stand up a new base, "
                         + "before any modifiers below are applied.", 0f);
             }
         };

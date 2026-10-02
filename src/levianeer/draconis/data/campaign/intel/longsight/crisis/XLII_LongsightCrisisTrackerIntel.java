@@ -66,15 +66,15 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
 
     /** Placeholder - not final copy, same as the rest of this package's Stage 8 prose. */
     private static final String INTRO_PARA =
-            "The Intelligence Office has moved past merely watching the Alliance - it's now actively "
-            + "trying to seize it. Hidden installations called Bastions, scattered through the "
+            "The Alliance Intelligence Office has moved past merely watching - it's now actively "
+            + "trying to seize the sector. Hidden forward operating bases, scattered through the "
             + "Sector, are coordinating invasions against independent and rival colonies alike, "
-            + "capturing or destroying them outright. Destroying a Bastion doesn't end this - only "
+            + "capturing or destroying them outright. Destroying a base doesn't end this - only "
             + "slows the Office down while it rebuilds.";
 
     /** Placeholder - not final copy. */
     private static final String BASTION_STAGE_DESC =
-            "Once this fills, the Office attempts to stand up another Bastion somewhere in the "
+            "Once this fills, the Office attempts to stand up another base somewhere in the "
             + "Sector - though it may hold off if it already has as many active as it wants to risk "
             + "at once.";
 
@@ -170,8 +170,8 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
             }
             @Override
             public void createTooltip(TooltipMakerAPI tooltip, boolean expanded, Object tooltipParam) {
-                tooltip.addPara("Progress toward the Office's next attempt to stand up a new "
-                        + "Bastion somewhere in the Sector.", 0f);
+                tooltip.addPara("Progress toward the Office's next attempt to build a new "
+                        + "base somewhere in the Sector.", 0f);
             }
         };
     }
@@ -264,7 +264,7 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
 
         if (Global.getSettings().isDevMode()) {
             addGenericButton(main, barW, new Color(122, 122, 122, 255), new Color(40, 40, 40, 255),
-                    ">> (dev) force next Bastion spawn check", BUTTON_DEV_FORCE_SPAWN);
+                    ">> (dev) force next base spawn", BUTTON_DEV_FORCE_SPAWN);
             main.addSpacer(opad);
         }
 
@@ -474,7 +474,7 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
     public String getName() {
         XLII_LongsightCrisisManager manager = XLII_LongsightCrisisManager.get();
         int active = manager != null ? manager.getActiveCount() : 0;
-        String bastionStr = active + (active == 1 ? " Bastion" : " Bastions");
+        String bastionStr = active + (active == 1 ? " Base" : " Bases");
         return "Office Takeover Crisis - " + bastionStr + " Active";
     }
 }

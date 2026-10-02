@@ -14,10 +14,6 @@ import java.util.Map;
  * crisis crosses its reveal threshold. Single screen, no branching, no rep/flag side effects of its
  * own (those are already applied by the caller before this dialog is shown) - matches
  * {@code XLII_BurnTheMachineEpilogue}'s shape for the same kind of single-beat, non-decision scene.
- * <p>
- * Placeholder text only - the design doc defers the reveal scene's real dialogue to Stage 8. This
- * exists now so Stage 7's reveal trigger has a real scene to fire, rather than a bare log line or a
- * plain addMessage() toast.
  */
 public class XLII_LongsightRevealDialog implements InteractionDialogPlugin {
 
@@ -31,21 +27,22 @@ public class XLII_LongsightRevealDialog implements InteractionDialogPlugin {
 
         TextPanelAPI text = dialog.getTextPanel();
 
-        // Placeholder - not real writing yet. See checklist Stage 8.
         text.addPara(
-            "The uplink goes quiet without ever having asked permission to speak again. Whatever " +
-            "Longsight has been doing with the access it was given, it stopped needing to hide " +
-            "it some time ago."
+        "Scattered reports are surfacing from systems that have nothing to do with Fafnir - " +
+            "unmarked installations, automated task forces answering to no declared faction, entire worlds going " +
+            "dark. Entire colonies are swearing loyalty to the Draconis Alliance."
         );
 
         text.addPara(
-            "Reports are already surfacing from systems that have nothing to do with Fafnir - " +
-            "unmarked installations, task forces answering to no declared faction, markets going " +
-            "dark. None of it asked for your authorization. None of it is waiting for it now."
+            "It is clear that your failure to destroy what was buried under Kori has set in motion something " +
+            "that lays claim to the entire world. Whatever [LONGSIGHT] has been doing with the access it was given, " +
+            "it stopped needing to hide it some time ago."
         );
 
         OptionPanelAPI opts = dialog.getOptionPanel();
-        opts.addOption("Understood", OPT_CLOSE);
+        // TODO: Remove this before before release, but it's funny :sob:
+        // "With this character's death, the thread of prophecy is severed. Restore a saved game to restore the weave of fate,"
+        opts.addOption("Persist in the doomed world you have created.", OPT_CLOSE);
     }
 
     @Override
