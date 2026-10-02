@@ -42,6 +42,7 @@ import levianeer.draconis.data.campaign.events.XLII_SectorTourListener;
 import levianeer.draconis.data.campaign.econ.conditions.DraconConfig;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
+import levianeer.draconis.data.campaign.econ.conditions.longsight.LongsightOptimizationMonitor;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
 import levianeer.draconis.data.campaign.fleet.DraconisQRFManager;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreScalingConfig;
@@ -298,6 +299,11 @@ public class XLII_ModPlugin extends BaseModPlugin {
             }
         }
 
+        // Longsight Optimization - independent of Nexerelin and DRACON; gates itself on the
+        // Pristine Nanoforge being installed on Kori (XLII_NanoforgeExchange's install branch).
+        Global.getSector().addScript(new LongsightOptimizationMonitor());
+        log.info("Draconis:   - Longsight Optimization Monitor");
+
         // If Nexerelin is present, add DRACON system and AI core acquisition
         if (hasNexerelin) {
             // DRACON (Draconis Readiness Condition) - replaces Steel Curtain
@@ -370,6 +376,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
                     || script instanceof DraconisAICoreFleetInflater
                     || script instanceof DraconisSteelCurtainMonitor
                     || script instanceof DraconManager
+                    || script instanceof LongsightOptimizationMonitor
                     || script instanceof DraconisSingleTargetScanner
                     || script instanceof DraconisAICoreRaidManager
                     || script instanceof DraconisTargetedRaidMonitor
