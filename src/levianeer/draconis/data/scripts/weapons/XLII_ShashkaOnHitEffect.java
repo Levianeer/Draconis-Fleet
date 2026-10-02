@@ -67,10 +67,7 @@ public class XLII_ShashkaOnHitEffect implements OnHitEffectPlugin {
         float damage = projectile.getDamageAmount();
         ShipAPI source = projectile.getSource();
 
-        // Damaging explosion
         engine.spawnDamagingExplosion(createDamagingExplosionSpec(damage), source, point);
-
-        // Visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
 
         // EMP arcs on hull hit, or on a successful shield pierce (mirrors PilumOnHitEffect)
@@ -98,13 +95,8 @@ public class XLII_ShashkaOnHitEffect implements OnHitEffectPlugin {
             }
         }
 
-        // Shockwave sprites
         spawnShockwave(engine, point);
-
-        // Lens flares
         spawnLensFlares(engine, source, point);
-
-        // Ripple distortion
         spawnRippleDistortion(point);
     }
 

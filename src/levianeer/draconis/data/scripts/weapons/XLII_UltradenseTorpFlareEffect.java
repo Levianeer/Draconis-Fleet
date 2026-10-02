@@ -61,8 +61,7 @@ public class XLII_UltradenseTorpFlareEffect
         for (Entry e : entries) {
             e.tick(amount);
 
-            // Self-destruct at max range - runs after tick() sets fadeElapsed,
-            // before isExpired() so we don't miss the window.
+            // Self-destructs at max range; runs after tick() sets fadeElapsed but before isExpired() so we don't miss the window.
             if (!e.burstTriggered) {
                 boolean fizzling = (e.proj instanceof MissileAPI) && ((MissileAPI) e.proj).isFizzling();
                 boolean flightExpired = (e.proj instanceof MissileAPI m)

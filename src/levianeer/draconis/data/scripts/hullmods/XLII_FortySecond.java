@@ -1,7 +1,6 @@
 package levianeer.draconis.data.scripts.hullmods;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.CollisionClass;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.GuidedMissileAI;
@@ -12,8 +11,6 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
-import levianeer.draconis.data.scripts.XLII_MistCloudConstants;
-import levianeer.draconis.data.scripts.XLII_MistCloudsPlugin;
 import org.apache.log4j.Logger;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
@@ -26,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class XLII_FortySecond extends BaseHullMod {
+public class XLII_FortySecond extends XLII_SystemHullModBase {
 
     private static final Logger log = Global.getLogger(XLII_FortySecond.class);
 
@@ -49,7 +46,8 @@ public class XLII_FortySecond extends BaseHullMod {
     }
 
     public static float PROFILE_MULT = 0.9f;
-    public static float MISSILE_AFFECT_CHANCE = 0.25f; // % chance to affect each missile
+    public static float MISSILE_AFFECT_CHANCE = 0.25f;
+    public static final float DEGRADE_INCREASE_PERCENT = 50f;
 
     // ID and bonus for the upgrade hullmod (@XLII_FortySecondMk2)
     public static final String UPGRADE_HULLMOD_ID = "XLII_fortysecond_mk2";
@@ -73,6 +71,7 @@ public class XLII_FortySecond extends BaseHullMod {
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
         stats.getSightRadiusMod().modifyFlat(id, combatMag.get(hullSize));
         stats.getSensorProfile().modifyMult(id, PROFILE_MULT);
+        stats.getCRLossPerSecondPercent().modifyPercent(id, DEGRADE_INCREASE_PERCENT);
     }
 
     @Override
@@ -87,21 +86,12 @@ public class XLII_FortySecond extends BaseHullMod {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null || engine.isPaused()) return;
 
-        // Register Mist Clouds plugin once per combat per side, but only once the ship is
-        // actually on the field. In mirror matches both sides need their own plugin instance.
-        String pluginKey = "XLII_MIST_CLOUDS_PLUGIN_" + ship.getOwner();
-        if (!engine.getCustomData().containsKey(pluginKey) && engine.isEntityInPlay(ship)) {
-            registerMistCloudsPlugin(engine, ship.getOwner(), pluginKey);
-        }
-
-        // Disable missile defense when ship is in abnormal states
         if (ship.getFluxTracker().isOverloaded() ||  // Ship is overloaded (can't use systems)
             ship.isPhased()                          // Ship is phased (can't interact with missiles)
         ) {
             return;
         }
 
-        // Get effective defense range based on ship collision radius plus hull-size bonus
         Float defenseRangeMult = missileDefenseRange.get(ship.getHullSize());
         if (defenseRangeMult == null) return;
         float defenseRange = ship.getCollisionRadius() * defenseRangeMult;
@@ -112,9 +102,8 @@ public class XLII_FortySecond extends BaseHullMod {
 
         // Use LazyLib's optimized spatial query instead of iterating all missiles
         List<MissileAPI> nearbyMissiles = CombatUtils.getMissilesWithinRange(shipLocation, defenseRange);
-        if (nearbyMissiles.isEmpty()) return;  // Early exit if no missiles nearby
+        if (nearbyMissiles.isEmpty()) return;
 
-        // Get or create the set of processed missiles for this ship
         Set<MissileAPI> processed = processedMissiles.computeIfAbsent(ship, k -> new HashSet<>());
 
         // Clean up processed missiles - only check if fading (more efficient)
@@ -123,18 +112,14 @@ public class XLII_FortySecond extends BaseHullMod {
         // Pre-square range for faster distance comparisons
         float defenseRangeSq = defenseRange * defenseRange;
 
-        // Check only nearby missiles
         for (MissileAPI missile : nearbyMissiles) {
-            // Skip if already processed
             if (processed.contains(missile)) continue;
 
-            // Skip if missile is already fading
             if (missile.isFading()) continue;
 
             // Skip SLAP-ER torps - defense interacting with them causes bugs in DDA mirror matches
             if ("XLII_SLAP-ER_torp".equals(missile.getProjectileSpecId())) continue;
 
-            // Skip if not a hostile missile
             ShipAPI source = missile.getSource();
             if (source == null || source.getOwner() == owner) continue;
 
@@ -176,7 +161,6 @@ public class XLII_FortySecond extends BaseHullMod {
         missile.setCollisionClass(CollisionClass.NONE);
         missile.flameOut();
 
-        // Visual feedback
         spawnJamParticle(missile.getLocation());
     }
 
@@ -189,19 +173,16 @@ public class XLII_FortySecond extends BaseHullMod {
 
         ShipAPI originalSource = missile.getSource();
         if (originalSource == null || !originalSource.isAlive()) {
-            // If original source is dead, just jam it
             jamMissile(missile);
             return;
         }
 
-        // Change ownership to friendly
         missile.setOwner(ship.getOwner());
         missile.setSource(ship);
 
         // Set collision class to prevent friendly fire while still hitting enemies
         missile.setCollisionClass(CollisionClass.MISSILE_NO_FF);
 
-        // Retarget to the original firing ship using GuidedMissileAI
         ai.setTarget(originalSource);
 
         // Set ECCM to help it reach the target
@@ -212,7 +193,6 @@ public class XLII_FortySecond extends BaseHullMod {
         float elapsedTime = missile.getFlightTime();
         missile.setMaxFlightTime(missile.getMaxFlightTime() + elapsedTime);
 
-        // Visual feedback
         spawnConversionParticle(missile.getLocation());
     }
 
@@ -238,20 +218,6 @@ public class XLII_FortySecond extends BaseHullMod {
         );
     }
 
-    /**
-     * Register a Mist Clouds combat plugin for the given owner side
-     */
-    private void registerMistCloudsPlugin(CombatEngineAPI engine, int ownerSide, String pluginKey) {
-        try {
-            XLII_MistCloudsPlugin plugin = new XLII_MistCloudsPlugin(ownerSide);
-            engine.addPlugin(plugin);
-            engine.getCustomData().put(pluginKey, plugin);
-            log.info("Draconis: Mist Clouds plugin registered for side " + ownerSide);
-        } catch (Exception e) {
-            log.error("Draconis: Failed to register Mist Clouds plugin: " + e.getMessage(), e);
-        }
-    }
-
     @Override
     public String getDescriptionParam(int index, HullSize hullSize) {
         if (index == 0) return "" + combatMag.get(HullSize.FRIGATE).intValue();
@@ -272,7 +238,10 @@ public class XLII_FortySecond extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
         float opad = 10f;
         Color h = Misc.getHighlightColor();
-        Color t = Misc.getTextColor();
+
+        tooltip.addPara("XLII custom hulls have a number of shared properties.", opad);
+
+        addTransverseJumpTooltipSection(tooltip, opad, h);
 
         tooltip.addSectionHeading("Sensors & Detection", Alignment.MID, opad);
         tooltip.addPara("Increases ship's in-combat vision range by %s/%s/%s/%s and reduces sensor profile by %s.",
@@ -288,23 +257,12 @@ public class XLII_FortySecond extends BaseHullMod {
                 opad, h,
                 Math.round(MISSILE_AFFECT_CHANCE * 100f) + "%");
 
-        tooltip.addSectionHeading("Nanomist Unit", Alignment.MID, opad);
-        tooltip.addPara("Deploys SLAP-ER cruise missiles that spread nanomist clouds in a %s radius, lasting %s-%s seconds.",
-                opad, h,
-                (int) XLII_MistCloudConstants.CLOUD_RADIUS + "",
-                (int) XLII_MistCloudConstants.CLOUD_MIN_LIFETIME + "",
-                (int) XLII_MistCloudConstants.CLOUD_MAX_LIFETIME + "");
+        tooltip.addSectionHeading("Maintenance", new Color(255,100,0) , new Color(105,40,0,175) , Alignment.MID, opad);
+        tooltip.addPara("XLII custom hulls require excessive maintenance and do not stand up well under the rigours of prolonged engagements.", opad);
 
-        tooltip.addPara("Allies in clouds recover %s hull/s; enemies take %s hull damage/s. Each cloud has a finite %s-point hull pool shared between healing and damage. Phased ships are immune while in P-space.",
+        tooltip.addPara("Increases the rate of in-combat CR decay after peak performance time runs out by %s.",
                 opad, h,
-                "+" + (XLII_MistCloudConstants.HEAL_PERCENT_PER_SEC * 100f) + "%",
-                (XLII_MistCloudConstants.DOT_PERCENT_PER_SEC * 100f) + "%",
-                (int) XLII_MistCloudConstants.CLOUD_POOL_HP + "");
-
-        tooltip.addPara("Requires %s XLII ships and %s total deployment points to deploy.",
-                opad, h,
-                Math.round(XLII_MistCloudConstants.MIN_XLII_PERCENTAGE * 100f) + "%",
-                XLII_MistCloudConstants.MIN_TOTAL_SUPPLY_COST + "");
+                (int) DEGRADE_INCREASE_PERCENT + "%");
     }
 
     @Override

@@ -23,8 +23,10 @@ import java.util.Set;
  * Created when the player accepts a Fafnir bar event. Completed - and the credit reward paid -
  * when the corresponding post-entry delivery dialog is resolved:
  * <ul>
- *   <li>TT Courier: {@code XLII_FafnirKoriArrivalDialogPlugin} (unconditional on either option)</li>
- *   <li>Ring-Port: {@code XLII_FafnirRingPortDeliveryDialogPlugin} (OPT_DELIVER only)</li>
+ *   <li>TT Courier: rules.csv "# Kori Arrival" section, via {@code XLII_BeginFafnirMission complete}
+ *       (unconditional on either option)</li>
+ *   <li>Ring-Port: rules.csv "# Ring-Port Delivery" section, via {@code XLII_BeginFafnirMission complete}
+ *       (deliver option only)</li>
  * </ul>
  * Brute force and ungated paths produce no intel entry.
  */
@@ -85,9 +87,8 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
     }
 
     /**
-     * Re-applies the objective marker once per game load. {@code markerSynced} is transient, so
-     * this fires on the first frame after every load and backfills missions accepted before the
-     * marker existed. Cheap: one memory read, then a no-op for the rest of the session.
+     * Runs {@link #syncObjectiveMarker} once per game load - see {@link #markerSynced}.
+     * Cheap: one memory read, then a no-op for the rest of the session.
      */
     @Override
     protected void advanceImpl(float amount) {
@@ -194,7 +195,6 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
         return market != null ? market.getPrimaryEntity() : null;
     }
 
-    /** Kori on the TT Courier path, Ring-Port on the contractor path. */
     private MarketAPI getDestinationMarket() {
         String marketId = FafnirAccessStrings.PATH_TT_COURIER.equals(path)
                 ? KORI_MARKET_ID
@@ -245,17 +245,26 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
         FactionAPI faction = getFactionForUIColors();
         FactionAPI dda     = Global.getSector().getFaction("XLII_draconis");
 
-        // Faction logo banner
         if (faction != null) {
             info.addImages(width, 128, opad, opad, faction.getLogo());
         }
 
-        // "You've accepted a [faction] contract to deliver [objective] to [destination],
-        //  which is under [DDA] control."
+        // Provenance line - who's actually offering this, before the player's own recap of the deal.
+        // Neither contact is named (see TT_BAR_SCENE/RP_BAR_SCENE), so this names the faction/role
+        // instead of a person, matching vanilla's "Contract given by X, affiliated with Y" template.
         boolean isTT = FafnirAccessStrings.PATH_TT_COURIER.equals(path);
         String factionPost   = Factions.PIRATES.equals(faction != null ? faction.getId() : "") ? "-affiliated" : "";
         String factionPrefix = (faction != null ? faction.getPersonNamePrefix() : "") + factionPost;
         String article       = faction != null ? faction.getPersonNamePrefixAOrAn() : "a";
+
+        LabelAPI provenance = info.addPara(
+                "Contract offered by " + article + " " + factionPrefix + " contact, brokered at a Fafnir bar.",
+                opad, faction != null ? faction.getBaseUIColor() : Misc.getHighlightColor(), factionPrefix);
+        provenance.setHighlight(factionPrefix);
+        provenance.setHighlightColors(faction != null ? faction.getBaseUIColor() : Misc.getHighlightColor());
+
+        // "You've accepted a [faction] contract to deliver [objective] to [destination],
+        //  which is under [DDA] control."
         String objective     = isTT ? FafnirAccessStrings.INTEL_OBJECTIVE_TT   : FafnirAccessStrings.INTEL_OBJECTIVE_RP;
         String destination   = isTT ? FafnirAccessStrings.INTEL_DESTINATION_TT : FafnirAccessStrings.INTEL_DESTINATION_RP;
         String ddaPrefix     = dda != null ? dda.getPersonNamePrefix() : "Alliance";
@@ -264,7 +273,7 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
                 "You've accepted " + article + " " + factionPrefix
                 + " contract to deliver " + objective + " to " + destination
                 + ", which is under " + ddaPrefix + " control.",
-                opad, faction != null ? faction.getBaseUIColor() : Misc.getHighlightColor(), factionPrefix);
+                0f, faction != null ? faction.getBaseUIColor() : Misc.getHighlightColor(), factionPrefix);
         label.setHighlight(factionPrefix, ddaPrefix);
         label.setHighlightColors(
                 faction != null ? faction.getBaseUIColor() : Misc.getHighlightColor(),
@@ -273,7 +282,6 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
         // Indented bullets: destination + reward (active) or payment received (completed)
         addBulletPoints(info, ListInfoMode.IN_DESC);
 
-        // Closing instruction / status line
         if (completed) {
             info.addPara(FafnirAccessStrings.INTEL_DELIVERY_CONFIRMED, opad);
         } else {
@@ -282,5 +290,20 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
                     : FafnirAccessStrings.INTEL_INSTRUCTION_RP;
             info.addPara(instruction, opad);
         }
+
+        addDeleteButton(info, width, FafnirAccessStrings.INTEL_DELETE_BUTTON);
+    }
+
+    /**
+     * Deleting an uncompleted contract forfeits it: {@link #get()} skips ended intel, so the
+     * delivery dialogs find nothing to complete and pay out. {@code notifyEnded()} clears the
+     * objective marker either way.
+     */
+    @Override
+    protected void createDeleteConfirmationPrompt(TooltipMakerAPI prompt) {
+        prompt.addPara(completed
+                        ? FafnirAccessStrings.INTEL_DELETE_CONFIRM_DONE
+                        : FafnirAccessStrings.INTEL_DELETE_CONFIRM_ACTIVE,
+                Misc.getTextColor(), 0f);
     }
 }

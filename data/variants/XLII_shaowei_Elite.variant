@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 15,
-    "fluxVents": 14,
+    "fluxCapacitors": 20,
+    "fluxVents": 7,
     "goalVariant": true,
     "hullId": "XLII_shaowei",
     "hullMods": ["eccm"],

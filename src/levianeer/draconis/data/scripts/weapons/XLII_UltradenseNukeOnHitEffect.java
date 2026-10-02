@@ -46,10 +46,7 @@ public class XLII_UltradenseNukeOnHitEffect implements OnHitEffectPlugin {
         float damage   = projectile.getDamageAmount();
         float startAngle = MathUtils.getRandomNumberInRange(0f, 360f);
 
-        // Damaging Explosion
         engine.spawnDamagingExplosion(createExplosionSpec(), source, point);
-
-        // Visual Explosion
         engine.spawnDamagingExplosion(createVisualSpec(), source, point);
 
         // Dark smoke aftermath
@@ -62,14 +59,12 @@ public class XLII_UltradenseNukeOnHitEffect implements OnHitEffectPlugin {
                 1.2f, 2.0f, 3.0f,
                 CombatEngineLayers.ABOVE_SHIPS_AND_MISSILES_LAYER);
 
-        // Multi-phase custom visual plugin
         CombatEntityAPI entity = engine.addLayeredRenderingPlugin(new SuperNukePlugin(point, engine));
         entity.getLocation().set(point);
 
         // Shockwave ring: delayed (0.3s), medium
         engine.addPlugin(new ShockwaveDelayPlugin(point));
 
-        // Lens flares
         spawnLensFlares(engine, source, point);
 
         // Explosion flash
@@ -168,8 +163,7 @@ public class XLII_UltradenseNukeOnHitEffect implements OnHitEffectPlugin {
 
             if (scaledDamage <= 0f) continue;
 
-            // Hit point on the facing side of the ship - primary uses the actual impact point,
-            // secondaries use the armor cell closest to the blast on the exposed face.
+            // Primary uses the actual impact point; secondaries use the facing armor cell closest to the blast.
             Vector2f hitPoint = isPrimary ? point : getFacingHitPoint(ship, point);
 
             // Main blast damage - primary already took this from the projectile hit.
@@ -187,15 +181,14 @@ public class XLII_UltradenseNukeOnHitEffect implements OnHitEffectPlugin {
                         new Color(255, 100, 255), new Color(255, 255, 255));
             }
 
-            // Radiation DoT - anchored at the facing hit point.
-            // If the shield is blocking, deal the radiation damage to it all at once instead.
+            // Radiation DoT anchored at the facing hit point; if shielded, apply all at once to the shield instead of over time.
             if (isShieldHit) {
                 float flux = dotDamage * ship.getShield().getFluxPerPointOfDamage();
                 ship.getFluxTracker().increaseFlux(flux, true);
                 if (Misc.shouldShowDamageFloaty(projectile.getSource(), ship)) {
                     engine.addFloatingDamageText(hitPoint, dotDamage, 0f, Misc.FLOATY_SHIELD_DAMAGE_COLOR, ship, source);
                 }
-                tracker.put(ship, dotDamage); // positive = shield-blocked, intended damage stored
+                tracker.put(ship, dotDamage); // positive = shield-blocked
             } else {
                 Vector2f offset = Vector2f.sub(hitPoint, ship.getLocation(), new Vector2f());
                 offset = Misc.rotateAroundOrigin(offset, -ship.getFacing());
@@ -696,7 +689,6 @@ public class XLII_UltradenseNukeOnHitEffect implements OnHitEffectPlugin {
         }
 
         private void dealDamage(CombatEngineAPI engine, Vector2f point) {
-            // Spawn particle burst
             for (int i = 0; i < 3; i++) {
                 RadiationParticleData p = new RadiationParticleData(30f, 3f + (float) Math.random() * 2f, 2f);
                 p.offset = Misc.getPointWithinRadius(p.offset, 20f);

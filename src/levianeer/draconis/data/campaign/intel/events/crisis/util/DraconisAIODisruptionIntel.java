@@ -80,7 +80,7 @@ public class DraconisAIODisruptionIntel extends BaseIntelPlugin {
         if (isEnded()) return true;
         float elapsed = Global.getSector().getClock().getElapsedDaysSince(disruptionDate);
         if (elapsed >= disruptionDays) {
-            endImmediately(); // triggers notifyEnded() -> removeScript
+            endImmediately();
             return true;
         }
         return false;
@@ -115,6 +115,8 @@ public class DraconisAIODisruptionIntel extends BaseIntelPlugin {
         if (disruptionDate > 0) {
             info.addPara(Misc.getAgoStringForTimestamp(disruptionDate) + ".", opad);
         }
+
+        addDeleteButton(info, width, "Delete entry");
     }
 
     @Override

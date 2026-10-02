@@ -11,13 +11,9 @@ import com.fs.starfarer.api.util.Misc;
 import java.awt.Color;
 
 /**
- * Upgrade hullmod for XLII_FortySecond.
- * When installed alongside XLII_FortySecond, increases its MISSILE_AFFECT_CHANCE
- * by XLII_FortySecond.UPGRADE_CHANCE_BONUS. Does nothing if XLII_FortySecond
- * is not present on the same ship.
- * <p>
- * The actual logic lives in XLII_FortySecond.advanceInCombat - this hullmod
- * is simply detected there by its ID to activate the bonus.
+ * Upgrade hullmod for XLII_FortySecond: when installed alongside it, increases its
+ * MISSILE_AFFECT_CHANCE by UPGRADE_CHANCE_BONUS; does nothing without XLII_FortySecond present.
+ * All logic lives in XLII_FortySecond.advanceInCombat, which detects this hullmod by ID.
  */
 public class XLII_FortySecondMk2 extends BaseHullMod {
 
@@ -25,11 +21,11 @@ public class XLII_FortySecondMk2 extends BaseHullMod {
     @SuppressWarnings("unused")
     public static final String HULLMOD_ID = "XLII_fortysecond_mk2"; // Do not remove!
 
-    private static final String FORTYSECOND_ID = "XLII_fortysecond"; // ID of the required hullmod
+    private static final String FORTYSECOND_ID = "XLII_fortysecond";
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        // No independent stat effects - all logic is handled in XLII_FortySecond.advanceInCombat
+        // Intentionally a no-op; see class Javadoc.
     }
 
     @Override

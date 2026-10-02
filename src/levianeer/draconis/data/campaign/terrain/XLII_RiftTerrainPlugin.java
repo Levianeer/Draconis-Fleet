@@ -13,8 +13,8 @@ import com.fs.starfarer.api.loading.Description.Type;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import com.fs.starfarer.api.impl.campaign.RuleBasedInteractionDialogPluginImpl;
 import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
-import levianeer.draconis.data.campaign.intel.fafnir.XLII_RiftEntryDialogPlugin;
 import org.apache.log4j.Logger;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -33,11 +33,10 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
 
     private static final Logger log = Global.getLogger(XLII_RiftTerrainPlugin.class);
 
-    // Gameplay constants
     public static final float RIFT_RADIUS = 1500f;
-    private static final float CR_DRAIN_PER_DAY = 0.05f; // 5% per day
-    private static final float SENSOR_RANGE_MULT = 0.75f; // 25% sensor range
-    private static final float WARNING_INTERVAL_DAYS = 3f; // Show warning every 3 days
+    private static final float CR_DRAIN_PER_DAY = 0.05f;
+    private static final float SENSOR_RANGE_MULT = 0.75f;
+    private static final float WARNING_INTERVAL_DAYS = 3f;
 
     private float warningTimer = 0f;
     private float animationTime = 0f;
@@ -69,7 +68,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         // Update animation time (always, even when paused for smooth visuals)
         animationTime += amount;
 
-        // Don't process gameplay effects if game is paused
         if (Global.getSector().isPaused()) {
             return;
         }
@@ -111,7 +109,7 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         if (ui.isShowingDialog() || ui.isShowingMenu()) return;
 
         mem.set(FafnirAccessStrings.MEM_RIFT_FIRST_ENTRY_DONE, true);
-        ui.showInteractionDialog(new XLII_RiftEntryDialogPlugin(), entity);
+        ui.showInteractionDialog(new RuleBasedInteractionDialogPluginImpl("XLII_RiftEntry"), entity);
     }
 
     @Override
@@ -126,9 +124,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         }
     }
 
-    /**
-     * Apply CR drain and sensor penalties to the fleet
-     */
     private void applyRiftEffects(CampaignFleetAPI fleet, float days) {
         // Apply CR drain to all ships (except those with immunity)
         List<FleetMemberAPI> members = fleet.getFleetData().getMembersListCopy();
@@ -136,12 +131,12 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         for (FleetMemberAPI member : members) {
             if (member.isMothballed()) continue;
 
-            // Check for immunity: solar_shielding or XLII_draconishull hull mods
             boolean hasImmunity = member.getVariant().hasHullMod("solar_shielding") ||
-                                  member.getVariant().hasHullMod("XLII_draconishull");
+                                  member.getVariant().hasHullMod("XLII_draconishull") ||
+                                  member.getVariant().hasHullMod("XLII_fortysecond");
 
             if (hasImmunity) {
-                continue; // Skip CR drain for immune ships
+                continue;
             }
 
             // Mirror the corona pattern: include recovery rate so the net drain is always CR_DRAIN_PER_DAY,
@@ -164,9 +159,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                 "The Rift", SENSOR_RANGE_MULT, fleet.getStats().getSensorRangeMod());
     }
 
-    /**
-     * Show periodic warning messages to the player
-     */
     private void updateWarnings(float days) {
         warningTimer += days;
 
@@ -181,7 +173,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
     }
 
     /**
-     * Applies abyssal audio effects: low-pass filter and ambient loop sound, scaled by rift depth.
      * Mirrors the audio logic in HyperspaceTerrainPlugin for the Orion-Perseus Abyss.
      */
     private void applyAbyssalAudio(CampaignFleetAPI fleet) {
@@ -219,27 +210,22 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         return 1f - (distance - innerRadius) / (RIFT_RADIUS - innerRadius);
     }
 
-    /**
-     * Check if the fleet has any vulnerable ships (ships without immunity to CR drain)
-     * @return true if at least one non-mothballed ship lacks both solar_shielding and XLII_draconishull
-     */
+    /** True if any non-mothballed ship lacks solar_shielding, XLII_draconishull, or XLII_fortysecond immunity. */
     private boolean hasVulnerableShips(CampaignFleetAPI fleet) {
         List<FleetMemberAPI> members = fleet.getFleetData().getMembersListCopy();
 
         for (FleetMemberAPI member : members) {
             if (member.isMothballed()) continue;
 
-            // Check if this ship has immunity
             boolean hasImmunity = member.getVariant().hasHullMod("solar_shielding") ||
-                                  member.getVariant().hasHullMod("XLII_draconishull");
+                                  member.getVariant().hasHullMod("XLII_draconishull") ||
+                                  member.getVariant().hasHullMod("XLII_fortysecond");
 
-            // If we find any ship without immunity, the fleet is vulnerable
             if (!hasImmunity) {
                 return true;
             }
         }
 
-        // All non-mothballed ships have immunity
         return false;
     }
 
@@ -278,14 +264,12 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         // Load description from descriptions.csv (matching vanilla pattern)
         tooltip.addPara(Global.getSettings().getDescription(getTerrainId(), Type.TERRAIN).getText1(), pad);
 
-        // Effects section - heading only shows when expanded
         float nextPad = pad;
         if (expanded) {
             tooltip.addSectionHeading("Effects", Alignment.MID, pad);
             nextPad = small;
         }
 
-        // Effects description (contextual, matching vanilla narrative style)
         tooltip.addPara("Reduces combat readiness by %s per day and sensor range to %s for ships without protection. " +
                         "The exotic radiation permeates hull plating and disrupts sensor arrays.",
                 nextPad,
@@ -294,8 +278,7 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                 String.format("%d%%", (int)(SENSOR_RANGE_MULT * 100f))
         );
 
-        // Protection information (contextual paragraph)
-        tooltip.addPara("Ships equipped with %s or Draconis-built hulls are " +
+        tooltip.addPara("Ships equipped with %s or Draconis/XLII-built hulls are " +
                         "unaffected by the Rift's combat readiness degradation.",
                 pad,
                 highlight,
@@ -307,7 +290,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
                 pad
         );
 
-        // Combat section - heading only shows when expanded
         if (expanded) {
             tooltip.addSectionHeading("Combat", Alignment.MID, pad);
 
@@ -330,13 +312,8 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);  // Additive blending for glow
 
-        // Swirling particles
         renderParticleField(loc.x, loc.y, alphaMult);
-
-        // Lightning arcs
         renderLightning(loc.x, loc.y, alphaMult);
-
-        // Abyss core - eye of the storm
         renderAbyssCore(loc.x, loc.y, alphaMult);
 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -350,16 +327,14 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
      * Returns 1.0 at center, fades to 0.0 at outer edge
      */
     private float calculateEdgeFade(float distanceFromCenter) {
-        // Start fading at 70% of the radius, fully transparent at edge
         float fadeStartRadius = RIFT_RADIUS * 0.7f;
         float fadeEndRadius = RIFT_RADIUS;
 
         if (distanceFromCenter < fadeStartRadius) {
-            return 1.0f; // Full opacity in the center
+            return 1.0f;
         } else if (distanceFromCenter >= fadeEndRadius) {
-            return 0.0f; // Fully transparent at the edge
+            return 0.0f;
         } else {
-            // Smooth fade between start and end
             float fadeProgress = (distanceFromCenter - fadeStartRadius) / (fadeEndRadius - fadeStartRadius);
             return 1.0f - fadeProgress;
         }
@@ -371,7 +346,7 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
     private void renderParticleField(float x, float y, float alphaMult) {
         int particleCount = 150; // Increased to compensate for removed clouds
 
-        GL11.glPointSize(2.5f); // Slightly larger particles
+        GL11.glPointSize(2.5f);
         GL11.glBegin(GL11.GL_POINTS);
 
         for (int i = 0; i < particleCount; i++) {
@@ -379,8 +354,7 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
             float radiusRatio = (i / (float)particleCount);
             float particleRadius = RIFT_RADIUS * radiusRatio;
 
-            // Spiral motion - slowed down
-            float spiralSpeed = 3f / (radiusRatio + 0.1f); // Slower rotation
+            float spiralSpeed = 3f / (radiusRatio + 0.1f);
             float angle = (float)Math.toRadians(angleOffset + animationTime * spiralSpeed);
 
             float px = x + (float)Math.cos(angle) * particleRadius;
@@ -392,7 +366,6 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
             float g = 40;
             float b = 180 - (60 * magentaRatio);
 
-            // Apply edge fade based on distance from center
             float edgeFade = calculateEdgeFade(particleRadius);
             float particleAlpha = alphaMult * 0.7f * edgeFade;
 
@@ -407,13 +380,10 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
      * Renders constant background radiation arcs - subtle, dark energy tendrils with edge fade
      */
     private void renderLightning(float x, float y, float alphaMult) {
-        // Draw constant, very subtle radiation arcs
         GL11.glLineWidth(1.5f); // Thinner than before
         GL11.glBegin(GL11.GL_LINES);
 
-        // Draw 8 persistent arcs at fixed angles with slow organic movement
         for (int i = 0; i < 8; i++) {
-            // Base angle evenly distributed
             float baseAngle = (float)(i * 2 * Math.PI / 8);
 
             // Add slow sine wave movement for organic feel
@@ -424,8 +394,7 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
             float lengthMod = (float)Math.sin(animationTime * 0.2 + i * 0.5) * 0.15f + 0.85f;
             float length = RIFT_RADIUS * lengthMod * 0.8f;
 
-            // Calculate arc endpoints
-            float startRadius = RIFT_RADIUS * 0.3f; // Start from inner region
+            float startRadius = RIFT_RADIUS * 0.3f;
             float startX = x + (float)Math.cos(angle) * startRadius;
             float startY = y + (float)Math.sin(angle) * startRadius;
             float endX = x + (float)Math.cos(angle) * length;
@@ -452,10 +421,9 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         int segments = 64;
         float coreRadius = RIFT_RADIUS * 0.25f;
 
-        // Draw dark center - near-black void
         GL11.glBegin(GL11.GL_TRIANGLE_FAN);
-        GL11.glColor4f(20f / 255f, 10f / 255f, 30f / 255f, alphaMult * 0.3f); // Very dark purple
-        GL11.glVertex2f(x, y); // Center
+        GL11.glColor4f(20f / 255f, 10f / 255f, 30f / 255f, alphaMult * 0.3f);
+        GL11.glVertex2f(x, y);
 
         for (int i = 0; i <= segments; i++) {
             float angle = (float)(2.0 * Math.PI * i / segments);
@@ -468,28 +436,24 @@ public class XLII_RiftTerrainPlugin extends BaseTerrain {
         // Draw thin pulsing rings
         GL11.glLineWidth(2.0f);
 
-        // Ring 1 - Outer rim (multiple overlapping rings for blur effect)
-        // Desaturated purple-gray colors with lower transparency
-        float rimPulse = (float)(Math.sin(animationTime * 0.3) * 0.1 + 0.9); // Gentle pulse 0.8-1.0
+        // Ring 1 - Outer rim: multiple overlapping rings for blur effect
+        float rimPulse = (float)(Math.sin(animationTime * 0.3) * 0.1 + 0.9);
         drawThinRing(x, y, coreRadius * 0.95f, segments, 130, 80, 110, alphaMult * rimPulse * 0.4f);
         drawThinRing(x, y, coreRadius * 0.96f, segments, 130, 80, 110, alphaMult * rimPulse * 0.3f);
         drawThinRing(x, y, coreRadius * 0.97f, segments, 130, 80, 110, alphaMult * rimPulse * 0.2f);
         drawThinRing(x, y, coreRadius * 0.98f, segments, 130, 80, 110, alphaMult * rimPulse * 0.1f);
 
         // Ring 2 - Middle ring (slower, opposite phase)
-        float middlePulse = (float)(Math.sin(animationTime * 0.2 + Math.PI) * 0.15 + 0.75); // 0.6-0.9
+        float middlePulse = (float)(Math.sin(animationTime * 0.2 + Math.PI) * 0.15 + 0.75);
         float middleRadius = coreRadius * 0.7f + (float)Math.sin(animationTime * 0.4) * 20f; // Slow expansion
         drawThinRing(x, y, middleRadius, segments, 120, 80, 130, alphaMult * middlePulse * 0.3f);
 
         // Ring 3 - Inner ring (fastest, subtle)
-        float innerPulse = (float)(Math.sin(animationTime * 0.5 + Math.PI * 0.5) * 0.2 + 0.6); // 0.4-0.8
+        float innerPulse = (float)(Math.sin(animationTime * 0.5 + Math.PI * 0.5) * 0.2 + 0.6);
         float innerRadius = coreRadius * 0.4f + (float)Math.sin(animationTime * 0.6) * 15f; // Faster expansion
         drawThinRing(x, y, innerRadius, segments, 110, 70, 130, alphaMult * innerPulse * 0.25f);
     }
 
-    /**
-     * Helper to draw a thin ring
-     */
     private void drawThinRing(float x, float y, float radius, int segments, int r, int g, int b, float alpha) {
         GL11.glBegin(GL11.GL_LINE_LOOP);
         GL11.glColor4f(r / 255f, g / 255f, b / 255f, alpha);

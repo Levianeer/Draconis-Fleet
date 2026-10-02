@@ -17,19 +17,26 @@ import java.awt.*;
 public class XLII_PiernaczOnHitEffect implements OnHitEffectPlugin {
 
     // Colors
-    private static final Color EXPLOSION_FRINGE = new Color(170, 80, 255, 255);
-    private static final Color EXPLOSION_CORE = new Color(200, 170, 255, 255);
-    private static final Color ARC_FRINGE = new Color(150, 90, 255, 255);
-    private static final Color ARC_CORE = new Color(220, 200, 255, 255);
+    private static final Color EXPLOSION_FRINGE = new Color(255, 110, 60, 255);
+    private static final Color EXPLOSION_CORE = new Color(255, 225, 190, 255);
+    // Blue: reads as residual ionization/EMP from the jet, distinct from the red/white thermal
+    // detonation below - the jet is blue/white in flight, the burn it leaves behind is red/white.
+    private static final Color ARC_FRINGE = new Color(90, 165, 255, 255);
+    private static final Color ARC_CORE = new Color(220, 240, 255, 255);
 
     // Layered blast FX, styled after XLII_EMPBlastOnHitEffect's lingering blob/afterglow
-    // recipe, re-themed light purple and scaled to this weapon's blast radius (100 vs 75,
-    // a 4/3 factor applied to every spatial value below; timings left as-is).
-    private static final Color COLOR_FRINGE    = new Color(170, 110, 255, 140);
-    private static final Color COLOR_CORE      = new Color(220, 200, 255, 200);
-    private static final Color COLOR_RING      = new Color(230, 210, 255, 90);
-    private static final Color COLOR_HAZE      = new Color(170, 140, 210, 110);
-    private static final Color COLOR_AFTERGLOW = new Color(190, 150, 255, 120);
+    // recipe, re-themed red/white thermal (Meltagun/Volcano Cannon detonation) and scaled to
+    // this weapon's blast radius (100 vs 75, a 4/3 factor applied to every spatial value below;
+    // timings left as-is), then bumped ~30% larger on top for a denser, more violent detonation.
+    private static final Color COLOR_FRINGE    = new Color(255, 110, 60, 150);
+    private static final Color COLOR_CORE      = new Color(255, 235, 200, 215);
+    private static final Color COLOR_RING      = new Color(255, 240, 220, 100);
+    private static final Color COLOR_HAZE      = new Color(110, 60, 50, 115);
+    private static final Color COLOR_AFTERGLOW = new Color(255, 140, 90, 135);
+    private static final Color COLOR_EMBER     = new Color(255, 180, 110, 255);
+    // Blue-white arrival flash - continuity with the jet's hot core arriving, an instant
+    // before it's overtaken by the red thermal bloom below.
+    private static final Color COLOR_IMPACT_FLASH = new Color(220, 235, 255, 235);
 
     // Damaging explosion
     private static final float EXPLOSION_RADIUS = 100f;
@@ -42,10 +49,19 @@ public class XLII_PiernaczOnHitEffect implements OnHitEffectPlugin {
     private static final float EMP_ARC_TOTAL_EMP = 500f;
     private static final float EMP_ARC_THICKNESS = 9.75f;
 
-    // Ripple distortion
+    // Ember/spark burst
+    private static final int EMBER_COUNT_MIN = 8;
+    private static final int EMBER_COUNT_MAX = 14;
+    private static final float EMBER_SPEED_MIN = 150f;
+    private static final float EMBER_SPEED_MAX = 380f;
+    private static final float EMBER_SIZE_MIN = 4f;
+    private static final float EMBER_SIZE_MAX = 9f;
+    private static final float EMBER_DURATION = 0.35f;
+
+    // Ripple distortion - bumped ~30% alongside the layered blast for a heavier concussion.
     private static final float RIPPLE_START_SIZE = 32.5f;
-    private static final float RIPPLE_FINAL_SIZE = 195f;
-    private static final float RIPPLE_INTENSITY = 65f;
+    private static final float RIPPLE_FINAL_SIZE = 250f;
+    private static final float RIPPLE_INTENSITY = 85f;
     private static final float RIPPLE_EXPANSION_TIME = 0.4f;
     private static final float RIPPLE_FADE_TIME = 0.7f;
     private static final float RIPPLE_DURATION = 0.5f;
@@ -63,13 +79,11 @@ public class XLII_PiernaczOnHitEffect implements OnHitEffectPlugin {
         float damage = projectile.getDamageAmount();
         ShipAPI source = projectile.getSource();
 
-        // Damaging explosion
         engine.spawnDamagingExplosion(createDamagingExplosionSpec(damage), source, point);
 
-        // Visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
 
-        // EMP arcs on hull hit, or on a successful shield pierce (mirrors PilumOnHitEffect)
+        // Mirrors PilumOnHitEffect's shield-pierce arc logic.
         boolean piercedShield = false;
         if (shieldHit) {
             float pierceChance = ship.getHardFluxLevel() - 0.1f;
@@ -94,8 +108,8 @@ public class XLII_PiernaczOnHitEffect implements OnHitEffectPlugin {
             }
         }
 
-        // Layered blast FX (blob/core/ring/afterglow/haze + distortion shockwave)
         spawnPiernaczVisuals(point);
+        spawnEmberBurst(engine, point, ship.getVelocity());
     }
 
     private static DamagingExplosionSpec createDamagingExplosionSpec(float projectileDamage) {
@@ -131,15 +145,15 @@ public class XLII_PiernaczOnHitEffect implements OnHitEffectPlugin {
                 6.7f, 13.3f,
                 1.0f,
                 60,
-                new Color(170, 110, 255, 180),
-                new Color(220, 200, 255, 80)
+                new Color(255, 120, 70, 180),
+                new Color(255, 235, 210, 90)
         );
         spec.setUseDetailedExplosion(true);
         spec.setDetailedExplosionFlashDuration(1.0f);
         spec.setDetailedExplosionRadius(133.3f);
         spec.setDetailedExplosionFlashRadius(133.3f);
-        spec.setDetailedExplosionFlashColorCore(new Color(220, 200, 255, 255));
-        spec.setDetailedExplosionFlashColorFringe(new Color(170, 110, 255, 160));
+        spec.setDetailedExplosionFlashColorCore(new Color(255, 245, 230, 255));
+        spec.setDetailedExplosionFlashColorFringe(new Color(255, 110, 60, 175));
         spec.setDamageType(DamageType.ENERGY);
         spec.setSoundSetId(null);
         return spec;
@@ -156,29 +170,48 @@ public class XLII_PiernaczOnHitEffect implements OnHitEffectPlugin {
         // Single shared rotation so every layer reads as one coherent blast.
         float angle = 360f * (float) Math.random();
 
+        // Blue-white arrival flash - the jet's own hot core hitting, gone almost instantly.
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(40f, 40f), new Vector2f(90f, 90f),
+                angle, 0, COLOR_IMPACT_FLASH, true, 0, 0.05f, 0.1f);
+
         // Soft growing blob.
-        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(37.3f, 37.3f), new Vector2f(293.3f, 293.3f),
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(48.5f, 48.5f), new Vector2f(381.3f, 381.3f),
                 angle, 0, COLOR_FRINGE, false, 0, 0.1f, 0.15f);
         // Denser, contracting core.
-        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(53.3f, 53.3f), new Vector2f(-40f, -40f),
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(69.3f, 69.3f), new Vector2f(-52f, -52f),
                 angle, 0, COLOR_CORE, false, 0.1f, 0.2f, 0.5f);
 
         // Fast, subtle shockwave ring.
         SpriteAPI ring = Global.getSettings().getSprite("graphics/fx/explosion_ring0.png");
-        MagicRender.battlespace(ring, center, new Vector2f(), new Vector2f(66.7f, 66.7f), new Vector2f(866.7f, 866.7f),
+        MagicRender.battlespace(ring, center, new Vector2f(), new Vector2f(86.7f, 86.7f), new Vector2f(1126.7f, 1126.7f),
                 angle, 0, COLOR_RING, true, 0, 0.05f, 0.2f);
 
         // Afterglow - appears near the flash blobs' peak size and just hangs, dimming
         // slowly, giving the blast its lingering hang time instead of a quick flash.
-        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(113.3f, 113.3f), new Vector2f(33.3f, 33.3f),
+        MagicRender.battlespace(spr, center, new Vector2f(), new Vector2f(147.3f, 147.3f), new Vector2f(43.3f, 43.3f),
                 angle, 0, COLOR_AFTERGLOW, true, 0.15f, 0.6f, 1.8f);
 
         // Lingering haze.
         SpriteAPI haze = Global.getSettings().getSprite("graphics/fx/explosion3.png");
-        MagicRender.battlespace(haze, center, new Vector2f(), new Vector2f(73.3f, 73.3f), new Vector2f(53.3f, 53.3f),
+        MagicRender.battlespace(haze, center, new Vector2f(), new Vector2f(95.3f, 95.3f), new Vector2f(69.3f, 69.3f),
                 angle, 5, COLOR_HAZE, false, 0.3f, 1.2f, 2.2f);
 
         spawnRippleDistortion(center);
+    }
+
+    /**
+     * Sparks flying off the hit point - the "busier" half of the denser thermal detonation,
+     * layered alongside the blob/ring/haze blast above.
+     */
+    private static void spawnEmberBurst(CombatEngineAPI engine, Vector2f center, Vector2f sourceVel) {
+        int count = MathUtils.getRandomNumberInRange(EMBER_COUNT_MIN, EMBER_COUNT_MAX);
+        for (int i = 0; i < count; i++) {
+            float angle = MathUtils.getRandomNumberInRange(0f, 360f);
+            float speed = MathUtils.getRandomNumberInRange(EMBER_SPEED_MIN, EMBER_SPEED_MAX);
+            Vector2f vel = MathUtils.getPointOnCircumference(sourceVel, speed, angle);
+            float size = MathUtils.getRandomNumberInRange(EMBER_SIZE_MIN, EMBER_SIZE_MAX);
+            engine.addHitParticle(center, vel, size, 1f, EMBER_DURATION, COLOR_EMBER);
+        }
     }
 
     private static void spawnRippleDistortion(Vector2f point) {

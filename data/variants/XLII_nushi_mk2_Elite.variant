@@ -1,12 +1,12 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 3,
-    "fluxVents": 10,
+    "fluxCapacitors": 10,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_nushi_mk2",
     "hullMods": [
-        "heavyarmor",
-        "targetingunit"
+        "targetingunit",
+        "hardenedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -46,5 +46,5 @@
             "weapons": {"WS0016": "XLII_swordbreaker"}
         }
     ],
-    "wings": []
+    "wings": ["XLII_pulao_wing"]
 }

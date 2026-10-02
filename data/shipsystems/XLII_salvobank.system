@@ -1,0 +1,36 @@
+{
+	"id":"XLII_salvobank",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_SalvoBankAI",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_SalvoBankStats",
+
+	"jitterUnderColor":[255,150,50,255],
+	"jitterUnderCopies":25,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":7,
+	"jitterUnderRangeRadiusFraction":0,
+
+	"jitterColor":[255,140,60,150],
+	"jitterCopies":3,
+	"jitterMinRange":0,
+	"jitterRange":0,
+	"jitterRangeRadiusFraction":0,
+
+	"runScriptWhileIdle":true,
+	"canUseWhileRightClickSystemOn":true,
+
+	"fadeActivationSoundOnChargedown":true,
+	"useSound":"system_interdictor",
+	"outOfUsesSound":"gun_out_of_ammo",
+
+	"aiHints":{
+		"threatRange":1500,
+		"threatAmount":10,
+		"threatAngle":0,
+		"threatArc":180,
+		"threatDamage":3000,
+		"threatSpeed":250,
+	}
+}

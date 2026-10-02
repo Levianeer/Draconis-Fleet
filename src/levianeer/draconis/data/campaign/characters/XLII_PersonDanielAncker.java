@@ -24,6 +24,15 @@ public class XLII_PersonDanielAncker {
     private static final String RING_PORT_MARKET_ID = "pirateStation_market";
 
     /**
+     * Set by {@link #markGone()} once Ancker's escape is established (XLII_KoriStrike's
+     * showEscapeReveal(), Burn the Machine win path only - he never appears in the Uplink to God
+     * failure branch). Without it, onGameLoad()'s initializeAllCharacters() -> updatePlacement()
+     * would re-add and re-reveal him at Ring-Port on the next save load. Same bug shape as
+     * XLII_PersonEmilAugust.GONE_FLAG.
+     */
+    private static final String GONE_FLAG = "$XLII_aio_operative_gone";
+
+    /**
      * Creates AIO Operative Daniel Ancker and registers with ImportantPeopleAPI.
      * Placed at Ring-Port hidden by default.
      * On existing saves, ensures registration with ImportantPeopleAPI.
@@ -75,6 +84,11 @@ public class XLII_PersonDanielAncker {
         if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(CREATED_FLAG)) {
             return;
         }
+        if (Global.getSector().getMemoryWithoutUpdate().getBoolean(GONE_FLAG)) {
+            // Permanently gone (see GONE_FLAG) - skip the reveal/rep logic below, which would
+            // otherwise resurrect his comm-directory presence.
+            return;
+        }
 
         boolean revealed = Global.getSector().getMemoryWithoutUpdate()
                 .getBoolean("$XLII_aio_operative_revealed");
@@ -90,6 +104,41 @@ public class XLII_PersonDanielAncker {
         CommDirectoryEntryAPI entry = ringPortMarket.getCommDirectory().getEntryForPerson(Daniel);
         boolean repOk = Global.getSector().getPlayerFaction().getRelationship(DRACONIS) >= 0f;
         if (entry != null) entry.setHidden(!revealed || !repOk);
+    }
+
+    /**
+     * Marks Ancker permanently gone and removes him from Ring-Port's market/comm directory -
+     * called once his escape is established (XLII_KoriStrike.showEscapeReveal(), fires on all
+     * three of August's fates). Does not remove him from ImportantPeopleAPI, since his parting
+     * taunt (showAnckerTaunt()) still looks him up by id for the portrait.
+     * <p>
+     * {@code removePerson()} alone did not stop him from remaining reachable in practice (root
+     * cause unconfirmed), so this also explicitly hides his {@link CommDirectoryEntryAPI} via
+     * {@code setHidden(true)} - the same mechanism {@link #updatePlacement()} uses. Logs every
+     * branch to make a repeat failure visible.
+     */
+    public static void markGone() {
+        Global.getSector().getMemoryWithoutUpdate().set(GONE_FLAG, true);
+
+        PersonAPI Daniel = Global.getSector().getImportantPeople().getPerson(PERSON_ID);
+        MarketAPI ringPortMarket = Global.getSector().getEconomy().getMarket(RING_PORT_MARKET_ID);
+        if (Daniel == null || ringPortMarket == null) {
+            log.warn("Draconis: AIO Operative Daniel Ancker markGone() - could not remove, Daniel="
+                    + Daniel + " ringPortMarket=" + ringPortMarket);
+            return;
+        }
+
+        CommDirectoryEntryAPI entry = ringPortMarket.getCommDirectory().getEntryForPerson(Daniel);
+        if (entry != null) {
+            entry.setHidden(true);
+            log.info("Draconis: AIO Operative Daniel Ancker - comm directory entry hidden");
+        } else {
+            log.info("Draconis: AIO Operative Daniel Ancker - no comm directory entry found to hide");
+        }
+
+        ringPortMarket.removePerson(Daniel);
+        ringPortMarket.getCommDirectory().removePerson(Daniel);
+        log.info("Draconis: AIO Operative Daniel Ancker marked gone, removed from Ring-Port");
     }
 
     /**

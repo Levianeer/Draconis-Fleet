@@ -1,7 +1,7 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 2,
+    "fluxVents": 6,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
@@ -26,6 +26,8 @@
             "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
+                "WS0005": "pilum",
+                "WS0006": "pilum",
                 "WS0011": "pilum",
                 "WS0012": "pilum"
             }
@@ -36,14 +38,6 @@
             "weapons": {
                 "WS0003": "XLII_bardiche_single",
                 "WS0004": "XLII_bardiche_single"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "ALTERNATING",
-            "weapons": {
-                "WS0005": "pilum",
-                "WS0006": "pilum"
             }
         },
         {
@@ -62,9 +56,15 @@
                 "WS0002": "XLII_estocflak",
                 "WS0007": "XLII_estocflak",
                 "WS0008": "XLII_estocflak",
-                "WS0027": "XLII_razorflak",
                 "WS0029": "XLII_estocflak",
-                "WS0030": "XLII_estocflak",
+                "WS0030": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0027": "XLII_razorflak",
                 "WS0031": "XLII_razorflak"
             }
         },
@@ -80,8 +80,9 @@
     ],
     "wings": [
         "XLII_aldibain_wing",
-        "XLII_tianyi_wing",
-        "XLII_nodus_wing",
-        "XLII_nodus_wing"
+        "XLII_eldsich_wing",
+        "XLII_eldsich_wing",
+        "XLII_eldsich_wing",
+        "XLII_aldibain_wing"
     ]
 }

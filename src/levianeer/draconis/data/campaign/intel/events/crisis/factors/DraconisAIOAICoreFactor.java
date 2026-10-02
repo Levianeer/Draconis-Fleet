@@ -14,7 +14,8 @@ import java.awt.Color;
 
 /**
  * Monthly factor: raw contribution from AI cores slotted into player industries.
- * Higher-tier cores raise the rate faster (Alpha=3x, Beta=2x, Gamma=1x).
+ * Higher-tier cores raise the rate faster (Alpha=3x, Beta=2x, Gamma=1x). Admin-slotted
+ * cores are presumed Alpha-tier and weighted at 8x - well above an industry Alpha.
  * Does not include the DDA relations multiplier - that is shown separately by
  * DraconisAIORelationsFactor so the player can see both values independently.
  */

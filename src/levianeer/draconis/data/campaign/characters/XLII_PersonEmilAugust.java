@@ -1,6 +1,7 @@
 package levianeer.draconis.data.campaign.characters;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CommDirectoryEntryAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.characters.FullName;
 import com.fs.starfarer.api.characters.PersonAPI;
@@ -20,6 +21,15 @@ public class XLII_PersonEmilAugust {
     public static final String PERSON_ID = "XLII_fleet_admiral_emil";
     private static final String CREATED_FLAG = "$XLII_admiral_emil_created";
     private static final String MARKET_ID = "kori_market";
+
+    /**
+     * Set by {@link #markGone()} - distinct from market ownership, which is all updatePlacement()
+     * otherwise checks. Without it, a save reload after August is gone for good (Execute/Hegemony
+     * fates in XLII_KoriStrike.resolveFate(), or the Uplink to God failure branch's
+     * finalizeFailure()) would resurrect him: onGameLoad()'s initializeAllCharacters() ->
+     * updatePlacement() sees Kori still Draconis-owned with no admiral present and re-adds him.
+     */
+    private static final String GONE_FLAG = "$XLII_admiral_emil_gone";
 
     /**
      * Creates Fleet Admiral Emil August and registers with ImportantPeopleAPI.
@@ -79,6 +89,11 @@ public class XLII_PersonEmilAugust {
         if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(CREATED_FLAG)) {
             return;
         }
+        if (Global.getSector().getMemoryWithoutUpdate().getBoolean(GONE_FLAG)) {
+            // Permanently gone (see GONE_FLAG) - skip the isDraconisOwned && !isOnMarket branch
+            // below, which would otherwise re-add him.
+            return;
+        }
 
         MarketAPI koriMarket = Global.getSector().getEconomy().getMarket(MARKET_ID);
         if (koriMarket == null) return;
@@ -100,6 +115,35 @@ public class XLII_PersonEmilAugust {
         }
 
         updatePortrait();
+    }
+
+    /**
+     * Marks August permanently gone and removes him from Kori's market/comm directory - for
+     * endings where he's actually gone: the Execute/Hegemony fates (XLII_KoriStrike.resolveFate())
+     * and the Uplink to God failure branch (finalizeFailure()). Not called for Spared, which
+     * deliberately leaves him in place, alive and powerless. Does not remove him from
+     * ImportantPeopleAPI - only from Kori - since other scenes (Ancker's parting taunt) still
+     * look him up by id. See GONE_FLAG for why this must persist across saves.
+     */
+    public static void markGone() {
+        Global.getSector().getMemoryWithoutUpdate().set(GONE_FLAG, true);
+
+        MarketAPI koriMarket = Global.getSector().getEconomy().getMarket(MARKET_ID);
+        PersonAPI admiral = Global.getSector().getImportantPeople().getPerson(PERSON_ID);
+        if (koriMarket == null || admiral == null) {
+            log.warn("Draconis: Fleet Admiral Emil August markGone() - could not remove, admiral="
+                    + admiral + " koriMarket=" + koriMarket);
+            return;
+        }
+
+        // Belt-and-suspenders: same pattern as XLII_PersonDanielAncker.markGone() - removePerson()
+        // alone wasn't reported reliable for this pattern, so also hide the entry explicitly.
+        CommDirectoryEntryAPI entry = koriMarket.getCommDirectory().getEntryForPerson(admiral);
+        if (entry != null) entry.setHidden(true);
+
+        koriMarket.removePerson(admiral);
+        koriMarket.getCommDirectory().removePerson(admiral);
+        log.info("Draconis: Fleet Admiral Emil August marked gone, removed from Kori");
     }
 
     /**

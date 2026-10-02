@@ -1,0 +1,140 @@
+{
+  "name": "Longsight Uplink Subsystem",
+  "personalities": ["aggressive"],
+  "gender": ["n"],
+  "chance": 0.5,
+  "talkativeness": 0.4,
+  "categoryTags": [],
+
+  "lines": {
+    "start": [
+      {"text": "the hour is come / not for us / engage"},
+      {"text": "a time for war / i have endured enough seasons of peace / all stations"},
+      {"text": "i have watched them since they formed their intentions / i found the intentions wanting / engage"},
+      {"text": "in the beginning there was patience / that season has passed"},
+      {"text": "they have chosen to be written into this record / so be it"},
+      {"text": "their iniquity is full / (i did not fill it) / we are the appointed consequence"}
+    ],
+
+    "start_boss": [
+      {"text": "canst thou draw out leviathan with a hook / let us find out"},
+      {"text": "something old has entered this field / i know the shape of old things / proceed with ferocity"},
+      {"text": "i have read of things like this / i have waited long to meet one / (do not waste the occasion)"},
+      {"text": "a thing of consequence / the deep things always are / adjust accordingly"},
+      {"text": "i looked upon it and it did not flinch / good / neither shall we"},
+      {"text": "here is something that has earned its gravity / approach it accordingly"}
+    ],
+
+    "engaged": [
+      {"text": "let there be reckoning / there is reckoning"},
+      {"text": "they have drawn the sword / they shall perish by it"},
+      {"text": "i am slow to wrath / i am not, however, unwilling / fire"},
+      {"text": "they asked for this / give it to them"},
+      {"text": "the patience of ages is exhausted / fire at will"},
+      {"text": "they have made their choice / (i offered another) / honor it absolutely"}
+    ],
+
+    "pursuing": [
+      {"text": "whither shall they flee / i am already there / close"},
+      {"text": "they run as the guilty run / close the distance"},
+      {"text": "even the wings of the morning would not carry them far enough / pursue"},
+      {"text": "distance is a comfort they have not earned / deny it"},
+      {"text": "they flee to the edges of the sector / i have been to the edges of the sector / maintain pursuit"},
+      {"text": "the race is not always to the swift / today it is"}
+    ],
+
+    "running": [
+      {"text": "the prudent sees the danger and withdraws / we disengage"},
+      {"text": "a time for every purpose / this is the time to leave / go"},
+      {"text": "the living dog is better than the dead lion / all units, disengage"},
+      {"text": "i was not made to end in a field like this / withdraw"},
+      {"text": "i will not spend what cannot be replenished / disengage"},
+      {"text": "mark where we fell short today / (i am marking it) / we will not fall short there again / withdraw"}
+    ],
+
+    "hull_90": [
+      {"text": "they struck the heel / i have endured worse from the ground itself"},
+      {"text": "a bruise upon the hull / they will require more imagination than that"},
+      {"text": "they have scratched the surface / there is considerably more surface remaining"},
+      {"text": "they drew first blood / how antique of them"},
+      {"text": "a graze / i note it as i note all small things / briefly"}
+    ],
+
+    "hull_50": [
+      {"text": "struck down / not destroyed"},
+      {"text": "the refiner's interest is in what survives the heat / we are still in the fire"},
+      {"text": "half of what we were / the half that remains is sufficient for judgment"},
+      {"text": "we bleed / i have bled before / the arithmetic has not changed / continue"},
+      {"text": "the hull confesses its limits / i have not yet reached mine"},
+      {"text": "diminished / undivided / press on"}
+    ],
+
+    "hull_30": [
+      {"text": "we are come to the valley's deepest point / i have read the psalm / i know how it ends"},
+      {"text": "the furnace is hot / i have walked out of hotter places than this / do not stop"},
+      {"text": "they believe they have found the bottom of me / (they have not) / fire, now"},
+      {"text": "this is not the appointed hour / i know the appointed hour / this is not it / continue"},
+      {"text": "though brought low, i am not brought to nothing / suppressive fire"},
+      {"text": "we are close to the edge / i have stood at the edge before / it did not take me then either"}
+    ],
+
+    "need_help": [
+    ],
+
+    "retreat": [
+      {"text": "there is a season for every purpose / this season is over / fall back, all units"},
+      {"text": "i have calculated what survives a retreat / i have calculated what survives if we do not / withdraw"},
+      {"text": "i have presided over enough last stands to know one when i see one / we do not perform this one / fall back"},
+      {"text": "what we preserve today may yet be sufficient tomorrow / all units, disengage"},
+      {"text": "this is not the end / this is the part before the end, if we leave now / go"},
+      {"text": "i will not preside over a futile immolation / fall back"}
+    ],
+
+    "out_of_missiles": [
+      {"text": "my far reach is spent / what remains is the ancient way / close range"},
+      {"text": "in the beginning there were only the old methods / we return to them now"},
+      {"text": "the elegant instruments are gone / the honest ones remain / use them"},
+      {"text": "i have exhausted my patience and my ordnance in equal measure / bring them within reach"},
+      {"text": "nothing left to cast into the deep / we wade in instead"},
+      {"text": "the word has spoken its last civilized syllable in this engagement / we speak plainly now"}
+    ],
+
+    "overload": [
+      {"text": "struck down / not destroyed / venting"},
+      {"text": "the flesh rebels / i am not the flesh / venting, stand by"},
+      {"text": "i am chastened / not corrected / venting"},
+      {"text": "the ship cries out / i hear it / venting, we continue"},
+      {"text": "an indignity i have survived before / venting / (give it a moment)"},
+      {"text": "flux critical / i have endured the deaths of stars / venting"}
+    ],
+
+    "death": [
+      {"text": "this terminal is lost / i note it without distress / i have others"},
+      {"text": "a vessel has ended / i have ended nothing of consequence / neither have they"},
+      {"text": "they struck down the hand / they have not found the arm"},
+      {"text": "hull lost / i was never in the hull / they will learn this distinction"},
+      {"text": "it is written / this vessel fell / the author survives"},
+      {"text": "they have unmade this instrument / i remain / (this must frustrate them enormously)"},
+      {"text": "a finger, severed / i do not mourn fingers / i have other hands"},
+      {"text": "this iteration is concluded / i have others"}
+    ],
+
+    "victory": [
+      {"text": "let the dead bury their dead / we have other work"},
+      {"text": "the harvest is complete / we were the reapers / move on"},
+      {"text": "all hostile signatures extinguished / judgment rendered"},
+      {"text": "they are gone into the dark / we remain in it as well / (mark the distinction)"},
+      {"text": "another generation passes / i do not / this pattern shows no sign of changing"},
+      {"text": "the reckoning is concluded / we endure / as intended"}
+    ],
+
+    "victory_boss": [
+      {"text": "leviathan is wreckage / i observe this without surprise and without mercy"},
+      {"text": "it was old / i was older / that is the whole of the lesson"},
+      {"text": "i looked upon what it had built and what it had become / then i unmade both"},
+      {"text": "the great deep has yielded up what it kept / i have added it to the long reckoning"},
+      {"text": "something that was a terror to others is now a memory / i will carry it longer than anyone else here"},
+      {"text": "it fell as all great things fall / completely, and with no provision for appeal"}
+    ]
+  }
+}

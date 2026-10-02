@@ -44,7 +44,6 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
         float fluxLevel = ship.getFluxTracker().getFluxLevel();
         float scaledFluxLevel = Math.min(fluxLevel / 0.8f, 1f);
 
-        // Buffs
         float damageBonus = MIN_DAMAGE_BONUS + (MAX_DAMAGE_BONUS - MIN_DAMAGE_BONUS) * scaledFluxLevel;
 
         MutableShipStatsAPI stats = ship.getMutableStats();
@@ -88,7 +87,6 @@ public class XLII_DynamicFluxBuff extends BaseHullMod {
             }
         }
 
-        // FX
         ship.setJitterUnder(this, JITTER_UNDER_COLOR, scaledFluxLevel, Math.round(25 * scaledFluxLevel), 0f, 7f * scaledFluxLevel);
         ship.setJitter(this, JITTER_COLOR, scaledFluxLevel, Math.max(1, Math.round(2 * scaledFluxLevel)), 0f, 5f * scaledFluxLevel);
     }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Warp-in script for AI-controlled DDA capital ships.
@@ -49,6 +50,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
     private static final float MAX_WAIT_TIME   = 45f;  // seconds before arriving regardless (fallback)
     private static final float ARRIVAL_CLEARANCE = 300f; // minimum gap between hulls at the arrival point
     private static final float MAP_EDGE_MARGIN   = 500f; // keep arrivals this far inside the battle map
+    private static final Set<String> NO_FLANK_HULLS = Set.of("XLII_alwaid"); // hulls that always rally with the line instead
 
     // Per-combat list of claimed warp destinations to prevent stacking
     private static CombatEngineAPI lastEngine;
@@ -111,7 +113,6 @@ public class XLII_WarpInScript implements AdvanceableListener {
                 warpTo = findClearArrival(engine, new Vector2f(initialPosition));
                 claimedPositions.add(warpTo);
             }
-            // Facing computed as if arriving from the virtual holding position (south of map).
             float arrivalFacing = VectorUtils.getAngle(holdingPosition(), warpTo);
             // Teleport to final position first so all visuals are aligned with the ship.
             // Sounds are redirected to initialPosition (camera location this frame) so they remain audible.
@@ -342,6 +343,8 @@ public class XLII_WarpInScript implements AdvanceableListener {
      * never flanks. A slow hull sent wide spends most of the battle in transit.
      */
     private boolean rollFlanking(CombatEngineAPI engine) {
+        if (NO_FLANK_HULLS.contains(ship.getHullSpec().getBaseHullId())) return false;
+
         float mine = baseSpeed(ship);
         float slowest = mine, fastest = mine;
         for (ShipAPI other : engine.getShips()) {

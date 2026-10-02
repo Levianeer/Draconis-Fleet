@@ -15,31 +15,20 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Hullmod: Auto Flare Launcher
- * <p>
- * Monitors incoming enemy missiles each frame. When a missile enters range and
- * the cooldown has expired, fires a flare burst from all SYSTEM weapon slots
- * using XLII_DelayedFlareShot - the same mechanism as Evasion Protocol.
- * <p>
- * Requires the hull to have at least one SYSTEM-type weapon slot.
- * Disabled while overloaded or venting.
+ * Each frame, fires a flare burst from all SYSTEM weapon slots (via {@link XLII_DelayedFlareShot},
+ * the same mechanism as Evasion Protocol) when an enemy missile is in range and cooldown has expired.
+ * Requires a SYSTEM weapon slot; disabled while overloaded or venting.
  */
 public class XLII_AutoFlareLauncher extends BaseHullMod {
 
     private static final Logger log = Global.getLogger(XLII_AutoFlareLauncher.class);
 
-    // ==================== TUNING ====================
-
-    /** Range within which an incoming enemy missile triggers a flare burst. */
     static final float DETECTION_RANGE = 900f;
 
     /** Minimum time between bursts, in seconds. */
     static final float COOLDOWN = 12f;
 
-    /** Minimum number of incoming enemy missiles required to trigger a burst. */
     private static final int MIN_MISSILES = 1;
-
-    // ==================== PER-COMBAT STATE ====================
 
     /** Remaining cooldown time, keyed by ship ID. Absent or <= 0 means ready. */
     private static final Map<String, Float> cooldownTimers = new HashMap<>();
@@ -61,8 +50,6 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
         }
     }
 
-    // ==================== COMBAT LOOP ====================
-
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
         checkClearState();
@@ -72,12 +59,10 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null || engine.isPaused()) return;
 
-        // Flares can't fire while the ship is disabled
         if (ship.getFluxTracker().isOverloaded() || ship.getFluxTracker().isVenting()) return;
 
         String shipId = ship.getId();
 
-        // Check (and cache) whether this hull has any SYSTEM slots
         Boolean cached = hasSystemSlotCache.get(shipId);
         if (cached == null) {
             cached = false;
@@ -102,7 +87,6 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
         float detectionRange = isFighter ? DETECTION_RANGE * 0.5f : DETECTION_RANGE;
         float cooldown = isFighter ? COOLDOWN * 0.5f : COOLDOWN;
 
-        // Scan for incoming enemy missiles
         List<MissileAPI> nearby = CombatUtils.getMissilesWithinRange(ship.getLocation(), detectionRange);
         int incomingCount = 0;
         for (MissileAPI missile : nearby) {
@@ -130,8 +114,6 @@ public class XLII_AutoFlareLauncher extends BaseHullMod {
                 + ship.getHullSpec().getHullName()
                 + " (" + incomingCount + "+ incoming missiles detected)");
     }
-
-    // ==================== TOOLTIP ====================
 
     @Override
     public boolean shouldAddDescriptionToTooltip(HullSize hullSize, ShipAPI ship, boolean isForModSpec) {

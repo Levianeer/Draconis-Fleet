@@ -29,21 +29,16 @@ public class XLII_CulverinOnHitEffect implements OnHitEffectPlugin {
             return;
         }
 
-        // Cache target velocity
         Vector2f targetVel = target.getVelocity();
 
-        // Spawn visual effects
         spawnExplosionEffects(engine, point, targetVel);
 
-        // Spawn debris only if not shield hit
         if (!shieldHit) {
             spawnDebris(engine, target, point, targetVel);
         }
 
-        // Handle EMP effects
         handleEmpEffects(projectile, target, point, shieldHit, engine);
 
-        // Play SFX
         Global.getSoundPlayer().playSound(SOUND_ID, 1f, 1f, point, ZERO_VELOCITY);
     }
 
@@ -64,14 +59,12 @@ public class XLII_CulverinOnHitEffect implements OnHitEffectPlugin {
     private void handleEmpEffects(DamagingProjectileAPI projectile, CombatEntityAPI target,
                                   Vector2f point, boolean shieldHit, CombatEngineAPI engine) {
 
-        // Early return if target is not a ship
         if (!(target instanceof ShipAPI empTarget)) {
             return;
         }
 
         boolean shouldApplyEmp = !shieldHit;
 
-        // Calculate shield piercing
         if (shieldHit) {
             float pierceChance = calculatePierceChance(empTarget);
             shouldApplyEmp = Math.random() < pierceChance;

@@ -1,19 +1,17 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 6,
-    "fluxVents": 30,
+    "fluxCapacitors": 0,
+    "fluxVents": 26,
     "goalVariant": true,
     "hullId": "XLII_eltanin_fortysecond",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "XLII_slap_er"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "FortySecond_eltanin_Elite",
     "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS0006": "XLII_bardiche"}
-        },
         {
             "autofire": false,
             "mode": "LINKED",
@@ -38,7 +36,18 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0009": "XLII_estocflak"}
+            "weapons": {
+                "WS0001": "XLII_LaWS",
+                "WS0002": "XLII_LaWS"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_estocflak",
+                "WS0009": "XLII_estocflak"
+            }
         },
         {
             "autofire": true,

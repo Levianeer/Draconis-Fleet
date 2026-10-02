@@ -37,7 +37,6 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
     public DraconisAICoreRaidIntel(GenericRaidParams params, MarketAPI target) {
         super(params);
 
-        // Store target data in params.custom for proper serialization
         CustomRaidData data = new CustomRaidData();
         data.targetMarketId = target != null ? target.getId() : null;
         data.isPlayerMarket = target != null && target.isPlayerOwned();
@@ -70,9 +69,6 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
         return data != null && data.isPlayerMarket;
     }
 
-    /**
-     * Get custom raid data from params
-     */
     private CustomRaidData getCustomData() {
         if (params != null && params.custom instanceof CustomRaidData) {
             return (CustomRaidData) params.custom;
@@ -96,7 +92,6 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
      * @param isAbort false = raid succeeded, true = raid failed/aborted
      */
     public void finish(boolean isAbort) {
-        // Retrieve target from serialized data
         MarketAPI target = getTarget();
         boolean isPlayerMarket = isPlayerMarket();
 
@@ -108,15 +103,12 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
 
         // Handle raid success - steal AI cores
         if (succeeded && target != null) {
-            // Steal AI cores from the successfully raided market
             DraconisAICoreTheftListener.checkAndStealAICores(
                 target, isPlayerMarket, "ai_core_raid"
             );
 
-            // Clear high-value target flags after successful raid
             DraconisSingleTargetScanner.clearTargetAfterRaid(target);
 
-            // Decrement active raid count
             DraconisAICoreRaidManager.decrementActiveRaidCount();
 
             // Start success cooldown (75 days) and record per-faction data
@@ -129,22 +121,17 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
                 DraconisSingleTargetScanner.clearTargetAfterRaid(target);
             }
 
-            // Decrement active raid count
             DraconisAICoreRaidManager.decrementActiveRaidCount();
 
             // Start failure cooldown (150 days) and record per-faction data
             DraconisAICoreRaidManager.startCooldown(false, targetFactionId);
         }
 
-        // Call parent implementation to complete the raid lifecycle
         super.finish(isAbort);
     }
 
     public static String RAIDER_FLEET = "$draconisRaider";
 
-    /**
-     * Advance method - handles raid lifecycle
-     */
     public void advance(float amount) {
         super.advance(amount);
 
@@ -158,7 +145,7 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
     }
 
     /**
-     * Apply AI cores and Sigma Octantis commander after the fleet is created.
+     * Apply AI cores and Longsight commander after the fleet is created.
      */
     @Override
     protected void configureFleet(int size, CampaignFleetAPI fleet) {
@@ -166,14 +153,10 @@ public class DraconisAICoreRaidIntel extends GenericRaidFGI {
         fleet.addScript(new DraconisAICoreFleetInflater.DeferredInflateScript(fleet, true));
     }
 
-    /**
-     * Configure fleet during creation
-     * Sets fleet type and behavior flags for standard raider operations
-     */
+    /** Sets fleet type and behavior flags for standard raider operations. */
     protected void configureFleet(int size, FleetCreatorMission m) {
         super.configureFleet(size, m);
 
-        // Set fleet type for identification
         m.triggerSetFleetType(FleetTypes.SHADOW_FLEET);
 
         // Allow long pursuit (committed raiders)

@@ -48,7 +48,6 @@ public class XLII_BillhookAI implements MissileAIPlugin {
         int clusterCount = 0;
         boolean anyInSingleRange = false;
 
-        // Check hostile missiles
         List<MissileAPI> nearMissiles = CombatUtils.getMissilesWithinRange(missile.getLocation(), CLUSTER_RANGE);
         for (MissileAPI m : nearMissiles) {
             if (m.getOwner() == missile.getOwner() || m.isFading() || m.getCollisionClass() == CollisionClass.NONE) {
@@ -60,7 +59,6 @@ public class XLII_BillhookAI implements MissileAIPlugin {
             }
         }
 
-        // Check hostile fighters
         List<ShipAPI> nearShips = CombatUtils.getShipsWithinRange(missile.getLocation(), CLUSTER_RANGE);
         for (ShipAPI ship : nearShips) {
             if (ship.getOwner() == missile.getOwner() || !ship.isFighter() || !ship.isAlive()) {

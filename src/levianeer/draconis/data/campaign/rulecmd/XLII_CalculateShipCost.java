@@ -39,13 +39,11 @@ public class XLII_CalculateShipCost extends BaseCommandPlugin {
 
         String variantId = params.get(0).getString(memoryMap);
 
-        // Optional suffix for unique variable names
         String suffix = "";
         if (params.size() > 1) {
             suffix = "_" + params.get(1).getString(memoryMap);
         }
 
-        // Try to create fleet member - first as fighter wing, then as ship
         FleetMemberAPI tempMember = null;
         boolean isWing = false;
 
@@ -54,7 +52,6 @@ public class XLII_CalculateShipCost extends BaseCommandPlugin {
             isWing = true;
             log.info("XLII_CalculateShipCost: Successfully identified " + variantId + " as fighter wing");
         } catch (RuntimeException e) {
-            // Not a fighter wing, try as ship
             try {
                 tempMember = Global.getFactory().createFleetMember(FleetMemberType.SHIP, variantId);
                 log.info("XLII_CalculateShipCost: Successfully identified " + variantId + " as ship");
@@ -64,7 +61,6 @@ public class XLII_CalculateShipCost extends BaseCommandPlugin {
             }
         }
 
-        // Calculate cost
         int cost;
         if (isWing) {
             cost = (int) Global.getSettings().getFighterWingSpec(variantId).getBaseValue();
@@ -72,20 +68,17 @@ public class XLII_CalculateShipCost extends BaseCommandPlugin {
             cost = (int) tempMember.getBaseValue();
         }
 
-        // Calculate reputation cost
         float repCost;
         if (isWing) {
             // Fighter wings cost 1 reputation point
             repCost = -0.01f;
         } else {
-            // Ships use hull-size-based cost
             repCost = getReputationCostByHullSize(tempMember);
         }
 
         // Convert reputation to points for display (e.g., -0.01 = 1 point)
         int repPoints = Math.abs((int) (repCost * 100));
 
-        // Get local memory to store variables
         MemoryAPI memory = memoryMap.get(MemKeys.LOCAL);
         if (memory == null) {
             log.warn("XLII_CalculateShipCost: Could not access local memory");

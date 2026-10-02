@@ -64,7 +64,6 @@ public class DraconisAICoreScalingConfig {
             testCycleOverride = (float) settings.optDouble("testCycleOverride", -1.0);
             recheckIntervalDays = (float) settings.optDouble("recheckIntervalDays", 120.0);
 
-            // Load cycle thresholds
             JSONObject thresholds = settings.optJSONObject("cycleThresholds");
             if (thresholds != null) {
                 earlyGameEnd = (float) thresholds.optDouble("earlyGameEnd", 208.0);
@@ -76,7 +75,6 @@ public class DraconisAICoreScalingConfig {
                 endGameEnd = (float) thresholds.optDouble("endGameEnd", 231.0);
             }
 
-            // Load coverage percentages
             JSONObject coverage = settings.optJSONObject("coveragePercentages");
             if (coverage != null) {
                 coverageEarlyGame = (float) coverage.optDouble("earlyGame", 0.0);
@@ -85,7 +83,6 @@ public class DraconisAICoreScalingConfig {
                 coverageEndGame = (float) coverage.optDouble("endGame", 1.0);
             }
 
-            // Load core type weights
             JSONObject coreWeights = settings.optJSONObject("coreTypeWeights");
             if (coreWeights != null) {
                 loadCoreWeights(coreWeights, "earlyMidGame", gammaWeights, 1.0f, 0.0f, 0.0f);
@@ -97,7 +94,6 @@ public class DraconisAICoreScalingConfig {
 
             log.info("Draconis: AI Core Scaling config loaded successfully - Enabled: " + enabled);
 
-            // Log key configuration values for diagnostics
             if (enabled) {
                 log.debug(String.format("Draconis:   Cycle thresholds: Early(%.1f-%.1f) Mid(%.1f-%.1f) Late(%.1f-%.1f) End(%.1f-%.1f)",
                     earlyGameEnd, midGameStart, midGameStart, midGameEnd,
@@ -171,7 +167,6 @@ public class DraconisAICoreScalingConfig {
             betaWeight = 0.0f;
             alphaWeight = 0.0f;
         } else if (currentCycle <= midGameEnd) {
-            // Early-mid game: interpolate between earlyMidGame and midGame weights
             float t = (currentCycle - midGameStart) / (midGameEnd - midGameStart);
             gammaWeight = lerp(gammaWeights.get("earlyMidGame"), gammaWeights.get("midGame"), t);
             betaWeight = lerp(betaWeights.get("earlyMidGame"), betaWeights.get("midGame"), t);
@@ -191,26 +186,22 @@ public class DraconisAICoreScalingConfig {
                 alphaWeight = lerp(alphaWeights.get("midLateGame"), alphaWeights.get("lateGame"), t);
             }
         } else if (currentCycle <= endGameEnd) {
-            // Late-end game: interpolate between lateGame and endGame weights
             float t = (currentCycle - endGameStart) / (endGameEnd - endGameStart);
             gammaWeight = lerp(gammaWeights.get("lateGame"), gammaWeights.get("endGame"), t);
             betaWeight = lerp(betaWeights.get("lateGame"), betaWeights.get("endGame"), t);
             alphaWeight = lerp(alphaWeights.get("lateGame"), alphaWeights.get("endGame"), t);
         } else {
-            // End game: use final weights
             gammaWeight = gammaWeights.get("endGame");
             betaWeight = betaWeights.get("endGame");
             alphaWeight = alphaWeights.get("endGame");
         }
 
-        // Normalize weights to sum to 1.0
         float total = gammaWeight + betaWeight + alphaWeight;
         if (total > 0) {
             gammaWeight /= total;
             betaWeight /= total;
         }
 
-        // Roll for core type using weighted random
         if (random < gammaWeight) {
             return Commodities.GAMMA_CORE;
         } else if (random < gammaWeight + betaWeight) {
@@ -220,9 +211,6 @@ public class DraconisAICoreScalingConfig {
         }
     }
 
-    /**
-     * Linear interpolation between two values
-     */
     private float lerp(float a, float b, float t) {
         return a + (b - a) * Math.max(0, Math.min(1, t));
     }
@@ -231,11 +219,8 @@ public class DraconisAICoreScalingConfig {
         return enabled;
     }
 
-    /**
-     * Get the effective cycle to use for calculations
-     * If testCycleOverride is set (>= 0), returns that instead of the actual cycle
-     * For testing different game stages without waiting
-     */
+    /** Returns {@code testCycleOverride} when set (>= 0), so test builds can jump straight to a game
+     *  stage instead of waiting for the actual cycle to advance. */
     public float getEffectiveCycle(float actualCycle) {
         if (testCycleOverride >= 0) {
             return testCycleOverride;
@@ -243,17 +228,11 @@ public class DraconisAICoreScalingConfig {
         return actualCycle;
     }
 
-    /**
-     * Check if test mode is active (cycle override enabled)
-     * When in test mode, fleets can be re-processed to see effects at different cycles
-     */
+    /** True when {@code testCycleOverride} is set - lets fleets be re-processed to see effects at different cycles. */
     public boolean isTestModeActive() {
         return testCycleOverride >= 0;
     }
 
-    /**
-     * Get the interval (in days) between fleet rechecks
-     */
     public float getRecheckIntervalDays() {
         return recheckIntervalDays;
     }

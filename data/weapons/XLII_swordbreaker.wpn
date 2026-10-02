@@ -5,6 +5,8 @@
 	"type":"MISSILE",
 	"mountTypeOverride":"BALLISTIC",
 	"size":"SMALL",
+	"onFireEffect":"levianeer.draconis.data.scripts.weapons.XLII_SwordbreakerOnHitEffect",
+	"everyFrameEffect":"levianeer.draconis.data.scripts.weapons.XLII_SwordbreakerOnHitEffect",
 	"turretSprite":"graphics/weapons/XLII_swordbreaker_turret_base.png",
 	"hardpointSprite":"graphics/weapons/XLII_swordbreaker_turret_base.png",
 	"turretOffsets":[9,5,9,0,9,-5],

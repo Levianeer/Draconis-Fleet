@@ -56,31 +56,6 @@ public class FafnirAccessStrings {
     public static final float REP_TRANSVERSE_FLOOR  = -0.25f;
 
     // =========================================================================
-    // The Rift - first entry
-    // =========================================================================
-
-    public static final String RIFT_ENTRY_PARA1 =
-            "The particle count climbs before your sensors will admit what they are looking at.";
-
-    public static final String RIFT_ENTRY_PARA2 =
-            "The radiation ahead is not weather your helm can read - it is high-energy wash with no "
-            + "coherent structure, and the instruments render it as noise the whole way down. Combat readiness is "
-            + "already bleeding off the boards.";
-
-    public static final String RIFT_ENTRY_PARA3 =
-            "Your navigation officer lets the returns run a while longer than the plot needs.";
-
-    public static final String RIFT_ENTRY_PARA4 =
-            "\"We could try to push through. I'd rather not say how far.\" A pause. \"But traffic goes through here, Captain. "
-            + "Regularly. Somebody is definitely selling the approach.\"";
-
-    public static final String RIFT_ENTRY_PARA5 =
-            "\"I've heard Tri-Tachyon runs couriers into Fafnir often. And the pirates have been running guns to Ring-Port for thirty "
-            + "cycles now. Neither of them is doing it blind.\" The plot goes dark. \"Could ask in the right bar?\"";
-
-    public static final String OPT_RIFT_ENTRY_NOTED = "Noted.";
-
-    // =========================================================================
     // Jump Point - Military IFF denial (Itoron's JP, Fringe JP)
     // =========================================================================
 
@@ -93,7 +68,7 @@ public class FafnirAccessStrings {
 
     public static final String MILITARY_DENIED_PARA3 =
             "However, given traffic frequency, someone has to know how to make the approach. Draconis has been known to do "
-            + "dealings with the Tri-Tachyon Corperation, and the Pirates often run guns to the First Fleet Rebels in Ring-Port.";
+            + "dealings with the Tri-Tachyon Corporation, and the Pirates often run guns to the First Fleet Rebels in Ring-Port.";
 
     // =========================================================================
     // Jump Point - Option labels
@@ -127,7 +102,7 @@ public class FafnirAccessStrings {
     public static final String TT_AUTH_PARA3 =
             "Whatever else the chip contained, the Rift did not ask.";
 
-    public static final String OPT_APPROACH_JP = "Approach the jump point.";
+    public static final String OPT_APPROACH_JP = "Approach the jump point";
 
     // =========================================================================
     // Access Granted - Ring-Port contractor
@@ -163,62 +138,12 @@ public class FafnirAccessStrings {
     // =========================================================================
 
     public static final String TT_BAR_SCENE =
-            "A stoic looking and corporately dressed women sits alone. Professional attire - "
+            "A stoic looking and corporately dressed woman sits alone. Professional attire - "
             + "civilian clothes, public market, a drink she isn't drinking. "
             + "She sees you notice her and gives a small wave.";
 
     public static final String TT_BAR_OPTION_APPROACH =
             "Approach the corporate woman in the corner.";
-
-    public static final String TT_OPENING_PARA1 =
-            "She doesn't acknowledge your arrival immediately. Finishes a notation in her data pad, "
-            + "sets it face-down.";
-
-    public static final String TT_OPENING_PARA2 =
-            "\"I have a logistics coordination problem.\" She says it the way you'd say the weather. "
-            + "\"Documentation needs to reach Kori on a schedule. The route has been compromised by "
-            + "attention I'd prefer not to replicate.\"";
-
-    public static final String TT_OPENING_PARA3 =
-            "She slides a data chip across the table without looking at it. "
-            + "\"Transit data are embedded. Your Nav Officer will know what to do with it.\"";
-
-    public static final String TT_OPENING_PARA4 =
-            "\"I don't need to know your other business. You don't need to know mine. "
-            + "You'll be paid on delivery.\"";
-
-    public static final String OPT_TT_ACCEPT    = "Accepted.";
-    public static final String OPT_TT_ASK_WHO   = "Who do I deliver to?";
-    public static final String OPT_TT_ASK_WHAT  = "What kind of documentation?";
-    public static final String OPT_TT_DECLINE   = "Not interested.";
-
-    public static final String TT_ASK_WHO_PARA1 =
-            "\"The right people will find you once you're docked at Kori.\" "
-            + "She gives a dramatic sigh. "
-            + "\"If you must know, it's for the local security - nothing illegal, not there anyway.\"";
-
-    public static final String TT_ASK_WHO_PARA2 =
-            "She gives a brief pause.";
-
-    public static final String TT_ASK_WHO_PARA3 =
-            "\"Don't ask about them at the door. They're kind of jumpy...\"";
-
-    public static final String TT_ASK_WHAT_PARA1 =
-            "\"Tri-Tachyon research materials. Logistics data. "
-            + "It's really not that important for you to know anything beyond that.\" "
-            + "She glances at you, with a slight tinge of impatience.";
-
-    public static final String TT_ASK_WHAT_PARA2 =
-            "She picks up her drink for the first time.";
-
-    public static final String TT_ASK_WHAT_PARA3 =
-            "\"That is the complete answer to that question.\"";
-
-    public static final String TT_ACCEPT_PARA1 =
-            "She gives a single nod. The transaction is done.";
-
-    public static final String TT_DECLINE_PARA1 =
-            "She acknowledges this with a look that files the information away.";
 
     // =========================================================================
     // Bar Event - Ring-Port (approach prompt + dialog)
@@ -231,94 +156,6 @@ public class FafnirAccessStrings {
 
     public static final String RP_BAR_OPTION_APPROACH =
             "Approach the gruff looking man.";
-
-    public static final String RP_OPENING_PARA1 =
-            "He doesn't offer a name.";
-
-    public static final String RP_OPENING_PARA2 =
-            "\"I have a package.\" Direct. No preamble. "
-            + "\"Old Tri-Tach signals intelligence. Pre-war. Classified in a way that makes it difficult "
-            + "to move through DDA-adjacent space without attracting the kind of "
-            + "attention that ends careers.\"";
-
-    public static final String RP_OPENING_PARA3 =
-            "\"Job's clean. You get logged as a Ring-Port working contractor - which means "
-            + "certain approaches open up that otherwise don't. "
-            + "You understand what I'm saying.\"";
-
-    public static final String RP_OPENING_PARA4 =
-            "He looks at you the way people look at tools - not unkindly. Functionally.";
-
-    public static final String RP_OPENING_PARA5 =
-            "\"Interested?\"";
-
-    public static final String OPT_RP_ACCEPT    = "Accepted.";
-    public static final String OPT_RP_ASK_WHERE = "What's Ring-Port?";
-    public static final String OPT_RP_ASK_WHAT  = "What are you shipping, exactly?";
-    public static final String OPT_RP_DECLINE   = "Not interested.";
-
-    public static final String RP_ASK_WHERE_PARA1 =
-            "\"Former asteroid mining station. Current situation is more complicated.\"";
-
-    public static final String RP_ASK_WHERE_PARA2 =
-            "A pause.";
-
-    public static final String RP_ASK_WHERE_PARA3 =
-            "\"First Fleet veterans who didn't make it into August's new order. "
-            + "They run the approach. You work for me, you're working for them.\"";
-
-    public static final String RP_ASK_WHAT_PARA1 =
-            "\"I said old intelligence files. Pre-war.\"";
-
-    public static final String RP_ASK_WHAT_PARA2 =
-            "He looks at you.";
-
-    public static final String RP_ASK_WHAT_PARA3 =
-            "\"Don't make this into something it isn't.\"";
-
-    public static final String RP_ACCEPT_PARA1 =
-            "He gives a nod that contains no warmth whatsoever.";
-
-    public static final String RP_DECLINE_PARA1 =
-            "He nods once. Files it.";
-
-    // =========================================================================
-    // Kori Arrival Dialog (TT path: AIO operative acknowledges delivery)
-    // Fired by XLII_FafnirKoriArrivalDialogPlugin via pickInteractionDialogPlugin
-    // =========================================================================
-
-    public static final String KORI_ARRIVAL_SCENE =
-            "There's a man at the docking office threshold with the stillness of someone "
-            + "who has been there longer than you've been in system. He has no rank markings "
-            + "and no reason to be waiting here that isn't you.";
-
-    public static final String KORI_ARRIVAL_DIALOG_PARA1 =
-            "He doesn't offer anything except a brief glance at your vessel registration tag, "
-            + "then to you - then down to his datapad.";
-
-    public static final String KORI_ARRIVAL_DIALOG_PARA2 =
-            "\"Transit log confirmed... Credentials reconciled... Done.\"";
-
-    public static final String KORI_ARRIVAL_DIALOG_PARA3 =
-            "He gives a nod and turns away. The conversation appears to be complete.";
-
-    // =========================================================================
-    // Ring-Port Delivery Dialog (Ring-Port path: contact processes shipment)
-    // Fired by XLII_FafnirRingPortDeliveryDialogPlugin via pickInteractionDialogPlugin
-    // =========================================================================
-
-    public static final String RP_DELIVERY_DIALOG_PARA1 =
-            "He scans your transponder without preamble and checks something off on his slate.";
-
-    public static final String RP_DELIVERY_DIALOG_PARA2 =
-            "\"Shipment's in.\" He doesn't look up. \"Good.\"";
-
-    public static final String RP_DELIVERY_DIALOG_PARA3 =
-            "He marks it in the system. No receipt. No signature. "
-            + "Just a note in whatever ledger Ring-Port keeps. You're in their books.";
-
-    public static final String RP_DELIVERY_DIALOG_PARA4 =
-            "He goes back to the manifests. You're done here.";
 
     // =========================================================================
     // Intel panel - FafnirAccessMissionIntel
@@ -345,47 +182,16 @@ public class FafnirAccessStrings {
 
     public static final String INTEL_DELIVERY_CONFIRMED = "Delivery confirmed.";
 
-    // =========================================================================
-    // In-system Intercept - Brute Force (XLII_FafnirUnauthorizedEntryDialog)
-    // Fleet hail on first arrival after forced Rift transit.
-    // Tone: clipped, bureaucratic, no threats of immediate action - just logged facts.
-    // =========================================================================
+    public static final String INTEL_DELETE_BUTTON = "Delete entry";
 
-    public static final String BF_INTERCEPT_PARA1 =
-            "\"Unauthorised Rift transit is a violation of Alliance territorial jurisdiction.\"";
+    /** Shown when deleting while the contract is still live - the reward is forfeit. */
+    public static final String INTEL_DELETE_CONFIRM_ACTIVE =
+            "Deleting this entry drops the contract. The delivery will no longer be tracked "
+            + "and no payment will be made. This cannot be undone.";
 
-    public static final String BF_INTERCEPT_PARA2 =
-            "\"Your entry has been flagged, your fleet logged, and the matter referred to Command.\"";
-
-    public static final String BF_INTERCEPT_PARA3 =
-            "\"The appropriate adjustment to your standing has been made. Command does not require an explanation.\"";
-
-    public static final String BF_INTERCEPT_PARA4 =
-            "\"Proceed as you intend. This frequency will not respond again.\"";
-
-    public static final String OPT_BF_ACKNOWLEDGE = "Understood.";
-
-    // =========================================================================
-    // In-system Intercept - Transverse Jump (XLII_FafnirUnauthorizedEntryDialog)
-    // Fleet hail on first arrival via transverse jump - no valid protocol to deny.
-    // Tone: same clinical military register, but caught off-guard, no precedent found.
-    // =========================================================================
-
-    public static final String TJ_INTERCEPT_PARA1 =
-            "\"We.. um... don't have a flag for... what you just did...\"";
-
-    public static final String TJ_INTERCEPT_PARA2 =
-            "An awkward pause follows, one that lasts a little too long while the captain logs something out of sight. "
-            + "\"Well, we have a flag for it now.\"";
-
-    public static final String TJ_INTERCEPT_PARA3 =
-            "\"There is no precedent in Alliance regs for denying access via unsanctioned transit vectors. "
-            + "I've checked. We're aware you're here.\"";
-
-    public static final String TJ_INTERCEPT_PARA4 =
-            "\"Conduct yourself accordingly. We'll be watching.\"";
-
-    public static final String OPT_TJ_ACKNOWLEDGE = "Understood.";
+    /** Shown when deleting after the delivery has already been paid out. */
+    public static final String INTEL_DELETE_CONFIRM_DONE =
+            "Are you sure you want to permanently delete this entry?";
 
     public static final String INTEL_INSTRUCTION_TT =
             "Dock at Kori Starport inside the Fafnir system to complete the delivery.";

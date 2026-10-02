@@ -157,18 +157,14 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
 
         if (threateningMissiles == 0) return new ThreatAssessment(0f, incomingSoon, minTimeToImpact);
 
-        // Base value from missile threat
         float value = Math.min(totalThreatValue, 1f);
 
-        // Bonus for multiple missiles
         if (threateningMissiles >= 3) value += 0.3f;
         if (threateningMissiles >= 5) value += 0.2f;
 
-        // Urgency modifiers
         if (ship.getHullLevel() < 0.5f) value *= 1.2f;
         if (ship.getFluxTracker().getFluxLevel() > 0.7f) value *= 1.1f;
 
-        // AI state modifiers
         if (flags.hasFlag(ShipwideAIFlags.AIFlags.BACKING_OFF)) {
             value *= 1.3f; // More valuable when retreating
         }
@@ -196,7 +192,6 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
         else if (damage < 500f) threat = 0.3f;    // Medium missiles
         else threat = 0.5f;                       // Heavy missiles/torpedoes
 
-        // Higher threat for missiles targeting us or nearby allies
         if (isMissileTargetingUsOrAllies(missile)) {
             threat *= 2f;
         }
@@ -219,7 +214,6 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
             }
         }
 
-        // Special missile types
         if (isTorpedo(missile)) {
             threat *= 1.5f; // Torpedoes are high priority
         }
@@ -228,15 +222,12 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
     }
 
     private boolean isMissileTargetingUsOrAllies(MissileAPI missile) {
-        // Check if missile has guided AI and get its target
         if (missile.getMissileAI() instanceof GuidedMissileAI guidedAI) {
             CombatEntityAPI target = guidedAI.getTarget();
             if (target instanceof ShipAPI missileTarget) {
 
-                // Check if targeting us
                 if (missileTarget == ship) return true;
 
-                // Check if targeting nearby allies
                 if (missileTarget.getOwner() == ship.getOwner()) {
                     float distance = Misc.getDistance(ship.getLocation(), missileTarget.getLocation());
                     return distance <= 800f; // Protect nearby allies
@@ -261,7 +252,6 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
     }
 
     private boolean isTorpedo(MissileAPI missile) {
-        // Add null check for weapon spec
         if (missile.getWeaponSpec() == null) {
             return false;
         }

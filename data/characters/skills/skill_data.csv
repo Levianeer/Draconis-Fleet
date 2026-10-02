@@ -1,3 +1,4 @@
 id,name,order,tier,reqPoints,reqPointsPerExtraSkill,description,author,combat officer,admiral,admin,tags,icon,
-XLII_marginal_allocation,Marginal Allocation,0,0,,,"Sigma Octantis does not ""pilot"" your ship. It allocates 0.0001% of available processing capacity to your vessel's operational environment and calls this sufficient. It is.",Alliance Intelligence Office,TRUE,,,"npc_only, ai_core_only, codex_unlockable",graphics/icons/skills/XLII_marginal_allocation.png,
+XLII_marginal_allocation,Marginal Allocation,0,0,,,"Longsight does not pilot your ship. It assigns 0.00001% of available processing capacity to your vessel's operational environment and calls this sufficient. I assure you, it is.",Alliance Intelligence Office,TRUE,,,"npc_only, ai_core_only, codex_unlockable",graphics/icons/skills/XLII_marginal_allocation.png,
+XLII_signals_discipline,Signals Discipline,0,0,,,"Any device that senses or signals can itself be detected, deceived, or drowned out. Build a better radar, and you invite a better way to blind it.",Draconis Defense Alliance,TRUE,,,"npc_only, codex_unlockable",graphics/icons/campaign/ttcr_raids.png,
 ,,,,,,,,,,,,,

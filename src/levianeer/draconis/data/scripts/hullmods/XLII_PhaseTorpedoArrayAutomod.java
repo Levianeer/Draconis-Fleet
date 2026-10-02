@@ -5,12 +5,9 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipSystemAPI;
 
 /**
- * Built-in hidden hull mod for Phase Torpedo Array system.
- * Ensures ship system charges are always even (for symmetrical torpedo spawning).
- * <p>
- * This is applied via applyEffectsAfterShipCreation() so it works in refit screen,
- * campaign, and combat. It handles dynamic officer skill bonuses by being
- * called after all other stat modifications are applied.
+ * Built-in hidden hull mod for the Phase Torpedo Array system: ensures system charges are always
+ * even, for symmetrical torpedo spawning. Uses applyEffectsAfterShipCreation() (not before) so it
+ * runs after officer skill bonuses and other stat mods are applied, in refit, campaign, and combat.
  */
 public class XLII_PhaseTorpedoArrayAutomod extends BaseHullMod {
 
@@ -18,7 +15,6 @@ public class XLII_PhaseTorpedoArrayAutomod extends BaseHullMod {
 
     @Override
     public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
-        // Only apply to ships with the Phase Torpedo Array system
         ShipSystemAPI system = ship.getSystem();
         if (system == null || !PHASE_TORPEDO_SYSTEM_ID.equals(system.getId())) {
             return;
@@ -27,11 +23,8 @@ public class XLII_PhaseTorpedoArrayAutomod extends BaseHullMod {
         // Get base max ammo (includes officer skills like Systems Expertise, other hull mods, etc.)
         int baseMaxAmmo = system.getMaxAmmo();
 
-        // Calculate rounding bonus (0 if even, 1 if odd)
-        // This ensures charges are always even for symmetrical torpedo spawning
         float roundingBonus = (baseMaxAmmo % 2 == 0) ? 0f : 1f;
 
-        // Apply the rounding bonus if needed
         if (roundingBonus > 0) {
             ship.getMutableStats().getSystemUsesBonus().modifyFlat(id, roundingBonus);
         }
@@ -45,7 +38,6 @@ public class XLII_PhaseTorpedoArrayAutomod extends BaseHullMod {
 
     @Override
     public boolean isApplicableToShip(ShipAPI ship) {
-        // Only applicable to ships with Phase Torpedo Array system
         return ship != null && ship.getSystem() != null &&
                PHASE_TORPEDO_SYSTEM_ID.equals(ship.getSystem().getId());
     }

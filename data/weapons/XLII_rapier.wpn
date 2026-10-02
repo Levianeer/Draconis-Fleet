@@ -25,5 +25,5 @@
 					"particleColor":[200,200,200,255]
 					},
 	"fireSoundTwo":"XLII_rapier_fire",
-	"projectileSpecId":"XLII_rapier_shot",
+	"projectileSpecId":"XLII_rapier_shot"
 }

@@ -16,7 +16,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 public class DraconisSteelCurtainMonitor implements EveryFrameScript {
 
     private static final String CONDITION_ID = "draconis_steel_curtain";
-    private static final float CHECK_INTERVAL = 1f; // Check every day
+    private static final float CHECK_INTERVAL = 1f;
 
     private float daysElapsed = 0f;
 
@@ -40,14 +40,12 @@ public class DraconisSteelCurtainMonitor implements EveryFrameScript {
 
         daysElapsed = 0f;
 
-        // Check all markets in the sector
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (market == null || market.isHidden()) continue;
 
             boolean isDraconisOwned = DRACONIS.equals(market.getFactionId());
             boolean hasCondition = market.hasCondition(CONDITION_ID);
 
-            // Add condition if Draconis owns but doesn't have it
             if (isDraconisOwned && !hasCondition) {
                 market.addCondition(CONDITION_ID);
 
@@ -56,7 +54,6 @@ public class DraconisSteelCurtainMonitor implements EveryFrameScript {
                                 " (Draconis-controlled)"
                 );
             }
-            // Remove condition if not Draconis-owned but has it
             else if (!isDraconisOwned && hasCondition) {
                 market.removeCondition(CONDITION_ID);
 
@@ -67,7 +64,6 @@ public class DraconisSteelCurtainMonitor implements EveryFrameScript {
             }
         }
 
-        // Update character placements based on market ownership
         XLII_Characters.updateCharacterPlacements();
     }
 }

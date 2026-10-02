@@ -22,7 +22,7 @@ public class XLII_BardicheOnFireEffect implements OnHitEffectPlugin {
             engine.spawnEmpArc(projectile.getSource(), point, target, target,
                     DamageType.ENERGY,
                     dam,
-                    emp, // emp
+                    emp,
                     100000f, // max range
                     "shock_repeater_emp_impact",
                     20f, // thickness

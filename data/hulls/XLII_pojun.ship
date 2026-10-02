@@ -16,10 +16,10 @@
     "XLII_fluxreactivearmor"
   ],
   "builtInWeapons": {
-    "WS0006": "blinker_red",
-    "WS0007": "blinker_green",
-    "WS0008": "blinker_red",
-    "WS0009": "blinker_green",
+    "WS0006": "XLII_blinker_red",
+    "WS0007": "XLII_blinker_green",
+    "WS0008": "XLII_blinker_red",
+    "WS0009": "XLII_blinker_green",
     "WS0010": "XLII_vernier",
     "WS0011": "XLII_vernier",
     "WS0012": "XLII_vernier",

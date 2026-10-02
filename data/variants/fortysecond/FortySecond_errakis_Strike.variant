@@ -1,11 +1,12 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 15,
+    "fluxCapacitors": 10,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_errakis_fortysecond",
     "hullMods": [
         "missleracks",
+        "XLII_slap_er",
         "eccm"
     ],
     "permaMods": [],

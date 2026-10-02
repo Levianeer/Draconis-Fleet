@@ -50,10 +50,8 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     public XLII_SlapERMissileAI(MissileAPI missile) {
         this.MISSILE = missile;
         MAX_SPEED = missile.getMaxSpeed();
-        //calculate the precision range factor
         PRECISION_RANGE = (float) Math.pow((2 * PRECISION_RANGE), 2);
 
-        // Determine missile owner side
         if (missile.getSource() != null) {
             missileOwner = missile.getSource().getOwner();
         } else {
@@ -79,8 +77,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
             return;
         }
 
-        //assigning a target if there is none or it's no longer valid
-        //Does the missile switch its target if it has been destroyed?
         if (target == null || !isValidCurrentTarget()) {
             setTarget(selectBestTarget());
 
@@ -88,17 +84,14 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
             closestDistanceToTarget = Float.MAX_VALUE;
             wasInDetonationRange = false;
 
-            //forced acceleration by default
             MISSILE.giveCommand(ShipCommand.ACCELERATE);
             return;
         }
 
         timer += amount;
-        //finding lead point to aim to
         if (launch || timer >= check) {
             launch = false;
             timer -= check;
-            //set the next check time
             check = Math.min(
                     0.25f,
                     Math.max(
@@ -120,7 +113,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
                     target.getLocation(),
                     target.getVelocity()
             );
-            //null pointer protection
             if (lead == null) {
                 lead = target.getLocation();
             }
@@ -131,7 +123,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
             float distToTarget = MathUtils.getDistance(MISSILE.getLocation(), target.getLocation());
             float detonationRange = targetShip.getCollisionRadius() + MISSILE.getCollisionRadius();
 
-            // Track if we entered detonation range
             if (distToTarget <= detonationRange) {
                 wasInDetonationRange = true;
                 closestDistanceToTarget = Math.min(closestDistanceToTarget, distToTarget);
@@ -145,7 +136,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        //best velocity vector angle for interception
         float correctAngle = VectorUtils.getAngle(
                 MISSILE.getLocation(),
                 lead
@@ -156,7 +146,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
         //  Require a projectile with a decent turn rate and around twice that in turn acceleration
         //  Usefull for slow torpedoes with low forward acceleration, or ultra precise anti-fighter missiles.
         //REQUIRE NO OVERSHOOT ANGLE!
-        //velocity angle correction
         float offCourseAngle = MathUtils.getShortestRotation(
                 VectorUtils.getFacing(MISSILE.getVelocity()),
                 correctAngle
@@ -169,10 +158,8 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
                 * 0.5f * //oversteer
                 (float) ((FastTrig.sin(MathUtils.FPI / 90 * (Math.min(Math.abs(offCourseAngle), 45))))); //damping when the correction isn't important
 
-        //modified optimal facing to correct the velocity vector angle as soon as possible
         correctAngle = correctAngle + correction;
 
-        //target angle for interception
         float aimAngle = MathUtils.getShortestRotation(MISSILE.getFacing(), correctAngle);
 
         //////////////////////
@@ -186,7 +173,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
             MISSILE.giveCommand(ShipCommand.TURN_LEFT);
         }
 
-        // Damp angular velocity if the missile aim is getting close to the targeted angle
         //Damping of the turn speed when closing on the desired aim. The smaller the snappier.
         float DAMPING = 0.2f;
         if (Math.abs(aimAngle) < Math.abs(MISSILE.getAngularVelocity()) * DAMPING) {
@@ -208,7 +194,6 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
     private boolean isOnSameTeam(int shipOwner) {
         if (missileOwner == -1) return shipOwner != 1; // Explicit fallback with no silent failure
 
-        // Same owner = definitely same team
         if (shipOwner == missileOwner) return true;
 
         // If missile owner is player (owner 0), allies are anyone except enemy (owner 1)
@@ -245,11 +230,9 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
         MISSILE.getVelocity().set(0f, 0f);
         MISSILE.setAngularVelocity(0f);
 
-        // Manually invoke the OnHitEffect at the frozen location
         XLII_MistCloudOnHitEffect effect = new XLII_MistCloudOnHitEffect();
         effect.onHit(MISSILE, targetShip, detonationPoint, false, null, engine);
 
-        // Fade out the missile (now stationary)
         MISSILE.flameOut();
     }
 

@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 25,
+    "fluxCapacitors": 7,
+    "fluxVents": 30,
     "hullId": "XLII_nushi_mk2",
     "hullMods": ["dedicated_targeting_core"],
     "permaMods": [],
@@ -40,5 +40,5 @@
             }
         }
     ],
-    "wings": ["xyphos_wing"]
+    "wings": ["XLII_pulao_wing"]
 }

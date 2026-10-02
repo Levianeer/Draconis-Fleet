@@ -2,18 +2,14 @@ package levianeer.draconis.data.campaign.events;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
-import com.fs.starfarer.api.campaign.OptionPanelAPI;
-import com.fs.starfarer.api.campaign.TextPanelAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEvent;
+import com.fs.starfarer.api.impl.campaign.rulecmd.FireBest;
 import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
-import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessMissionIntel;
 
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Bar event: a Tri-Tachyon operations liaison offers the player a courier job to Kori.
@@ -21,18 +17,18 @@ import java.util.Set;
  * <p>
  * Fires once at any TT market when the player has Welcoming rep or a TT commission.
  * One-shot: sets {@code $fafnirTTQuestActive} on accept and does not recur.
+ * <p>
+ * {@code isAlwaysShow}/{@code shouldShowAtMarket} stay Java (guaranteed-visibility bar-event
+ * gating has no rules.csv equivalent - see {@code XLII_MissionBarEventWatchdog}'s own reasoning
+ * for bypassing {@code BarEventManager} the same way). The prompt/approach step also stays Java,
+ * since the hook option's data must be {@code this} for the bar to wrap into this event at all.
+ * Everything past that point - the branching Q&amp;A, accept and decline flow - lives in rules.csv
+ * on {@code XLII_ttBar*} triggers, painted directly into this same dialog window via
+ * {@link FireBest#fire}, mirroring vanilla's own {@code HubMissionBarEventWrapper}. No dismiss,
+ * no reopen, no jarring transition; {@code done = true} on "Leave" hands control back to the bar
+ * exactly as it already did before this class touched rules.csv at all.
  */
 public class XLII_FafnirTTBarEvent extends BaseBarEvent {
-
-    private enum OptionId {
-        INIT,
-        ASK_WHO,
-        ASK_WHAT,
-        ACCEPT,
-        DECLINE
-    }
-
-    private final Set<OptionId> askedQuestions = EnumSet.noneOf(OptionId.class);
 
     @Override
     public boolean isAlwaysShow() {
@@ -48,10 +44,6 @@ public class XLII_FafnirTTBarEvent extends BaseBarEvent {
         return XLII_FafnirTTBarEventCreator.isTriggerConditionMet();
     }
 
-    // -------------------------------------------------------------------------
-    // Dialog flow
-    // -------------------------------------------------------------------------
-
     @Override
     public void addPromptAndOption(InteractionDialogAPI dialog, Map<String, MemoryAPI> memoryMap) {
         super.addPromptAndOption(dialog, memoryMap);
@@ -64,85 +56,16 @@ public class XLII_FafnirTTBarEvent extends BaseBarEvent {
     public void init(InteractionDialogAPI dialog, Map<String, MemoryAPI> memoryMap) {
         super.init(dialog, memoryMap);
         done = false;
-        optionSelected(null, OptionId.INIT);
+        FireBest.fire(null, dialog, memoryMap, "XLII_ttBarOpen");
     }
 
     @Override
     public void optionSelected(String optionText, Object optionData) {
-        if (!(optionData instanceof OptionId option)) return;
-
-        TextPanelAPI text    = dialog.getTextPanel();
-        OptionPanelAPI options = dialog.getOptionPanel();
-        options.clearOptions();
-
-        switch (option) {
-            case INIT:
-                showOpening(text, options);
-                break;
-
-            case ASK_WHO:
-                askedQuestions.add(OptionId.ASK_WHO);
-                text.addPara(FafnirAccessStrings.TT_ASK_WHO_PARA1);
-                text.addPara(FafnirAccessStrings.TT_ASK_WHO_PARA2);
-                text.addPara(FafnirAccessStrings.TT_ASK_WHO_PARA3);
-                addMainOptions(options);
-                break;
-
-            case ASK_WHAT:
-                askedQuestions.add(OptionId.ASK_WHAT);
-                text.addPara(FafnirAccessStrings.TT_ASK_WHAT_PARA1);
-                text.addPara(FafnirAccessStrings.TT_ASK_WHAT_PARA2);
-                text.addPara(FafnirAccessStrings.TT_ASK_WHAT_PARA3);
-                addMainOptions(options);
-                break;
-
-            case ACCEPT:
-                text.addPara(FafnirAccessStrings.TT_ACCEPT_PARA1);
-                Global.getSector().getMemoryWithoutUpdate()
-                        .set(FafnirAccessStrings.MEM_TT_QUEST_ACTIVE, true);
-                new FafnirAccessMissionIntel(FafnirAccessStrings.PATH_TT_COURIER);
-                clearBarSnapshots();
-                done = true;
-                options.addOption("Leave.", "leave");
-                break;
-
-            case DECLINE:
-                text.addPara(FafnirAccessStrings.TT_DECLINE_PARA1);
-                Global.getSector().getMemoryWithoutUpdate()
-                        .set(FafnirAccessStrings.MEM_TT_DECLINED, true);
-                clearBarSnapshots();
-                done = true;
-                options.addOption("Leave.", "leave");
-                break;
+        String key = (String) optionData;
+        if ("barLeave".equals(key)) {
+            done = true;
+            return;
         }
-    }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    private void showOpening(TextPanelAPI text, OptionPanelAPI options) {
-        text.addPara(FafnirAccessStrings.TT_OPENING_PARA1);
-        text.addPara(FafnirAccessStrings.TT_OPENING_PARA2);
-        text.addPara(FafnirAccessStrings.TT_OPENING_PARA3);
-        text.addPara(FafnirAccessStrings.TT_OPENING_PARA4);
-        addMainOptions(options);
-    }
-
-    private void addMainOptions(OptionPanelAPI options) {
-        if (!askedQuestions.contains(OptionId.ASK_WHO))
-            options.addOption(FafnirAccessStrings.OPT_TT_ASK_WHO,  OptionId.ASK_WHO);
-        if (!askedQuestions.contains(OptionId.ASK_WHAT))
-            options.addOption(FafnirAccessStrings.OPT_TT_ASK_WHAT, OptionId.ASK_WHAT);
-        options.addOption(FafnirAccessStrings.OPT_TT_ACCEPT,   OptionId.ACCEPT);
-        options.addOption(FafnirAccessStrings.OPT_TT_DECLINE,  OptionId.DECLINE);
-    }
-
-    private static void clearBarSnapshots() {
-        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            if (Factions.PLAYER.equals(market.getFactionId())) {
-                market.getMemoryWithoutUpdate().unset("$BarCMD_shownEvents");
-            }
-        }
+        FireBest.fire(null, dialog, memoryMap, "XLII_ttBar_" + key);
     }
 }

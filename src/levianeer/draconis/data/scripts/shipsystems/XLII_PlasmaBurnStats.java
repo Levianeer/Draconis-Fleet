@@ -9,14 +9,16 @@ import java.awt.*;
 
 public class XLII_PlasmaBurnStats extends BaseShipSystemScript {
 
-    private final Color engineGlowColor = new Color(235, 135, 65, 191);
+    private final Color engineGlowColor = new Color(85, 75, 205, 255);
+
+    private static final float SPEED_BOOST = 125f;
 
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         if (state == ShipSystemStatsScript.State.OUT) {
             stats.getMaxSpeed().unmodify(id);
         } else {
-            stats.getMaxSpeed().modifyFlat(id, 150f * effectLevel);
-            stats.getAcceleration().modifyFlat(id, 150f * effectLevel);
+            stats.getMaxSpeed().modifyFlat(id, SPEED_BOOST * effectLevel);
+            stats.getAcceleration().modifyFlat(id, SPEED_BOOST * effectLevel);
         }
 
         if (!(stats.getEntity() instanceof ShipAPI ship)) return;

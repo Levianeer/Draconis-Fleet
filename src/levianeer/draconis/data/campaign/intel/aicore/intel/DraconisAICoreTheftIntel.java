@@ -18,8 +18,8 @@ import java.util.List;
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 /**
- * Intel notification when Draconis successfully steals AI cores from a market
- * Now tracks multiple installation locations for a single raid
+ * Intel notification when Draconis successfully steals AI cores from a market;
+ * tracks multiple installation locations for a single raid.
  */
 public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
 
@@ -53,17 +53,14 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         Global.getSector().getFaction(DRACONIS);
         FactionAPI victimFaction = stolenFromMarket.getFaction();
 
-        // Number of cores stolen
         Color h = Misc.getHighlightColor();
         info.addPara(stolenCores.size() + " AI core" + (stolenCores.size() > 1 ? "s" : "") + " stolen",
                 initPad, h, String.valueOf(stolenCores.size()));
 
-        // Victim faction name
         info.addPara(victimFaction.getDisplayName(), pad, tc,
                 victimFaction.getBaseUIColor(),
                 victimFaction.getDisplayName());
 
-        // Target market
         info.addPara(stolenFromMarket.getName(), pad, h, stolenFromMarket.getName());
     }
 
@@ -78,7 +75,6 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         FactionAPI draconisFaction = Global.getSector().getFaction(DRACONIS);
         FactionAPI victimFaction = stolenFromMarket.getFaction();
 
-        // Show both faction logos side by side
         info.addImages(width, 96, opad, opad,
                 draconisFaction.getLogo(),
                 victimFaction.getLogo());
@@ -116,7 +112,6 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
                     com.fs.starfarer.api.ui.Alignment.MID, opad);
 
             if (installationLocations.size() == 1) {
-                // Single installation location
                 MarketAPI market = installationLocations.keySet().iterator().next();
                 int count = installationLocations.get(market);
 
@@ -130,23 +125,24 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
                 para.setHighlight(market.getName(), market.getStarSystem().getNameWithLowercaseType());
                 para.setHighlightColors(h, h);
             } else {
-                // Multiple installation locations
                 str = "Signals intelligence has detected the stolen AI cores distributed across "
                         + installationLocations.size() + " Draconis facilities:";
 
                 info.addPara(str, opad);
 
+                bullet(info);
                 for (Map.Entry<MarketAPI, Integer> entry : installationLocations.entrySet()) {
                     MarketAPI market = entry.getKey();
                     int count = entry.getValue();
 
-                    String marketInfo = "• " + market.getName() + " (" + market.getStarSystem().getNameWithLowercaseType()
+                    String marketInfo = market.getName() + " (" + market.getStarSystem().getNameWithLowercaseType()
                             + "): " + count + " core" + (count > 1 ? "s" : "");
 
                     para = info.addPara(marketInfo, 3f);
                     para.setHighlight(market.getName(), String.valueOf(count));
                     para.setHighlightColors(h, h);
                 }
+                unindent(info);
 
                 str = "The cores are reportedly enhancing industrial output and military capabilities across "
                         + "the Draconis Alliance.";
@@ -183,6 +179,8 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         if (theftDate > 0) {
             info.addPara(Misc.getAgoStringForTimestamp(theftDate) + ".", opad);
         }
+
+        addDeleteButton(info, width, "Delete entry");
     }
 
     /**
@@ -200,7 +198,6 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
             String fn1 = faction1.getDisplayName();
             String fn2 = faction2.getDisplayName();
 
-            // Generic message about worsened relations
             String str = "Relations between " + fn1 + " and " + fn2
                     + " have worsened to " + String.format("%.0f/100", currentRep * 100)
                     + " (" + newRel + ") as a result of this incident.";
@@ -209,7 +206,6 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
             para.setHighlight(fn1, fn2, "worsened",
                     String.format("%.0f/100", currentRep * 100) + " (" + newRel + ")");
 
-            // Safe color retrieval with fallback
             Color relColor;
             try {
                 relColor = faction1.getRelColor(faction2.getId());
@@ -233,18 +229,12 @@ public class DraconisAICoreTheftIntel extends BaseIntelPlugin {
         }
     }
 
-    /**
-     * Gets a short relationship string based on reputation value
-     */
     private String getRelationStr(float rep) {
         RepLevel level = RepLevel.getLevelFor(rep);
         if (level == null) return "neutral";
         return level.getDisplayName().toLowerCase();
     }
 
-    /**
-     * Gets display text for the action type
-     */
     private String getActionTypeDisplay() {
         return switch (actionType) {
             case "invasion" -> "planetary invasion";

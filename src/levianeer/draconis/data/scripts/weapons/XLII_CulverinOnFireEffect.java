@@ -25,7 +25,6 @@ public class XLII_CulverinOnFireEffect implements OnFireEffectPlugin, EveryFrame
     // Distance between each of the three ring groups along the firing direction
     private static final float RING_SPACING = 24f;
 
-    // Base size of each ring sprite at spawn
     private static final float RING_BASE_SIZE = 25f;
 
     // How much each ring expands before disappearing (multiplier applied over its lifetime)
@@ -76,7 +75,6 @@ public class XLII_CulverinOnFireEffect implements OnFireEffectPlugin, EveryFrame
             this.angle = angle;
             this.maxDur = maxDur;
 
-            // Start fully visible, fade to nothing over the ring's lifetime
             fader = new FaderUtil(1f, 0.01f, maxDur);
             fader.fadeOut();
 
@@ -201,7 +199,7 @@ public class XLII_CulverinOnFireEffect implements OnFireEffectPlugin, EveryFrame
     @Override
     public void onFire(DamagingProjectileAPI projectile, WeaponAPI weapon, CombatEngineAPI engine) {
         if (projectile.getSource() == null) return;
-        // Record position and angle now - rings will be spawned in advance() on the next frame
+        // Spawned in advance() on the next frame, once the engine is stable.
         pendingSpawns.add(new PendingRingSpawn(weapon.getLocation(), weapon.getCurrAngle()));
     }
 

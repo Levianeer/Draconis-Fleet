@@ -21,16 +21,12 @@ public class XLII_EmergencyRecall extends BaseHullMod {
     private static final Color JITTER_COLOR = new Color(100, 165, 255, 155);
     private static final float PHASE_DURATION = 0.5f;
 
-    // ==================== PER-COMBAT STATE ====================
-
     /** Tracks which ship IDs already have a listener managed by this hullmod. */
     private static final Map<String, RecallListener> listeners = new HashMap<>();
 
     /**
-     * Wing slot keys that used recall last life. The next fighter deployed
-     * in that slot will NOT get a recall; the key is consumed on that deploy.
-     * After that fighter dies for real, the slot is clean and the next spawn
-     * gets recall again.
+     * Wing slot keys that used recall last life; consumed on that slot's next deploy (no recall
+     * that life), then cleared once that fighter dies for real, so the slot can recall again.
      */
     private static final Set<String> usedRecallSlots = new HashSet<>();
 
@@ -57,8 +53,6 @@ public class XLII_EmergencyRecall extends BaseHullMod {
         return System.identityHashCode(wing) + "_" + index;
     }
 
-    // ==================== COMBAT LOOP ====================
-
     @Override
     public void advanceInCombat(ShipAPI ship, float amount) {
         CombatEngineAPI engine = Global.getCombatEngine();
@@ -68,22 +62,18 @@ public class XLII_EmergencyRecall extends BaseHullMod {
         checkClearState();
 
         String shipKey = ship.getId();
-        if (listeners.containsKey(shipKey)) return; // already handled this instance
+        if (listeners.containsKey(shipKey)) return;
 
-        // New fighter instance - check if this slot used recall last life
         String slotKey = getSlotKey(ship);
         if (slotKey != null && usedRecallSlots.remove(slotKey)) {
             // Redeployed after recall - no recall this life, store sentinel
             listeners.put(shipKey, new RecallListener(ship, true));
         } else {
-            // Fresh life - recall available
             RecallListener listener = new RecallListener(ship, false);
             ship.addListener(listener);
             listeners.put(shipKey, listener);
         }
     }
-
-    // ==================== DAMAGE LISTENER ====================
 
     public static class RecallListener implements HullDamageAboutToBeTakenListener {
 
@@ -117,10 +107,8 @@ public class XLII_EmergencyRecall extends BaseHullMod {
                 usedRecallSlots.add(slotKey);
             }
 
-            // Restore hull
             ship.setHitpoints(ship.getMaxHitpoints());
 
-            // Restore all armor cells
             ArmorGridAPI armor = ship.getArmorGrid();
             float maxCell = armor.getMaxArmorInCell();
             float[][] grid = armor.getGrid();
@@ -130,13 +118,11 @@ public class XLII_EmergencyRecall extends BaseHullMod {
                 }
             }
 
-            // Sound
             Global.getSoundPlayer().playSound(
                     "system_phase_skimmer", 1f, 0.5f,
                     ship.getLocation(), ship.getVelocity()
             );
 
-            // Phase out and land via FX plugin
             ship.setPhased(true);
             CombatEngineAPI engine = Global.getCombatEngine();
             if (engine != null) {
@@ -146,8 +132,6 @@ public class XLII_EmergencyRecall extends BaseHullMod {
             return true; // negate the lethal damage
         }
     }
-
-    // ==================== PHASE-OUT FX ====================
 
     /**
      * Brief phase-out effect: jitter + fade over PHASE_DURATION, then land
@@ -170,17 +154,14 @@ public class XLII_EmergencyRecall extends BaseHullMod {
             elapsed += amount;
             float progress = Math.min(elapsed / PHASE_DURATION, 1f);
 
-            // Jitter: builds with progress
             float jitterLevel = progress;
             float jitterRangeBonus = 5f + jitterLevel * ship.getCollisionRadius();
             ship.setJitter(this, JITTER_COLOR, jitterLevel, 10, 0f, jitterRangeBonus);
 
-            // Fade out
             float alpha = 1f - progress * 0.5f;
             ship.setExtraAlphaMult(alpha);
 
             if (progress >= 1f) {
-                // Land the fighter
                 if (ship.getWing() != null && ship.getWing().getSource() != null) {
                     ship.getWing().getSource().makeCurrentIntervalFast();
                     ship.getWing().getSource().land(ship);

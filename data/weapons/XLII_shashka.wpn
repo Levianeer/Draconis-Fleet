@@ -33,5 +33,5 @@
     },
     "projectileSpecId":"XLII_shashka_shot",
     "fireSoundOne":"system_nova_burst_fire",
-    "fireSoundTwo":"XLII_fragarach_fire"
+    "fireSoundTwo":"XLII_shashka_fire"
 }

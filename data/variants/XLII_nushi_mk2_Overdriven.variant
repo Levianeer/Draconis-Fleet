@@ -1,40 +1,42 @@
 {
     "displayName": "Overdriven",
-    "fluxCapacitors": 5,
-    "fluxVents": 18,
+    "fluxCapacitors": 0,
+    "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_nushi_mk2",
-    "hullMods": [
-        "unstable_injector",
-        "heavyarmor"
-    ],
+    "hullMods": ["stabilizedshieldemitter"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_nushi_mk2_Overdriven",
     "weaponGroups": [
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0015": "XLII_mangonel"}
+            "weapons": {
+                "WS0013": "XLII_shashka",
+                "WS0014": "XLII_shashka"
+            }
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0020": "reaper",
-                "WS0021": "reaper",
-                "WS0022": "reaper",
-                "WS0023": "reaper"
+                "WS0020": "sabot_single",
+                "WS0021": "sabot_single",
+                "WS0022": "sabot_single",
+                "WS0023": "sabot_single"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0013": "heavyneedler",
-                "WS0014": "heavyneedler"
-            }
+            "weapons": {"WS0015": "multineedler"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0017": "XLII_razorflak"}
         }
     ],
-    "wings": []
+    "wings": ["XLII_pulao_wing"]
 }

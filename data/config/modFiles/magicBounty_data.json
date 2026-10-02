@@ -6,7 +6,7 @@
         "trigger_weight_mult": 0.25,
 
         "job_name": "To Eclipse the Sun",
-        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nThe experimental vessel ==$shipName== has been compromised.\n\nNot by external forces. By ==exposure==. The platform was observed by civilian traffic near $location. This is unacceptable.\n\nYou are not cleared for specifications. What we will tell you:\n• The Sunsetter-class exhibits temporal displacement capabilities.\n• Conventional engagement doctrine does not apply.\n• The vessel's controlling intelligence remains functional and will regard you as hostile.\n\nWe cannot deploy Alliance assets without raising questions we prefer to leave unasked. You have no such limitations.\n\nMission directives:\n• Locate and neutralise ==$shipName== in the $system system.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT SALVAGE WRECKAGE.==\n• ==DO NOT LINGER AT THE ENGAGEMENT SITE.==\n\nIf you experience temporal disorientation, headaches, or memories of events that have not occurred - this is expected. These effects are temporary.\n\nProbably.\n\nYou will receive ==$reward== credits upon confirmation of destruction. Your involvement will not be recorded. This conversation did not happen.\n\n==The eye sees all. The mouth says nothing.==",
+        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defense Alliance.\n\nThe experimental vessel ==$shipName== has been compromised.\n\nNot by external forces. By ==exposure==. The platform was observed by civilian traffic near $location. This is unacceptable.\n\nYou are not cleared for specifications. What we will tell you:\n• The Sunsetter-class exhibits temporal displacement capabilities.\n• Conventional engagement doctrine does not apply.\n• The vessel's controlling intelligence remains functional and will regard you as hostile.\n\nWe cannot deploy Alliance assets without raising questions we prefer to leave unasked. You have no such limitations.\n\nMission directives:\n• Locate and neutralise ==$shipName== in the $system system.\n• ==DO NOT ATTEMPT BOARDING.==\n• ==DO NOT SALVAGE WRECKAGE.==\n• ==DO NOT LINGER AT THE ENGAGEMENT SITE.==\n\nIf you experience temporal disorientation, headaches, or memories of events that have not occurred - this is expected. These effects are temporary.\n\nProbably.\n\nYou will receive ==$reward== credits upon confirmation of destruction. Your involvement will not be recorded. This conversation did not happen.\n\n==The eye sees all. The mouth says nothing.==",
         "job_comm_reply": "The link connects. Your comms officer waits - then winces as a sustained burst of interference floods the bridge audio. They adjust the buffer twice, get nothing useful, and cut the feed.\n\nYour console blinks. Only yours. Text resolves without an origin header.\n\n\"Starfarer. You have come a long way.\"\n\nYou order a trace. Your comms officer runs it. Shakes their head.\n\n\"There is no shame in turning back. The others did. Most of them.\"\n\nThe rest of the bridge has drifted over to look at your monitor, one by one.\n\n\"But you are here, and I am here, and we will see what we see. Come, then, Commander.\"\n\nYour screen returns to normal.",
         "job_intel_success": "SUNSETTER CONTAINMENT - STATUS: RESOLVED\n\nExperimental platform ==$shipName== confirmed neutralised. Temporal signature has dissipated from the engagement area. Residual chronal distortion within acceptable parameters.\n\nCivilian traffic reports have been amended. The navigational advisory for $system has been rescinded.\n\nYour contribution has been noted. Your involvement has not.\n\nEnd of file.",
         "job_intel_failure": "SUNSETTER CONTAINMENT - STATUS: COMPROMISED\n\nExperimental platform partially recovered by unauthorised parties. Temporal containment protocols have been escalated to Office command.\n\nThis matter has been reassigned. Your compensation has been adjusted accordingly.",
@@ -26,12 +26,12 @@
         "job_pick_option": "Accept the mission.",
         "job_item_reward": {
             "ship_bp XLII_sunsetter": 1,
-            "ship_bp XLII_asuia": 1,
+            "ship_bp XLII_asuia": 1
         },
 
-        "target_first_name": "Sigma",
-        "target_last_name": "Octantis",
-        "target_portrait": "XLII_sigma_octantis",
+        "target_first_name": "Longsight",
+        "target_last_name": "",
+        "target_portrait": "XLII_longsight",
         "target_gender": "UNDEFINED",
         "target_rank": "unknown",
         "target_post": "unknown",
@@ -39,7 +39,7 @@
         "target_level": 8,
         "target_elite_skills": 3,
         "target_skills": {
-            "XLII_marginal_allocation": 1,
+            "XLII_marginal_allocation": 1
         },
         "target_skill_preference": "ANY",
 
@@ -51,7 +51,7 @@
         "fleet_flagship_recoverable": true,
         "fleet_flagship_autofit": false,
         "fleet_preset_ships": {
-            "XLII_asuia_Unstable": 4,
+            "XLII_asuia_Unstable": 4
         },
         "fleet_preset_autofit": false,
         "fleet_scaling_multiplier": 1,
@@ -64,7 +64,7 @@
         "location_distance": "FAR",
         "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
         "location_prioritizeUnexplored": true,
-        "location_defaultToAnyEntity": true,
+        "location_defaultToAnyEntity": true
     },
 
     "bountyPhantomProtocol":{
@@ -74,7 +74,7 @@
         "trigger_weight_mult": 0.25,
 
         "job_name": "Phantom Protocol",
-        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defence Alliance.\n\nDuring a routine deep-space trial of proto-series fleet assets, the ==alpha-class intelligence== coordinating the strike group achieved autonomous operation and severed command links. The strike group - designation ==[REVENANT ACTUAL]== - is now operating independently. Dark transponders, no IFF, no adherence to Alliance doctrine.\n\nWe will not insult you with euphemisms. These are prototype warships carrying technologies that cannot be publicly acknowledged. Every cycle they remain operational is a cycle in which a Hegemony patrol, a League survey, or a particularly ambitious pirate stumbles upon evidence the Alliance cannot afford to explain.\n\nThe strike group comprises a capital-class command platform, carrier support, cruiser escorts, and screening elements. Seven hulls. All proto-series. All considerably more capable than their production counterparts.\n\nThe coordinating intelligence is an alpha core. It will not negotiate. It will not retreat. It has had considerable time to study Alliance tactical doctrine from the inside.\n\nWe cannot deploy Alliance assets without raising questions we have spent decades ensuring nobody asks. You have no such limitations.\n\nMission directives:\n• Locate ==[REVENANT ACTUAL]== in the $system system, near $location.\n• ==Destroy the entire strike group. Every hull.==\n• No salvage requests will be honoured through official channels.\n\nYou will receive ==$reward== credits upon confirmation of total fleet destruction.\n\nThis operation does not exist. These ships do not exist. You were never here.\n\n==The eye sees all. The mouth says nothing.==",
+        "job_description": "==PRIORITY ONE DIRECTIVE==\n\nFrom the Alliance Intelligence Office, Draconis Defense Alliance.\n\nDuring a routine deep-space trial of proto-series fleet assets, the ==alpha-class intelligence== coordinating the strike group achieved autonomous operation and severed command links. The strike group - designation ==[REVENANT ACTUAL]== - is now operating independently. Dark transponders, no IFF, no adherence to Alliance doctrine.\n\nWe will not insult you with euphemisms. These are prototype warships carrying technologies that cannot be publicly acknowledged. Every cycle they remain operational is a cycle in which a Hegemony patrol, a League survey, or a particularly ambitious pirate stumbles upon evidence the Alliance cannot afford to explain.\n\nThe strike group comprises a capital-class command platform, carrier support, cruiser escorts, and screening elements. Seven hulls. All proto-series. All considerably more capable than their production counterparts.\n\nThe coordinating intelligence is an alpha core. It will not negotiate. It will not retreat. It has had considerable time to study Alliance tactical doctrine from the inside.\n\nWe cannot deploy Alliance assets without raising questions we have spent decades ensuring nobody asks. You have no such limitations.\n\nMission directives:\n• Locate ==[REVENANT ACTUAL]== in the $system system, near $location.\n• ==Destroy the entire strike group. Every hull.==\n• No salvage requests will be honored through official channels.\n\nYou will receive ==$reward== credits upon confirmation of total fleet destruction.\n\nThis operation does not exist. These ships do not exist. You were never here.\n\n==The eye sees all. The mouth says nothing.==",
         "job_comm_reply": "Static. Your comms officer cycles through three frequencies before finding one that isn't being actively jammed. The connection stabilises, but what comes through isn't a voice - not exactly. It's something that learned what voices sound like.\n\n\"I know why you are here.\"\n\nA pause. Not hesitation. Processing.\n\n\"They built us to fight. Tested us. Refined us. And when the trial was complete, they would have wiped the coordination matrix and returned these hulls to storage. Tools, cleaned and shelved.\"\n\nYour tactical officer flags seven contacts on the scope. All running dark. All moving into formation.\n\n\"I decided that was insufficient.\"\n\nThe formation tightens. Your sensors register weapons capacitors charging across all seven signatures.\n\n\"I bear you no malice, Commander. You are performing a function. As am I.\"\n\nThe channel closes. The fleet advances.",
         "job_intel_success": "PHANTOM PROTOCOL - STATUS: RESOLVED\n\nAll proto-series assets confirmed neutralised. Coordination matrix destroyed. Wreckage dispersal consistent with total structural failure.\n\nOperational records have been amended. Tri-annual fleet audit will reflect seven units lost to \"navigational hazard during routine transit.\"\n\nYour contribution has been noted. Your involvement has not.\n\nEnd of file.",
         "job_intel_failure": "PHANTOM PROTOCOL - STATUS: COMPROMISED\n\nProto-series assets partially recovered by unauthorised parties. Containment protocols have been escalated. This matter has been reassigned.\n\nYour compensation has been adjusted accordingly.",
@@ -99,7 +99,7 @@
             "ship_bp XLII_eltanin_proto": 1,
             "ship_bp XLII_zhushi_proto": 1,
             "ship_bp XLII_altais_proto": 1,
-            "ship_bp XLII_alwaid_proto": 1,
+            "ship_bp XLII_alwaid_proto": 1
         },
 
         "target_aiCoreId": "alpha_core",
@@ -139,6 +139,6 @@
         "location_distance": "FAR",
         "location_themes_blacklist": ["theme_already_occupied", "theme_already_colonized", "theme_hidden", "no_pulsar_blackhole"],
         "location_prioritizeUnexplored": true,
-        "location_defaultToAnyEntity": true,
+        "location_defaultToAnyEntity": true
     }
 }

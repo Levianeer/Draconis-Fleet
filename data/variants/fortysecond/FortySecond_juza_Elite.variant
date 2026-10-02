@@ -1,23 +1,24 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 0,
+    "fluxVents": 11,
     "goalVariant": true,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
-        "hardenedshieldemitter",
-        "safetyoverrides",
-        "hardened_subsystems",
-        "unstable_injector"
+        "unstable_injector",
+        "targetingunit"
     ],
     "permaMods": [],
     "sMods": [],
     "variantId": "FortySecond_juza_Elite",
     "weaponGroups": [
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS0003": "XLII_mangonel"}
+            "weapons": {
+                "WS0018": "XLII_shashka",
+                "WS0019": "XLII_shashka"
+            }
         },
         {
             "autofire": false,
@@ -34,7 +35,21 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0020": "multineedler"}
+            "weapons": {
+                "WS0003": "multineedler",
+                "WS0020": "multineedler"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_LaWS",
+                "WS0006": "XLII_LaWS",
+                "WS0015": "XLII_LaWS",
+                "WS0024": "XLII_LaWS",
+                "WS0025": "XLII_LaWS"
+            }
         }
     ]
 }

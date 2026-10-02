@@ -75,6 +75,8 @@
 		"XLII_yinde_Elite":0.1,
 		"XLII_yinde_Strike":0.1,
 
+		"XLII_asuia_Experimental":0.75,
+
 		"fallback":{"combatMedium":1}
 	},
 	"combatCapital":{
@@ -91,6 +93,8 @@
 
 		"XLII_dziban_Elite":0.25,
 		"XLII_dziban_Strike":0.25,
+
+		"XLII_sunsetter_Experimental":0.5,
 
 		"fallback":{"combatLarge":1}
 	},

@@ -10,27 +10,22 @@ import java.awt.*;
 
 public class DraconisSteelCurtain extends BaseMarketConditionPlugin {
 
-    // Modifier values
-    private static final float GROUND_DEFENSE_BONUS = 0.5f; // +50% ground defenses
-    private static final float ACCESSIBILITY_PENALTY = -0.2f; // -20% accessibility
+    private static final float GROUND_DEFENSE_BONUS = 0.5f;
+    private static final float ACCESSIBILITY_PENALTY = -0.2f;
 
     @Override
     public void apply(String id) {
-        // Increase ground defenses
         market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                 .modifyMult(id, 1f + GROUND_DEFENSE_BONUS, condition.getName());
 
-        // Decrease accessibility
         market.getAccessibilityMod().modifyFlat(id, ACCESSIBILITY_PENALTY, condition.getName());
     }
 
     @Override
     public void unapply(String id) {
-        // Remove ground defense modifier
         market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                 .unmodifyMult(id);
 
-        // Remove accessibility modifier
         market.getAccessibilityMod().unmodifyFlat(id);
     }
 

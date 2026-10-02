@@ -1,0 +1,21 @@
+{
+	"id":"XLII_heatsink",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"sprite":"graphics/missiles/XLII_heatsink.png",
+	"glowSprite":"graphics/missiles/XLII_heatsink_glow.png",
+	"glowColor":[190,60,255,255],
+	"size":[28,28],
+	"center":[14,14],
+	"collisionRadius":14,
+	"collisionClass":"MISSILE_NO_FF",
+	"explosionColor":[190,60,255,180],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":40, # purely visual
+	"flameoutTime":0.3, # total time from flameout to full fadeout
+	"noEngineGlowTime":0.3, # time spent without the engine glow being rendered
+	"fadeTime":0.4, # fadeout duration
+	"engineSpec":{"turnAcc":0,
+				  "turnRate":0,
+				  "acc":0,
+				  "dec":0}
+}

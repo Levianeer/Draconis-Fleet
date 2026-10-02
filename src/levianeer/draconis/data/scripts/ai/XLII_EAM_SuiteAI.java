@@ -22,13 +22,10 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
     private ShipwideAIFlags flags;
     private ShipSystemAPI system;
 
-    // Evaluation timing
     private final IntervalUtil tracker = new IntervalUtil(0.3f, 0.5f);
 
-    // State tracking
     private float systemStateChangeTime = 0f;
 
-    // Constants
     private static final float MIN_TOGGLE_INTERVAL = 2.5f;
     private static final float ACTIVATION_COMMITMENT = 2.0f;
     private static final float SYSTEM_RANGE = 1800f;
@@ -81,10 +78,8 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
     private boolean canToggleNow(boolean isActive) {
         float timeSinceChange = engine.getTotalElapsedTime(false) - systemStateChangeTime;
         if (isActive) {
-            // Must stay active for commitment period
             return timeSinceChange >= ACTIVATION_COMMITMENT;
         } else {
-            // Cooldown between toggles
             return timeSinceChange >= MIN_TOGGLE_INTERVAL;
         }
     }
@@ -105,9 +100,7 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
         if (enemiesInAura.isEmpty()) return false;
         if (is1v1Scenario(enemiesInAura)) return false;
 
-        // The debuff amplifies allied damage - activate whenever allies have enough
-        // firepower on these enemies to benefit, regardless of enemy return fire
-        // (hard blocks above already cover self-preservation).
+        // See class javadoc: debuff rewards allied firepower on the aura; hard blocks above cover self-preservation.
         float alliedFP = calculateAlliedFirepowerOnAura(enemiesInAura);
         return alliedFP >= MIN_ALLIED_FP_TO_ACTIVATE;
     }
@@ -250,7 +243,6 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
     private boolean is1v1Scenario(List<ShipAPI> enemiesInAura) {
         if (enemiesInAura.size() != 1) return false;
 
-        // Check if we have nearby allies
         List<ShipAPI> allies = getAlliesInRange();
         return allies.isEmpty();
     }
@@ -260,7 +252,6 @@ public class XLII_EAM_SuiteAI implements ShipSystemAIScript {
 
         float damage = weapon.getSpec().getDerivedStats().getDps();
 
-        // Adjust for weapon size
         return switch (weapon.getSize()) {
             case SMALL -> damage * 0.5f;
             case MEDIUM -> damage;

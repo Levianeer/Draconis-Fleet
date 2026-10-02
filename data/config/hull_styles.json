@@ -35,6 +35,10 @@
 		"slotCoverLargeTurret":"graphics/weapons/covers/cover_draconis_turret_large.png",
 		"slotCoverLargeHardpoint":"graphics/weapons/covers/cover_draconis_hardpoint_large.png",
 		
+		"dHullOverlayLight":"graphics/damage/dmod_overlay_hightech_light.png",
+		"dHullOverlayMedium":"graphics/damage/dmod_overlay_hightech_medium.png",
+		"dHullOverlayHeavy":"graphics/damage/dmod_overlay_hightech_heavy.png",
+
 		"damageDecalSheet":"graphics/damage/damage_decal_sheet_base.png",
 		"damageDecalGlowSheet":"graphics/damage/damage_decal_sheet_glow.png",
 	}

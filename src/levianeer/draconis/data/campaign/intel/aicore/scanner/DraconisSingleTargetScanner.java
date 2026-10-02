@@ -24,7 +24,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
 
     private static final Logger log = Global.getLogger(DraconisSingleTargetScanner.class);
 
-    private static final float SCAN_INTERVAL = 30f; // Scan every 30 days
+    private static final float SCAN_INTERVAL = 30f;
     private static final int MIN_MARKET_SIZE = 4;
 
     // Memory flags
@@ -67,8 +67,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
     }
 
     /**
-     * Main scanning logic - finds and marks the best target
-     * Made public for testing purposes
+     * Public for testing purposes.
      */
     public void scanAndMarkBestTarget() {
         FactionAPI draconisFaction = Global.getSector().getFaction(DRACONIS);
@@ -95,37 +94,32 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         int skippedHidden = 0;
         int skippedFriendly = 0;
 
-        // Scan all markets
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             totalMarkets++;
 
-            // Skip Draconis markets
             if (isDraconisMarket(market)) {
                 skippedDraconis++;
                 continue;
             }
 
-            // Skip hidden/invalid markets
             if (market.isHidden() || !market.isInEconomy()) {
                 skippedHidden++;
                 continue;
             }
 
-            // Skip small markets
             if (market.getSize() < MIN_MARKET_SIZE) {
                 skippedSmall++;
                 continue;
             }
 
-            // Skip friendly/allied factions (rep >= 0.25)
-            // This allows hostile, neutral, and unfriendly factions (including Pirates)
+            // Skip friendly/allied factions (rep >= 0.25) - hostile/neutral/unfriendly factions
+            // (including Pirates) stay eligible.
             float relationship = market.getFaction().getRelationship(DRACONIS);
             if (relationship >= 0.25f) {
                 skippedFriendly++;
                 continue;
             }
 
-            // Never target player markets while the crisis is suppressed
             if (trackerSuppressed && Factions.PLAYER.equals(market.getFactionId())) {
                 continue;
             }
@@ -196,7 +190,6 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         // Sort by value (highest first)
         filtered.sort((a, b) -> Float.compare(b.value, a.value));
 
-        // Log top 5 candidates
         log.info("Draconis: Top candidates by value:");
         for (int i = 0; i < Math.min(5, filtered.size()); i++) {
             MarketCandidate candidate = filtered.get(i);
@@ -268,7 +261,6 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
         market.getMemoryWithoutUpdate().set(TARGET_BETA_COUNT_FLAG, cores.betaCores);
         market.getMemoryWithoutUpdate().set(TARGET_GAMMA_COUNT_FLAG, cores.gammaCores);
 
-        // Add condition
         if (!market.hasCondition("draconis_high_value_target")) {
             market.addCondition("draconis_high_value_target");
             log.info("Draconis: Added 'Draconis Priority Target' condition to " + market.getName());
@@ -310,8 +302,7 @@ public class DraconisSingleTargetScanner implements EveryFrameScript {
     }
 
     /**
-     * Clears target flags after a successful raid
-     * Called by DraconisTargetedRaidMonitor
+     * Called by DraconisTargetedRaidMonitor after a successful raid.
      */
     public static void clearTargetAfterRaid(MarketAPI market) {
         log.info("Draconis: === CLEARING TARGET AFTER SUCCESSFUL RAID ===");

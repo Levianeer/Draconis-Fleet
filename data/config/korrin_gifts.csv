@@ -1,0 +1,8 @@
+id,itemId,itemType,quantity,label,priority
+korrin_gift_topographic,topographic_data,special,1,Topographic Data,5
+korrin_gift_lobster,lobster,commodity,1,Volturnian Lobster,10
+korrin_gift_survey_1,survey_data_1,commodity,1,Class I Survey Data,20
+korrin_gift_survey_2,survey_data_2,commodity,1,Class II Survey Data,21
+korrin_gift_survey_3,survey_data_3,commodity,1,Class III Survey Data,22
+korrin_gift_survey_4,survey_data_4,commodity,1,Class IV Survey Data,23
+korrin_gift_survey_5,survey_data_5,commodity,1,Class V Survey Data,24

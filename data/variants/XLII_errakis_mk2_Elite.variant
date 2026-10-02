@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 20,
+    "fluxCapacitors": 18,
     "fluxVents": 2,
     "goalVariant": true,
     "hullId": "XLII_errakis_mk2",

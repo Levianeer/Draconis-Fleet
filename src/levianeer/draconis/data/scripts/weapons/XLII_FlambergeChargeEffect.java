@@ -7,14 +7,12 @@ import com.fs.starfarer.api.util.IntervalUtil;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
-import org.magiclib.util.MagicFakeBeam;
 import org.magiclib.util.MagicRender;
 
 import java.awt.*;
 
 public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin, OnFireEffectPlugin {
 
-    // Colors
     private static final Color GLOW_COLOR = new Color(255, 105, 105, 205);
     private static final Color GLOW_CORE_COLOR = new Color(255, 180, 180, 255);
     private static final Color PARTICLE_COLOR = new Color(255, 105, 80, 180);
@@ -24,13 +22,11 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
     private static final Color RING_CORE_COLOR = new Color(255, 255, 255, 255);
     private static final Color RING_FRINGE_COLOR = new Color(255, 105, 105, 205);
 
-    // Laser sight
     private static final float LASER_WIDTH = 6f;
     private static final float LASER_FULL = 0.03f;
     private static final float LASER_FADING = 0.09f;
     private static final float LASER_RANGE_BONUS = 450f;
 
-    // Converging particles
     private static final int PARTICLE_BASE_COUNT = 2;
     private static final int PARTICLE_MAX_COUNT = 8;
     private static final float CONVERGE_RADIUS_MIN = 80f;
@@ -40,16 +36,13 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
     private static final float CONVERGE_PARTICLE_SIZE_MAX = 8f;
     private static final float CONVERGE_PARTICLE_DURATION = 0.3f;
 
-    // Muzzle glow
     private static final float GLOW_SIZE_MIN = 10f;
     private static final float GLOW_SIZE_MAX = 80f;
 
-    // Lens flare at peak charge
     private static final float FLARE_CHARGE_THRESHOLD = 0.5f;
     private static final Vector2f FLARE_STREAK_SIZE = new Vector2f(800f, 12f);
     private static final Vector2f FLARE_CORE_SIZE = new Vector2f(350f, 8f);
 
-    // On-fire muzzle blast
     private static final int FIRE_NEBULA_COUNT = 12;
     private static final float FIRE_NEBULA_SPREAD = 25f;
     private static final float FIRE_NEBULA_SPEED_MIN = 100f;
@@ -62,10 +55,8 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
     private static final float FIRE_RING_SIZE_MULT = 1.5f;
     private static final float FIRE_RING_DURATION_MULT = 2.5f;
 
-    // Charge state tracking
     private boolean hasFired = false;
 
-    // Intervals
     private final IntervalUtil laserInterval = new IntervalUtil(0.05f, 0.05f);
     private final IntervalUtil particleInterval = new IntervalUtil(0.03f, 0.06f);
     private final IntervalUtil glowInterval = new IntervalUtil(0.02f, 0.04f);
@@ -99,7 +90,7 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
             int alpha = (int) (255f * chargeLevel);
             Color core = new Color(205, 205, 205, alpha);
             Color fringe = new Color(255, 100, 75, alpha);
-            MagicFakeBeam.spawnFakeBeam(
+            XLII_FakeBeam.spawnFakeBeam(
                     engine, muzzle, weapon.getRange() + LASER_RANGE_BONUS, weaponAngle,
                     LASER_WIDTH, LASER_FULL, LASER_FADING, 25f,
                     core, fringe,
@@ -107,7 +98,6 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
             );
         }
 
-        // Converging particles
         particleInterval.advance(amount);
         if (particleInterval.intervalElapsed()) {
             int count = (int) (PARTICLE_BASE_COUNT + (PARTICLE_MAX_COUNT - PARTICLE_BASE_COUNT) * chargeLevel);
@@ -126,7 +116,6 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
             }
         }
 
-        // Growing muzzle glow
         glowInterval.advance(amount);
         if (glowInterval.intervalElapsed()) {
             float glowSize = GLOW_SIZE_MIN + (GLOW_SIZE_MAX - GLOW_SIZE_MIN) * chargeLevel;
@@ -134,7 +123,6 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
             engine.addSmoothParticle(muzzle, shipVel, glowSize * 1.5f, chargeLevel * 0.5f, 0.05f, GLOW_COLOR);
         }
 
-        // Flare at peak charge
         if (chargeLevel > FLARE_CHARGE_THRESHOLD) {
             float intensity = (chargeLevel - FLARE_CHARGE_THRESHOLD) / (1f - FLARE_CHARGE_THRESHOLD);
 
@@ -162,7 +150,6 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
         Vector2f shipVel = ship.getVelocity();
         float weaponAngle = weapon.getCurrAngle();
 
-        // Nebula particles in forward cone
         for (int i = 0; i < FIRE_NEBULA_COUNT; i++) {
             float angle = weaponAngle + MathUtils.getRandomNumberInRange(-FIRE_NEBULA_SPREAD, FIRE_NEBULA_SPREAD);
             float speed = MathUtils.getRandomNumberInRange(FIRE_NEBULA_SPEED_MIN, FIRE_NEBULA_SPEED_MAX);
@@ -171,13 +158,11 @@ public class XLII_FlambergeChargeEffect implements EveryFrameWeaponEffectPlugin,
             engine.addNebulaParticle(muzzle, vel, size, 1.5f, 0f, 0f, FIRE_NEBULA_DURATION, NEBULA_COLOR);
         }
 
-        // Bright hit particles at muzzle
         for (int i = 0; i < FIRE_HIT_PARTICLE_COUNT; i++) {
             Vector2f point = MathUtils.getRandomPointInCircle(muzzle, 20f);
             engine.addHitParticle(point, shipVel, FIRE_HIT_PARTICLE_SIZE, 1f, 0.15f, GLOW_CORE_COLOR);
         }
 
-        // Expanding ring shockwave at muzzle
         XLII_MuzzleFlashEffect.ProjectileRingEffectPlugin ringPlugin =
                 new XLII_MuzzleFlashEffect.ProjectileRingEffectPlugin(
                         muzzle, weaponAngle,

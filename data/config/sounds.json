@@ -1,13 +1,22 @@
 {
 	"music":{
-		"music_XLII_draconis_neutral":[
-			{"file":"music_XLII_draconis_neutral.ogg","source":"sounds/music","volume":0.2}
+		"music_XLII_draconis_market_neutral":[
+			{"file":"music_XLII_draconis_market_neutral.ogg","source":"sounds/music","volume":0.2}
 		],
-		"music_XLII_draconis_hostile":[
-			{"file":"music_XLII_draconis_hostile.ogg","source":"sounds/music","volume":0.2}
+		"music_XLII_draconis_market_hostile":[
+			{"file":"music_XLII_draconis_market_hostile.ogg","source":"sounds/music","volume":0.2}
 		],
-		"music_XLII_draconis_friendly":[
-			{"file":"music_XLII_draconis_friendly.ogg","source":"sounds/music","volume":0.2}
+		"music_XLII_draconis_market_friendly":[
+			{"file":"music_XLII_draconis_market_friendly.ogg","source":"sounds/music","volume":0.2}
+		],
+		"music_XLII_draconis_encounter_neutral":[
+			{"file":"music_XLII_draconis_encounter_neutral.ogg","source":"sounds/music","volume":0.2}
+		],
+		"music_XLII_draconis_encounter_hostile":[
+			{"file":"music_XLII_draconis_encounter_hostile.ogg","source":"sounds/music","volume":0.2}
+		],
+		"music_XLII_draconis_encounter_friendly":[
+			{"file":"music_XLII_draconis_encounter_friendly.ogg","source":"sounds/music","volume":0.2}
 		]
 	},
 
@@ -271,6 +280,27 @@
 	"XLII_culverin_proxy_explosion":{
 		"sounds":[
 		{"file":"sounds/sfx_impacts/XLII_culverin_explosion_0.ogg","pitch":1.0,"volume":0.125}
+		]
+    },
+
+	"XLII_shashka_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_energy/XLII_shashka_fire_0.ogg","pitch":1.0,"volume":0.5}
+		]
+    },
+
+	"XLII_driver_charge":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_charge_0.ogg","pitch":1.0,"volume":0.15}
+		]
+    },
+
+	"XLII_driver_fire":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_0.ogg","pitch":1.0,"volume":0.3},
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_1.ogg","pitch":1.0,"volume":0.3},
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_2.ogg","pitch":1.0,"volume":0.3},
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_3.ogg","pitch":1.0,"volume":0.3}
 		]
     },
 

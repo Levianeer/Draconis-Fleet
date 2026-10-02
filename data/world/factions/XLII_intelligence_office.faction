@@ -1,8 +1,6 @@
 {
 	"id":"XLII_intelligence_office",
 	
-	"illegalCommodities":["drugs","organs","ai_cores"],
-	
 	"color":[50,60,80,255],
 	"secondaryUIColor":[180,85,45,255],
         "secondarySegments":2,
@@ -14,11 +12,11 @@
 	
 	"showInIntelTab":false,
 
-	"displayName":"Draconis Intelligence Office",
-		"displayNameWithArticle":"the Draconis Intelligence Office",
+	"displayName":"Alliance Intelligence Office",
+		"displayNameWithArticle":"the Alliance Intelligence Office",
 		
-	"displayNameLong":"Draconis Defence Alliance Intelligence Office",
-		"displayNameLongWithArticle":"the Draconis Defence Alliance Intelligence Office",
+	"displayNameLong":"Draconis Alliance Intelligence Office",
+		"displayNameLongWithArticle":"the Draconis Alliance Intelligence Office",
 	
 	"logo":"graphics/factions/draconis_2.png",
 		"crest":"graphics/factions/crest_draconis_2.png",
@@ -50,12 +48,24 @@
 	"shipsWhenImporting":{
 		"tags":[],
 		"hulls":[
+			"XLII_shaowei",
+			"XLII_juza",
+			"XLII_yinde",
+			"XLII_tianlong_mk2",
+			"XLII_asuia",
+			"XLII_sunsetter"
 		],
 	},
 	
 	"knownShips":{
 		"tags":["XLII_ship_bp"],
 		"hulls":[
+			"XLII_shaowei",
+			"XLII_juza",
+			"XLII_yinde",
+			"XLII_tianlong_mk2",
+			"XLII_asuia",
+			"XLII_sunsetter"
 		],
 	},
 	
@@ -63,6 +73,10 @@
 	"priorityShips":{
 		"tags":["XLII_ship_bp"],
 		"hulls":[
+			"XLII_shaowei",
+			"XLII_yinde",
+			"XLII_asuia",
+			"XLII_sunsetter"
 		],
 	},
 	
@@ -100,15 +114,12 @@
 	},
 	
 	"hullmodSellFrequency":{
-		"missleracks":5,
-		"eccm":5,
-		"missile_autoloader":5,
 	},
 	
 	"factionDoctrine":{
-		"warships":1,
-		"carriers":3,
-		"phaseShips":2,
+		"warships":3,
+		"carriers":0,
+		"phaseShips":3,
 
 		"officerQuality":7,
 		"shipQuality":5,
@@ -116,27 +127,38 @@
 
 		"shipSize":4,
 
-		"aggression":3,
-		
-		"combatFreighterProbability":1.5,						# instead of some portion of the freighters in a fleet
-		"combatFreighterCombatUseFraction":1.25,				# as part of the normal combat lineup
-		"combatFreighterCombatUseFractionWhenPriority":2.0,		# as part of normal combat lineup, when marked as priority ship
-		"autofitRandomizeProbability":0.0,
+		"aggression":5,
 
-		"officerSkillsShuffleProbability":1,
-		"officerSkills":[
-			"combat_endurance",
-			"missile_specialization"
-		],
+		"combatFreighterProbability":0,     				# instead of some portion of the freighters in a fleet
+		"combatFreighterCombatUseFraction":1,				# as part of the normal combat lineup
+		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
+		"autofitRandomizeProbability":0.25,
 
 		"commanderSkillsShuffleProbability":1,
 		"commanderSkills":[
-			"crew_training",
-			"officer_training",
-			"electronic_warfare"
-		]
+			"flux_regulation",
+			"coordinated_maneuvers",
+		],
+	},
+
+	"shipRoles":{
+		"remnantStation1":{
+			"remnant_station2_Standard":10,
+		},
 	},
 	
+	"music":{
+		"theme":"music_XLII_draconis_market_neutral",
+
+		"market_neutral":"music_XLII_draconis_market_neutral",
+		"market_hostile":"music_XLII_draconis_market_hostile",
+		"market_friendly":"music_XLII_draconis_market_friendly",
+
+		"encounter_neutral":"music_XLII_draconis_encounter_neutral",
+		"encounter_hostile":"music_XLII_draconis_encounter_hostile",
+		"encounter_friendly":"music_XLII_draconis_encounter_friendly",
+	},
+
 	"barSound":"bar_ambience",
 	
 	"voices":{
@@ -187,18 +209,29 @@
 			"graphics/portraits/portrait49.png",
 		],
 	},
-	
-	"custom":{
-		"simulatorData":{
-			"showInSimulator":true,
+
+	"ranks":{
+		"ranks":{
+		},
+		"posts":{
 		},
 	},
-	
+	"custom":{
+		"engageWhenEvenStrength":true,
+		"allowsTransponderOffTrade":true, # to prevent cargoscan dialog from "patrols"
+		"postsNoBounties":true,
+		"fightToTheLast":true, # order a full assault instead of retreating, in most cases
+		"simulatorData":{
+			"showInSimulator":true,
+			"standardAICores":true,
+			"includeCivShipsWithFaction":false,
+		},
+	},
+
 	"fleetTypeNames":{
-		"patrolSmall":"AIO Surveillance Detachment",
-		"patrolMedium":"AIO Interdiction Group",
-		"patrolLarge":"AIO Strike Battlegroup",
-		
-		"shadowFleet":"AIO Shadow Fleet"
+		"patrolSmall":"Scout",
+		"patrolMedium":"Group",
+		"patrolLarge":"Battlegroup",
+		"battlestation":"Bastion"
 	}
 }

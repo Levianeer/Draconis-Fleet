@@ -7,39 +7,43 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
+import com.fs.starfarer.api.impl.campaign.missions.hub.BaseHubMission.GlobalBooleanChecker;
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithBarEvent;
+import com.fs.starfarer.api.ui.IntelUIAPI;
 import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import levianeer.draconis.data.campaign.characters.XLII_PersonEliasKorrin;
 import levianeer.draconis.data.campaign.events.XLII_RingPortAssault;
-import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisWatchdog;
 
 import java.awt.Color;
 import java.util.Set;
 
 /**
- * Quest tracker for the Blind Eye / Sigma Octantis questline.
+ * Quest tracker for Blind Eye - the Ring-Port capture arc only. Ends at the Kori debrief.
+ * Everything past that (the Office referral, Monroe, the nanoforge exchange, and beyond) is a
+ * separate tracker, {@link LongsightQuestMission}, created independently once
+ * {@code $XLII_blindEyeComplete} is set. See {@code .claude/systems/blind-eye.md}.
  * <p>
  * Created via {@code BeginMission BlindEyeQuestMission} in rules.csv when the player
  * finishes reading gate log fragment 4 ({@code XLII_gateLog4}). Because the mission is
  * created mid-questline, {@link #create} checks existing global flags to determine the
  * correct starting stage via {@link #determineStartingStage}.
  * <p>
- * Stage transitions use {@code setStageOnGlobalFlag} (from=null) - the confirmed-working
- * pattern from Domain Phase Lab. The FIND_NANOFORGE -> DELIVER_NANOFORGE transition uses
- * a cargo check in {@link #updateInteractionDataImpl}.
+ * Stage transitions use {@code setStageOnCustomCondition} with a {@code GlobalBooleanChecker}
+ * (from=null), not {@code setStageOnGlobalFlag} - see the comment above the {@code create()}
+ * transition block for why {@code setStageOnGlobalFlag} is actively wrong here (it silently
+ * unsets every one of these flags the moment the mission reaches {@code Stage.COMPLETED}).
  * <p>
- * Rep gates (0.25 / 0.50 / 0.75) are shown as conditional text within the relevant
- * stage description rather than as separate stages.
+ * Rep gates (0.25 / 0.50) are shown as conditional text within the relevant stage description
+ * rather than as separate stages.
  */
 public class BlindEyeQuestMission extends HubMissionWithBarEvent {
 
     // Rep thresholds - must match XLII_CheckAdmiralRep params used in rules.csv.
-    private static final float REP_GATE_LOGS      = 0.25f;
-    private static final float REP_GATE_NOTE      = 0.50f;
-    private static final float REP_GATE_NANOFORGE = 0.75f;
+    private static final float REP_GATE_LOGS = 0.25f;
+    private static final float REP_GATE_NOTE = 0.50f;
 
     public enum Stage {
         /** Find the Fafnir Gate; ask Admiral August about the gate logs (rep gate 0.25). */
@@ -56,13 +60,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         DEBRIEF_KORRIN,
         /** Return to Fleet Admiral August for debrief. */
         RETURN_TO_AUGUST,
-        /** Ask Fleet Admiral August about another matter (rep gate 0.75). */
-        ASK_ANOTHER_MATTER,
-        /** Locate a Pristine Nanoforge. */
-        FIND_NANOFORGE,
-        /** Return to Fleet Admiral August with the Pristine Nanoforge. */
-        DELIVER_NANOFORGE,
-        /** Sigma Octantis uplink received. Quest complete. */
+        /** Debriefed. Blind Eye is over - what comes next is LongsightQuestMission's. */
         COMPLETED,
     }
 
@@ -76,16 +74,28 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         setStoryMission();
         setImportant(true);
 
-        setStageOnGlobalFlag(Stage.RECEIVE_NOTE,       "$XLII_logConversationComplete");
-        setStageOnGlobalFlag(Stage.SPEAK_WITH_KORRIN,  "$XLII_blindEyeNoteReceived");
-        setStageOnGlobalFlag(Stage.PREPARE_FOR_RAID,   "$XLII_transponderVerified");
-        setStageOnGlobalFlag(Stage.ASSAULT_RING_PORT,  "$XLII_blindEyeMissionActive");
-        setStageOnGlobalFlag(Stage.DEBRIEF_KORRIN,     XLII_RingPortAssault.MEM_TAKEN);
-        setStageOnGlobalFlag(Stage.RETURN_TO_AUGUST,   "$XLII_blindEyeVictoryAcked");
-        setStageOnGlobalFlag(Stage.ASK_ANOTHER_MATTER, "$XLII_blindEyeComplete");
-        setStageOnGlobalFlag(Stage.FIND_NANOFORGE,     "$XLII_nanoforgeQuestOffered");
-        setStageOnGlobalFlag(Stage.COMPLETED,          XLII_SigmaOctantisWatchdog.NANOFORGE_QUEST_FLAG);
-        setStageOnGlobalFlag(Stage.COMPLETED,          "$XLII_ringPortTakenExternally");
+        // setStageOnGlobalFlag() (from=null) registers each flag in this mission's own
+        // Abortable "changes" list with removeOnMissionOver hardcoded true
+        // (BaseHubMission.connectWithGlobalFlag) - so every one of these flags gets
+        // unconditionally unset the moment this mission reaches Stage.COMPLETED, because
+        // endSuccess() unconditionally calls abort() (BaseHubMission.java:1333) regardless of
+        // whether the mission actually succeeded. VariableSet.abort()'s early-return only
+        // triggers for removeOnMissionOver=false, which setStageOnGlobalFlag never sets - so
+        // completing this quest wiped these flags right when the player finished it, silently
+        // reopening every gate downstream rules.csv content thought was permanently closed.
+        // setStageOnCustomCondition with a GlobalBooleanChecker gets the identical
+        // watch-and-transition behavior without registering anything in "changes" - these flags
+        // are permanent, player-facing game
+        // state read directly by other rules.csv content, not mission-scoped working state, and
+        // must never be auto-unset.
+        setStageOnCustomCondition(Stage.RECEIVE_NOTE,      new GlobalBooleanChecker("$XLII_logConversationComplete"));
+        setStageOnCustomCondition(Stage.SPEAK_WITH_KORRIN, new GlobalBooleanChecker("$XLII_blindEyeNoteReceived"));
+        setStageOnCustomCondition(Stage.PREPARE_FOR_RAID,  new GlobalBooleanChecker("$XLII_transponderVerified"));
+        setStageOnCustomCondition(Stage.ASSAULT_RING_PORT, new GlobalBooleanChecker("$XLII_blindEyeMissionActive"));
+        setStageOnCustomCondition(Stage.DEBRIEF_KORRIN,    new GlobalBooleanChecker(XLII_RingPortAssault.MEM_TAKEN));
+        setStageOnCustomCondition(Stage.RETURN_TO_AUGUST,  new GlobalBooleanChecker("$XLII_blindEyeVictoryAcked"));
+        setStageOnCustomCondition(Stage.COMPLETED,         new GlobalBooleanChecker("$XLII_blindEyeComplete"));
+        setStageOnCustomCondition(Stage.COMPLETED,         new GlobalBooleanChecker("$XLII_ringPortTakenExternally"));
 
         addStageMarkers();
 
@@ -100,8 +110,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
      * the target itself. Without these, {@code BaseHubMission.getMapLocation} has nothing to
      * return and the quest shows no marker at all.
      * <p>
-     * {@code FIND_NANOFORGE} and {@code COMPLETED} are deliberately unmarked - there is no
-     * fixed location for either.
+     * {@code COMPLETED} is deliberately unmarked - there is nothing left to point at.
      * <p>
      * {@code DEBRIEF_KORRIN} marks both: Korrin at Ring-Port is optional, August is where the
      * player actually needs to go next. August is registered first, so {@code getMapLocation}
@@ -112,11 +121,8 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         if (august != null) {
             makeImportant(august, null,
                     Stage.EXPLORE_GATE,
-                    Stage.RECEIVE_NOTE,
                     Stage.DEBRIEF_KORRIN,
-                    Stage.RETURN_TO_AUGUST,
-                    Stage.ASK_ANOTHER_MATTER,
-                    Stage.DELIVER_NANOFORGE);
+                    Stage.RETURN_TO_AUGUST);
         }
 
         MarketAPI ringPort = Global.getSector().getEconomy().getMarket(RING_PORT_MARKET_ID);
@@ -166,11 +172,6 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
      * an earlier stage.
      */
     private void updateStageFixups() {
-        if (currentStage == Stage.FIND_NANOFORGE && hasNanoforgeInCargo()) {
-            setCurrentStage(Stage.DELIVER_NANOFORGE, null, null);
-            return;
-        }
-
         // Korrin's post-assault conversation is optional and August's debrief only needs
         // $XLII_ringPortTaken. A player who skips Korrin would otherwise sit on DEBRIEF_KORRIN
         // until the debrief itself set $XLII_blindEyeComplete, with the marker stuck on Ring-Port.
@@ -205,16 +206,13 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
     private Stage determineStartingStage() {
         MemoryAPI g = Global.getSector().getMemoryWithoutUpdate();
         if (g.getBoolean("$XLII_ringPortTakenExternally")) return Stage.COMPLETED;
-        if (g.getBoolean(XLII_SigmaOctantisWatchdog.NANOFORGE_QUEST_FLAG)) return Stage.COMPLETED;
-        if (g.getBoolean("$XLII_nanoforgeQuestOffered"))
-            return hasNanoforgeInCargo() ? Stage.DELIVER_NANOFORGE : Stage.FIND_NANOFORGE;
-        if (g.getBoolean("$XLII_blindEyeComplete"))       return Stage.ASK_ANOTHER_MATTER;
-        if (g.getBoolean("$XLII_blindEyeVictoryAcked"))   return Stage.RETURN_TO_AUGUST;
-        if (g.getBoolean(XLII_RingPortAssault.MEM_TAKEN)) return Stage.DEBRIEF_KORRIN;
-        if (isRingPortTakenExternally())                  return Stage.RETURN_TO_AUGUST;
-        if (g.getBoolean("$XLII_blindEyeMissionActive"))  return Stage.ASSAULT_RING_PORT;
-        if (g.getBoolean("$XLII_transponderVerified"))    return Stage.PREPARE_FOR_RAID;
-        if (g.getBoolean("$XLII_blindEyeNoteReceived"))   return Stage.SPEAK_WITH_KORRIN;
+        if (g.getBoolean("$XLII_blindEyeComplete"))        return Stage.COMPLETED;
+        if (g.getBoolean("$XLII_blindEyeVictoryAcked"))    return Stage.RETURN_TO_AUGUST;
+        if (g.getBoolean(XLII_RingPortAssault.MEM_TAKEN))  return Stage.DEBRIEF_KORRIN;
+        if (isRingPortTakenExternally())                   return Stage.RETURN_TO_AUGUST;
+        if (g.getBoolean("$XLII_blindEyeMissionActive"))   return Stage.ASSAULT_RING_PORT;
+        if (g.getBoolean("$XLII_transponderVerified"))     return Stage.PREPARE_FOR_RAID;
+        if (g.getBoolean("$XLII_blindEyeNoteReceived"))    return Stage.SPEAK_WITH_KORRIN;
         if (g.getBoolean("$XLII_logConversationComplete")) return Stage.RECEIVE_NOTE;
         return Stage.EXPLORE_GATE;
     }
@@ -247,13 +245,65 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
     }
 
     // =========================================================================
+    // Delete entry
+    //
+    // The mission is only a tracker - every gate in the questline is a global flag read by
+    // rules.csv, so deleting it removes the intel entry without blocking the quest. It is
+    // one-way: setGlobalReference("$XLII_blindEye_missionRef") leaves the key set, so a later
+    // BeginMission will not recreate the tracker.
+    // =========================================================================
+
+    /**
+     * Static, spoiler-free framing shown above the stage-specific text on every visit to
+     * the entry, regardless of how far the questline has progressed.
+     */
+    private static final String QUEST_OVERVIEW =
+            "Fleet Admiral August is using you as an off-book asset to settle Ring-Port before the "
+                    + "Alliance Intelligence Office can intervene.";
+
+    @Override
+    public void createSmallDescription(TooltipMakerAPI info, float width, float height) {
+        info.addPara(QUEST_OVERVIEW, Misc.getTextColor(), 0f);
+        super.createSmallDescription(info, width, height);
+        addDeleteButton(info, width, "Delete entry");
+    }
+
+    @Override
+    protected void createDeleteConfirmationPrompt(TooltipMakerAPI prompt) {
+        prompt.addPara("Deleting this entry removes the tracker only - the questline itself is "
+                        + "unaffected and can still be completed. It cannot be restored.",
+                Misc.getTextColor(), 0f);
+    }
+
+    /**
+     * {@code endImmediately()} does not run {@code BaseHubMission.abort()}, so the "important"
+     * markers registered by {@link #addStageMarkers} would stay on August and Ring-Port forever.
+     * Clear them before the base class ends the mission.
+     */
+    @Override
+    public void buttonPressConfirmed(Object buttonId, IntelUIAPI ui) {
+        if (buttonId == BUTTON_DELETE) {
+            clearStageMarkers();
+        }
+        super.buttonPressConfirmed(buttonId, ui);
+    }
+
+    private void clearStageMarkers() {
+        PersonAPI august = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
+        if (august != null) makeUnimportant(august);
+
+        MarketAPI ringPort = Global.getSector().getEconomy().getMarket(RING_PORT_MARKET_ID);
+        if (ringPort != null) makeUnimportant(ringPort);
+    }
+
+    // =========================================================================
     // Player-facing guidance
     //
     // Every gate the player has to satisfy is named here, including the two that are
     // invisible in-game: the Draconis commission (without it August's comm link closes
-    // before the menu opens, blocking four stages) and the fact that the rep thresholds
-    // read August's PERSONAL standing, which only moves when buying from his off-books
-    // store. See .claude/systems/blind-eye.md for the full trace.
+    // before the menu opens, blocking every August-facing stage) and the fact that the rep
+    // thresholds read August's PERSONAL standing, which only moves when buying from his
+    // off-books store. See .claude/systems/blind-eye.md for the full trace.
     // =========================================================================
 
     @Override
@@ -263,7 +313,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         switch ((Stage) currentStage) {
             case EXPLORE_GATE:
                 if (!hasCommission())
-                    info.addPara("Requires a Draconis Defence Alliance commission", tc, pad);
+                    info.addPara("Requires a Draconis Defense Alliance commission", tc, pad);
                 else if (rep < REP_GATE_LOGS)
                     info.addPara("Requires Welcoming standing with Admiral August", tc, pad);
                 else
@@ -295,23 +345,9 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
                 return true;
             case RETURN_TO_AUGUST:
                 if (!hasCommission())
-                    info.addPara("Requires a Draconis Defence Alliance commission", tc, pad);
+                    info.addPara("Requires a Draconis Defense Alliance commission", tc, pad);
                 else
                     info.addPara("Return to Fleet Admiral August at Kori", tc, pad);
-                return true;
-            case ASK_ANOTHER_MATTER:
-                if (!hasCommission())
-                    info.addPara("Requires a Draconis Defence Alliance commission", tc, pad);
-                else if (rep < REP_GATE_NANOFORGE)
-                    info.addPara("Requires Cooperative standing with Admiral August", tc, pad);
-                else
-                    info.addPara("Speak with Fleet Admiral August", tc, pad);
-                return true;
-            case FIND_NANOFORGE:
-                info.addPara("Find a Pristine Nanoforge", tc, pad);
-                return true;
-            case DELIVER_NANOFORGE:
-                info.addPara("Return to Fleet Admiral August at Kori", tc, pad);
                 return true;
         }
         return false;
@@ -377,24 +413,6 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
                 }
                 if (!hasCommission()) addCommissionLine(info, 5f);
                 break;
-            case ASK_ANOTHER_MATTER:
-                if (!hasCommission()) {
-                    addCommissionLine(info, opad);
-                } else if (rep < REP_GATE_NANOFORGE) {
-                    info.addPara("August has something further to raise and will not raise it below %s standing with him personally.", opad, h, "Cooperative");
-                    info.addPara("Ask him early and he will deflect you politely, at no cost.", 5f);
-                    addRegardLine(info, 5f);
-                } else {
-                    info.addPara("Return to Fleet Admiral August at Kori. He has another matter to raise.", opad);
-                }
-                break;
-            case FIND_NANOFORGE:
-                info.addPara("The Alliance requires a %s - Domain-era, undamaged. August will not ask how you acquire it.", opad, h, "Pristine Nanoforge");
-                break;
-            case DELIVER_NANOFORGE:
-                info.addPara("You have a %s. Return to Fleet Admiral August at Kori to complete the exchange.", opad, h, "Pristine Nanoforge");
-                if (!hasCommission()) addCommissionLine(info, 5f);
-                break;
         }
     }
 
@@ -405,7 +423,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
      */
     private void addCommissionLine(TooltipMakerAPI info, float pad) {
         info.addPara("August takes no channel from anyone without a %s. Without one the link closes before it opens.",
-                pad, Misc.getHighlightColor(), "Draconis Defence Alliance commission");
+                pad, Misc.getHighlightColor(), "Draconis Defense Alliance commission");
     }
 
     /**
@@ -432,11 +450,6 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
     private float getAdmiralRep() {
         PersonAPI admiral = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
         return admiral != null ? admiral.getRelToPlayer().getRel() : 0f;
-    }
-
-    private boolean hasNanoforgeInCargo() {
-        CampaignFleetAPI fleet = Global.getSector().getPlayerFleet();
-        return fleet != null && fleet.getCargo().getCommodityQuantity("pristine_nanoforge") > 0;
     }
 
     private boolean isRingPortTakenExternally() {

@@ -33,7 +33,7 @@
     "miningVariantsOrWings":["XLII_alsafi_Hybrid", "XLII_yunu_Elite"],
 
     "responseFleetName":"Quick Reaction Force",
-    "defenceFleetName":"Defense Fleet",
+    "defenseFleetName":"Defense Fleet",
     "invasionFleetName":"Invasion Fleet",
     "invasionSupportFleetName":"Support Fleet",
     "stationName":"SATCOM",
@@ -84,14 +84,14 @@
         [["XLII_weapon_package",""]],
         [["XLII_fighter_package",""]]
     ],
-
-    "defenceStations":[
-        {"ids":["orbitalstation_mid", "battlestation_mid", "starfortress_mid"]}
-    ],
     
     "industrySeeds":[
         {"id":"orbitalworks", "mult":0.1},
         {"id":"militarybase", "mult":0.1}
+    ],
+
+    "defenceStations":[
+        {"ids":["XLII_orbitalstation_remnant"]}
     ],
 
     "bonusSeeds":[

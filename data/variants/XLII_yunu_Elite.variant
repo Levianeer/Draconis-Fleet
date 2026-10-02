@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 15,
+    "fluxVents": 13,
     "goalVariant": true,
     "hullId": "XLII_yunu",
     "hullMods": [

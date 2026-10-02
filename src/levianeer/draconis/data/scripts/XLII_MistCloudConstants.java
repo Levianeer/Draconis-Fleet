@@ -5,7 +5,6 @@ public final class XLII_MistCloudConstants {
     public static final float CLOUD_RADIUS = 750f;
     public static final float CLOUD_RADIUS_SQ = CLOUD_RADIUS * CLOUD_RADIUS;
 
-    // Cloud lifetime
     public static final float CLOUD_MIN_LIFETIME = 30f;
     public static final float CLOUD_MAX_LIFETIME = 60f;
 
@@ -16,9 +15,9 @@ public final class XLII_MistCloudConstants {
     // HP pool per cloud - both healing and damage drain this pool; exhausted clouds despawn
     public static final float CLOUD_POOL_HP = 3500f;
 
-    // Activation thresholds
-    public static final float MIN_XLII_PERCENTAGE  = 0.25f;
-    public static final int   MIN_TOTAL_SUPPLY_COST = 75;
+    // Per-ship S-mod bonus: adds to missile weight and, for each new cloud, its HP pool
+    public static final int SMOD_MISSILE_BONUS = 1;
+    public static final float SMOD_POOL_HP_BONUS = 500f;
 
     private XLII_MistCloudConstants() {}
 }

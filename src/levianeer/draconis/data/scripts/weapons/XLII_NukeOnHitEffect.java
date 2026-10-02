@@ -58,16 +58,12 @@ public class XLII_NukeOnHitEffect implements OnHitEffectPlugin {
             );
         }
 
-        // Spawn damaging explosion
         engine.spawnDamagingExplosion(createExplosionSpec(), source, point);
 
-        // Spawn visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
 
-        // Sharp lens flares
         spawnLensFlares(engine, source, point);
 
-        // Layered blast visuals
         spawnBlastVisuals(point);
     }
 

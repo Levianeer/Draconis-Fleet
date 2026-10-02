@@ -29,7 +29,7 @@ import java.util.Objects;
 public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWeaponEffectPlugin {
 
     // Configuration parameters - Muzzle Flash
-    private static final float BACKWARDS_OFFSET_DISTANCE = 25f; // Distance behind the weapon
+    private static final float BACKWARDS_OFFSET_DISTANCE = 25f;
     private static final float MUZZLE_FLASH_LENGTH = 50f;
     private static final int PARTICLE_COUNT = 25;
     private static final float SPREAD = 35f; // Degrees of spread for the backwards flash
@@ -42,16 +42,16 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
     private static final float ARC_CORE_WIDTH = 10f;
     private static final Color ARC_COLOR = new Color(120, 110, 185, 255); // Match weapon glow color
     private static final Color ARC_CORE_COLOR = new Color(255, 255, 255, 255);
-    private static final float ARC_SPEED = 100000f; // Visual speed of arc animation
-    private static final float MIN_ARC_DISTANCE = 100f; // Minimum distance traveled before spawning arc
+    private static final float ARC_SPEED = 100000f;
+    private static final float MIN_ARC_DISTANCE = 100f;
 
     // Configuration parameters - Ring Trail Effect
     private static final float RING_INTERVAL_MIN = 0.01f; // Minimum time between ring spawns (seconds)
     private static final float RING_INTERVAL_MAX = 0.015f; // Maximum time between ring spawns (seconds)
-    private static final float MIN_RING_DISTANCE = 20f; // Minimum distance traveled before spawning ring group
-    private static final float RING_BASE_SIZE = 10f; // Base size of ring sprites
-    private static final float RING_SIZE_MULTIPLIER = 1.0f; // Overall size multiplier for ring groups
-    private static final float RING_DURATION_MULTIPLIER = 3f; // Duration multiplier for ring visibility
+    private static final float MIN_RING_DISTANCE = 20f;
+    private static final float RING_BASE_SIZE = 10f;
+    private static final float RING_SIZE_MULTIPLIER = 1.0f;
+    private static final float RING_DURATION_MULTIPLIER = 3f;
     private static final Color RING_CORE_COLOR = new Color(255, 255, 255, 255);
     private static final Color RING_FRINGE_COLOR = new Color(185, 110, 110, 255); // Matches weapon glow
 
@@ -249,27 +249,22 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
         ShipAPI ship = projectile.getSource();
         if (ship == null) return;
 
-        // Get the weapon's specifications
         ProjectileWeaponSpecAPI weaponSpec = (ProjectileWeaponSpecAPI) weapon.getSpec();
         MuzzleFlashSpec originalSpec = weaponSpec.getMuzzleFlashSpec();
         if (originalSpec == null) return;
 
-        // Create a modified spec for the backwards flash
         MuzzleFlashSpec backwardsSpec = originalSpec.clone();
         backwardsSpec.setLength(MUZZLE_FLASH_LENGTH);
         backwardsSpec.setParticleCount(PARTICLE_COUNT);
         backwardsSpec.setSpread(SPREAD);
 
-        // Get weapon position and angle
         Vector2f weaponLocation = weapon.getLocation();
         float weaponAngle = weapon.getCurrAngle();
 
-        // Calculate backwards position
         Vector2f backwardsOffset = Misc.getUnitVectorAtDegreeAngle(weaponAngle + 180f);
         backwardsOffset.scale(BACKWARDS_OFFSET_DISTANCE);
         Vector2f backwardsPosition = Vector2f.add(weaponLocation, backwardsOffset, new Vector2f());
 
-        // Spawn the backwards muzzle flash
         spawnMuzzleFlash(
                 backwardsSpec,
                 backwardsPosition,
@@ -279,7 +274,6 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
                 15f   // Additional velocity
         );
 
-        // Track projectile for lightning arc trail effect
         trackedProjectiles.add(new TrackedProjectile(projectile));
     }
 
@@ -295,7 +289,6 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
             TrackedProjectile tracked = iter.next();
             DamagingProjectileAPI proj = tracked.projectile;
 
-            // Check if projectile should be removed from tracking
             if (proj == null || proj.didDamage() || proj.isFading() || !Objects.requireNonNull(engine).isEntityInPlay(proj)) {
                 // Spawn final arc to ensure complete coverage before removing
                 spawnFinalArc(engine, weapon, tracked, proj);
@@ -336,12 +329,10 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
             return;
         }
 
-        // Get the projectile's final position (if still valid)
         Vector2f finalPos = null;
         if (proj != null && proj.getLocation() != null) {
             finalPos = new Vector2f(proj.getLocation());
         } else if (tracked.lastArcPosition != null) {
-            // If projectile is null, use last known position
             finalPos = tracked.lastArcPosition;
         }
 
@@ -349,10 +340,8 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
             return;
         }
 
-        // Calculate the distance from last arc spawn to final position
         float distanceToFinal = Misc.getDistance(tracked.lastArcPosition, finalPos);
 
-        // Only spawn final arc if there's a meaningful gap
         // Use a lower threshold than MIN_ARC_DISTANCE to ensure we catch smaller gaps
         if (distanceToFinal >= MIN_ARC_DISTANCE * 0.5f) {
             ShipAPI ship = weapon.getShip();
@@ -362,9 +351,6 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
         }
     }
 
-    /**
-     * Spawns a lightning arc from one position to another, creating a trail effect
-     */
     protected void spawnLightningArc(CombatEngineAPI engine, ShipAPI ship, Vector2f from, Vector2f to) {
         if (engine == null || ship == null || from == null || to == null) {
             return;
@@ -375,7 +361,6 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
             return; // Arc too short, skip
         }
 
-        // Configure arc visual parameters
         EmpArcParams params = new EmpArcParams();
         params.segmentLengthMult = 10f;
         params.zigZagReductionFactor = 0.08f;
@@ -383,12 +368,10 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
         params.minFadeOutMult = 10f;
         params.flickerRateMult = 0.3f;
 
-        // Configure bright spot parameters for visual effect
         float fraction = Math.min(0.33f, 300f / dist);
         params.brightSpotFullFraction = fraction;
         params.brightSpotFadeFraction = fraction;
 
-        // Calculate arc animation duration based on distance
         params.movementDurOverride = Math.max(0.05f, dist / ARC_SPEED);
 
         // Spawn the arc visual (null anchors = absolute world position, won't rotate with ship)
@@ -403,22 +386,16 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
                 params
         );
 
-        // Configure arc appearance
         arc.setCoreWidthOverride(ARC_CORE_WIDTH);
         arc.setRenderGlowAtStart(false);
         arc.setFadedOutAtStart(true);
         arc.setSingleFlickerMode(true);
 
-        // Play lightning sound effect at midpoint of arc
         Vector2f soundPoint = Vector2f.add(from, to, new Vector2f());
         soundPoint.scale(0.5f);
         Global.getSoundPlayer().playSound("abyssal_glare_lightning", 1f, 0.8f, soundPoint, new Vector2f());
     }
 
-    /**
-     * Spawns a group of expanding ring sprites at the given world position,
-     * oriented along the specified facing angle.
-     */
     protected void spawnRingGroup(CombatEngineAPI engine, Vector2f position, float facingAngle) {
         if (engine == null || position == null) return;
 
@@ -430,9 +407,6 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
         entity.getLocation().set(position);
     }
 
-    /**
-     * Spawns a muzzle flash effect at the specified location
-     */
     public static void spawnMuzzleFlash(MuzzleFlashSpec spec, Vector2f point, float angle,
                                         Vector2f shipVel, float velMult, float velAdd) {
         if (spec == null) return;
@@ -463,15 +437,12 @@ public class XLII_MuzzleFlashEffect implements OnFireEffectPlugin, EveryFrameWea
                     y * velMult + shipVel.y + dir.y * velAdd
             );
 
-            // Add some randomness to velocity
             Vector2f rand = Misc.getPointWithinRadius(new Vector2f(), length * 0.3f);
             Vector2f.add(vel, rand, vel);
 
-            // Calculate particle duration with some variation
             float dur = spec.getParticleDuration();
             dur *= 0.8f + (float) Math.random() * 0.4f;
 
-            // Spawn the particle
             engine.addNebulaParticle(
                     loc,
                     vel,

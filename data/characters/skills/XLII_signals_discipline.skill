@@ -1,0 +1,17 @@
+{
+	"id": "XLII_signals_discipline",
+	"governingAptitude": "combat",
+	"compressHullmods": false,
+	"elite": false,
+	"scope": "ALL_SHIPS",
+	"effectGroups": [
+		{
+			"requiredSkillLevel": 1,
+			"effectBasedOnLevel": false,
+			"effects": [
+				{"type": "SHIP", "script": "levianeer.draconis.data.scripts.skills.XLII_SignalsDiscipline$JammingBoost"},
+				{"type": "SHIP", "script": "levianeer.draconis.data.scripts.skills.XLII_SignalsDiscipline$JammingResistance"}
+			]
+		}
+	]
+}

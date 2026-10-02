@@ -13,8 +13,8 @@ import levianeer.draconis.data.campaign.characters.XLII_Characters;
 import java.util.Map;
 
 /**
- * One-time bar event: player meets AIO Operative Kael Vasner (IRON MOTH) at Ring-Port
- * after the assault. Completing the encounter reveals Vasner in the comm directory.
+ * One-time bar event: player meets AIO Operative Daniel Ancker (IRON MOTH) at Ring-Port
+ * after the assault. Completing the encounter reveals Ancker in the comm directory.
  */
 public class XLII_AIOOperativeBarEvent extends BaseBarEvent {
 
@@ -43,7 +43,7 @@ public class XLII_AIOOperativeBarEvent extends BaseBarEvent {
             "profession or a unit. They've been watching the room the way someone " +
             "watches a problem they've already solved."
         );
-        dialog.getOptionPanel().addOption("Approach the plain clothed man.", this);
+        dialog.getOptionPanel().addOption("Approach the plain clothed man", this);
         dialog.setOptionColor(this, Global.getSettings().getColor("buttonShortcut"));
     }
 
@@ -75,13 +75,13 @@ public class XLII_AIOOperativeBarEvent extends BaseBarEvent {
                 );
                 text.addPara("A comm-slate appears on the table between you. He doesn't look at it.");
                 text.addPara(
-                    "\"Vasner.\" His eyes move across the room once, methodically. " +
+                    "\"Ancker.\" His eyes move across the room once, methodically. " +
                     "\"I've had an operational interest in this station for some time. You've made " +
                     "that considerably simpler to pursue. I'm in the directory now. When you require " +
                     "something that doesn't appear on standard supply manifests, contact me. And we can " +
                     "discuss what that costs.\""
                 );
-                options.addOption("Understood.", OptionId.ACKNOWLEDGE);
+                options.addOption("Understood", OptionId.ACKNOWLEDGE);
                 break;
 
             case ACKNOWLEDGE:
@@ -91,7 +91,7 @@ public class XLII_AIOOperativeBarEvent extends BaseBarEvent {
                 XLII_Characters.revealDanielAncker();
                 clearBarSnapshots();
                 done = true;
-                options.addOption("Leave.", "leave");
+                options.addOption("Leave", "leave");
                 break;
         }
     }

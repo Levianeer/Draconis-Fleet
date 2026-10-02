@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 35,
+    "fluxVents": 36,
     "goalVariant": true,
     "hullId": "XLII_alwaid",
     "hullMods": [
@@ -14,7 +14,7 @@
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0013": "XLII_naginata",
                 "WS0014": "XLII_naginata"
@@ -22,7 +22,7 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0005": "XLII_halberd_pod",
                 "WS0006": "XLII_halberd_pod",
@@ -77,9 +77,10 @@
         }
     ],
     "wings": [
-        "XLII_grumium_wing",
         "XLII_thorne_wing",
         "XLII_shangshu_wing",
-        "XLII_shangshu_heavy_wing"
+        "XLII_shangshu_wing",
+        "XLII_shangshu_heavy_wing",
+        "XLII_thorne_wing"
     ]
 }

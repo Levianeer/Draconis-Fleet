@@ -16,7 +16,7 @@ public class XLII_EmergencyRepairsStats extends BaseShipSystemScript {
 
     private static final float HULL_REPAIR_PERCENT = 0.4f;     // fraction of max HP repaired over full duration
     private static final float ACTIVE_DURATION = 10f;           // must match the .system active time
-    private static final float SPEED_MULT = 0.75f;              // 25% speed penalty while active
+    private static final float SPEED_MULT = 0.75f;
     // ==================== INSTANCE STATE ====================
 
     private boolean activated = false;
@@ -38,7 +38,6 @@ public class XLII_EmergencyRepairsStats extends BaseShipSystemScript {
 
         if (state == State.OUT) return; // no repairs during wind-down
 
-        // Snapshot on first active frame
         if (!activated) {
             snapshotValidCells(ship.getArmorGrid());
             activated = true;
@@ -47,11 +46,9 @@ public class XLII_EmergencyRepairsStats extends BaseShipSystemScript {
         float dt = Global.getCombatEngine().getElapsedInLastFrame();
         elapsed += dt;
 
-        // Hull repair - linear over ACTIVE_DURATION
         float repairThisFrame = (HULL_REPAIR_PERCENT / ACTIVE_DURATION) * ship.getMaxHitpoints() * dt;
         ship.setHitpoints(Math.min(ship.getHitpoints() + repairThisFrame, ship.getMaxHitpoints()));
 
-        // Armor redistribution - lerp from snapshot values to mean, reaching it exactly at ACTIVE_DURATION
         if (validCells != null && validCellCount > 0) {
             redistributeArmor(ship.getArmorGrid());
         }

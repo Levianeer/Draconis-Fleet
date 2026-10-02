@@ -19,10 +19,10 @@
     "XLII_drone_utility_wing"
   ],
   "builtInWeapons": {
-    "WS0010": "blinker_red",
-    "WS0011": "blinker_green",
-    "WS0012": "blinker_red",
-    "WS0013": "blinker_green",
+    "WS0010": "XLII_blinker_red",
+    "WS0011": "XLII_blinker_green",
+    "WS0012": "XLII_blinker_red",
+    "WS0013": "XLII_blinker_green",
     "WS0014": "XLII_vernier",
     "WS0015": "XLII_vernier",
     "WS0016": "XLII_vernier",

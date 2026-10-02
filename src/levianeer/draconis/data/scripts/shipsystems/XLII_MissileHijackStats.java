@@ -67,13 +67,11 @@ public class XLII_MissileHijackStats extends BaseShipSystemScript {
             return;
         }
 
-        // Calculate effective disable radius
         float effectiveDisableRadius = DISABLE_RADIUS;
         if (ship.isFighter()) {
             effectiveDisableRadius = DISABLE_RADIUS * 0.25f;
         }
 
-        // Show activation text once when the system becomes fully active
         if (state == State.ACTIVE && !textDisplayed) {
             ship.getFluxTracker().showOverloadFloatyIfNeeded("Jamming!", TEXT_COLOR, 1f, true);
             textDisplayed = true;
@@ -92,8 +90,6 @@ public class XLII_MissileHijackStats extends BaseShipSystemScript {
             drawScreenSpaceRing(ship, effectiveDisableRadius, 1f);
         }
 
-        // Missiles must stay continuously in range for DWELL_THRESHOLD seconds while the
-        // system is ACTIVE to convert; leaving range at any point resets their progress.
         if (state == State.ACTIVE) {
             trackAndConvertMissiles(ship, effectiveDisableRadius);
             drawMissileMarkers();
@@ -206,7 +202,7 @@ public class XLII_MissileHijackStats extends BaseShipSystemScript {
             float radius = MARKER_SIZE * screenScale * sizeFraction / view.getViewMult();
             markerSprite.setSize(radius, radius);
             // Missiles can be well outside the camera viewport while still within the
-            // (up to 1000-unit) hijack range, unlike the ship-anchored ring above - GL
+            // (much larger) hijack range, unlike the ship-anchored ring above - GL
             // clips off-screen sprites for free, so skip the viewport pre-check here.
             markerSprite.renderAtCenter(
                     view.convertWorldXtoScreenX(missile.getLocation().x) * screenScale,
@@ -218,24 +214,19 @@ public class XLII_MissileHijackStats extends BaseShipSystemScript {
     }
 
     private void hijackMissile(MissileAPI missile, ShipAPI ship, CombatEntityAPI redirectTarget) {
-        // Change ownership to friendly
         missile.setOwner(ship.getOwner());
         missile.setSource(ship);
 
         // Set collision class to prevent friendly fire while still hitting enemies
         missile.setCollisionClass(CollisionClass.MISSILE_NO_FF);
 
-        // Retarget to whatever the ship has targeted, if the missile can be guided
         if (missile.getAI() instanceof GuidedMissileAI ai) {
             ai.setTarget(redirectTarget);
         }
 
-        // Snap facing instantly toward the new target
         missile.setFacing(VectorUtils.getAngle(missile.getLocation(), redirectTarget.getLocation()));
 
-        // Give the missile a fresh lifetime to reach its new target: remaining flight
-        // time becomes CONVERSION_FLIGHT_TIME_MULT times its original max, instead of
-        // just a 1:1 reset, to make up for the time already spent dwelling.
+        // Fresh flight time scaled by CONVERSION_FLIGHT_TIME_MULT to offset time already spent dwelling (see field doc above).
         float elapsedTime = missile.getFlightTime();
         float originalMaxFlightTime = missile.getMaxFlightTime();
         missile.setMaxFlightTime(elapsedTime + originalMaxFlightTime * CONVERSION_FLIGHT_TIME_MULT);
@@ -250,7 +241,6 @@ public class XLII_MissileHijackStats extends BaseShipSystemScript {
     }
 
     private void spawnConversionParticle(Vector2f location) {
-        // Spawn hit particles to indicate missile hijacking
         float angle = 0f;
 
         Global.getCombatEngine().addHitParticle(

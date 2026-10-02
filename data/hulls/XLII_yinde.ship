@@ -21,10 +21,10 @@
     "WS0014": "XLII_vernier",
     "WS0015": "XLII_vernier",
     "WS0016": "XLII_vernier",
-    "WS0017": "blinker_red",
-    "WS0018": "blinker_green",
-    "WS0019": "blinker_red",
-    "WS0020": "blinker_green"
+    "WS0017": "XLII_blinker_red",
+    "WS0018": "XLII_blinker_green",
+    "WS0019": "XLII_blinker_red",
+    "WS0020": "XLII_blinker_green"
   },
   "weaponSlots": [
     {
@@ -50,7 +50,7 @@
       "size": "MEDIUM",
       "type": "UNIVERSAL",
       "mount": "TURRET",
-      "arc": 95,
+      "arc": 200,
       "angle": 45,
       "locations": [-26.5, 36]
     },
@@ -59,7 +59,7 @@
       "size": "MEDIUM",
       "type": "UNIVERSAL",
       "mount": "TURRET",
-      "arc": 95,
+      "arc": 200,
       "angle": -45,
       "locations": [-26.5, -36]
     },
@@ -106,7 +106,7 @@
       "mount": "HARDPOINT",
       "arc": 5,
       "angle": 0,
-      "locations": [74, -0]
+      "locations": [77.5, 0]
     },
     {
       "id": "WS0010",

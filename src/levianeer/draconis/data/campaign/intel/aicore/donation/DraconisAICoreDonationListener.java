@@ -53,7 +53,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         if (checkInterval < CHECK_FREQUENCY) return;
         checkInterval = 0f;
 
-        // Check Draconis faction stockpile for AI cores
         checkForDonatedCores();
 
         // Heartbeat drain: attempt to install any cores waiting in the stockpile
@@ -69,7 +68,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         com.fs.starfarer.api.campaign.FactionAPI faction = Global.getSector().getFaction(DRACONIS);
         if (faction == null) return;
 
-        // Get current donation counts from faction memory (vanilla stores these)
         int currentAlpha = (int) faction.getMemoryWithoutUpdate().getFloat("$turnedIn_" + Commodities.ALPHA_CORE);
         int currentBeta = (int) faction.getMemoryWithoutUpdate().getFloat("$turnedIn_" + Commodities.BETA_CORE);
         int currentGamma = (int) faction.getMemoryWithoutUpdate().getFloat("$turnedIn_" + Commodities.GAMMA_CORE);
@@ -87,7 +85,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             return;
         }
 
-        // Detect new donations since last check
         int newAlpha = Math.max(0, currentAlpha - lastAlphaCores);
         int newBeta = Math.max(0, currentBeta - lastBetaCores);
         int newGamma = Math.max(0, currentGamma - lastGammaCores);
@@ -131,7 +128,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
 
         if (coresToInstall.isEmpty()) return;
 
-        // Find available Draconis markets and industries
         List<MarketAPI> availableAdminMarkets = findAvailableDraconisAdminMarkets();
         List<Industry> availableIndustries = findAvailableDraconisIndustries();
         List<Industry> upgradeableIndustries = findUpgradeableDraconisIndustries();
@@ -181,14 +177,11 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             for (String coreId : remainingCores) {
                 boolean coreInstalled = false;
 
-                // Try administrator installation first for Alpha cores (HIGHEST PRIORITY)
                 if (coreId.equals(Commodities.ALPHA_CORE) && !availableAdminMarkets.isEmpty()) {
                     MarketAPI targetMarket = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
                     if (targetMarket != null && DraconisAICorePriorityManager.installAICoreAdmin(targetMarket, coreId, DRACONIS)) {
                         installationMap.computeIfAbsent(targetMarket, k -> new ArrayList<>()).add(coreId);
-                        // Remove immediately - not deferred - because we iterate remainingCores,
-                        // not availableAdminMarkets, so there is no CME risk. Deferred removal
-                        // would let the same market absorb multiple cores in one round.
+                        // Removed immediately (not deferred) so the same admin market can't absorb multiple cores in one round.
                         availableAdminMarkets.remove(targetMarket);
                         installed++;
                         installedThisRound++;
@@ -199,7 +192,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                     }
                 }
 
-                // If not installed as admin, try industry installation
                 if (!coreInstalled && (!availableIndustries.isEmpty() || !upgradeableIndustries.isEmpty())) {
                     Industry targetIndustry = DraconisAICorePriorityManager.pickTargetIndustryByPriority(
                             availableIndustries, upgradeableIndustries, coreId
@@ -220,7 +212,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                             MarketAPI market = targetIndustry.getMarket();
                             installationMap.computeIfAbsent(market, k -> new ArrayList<>()).add(coreId);
 
-                            // Mark for removal after loop completes
                             industriesToRemove.add(targetIndustry);
 
                             installed++;
@@ -247,7 +238,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             availableIndustries.removeAll(industriesToRemove);
             upgradeableIndustries.removeAll(industriesToRemove);
 
-            // Prepare for next round: only process displaced cores
             remainingCores.clear();
             remainingCores.addAll(displacedCores);
 
@@ -292,7 +282,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
                 "Installed at " + installationMap.size() + " Draconis facilities"
         );
 
-        // Show notification to player
         if (installed > 0) {
             showDonationNotification();
         }
@@ -314,7 +303,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
             // Skip markets with no administrator - installAICoreAdmin would fail silently
             if (market.getAdmin() == null) continue;
 
-            // Skip if admin already has HYPERCOGNITION
             if (market.getAdmin().getStats().getSkillLevel(com.fs.starfarer.api.impl.campaign.ids.Skills.HYPERCOGNITION) > 0) {
                 continue; // Already enhanced with Alpha Core
             }
@@ -337,9 +325,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
 
             // Defensive copy to prevent ConcurrentModificationException
             for (Industry industry : new ArrayList<>(market.getIndustries())) {
-                // Only add if NO core installed
                 if (industry.getAICoreId() != null && !industry.getAICoreId().isEmpty()) continue;
-                // Skip if not functional
                 if (!industry.isFunctional()) continue;
 
                 available.add(industry);
@@ -361,14 +347,12 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
 
             // Defensive copy to prevent ConcurrentModificationException
             for (Industry industry : new ArrayList<>(market.getIndustries())) {
-                // Only add if has a core that could be upgraded
                 String currentCore = industry.getAICoreId();
                 if (currentCore == null || currentCore.isEmpty()) continue;
 
                 // Can't upgrade an Alpha core (it's already the best)
                 if (currentCore.equals(Commodities.ALPHA_CORE)) continue;
 
-                // Skip if not functional
                 if (!industry.isFunctional()) continue;
 
                 upgradeable.add(industry);
@@ -378,9 +362,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         return upgradeable;
     }
 
-    /**
-     * Try to install AI core on an industry
-     */
     private boolean tryInstallCore(Industry industry, String coreId) {
         String oldCore = industry.getAICoreId();
         industry.setAICoreId(coreId);
@@ -400,9 +381,6 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
         return false;
     }
 
-    /**
-     * Show notification to player about donated cores being utilized
-     */
     private void showDonationNotification() {
         Global.getSector().getCampaignUI().addMessage(
                 "Your donated AI cores have been put to use by Draconis Alliance forces.",

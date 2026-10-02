@@ -20,7 +20,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
     //     SETTINGS     //
     //////////////////////
 
-    // No retargeting - missiles stay committed to their assigned target
     private final boolean TARGET_SWITCH = false;
 
     // Random target selection (ship system will override this with volley target)
@@ -33,27 +32,24 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
     private final int cruisers = 4;
     private final int capitals = 5;
 
-    // Search parameters
     private final int SEARCH_CONE = 360;
     private final int MAX_SEARCH_RANGE = 2500;
     private final boolean FAILSAFE = true;
 
-    // Leading enabled for intercept calculations
     private final boolean LEADING = true;
     private float ECCM = 2; // Precision without ECCM hullmod
 
     // No wave motion - direct flight path
     private final float WAVE_AMPLITUDE = -1;
 
-    // Precision range for update frequency
     private float PRECISION_RANGE = 500;
 
     // Simple steering without oversteer corrections
     private final float DAMPING = 0.1f;
 
     // Obstacle avoidance - very strong avoidance for precision focus-fire
-    private final float AVOIDANCE_DETECTION_RANGE = 450f; // How far ahead to scan (earlier detection)
-    private final float MIN_OBSTACLE_DISTANCE = 200f; // Minimum safe distance
+    private final float AVOIDANCE_DETECTION_RANGE = 450f;
+    private final float MIN_OBSTACLE_DISTANCE = 200f;
 
     //////////////////////
     //    VARIABLES     //
@@ -75,7 +71,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
         this.MISSILE = missile;
         MAX_SPEED = missile.getMaxSpeed();
 
-        // Check for ECCM hullmod
         if (launchingShip != null && launchingShip.getVariant().getHullMods().contains("eccm")) {
             ECCM = 1;
         }
@@ -94,7 +89,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             this.engine = Global.getCombatEngine();
         }
 
-        // Skip if paused or fading
         if (engine.isPaused() || MISSILE.isFading() || MISSILE.isFizzling()) {
             return;
         }
@@ -116,7 +110,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        // Target acquisition - only on first run or if target switching enabled and target lost
         if (target == null
                 || (TARGET_SWITCH
                 && ((target instanceof ShipAPI && !((ShipAPI) target).isAlive())
@@ -138,19 +131,16 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
                     )
             );
 
-            // Accelerate by default
             MISSILE.giveCommand(ShipCommand.ACCELERATE);
             return;
         }
 
         timer += amount;
 
-        // Update lead point calculation periodically
         if (launch || timer >= check) {
             launch = false;
             timer -= check;
 
-            // Set next check interval based on distance to target
             check = Math.min(
                     0.25f,
                     Math.max(
@@ -159,7 +149,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             );
 
             if (LEADING) {
-                // Calculate best intercept point
                 lead = AIUtils.getBestInterceptPoint(
                         MISSILE.getLocation(),
                         MAX_SPEED * ECCM, // ECCM improves leading accuracy
@@ -167,7 +156,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
                         target.getVelocity()
                 );
 
-                // Null pointer protection
                 if (lead == null) {
                     lead = target.getLocation();
                 }
@@ -176,7 +164,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        // Calculate desired facing angle toward target
         float correctAngle = VectorUtils.getAngle(
                 MISSILE.getLocation(),
                 lead
@@ -187,13 +174,10 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
         if (obstacle != null) {
             float distanceToObstacle = MathUtils.getDistance(MISSILE.getLocation(), obstacle.getLocation());
 
-            // Only avoid if obstacle is within safe distance
             if (distanceToObstacle < MIN_OBSTACLE_DISTANCE) {
-                // Calculate angle to obstacle
                 float angleToObstacle = VectorUtils.getAngle(MISSILE.getLocation(), obstacle.getLocation());
 
                 // Calculate avoidance angle (perpendicular to obstacle)
-                // Determine which direction to steer (left or right)
                 float relativeAngle = MathUtils.getShortestRotation(MISSILE.getFacing(), angleToObstacle);
                 float avoidanceAngle;
                 if (relativeAngle > 0) {
@@ -215,13 +199,10 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        // Simple steering without oversteer - direct approach
         float aimAngle = MathUtils.getShortestRotation(MISSILE.getFacing(), correctAngle);
 
-        // Always accelerate
         MISSILE.giveCommand(ShipCommand.ACCELERATE);
 
-        // Turn toward target
         if (aimAngle < 0) {
             MISSILE.giveCommand(ShipCommand.TURN_RIGHT);
         } else {
@@ -266,14 +247,12 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
         Vector2f missilePos = MISSILE.getLocation();
         float missileFacing = MISSILE.getFacing();
 
-        // Check asteroids
         for (CombatEntityAPI asteroid : engine.getAsteroids()) {
             if (asteroid == null) continue;
 
             float distance = MathUtils.getDistance(missilePos, asteroid.getLocation());
             if (distance > AVOIDANCE_DETECTION_RANGE) continue;
 
-            // Check if asteroid is in front of missile (within detection cone)
             float angleToAsteroid = VectorUtils.getAngle(missilePos, asteroid.getLocation());
             float angleDiff = Math.abs(MathUtils.getShortestRotation(missileFacing, angleToAsteroid));
 
@@ -284,14 +263,12 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        // Check ships (dead ships and non-target enemies)
         for (ShipAPI ship : engine.getShips()) {
             if (ship == null) continue;
 
             // Skip if this is our target (we WANT to hit it)
             if (ship == target) continue;
 
-            // Determine if we should avoid this ship
             boolean shouldAvoid = false;
 
             // Avoid all dead ships regardless of owner
@@ -299,7 +276,6 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
                 shouldAvoid = true;
             }
 
-            // Avoid enemy ships that aren't our target
             if (!shouldAvoid && ship.getOwner() != MISSILE.getOwner()) {
                 shouldAvoid = true;
             }
@@ -307,14 +283,12 @@ public class XLII_SabreAI implements MissileAIPlugin, GuidedMissileAI {
             // Skip friendly living ships (not obstacles)
             if (!shouldAvoid) continue;
 
-            // Calculate distance accounting for collision radii
             float distToCenter = MathUtils.getDistance(missilePos, ship.getLocation());
             float combinedRadius = ship.getCollisionRadius();
             float effectiveDistance = distToCenter - combinedRadius;
 
             if (effectiveDistance > AVOIDANCE_DETECTION_RANGE) continue;
 
-            // Check if ship is in front of missile
             float angleToShip = VectorUtils.getAngle(missilePos, ship.getLocation());
             float angleDiff = Math.abs(MathUtils.getShortestRotation(missileFacing, angleToShip));
 

@@ -19,8 +19,8 @@
     "XLII_phaseshuntcoils"
     ],
   "builtInWeapons": {
-    "WS0001": "blinker_red",
-    "WS0006": "blinker_green",
+    "WS0001": "XLII_blinker_red",
+    "WS0006": "XLII_blinker_green",
     "WS0007": "XLII_vernier",
     "WS0008": "XLII_vernier",
     "WS0009": "XLII_vernier",
@@ -31,8 +31,8 @@
     "WS0014": "XLII_vernier",
     "WS0018": "XLII_vernier",
     "WS0019": "XLII_vernier",
-    "WS0020": "blinker_red",
-    "WS0021": "blinker_green",
+    "WS0020": "XLII_blinker_red",
+    "WS0021": "XLII_blinker_green",
     "XLII_WING_LEFT": "XLII_wing_L",
     "XLII_WING_RIGHT": "XLII_wing_R"
   },

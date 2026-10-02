@@ -20,7 +20,6 @@ public class XLII_MassDamageOnHit implements OnHitEffectPlugin {
             float damageModifier = 1f + Math.min(4f, (mass / 1000f) + (5f / (float)Math.sqrt(mass)));
             //float damageModifier = (mass / 2500) + (float)(8.5 / Math.sqrt(mass));  // Calculates the modifier. Thanks Owen for the equation <3
 
-            // Clamp damageModifier between 0.5 and 10
             damageModifier = Math.max(0.5f, Math.min(damageModifier, 10f));
 
             float damage = projectile.getDamageAmount();

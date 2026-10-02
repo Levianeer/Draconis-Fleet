@@ -76,7 +76,6 @@ public class DraconisAICorePriorityManager {
             log.debug("Available upgrades: " + (upgradeableIndustries != null ? upgradeableIndustries.size() : 0));
         }
 
-        // Evaluate empty industries with full priority
         if (emptyIndustries != null) {
             for (Industry industry : emptyIndustries) {
                 float basePriority = getIndustryPriority(industry, coreId);
@@ -101,13 +100,13 @@ public class DraconisAICorePriorityManager {
             }
         }
 
-        // Evaluate upgradeable industries with slightly reduced priority (80% weight)
-        // This ensures we prefer empty slots, but will upgrade if the industry is high-priority enough
+        // Upgradeable industries get 80% weight - prefers empty slots but still upgrades a
+        // high-priority industry.
         if (upgradeableIndustries != null) {
             for (Industry industry : upgradeableIndustries) {
                 float basePriority = getIndustryPriority(industry, coreId);
                 float marketSizeBonus = (float) Math.pow(industry.getMarket().getSize(), sizeWeight * 0.5f);
-                float weight = basePriority * marketSizeBonus * 0.8f; // 80% weight for upgrades
+                float weight = basePriority * marketSizeBonus * 0.8f;
 
                 if (log.isDebugEnabled()) {
                     String currentCore = industry.getAICoreId();
@@ -208,46 +207,33 @@ public class DraconisAICorePriorityManager {
     public static float getIndustryPriority(Industry industry, String coreId) {
         String industryId = industry.getId().toLowerCase();
 
-        // Tier 1: Production (Orbital Works / Heavy Industry)
-        if (industryId.contains("orbitalworks")) return 10.0f;           // Orbital Works (ship production)
-        if (industryId.contains("heavyindustry")) return 10.0f;          // Heavy Industry (equipment production)
+        if (industryId.contains("orbitalworks")) return 10.0f;
+        if (industryId.contains("heavyindustry")) return 10.0f;
 
-        // Tier 2: Population & Infrastructure
-        if (industryId.contains("population")) return 9.0f;              // Population & Infrastructure
+        if (industryId.contains("population")) return 9.0f;
 
-        // Tier 3: High Command
-        if (industryId.contains("xlii_highcommand")) return 8.5f;        // Draconis High Command
-        if (industryId.contains("highcommand")) return 8.5f;             // High Command
-        if (industryId.contains("militarybase")) return 8.3f;            // Military Base (slightly lower)
+        if (industryId.contains("xlii_highcommand")) return 8.5f;
+        if (industryId.contains("highcommand")) return 8.5f;
+        if (industryId.contains("militarybase")) return 8.3f; // Slightly lower than High Command
 
-        // Tier 5: Trade (Commerce)
-        if (industryId.contains("commerce")) return 8.0f;                // Commerce
+        if (industryId.contains("commerce")) return 8.0f;
 
-        // Tier 6: Critical Resources
-        if (industryId.contains("fuelprod")) return 7.5f;                // Fuel Production
+        if (industryId.contains("fuelprod")) return 7.5f;
 
-        // Tier 7: Resource Processing
-        if (industryId.contains("refining")) return 7.0f;                // Refining
+        if (industryId.contains("refining")) return 7.0f;
 
-        // Tier 8: Manufacturing
-        if (industryId.contains("lightindustry")) return 6.5f;           // Light Industry
+        if (industryId.contains("lightindustry")) return 6.5f;
 
-        // Tier 9: Strategic Infrastructure
-        if (industryId.contains("waystation")) return 6.0f;              // Waystation
+        if (industryId.contains("waystation")) return 6.0f;
 
-        // Tier 10: Resource Extraction
-        if (industryId.contains("mining")) return 5.5f;                  // Mining
+        if (industryId.contains("mining")) return 5.5f;
 
-        // Tier 11: Food Production
-        if (industryId.contains("farming")) return 5.0f;                 // Farming
+        if (industryId.contains("farming")) return 5.0f;
 
-        // Tier 12: Alternative Food
-        if (industryId.contains("aquaculture")) return 4.5f;             // Aquaculture
+        if (industryId.contains("aquaculture")) return 4.5f;
 
-        // Tier 13: Megaport (large-market trade hub; lower marginal gain from cores)
-        if (industryId.contains("megaport")) return 4.0f;                // Megaport
+        if (industryId.contains("megaport")) return 4.0f;
 
-        // Default: Everything else
         return 3.0f;
     }
 
@@ -267,8 +253,7 @@ public class DraconisAICorePriorityManager {
     }
 
     /**
-     * Log industry priority analysis for debugging
-     * Useful for understanding why certain industries were selected
+     * Debug logging for industry priority selection.
      *
      * @param industry Industry to analyze
      * @param coreId Core type being considered
@@ -291,11 +276,8 @@ public class DraconisAICorePriorityManager {
     }
 
     /**
-     * Grant HYPERCOGNITION skill to market administrator (representing Alpha Core integration)
-     * Much more player-friendly than replacing admins
-     * <p>
-     * This is done to avoid replacing player contacts or messing with any story or quest related things I might make.
-     * Besides it kind of makes sense to have AIs "helping" admins I guess.
+     * Grants HYPERCOGNITION to the market administrator instead of replacing them, so player
+     * contacts and quest references to that admin aren't broken.
      *
      * @param market Target market whose admin receives the skill
      * @param coreId AI core type (only Alpha cores grant HYPERCOGNITION)
@@ -311,9 +293,7 @@ public class DraconisAICorePriorityManager {
                 return false;
             }
 
-            // Only Alpha cores grant HYPERCOGNITION
             if (Commodities.ALPHA_CORE.equals(coreId)) {
-                // Check if admin already has the skill
                 if (admin.getStats().getSkillLevel(Skills.HYPERCOGNITION) <= 0) {
                     admin.getStats().setSkillLevel(Skills.HYPERCOGNITION, 1);
                     log.debug("Granted HYPERCOGNITION to " + admin.getNameString() +

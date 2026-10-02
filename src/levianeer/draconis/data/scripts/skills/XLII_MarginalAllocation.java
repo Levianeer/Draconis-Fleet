@@ -85,7 +85,7 @@ public class XLII_MarginalAllocation {
         public String getEffectDescription(float level) {
             return "Enemies within range periodically suffer "
                     + "weapon and engine malfunctions "
-                    + "with a rare chance of overloading.";
+                    + "with a rare chance of overloading";
         }
 
         @Override
@@ -122,7 +122,7 @@ public class XLII_MarginalAllocation {
         @Override
         public String getEffectDescription(float level) {
             return "Once per battle, when this ship would be destroyed, "
-                    + "it is not.";
+                    + "it is not";
         }
 
         @Override
@@ -192,11 +192,7 @@ public class XLII_MarginalAllocation {
             CombatEngineAPI engine = Global.getCombatEngine();
             if (engine == null || engine.isPaused()) return;
 
-            // First tick: resolve all pending ships to their roots.
-            // LinkedHashSet deduplicates by object identity, so if the game
-            // called applyEffectsAfterShipCreation for both parent and modules,
-            // getRootShip returns the same object for all of them and the set
-            // ends up with exactly one entry per logical ship.
+            // First tick: resolve pending ships to their roots (dedup rationale above).
             if (!initialized) {
                 initialized = true;
                 for (ShipAPI ship : pending) {
@@ -205,7 +201,6 @@ public class XLII_MarginalAllocation {
                 pending.clear();
             }
 
-            // Remove dead sources
             sources.removeIf(s -> s == null || s.isHulk() || !s.isAlive());
 
             if (sources.isEmpty()) {
@@ -223,7 +218,6 @@ public class XLII_MarginalAllocation {
                 MagicRender.singleframe(ringSprite, source.getLocation(),
                         new Vector2f(spriteSize, spriteSize), 0f, RING_COLOR, true);
 
-                // Status: source ship is the player
                 if (source == playerShip) {
                     engine.maintainStatusForPlayerShip(
                             STATUS_KEY_SRC,
@@ -234,7 +228,6 @@ public class XLII_MarginalAllocation {
                     );
                 }
 
-                // Status: player is an enemy caught in the aura
                 if (playerShip != null
                         && playerShip.getOwner() != source.getOwner()
                         && !playerShip.isHulk()
@@ -558,10 +551,8 @@ public class XLII_MarginalAllocation {
 
             used = true;
 
-            // Restore hull to full
             ship.setHitpoints(ship.getMaxHitpoints());
 
-            // Restore all armor cells
             ArmorGridAPI armor = ship.getArmorGrid();
             float maxCell = armor.getMaxArmorInCell();
             float[][] grid = armor.getGrid();
@@ -574,7 +565,6 @@ public class XLII_MarginalAllocation {
             // Drain all flux; if currently overloaded, restart with 0-duration to clear instantly
             ship.getFluxTracker().setCurrFlux(0f);
 
-            // Visual: instant bright flash + persistent expanding ring FX
             CombatEngineAPI engine = Global.getCombatEngine();
             if (engine != null) {
                 float r = ship.getCollisionRadius();
@@ -587,7 +577,6 @@ public class XLII_MarginalAllocation {
                 // Damage immunity so the ship can't be instantly killed again
                 engine.addPlugin(new ImmunityPlugin(ship));
 
-                // Random ship dialogue line
                 String line = REVIVAL_LINES[Misc.random.nextInt(REVIVAL_LINES.length)];
                 engine.addFloatingText(ship.getLocation(), line, 25f, DIALOGUE_COLOR, ship, 1f, 4f);
             }
@@ -618,7 +607,7 @@ public class XLII_MarginalAllocation {
 
         @Override
         public String getEffectDescription(float level) {
-            return "Periodically projects a ghost copy of a nearby enemy ship that defends this vessel.";
+            return "Periodically projects a ghost copy of a nearby enemy ship that defends this vessel";
         }
 
         @Override
@@ -688,7 +677,6 @@ public class XLII_MarginalAllocation {
                 return;
             }
 
-            // Evict dead clones
             activeClones.entrySet().removeIf(e -> {
                 ShipAPI clone = e.getValue();
                 return clone == null || clone.isHulk() || !clone.isAlive();
@@ -718,7 +706,6 @@ public class XLII_MarginalAllocation {
             for (ShipAPI source : sources) {
                 if (!source.isAlive() || source.isHulk()) continue;
 
-                // Skip if a live clone already exists for this source
                 ShipAPI existing = activeClones.get(source);
                 if (existing != null && existing.isAlive() && !existing.isHulk()) continue;
 
@@ -795,18 +782,12 @@ public class XLII_MarginalAllocation {
             engine.addPlugin(new GhostSpawnPlugin(clone));
             clone.getMutableStats().getTimeMult().modifyMult(GHOST_TIME_KEY, GHOST_TIME_MULT);
 
-            // Wake the AI with S&D first, then assign DEFEND - mirrors Tahlan DaemonHeart pattern
-            DeployedFleetMemberAPI sourceDFM = fleetMgr.getDeployedFleetMember(source);
+            // Wake the AI with search-and-destroy
             for (boolean ally : new boolean[]{false, true}) {
                 CombatTaskManagerAPI taskMgr = fleetMgr.getTaskManager(ally);
                 DeployedFleetMemberAPI cloneDFM = fleetMgr.getDeployedFleetMember(clone);
                 if (cloneDFM == null) continue;
                 taskMgr.orderSearchAndDestroy(cloneDFM, false);
-                if (sourceDFM != null) {
-                    taskMgr.giveAssignment(cloneDFM,
-                            taskMgr.createAssignment(CombatAssignmentType.DEFEND, sourceDFM, false),
-                            false);
-                }
             }
 
             if (clone.getShipAI() != null) {
@@ -850,7 +831,6 @@ public class XLII_MarginalAllocation {
         private boolean    destroyed    = false;
 
         private final IntervalUtil afterimageInterval = new IntervalUtil(0.25f, 0.25f);
-        private final IntervalUtil reorderInterval    = new IntervalUtil(5f, 5f);
 
         public GhostClonePlugin(ShipAPI clone, ShipAPI source, GhostEchoManager manager) {
             this.clone   = clone;
@@ -897,7 +877,6 @@ public class XLII_MarginalAllocation {
                         Misc.setAlpha(ShardSpawner.JITTER_COLOR, (int)(50 + 150 * fadeProgress)),
                         jitterLevel, 25, 0f, fadeProgress * 60f);
 
-                // Rift particles during despawn
                 afterimageInterval.advance(amount);
                 if (afterimageInterval.intervalElapsed()) {
                     emitRiftParticles(engine, clone, 2);
@@ -930,27 +909,6 @@ public class XLII_MarginalAllocation {
                         m.setAlphaMult(GHOST_ALPHA);
                         m.setCurrentCR(1f);
                     }
-                }
-            }
-
-            // ── Re-assert defend order ────────────────────────────────────────
-            reorderInterval.advance(amount);
-            if (reorderInterval.intervalElapsed() && !fading
-                    && source.isAlive() && !source.isHulk()) {
-                CombatFleetManagerAPI fleetMgr = engine.getFleetManager(source.getOwner());
-                DeployedFleetMemberAPI sourceDFM = fleetMgr.getDeployedFleetMember(source);
-                if (sourceDFM != null) {
-                    for (boolean ally : new boolean[]{false, true}) {
-                        CombatTaskManagerAPI taskMgr = fleetMgr.getTaskManager(ally);
-                        DeployedFleetMemberAPI cloneDFM = fleetMgr.getDeployedFleetMember(clone);
-                        if (cloneDFM == null) continue;
-                        taskMgr.giveAssignment(cloneDFM,
-                                taskMgr.createAssignment(CombatAssignmentType.DEFEND, sourceDFM, false),
-                                false);
-                    }
-                }
-                if (clone.getShipAI() != null) {
-                    clone.getShipAI().forceCircumstanceEvaluation();
                 }
             }
 

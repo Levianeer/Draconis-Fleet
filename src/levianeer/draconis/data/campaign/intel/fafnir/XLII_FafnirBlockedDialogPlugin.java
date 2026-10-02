@@ -325,7 +325,6 @@ public class XLII_FafnirBlockedDialogPlugin implements InteractionDialogPlugin {
 
     private void applyBruteForce() {
         // SP deduction is handled by the SetStoryOption framework before confirm() is called
-        // Apply CR penalty to all player fleet ships
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet()
                 .getFleetData().getMembersListCopy()) {
             member.getRepairTracker().applyCREvent(-BRUTE_FORCE_CR_PENALTY, "Forced Rift transit");

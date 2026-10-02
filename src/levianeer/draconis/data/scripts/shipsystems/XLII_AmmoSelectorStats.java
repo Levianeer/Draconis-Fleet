@@ -34,8 +34,6 @@ public class XLII_AmmoSelectorStats extends BaseShipSystemScript {
         return MODE.getOrDefault(shipId, KINETIC);
     }
 
-    // -------------------------------------------------------------------------
-
     private int     currentMode = KINETIC;
     private State   prevState   = State.IDLE;
     private final Object STATUSKEY = new Object();
@@ -77,8 +75,6 @@ public class XLII_AmmoSelectorStats extends BaseShipSystemScript {
         }
         return null;
     }
-
-    // -------------------------------------------------------------------------
 
     private void applyModeStats(MutableShipStatsAPI stats, String id) {
         stats.getBallisticRoFMult().unmodify(id);

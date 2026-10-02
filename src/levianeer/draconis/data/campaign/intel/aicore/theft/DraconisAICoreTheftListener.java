@@ -40,7 +40,6 @@ public class DraconisAICoreTheftListener {
             return;
         }
 
-        // Check if we already stole from this market today
         long currentDay = Global.getSector().getClock().getDay();
         String lastTheftKey = "$draconis_lastTheftDay";
         long lastTheftDay = raidedMarket.getMemoryWithoutUpdate().getLong(lastTheftKey);
@@ -58,7 +57,6 @@ public class DraconisAICoreTheftListener {
             return;
         }
 
-        // Mark this market as stolen from today
         raidedMarket.getMemoryWithoutUpdate().set(lastTheftKey, currentDay);
 
         log.info(
@@ -82,7 +80,6 @@ public class DraconisAICoreTheftListener {
 
         List<String> stolenCores = new ArrayList<>();
 
-        // Check for AI core installed as administrator
         if (raidedMarket.getAdmin() != null && raidedMarket.getAdmin().getAICoreId() != null) {
             String adminCoreId = raidedMarket.getAdmin().getAICoreId();
 
@@ -117,7 +114,6 @@ public class DraconisAICoreTheftListener {
                     "Scanning " + industries.size() + " industries for AI cores"
             );
 
-            // Steal actual installed AI cores from industries
             for (Industry industry : industries) {
                 if (industry == null) continue;
 
@@ -146,7 +142,6 @@ public class DraconisAICoreTheftListener {
                 "Actual cores stolen: " + stolenCores.size()
         );
 
-        // Fallback: Generate cores if none found
         if (stolenCores.isEmpty()) {
             log.info(
                     "No actual cores found - attempting fallback generation"
@@ -176,7 +171,6 @@ public class DraconisAICoreTheftListener {
             }
         }
 
-        // Install stolen cores on Draconis industries
         if (!stolenCores.isEmpty()) {
             log.info(
                     "Installing " + stolenCores.size() + " stolen cores on Draconis facilities"
@@ -184,8 +178,7 @@ public class DraconisAICoreTheftListener {
 
             int installed = installStolenCores(stolenCores, raidedMarket, isPlayerMarket, actionType);
 
-            // Apply diplomatic strain (Nexerelin integration)
-            // Cores were stolen regardless of whether they could be immediately installed
+            // Diplomatic strain (Nexerelin) applies regardless of whether cores could be installed.
             if (!stolenCores.isEmpty()) {
                 int alphaCount = 0;
                 int betaCount = 0;
@@ -339,8 +332,8 @@ public class DraconisAICoreTheftListener {
         }
 
         int coresInstalled = 0;
-        Map<MarketAPI, Integer> installationMap = new HashMap<>(); // Track where cores were installed
-        List<String> failedToInstall = new ArrayList<>(); // Cores that couldn't be placed in any slot
+        Map<MarketAPI, Integer> installationMap = new HashMap<>();
+        List<String> failedToInstall = new ArrayList<>();
 
         // Use index-based loop to allow dynamic additions during iteration
         int coreIndex = 0;
@@ -352,7 +345,6 @@ public class DraconisAICoreTheftListener {
             if (coreId.equals(Commodities.ALPHA_CORE) && !availableAdminMarkets.isEmpty()) {
                 MarketAPI targetMarket = DraconisAICorePriorityManager.pickTargetAdminMarket(availableAdminMarkets);
                 if (targetMarket != null && DraconisAICorePriorityManager.installAICoreAdmin(targetMarket, coreId, DRACONIS)) {
-                    // Track this installation
                     installationMap.put(targetMarket, installationMap.getOrDefault(targetMarket, 0) + 1);
 
                     availableAdminMarkets.remove(targetMarket);
@@ -380,18 +372,15 @@ public class DraconisAICoreTheftListener {
                     }
 
                     if (tryInstallCore(targetIndustry, coreId)) {
-                        // Track this installation
                         MarketAPI market = targetIndustry.getMarket();
                         installationMap.put(market, installationMap.getOrDefault(market, 0) + 1);
 
-                        // Remove from appropriate list
                         availableIndustries.remove(targetIndustry);
                         upgradeableIndustries.remove(targetIndustry);
 
                         coresInstalled++;
                         installed = true;
 
-                        // If we displaced a core, add it back to the sorted cores list for redistribution
                         if (displacedCore != null) {
                             sortedCores.add(displacedCore);
                             log.info(
@@ -451,7 +440,6 @@ public class DraconisAICoreTheftListener {
             // Skip markets with no administrator - installAICoreAdmin would fail silently
             if (market.getAdmin() == null) continue;
 
-            // Skip if admin already has HYPERCOGNITION
             if (market.getAdmin().getStats().getSkillLevel(Skills.HYPERCOGNITION) > 0) {
                 continue; // Already enhanced with Alpha Core
             }
@@ -472,9 +460,8 @@ public class DraconisAICoreTheftListener {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            // Defensive copy to prevent ConcurrentModificationException
+            // Defensive copy (see checkAndStealAICores) to prevent ConcurrentModificationException.
             for (Industry industry : new ArrayList<>(market.getIndustries())) {
-                // Only add if NO core installed
                 if (industry.getAICoreId() != null && !industry.getAICoreId().isEmpty()) continue;
                 if (!industry.isFunctional()) continue;
 
@@ -495,10 +482,9 @@ public class DraconisAICoreTheftListener {
             if (!market.getFactionId().equals(DRACONIS)) continue;
             if (market.isHidden()) continue;
 
-            // Defensive copy to prevent ConcurrentModificationException
+            // Defensive copy (see checkAndStealAICores) to prevent ConcurrentModificationException.
             for (Industry industry : new ArrayList<>(market.getIndustries())) {
                 String currentCore = industry.getAICoreId();
-                // Only add if has a core that could be upgraded
                 if (currentCore == null || currentCore.isEmpty()) continue;
 
                 // Can't upgrade an Alpha core (it's already the best)

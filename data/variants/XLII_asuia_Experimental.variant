@@ -1,12 +1,13 @@
 {
     "displayName": "Experimental",
-    "fluxCapacitors": 7,
+    "fluxCapacitors": 5,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_asuia",
     "hullMods": [
         "targetingunit",
-        "unstable_injector"
+        "stabilizedshieldemitter",
+        "fluxdistributor"
     ],
     "permaMods": [],
     "sMods": [],
@@ -41,5 +42,5 @@
             "weapons": {"WS0006": "XLII_swordbreaker"}
         }
     ],
-    "wings": ["XLII_tianyi_wing"]
+    "wings": ["XLII_pulao_wing"]
 }

@@ -1,25 +1,22 @@
 {
 	"id":"XLII_flux_cycler",
-	"type":"STAT_MOD",
+	"type":"SHIELD_MOD",
 	"aiType":"CUSTOM",
 	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_FluxCyclerAI",
 
 	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_FluxCyclerStats",
 
-	"jitterUnderColor":[175,50,75,155],
-	"jitterUnderCopies":25,
-	"jitterUnderMinRange":0,
-	"jitterUnderRange":7,
-	"jitterUnderRangeRadiusFraction":0,
-	
-	"jitterColor":[125,25,50,105],
-	"jitterCopies":3,
-	"jitterMinRange":0,
-	"jitterRange":5,
-	"jitterRangeRadiusFraction":0,
+	"shieldRingColor":[175,50,75,255],
+	"shieldInnerColor":[125,25,50,105],
+	"shieldThicknessMult":1,
+	"shieldFluctuationMult":0,
+
+	"soundFilterType":"LOWPASS",
+	"soundFilterGain":0.75,
+	"soundFilterGainHF":0.0,
 
 	"runScriptWhileIdle":true, # unapply() never gets called
 
-	"useSound":"system_extraction_protocol",
-	"deactivateSound":"system_extraction_protocol",
+	"loopSound":"system_fortress_shield_loop",
+	"outOfUsesSound":"gun_out_of_ammo",
 }

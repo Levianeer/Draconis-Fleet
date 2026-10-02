@@ -44,8 +44,6 @@ public class DraconisDiplomacyStrain {
                 return;
             }
 
-            // Calculate total strain effect
-            // Note: reportDiplomacyEvent multiplies by EVENT_MULT (80), so we use small values
             float totalStrain = (alphaCores * ALPHA_CORE_STRAIN) +
                     (betaCores * BETA_CORE_STRAIN) +
                     (gammaCores * GAMMA_CORE_STRAIN);

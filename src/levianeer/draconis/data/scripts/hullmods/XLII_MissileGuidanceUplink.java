@@ -16,7 +16,7 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
     public static final float MISSILE_HEALTH_BONUS = 100f;
 
     // Base multiplier for reload time - ensures reload is always slower than fire rate
-    // Reload interval = BASE_MULTIPLIER / (rof × (1 + maxAmmo × AMMO_SCALING_FACTOR))
+    // (see formula in advanceInCombat).
     private static final float BASE_MULTIPLIER = 3.5f;
 
     // Scaling factor - higher max ammo = faster individual missile reload
@@ -29,7 +29,6 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        // Add 50% bonus to missile health
         stats.getMissileHealthBonus().modifyPercent(id, MISSILE_HEALTH_BONUS);
     }
 
@@ -43,12 +42,9 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
             return;
         }
 
-        // Get or create reload timer map for this ship
         Map<WeaponAPI, float[]> reloadTimers = shipReloadTimers.computeIfAbsent(shipKey, k -> new HashMap<>());
 
-        // Process each weapon on the ship
         for (WeaponAPI weapon : ship.getAllWeapons()) {
-            // Only process large missile weapons
             if (weapon.getSize() != WeaponSize.LARGE) {
                 continue;
             }
@@ -62,7 +58,6 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
             }
 
             // Initialize reload timer for this weapon if not already done.
-            // float[0] = current countdown, float[1] = cached reload interval
             if (!reloadTimers.containsKey(weapon)) {
                 // Formula: BASE_MULTIPLIER / (rof × (1 + maxAmmo × AMMO_SCALING_FACTOR))
                 // This ensures: more ammo = faster reload, but always slower than fire rate
@@ -72,11 +67,9 @@ public class XLII_MissileGuidanceUplink extends BaseHullMod {
                 reloadTimers.put(weapon, new float[]{ reloadInterval, reloadInterval });
             }
 
-            // Current ammo count
             int currentAmmo = weapon.getAmmo();
             int maxAmmo = weapon.getMaxAmmo();
 
-            // Only reload if not at max ammo
             if (currentAmmo < maxAmmo) {
                 float[] timerData = reloadTimers.get(weapon);
                 timerData[0] -= amount;

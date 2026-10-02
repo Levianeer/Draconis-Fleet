@@ -19,16 +19,13 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
 
     // ==================== TUNING PARAMETERS ====================
 
-    // Distance to target that triggers automatic dephase
     private static final float PROXIMITY_DEPHASE_DISTANCE = 500f;
     // Sound plays this many units before dephasing for audio warning
     private static final float PROXIMITY_DEPHASE_SOUND_OFFSET = 100f;
 
-    // Guidance parameters
     private static final float DAMPING = 0.1f;
     private static final float PRECISION_RANGE_SQ = (float) Math.pow(500, 2);
 
-    // Update intervals
     private static final float MIN_CHECK_INTERVAL = 0.05f;
     private static final float MAX_CHECK_INTERVAL = 0.25f;
 
@@ -47,10 +44,10 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
     private float checkInterval = 0.1f;
 
     private boolean isInFormation = true;  // Formation mode: AI disabled while stacked
-    private final boolean startedPhased;   // Track if missile started in phase state
+    private final boolean startedPhased;
 
     private CombatEngineAPI engine;
-    private XLII_PhaseTorpedoGlowEffect glowEffect;  // Custom phase glow for missiles
+    private XLII_PhaseTorpedoGlowEffect glowEffect;
 
     // ==================== INITIALIZATION ====================
 
@@ -64,7 +61,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
         if (!startedPhased) {
             this.hasDePhased = true;
         } else {
-            // Create phase glow effect for phased torpedoes
             glowEffect = new XLII_PhaseTorpedoGlowEffect(missile);
             CombatEntityAPI glowEntity = engine.addLayeredRenderingPlugin(glowEffect);
             glowEntity.getLocation().set(missile.getLocation());
@@ -79,7 +75,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
             this.engine = Global.getCombatEngine();
         }
 
-        // Skip AI if game is paused or missile is fading
         if (engine.isPaused() || missile.isFading() || missile.isFizzling()) {
             return;
         }
@@ -87,7 +82,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
         // Handle phase state synchronization (always runs, even in formation)
         updatePhaseState();
 
-        // Maintain unphased visuals if already dephased
         if (hasDePhased) {
             ensureUnphasedVisuals();
         }
@@ -102,23 +96,19 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
 
         // Target acquisition and switching
         if (!isValidTarget(target)) {
-            // If no target, just keep flying straight
             missile.giveCommand(ShipCommand.ACCELERATE);
             return;
         }
 
         timer += amount;
 
-        // Update lead point calculation
         if (launch || timer >= checkInterval) {
             launch = false;
             timer -= checkInterval;
 
-            // Adjust check interval based on distance to target
             float distSq = MathUtils.getDistanceSquared(missile.getLocation(), target.getLocation());
             checkInterval = Math.min(MAX_CHECK_INTERVAL, Math.max(MIN_CHECK_INTERVAL, distSq / PRECISION_RANGE_SQ));
 
-            // Calculate intercept point
             lead = AIUtils.getBestInterceptPoint(
                 missile.getLocation(),
                 maxSpeed,
@@ -131,11 +121,9 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        // Calculate desired facing angle
         float correctAngle = VectorUtils.getAngle(missile.getLocation(), lead);
         float aimAngle = MathUtils.getShortestRotation(missile.getFacing(), correctAngle);
 
-        // Give commands
         missile.giveCommand(ShipCommand.ACCELERATE);
 
         if (aimAngle < 0) {
@@ -157,22 +145,18 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
      * Only runs proximity checks if torpedo started phased.
      */
     private void updatePhaseState() {
-        // Already dephased? Nothing to do
         if (hasDePhased) {
             return;
         }
 
-        // If missile didn't start phased, skip all phase mechanics
         if (!startedPhased) {
             return;
         }
 
-        // Check distance to nearest enemy ship or fighter (not stations, drones, etc.)
         ShipAPI nearestEnemy = findNearestEnemyShipOrFighter();
         if (nearestEnemy != null) {
             float distance = MathUtils.getDistance(missile.getLocation(), nearestEnemy.getLocation());
 
-            // Play warning sound before actual dephasing
             if (!hasPlayedDephaseSound && distance <= PROXIMITY_DEPHASE_DISTANCE + PROXIMITY_DEPHASE_SOUND_OFFSET) {
                 Global.getSoundPlayer().playSound(
                     "system_phase_cloak_deactivate",
@@ -192,10 +176,9 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        // Still phased - maintain phased visuals
         ensurePhasedCollision();
         ensurePhasedGlow();
-        ensurePhasedVisuals();  // Maintain jitter and alpha
+        ensurePhasedVisuals();
     }
 
     /**
@@ -207,17 +190,13 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
         float minDistSq = Float.MAX_VALUE;
 
         for (ShipAPI ship : engine.getShips()) {
-            // Skip friendlies
             if (ship.getOwner() == missile.getOwner()) continue;
 
-            // Skip dead/hulked ships
             if (!ship.isAlive() || ship.isHulk()) continue;
 
-            // ONLY target combat ships/fighters (not stations, objectives, etc.)
             // DEFAULT hull size = stations, nav buoys, comm relays, etc.
             if (ship.getHullSize() == ShipAPI.HullSize.DEFAULT) continue;
 
-            // Find closest
             float distSq = MathUtils.getDistanceSquared(missile.getLocation(), ship.getLocation());
             if (distSq < minDistSq) {
                 minDistSq = distSq;
@@ -232,7 +211,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
      * Only applied while in formation mode.
      */
     private void ensureFormationVisuals() {
-        // Set phased engine color using standard phase ship colors
         missile.getEngineController().fadeToOtherColor(
             this,
             new Color(255, 175, 255),  // effectColor1 - bright glow
@@ -256,7 +234,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
         // Visual: Change from purple to ORANGE (armed state)
         missile.setJitter(this, new Color(255, 150, 50, 100), 0.5f, 3, 0f, 5f);
 
-        // Orange engine for armed state
         missile.getEngineController().fadeToOtherColor(
             this,
             new Color(255, 150, 50),   // glow
@@ -265,14 +242,12 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
             1.0f
         );
 
-        setArmedGlow();  // Maintain glow
+        setArmedGlow();
 
-        // Fade out the phase glow effect
         if (glowEffect != null) {
             glowEffect.startFadeOut();
         }
 
-        // Visual feedback: spawn small phase-out effect
         Vector2f loc = new Vector2f(missile.getLocation());
         engine.addSmoothParticle(
             loc,
@@ -306,10 +281,8 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
      * Called every frame to prevent visual effects from being reset.
      */
     private void ensurePhasedVisuals() {
-        // Maintain purple phase jitter effect
         missile.setJitter(this, new Color(255, 175, 255, 100), 0.5f, 3, 0f, 5f);  // effectColor1
 
-        // Maintain purple engine trail (phased state)
         missile.getEngineController().fadeToOtherColor(
             this,
             new Color(255, 175, 255),  // effectColor1 - bright glow
@@ -324,10 +297,8 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
      * Called every frame after dephasing to keep orange jitter visible.
      */
     private void ensureUnphasedVisuals() {
-        // Maintain orange armed jitter effect
         missile.setJitter(this, new Color(255, 150, 50, 100), 0.5f, 3, 0f, 5f);
 
-        // Maintain orange engine trail (armed state)
         missile.getEngineController().fadeToOtherColor(
             this,
             new Color(255, 150, 50),   // orange glow
@@ -361,7 +332,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
      * Sets formation mode. When true, AI doesn't issue movement commands.
      */
     public void setInFormation(boolean inFormation) {
-        // If transitioning from formation to launched, switch to orange engines
         if (this.isInFormation && !inFormation) {
             transitionToLaunchedVisuals();
         }
@@ -373,7 +343,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
      * Changes engine color to orange while maintaining phase effects.
      */
     private void transitionToLaunchedVisuals() {
-        // Change to orange engine color when launched
         missile.getEngineController().fadeToOtherColor(
             this,
             new Color(255, 150, 50),   // orange glow
@@ -383,9 +352,6 @@ public class XLII_PhaseTorpedoAI implements MissileAIPlugin, GuidedMissileAI {
         );
     }
 
-    /**
-     * Checks if target is still valid.
-     */
     private boolean isValidTarget(CombatEntityAPI target) {
         if (target instanceof ShipAPI ship) {
             return ship.isAlive() && !ship.isExpired();

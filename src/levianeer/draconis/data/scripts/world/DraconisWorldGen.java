@@ -7,7 +7,7 @@ import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorGeneratorPlugin;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 
-import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
+import static levianeer.draconis.data.campaign.ids.Factions.*;
 
 public class DraconisWorldGen implements SectorGeneratorPlugin {
 	@Override
@@ -18,16 +18,20 @@ public class DraconisWorldGen implements SectorGeneratorPlugin {
     public static void initFactionRelationships(SectorAPI sector) {
 		FactionAPI XLII_draconis = sector.getFaction(DRACONIS);
 
-		// Set INHOSPITABLE as default to all factions
 		for (FactionAPI other : Global.getSector().getAllFactions()) {
 			if (!other.getId().equals(DRACONIS)
-				&& !other.getId().equals(Factions.TRITACHYON)) // Legally mandated "friendship"
+				&& !other.getId().equals(Factions.TRITACHYON)	// Legally mandated "friendship"
+				&& !other.getId().equals(INTELLIGENCE_OFFICE)	// Draconis's own intelligence branch
+				&& !other.getId().equals(FORTYSECOND))			// Draconis's own special forces
 			{
 				XLII_draconis.setRelationship(other.getId(), RepLevel.INHOSPITABLE);
 			}
 		}
 
 		// VENGEFUL / HOSTILE / INHOSPITABLE / SUSPICIOUS / NEUTRAL / FAVORABLE / WELCOMING / FRIENDLY / COOPERATIVE
+
+		XLII_draconis.setRelationship(FORTYSECOND, RepLevel.NEUTRAL);
+		XLII_draconis.setRelationship(INTELLIGENCE_OFFICE, RepLevel.NEUTRAL);
 
 		// Manual overrides for specific factions
 		XLII_draconis.setRelationship(Factions.INDEPENDENT, RepLevel.HOSTILE); // Secruity concerns :)

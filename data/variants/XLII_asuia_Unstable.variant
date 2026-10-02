@@ -1,7 +1,7 @@
 {
     "displayName": "Unstable",
     "fluxCapacitors": 0,
-    "fluxVents": 3,
+    "fluxVents": 0,
     "hullId": "XLII_asuia",
     "hullMods": [
         "safetyoverrides",
@@ -32,13 +32,13 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0006": "ioncannon"}
+            "weapons": {"WS0003": "riftbeam"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0003": "riftbeam"}
+            "weapons": {"WS0006": "XLII_LaWS"}
         }
     ],
-    "wings": []
+    "wings": ["XLII_pulao_wing"]
 }

@@ -13,6 +13,7 @@
   "viewOffset": 0,
   "builtInMods": [
     "XLII_draconishull",
+    "XLII_fluxreactivearmor",
     "hbi"
   ],
   "builtInWeapons": {
@@ -26,10 +27,10 @@
     "WS0022": "XLII_vernier",
     "WS0023": "XLII_vernier",
     "WS0024": "XLII_vernier",
-    "WS0032": "blinker_red",
-    "WS0033": "blinker_green",
-    "WS0034": "blinker_red",
-    "WS0035": "blinker_green"
+    "WS0032": "XLII_blinker_red",
+    "WS0033": "XLII_blinker_green",
+    "WS0034": "XLII_blinker_red",
+    "WS0035": "XLII_blinker_green"
   },
   "weaponSlots": [
     {

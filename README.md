@@ -5,7 +5,7 @@
 ___
 
 __Overview:__<br>
-The Draconis Defence Alliance is a military stratocracy governing the Fafnir system - a state of emergency declared at the end of a brutal civil war and never rescinded. Fleet Admiral Emil August, who shattered the rebel world of Athebyne with seventy-two hours of orbital bombardment, has ruled by consolidated military authority ever since. The Alliance's independence is maintained through geographic isolation, a doctrine of total resistance, and arrangements with outside powers that neither party publicly acknowledges.
+The Draconis Defense Alliance is a military stratocracy governing the Fafnir system - a state of emergency declared at the end of a brutal civil war and never rescinded. Fleet Admiral Emil August, who shattered the rebel world of Athebyne with seventy-two hours of orbital bombardment, has ruled by consolidated military authority ever since. The Alliance's independence is maintained through geographic isolation, a doctrine of total resistance, and arrangements with outside powers that neither party publicly acknowledges.
 
 Draconis hulls are built around a consistent philosophy: flux capacity and speed over armour and shields. Doctrine assumes no reinforcement and no safe fallback position, so engagements are designed around rapid strikes with concentrated firepower followed by disengagement before combat readiness collapses. The ships excel in this role but struggle outside of it - catch one in a sustained engagement, and the thin protection quickly becomes a liability. Ballistics and missiles are the weapons of choice; the fleet is not built for prolonged flux wars.
 

@@ -3,7 +3,6 @@ package levianeer.draconis.data.scripts.weapons;
 import java.awt.Color;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.magiclib.util.MagicFakeBeam;
 
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.DamageType;
@@ -23,7 +22,6 @@ import com.fs.starfarer.api.combat.WeaponAPI;
  */
 public class XLII_TrebuchetWeaponEffect implements OnFireEffectPlugin, EveryFrameWeaponEffectPlugin {
 
-    // Laser sight visuals
     private static final Color LASER_CORE    = new Color(255,  60,  60, 15);
     private static final Color LASER_FRINGE  = new Color(255,  30,  30,  5);
     private static final float LASER_WIDTH_IN    = 2f;    // world units at muzzle
@@ -56,7 +54,7 @@ public class XLII_TrebuchetWeaponEffect implements OnFireEffectPlugin, EveryFram
 
         float chargeLevel = weapon.getChargeLevel();
 
-        // Detect the start of a fresh chargeup: chargeLevel was 0, now rising
+        // chargeLevel was 0, now rising
         if (chargeLevel > 0f && prevChargeLevel <= 0f) {
             firedCount = 0;
         }
@@ -73,7 +71,7 @@ public class XLII_TrebuchetWeaponEffect implements OnFireEffectPlugin, EveryFram
             // spawnAdvancedFakeBeam renders via MagicTrailPlugin (world-space, zoom-invariant)
             // and performs LoS collision - beam terminates at the nearest obstacle.
             // normalDamage=0, impactSize=0: purely visual, no damage, no hit particles.
-            MagicFakeBeam.spawnAdvancedFakeBeam(
+            XLII_FakeBeam.spawnAdvancedFakeBeam(
                     engine, from, range, angle,
                     LASER_WIDTH_IN, LASER_WIDTH_OUT, 0f,
                     "base_trail_smooth", "base_trail_aura",

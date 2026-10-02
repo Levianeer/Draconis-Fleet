@@ -23,12 +23,12 @@
     "WS0010": "XLII_vernier",
     "WS0017": "XLII_vernier",
     "WS0019": "XLII_vernier",
-    "WS0020": "blinker_red",
-    "WS0021": "blinker_green",
-    "WS0022": "blinker_red",
-    "WS0023": "blinker_green",
-    "WS0024": "blinker_red",
-    "WS0025": "blinker_green"
+    "WS0020": "XLII_blinker_red",
+    "WS0021": "XLII_blinker_green",
+    "WS0022": "XLII_blinker_red",
+    "WS0023": "XLII_blinker_green",
+    "WS0024": "XLII_blinker_red",
+    "WS0025": "XLII_blinker_green"
   },
   "weaponSlots": [
     {

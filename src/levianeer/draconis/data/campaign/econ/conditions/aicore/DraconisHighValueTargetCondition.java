@@ -28,7 +28,7 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
     private static final float STABILITY_PENALTY = 1f;
     private static final float GROUND_DEFENSE_PENALTY = -0.25f;
 
-    // Validation interval - check every 7 days (same as scanner interval)
+    // Matches the scanner's check interval.
     private static final float CHECK_INTERVAL_DAYS = 7f;
     private static final int MIN_MARKET_SIZE = 4;
     private static final float FRIENDLY_THRESHOLD = 0.25f;
@@ -62,7 +62,6 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
             return;
         }
 
-        // Convert to days and track time
         float days = Global.getSector().getClock().convertToDays(amount);
         daysSinceLastCheck += days;
 
@@ -73,7 +72,6 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
 
         daysSinceLastCheck = 0f;
 
-        // Run validation checks - remove condition if any fail
         String removalReason = validateCondition();
         if (removalReason != null) {
             log.info("Draconis: === REMOVING HIGH VALUE TARGET CONDITION ===");
@@ -88,45 +86,37 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
      * @return null if valid, otherwise a string describing why it should be removed
      */
     private String validateCondition() {
-        // Check 1: Draconis faction must exist
         FactionAPI draconisFaction = Global.getSector().getFaction(DRACONIS);
         if (draconisFaction == null) {
             return "Draconis faction does not exist";
         }
 
-        // Check 2: Draconis faction must have at least one market
         if (isDraconisFactionDefeated(draconisFaction)) {
             return "Draconis faction has been defeated (no markets remaining)";
         }
 
-        // Check 3: Market must still have AI cores
         int coreCount = countAICores();
         if (coreCount == 0) {
             return "Market no longer has AI cores";
         }
 
-        // Check 5: Relationship must not be friendly
         float relationship = market.getFaction().getRelationship(DRACONIS);
         if (relationship >= FRIENDLY_THRESHOLD) {
             return "Relationship with Draconis is now friendly (" + String.format("%.2f", relationship) + ")";
         }
 
-        // Check 6: Market must be valid
         if (market.isHidden() || !market.isInEconomy()) {
             return "Market is hidden or not in economy";
         }
 
-        // Check 7: Market must meet minimum size requirement
         if (market.getSize() < MIN_MARKET_SIZE) {
             return "Market size too small (" + market.getSize() + " < " + MIN_MARKET_SIZE + ")";
         }
 
-        // Check 8: Market must not be decivilized
         if (market.hasCondition(Conditions.DECIVILIZED)) {
             return "Market is decivilized";
         }
 
-        // Check 9: Verify scanner flag still exists (sanity check)
         if (!market.getMemoryWithoutUpdate().getBoolean(DraconisSingleTargetScanner.HIGH_VALUE_TARGET_FLAG)) {
             return "Scanner flag removed (scanner found better target or market no longer valid)";
         }
@@ -152,7 +142,6 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
             String coreId = industry.getAICoreId();
             if (coreId == null || coreId.isEmpty()) continue;
 
-            // Count any type of AI core (Alpha, Beta, Gamma)
             if (Commodities.ALPHA_CORE.equals(coreId) ||
                 Commodities.BETA_CORE.equals(coreId) ||
                 Commodities.GAMMA_CORE.equals(coreId)) {
@@ -171,28 +160,25 @@ public class DraconisHighValueTargetCondition extends BaseMarketConditionPlugin 
             return true;
         }
 
-        // Check if faction has any markets remaining
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (DRACONIS.equals(market.getFactionId())) {
-                return false; // Found at least one Draconis market
+                return false;
             }
         }
 
-        return true; // No Draconis markets found - faction is defeated
+        return true;
     }
 
     /**
      * Removes this condition from the market and cleans up memory flags
      */
     private void removeCondition() {
-        // Clear scanner memory flags
         market.getMemoryWithoutUpdate().unset(DraconisSingleTargetScanner.HIGH_VALUE_TARGET_FLAG);
         market.getMemoryWithoutUpdate().unset(DraconisSingleTargetScanner.TARGET_CORE_VALUE_FLAG);
         market.getMemoryWithoutUpdate().unset(DraconisSingleTargetScanner.TARGET_ALPHA_COUNT_FLAG);
         market.getMemoryWithoutUpdate().unset(DraconisSingleTargetScanner.TARGET_BETA_COUNT_FLAG);
         market.getMemoryWithoutUpdate().unset(DraconisSingleTargetScanner.TARGET_GAMMA_COUNT_FLAG);
 
-        // Remove the condition itself
         market.removeCondition("draconis_high_value_target");
 
         log.info("Draconis: Condition and flags removed successfully");

@@ -35,9 +35,6 @@ public class DraconisRomanNumeralNamer implements SpecialForcesNamer {
         return fleetName;
     }
 
-    /**
-     * Generates a random number in the valid range, excluding XLII (42).
-     */
     private int generateUniqueNumber() {
         int number;
         do {
@@ -46,17 +43,12 @@ public class DraconisRomanNumeralNamer implements SpecialForcesNamer {
         return number;
     }
 
-    /**
-     * Converts an integer to its Roman numeral representation.
-     * Supports values from 1 to 50 (I to L).
-     */
     private String toRomanNumeral(int number) {
         if (number < 1 || number > 50) {
             log.warn("DraconisFleet: Number out of Roman numeral range: " + number);
-            return "I"; // Fallback to I
+            return "I";
         }
 
-        // Roman numeral mapping in descending order
         int[] values = {50, 40, 10, 9, 5, 4, 1};
         String[] numerals = {"L", "XL", "X", "IX", "V", "IV", "I"};
 

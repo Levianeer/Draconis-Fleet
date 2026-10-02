@@ -1,12 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 6,
-    "fluxVents": 0,
+    "fluxCapacitors": 0,
+    "fluxVents": 2,
     "goalVariant": true,
     "hullId": "XLII_errakis_fortysecond",
     "hullMods": [
         "targetingunit",
         "missleracks",
+        "XLII_slap_er",
         "eccm"
     ],
     "permaMods": [],
@@ -20,7 +21,7 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
                 "WS0005": "XLII_hankyu_torpedo",
                 "WS0006": "XLII_hankyu_torpedo"
@@ -35,10 +36,14 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_swordbreaker",
-                "WS0002": "XLII_swordbreaker",
-                "WS0003": "XLII_swordbreaker"
+                "WS0002": "XLII_LaWS",
+                "WS0003": "XLII_LaWS"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "XLII_swordbreaker"}
         }
     ]
 }

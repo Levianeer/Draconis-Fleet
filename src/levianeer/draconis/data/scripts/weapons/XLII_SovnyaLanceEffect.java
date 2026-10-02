@@ -22,17 +22,14 @@ import com.fs.starfarer.api.util.FaderUtil;
 import org.apache.log4j.Logger;
 
 /**
- * EveryFrame effect for Sovnya Burst Lance that spawns growing ring sprites when the beam fires.
- * Based on the how the Domain Phase Lab's Bombardon ring effect pattern works.
- * <p>
- * This script runs every frame and monitors the weapon state. When the beam fires,
- * it spawns a visual effect with three expanding rings.
+ * Spawns three expanding ring sprites when the Sovnya Burst Lance beam fires, based on Domain
+ * Phase Lab's Bombardon ring effect pattern.
  */
 public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
 
     private static final Logger log = Global.getLogger(XLII_SovnyaLanceEffect.class);
 
-    // Track weapon state to detect when beam starts firing
+    // Detects the beam's off-to-on transition so the ring effect fires once per burst, not every frame.
     private boolean wasFiring = false;
 
     @Override
@@ -40,28 +37,22 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
         if (engine.isPaused()) return;
         if (weapon == null || weapon.getShip() == null) return;
 
-        // Check if the weapon just started firing (transition from not firing to firing)
         boolean isFiring = weapon.isFiring();
 
         if (isFiring && !wasFiring) {
-            // Beam just started firing - spawn the ring effect!
             spawnRingEffect(weapon, engine);
         }
 
-        // Update state for next frame
         wasFiring = isFiring;
     }
 
     /**
-     * Spawns three ring groups at different distances along the beam path.
-     * Each group gets progressively smaller as it's further from the gun.
-     * For beam weapons, scales the effect duration to match the beam's burst duration.
-     * Extracts core and fringe colors from the beam for two-tone rendering.
+     * Spawns three ring groups along the beam path, progressively smaller with distance; for beam
+     * weapons, duration and color are scaled/extracted from the beam's burst duration and core/fringe colors.
      */
     private void spawnRingEffect(WeaponAPI weapon, CombatEngineAPI engine) {
         if (!weapon.getShip().isAlive()) return;
 
-        // Calculate duration multiplier and extract colors for beam weapons
         float durationMultiplier = 1f;
         Color coreColor = new Color(255, 255, 255); // Default
         Color fringeColor = new Color(255, 255, 255); // Default
@@ -74,24 +65,18 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
                 durationMultiplier = burstDuration / 0.1f;
             }
 
-            // Extract beam colors for two-tone effect
             coreColor = beamSpec.getCoreColor();
             fringeColor = beamSpec.getFringeColor();
         }
 
-        // Define 3 spawn distances and their size multipliers
         float[] distances = {60f, 100f, 140f};
         float[] sizeMultipliers = {0.8f, 0.7f, 0.6f};
 
-        // Spawn 3 ring groups at different distances along the beam
-        // The RingEffectPlugin will calculate world positions dynamically each frame
         for (int i = 0; i < distances.length; i++) {
-            // Create ring effect plugin with offset distance, scaled size, duration, and colors
             RingEffectPlugin plugin = new RingEffectPlugin(weapon, distances[i], sizeMultipliers[i],
                     durationMultiplier, coreColor, fringeColor);
             CombatEntityAPI entity = engine.addLayeredRenderingPlugin(plugin);
-            // Set initial entity location to weapon fire point for proper initialization
-            // The actual rendering position is calculated dynamically in render()
+            // Initial location set to the fire point; render() recalculates the actual position each frame.
             entity.getLocation().set(weapon.getFirePoint(0));
         }
 
@@ -122,11 +107,9 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
             this.angle = angle;
             this.maxDur = maxDur;
 
-            // Configure fade-in and fade-out
             fader = new FaderUtil(0f, 0.25f, 0.15f);
             fader.fadeIn();
 
-            // Set up sprite texture coordinates
             sprite.setTexWidth(1f);
             sprite.setTexHeight(1f);
             sprite.setTexX(0f);
@@ -139,10 +122,8 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
         public void advance(float amount) {
             time += amount;
 
-            // Grow the ring over time
             scale = 1f + ((targetScale - 1f) * (time / maxDur));
 
-            // Start fading out when we reach max duration
             if (time >= maxDur) {
                 fader.fadeOut();
             }
@@ -171,7 +152,6 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
             this.coreColor = coreColor;
             this.fringeColor = fringeColor;
 
-            // Load the three ring sprites
             SpriteAPI ring1 = Global.getSettings().getSprite("fx", "XLII_sovnya_ring1");
             SpriteAPI ring2 = Global.getSettings().getSprite("fx", "XLII_sovnya_ring2");
             SpriteAPI ring3 = Global.getSettings().getSprite("fx", "XLII_sovnya_ring3");
@@ -184,8 +164,7 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
             float duration2 = 0.0375f * durationMultiplier;
             float duration3 = 0.05f * durationMultiplier;
 
-            // Create three ring particles with progressively larger scales and longer durations
-            // Each ring in the group still grows at different rates for the cascading effect
+            // Three rings with progressively larger scales and durations create a cascading effect.
             particles.add(new ParticleData(ring1, baseSize, 3f, 0f, duration1));
             particles.add(new ParticleData(ring2, baseSize, 4.333f, 0f, duration2));
             particles.add(new ParticleData(ring3, baseSize, 5.667f, 0f, duration3));
@@ -195,7 +174,6 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
         public void advance(float amount) {
             if (Global.getCombatEngine().isPaused()) return;
 
-            // Advance all particles
             List<ParticleData> toRemove = new ArrayList<>();
             for (ParticleData p : particles) {
                 p.advance(amount);
@@ -213,8 +191,7 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
 
         @Override
         public void render(CombatEngineLayers layer, ViewportAPI viewport) {
-            // Dynamically calculate position based on current weapon angle
-            // This ensures rings track with weapon rotation
+            // Position is recalculated every frame (not fixed at spawn) so rings track weapon rotation.
             Vector2f firePoint = weapon.getFirePoint(0);
             float weaponAngle = weapon.getCurrAngle();
             float angleRad = (float) Math.toRadians(weaponAngle);
@@ -223,10 +200,8 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
             float y = firePoint.y + offsetDistance * (float) Math.sin(angleRad);
 
             for (ParticleData p : particles) {
-                // Set sprite angle to match weapon angle
                 p.sprite.setAngle(p.angle + weapon.getCurrAngle() - 90f);
 
-                // Get base size and alpha
                 float currentSize = p.size * p.scale;
                 float alpha = p.fader.getBrightness();
 
@@ -238,11 +213,11 @@ public class XLII_SovnyaLanceEffect implements EveryFrameWeaponEffectPlugin {
                 p.sprite.renderAtCenter(x, y);
 
                 // Layer 2: Render with fringe color (glow layer, slightly larger)
-                float glowSize = currentSize * 1.05f; // 5% larger for glow effect
+                float glowSize = currentSize * 1.05f;
                 p.sprite.setColor(fringeColor);
                 p.sprite.setSize(glowSize, glowSize);
                 p.sprite.setCenter(glowSize * 0.5f, glowSize * 0.5f);
-                p.sprite.setAlphaMult(alpha * 0.8f); // Slightly more transparent for layering
+                p.sprite.setAlphaMult(alpha * 0.8f);
                 p.sprite.renderAtCenter(x, y);
             }
         }

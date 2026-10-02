@@ -16,7 +16,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 /**
  * Condition command: returns true if the current interaction target is a
- * Draconis Defence Alliance market.
+ * Draconis Defense Alliance market.
  * <p>
  * Usage in rules.csv conditions column:
  *   XLII_IsAtDraconisMarket

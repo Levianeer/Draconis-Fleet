@@ -7,6 +7,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.*;
 import com.fs.starfarer.api.loading.DamagingExplosionSpec;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
+import levianeer.draconis.data.scripts.weapons.XLII_SwordbreakerOnHitEffect;
 import org.lazywizard.lazylib.FastTrig;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
@@ -24,13 +25,9 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
     private CombatEntityAPI target;
     private Vector2f lead = new Vector2f();
     //    private float timer=0, delay=0.05f;
-    //data
     private final float MAX_SPEED;
     //    private final int SEARCH_RANGE = 1000;
     private final float DAMPING = 0.05f;
-    private final Color EXPLOSION_COLOR = new Color(255, 0, 0, 255);
-    private final Color PARTICLE_COLOR = new Color(240, 200, 50, 255);
-    private final int NUM_PARTICLES = 20;
 
     public XLII_antiMissileAI(MissileAPI missile, ShipAPI launchingShip) {
         this.missile = missile;
@@ -48,7 +45,6 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
             return;
         }
 
-        // if there is no target, assign one
         if (target == null
                 || !Global.getCombatEngine().isEntityInPlay(target)
                 || target.getOwner() == missile.getOwner()
@@ -83,7 +79,6 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
             return;
         }
 
-        //finding lead point to aim to    
         float dist = MathUtils.getDistanceSquared(missile.getLocation(), target.getLocation());
         if (dist < 2500) {
             proximityFuse();
@@ -99,7 +94,6 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
             lead = target.getLocation();
         }
 
-        //best velocity vector angle for interception
         float correctAngle = VectorUtils.getAngle(
                 missile.getLocation(),
                 lead
@@ -130,7 +124,6 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
         }
         correctAngle += correction;
 
-        //turn the missile
         float aimAngle = MathUtils.getShortestRotation(missile.getFacing(), correctAngle);
         if (aimAngle < 0) {
             missile.giveCommand(ShipCommand.TURN_RIGHT);
@@ -268,26 +261,7 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
         engine.spawnDamagingExplosion(boom, missile.getSource(), missile.getLocation());
 
         if (MagicRender.screenCheck(0.1f, missile.getLocation())) {
-            engine.addHitParticle(
-                    missile.getLocation(),
-                    new Vector2f(),
-                    100,
-                    1,
-                    0.25f,
-                    EXPLOSION_COLOR
-            );
-            for (int i = 0; i < NUM_PARTICLES; i++) {
-                float axis = (float) Math.random() * 360;
-                float range = (float) Math.random() * 100;
-                engine.addHitParticle(
-                        MathUtils.getPointOnCircumference(missile.getLocation(), range / 5, axis),
-                        MathUtils.getPointOnCircumference(new Vector2f(), range, axis),
-                        2 + (float) Math.random() * 2,
-                        1,
-                        1 + (float) Math.random(),
-                        PARTICLE_COLOR
-                );
-            }
+            XLII_SwordbreakerOnHitEffect.spawnVisuals(missile.getLocation(), engine);
             engine.applyDamage(
                     missile,
                     missile.getLocation(),
@@ -324,7 +298,7 @@ public class XLII_antiMissileAI implements MissileAIPlugin, GuidedMissileAI {
         for (MissileAPI m : missiles) {
             if (!ignoreFlares || !m.isFlare()) {
                 if (!m.isFading() && m.getOwner() != source.getOwner() && m.getCollisionClass() != CollisionClass.NONE && m.getSpec().isRenderTargetIndicator()) { //is the missile alive, hittable and hostile
-                    if (CombatUtils.isVisibleToSide(m, source.getOwner()) && MathUtils.isPointWithinCircle(searchPos, m.getLocation(), maxRange)) { //is it around
+                    if (CombatUtils.isVisibleToSide(m, source.getOwner()) && MathUtils.isPointWithinCircle(searchPos, m.getLocation(), maxRange)) {
                         missilePicker.add(m, m.getDamageAmount() * (1 + m.getMoveSpeed() / MathUtils.getDistance(source, m)));
                     }
                 }

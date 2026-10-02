@@ -15,13 +15,13 @@ import com.fs.starfarer.api.util.Misc;
 import levianeer.draconis.data.campaign.events.XLII_RingPortAssault;
 import levianeer.draconis.data.campaign.fleet.DraconisWeaponEscalationMonitor;
 import levianeer.draconis.data.campaign.ids.Factions;
+import com.fs.starfarer.api.impl.campaign.RuleBasedInteractionDialogPluginImpl;
+import levianeer.draconis.data.campaign.intel.blind_eye.XLII_OfficeContactMonitor;
 import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirBlockedDialogPlugin;
-import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirKoriArrivalDialogPlugin;
-import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirRingPortDeliveryDialogPlugin;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirSystemMonitor;
-import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirUnauthorizedEntryDialog;
-import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisOfficerPlugin;
+import levianeer.draconis.data.campaign.intel.longsight.XLII_LongsightOfficerPlugin;
+import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
 import org.apache.log4j.Logger;
 
 public class XLII_CampaignPlugin extends BaseCampaignPlugin {
@@ -38,9 +38,9 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
 
     @Override
     public PluginPick<AICoreOfficerPlugin> pickAICoreOfficerPlugin(String commodityId) {
-        if (XLII_SigmaOctantisOfficerPlugin.CORE_ID.equals(commodityId)) {
+        if (XLII_LongsightOfficerPlugin.CORE_ID.equals(commodityId)) {
             return new PluginPick<>(
-                new XLII_SigmaOctantisOfficerPlugin(),
+                new XLII_LongsightOfficerPlugin(),
                 CampaignPlugin.PickPriority.MOD_SPECIFIC
             );
         }
@@ -79,17 +79,13 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
                 if (isBruteForce) {
                     XLII_FafnirSystemMonitor.onBruteForceInterceptFired(fleet, mem);
                     return new PluginPick<>(
-                            new XLII_FafnirUnauthorizedEntryDialog(
-                                    XLII_FafnirUnauthorizedEntryDialog.EntryType.BRUTE_FORCE,
-                                    fleet.getCommander()),
+                            new RuleBasedInteractionDialogPluginImpl("XLII_FafnirBFIntercept"),
                             CampaignPlugin.PickPriority.MOD_SPECIFIC
                     );
                 } else {
                     XLII_FafnirSystemMonitor.onTransverseInterceptFired(fleet, mem);
                     return new PluginPick<>(
-                            new XLII_FafnirUnauthorizedEntryDialog(
-                                    XLII_FafnirUnauthorizedEntryDialog.EntryType.TRANSVERSE_JUMP,
-                                    fleet.getCommander()),
+                            new RuleBasedInteractionDialogPluginImpl("XLII_FafnirTJIntercept"),
                             CampaignPlugin.PickPriority.MOD_SPECIFIC
                     );
                 }
@@ -108,43 +104,51 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
             }
         }
 
-        // --- Kori first-arrival intercept (TT Courier path) ---
-        if ("kori".equals(interactionTarget.getId())) {
-            var mem = Global.getSector().getMemoryWithoutUpdate();
-            // Entry path already recorded (normal flow), OR the player still holds unredeemed
-            // TT credentials and simply reached Kori without ever resolving the JP credentials
-            // exchange (e.g. a transverse jump bypass). Standing at Kori's market is itself
-            // proof of access, so we don't require $fafnirAccessGranted to already be true.
-            boolean onTTCourierPath = FafnirAccessStrings.PATH_TT_COURIER.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
-                    || mem.getBoolean(FafnirAccessStrings.MEM_TT_QUEST_ACTIVE);
-            if (onTTCourierPath && !mem.getBoolean(FafnirAccessStrings.MEM_KORI_ARRIVAL_DONE)) {
-                log.debug("Draconis: Kori first-arrival intercept");
-                backfillAccessIfNeeded(mem, FafnirAccessStrings.PATH_TT_COURIER);
+        // --- Office contact fleet: hands over Ladon's coordinates (Blind Eye MEET_THE_DIRECTOR beat) ---
+        if (interactionTarget instanceof CampaignFleetAPI) {
+            CampaignFleetAPI fleet = (CampaignFleetAPI) interactionTarget;
+            if (fleet.getMemoryWithoutUpdate().getBoolean(XLII_OfficeContactMonitor.MEM_FLEET_TAG)) {
+                log.debug("Draconis: Office contact fleet interaction intercepted");
                 return new PluginPick<>(
-                        new XLII_FafnirKoriArrivalDialogPlugin(interactionTarget),
+                        new RuleBasedInteractionDialogPluginImpl("XLII_OfficeContactScene"),
                         CampaignPlugin.PickPriority.MOD_SPECIFIC
                 );
             }
         }
 
+        // --- Office bastion: Monroe vetting intercept (Blind Eye MEET_THE_DIRECTOR beat) ---
+        // Gated only on the referral/vetting flags below, deliberately not on
+        // XLII_OfficeSystem.ACCESS_GRANTED_FLAG - the escort/travel beat that would flip that
+        // flag for real doesn't exist yet, so this is reachable (by console, for now) without it.
+        if (interactionTarget instanceof CampaignFleetAPI) {
+            CampaignFleetAPI fleet = (CampaignFleetAPI) interactionTarget;
+            if (XLII_OfficeSystem.BASTION_ID.equals(fleet.getId())) {
+                MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+                if (mem.getBoolean("$XLII_officeReferralPending")
+                        && !mem.getBoolean("$XLII_officeVettingComplete")) {
+                    log.debug("Draconis: Office bastion Monroe vetting intercept");
+                    return new PluginPick<>(
+                            new RuleBasedInteractionDialogPluginImpl("XLII_MonroeVetting"),
+                            CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    );
+                }
+            }
+        }
+
+        // --- Kori first-arrival acknowledgement (TT Courier path) is now rules.csv-only ---
+        // (MarketPostDock trigger, "# Kori Arrival" section) - no interception needed since
+        // it runs inside the market's own dock interaction instead of replacing it. See
+        // .claude/systems/fafnir-access.md.
+
         // --- Ring-Port Station intercepts ---
         if ("fafnir_pirate_station".equals(interactionTarget.getId())) {
             var mem = Global.getSector().getMemoryWithoutUpdate();
 
-            // Same reasoning as the Kori check above: don't require $fafnirAccessGranted to
-            // already be true, since being docked at Ring-Port is itself proof of access.
-            boolean onRingPortPath = FafnirAccessStrings.PATH_RING_PORT.equals(mem.getString(FafnirAccessStrings.MEM_ENTRY_PATH))
-                    || mem.getBoolean(FafnirAccessStrings.MEM_RP_QUEST_ACTIVE);
-
-            // Fafnir Ring-Port contractor delivery (takes priority - one-time, gates Fafnir access)
-            if (onRingPortPath && !mem.getBoolean(FafnirAccessStrings.MEM_RP_DELIVERY_DONE)) {
-                log.debug("Draconis: Ring-Port Station delivery intercept");
-                backfillAccessIfNeeded(mem, FafnirAccessStrings.PATH_RING_PORT);
-                return new PluginPick<>(
-                        new XLII_FafnirRingPortDeliveryDialogPlugin(interactionTarget),
-                        CampaignPlugin.PickPriority.MOD_SPECIFIC
-                );
-            }
+            // Ring-Port contractor delivery (TT/RP Fafnir-access path) is now rules.csv-only
+            // ("# Ring-Port Delivery" section, MarketPostDock trigger with score:100 to
+            // guarantee it outranks XLII_ring_port_transponder_gate and anything else on
+            // MarketPostDock at this entity) - no interception needed. See
+            // .claude/systems/fafnir-access.md.
 
             // Act 3 assault: fires when mission is active, station is still pirate-controlled, and not yet taken
             com.fs.starfarer.api.campaign.econ.MarketAPI market = interactionTarget.getMarket();
@@ -209,24 +213,4 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
         );
     }
 
-    /**
-     * Backfills {@code $fafnirAccessGranted} / {@code $fafnirEntryPath} when a player reaches Kori
-     * or Ring-Port without ever resolving the JP credentials exchange in
-     * {@link XLII_FafnirBlockedDialogPlugin} (e.g. a transverse jump bypass while still holding
-     * valid credentials). No-op if access was already granted normally. Pure bookkeeping - no rep
-     * or other player-visible side effects.
-     * <p>
-     * This keeps other systems that read these flags consistent - most importantly
-     * {@link XLII_FafnirSystemMonitor#shouldRegister()}, which would otherwise keep re-registering
-     * the monitor, and could eventually mistake the player for a live transverse-jump violator
-     * after they've already peacefully completed the delivery.
-     */
-    private static void backfillAccessIfNeeded(MemoryAPI mem, String path) {
-        if (mem.getBoolean(FafnirAccessStrings.MEM_ACCESS_GRANTED)) return;
-
-        mem.set(FafnirAccessStrings.MEM_ACCESS_GRANTED, true);
-        mem.set(FafnirAccessStrings.MEM_ENTRY_PATH, path);
-
-        log.info("Draconis: Fafnir access backfilled at arrival, path=" + path);
-    }
 }

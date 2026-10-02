@@ -94,7 +94,6 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
     private float calculateCriticalThreat(Vector2f missileDangerDir, Vector2f collisionDangerDir) {
         float threat = 0f;
 
-        // Collision danger - immediate threat
         if (collisionDangerDir != null) {
             threat += 0.4f;
             if (ship.getHullLevel() < 0.5f) threat += 0.3f;
@@ -221,17 +220,10 @@ public class XLII_EvasionProtocolAI implements ShipSystemAIScript {
         return Math.min(totalThreat + swarmBonus, 1f);
     }
 
-    /**
-     * Check if we should use the system defensively for missiles
-     * Only when vulnerable (low hull or high flux)
-     */
     private boolean shouldUseForMissiles() {
         return ship.getHullLevel() < 0.5f || ship.getFluxTracker().getFluxLevel() > 0.7f;
     }
 
-    /**
-     * Check if a missile is targeting our ship
-     */
     private boolean isMissileTargetingShip(MissileAPI missile) {
         if (missile.getMissileAI() instanceof GuidedMissileAI guidedAI) {
             CombatEntityAPI target = guidedAI.getTarget();

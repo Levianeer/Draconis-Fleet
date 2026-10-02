@@ -1,12 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 7,
+    "fluxCapacitors": 4,
     "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_alruba_fortysecond",
     "hullMods": [
         "targetingunit",
         "extendedshieldemitter",
+        "XLII_slap_er",
         "hardenedshieldemitter"
     ],
     "permaMods": [],

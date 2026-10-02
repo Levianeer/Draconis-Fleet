@@ -46,11 +46,9 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
     public void init(CombatEntityAPI entity) {
         super.init(entity);
 
-        // Load glow sprites from registered category
         phaseHighlight = Global.getSettings().getSprite("missiles", "XLII_phasetorp_glow1");
         phaseDiffuse = Global.getSettings().getSprite("missiles", "XLII_phasetorp_glow2");
 
-        // Set additive blend mode for glow effect
         phaseHighlight.setAdditiveBlend();
         phaseDiffuse.setAdditiveBlend();
     }
@@ -59,10 +57,8 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
     public void advance(float amount) {
         if (Global.getCombatEngine().isPaused()) return;
 
-        // Update entity location to match missile
         entity.getLocation().set(missile.getLocation());
 
-        // Handle fade out
         if (shouldFadeOut) {
             fadeAlpha -= FADE_RATE * amount;
             if (fadeAlpha < 0f) {
@@ -70,19 +66,15 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
             }
         }
 
-        // Constant jitter parameters
-        // These are used by render() to manually jitter the glow sprites
         jitterLevel = 1.0f;           // Full intensity
         jitterRangeBonus = 9f;        // 9px shimmer range
 
-        // Pre-compute jitter offsets here (once per frame) so render() needs no Math.random()
         for (int i = 0; i < JITTER_COPIES; i++) {
             jitterX[i] = ((float) Math.random() - 0.5f) * 2f * jitterRangeBonus;
             jitterY[i] = ((float) Math.random() - 0.5f) * 2f * jitterRangeBonus;
         }
 
-        // Note: We don't call setJitter() on the missile here - instead, we manually
-        // jitter the glow sprites in render() to keep the missile sprite stable
+        // Deliberately not using missile.setJitter() here - that would jitter the missile sprite too. Jitter is applied manually to the glow sprites in render() instead, keeping the missile sprite stable.
     }
 
     @Override
@@ -99,7 +91,6 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
         float y = missile.getLocation().y;
         float facing = missile.getFacing();
 
-        // Calculate alpha multiplier
         float alphaMult = viewport.getAlphaMult() * fadeAlpha;
 
         // Also account for missile fading
@@ -107,7 +98,6 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
             alphaMult *= missile.getBrightness();
         }
 
-        // Get missile sprite size for scaling
         float missileWidth = missile.getSpriteAPI().getWidth();
         float missileHeight = missile.getSpriteAPI().getHeight();
 
@@ -150,13 +140,11 @@ public class XLII_PhaseTorpedoGlowEffect extends BaseCombatLayeredRenderingPlugi
 
     @Override
     public boolean isExpired() {
-        // Expire when missile is gone or fully faded out
         return missile.isExpired() || !Global.getCombatEngine().isEntityInPlay(missile) || (shouldFadeOut && fadeAlpha <= 0f);
     }
 
     @Override
     public float getRenderRadius() {
-        // Render radius based on missile size
         return 100f;
     }
 

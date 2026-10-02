@@ -1,13 +1,12 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 21,
+    "fluxVents": 32,
     "goalVariant": true,
     "hullId": "XLII_jufeng",
     "hullMods": [
         "missleracks",
         "targetingunit",
-        "hardenedshieldemitter",
         "eccm"
     ],
     "modules": [
@@ -20,6 +19,11 @@
     "weaponGroups": [
         {
             "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS0023": "XLII_flamberge"}
+        },
+        {
+            "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
                 "WS0007": "XLII_gundao",
@@ -30,25 +34,20 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS 002": "XLII_pike"}
-        },
-        {
-            "autofire": false,
             "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "harpoon",
-                "WS0002": "harpoon",
-                "WS0003": "harpoon",
-                "WS0004": "harpoon",
-                "WS0005": "harpoon",
-                "WS0006": "harpoon"
+                "WS0001": "XLII_hankyu_torpedo",
+                "WS0002": "XLII_hankyu_torpedo",
+                "WS0003": "XLII_hankyu_torpedo",
+                "WS0004": "XLII_hankyu_torpedo",
+                "WS0005": "XLII_hankyu_torpedo",
+                "WS0006": "XLII_hankyu_torpedo"
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0023": "XLII_flamberge"}
+            "weapons": {"WS 002": "XLII_montante"}
         },
         {
             "autofire": true,

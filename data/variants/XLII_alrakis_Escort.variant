@@ -1,6 +1,6 @@
 {
     "displayName": "Escort",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 4,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_alrakis",
@@ -27,15 +27,15 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0001": "hephag"}
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
             "weapons": {
                 "WS0002": "XLII_rapier",
                 "WS0003": "XLII_rapier"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0001": "devastator"}
         },
         {
             "autofire": true,
@@ -53,7 +53,7 @@
     ],
     "wings": [
         "XLII_grumium_alt_wing",
-        "XLII_grumium_alt_wing",
-        "XLII_grumium_alt_wing"
+        "XLII_tianyi_wing",
+        "XLII_thorne_wing"
     ]
 }

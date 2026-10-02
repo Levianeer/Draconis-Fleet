@@ -22,8 +22,8 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
     public static final String TARGET_PRIORITY_FLAG = "$draconis_remnantPriority";
     public static final String LAST_RAID_DAY_FLAG = "$draconis_lastRemnantRaidDay";
 
-    private static final float SCAN_INTERVAL = 60f; // Scan every 60 days
-    private static final float COOLDOWN_AFTER_RAID = 120f; // 120 day cooldown after raiding a system
+    private static final float SCAN_INTERVAL = 60f;
+    private static final float COOLDOWN_AFTER_RAID = 120f;
 
     private float daysSinceLastScan = 0f;
 
@@ -62,15 +62,12 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
      * Simply pick a Remnant system that isn't on cooldown
      */
     private void scanForRemnantTargets() {
-        // Clear previous target
         clearAllTargetFlags();
 
         List<RemnantSystemCandidate> availableTargets = new ArrayList<>();
         long currentDay = Global.getSector().getClock().getDay();
 
-        // Find all Remnant systems not on cooldown
         for (StarSystemAPI system : Global.getSector().getStarSystems()) {
-            // Check cooldown
             Long lastRaidDay = (Long) system.getMemoryWithoutUpdate().get(LAST_RAID_DAY_FLAG);
             if (lastRaidDay != null && (currentDay - lastRaidDay) < COOLDOWN_AFTER_RAID) {
                 continue;
@@ -84,10 +81,9 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         }
 
         if (availableTargets.isEmpty()) {
-            return; // No targets available
+            return;
         }
 
-        // Pick a random target
         RemnantSystemCandidate selected = availableTargets.get(
             (int) (Math.random() * availableTargets.size())
         );
@@ -103,9 +99,6 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         );
     }
 
-    /**
-     * Find all Remnant stations in a star system
-     */
     private List<SectorEntityToken> findRemnantStations(StarSystemAPI system) {
         List<SectorEntityToken> stations = new ArrayList<>();
 
@@ -121,13 +114,11 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
     }
 
     /**
-     * Calculate priority for raiding a Remnant system
-     * Higher priority = more valuable target
+     * Higher priority = more valuable target.
      */
     private float calculateSystemPriority(StarSystemAPI system, List<SectorEntityToken> stations) {
         float priority = 0f;
 
-        // Base priority from number of stations
         priority += stations.size() * 10f;
 
         // Bonus for systems with multiple stations (more cores likely)
@@ -135,7 +126,6 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
             priority += 20f;
         }
 
-        // Bonus for special station types
         for (SectorEntityToken station : stations) {
             // Battlestations are high priority
             if (station.hasTag(Tags.COMM_RELAY) ||
@@ -144,7 +134,6 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
                 priority += 15f;
             }
 
-            // Objectives give small bonus
             if (station.hasTag(Tags.OBJECTIVE)) {
                 priority += 5f;
             }
@@ -181,17 +170,11 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         return null;
     }
 
-    /**
-     * Mark a star system as the current Remnant raid target
-     */
     private void markSystemAsTarget(StarSystemAPI system, float priority) {
         system.getMemoryWithoutUpdate().set(REMNANT_TARGET_FLAG, true);
         system.getMemoryWithoutUpdate().set(TARGET_PRIORITY_FLAG, priority);
     }
 
-    /**
-     * Clear all Remnant target flags
-     */
     private void clearAllTargetFlags() {
         for (StarSystemAPI system : Global.getSector().getStarSystems()) {
             system.getMemoryWithoutUpdate().unset(REMNANT_TARGET_FLAG);
@@ -199,9 +182,6 @@ public class DraconisRemnantTargetScanner implements EveryFrameScript {
         }
     }
 
-    /**
-     * Get the current Remnant raid target (if any)
-     */
     public static StarSystemAPI getCurrentTarget() {
         for (StarSystemAPI system : Global.getSector().getStarSystems()) {
             if (system.getMemoryWithoutUpdate().getBoolean(REMNANT_TARGET_FLAG)) {

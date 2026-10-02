@@ -1,7 +1,7 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 20,
+    "fluxVents": 17,
     "goalVariant": true,
     "hullId": "XLII_yunu",
     "hullMods": [

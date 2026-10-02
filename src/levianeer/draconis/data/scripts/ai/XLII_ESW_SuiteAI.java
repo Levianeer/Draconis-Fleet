@@ -41,7 +41,6 @@ public class XLII_ESW_SuiteAI implements ShipSystemAIScript {
         for (ShipAPI enemy : enemies) {
             if (enemy.getOwner() == ship.getOwner() || enemy.isHulk() || enemy.isPhased()) continue;
 
-            // Exclude fighters and frigates
             ShipAPI.HullSize hullSize = enemy.getHullSize();
             if (hullSize == ShipAPI.HullSize.FIGHTER || hullSize == ShipAPI.HullSize.FRIGATE) continue;
 

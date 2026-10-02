@@ -44,7 +44,6 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
         float empDamage = projectile.getEmpAmount();
         ShipAPI source = projectile.getSource();
 
-        // EMP arcs on hull hit, or on a successful shield pierce (mirrors Flamberge/Shashka)
         boolean piercedShield = false;
         if (shieldHit) {
             float pierceChance = ship.getHardFluxLevel() - 0.1f;
@@ -70,19 +69,13 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
             }
         }
 
-        // Spawn EMP explosion (deals EMP damage in area)
         engine.spawnDamagingExplosion(createEMPExplosionSpec(empDamage), source, point);
 
-        // Spawn visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
 
-        // Spawn EMP visual effects
         spawnEMPVisuals(point);
     }
 
-    /**
-     * Creates the main EMP explosion spec
-     */
     private static DamagingExplosionSpec createEMPExplosionSpec(float empDamage) {
         DamagingExplosionSpec spec = new DamagingExplosionSpec(
                 0.2f,              // duration
@@ -105,9 +98,6 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
         return spec;
     }
 
-    /**
-     * Creates the cached visual explosion spec
-     */
     private static DamagingExplosionSpec createCachedVisualExplosionSpec() {
         DamagingExplosionSpec spec = new DamagingExplosionSpec(
                 0.5f,
@@ -138,11 +128,9 @@ public class XLII_EMPBlastOnHitEffect implements OnHitEffectPlugin {
     }
 
     /**
-     * Spawns EMP-themed visual effects: layered blob/afterglow blast (per
-     * XLII_LargeTorpOnHitEffect) plus a distortion shockwave (per
-     * XLII_NukeOnHitEffect), all re-themed electric blue. No arc sprites or lens
-     * flares - both read as arc-like streaks, so this is deliberately just the
-     * soft blob/ring/haze layers plus the ripple.
+     * Layered blob/afterglow blast (per XLII_LargeTorpOnHitEffect) plus a distortion shockwave
+     * (per XLII_NukeOnHitEffect), re-themed electric blue. No arc sprites or lens flares - both
+     * read as arc-like streaks, which would be confused with the actual EMP arcs.
      */
     private static void spawnEMPVisuals(Vector2f center) {
         SpriteAPI spr = Global.getSettings().getSprite("fx", "XLII_explosion");

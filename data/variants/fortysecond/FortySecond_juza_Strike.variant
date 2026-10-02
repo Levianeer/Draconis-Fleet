@@ -1,14 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 0,
-    "fluxVents": 24,
+    "fluxCapacitors": 30,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
         "targetingunit",
-        "missleracks",
-        "ecm",
-        "eccm"
+        "XLII_slap_er",
+        "reinforcedhull"
     ],
     "permaMods": [],
     "sMods": [],
@@ -24,22 +23,43 @@
         },
         {
             "autofire": false,
-            "mode": "LINKED",
+            "mode": "ALTERNATING",
             "weapons": {
-                "WS0001": "breach",
-                "WS0021": "breach",
-                "WS0026": "breach",
-                "WS0027": "breach",
-                "WS0028": "breach",
-                "WS0029": "breach"
+                "WS0001": "swarmer",
+                "WS0021": "swarmer",
+                "WS0026": "swarmer",
+                "WS0027": "swarmer",
+                "WS0028": "swarmer",
+                "WS0029": "swarmer"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0018": "XLII_razorflak",
-                "WS0019": "XLII_razorflak"
+                "WS0018": "XLII_culverin",
+                "WS0019": "XLII_culverin"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0024": "XLII_estocflak",
+                "WS0025": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0015": "XLII_LaWS"}
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker",
+                "WS0006": "XLII_swordbreaker"
             }
         }
     ]

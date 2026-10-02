@@ -1,6 +1,6 @@
 {
     "displayName": "Assault",
-    "fluxCapacitors": 2,
+    "fluxCapacitors": 3,
     "fluxVents": 20,
     "goalVariant": true,
     "hullId": "XLII_rastaban",
@@ -26,8 +26,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0001": "XLII_estocflak",
-                "WS0002": "XLII_estocflak",
+                "WS0001": "XLII_LaWS",
+                "WS0002": "XLII_LaWS",
                 "WS0004": "vulcan"
             }
         },

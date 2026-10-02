@@ -17,14 +17,14 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		MIN_FLUX_SCALING = 0.5f;      // Min EMP multiplier at low flux
 
 	private static final float
-		FLUX_SCALING_START = 0.2f,   // Flux level where scaling begins
-		FLUX_SCALING_END = 0.7f;     // Flux level where scaling caps
+		FLUX_SCALING_START = 0.2f,
+		FLUX_SCALING_END = 0.7f;
 
 	// Phase cloak parameters
 	private static final float
-		SHIP_ALPHA_MULT = 0.25f,     // Visibility when phased
-		MAX_TIME_MULT = 3f,          // Maximum time flow alteration
-		MIN_SPEED_MULT = 0.33f,      // Minimum speed when fluxed
+		SHIP_ALPHA_MULT = 0.25f,
+		MAX_TIME_MULT = 3f,
+		MIN_SPEED_MULT = 0.33f,
 		BASE_FLUX_LEVEL_FOR_MIN_SPEED = 0.5f;
 
 	private static final boolean
@@ -38,11 +38,11 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 
 	private static final float
 		EMP_THICKNESS = 10f,
-		ARC_SPAWN_RADIUS = 100f,     // Distance from ship where arcs start
+		ARC_SPAWN_RADIUS = 100f,
 		ARC_VARIABILITY = 0.7f;      // How erratic the arcs are (0-1)
 
 	public static final int
-		SHIP_EMP_ARCS = 6;             // EMP arcs per ship
+		SHIP_EMP_ARCS = 6;
 
 	private static final int
 		VISUAL_EMP_ARCS = 12,          // Visual-only arcs for storm effect
@@ -63,11 +63,9 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 
 	@Override
 	public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
-		// Get ship reference and verify it's valid
 		ShipAPI ship = (stats.getEntity() instanceof ShipAPI) ? (ShipAPI) stats.getEntity() : null;
 		if (ship == null) return;
 
-		// Update ID to be ship-specific
 		id = id + "_" + ship.getId();
 		boolean isPlayer = ship == Global.getCombatEngine().getPlayerShip();
 
@@ -76,18 +74,15 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			spawnEmpEffects(ship);
 		}
 
-		// Update player status display
 		if (isPlayer) {
 			maintainStatus(ship, state, effectLevel);
 		}
 
-		// Handle paused game state
 		if (Global.getCombatEngine().isPaused()) {
 			prevState = state;
 			return;
 		}
 
-		// Get phase cloak system reference
 		ShipSystemAPI cloak = ship.getPhaseCloak();
 		if (cloak == null) cloak = ship.getSystem();
 		if (cloak == null) {
@@ -95,19 +90,16 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			return;
 		}
 
-		// Apply speed reduction based on flux level
 		if (FLUX_LEVEL_AFFECTS_SPEED && (state == State.ACTIVE || state == State.OUT || state == State.IN)) {
 			applySpeedReduction(stats, id, ship, effectLevel, cloak);
 		}
 
-		// Handle system states
 		if (state == State.COOLDOWN || state == State.IDLE) {
 			unapply(stats, id);
 			prevState = state;
 			return;
 		}
 
-		// Apply standard phase cloak modifiers
 		applyPhaseModifiers(stats, id, effectLevel, state, ship, isPlayer);
 
 		prevState = state;
@@ -117,7 +109,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 	public void unapply(MutableShipStatsAPI stats, String id) {
 		if (!(stats.getEntity() instanceof ShipAPI ship)) return;
 
-        // Reset all modified stats
 		Global.getCombatEngine().getTimeMult().unmodify(id);
 		stats.getTimeMult().unmodify(id);
 		stats.getMaxSpeed().unmodify(id);
@@ -125,11 +116,9 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		stats.getAcceleration().unmodify(id);
 		stats.getDeceleration().unmodify(id);
 
-		// Reset ship visuals
 		ship.setPhased(false);
 		ship.setExtraAlphaMult(1f);
 
-		// Reset cloak jitter if applicable
 		ShipSystemAPI cloak = ship.getPhaseCloak();
 		if (cloak == null) cloak = ship.getSystem();
 		if (cloak instanceof PhaseCloakSystemAPI) {
@@ -141,13 +130,9 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		float fluxLevel = ship.getCurrFlux() / ship.getMaxFlux();
 		float fluxScaling = calculateFluxScaling(fluxLevel);
 
-		// Spawn visual storm effect
 		spawnEmpStorm(ship, fluxScaling);
-
-		// Spawn damaging EMP arcs
 		spawnEmpArcs(ship, fluxScaling);
 
-		// Play EMP sound
 		Global.getSoundPlayer().playSound(
 				EMP_SOUND_ID,
 				1.0f,
@@ -163,9 +148,7 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		float empRange = BASE_EMP_RANGE * (0.5f + 0.5f * fluxScaling);
 		float arcThickness = EMP_THICKNESS * (0.5f + fluxScaling);
 
-		// Create a circle of visual EMP arcs
 		for (int i = 0; i < VISUAL_EMP_ARCS; i++) {
-			// Calculate random end point around the ship
 			float angle = (float) (Math.random() * Math.PI * 2);
 			float distance = empRange * (0.7f + 0.3f * (float) Math.random());
 			Vector2f endPoint = new Vector2f(
@@ -173,13 +156,11 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 					loc.y + (float) Math.sin(angle) * distance
 			);
 
-			// Create a start point near the ship's edge
 			Vector2f startPoint = new Vector2f(
 					loc.x + (float) Math.cos(angle) * ARC_SPAWN_RADIUS,
 					loc.y + (float) Math.sin(angle) * ARC_SPAWN_RADIUS
 			);
 
-			// Add some randomness to the path
 			Vector2f midPoint = Vector2f.add(
 					Vector2f.add(startPoint, endPoint, null),
 					new Vector2f(
@@ -190,7 +171,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			);
 			midPoint.scale(0.5f);
 
-			// Spawn the visual arc
 			engine.spawnEmpArcVisual(
 					startPoint,
 					ship,
@@ -201,7 +181,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 					EMP_CORE_COLOR
 			);
 
-			// Second segment of the arc
 			engine.spawnEmpArcVisual(
 					midPoint,
 					ship,
@@ -213,7 +192,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			);
 		}
 
-		// Add a pulsing glow at the center
 		engine.addHitParticle(
 				loc,
 				new Vector2f(),
@@ -233,7 +211,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		float arcThickness = EMP_THICKNESS * (0.75f + 0.5f * fluxScaling);
 		float empRangeSq = empRange * empRange;
 
-		// Damage nearby enemy ships
 		for (ShipAPI target : engine.getShips()) {
 			if (target.isHulk() || target.getOwner() == ship.getOwner()) continue;
 			float dx = loc.x - target.getLocation().x;
@@ -255,7 +232,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			}
 		}
 
-		// Disrupt nearby enemy projectiles (limited for performance)
 		int projCount = 0;
 		for (CombatEntityAPI projectile : engine.getProjectiles()) {
 			if (projCount >= MAX_PROJ_AFFECTED) break;
@@ -284,7 +260,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 	private void applyPhaseModifiers(MutableShipStatsAPI stats, String id,
 									 float effectLevel, State state, ShipAPI ship, boolean isPlayer) {
 
-		// Apply speed/acceleration modifiers
 		float speedPercentMod = stats.getDynamic().getMod(Stats.PHASE_CLOAK_SPEED_MOD).computeEffective(0f);
 		float accelPercentMod = stats.getDynamic().getMod(Stats.PHASE_CLOAK_ACCEL_MOD).computeEffective(0f);
 
@@ -299,18 +274,15 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		stats.getAcceleration().modifyMult(id, accelMultMod * effectLevel);
 		stats.getDeceleration().modifyMult(id, accelMultMod * effectLevel);
 
-		// Handle phased state
 		if (state == State.IN || state == State.ACTIVE) {
 			ship.setPhased(true);
 		} else if (state == State.OUT) {
 			ship.setPhased(effectLevel > 0.5f);
 		}
 
-		// Apply visual effects
 		ship.setExtraAlphaMult(1f - (1f - SHIP_ALPHA_MULT) * effectLevel);
 		ship.setApplyExtraAlphaToEngines(true);
 
-		// Apply time flow alteration
 		float shipTimeMult = 1f + (getMaxTimeMult(stats) - 1f) * effectLevel;
 		stats.getTimeMult().modifyMult(id, shipTimeMult);
 		if (isPlayer) {
@@ -340,7 +312,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		if (cloak == null) cloak = playerShip.getSystem();
 		if (cloak == null) return;
 
-		// Phase cloak active status
 		if (effectLevel > 0f) {
 			Global.getCombatEngine().maintainStatusForPlayerShip(
 					STATUSKEY1,
@@ -351,7 +322,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			);
 		}
 
-		// Speed reduction status
 		if (FLUX_LEVEL_AFFECTS_SPEED && effectLevel > 0f) {
 			if (getDisruptionLevel(playerShip) <= 0f) {
 				Global.getCombatEngine().maintainStatusForPlayerShip(
@@ -373,7 +343,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 			}
 		}
 
-		// EMP charge status (only when active)
 		if (state == State.ACTIVE) {
 			float fluxLevel = playerShip.getCurrFlux() / playerShip.getMaxFlux();
 			float scaling = calculateFluxScaling(fluxLevel);
@@ -417,7 +386,6 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 	private float calculateFluxScaling(float fluxLevel) {
 		fluxLevel = Math.max(0f, Math.min(fluxLevel, 1f));
 
-		// Normalize flux level between scaling thresholds
 		float t = (fluxLevel - FLUX_SCALING_START) / (FLUX_SCALING_END - FLUX_SCALING_START);
 		t = Math.max(0f, Math.min(t, 1f));
 

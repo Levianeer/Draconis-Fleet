@@ -1,8 +1,8 @@
 {
 	"id":"XLII_phasetorparray",
 	"type":"STAT_MOD",
-	"aiType":"ACAUSAL_DISRUPTOR", # I don't want to make a custom one :sob:
-	#"aiScript":"",
+	"aiType":"CUSTOM",
+	"aiScript":"levianeer.draconis.data.scripts.ai.XLII_PhaseTorpedoArrayAI",
 
 	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_PhaseTorpedoArrayStats",
 

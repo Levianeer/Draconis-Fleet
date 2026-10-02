@@ -14,6 +14,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseEventIntel;
 import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip;
 import com.fs.starfarer.api.impl.campaign.intel.events.HostileActivityEventIntel;
+import com.fs.starfarer.api.ui.IntelUIAPI;
 import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
@@ -29,7 +30,7 @@ import levianeer.draconis.data.campaign.intel.events.crisis.deal.DraconisAIOPaym
 import levianeer.draconis.data.campaign.intel.events.crisis.factors.DraconisAIOOneTimeFactor;
 import levianeer.draconis.data.campaign.intel.events.crisis.factors.DraconisFleetHostileActivityFactor;
 import levianeer.draconis.data.campaign.intel.events.crisis.reward.DraconisArmamentsBonus;
-import levianeer.draconis.data.campaign.intel.events.crisis.util.DraconisAIODisruptionIntel;
+import levianeer.draconis.data.campaign.intel.events.crisis.util.DraconisAIOImpendingDisruptionIntel;
 import org.apache.log4j.Logger;
 
 import java.awt.Color;
@@ -72,7 +73,6 @@ public class DraconisAIOTracker extends BaseEventIntel {
     // Tracks prior suppression state to detect transitions (commission / payment deal)
     private boolean wasSuppressed = false;
 
-    // Monthly tick accumulator
     private float daysSinceTick = 0f;
     private static final float TICK_INTERVAL = 30f;
 
@@ -111,7 +111,31 @@ public class DraconisAIOTracker extends BaseEventIntel {
     public static void createIfNecessary() {
         if (get() != null) return;
         if (DRACONIS.equals(Misc.getCommissionFactionId())) return;
+        if (isNexerelinAllied()) {
+            log.info("DDA: AIO Tracker creation blocked - player is allied with Draconis (Nexerelin)");
+            return;
+        }
+        if (!hasAnyAICoreInstalled()) {
+            log.info("DDA: AIO Tracker creation blocked - no AI cores installed on any player market");
+            return;
+        }
         new DraconisAIOTracker();
+    }
+
+    /** True if the player (or their ruling faction, under Nexerelin) shares a formal alliance with Draconis. */
+    private static boolean isNexerelinAllied() {
+        if (!Global.getSettings().getModManager().isModEnabled("nexerelin")) return false;
+        try {
+            exerelin.campaign.alliances.Alliance alliance = exerelin.campaign.AllianceManager.getPlayerAlliance(true);
+            return alliance != null && alliance.getMembersCopy().contains(DRACONIS);
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    /** True if the player has at least one AI core installed - in a market's admin slot or any industry. */
+    private static boolean hasAnyAICoreInstalled() {
+        return computeAICoreContrib(1f) > 0f;
     }
 
     // ==================== Construction ====================
@@ -169,6 +193,11 @@ public class DraconisAIOTracker extends BaseEventIntel {
         if (suppressed && !wasSuppressed) {
             clearAllMarketDebuffs();
             clearHighValueTargetFromPlayerMarkets();
+            DraconisAIOImpendingDisruptionIntel pending = DraconisAIOImpendingDisruptionIntel.get();
+            if (pending != null) {
+                pending.endImmediately();
+                log.info("DDA: Cancelled pending impending disruption (tracker suppressed)");
+            }
             log.info("DDA: Tracker suppressed - cleared market debuffs and Priority Target condition");
         }
         wasSuppressed = suppressed;
@@ -193,13 +222,11 @@ public class DraconisAIOTracker extends BaseEventIntel {
     // ==================== Monthly tick ====================
 
     private void doMonthlyTick() {
-        // Commission pauses the tracker and all effects
         if (isCommissioned()) {
             log.debug("DDA: AIO tracker paused (commissioned)");
             return;
         }
 
-        // Active payment deal suppresses the tick
         if (isPaymentActive()) {
             log.debug("DDA: AIO tick suppressed by active payment deal");
             return;
@@ -210,11 +237,12 @@ public class DraconisAIOTracker extends BaseEventIntel {
         setProgress(newProgress);
         log.debug("DDA: AIO tick - +" + increment + " -> " + newProgress);
 
-        // Apply scaled market debuffs to all player colonies
         applyAllMarketDebuffs(newProgress);
 
-        // Disrupt a single random AI-core industry at 25+ (on a random cooldown)
-        if (newProgress >= 1 && daysSinceDisruption >= nextDisruptionCooldown) {
+        // Warn of a single random AI-core industry disruption at 25+ (on a random cooldown).
+        // Skipped while a prior warning is still pending, so only one operation is ever in flight.
+        if (newProgress >= 1 && daysSinceDisruption >= nextDisruptionCooldown
+                && DraconisAIOImpendingDisruptionIntel.get() == null) {
             daysSinceDisruption = 0f;
             float minCd = getSetting("draconisAIODisruptionCooldownMin", 20f);
             float maxCd = getSetting("draconisAIODisruptionCooldownMax", 50f);
@@ -225,16 +253,19 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
     /**
      * Calculates the monthly increment.
-     * Formula: max(baseFloor, aiCoreContrib * relationsMultiplier)
-     * The baseFloor is intentionally unaffected - the tracker never fully stalls.
+     * Formula: max(baseFloor, aiCoreContrib * relationsMultiplier), or 0 with no AI cores installed.
+     * The baseFloor keeps the tracker from stalling while the player actually runs AI cores;
+     * with zero cores installed there is nothing to escalate and the tracker holds its value.
      */
     private float calculateMonthlyIncrement() {
         float aiCoreRate = getSetting("draconisAIOAICoreRate", 0.4f);
         float relationsMaxReduction = getSetting("draconisAIORelationsMaxReduction", 0.7f);
         float baseFloor = getSetting("draconisAIOBaseFloor", 0.5f);
 
-        float raw = computeAICoreContrib(aiCoreRate)
-                * computeRelationsMultiplier(relationsMaxReduction);
+        float contrib = computeAICoreContrib(aiCoreRate);
+        if (contrib <= 0f) return 0f;
+
+        float raw = contrib * computeRelationsMultiplier(relationsMaxReduction);
 
         return Math.max(baseFloor, raw);
     }
@@ -301,9 +332,11 @@ public class DraconisAIOTracker extends BaseEventIntel {
     // ==================== Disruption ====================
 
     /**
-     * Disrupts a single randomly chosen AI-core industry. Duration scales with crisis progress:
+     * Picks a single randomly chosen AI-core industry to target and posts a warning intel instead
+     * of disrupting it immediately - the player has draconisAIOWarningDays to intervene before the
+     * operation (see DraconisAIOImpendingDisruptionIntel) actually lands and disrupts it. The eventual
+     * disruption duration (if not stopped) scales with crisis progress at the time the warning fired:
      * at progress=25 the minimum disruption time is used; at 100 the maximum is used.
-     * Sends an intel update notification with the industry and market name.
      */
     private void disruptAICoreIndustries(int progress) {
         // Collect all eligible (undisrupted, AI-core-slotted) industries
@@ -323,23 +356,16 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
         if (eligible.isEmpty()) return;
 
-        // Pick one at random
         int idx = (int) (Math.random() * eligible.size());
         Industry target = eligible.get(idx);
         MarketAPI market = ownerMarket.get(idx);
 
-        // Duration scales from min at progress=25 to max at progress=100
-        float minD = getSetting("draconisAIODisruptionDaysMin", 10f);
-        float maxD = getSetting("draconisAIODisruptionDaysMax", 60f);
-        float t = Math.max(0f, Math.min(1f, (progress - 25f) / 75f));
-        float days = minD + t * (maxD - minD);
-
-        target.setDisrupted(days);
-        log.info("DDA: Disrupted " + target.getCurrentName() + " at " + market.getName()
-                + " for " + Math.round(days) + " days (progress=" + progress + ")");
+        float warningDays = getSetting("draconisAIOWarningDays", 14f);
+        log.info("DDA: Impending disruption warning - " + target.getCurrentName() + " at " + market.getName()
+                + ", " + Math.round(warningDays) + " days to intervene (progress=" + progress + ")");
 
         // Constructor self-registers via addIntel + addScript
-        new DraconisAIODisruptionIntel(market, target.getCurrentName(), Math.round(days));
+        DraconisAIOImpendingDisruptionIntel.forIndustry(market, target, warningDays, progress);
     }
 
     // ==================== Invasion ====================
@@ -414,9 +440,12 @@ public class DraconisAIOTracker extends BaseEventIntel {
     }
 
     /**
-     * Disrupts the highest-tier military station at the invasion target market.
-     * Duration covers the maximum possible fleet travel time (prep + payload max + buffer)
-     * so the station is still down when the expedition arrives.
+     * Warns of an impending disruption to the highest-tier military station at the invasion target
+     * market, instead of disrupting it immediately. The warning window is capped at the expedition's
+     * own prep time, and the disruption duration applied if the operation is not stopped is shortened
+     * to match - so the two together still cover the exact same absolute end point the old instant-fire
+     * code did (prep + payload + buffer from the moment the expedition launches), just starting
+     * draconisAIOWarningDays (or the prep time, if shorter) later instead of immediately.
      */
     private void disruptDefensesForInvasion(MarketAPI target) {
         String[] stationIds = {
@@ -447,28 +476,32 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
         // Use the actual rolled prep+payload values from the expedition that was just created.
         // Falls back to worst-case estimate if expedition is somehow unavailable.
-        float duration;
+        float prepDays, payloadDays;
         DraconisPunitiveExpedition expedition = DraconisPunitiveExpedition.get();
         if (expedition != null && expedition.getParams() != null) {
-            duration = expedition.getParams().prepDays + expedition.getParams().payloadDays + 35f;
+            prepDays = expedition.getParams().prepDays;
+            payloadDays = expedition.getParams().payloadDays;
         } else {
             float prepMin    = getSetting("draconisExpeditionPrepDaysMin", 14f);
             float prepVar    = getSetting("draconisExpeditionPrepDaysVariance", 14f);
             float payloadMin = getSetting("draconisExpeditionPayloadDaysMin", 27f);
             float payloadVar = getSetting("draconisExpeditionPayloadDaysVariance", 7f);
-            duration         = prepMin + prepVar + payloadMin + payloadVar + 35f;
+            prepDays = prepMin + prepVar;
+            payloadDays = payloadMin + payloadVar;
         }
 
-        station.setDisrupted(duration);
-        log.info("DDA: Pre-invasion disruption - " + station.getCurrentName()
-                + " at " + target.getName() + " for " + Math.round(duration) + " days");
+        float totalCoverage = prepDays + payloadDays + 35f;
+        float warningWindow = Math.min(getSetting("draconisAIOWarningDays", 14f), prepDays);
+        float disruptionIfNotStopped = totalCoverage - warningWindow;
+
+        log.info("DDA: Impending pre-invasion disruption - " + station.getCurrentName()
+                + " at " + target.getName() + ", " + Math.round(warningWindow) + " days to intervene");
 
         // Constructor self-registers via addIntel + addScript
-        new DraconisAIODisruptionIntel(target, station.getCurrentName(), Math.round(duration));
+        DraconisAIOImpendingDisruptionIntel.forStation(target, station, warningWindow, disruptionIfNotStopped);
     }
 
     private MarketAPI findInvasionTarget() {
-        // Target the largest player market
         MarketAPI bestBySize = null;
         int bestSize = 0;
 
@@ -533,7 +566,6 @@ public class DraconisAIOTracker extends BaseEventIntel {
         // Clear defeat counter so the next cycle starts at stage 1
         Global.getSector().getMemoryWithoutUpdate().unset(DEFEAT_COUNT_KEY);
         // notifyEnded() (via endImmediately) clears market debuffs and unsets KEY.
-        // CRISIS_PERMANENTLY_ENDED_KEY is intentionally NOT set.
         endImmediately();
     }
 
@@ -630,11 +662,14 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
     // ==================== Static computation helpers (used by display factors) ====================
 
+    /** Admin-slotted cores are presumed Alpha-tier and weighted well above an industry Alpha (3x). */
+    private static final float ADMIN_CORE_WEIGHT = 8f;
+
     public static float computeAICoreContrib(float aiCoreRate) {
         float total = 0f;
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (!Factions.PLAYER.equals(market.getFactionId())) continue;
-            if (market.getAdmin().getAICoreId() != null) total += 3f * aiCoreRate;
+            if (market.getAdmin().getAICoreId() != null) total += ADMIN_CORE_WEIGHT * aiCoreRate;
             for (Industry industry : market.getIndustries()) {
                 if (industry == null) continue;
                 String coreId = industry.getAICoreId();
@@ -680,7 +715,6 @@ public class DraconisAIOTracker extends BaseEventIntel {
      */
     @Override
     public void reportEconomyTick(int iterIndex) {
-        // intentional no-op - progress is controlled by doMonthlyTick()
     }
 
     // ==================== Icon configuration ====================
@@ -910,5 +944,30 @@ public class DraconisAIOTracker extends BaseEventIntel {
             info.addPara(AIOStrings.BULLET_INVASION_FMT,
                     initPad, tc, fc, AIOStrings.BULLET_INVASION_HIGHLIGHT, String.valueOf(getExpeditionDefeats() + 1));
         }
+    }
+
+    // ==================== Dev Testing ====================
+    // Gated on Global.getSettings().isDevMode(), same convention as XLII_RingPortAssault's
+    // devSkipToPostAssault()/devSkipToVictory(). Button only appears in dev mode.
+
+    private static final Object BUTTON_DEV_ADVANCE = "dda_aio_dev_advance_progress";
+    private static final int DEV_ADVANCE_AMOUNT = 20;
+
+    @Override
+    public void afterStageDescriptions(TooltipMakerAPI main) {
+        if (!Global.getSettings().isDevMode()) return;
+        main.addSpacer(10f);
+        addGenericButton(main, getBarWidth(), new Color(122, 122, 122, 255), new Color(40, 40, 40, 255),
+                ">> (dev) advance crisis +" + DEV_ADVANCE_AMOUNT, BUTTON_DEV_ADVANCE);
+    }
+
+    @Override
+    public void buttonPressConfirmed(Object buttonId, IntelUIAPI ui) {
+        if (buttonId == BUTTON_DEV_ADVANCE) {
+            setProgress(Math.min(PROGRESS_MAX, getProgress() + DEV_ADVANCE_AMOUNT));
+            ui.updateUIForItem(this);
+            return;
+        }
+        super.buttonPressConfirmed(buttonId, ui);
     }
 }

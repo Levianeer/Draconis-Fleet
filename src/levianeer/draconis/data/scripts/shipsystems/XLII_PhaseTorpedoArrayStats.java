@@ -55,10 +55,10 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
      */
     private static class VisualTorpedo {
         Vector2f virtualPosition = new Vector2f();  // Current visual position (with inertia)
-        Vector2f virtualVelocity = new Vector2f();  // Current visual velocity (for smooth movement)
+        Vector2f virtualVelocity = new Vector2f();
         float virtualFacing = 0f;                   // Current visual facing (with rotation inertia)
-        int formationIndex = 0;                     // Index in formation (for positioning)
-        boolean initialized = false;                // Track first-frame initialization
+        int formationIndex = 0;
+        boolean initialized = false;
 
         // Visual effect timing
         float effectTimer = 0f;                     // Accumulated time for oscillation/pulse effects
@@ -66,14 +66,13 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
     }
 
     private static class StackState {
-        List<VisualTorpedo> visualTorpedoes = new ArrayList<>();  // Visual-only torpedoes in formation
+        List<VisualTorpedo> visualTorpedoes = new ArrayList<>();
         float stackTimer = 0f;
         boolean isStacking = false;
         int currentStackCount = 0;
         boolean startOnStarboard = true;  // Track which side to start on for alternating spawn
     }
 
-    // Ship ID -> StackState mapping
     private static final java.util.HashMap<String, StackState> shipStates = new java.util.HashMap<>();
     private static CombatEngineAPI lastEngine_PhaseTorpedo;
 
@@ -104,10 +103,8 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null) return;
 
-        // Get or create state for this ship
         StackState stackState = getStackState(ship);
 
-        // Create fake weapon if needed
         if (torpedoWeapon == null) {
             torpedoWeapon = engine.createFakeWeapon(ship, "XLII_phasetorp_launcher");
         }
@@ -123,12 +120,10 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
             handleActivation(ship, stackState, engine);
         }
 
-        // Update stack timer and formation
         if (stackState.isStacking && !engine.isPaused()) {
             updateStacking(ship, stackState, engine);
         }
 
-        // Player status display
         if (isPlayer) {
             updatePlayerStatus(ship, stackState);
         }
@@ -161,7 +156,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
     @Override
     public boolean isUsable(ShipSystemAPI system, ShipAPI ship) {
-        // Disable system when at max stack count
         StackState stackState = getStackState(ship);
         int maxStack = system.getMaxAmmo();
         return stackState.currentStackCount < maxStack;
@@ -176,7 +170,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         // Create visual torpedo (no real missile spawned yet)
         VisualTorpedo visualTorp = createVisualTorpedo(ship, stackState);
 
-        // Add to stack
         stackState.visualTorpedoes.add(visualTorp);
         stackState.currentStackCount++;
         stackState.isStacking = true;
@@ -230,7 +223,7 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
         // Shimmer particles: subtle outward radiating distortion
         for (int i = 0; i < 4; i++) {
-            float angle = (360f / 4f) * i + (float)(Math.random() * 20f);  // Add slight randomization
+            float angle = (360f / 4f) * i + (float)(Math.random() * 20f);
             Vector2f offset = Misc.getUnitVectorAtDegreeAngle(angle);
             offset.scale(15f + (float)(Math.random() * 8f));  // Tighter spawn area
 
@@ -269,7 +262,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
      * Creates a visual-only torpedo for formation display (not a real missile).
      */
     private VisualTorpedo createVisualTorpedo(ShipAPI ship, StackState stackState) {
-        // Calculate initial spawn position based on stack count
         int stackIndex = stackState.currentStackCount;
 
         // Determine side: alternate from startOnStarboard flag
@@ -282,7 +274,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
         float distance = BASE_SPAWN_OFFSET + ((float) stackIndex / 2) * SPACING_INCREMENT;
 
-        // Calculate offset perpendicular to ship facing
         float angle = ship.getFacing() + (isStarboard ? 90f : -90f);
         Vector2f offset = Misc.getUnitVectorAtDegreeAngle(angle);
         offset.scale(distance);
@@ -290,7 +281,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         Vector2f spawnLoc = new Vector2f(ship.getLocation());
         Vector2f.add(spawnLoc, offset, spawnLoc);
 
-        // Create visual torpedo object
         VisualTorpedo visualTorp = new VisualTorpedo();
         visualTorp.virtualPosition.set(spawnLoc);
         visualTorp.virtualVelocity.set(ship.getVelocity());
@@ -307,33 +297,26 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
      * Updates stacking state each frame: updates visual torpedo positions and renders them.
      */
     private void updateStacking(ShipAPI ship, StackState stackState, CombatEngineAPI engine) {
-        // Safety check: don't update if not actively stacking
         if (!stackState.isStacking) {
             return;
         }
 
         float amount = engine.getElapsedInLastFrame();
 
-        // Update timer
         stackState.stackTimer -= amount;
 
-        // Update and render each visual torpedo in formation
         int index = 0;
         for (VisualTorpedo visualTorp : stackState.visualTorpedoes) {
-            // Update visual position with smooth inertia
             updateVisualTorpedoFormation(ship, visualTorp, index, stackState);
 
-            // Update effect timers
             visualTorp.effectTimer += amount;
             visualTorp.pulseTimer += amount;
 
-            // Render the visual torpedo with enhanced effects
             renderVisualTorpedo(visualTorp, stackState.stackTimer, engine);
 
             index++;
         }
 
-        // Check if timer expired
         if (stackState.stackTimer <= 0f) {
             attemptLaunch(ship, stackState, engine);
         }
@@ -384,10 +367,9 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
         // === PULSING GLOW EFFECT ===
         // Oscillate size and brightness with sine wave (period ~1.5s)
-        float pulsePhase = visualTorp.effectTimer * 2f;  // Speed up oscillation
+        float pulsePhase = visualTorp.effectTimer * 2f;
         float pulseFactor = 0.7f + 0.3f * (float) FastTrig.sin(pulsePhase);  // Range: 0.7 to 1.0
 
-        // Increase urgency as launch approaches
         float urgencyMultiplier = 1.0f;
         if (timeUntilLaunch < 0.5f) {
             urgencyMultiplier = 1.5f;  // Larger and brighter when about to launch
@@ -416,11 +398,9 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
             new Color(255, 175, 255, 120)
         );
 
-        // Spawn distortion particles around torpedo at random offsets
         int shimmerCount = (timeUntilLaunch < 0.5f) ? 3 : 2;
 
         for (int i = 0; i < shimmerCount; i++) {
-            // Random offset around torpedo
             float offsetAngle = (float)(Math.random() * 360f);
             float offsetDist = 5f + (float)(Math.random() * 10f);
 
@@ -429,7 +409,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
             Vector2f shimmerPos = new Vector2f(pos.x + offset.x, pos.y + offset.y);
 
-            // Alternate colors for shimmer effect
             Color shimmerColor;
             float rand = (float)Math.random();
             if (rand < 0.33f) {
@@ -451,21 +430,18 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         }
 
         // === TRAILING PARTICLES ===
-        // Spawn particles behind torpedo based on velocity
         float speed = (float) Math.sqrt(
             visualTorp.virtualVelocity.x * visualTorp.virtualVelocity.x +
             visualTorp.virtualVelocity.y * visualTorp.virtualVelocity.y
         );
 
         if (speed > 10f) {  // Only show trail when moving
-            // Calculate trail direction (opposite of velocity)
             Vector2f trailDir = new Vector2f(-visualTorp.virtualVelocity.x, -visualTorp.virtualVelocity.y);
             float length = (float) Math.sqrt(trailDir.x * trailDir.x + trailDir.y * trailDir.y);
             if (length > 0) {
                 trailDir.scale(1f / length);  // Normalize
             }
 
-            // Spawn 2-3 trail particles
             int trailCount = (speed > 50f) ? 3 : 2;
             for (int i = 1; i <= trailCount; i++) {
                 Vector2f trailOffset = new Vector2f(trailDir);
@@ -494,7 +470,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         if (visualTorp.pulseTimer >= 0.25f) {
             visualTorp.pulseTimer = 0f;
 
-            // Spawn expanding pulse ring
             engine.addSmoothParticle(
                 pos,
                 zeroVel,
@@ -506,7 +481,7 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         }
 
         // Small particles that drift around the torpedo
-        if (visualTorp.effectTimer % 0.3f < 0.1f) {  // Spawn periodically
+        if (visualTorp.effectTimer % 0.3f < 0.1f) {
             float orbitAngle = visualTorp.effectTimer * 50f;  // Slow rotation
             Vector2f orbitOffset = Misc.getUnitVectorAtDegreeAngle(orbitAngle);
             orbitOffset.scale(15f + (float)(Math.random() * 5f));
@@ -540,10 +515,8 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         ShipAPI target = findTarget(ship);
         boolean targetInRange = isInRange(ship, target);
 
-        // Always launch, either guided or dumbfire
         launchAllTorpedoes(ship, stackState, targetInRange ? target : null, engine);
 
-        // Clear visual torpedo list
         resetStackState(stackState);
     }
 
@@ -562,15 +535,11 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         // Detect if ship is currently phased - this determines torpedo initial state
         boolean shipIsPhased = ship.isPhased();
 
-        // Spawn real missiles from visual torpedo positions
         for (VisualTorpedo visualTorp : stackState.visualTorpedoes) {
-            // Calculate launch direction
             float launchAngle;
             if (isDumbfire) {
-                // Dumbfire: launch in ship's facing direction
                 launchAngle = ship.getFacing();
             } else {
-                // Guided: launch toward target
                 launchAngle = Misc.getAngleInDegrees(visualTorp.virtualPosition, target.getLocation());
             }
 
@@ -591,7 +560,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
                 missile.setMaxFlightTime(TORPEDO_LIFESPAN);
                 missile.setMaxRange(TORPEDO_MAX_RANGE);
 
-                // Set up the custom AI with ship's phase state
                 XLII_PhaseTorpedoAI ai = new XLII_PhaseTorpedoAI(missile, shipIsPhased);
                 missile.setMissileAI(ai);
 
@@ -601,11 +569,9 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
                 // Set target (null for dumbfire - AI will handle it)
                 ai.setTarget(target);
 
-                // Start in appropriate collision state based on ship phase
                 if (shipIsPhased) {
                     missile.setCollisionClass(CollisionClass.NONE);
 
-                    // Sound: Play phase sound for phased torpedos
                     Global.getSoundPlayer().playSound(
                         "system_phase_cloak_activate",
                         1.0f,  // pitch
@@ -622,12 +588,10 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
                     missile.setJitter(this, new Color(255, 150, 50, 100), 0.5f, 3, 0f, 5f);
                 }
 
-                // Give initial velocity
                 Vector2f velocity = Misc.getUnitVectorAtDegreeAngle(launchAngle);
                 velocity.scale(TORPEDO_SPEED);
                 missile.getVelocity().set(velocity);
 
-                // Visual: launch arc
                 engine.spawnEmpArcVisual(
                     ship.getLocation(),
                     ship,
@@ -645,9 +609,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
     // ==================== TARGET FINDING ====================
 
-    /**
-     * Finds the current target for the ship.
-     */
     private ShipAPI findTarget(ShipAPI ship) {
         ShipAPI target = ship.getShipTarget();
 
@@ -665,9 +626,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         );
     }
 
-    /**
-     * Checks if target is within system range.
-     */
     private boolean isInRange(ShipAPI ship, ShipAPI target) {
         if (target == null) return false;
 
@@ -679,14 +637,10 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
     // ==================== PLAYER UI ====================
 
-    /**
-     * Updates player status indicators.
-     */
     private void updatePlayerStatus(ShipAPI ship, StackState stackState) {
         CombatEngineAPI engine = Global.getCombatEngine();
         int maxStack = ship.getSystem().getMaxAmmo();
 
-        // Stack count indicator
         if (stackState.isStacking) {
             String timerStr = String.valueOf((int) Math.ceil(stackState.stackTimer));
             engine.maintainStatusForPlayerShip(
@@ -715,9 +669,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
 
     // ==================== STATE MANAGEMENT ====================
 
-    /**
-     * Gets or creates stack state for a ship.
-     */
     private StackState getStackState(ShipAPI ship) {
         String shipId = ship.getId();
         if (!shipStates.containsKey(shipId)) {
@@ -726,9 +677,6 @@ public class XLII_PhaseTorpedoArrayStats extends BaseShipSystemScript {
         return shipStates.get(shipId);
     }
 
-    /**
-     * Resets stack state to idle.
-     */
     private void resetStackState(StackState stackState) {
         stackState.visualTorpedoes.clear();
         stackState.currentStackCount = 0;

@@ -19,7 +19,7 @@
   "builtInWeapons": {
     "WS0003": "XLII_durendal",
     "WS0004": "XLII_vernier",
-    "WS0006": "blinker_red",
+    "WS0006": "XLII_blinker_red",
     "WS0007": "XLII_vernier"
   },
   "weaponSlots": [

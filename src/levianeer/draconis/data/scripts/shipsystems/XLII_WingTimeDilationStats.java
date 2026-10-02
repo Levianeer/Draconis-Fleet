@@ -67,7 +67,6 @@ public class XLII_WingTimeDilationStats extends BaseShipSystemScript {
 
         float timeMult = 1f + (MAX_TIME_MULT - 1f) * effectLevel;
 
-        // Time dilation
         stats.getTimeMult().modifyMult(id, timeMult);
         if (isPlayer) {
             engine.getTimeMult().modifyMult(id, 1f / timeMult);

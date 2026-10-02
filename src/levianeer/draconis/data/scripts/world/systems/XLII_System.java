@@ -165,7 +165,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         athebyne.setCustomDescriptionId("planet_athebyne");
         athebyne.applySpecChanges();
         
-        // Abandoned Terraforming Platform
         SectorEntityToken shardStation = system.addCustomEntity("shard_abandoned_station",
                 "Abandoned Terraforming Platform", "station_side06", "neutral");
 
@@ -174,7 +173,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         shardStation.setInteractionImage("illustrations", "abandoned_station2");
         Misc.setAbandonedStationMarket("shard_abandoned_station_market", shardStation);
 
-        // Itoron
         PlanetAPI itoron = system.addPlanet("itoron", star, "Itoron",
                 "terran", itoronAngle, itoronSize, itoronDistance, itoronOrbit);
         itoron.setFaction(DRACONIS);
@@ -254,7 +252,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         system.addRingBand(star, "misc", "rings_ice0", 256f, 0, new Color(200, 220, 255, 180), 256f, pirateStationDistance, pirateStationOrbit);
         system.addRingBand(star, "misc", "rings_dust0", 256f, 1, new Color(120, 170, 220, 80), 256f, pirateStationDistance, pirateStationOrbit);
 
-        // Ring-Port Station
         SectorEntityToken pirateStation = system.addCustomEntity("fafnir_pirate_station", "Ring-Port Station",
                 "station_lowtech3", Factions.PIRATES);
         pirateStation.setCircularOrbitPointingDown(star, pirateStationAngle, pirateStationDistance, pirateStationOrbit);
@@ -334,7 +331,7 @@ public class XLII_System implements SectorGeneratorPlugin {
         itoronMarket.addIndustry(Industries.FARMING);
         itoronMarket.addIndustry(Industries.LIGHTINDUSTRY);
         itoronMarket.addIndustry(Industries.COMMERCE);
-        itoronMarket.addIndustry(Industries.STARFORTRESS_MID);
+        itoronMarket.addIndustry("XLII_orbitalstation_remnant", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
         itoronMarket.addIndustry(Industries.GROUNDDEFENSES);
 
         itoronMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
@@ -457,7 +454,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         NebulaEditor nebulaEditor = new NebulaEditor(hyperspaceTerrainPlugin);
         float minHyperspaceRadius = hyperspaceTerrainPlugin.getTileSize() * 2f;
         float maxHyperspaceRadius = system.getMaxRadiusInHyperspace();
-        // Clear all storms in system area for safe navigation
         nebulaEditor.clearArc(system.getLocation().x, system.getLocation().y, 0,
                 minHyperspaceRadius + maxHyperspaceRadius, 0f, 360f, 0f);
 
@@ -465,9 +461,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         createRiftTerrain(sector, system);
     }
 
-    /**
-     * Creates the Rift terrain in hyperspace around the Fafnir system.
-     */
     private void createRiftTerrain(SectorAPI sector, StarSystemAPI system) {
         LocationAPI hyperspace = sector.getHyperspace();
         Vector2f location = system.getLocation();
@@ -481,7 +474,6 @@ public class XLII_System implements SectorGeneratorPlugin {
         riftTerrain.setFixedLocation(location.x, location.y);
         riftTerrain.setId("XLII_rift_storm");
 
-        // Add visual corona effects
         SectorEntityToken innerGlow = hyperspace.addCustomEntity(
                 "XLII_rift_storm_inner_glow",
                 null,

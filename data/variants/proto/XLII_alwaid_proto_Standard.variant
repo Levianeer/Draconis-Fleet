@@ -1,7 +1,7 @@
 {
     "displayName": "Prototype",
     "fluxCapacitors": 0,
-    "fluxVents": 25,
+    "fluxVents": 19,
     "hullId": "XLII_alwaid_proto",
     "hullMods": [
         "shrouded_thunderhead",

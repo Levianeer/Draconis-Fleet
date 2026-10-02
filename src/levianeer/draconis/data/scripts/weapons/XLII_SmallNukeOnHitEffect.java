@@ -50,16 +50,9 @@ public class XLII_SmallNukeOnHitEffect implements OnHitEffectPlugin {
             );
         }
 
-        // Spawn damaging explosion
         engine.spawnDamagingExplosion(createExplosionSpec(), source, point);
-
-        // Spawn visual explosion
         engine.spawnDamagingExplosion(VISUAL_EXPLOSION_SPEC, source, point);
-
-        // Sharp lens flares
         spawnLensFlares(engine, source, point);
-
-        // Nuclear shockwave distortion ring
         spawnNuclearShockwave(engine, point);
     }
 
@@ -149,9 +142,9 @@ public class XLII_SmallNukeOnHitEffect implements OnHitEffectPlugin {
         RippleDistortion ripple = new RippleDistortion(point, zeroVel);
         ripple.setSize(finalSize);
         ripple.setIntensity(intensity);
-        ripple.setFrameRate(60f / duration); // 50 fps animation
+        ripple.setFrameRate(60f / duration);
         ripple.fadeInSize(expansionTime); // Rapidly expanding wavefront
-        ripple.fadeOutIntensity(fadeTime); // Fading distortion
+        ripple.fadeOutIntensity(fadeTime);
         ripple.setSize(startSize); // Reset to starting size after setting final size
 
         DistortionShader.addDistortion(ripple);

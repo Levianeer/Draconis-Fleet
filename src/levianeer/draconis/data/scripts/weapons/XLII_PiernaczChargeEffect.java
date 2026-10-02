@@ -7,7 +7,6 @@ import com.fs.starfarer.api.util.IntervalUtil;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.VectorUtils;
 import org.lwjgl.util.vector.Vector2f;
-import org.magiclib.util.MagicFakeBeam;
 import org.magiclib.util.MagicRender;
 
 import java.awt.*;
@@ -17,15 +16,32 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
     // Barrel layout - Piernacz fires both barrels simultaneously (LINKED)
     private static final int NUM_BARRELS = 2;
 
-    // Colors
-    private static final Color GLOW_COLOR = new Color(180, 105, 255, 205);
-    private static final Color GLOW_CORE_COLOR = new Color(220, 180, 255, 255);
-    private static final Color PARTICLE_COLOR = new Color(170, 105, 255, 180);
-    private static final Color FLARE_COLOR = new Color(180, 105, 255, 65);
-    private static final Color FLARE_CORE_COLOR = new Color(225, 205, 255, 155);
-    private static final Color NEBULA_COLOR = new Color(130, 60, 205, 120);
+    // Heat gradient: white-hot core always nested in a blue-hot layer, nested in an orange/red
+    // halo. Consistent across charge-up (ember->white-hot), ignition, flight (see .proj/.wpn/
+    // trail files), and impact (reversed: blue-white flash before the red thermal bloom).
+    private static final Color HEAT_EMBER = new Color(120, 30, 15, 255);
+    private static final Color HEAT_WHITE_HOT = new Color(255, 250, 235, 255);
+
+    // Outer halo around the charging core stays a constant warm ember glow (like a welding
+    // arc's bloom) while the core beneath heats toward white.
+    private static final Color GLOW_COLOR = new Color(255, 90, 40, 180);
+    private static final Color FLARE_COLOR_LOW = new Color(255, 120, 60, 70);
+    private static final Color FLARE_COLOR_HIGH = new Color(255, 250, 235, 70);
+    private static final Color FLARE_CORE_COLOR_LOW = new Color(255, 150, 90, 160);
+    private static final Color FLARE_CORE_COLOR_HIGH = new Color(255, 250, 235, 160);
+    private static final Color LASER_FRINGE_LOW = new Color(230, 90, 60, 255);
     private static final Color RING_CORE_COLOR = new Color(255, 255, 255, 255);
-    private static final Color RING_FRINGE_COLOR = new Color(180, 105, 255, 205);
+
+    // On-fire muzzle blast: blue-hot core in an orange/red heat corona (see heat-gradient note
+    // above), plus the beam pulse selling the "jet" reaching outward.
+    private static final Color FIRE_NEBULA_COLOR = new Color(110, 175, 255, 130);
+    private static final Color FIRE_NEBULA_HEAT_COLOR = new Color(255, 120, 60, 140);
+    private static final Color FIRE_FLASH_COLOR = new Color(235, 245, 255, 255);
+    private static final Color FIRE_RING_FRINGE_COLOR = new Color(120, 185, 255, 205);
+    private static final Color FIRE_BEAM_CORE = new Color(245, 250, 255, 255);
+    private static final Color FIRE_BEAM_FRINGE = new Color(120, 185, 255, 255);
+    private static final Color FIRE_HEAT_BEAM_CORE = new Color(255, 150, 80, 190);
+    private static final Color FIRE_HEAT_BEAM_FRINGE = new Color(255, 80, 40, 110);
 
     // Laser sight
     private static final float LASER_WIDTH = 3.9f;
@@ -64,6 +80,18 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
     private static final float FIRE_HIT_PARTICLE_SIZE = 26f;
     private static final float FIRE_RING_SIZE_MULT = 0.975f;
     private static final float FIRE_RING_DURATION_MULT = 2.5f;
+    // Brief zero-damage fake-beam flash so the short/thick projectile reads as a jet burst
+    // leaving the muzzle, rather than just a bolt appearing - damage is entirely on the projectile.
+    private static final float FIRE_BEAM_WIDTH = 34f;
+    private static final float FIRE_BEAM_RANGE = 700f;
+    private static final float FIRE_BEAM_FULL = 0.035f;
+    private static final float FIRE_BEAM_FADE = 0.09f;
+    // Heat corona around the core beam pulse (see heat-gradient note above). Shorter reach: the
+    // heat wash dissipates faster than the ionized core.
+    private static final float FIRE_HEAT_BEAM_WIDTH = 72f;
+    private static final float FIRE_HEAT_BEAM_RANGE = 500f;
+    private static final float FIRE_HEAT_BEAM_FULL = 0.05f;
+    private static final float FIRE_HEAT_BEAM_FADE = 0.14f;
 
     // Charge state tracking
     private boolean hasFired = false;
@@ -99,13 +127,15 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
         for (int barrel = 0; barrel < NUM_BARRELS; barrel++) {
             Vector2f muzzle = weapon.getFirePoint(barrel);
 
-            // Laser alpha scales with charge level, interval-capped for consistent DPS
+            // Laser alpha scales with charge level, interval-capped for consistent DPS. Fringe
+            // heats from ember to white-hot with charge, same as the muzzle glow below.
             if (barrel == 0) laserInterval.advance(amount);
             if (laserInterval.intervalElapsed()) {
                 int alpha = (int) (255f * chargeLevel);
                 Color core = new Color(205, 205, 205, alpha);
-                Color fringe = new Color(160, 90, 255, alpha);
-                MagicFakeBeam.spawnFakeBeam(
+                Color fringeHeat = lerpColor(LASER_FRINGE_LOW, HEAT_WHITE_HOT, chargeLevel);
+                Color fringe = new Color(fringeHeat.getRed(), fringeHeat.getGreen(), fringeHeat.getBlue(), alpha);
+                XLII_FakeBeam.spawnFakeBeam(
                         engine, muzzle, weapon.getRange() + LASER_RANGE_BONUS, weaponAngle,
                         LASER_WIDTH, LASER_FULL, LASER_FADING, 16.25f,
                         core, fringe,
@@ -113,7 +143,6 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
                 );
             }
 
-            // Converging particles
             if (barrel == 0) particleInterval.advance(amount);
             if (particleInterval.intervalElapsed()) {
                 int count = (int) (PARTICLE_BASE_COUNT + (PARTICLE_MAX_COUNT - PARTICLE_BASE_COUNT) * chargeLevel);
@@ -128,19 +157,19 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
                     Vector2f vel = Vector2f.add(dir, shipVel, new Vector2f());
 
                     float size = MathUtils.getRandomNumberInRange(CONVERGE_PARTICLE_SIZE_MIN, CONVERGE_PARTICLE_SIZE_MAX);
-                    engine.addSmoothParticle(spawnPoint, vel, size, chargeLevel, CONVERGE_PARTICLE_DURATION, PARTICLE_COLOR);
+                    engine.addSmoothParticle(spawnPoint, vel, size, chargeLevel, CONVERGE_PARTICLE_DURATION,
+                            lerpColor(HEAT_EMBER, HEAT_WHITE_HOT, chargeLevel));
                 }
             }
 
-            // Growing muzzle glow
             if (barrel == 0) glowInterval.advance(amount);
             if (glowInterval.intervalElapsed()) {
                 float glowSize = GLOW_SIZE_MIN + (GLOW_SIZE_MAX - GLOW_SIZE_MIN) * chargeLevel;
-                engine.addHitParticle(muzzle, shipVel, glowSize, chargeLevel, 0.05f, GLOW_CORE_COLOR);
+                engine.addHitParticle(muzzle, shipVel, glowSize, chargeLevel, 0.05f,
+                        lerpColor(HEAT_EMBER, HEAT_WHITE_HOT, chargeLevel));
                 engine.addSmoothParticle(muzzle, shipVel, glowSize * 1.5f, chargeLevel * 0.5f, 0.05f, GLOW_COLOR);
             }
 
-            // Flare at peak charge
             if (chargeLevel > FLARE_CHARGE_THRESHOLD) {
                 float intensity = (chargeLevel - FLARE_CHARGE_THRESHOLD) / (1f - FLARE_CHARGE_THRESHOLD);
 
@@ -150,12 +179,12 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
                 MagicRender.singleframe(streak,
                         MathUtils.getRandomPointInCircle(muzzle, 1.5f),
                         new Vector2f(FLARE_STREAK_SIZE.x * intensity, FLARE_STREAK_SIZE.y * intensity),
-                        0f, withAlpha(FLARE_COLOR, intensity), true);
+                        0f, withAlpha(lerpColor(FLARE_COLOR_LOW, FLARE_COLOR_HIGH, intensity), intensity), true);
 
                 MagicRender.singleframe(flareCore,
                         MathUtils.getRandomPointInCircle(muzzle, 1.5f),
                         new Vector2f(FLARE_CORE_SIZE.x * intensity, FLARE_CORE_SIZE.y * intensity),
-                        0f, withAlpha(FLARE_CORE_COLOR, intensity), true);
+                        0f, withAlpha(lerpColor(FLARE_CORE_COLOR_LOW, FLARE_CORE_COLOR_HIGH, intensity), intensity), true);
             }
         }
     }
@@ -171,27 +200,48 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
         Vector2f shipVel = ship.getVelocity();
         float weaponAngle = weapon.getCurrAngle();
 
-        // Nebula particles in forward cone
+        // Two nebula bursts: blue-hot core sparks plus a wider orange/red heat corona (see
+        // heat-gradient note above), erupting together.
         for (int i = 0; i < FIRE_NEBULA_COUNT; i++) {
             float angle = weaponAngle + MathUtils.getRandomNumberInRange(-FIRE_NEBULA_SPREAD, FIRE_NEBULA_SPREAD);
             float speed = MathUtils.getRandomNumberInRange(FIRE_NEBULA_SPEED_MIN, FIRE_NEBULA_SPEED_MAX);
             Vector2f vel = MathUtils.getPointOnCircumference(shipVel, speed, angle);
             float size = MathUtils.getRandomNumberInRange(FIRE_NEBULA_SIZE_MIN, FIRE_NEBULA_SIZE_MAX);
-            engine.addNebulaParticle(muzzle, vel, size, 1.5f, 0f, 0f, FIRE_NEBULA_DURATION, NEBULA_COLOR);
+            engine.addNebulaParticle(muzzle, vel, size, 1.5f, 0f, 0f, FIRE_NEBULA_DURATION, FIRE_NEBULA_COLOR);
+        }
+        for (int i = 0; i < FIRE_NEBULA_COUNT; i++) {
+            float angle = weaponAngle + MathUtils.getRandomNumberInRange(-FIRE_NEBULA_SPREAD * 1.4f, FIRE_NEBULA_SPREAD * 1.4f);
+            float speed = MathUtils.getRandomNumberInRange(FIRE_NEBULA_SPEED_MIN * 0.6f, FIRE_NEBULA_SPEED_MAX * 0.7f);
+            Vector2f vel = MathUtils.getPointOnCircumference(shipVel, speed, angle);
+            float size = MathUtils.getRandomNumberInRange(FIRE_NEBULA_SIZE_MIN, FIRE_NEBULA_SIZE_MAX * 1.3f);
+            engine.addNebulaParticle(muzzle, vel, size, 1.5f, 0f, 0f, FIRE_NEBULA_DURATION * 1.3f, FIRE_NEBULA_HEAT_COLOR);
         }
 
-        // Bright hit particles at muzzle
         for (int i = 0; i < FIRE_HIT_PARTICLE_COUNT; i++) {
             Vector2f point = MathUtils.getRandomPointInCircle(muzzle, 20f);
-            engine.addHitParticle(point, shipVel, FIRE_HIT_PARTICLE_SIZE, 1f, 0.15f, GLOW_CORE_COLOR);
+            engine.addHitParticle(point, shipVel, FIRE_HIT_PARTICLE_SIZE, 1f, 0.15f, FIRE_FLASH_COLOR);
         }
 
-        // Expanding ring shockwave at muzzle
+        // Zero-damage flash-beam pulse selling the "jet burst" look (see FIRE_BEAM_* comment
+        // above); layered as a wider heat corona around the core pulse (see heat-gradient note above).
+        XLII_FakeBeam.spawnFakeBeam(
+                engine, muzzle, FIRE_HEAT_BEAM_RANGE, weaponAngle,
+                FIRE_HEAT_BEAM_WIDTH, FIRE_HEAT_BEAM_FULL, FIRE_HEAT_BEAM_FADE, 16.25f,
+                FIRE_HEAT_BEAM_CORE, FIRE_HEAT_BEAM_FRINGE,
+                0f, DamageType.ENERGY, 0f, ship
+        );
+        XLII_FakeBeam.spawnFakeBeam(
+                engine, muzzle, FIRE_BEAM_RANGE, weaponAngle,
+                FIRE_BEAM_WIDTH, FIRE_BEAM_FULL, FIRE_BEAM_FADE, 16.25f,
+                FIRE_BEAM_CORE, FIRE_BEAM_FRINGE,
+                0f, DamageType.ENERGY, 0f, ship
+        );
+
         XLII_MuzzleFlashEffect.ProjectileRingEffectPlugin ringPlugin =
                 new XLII_MuzzleFlashEffect.ProjectileRingEffectPlugin(
                         muzzle, weaponAngle,
                         FIRE_RING_SIZE_MULT, FIRE_RING_DURATION_MULT,
-                        RING_CORE_COLOR, RING_FRINGE_COLOR,
+                        RING_CORE_COLOR, FIRE_RING_FRINGE_COLOR,
                         shipVel
                 );
         CombatEntityAPI entity = engine.addLayeredRenderingPlugin(ringPlugin);
@@ -201,5 +251,15 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
     private static Color withAlpha(Color base, float alphaMult) {
         return new Color(base.getRed(), base.getGreen(), base.getBlue(),
                 Math.round(base.getAlpha() * alphaMult));
+    }
+
+    private static Color lerpColor(Color from, Color to, float t) {
+        t = Math.max(0f, Math.min(1f, t));
+        return new Color(
+                Math.round(from.getRed() + (to.getRed() - from.getRed()) * t),
+                Math.round(from.getGreen() + (to.getGreen() - from.getGreen()) * t),
+                Math.round(from.getBlue() + (to.getBlue() - from.getBlue()) * t),
+                Math.round(from.getAlpha() + (to.getAlpha() - from.getAlpha()) * t)
+        );
     }
 }

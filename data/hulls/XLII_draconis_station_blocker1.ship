@@ -1,0 +1,43 @@
+{
+  "hullName": "Draconis Structural Spur",
+  "hullId": "XLII_draconis_station_blocker1",
+  "hullSize": "FRIGATE",
+  "spriteName": "graphics/ships/station/XLII_draconis_station_blocker1.png",
+  "style": "DRACONIS",
+  "height": 206,
+  "width": 62,
+  "center": [31, 36.5],
+  "collisionRadius": 176.5,
+  "shieldCenter": [65.5, 0],
+  "shieldRadius": 106,
+  "viewOffset": 0,
+  "moduleAnchor": [
+    -0,
+    0
+  ],
+  "builtInMods": [
+    "reduced_explosion",
+    "never_detaches",
+    "vastbulk",
+    "do_not_fire_through"
+  ],
+  "weaponSlots": [],
+  "engineSlots": [],
+  "bounds": [
+    168, -4.5,
+    159, -10.5,
+    100, -14.5,
+    70, -20.5,
+    38, -25.5,
+    -1, -29.5,
+    -35, -5.5,
+    -35, 5.5,
+    -1, 29.5,
+    38, 25.5,
+    70, 20.5,
+    100, 14.5,
+    159, 10.5,
+    168, 4.5,
+    165, 0
+  ]
+}

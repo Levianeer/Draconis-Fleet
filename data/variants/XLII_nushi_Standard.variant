@@ -1,6 +1,6 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 2,
+    "fluxCapacitors": 14,
     "fluxVents": 30,
     "hullId": "XLII_nushi",
     "hullMods": [
@@ -33,5 +33,5 @@
             }
         }
     ],
-    "wings": ["xyphos_wing"]
+    "wings": ["XLII_pulao_wing"]
 }

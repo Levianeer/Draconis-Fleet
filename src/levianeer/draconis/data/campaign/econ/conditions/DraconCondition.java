@@ -257,21 +257,21 @@ public class DraconCondition extends BaseMarketConditionPlugin {
                     "suspended indefinitely. Kori's nanoforge shifts to wartime production - loss-replacement " +
                     "cycles shorten, quality tolerances widen. Mining operations on Athebyne and Vorium's moons " +
                     "redirect output to military allocation.\n\n" +
-                    "Nuclear release authority is delegated to fleet group commanders. Planetary defence batteries " +
+                    "Nuclear release authority is delegated to fleet group commanders. Planetary defense batteries " +
                     "arm and orient. Ring-Port receives its customary warning: stay clear or be cleared.\n\n" +
                     "The Alliance has entered DRACON 3 four times since its founding. Three of those are a " +
                     "matter of public record.";
             case 2 -> "All Alliance forces deploy to pre-assigned battle positions. Scorched-earth protocols are " +
-                    "armed across both worlds. Athebyne's orbital defence grid activates in full - what remains " +
-                    "of it. Itoron's population centres begin civil defence procedures that have been rehearsed " +
+                    "armed across both worlds. Athebyne's orbital defense grid activates in full - what remains " +
+                    "of it. Itoron's population centers begin civil defense procedures that have been rehearsed " +
                     "since the war.\n\n" +
                     "The Office activates contingency networks and burns non-essential intelligence assets. " +
                     "Tri-Tachyon liaison channels go silent, though certain encrypted frequencies do not. " +
                     "Deploy-to-engage timeline: six hours or less.\n\n" +
                     "Deep-Kori facilities receive updated targeting parameters. Requests for this data are " +
                     "processed without human review.";
-            case 1 -> "All assets weapons-free. Fleet commanders are authorised to execute scorched-earth " +
-                    "protocols at their discretion. There is no centralised coordination requirement - if Kori " +
+            case 1 -> "All assets weapons-free. Fleet commanders are authorized to execute scorched-earth " +
+                    "protocols at their discretion. There is no centralized coordination requirement - if Kori " +
                     "falls silent, standing orders suffice.\n\n" +
                     "Every ship fights. Every station fights. Itoron's agri-domes vent atmosphere before they " +
                     "are taken. Athebyne has already burned once; its garrison knows what is expected of them.\n\n" +

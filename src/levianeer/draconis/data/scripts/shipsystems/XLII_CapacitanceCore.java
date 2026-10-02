@@ -15,7 +15,6 @@ import com.fs.starfarer.api.util.IntervalUtil;
 
 public class XLII_CapacitanceCore extends BaseShipSystemScript implements DamageDealtModifier {
 
-    // Passive hard flux dissipation
     private static final float HARD_FLUX_DISSIPATION_FRACTION = 0.05f;
 
     // Visual arc settings (weapon mount decoration)
@@ -25,17 +24,14 @@ public class XLII_CapacitanceCore extends BaseShipSystemScript implements Damage
     private static final Color VISUAL_ARC_FRINGE = new Color(100, 150, 255, 255);
     private static final Color VISUAL_ARC_CORE = new Color(255,255,255,255);
 
-    // EMP on-hit arc settings
     private static final float EMP_ARC_RANGE = 150f;
     private static final float EMP_ARC_THICKNESS = 15f;
     private static final Color EMP_HIT_FRINGE = new Color(100, 150, 255, 255);
     private static final Color EMP_HIT_CORE = new Color(255,255,255,255);
     private static final String EMP_SOUND = "tachyon_lance_emp_impact";
 
-    // Beam throttle
     private static final float BEAM_EMP_CHANCE_PER_FRAME = 0.1f;
 
-    // Instance state
     private boolean listenerRegistered = false;
     private boolean active = false;
     private final IntervalUtil visualArcInterval = new IntervalUtil(0.25f, 0.75f);
@@ -132,7 +128,6 @@ public class XLII_CapacitanceCore extends BaseShipSystemScript implements Damage
     private void spawnWeaponArcs(ShipAPI ship, CombatEngineAPI engine, float effectLevel) {
         List<WeaponAPI> weapons = ship.getAllWeapons();
 
-        // Count valid weapons and pick random subset
         int count = 0;
         for (WeaponAPI w : weapons) {
             if (isValidWeaponMount(w)) count++;

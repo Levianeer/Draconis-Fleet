@@ -44,7 +44,7 @@ public class AIOStrings {
 
     public static final String TOOLTIP_TITLE_ACTIVE_MEASURES = "Active Countermeasures";
     public static final String TOOLTIP_TITLE_LIABILITY        = "Liability Designation";
-    public static final String TOOLTIP_TITLE_INVASION         = "Punitive Expedition Authorised";
+    public static final String TOOLTIP_TITLE_INVASION         = "Punitive Expedition Authorized";
 
     // =========================================================================
     // Phase: ACTIVE_MEASURES (progress 35–64)
@@ -135,7 +135,7 @@ public class AIOStrings {
     public static final String DEFEAT2_RATE_REDUCED = "greatly reduced";
 
     public static final String DEFEAT3_PARA1 =
-            "XLII Battlegroup has withdrawn. No further action authorised. "
+            "XLII Battlegroup has withdrawn. No further action authorized. "
             + "The Office has determined that continued engagement exceeds acceptable operational cost.";
 
     /** Two %s args: "over", "granted" (both highlighted). */
@@ -155,7 +155,7 @@ public class AIOStrings {
     public static final String BULLET_SUPPRESSED_FMT        = "AIO Counterintelligence %s (payment active)";
     public static final String BULLET_SUPPRESSED_HIGHLIGHT  = "suppressed";
 
-    public static final String BULLET_WATCHING_PASSIVE  = "The Draconis Defence Alliance has marked you as a threat";
+    public static final String BULLET_WATCHING_PASSIVE  = "The Draconis Defense Alliance has marked you as a threat";
 
     /** %s = "Shadow Fleets" (highlighted). */
     public static final String BULLET_ACTIVE_FLEETS_FMT = "%s active in your systems";
@@ -181,10 +181,10 @@ public class AIOStrings {
 
     public static final String DEAL_TOOLTIP_PARA1 =
             "A payment arrangement with a DDA Intelligence Office contact. "
-            + "The AIO suppresses its counterintelligence effortds in exchange for a monthly fee.";
+            + "The AIO suppresses its counterintelligence efforts in exchange for a monthly fee.";
 
-    /** Three %s args: base cost, 2× base, 3× base (all highlighted). */
-    public static final String DEAL_TOOLTIP_PARA2_FMT     = "Cost scales with AI core deployment across your colonies: gamma cores at %s each, beta at %s, alpha at %s.";
+    /** Four %s args: base cost, 2× base, 3× base, 8× base (all highlighted). */
+    public static final String DEAL_TOOLTIP_PARA2_FMT     = "Cost scales with AI core deployment across your colonies: gamma cores at %s each, beta at %s, alpha at %s. An AI core installed as a colony administrator is presumed Alpha-tier and counts at %s.";
 
     /** %s = core breakdown string. Use String.format at call site. */
     public static final String DEAL_TOOLTIP_PARA3_FMT     = "Currently deployed: %s.";
@@ -208,6 +208,59 @@ public class AIOStrings {
             "This action is part of an ongoing AIO counterintelligence campaign targeting your "
             + "strategic infrastructure. The disruption will resolve on its own - but the "
             + "greater counterintelligence effort continues to advance regardless.";
+
+    // =========================================================================
+    // Impending Disruption Intel (DraconisAIOImpendingDisruptionIntel)
+    // =========================================================================
+
+    public static final String INTEL_NAME_IMPENDING_SUFFIX = " - Impending Operation";
+
+    /** Two %s args: industry name, market name (both highlighted). */
+    public static final String IMPENDING_DESC_PARA1_FMT =
+            "Alliance Intelligence Office operatives have been detected preparing to sabotage %s at %s.";
+
+    /** Two %s args: station name, market name (both highlighted). Pre-invasion station case. */
+    public static final String IMPENDING_DESC_PARA1_STATION_FMT =
+            "Alliance Intelligence Office special forces have been detected preparing to disable %s's "
+            + "defenses at %s ahead of the incoming strike.";
+
+    public static final String IMPENDING_DESC_PARA2 =
+            "The operation has not yet been carried out. You may intervene before it goes forward, "
+            + "or take no action and let the AIO proceed.";
+
+    /** One %s arg: days remaining (highlighted). */
+    public static final String IMPENDING_DAYS_REMAINING_FMT = "Time until the operation: %s days.";
+
+    public static final String IMPENDING_BUTTON_SECURITY = "Send a security team";
+    public static final String IMPENDING_BUTTON_STORY_POINT = "Use intelligence branch contacts";
+
+    /** Two %s args: cost (highlighted), success chance percent (highlighted). */
+    public static final String IMPENDING_SECURITY_CONFIRM_FMT =
+            "Deploy a security detail and your own intelligence branch to intercept the AIO operation? "
+            + "Cost: %s. Estimated chance of success: %s%%.";
+
+    public static final String IMPENDING_SECURITY_INSUFFICIENT_FUNDS =
+            "Insufficient funds to deploy a security team.";
+
+    /** One %s arg: market name (highlighted). */
+    public static final String IMPENDING_STOPPED_SECURITY_FMT =
+            "Your security team intercepted the AIO operation at %s before it could be carried out.";
+
+    /** One %s arg: market name (highlighted). */
+    public static final String IMPENDING_FAILED_SECURITY_FMT =
+            "Your security team failed to intercept the AIO operation at %s.";
+
+    /** One %s arg: market name (highlighted). */
+    public static final String IMPENDING_STOPPED_STORYPOINT_FMT =
+            "Your intelligence branch contacts neutralized the AIO operation at %s before it could be carried out.";
+
+    /** Two %s args: industry name, market name (both highlighted). */
+    public static final String IMPENDING_STORYPOINT_DESC_FMT =
+            "Use your intelligence branch contacts to neutralize the AIO operation targeting %s at %s. "
+            + "Guaranteed to succeed.";
+
+    /** One %s arg: market name. Playthrough log text, not player-facing UI. */
+    public static final String IMPENDING_STORYPOINT_LOG_FMT = "Neutralized AIO operation at %s (story point)";
 
     // =========================================================================
     // Factor Descriptors
@@ -247,9 +300,9 @@ public class AIOStrings {
     public static final String FACTOR_RELATIONS_ROW_ALLIED    = "Allied";
 
     public static final String FACTOR_RELATIONS_TIP_PARA1 =
-            "Your standing with the Draconis Defence Alliance affects the pace of AIO scrutiny. "
+            "Your standing with the Draconis Defense Alliance affects the pace of AIO scrutiny. "
             + "Positive relations slow monthly advancement - the Alliance is reluctant to escalate "
-            + "against an associate. Hostile relations have the opposite effect: the AIO prioritises "
+            + "against an associate. Hostile relations have the opposite effect: the AIO prioritizes "
             + "known adversaries, accelerating the crisis above its baseline rate.";
 
     /** Two %s args: both highlighted - "accelerate or slow" and "current DDA standing". */

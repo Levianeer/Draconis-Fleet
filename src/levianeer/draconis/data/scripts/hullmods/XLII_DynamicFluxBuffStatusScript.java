@@ -23,7 +23,6 @@ public record XLII_DynamicFluxBuffStatusScript(ShipAPI ship) implements EveryFra
             return;
         }
 
-        // Only show for player ship
         if (ship != engine.getPlayerShip()) return;
 
         float fluxLevel = ship.getFluxTracker().getFluxLevel();

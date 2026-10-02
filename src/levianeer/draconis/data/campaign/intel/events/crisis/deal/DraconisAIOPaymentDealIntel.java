@@ -69,9 +69,14 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
 
     // ==================== Cost computation ====================
 
+    /** Admin-slotted cores are presumed Alpha-tier and weighted well above an industry Alpha (3x). */
+    private static final int ADMIN_CORE_WEIGHT = 8;
+
     /**
      * Computes the current monthly cost based on AI cores installed across all player colonies.
-     * Gamma cores count as 1×base, beta as 2×base, alpha as 3×base.
+     * Gamma cores count as 1×base, beta as 2×base, alpha as 3×base. Admin-slotted cores
+     * count as 8×base regardless of tier, since installing anything but Alpha as an
+     * administrator would be irrational.
      * Minimum is base (1 gamma-equivalent) if no cores are deployed.
      * Called fresh each tick so cost scales dynamically with deployment.
      */
@@ -80,6 +85,7 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
         int totalWeight = 0;
         for (MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
             if (!Factions.PLAYER.equals(m.getFactionId())) continue;
+            if (m.getAdmin().getAICoreId() != null) totalWeight += ADMIN_CORE_WEIGHT;
             for (Industry industry : m.getIndustries()) {
                 if (industry == null) continue;
                 String coreId = industry.getAICoreId();
@@ -94,10 +100,11 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
 
     /** Counts installed AI cores by tier across all player colonies for display purposes. */
     private int[] countCoresByTier() {
-        // returns [gamma, beta, alpha]
-        int[] counts = new int[3];
+        // returns [gamma, beta, alpha, admin]
+        int[] counts = new int[4];
         for (MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
             if (!Factions.PLAYER.equals(m.getFactionId())) continue;
+            if (m.getAdmin().getAICoreId() != null) counts[3]++;
             for (Industry industry : m.getIndustries()) {
                 if (industry == null) continue;
                 String coreId = industry.getAICoreId();
@@ -204,7 +211,7 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
         Color neg = Misc.getNegativeHighlightColor();
 
         int[] cores = countCoresByTier();
-        int gamma = cores[0], beta = cores[1], alpha = cores[2];
+        int gamma = cores[0], beta = cores[1], alpha = cores[2], admin = cores[3];
         float base = Global.getSettings().getFloat("draconisAIOPaymentCost");
 
         tooltip.addPara(AIOStrings.DEAL_TOOLTIP_PARA1, 0f);
@@ -212,10 +219,11 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
         tooltip.addPara(AIOStrings.DEAL_TOOLTIP_PARA2_FMT, 10f, h,
                 Misc.getDGSCredits((long) base),
                 Misc.getDGSCredits((long) (base * 2)),
-                Misc.getDGSCredits((long) (base * 3)));
+                Misc.getDGSCredits((long) (base * 3)),
+                Misc.getDGSCredits((long) (base * ADMIN_CORE_WEIGHT)));
 
-        if (gamma > 0 || beta > 0 || alpha > 0) {
-            String breakdown = buildCoreBreakdown(gamma, beta, alpha);
+        if (gamma > 0 || beta > 0 || alpha > 0 || admin > 0) {
+            String breakdown = buildCoreBreakdown(gamma, beta, alpha, admin);
             tooltip.addPara(String.format(AIOStrings.DEAL_TOOLTIP_PARA3_FMT, breakdown), 10f);
         } else {
             tooltip.addPara(AIOStrings.DEAL_TOOLTIP_PARA4, 10f, neg, AIOStrings.DEAL_TOOLTIP_PARA4_HIGHLIGHT);
@@ -232,9 +240,13 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
         return false;
     }
 
-    private String buildCoreBreakdown(int gamma, int beta, int alpha) {
+    private String buildCoreBreakdown(int gamma, int beta, int alpha, int admin) {
         StringBuilder sb = new StringBuilder();
-        if (alpha > 0) sb.append(alpha).append(" alpha");
+        if (admin > 0) sb.append(admin).append(" administrator");
+        if (alpha > 0) {
+            if (!sb.isEmpty()) sb.append(", ");
+            sb.append(alpha).append(" alpha");
+        }
         if (beta > 0) {
             if (!sb.isEmpty()) sb.append(", ");
             sb.append(beta).append(" beta");

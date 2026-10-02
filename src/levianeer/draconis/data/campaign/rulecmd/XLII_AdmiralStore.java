@@ -45,6 +45,7 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
     private static final String STORE_BP_TAG = "XLII_fortysecond_bp";
     private static final int PAGE_SIZE = 4;
     private static final float CRUISER_GATE_REP = 0.25f;
+    private static final int WING_BUNDLE_SIZE = 3;
 
     @Override
     public boolean execute(String ruleId, InteractionDialogAPI dialog,
@@ -104,7 +105,6 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
         int end = Math.min(start + PAGE_SIZE, items.size());
         List<String> pageItems = items.subList(start, end);
 
-        // Write slot memory and clear stale slots
         for (int i = 0; i < PAGE_SIZE; i++) {
             String key = "$XLII_store_item_" + (i + 1);
             if (i < pageItems.size()) {
@@ -114,7 +114,6 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
             }
         }
 
-        // Build option panel
         OptionPanelAPI opts = dialog.getOptionPanel();
         opts.clearOptions();
 
@@ -123,8 +122,10 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
             String displayName = getDisplayName(variantId);
             int credits = calculateCredits(variantId);
             int repPoints = calculateRepPoints(variantId);
-            String text = "Purchase " + displayName
-                    + " (" + Misc.getWithDGS(credits) + " credits, " + repPoints + " rep)";
+            String text = isFighterWing(variantId)
+                    ? "Purchase " + WING_BUNDLE_SIZE + "x " + displayName
+                    : "Purchase " + displayName;
+            text += " (" + Misc.getWithDGS(credits) + " credits, " + repPoints + " rep)";
             opts.addOption(text, "store_item_" + (i + 1));
         }
 
@@ -134,7 +135,7 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
         if (page > 0) {
             opts.addOption("Previous page", "store_prev");
         }
-        opts.addOption("Perhaps another time.", "decline");
+        opts.addOption("Perhaps another time", "decline");
 
         log.info("XLII_AdmiralStore: showing page " + page + "/" + maxPage
                 + " (" + pageItems.size() + " items)");
@@ -149,7 +150,6 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
         List<String> wings = new ArrayList<>();
         List<String> ships = new ArrayList<>();
 
-        // Fighter wings: scan all wing specs for the store tag
         for (FighterWingSpecAPI spec : Global.getSettings().getAllFighterWingSpecs()) {
             if (spec.hasTag(STORE_BP_TAG)) {
                 wings.add(spec.getId());
@@ -157,8 +157,8 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
         }
         wings.sort(null);
 
-        // Ships: scan all hull specs for the store tag - one entry per hull, no deduplication needed.
-        // To add a ship to the store, add the XLII_fortysecond_bp tag to its skin spec.
+        // Ships: one entry per hull, no dedup needed. To add a ship to the store, tag its skin
+        // spec with XLII_fortysecond_bp.
         float augustRel = getAugustRel();
         for (ShipHullSpecAPI hull : Global.getSettings().getAllShipHullSpecs()) {
             if (!hull.hasTag(STORE_BP_TAG)) continue;
@@ -168,7 +168,6 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
             ships.add(hull.getHullId());
         }
 
-        // Sort ships by hull size ascending, then alphabetically
         ships.sort((a, b) -> {
             int sizeA = hullSizeOrdinal(a);
             int sizeB = hullSizeOrdinal(b);
@@ -205,7 +204,6 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
     }
 
     private String getDisplayName(String id) {
-        // Try as fighter wing first
         try {
             FighterWingSpecAPI spec = Global.getSettings().getFighterWingSpec(id);
             if (spec != null) {
@@ -231,10 +229,18 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
         return id;
     }
 
+    private boolean isFighterWing(String id) {
+        try {
+            return Global.getSettings().getFighterWingSpec(id) != null;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
     private int calculateCredits(String id) {
         try {
             FighterWingSpecAPI spec = Global.getSettings().getFighterWingSpec(id);
-            if (spec != null) return (int) spec.getBaseValue();
+            if (spec != null) return (int) spec.getBaseValue() * WING_BUNDLE_SIZE;
         } catch (Exception ignored) {}
 
         try {
@@ -247,13 +253,12 @@ public class XLII_AdmiralStore extends BaseCommandPlugin {
     }
 
     private int calculateRepPoints(String id) {
-        // Wings cost 1 rep point
+        // Wings cost 1 rep point per wing in the bundle
         try {
             FighterWingSpecAPI spec = Global.getSettings().getFighterWingSpec(id);
-            if (spec != null) return 1;
+            if (spec != null) return WING_BUNDLE_SIZE;
         } catch (Exception ignored) {}
 
-        // Ships scale by hull size
         try {
             ShipHullSpecAPI hull = Global.getSettings().getHullSpec(id);
             if (hull != null) return switch (hull.getHullSize()) {

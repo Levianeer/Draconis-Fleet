@@ -27,11 +27,9 @@ public class XLII_SpearRange implements ProximityExplosionEffect {
 
         Vector2f loc = explosion.getLocation();
 
-        // Spawn explosions
         engine.spawnExplosion(loc, ZERO_VELOCITY, WHITE_COLOR, LARGE_EXPLOSION_SIZE, EXPLOSION_DURATION);
         engine.spawnExplosion(loc, ZERO_VELOCITY, WHITE_COLOR, SMALL_EXPLOSION_SIZE, EXPLOSION_DURATION);
 
-        // Particle FX
         engine.addNegativeNebulaParticle(loc, ZERO_VELOCITY, PARTICLE_SIZE, PARTICLE_DURATION,
                 0f, 0f, PARTICLE_OPACITY, WHITE_COLOR);
     }

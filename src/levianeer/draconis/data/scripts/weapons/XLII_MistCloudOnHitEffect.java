@@ -17,7 +17,6 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
     private static final Color SMOKE_COLOR_BRIGHT = new Color(180, 183, 192, 155);
     private static final Color SMOKE_COLOR_PUFF = new Color(145, 148, 158, 150);
 
-    // Effect constants
     private static final float EXPLOSION_RADIUS = 120f;
     private static final int SMOKE_RING_COUNT = 5;
     private static final int RADIATING_PUFF_COUNT = 12;
@@ -38,11 +37,9 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
 
         Vector2f impactPoint = point != null ? point : projectile.getLocation();
 
-        // Spawn visual explosion
         spawnSmokeExplosion(engine, impactPoint);
 
         // Todo: Find a better SFX.
-        // Play sound
         //Global.getSoundPlayer().playSound("vent_flux", 1.0f, 0.7f, impactPoint, new Vector2f());
 
         // Signal the combat plugin to create a cloud at this location.
@@ -53,10 +50,7 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
         }
     }
 
-    /**
-     * Spawns layered smoke effects at the impact point
-     * Optimized with reduced allocations and FastTrig usage
-     */
+    /** Uses FastTrig and reused vectors to avoid per-particle allocations. */
     private void spawnSmokeExplosion(CombatEngineAPI engine, Vector2f point) {
         // Central bright flash
         engine.addSmoothParticle(
@@ -85,21 +79,18 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
             );
         }
 
-        // Radiating smoke puffs (using FastTrig and reusable vectors)
+        // Radiating smoke puffs
         for (int i = 0; i < RADIATING_PUFF_COUNT; i++) {
             float angle = (360f / RADIATING_PUFF_COUNT) * i + (float)(Math.random() * 20f - 10f);
             float distance = 40f + (float)(Math.random() * 30f);
 
-            // Reuse tempOffset vector
             tempOffset.set(
                 (float)FastTrig.cos(Math.toRadians(angle)) * distance,
                 (float)FastTrig.sin(Math.toRadians(angle)) * distance
             );
 
-            // Reuse tempPos vector
             tempPos.set(point.x + tempOffset.x, point.y + tempOffset.y);
 
-            // Reuse tempVel vector (scaled offset)
             tempVel.set(tempOffset.x * 0.5f, tempOffset.y * 0.5f);
 
             engine.addSmokeParticle(
@@ -112,21 +103,18 @@ public class XLII_MistCloudOnHitEffect implements OnHitEffectPlugin {
             );
         }
 
-        // Additional dense smoke particles for volume (using FastTrig and reusable vectors)
+        // Additional dense smoke particles for volume
         for (int i = 0; i < DENSE_SMOKE_COUNT; i++) {
             float angle = (float)(Math.random() * 360f);
             float distance = (float)(Math.random() * EXPLOSION_RADIUS * 0.7f);
 
-            // Reuse tempOffset vector
             tempOffset.set(
                 (float)FastTrig.cos(Math.toRadians(angle)) * distance,
                 (float)FastTrig.sin(Math.toRadians(angle)) * distance
             );
 
-            // Reuse tempPos vector
             tempPos.set(point.x + tempOffset.x, point.y + tempOffset.y);
 
-            // Reuse tempVel vector
             tempVel.set(
                 (float)(Math.random() * 40f - 20f),
                 (float)(Math.random() * 40f - 20f)

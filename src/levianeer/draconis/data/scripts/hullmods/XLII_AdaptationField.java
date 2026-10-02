@@ -135,7 +135,6 @@ public class XLII_AdaptationField extends BaseHullMod {
             if (!shieldHit) return null;
             if (ship.getFluxTracker().isOverloaded()) return null;
 
-            // Identify attacker
             String attackerId = "UNKNOWN";
             if (param instanceof DamagingProjectileAPI) {
                 ShipAPI src = ((DamagingProjectileAPI) param).getSource();
@@ -145,17 +144,14 @@ public class XLII_AdaptationField extends BaseHullMod {
                 if (src != null) attackerId = src.getId();
             }
 
-            // Record this hit in the sliding window
             float now = Global.getCombatEngine().getTotalElapsedTime(false);
             ArrayDeque<float[]> entries = hitLog.computeIfAbsent(attackerId, k -> new ArrayDeque<>());
             entries.addLast(new float[]{now, damage.getDamage()});
 
-            // Prune entries outside the window
             while (!entries.isEmpty() && now - entries.peekFirst()[0] > WINDOW_DURATION) {
                 entries.pollFirst();
             }
 
-            // Compute this attacker's DPS over the window
             float sum = 0f;
             for (float[] entry : entries) sum += entry[1];
             float dps = sum / WINDOW_DURATION;

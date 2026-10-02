@@ -1,0 +1,66 @@
+{
+    "displayName": "Standard",
+    "fluxCapacitors": 0,
+    "fluxVents": 0,
+    "hullId": "XLII_draconis_weapon_platform1",
+    "hullMods": [],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "XLII_draconis_weapon_platform1_Standard",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "XLII_piernacz",
+                "WS0002": "XLII_piernacz"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0013": "XLII_naginata",
+                "WS0014": "XLII_naginata"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_montante",
+                "WS0006": "XLII_montante",
+                "WS0011": "XLII_montante"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0009": "XLII_particlelance",
+                "WS0010": "XLII_particlelance"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0012": "XLII_LaWS"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "XLII_razorflak",
+                "WS0008": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "XLII_swordbreaker",
+                "WS0004": "XLII_swordbreaker"
+            }
+        }
+    ]
+}

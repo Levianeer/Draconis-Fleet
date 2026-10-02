@@ -7,7 +7,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Stats;
 
 public class XLII_TowCable extends BaseHullMod {
 
-    public static final float BURN_BONUS = 1;
+    public static final float BURN_BONUS = 2;
     public static final float SENSOR_PROFILE = 200f;
 
     public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {

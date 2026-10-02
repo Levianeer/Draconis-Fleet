@@ -1,10 +1,13 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 18,
+    "fluxVents": 14,
     "goalVariant": true,
     "hullId": "XLII_alrakis_fortysecond",
-    "hullMods": ["targetingunit"],
+    "hullMods": [
+        "targetingunit",
+        "XLII_slap_er"
+    ],
     "permaMods": [],
     "sMods": [],
     "variantId": "FortySecond_alrakis_Elite",
@@ -33,8 +36,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0002": "heavymauler",
-                "WS0003": "heavymauler"
+                "WS0002": "XLII_culverin",
+                "WS0003": "XLII_culverin"
             }
         },
         {
@@ -52,7 +55,7 @@
         }
     ],
     "wings": [
-        "XLII_shangshu_wing",
+        "XLII_tianbang_wing",
         "XLII_shangshu_wing",
         "XLII_shangshu_wing"
     ]

@@ -29,7 +29,6 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 		List<ShipAPI> modules = ship.getChildModulesCopy();
 		if (modules == null) modules = Collections.emptyList();
 
-		// Create afterimage effect at regular intervals.
 		jitterInterval.advance(Global.getCombatEngine().getElapsedInLastFrame());
 		if (jitterInterval.intervalElapsed()) {
 			Color afterimageColor = getAfterimageColor();
@@ -37,7 +36,6 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 			for (ShipAPI m : modules) { if (!m.isHulk()) renderAfterimage(m, afterimageColor); }
 		}
 
-		// Time multiplier adjustment.
 		float timeMult = 1f + (MAX_TIME_MULT - 1f) * effectLevel;
 		stats.getTimeMult().modifyMult(id, timeMult);
 		for (ShipAPI m : modules) m.getMutableStats().getTimeMult().modifyMult(id, timeMult);
@@ -47,7 +45,6 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 			Global.getCombatEngine().getTimeMult().unmodify(id);
 		}
 
-		// Maneuvering Jets effects.
 		if (state == State.OUT) {
 			stats.getMaxSpeed().unmodify(id); // to slow down ship to its regular top speed while powering drive down
 			stats.getMaxTurnRate().unmodify(id);
@@ -117,9 +114,7 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 		);
 	}
 
-	// Returns a color that cycles smoothly between teal, blue, pink, and red.
 	private Color getAfterimageColor() {
-		// Define the key colors with a fixed alpha value.
 		Color[] colors = new Color[] {
 				new Color(0, 255, 255, 125),  // Teal
 				new Color(0, 255, 125, 125),  // Green
@@ -128,14 +123,10 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 				new Color(255, 0, 0, 125)     // Red
 		};
 
-		// Cycle period to speed up color changes.
 		float period = 0.05f;
-		// Get total elapsed time in seconds.
 		float totalTime = Global.getCombatEngine().getTotalElapsedTime(true);
 
-		// Normalize the remainder to a 0-1 range.
 		float fractionThroughPeriod = (totalTime % period) / period;
-		// Scale to the number of colors.
 		float cycleTime = fractionThroughPeriod * colors.length;
 
 		int index1 = (int) cycleTime;
@@ -145,7 +136,6 @@ public class XLII_TemporalShellStats extends BaseShipSystemScript {
 		return lerpColor(colors[index1], colors[index2], fraction);
 	}
 
-	// Linearly interpolates between two colors.
 	private Color lerpColor(Color c1, Color c2, float fraction) {
 		int r = (int) (c1.getRed() + fraction * (c2.getRed() - c1.getRed()));
 		int g = (int) (c1.getGreen() + fraction * (c2.getGreen() - c1.getGreen()));

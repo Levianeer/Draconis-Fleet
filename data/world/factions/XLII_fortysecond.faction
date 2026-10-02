@@ -17,8 +17,8 @@
 	"displayName":"Draconis XLII Battlegroup",
 		"displayNameWithArticle":"the Draconis XLII Battlegroup",
 		
-	"displayNameLong":"Draconis Defence Alliance XLII Battlegroup",
-		"displayNameLongWithArticle":"the Draconis Defence Alliance XLII Battlegroup",
+	"displayNameLong":"Draconis Alliance XLII Battlegroup",
+		"displayNameLongWithArticle":"the Draconis Alliance XLII Battlegroup",
 	
 	"logo":"graphics/factions/draconis_2.png",
 		"crest":"graphics/factions/crest_draconis_2.png",
@@ -138,17 +138,23 @@
 			"cybernetic_augmentation"
 		]
 	},
+
+	"shipRoles":{
+		"remnantStation1":{
+			"remnant_station2_Standard":10,
+		},
+	},
 	
 	"music":{
-		"theme":"music_XLII_draconis_neutral",
-		
-		"market_neutral":"music_XLII_draconis_neutral",
-		"market_hostile":"music_XLII_draconis_hostile",
-		"market_friendly":"music_XLII_draconis_friendly",
-		
-		"encounter_neutral":"music_XLII_draconis_neutral",
-		"encounter_hostile":"music_XLII_draconis_hostile",
-		"encounter_friendly":"music_XLII_draconis_friendly",
+		"theme":"music_XLII_draconis_market_neutral",
+
+		"market_neutral":"music_XLII_draconis_market_neutral",
+		"market_hostile":"music_XLII_draconis_market_hostile",
+		"market_friendly":"music_XLII_draconis_market_friendly",
+
+		"encounter_neutral":"music_XLII_draconis_encounter_neutral",
+		"encounter_hostile":"music_XLII_draconis_encounter_hostile",
+		"encounter_friendly":"music_XLII_draconis_encounter_friendly",
 	},
 	
 	"barSound":"bar_ambience",

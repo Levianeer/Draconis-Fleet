@@ -13,7 +13,7 @@
   "viewOffset": 0,
   "builtInMods": [
     "XLII_draconishull",
-    "advancedcore",
+    "targetingunit",
     "XLII_tow_cable",
     "solar_shielding"
   ],
@@ -34,10 +34,10 @@
     "WS0031": "XLII_vernier",
     "WS0032": "XLII_vernier",
     "WS0033": "XLII_vernier",
-    "WS0034": "blinker_red",
-    "WS0035": "blinker_green",
-    "WS0036": "blinker_red",
-    "WS0037": "blinker_green"
+    "WS0034": "XLII_blinker_red",
+    "WS0035": "XLII_blinker_green",
+    "WS0036": "XLII_blinker_red",
+    "WS0037": "XLII_blinker_green"
   },
   "weaponSlots": [
     {

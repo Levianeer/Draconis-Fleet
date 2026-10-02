@@ -33,7 +33,6 @@ import com.fs.starfarer.api.util.Pair;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.ids.Factions;
 
-import java.awt.Color;
 import java.util.Random;
 
 public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner, FleetEventListener {
@@ -47,15 +46,6 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
     private boolean isShieldActive() {
         return isFunctional() && getDraconLevel() == 1;
-    }
-
-    private static void applyShieldVisuals(PlanetAPI planet) {
-        if (planet == null) return;
-        planet.getSpec().setShieldTexture(Global.getSettings().getSpriteName("industry", "shield_texture"));
-        planet.getSpec().setShieldThickness(0.1f);
-        planet.getSpec().setShieldColor(new Color(150, 200, 255, 160));
-        // How much of this even does anything?
-        planet.applySpecChanges();
     }
 
     private static void unapplyShieldVisuals(PlanetAPI planet) {
@@ -79,7 +69,6 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
         if (shieldShouldBeActive) {
             market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                     .modifyMult(getModId() + "_shield", 1f + SHIELD_DEFENSE_MULT_BONUS, getNameForModifier() + " (DEAD LIGHT)");
-            applyShieldVisuals(planet);
         } else {
             market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                     .unmodifyMult(getModId() + "_shield");
@@ -134,7 +123,6 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
         if (isShieldActive()) {
             market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                     .modifyMult(getModId() + "_shield", 1f + SHIELD_DEFENSE_MULT_BONUS, getNameForModifier() + " (DEAD LIGHT)");
-            applyShieldVisuals(market.getPlanetEntity());
         } else {
             market.getStats().getDynamic().getMod(Stats.GROUND_DEFENSES_MOD)
                     .unmodifyMult(getModId() + "_shield");

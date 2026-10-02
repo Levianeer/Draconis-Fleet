@@ -146,13 +146,11 @@ public class DraconisQRFManager implements EveryFrameScript {
         LocationAPI loc = qrfFleets.get(0).getContainingLocation();
         List<ThreatEntry> threats = updateKnownThreats(loc);
 
-        // Set alert mode if any threats exist in this system
         if (!threats.isEmpty()) alertMode = true;
 
         boolean hasRaider = threats.stream()
                 .anyMatch(e -> e.fleet.getMemoryWithoutUpdate().getBoolean(MemFlags.MEMORY_KEY_RAIDER));
 
-        // Partition fleets into available vs busy (in sensor range of hostile / in combat)
         List<CampaignFleetAPI> availableFleets = new ArrayList<>();
         Map<CampaignFleetAPI, ThreatEntry> busyFleetThreats = new LinkedHashMap<>();
         partitionFleets(qrfFleets, threats, availableFleets, busyFleetThreats);
@@ -234,7 +232,6 @@ public class DraconisQRFManager implements EveryFrameScript {
                                  List<CampaignFleetAPI> available, Map<CampaignFleetAPI, ThreatEntry> busy) {
         for (CampaignFleetAPI qrf : qrfFleets) {
             if (isFleetBusy(qrf)) {
-                // Find which threat this busy fleet is near (for coverage tracking)
                 ThreatEntry nearest = null;
                 for (ThreatEntry threat : threats) {
                     if (threat.fleet.isVisibleToSensorsOf(qrf)) {

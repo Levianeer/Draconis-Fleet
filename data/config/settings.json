@@ -4,8 +4,8 @@
 	# ========================================
 
 	"draconisEnableAICoreRaids": true,					# Enable/disable AI core raids on faction markets	#	Default : true
-	"draconisEnableRemnantRaids": true,					# Enable/disable raids on Remnant installations	#	Default : true
-	"draconisEnableWeaponEscalation": true,				# Replace Draconis Halberd/Naginata loadouts with Daikyu-class when player fields whitelisted nuclear weapons	#	Default : true
+	"draconisEnableRemnantRaids": true,					# Enable/disable raids on Remnant installations		#	Default : true
+	"draconisEnableWeaponEscalation": true,				# Replace Draconis Naginata loadouts with Daikyu-class when player fields nuclear weapons	#	Default : true
 
 	# ========================================
 	# SHADOW FLEET PATROLS
@@ -25,7 +25,7 @@
 	# Formula: difficulty = FleetSizeMult × Base × (MinFactor + MaxFactor × MarketPresence)
 
 	# --- Timing ---
-	"draconisExpeditionEventFrequency": 5.0,			# Likelihood the crisis triggers (lower = less likely)	#	Default : 5.0
+	"draconisExpeditionEventFrequency": 300000000.0,			# Likelihood the crisis triggers (lower = less likely)	#	Default : 3.0
 	"draconisExpeditionPrepDaysMin": 14.0,				# Minimum days to prepare expedition	#	Default : 14.0
 	"draconisExpeditionPrepDaysVariance": 14.0,			# Random variance (0 to this value) added to prep days	#	Default : 14.0
 	"draconisExpeditionPayloadDaysMin": 27.0,			# Minimum days for expedition to travel/operate	#	Default : 27.0
@@ -45,7 +45,7 @@
 	"draconisExpeditionDiffMax3": 64,					# Expedition 3 - maximum total difficulty cap - cap at ~7 fleets	#	Default : 64
 
 	# --- Post-defeat tracker reset floors ---
-	"draconisExpeditionReset1": 50,						# Tracker value after first defeat (mid-ACTIVE_MEASURES)	#	Default : 50
+	"draconisExpeditionReset1": 35,						# Tracker value after first defeat (mid-ACTIVE_MEASURES)	#	Default : 50
 	"draconisExpeditionReset2": 65,						# Tracker value after second defeat (low-LIABILITY)	#	Default : 65
 
 	# ========================================
@@ -56,14 +56,14 @@
 	# Commission pauses the tracker. Defeating the invasion at 100 resets it and grants a reward.
 
 	# --- Monthly increment formula ---
-	# increment = max(baseFloor, aiCoreContrib * relationsMultiplier)
+	# increment = max(baseFloor, aiCoreContrib * relationsMultiplier), or 0 with no AI cores installed
 	# aiCoreContrib = sum(weightedCores per market) * aiCoreRate   (Alpha=3, Beta=2, Gamma=1, Admin=1)
 	# relationsMultiplier = 1 - clamp(ddaRelation, 0, 1) * relationsMaxReduction
 
-	"draconisAIOBaseFloor": 0.5,						# Minimum increment per month - never zero while crisis is active	#	Default : 0.5
+	"draconisAIOBaseFloor": 0.5,						# Minimum increment per month while AI cores are present - zero with none installed	#	Default : 0.5
 	"draconisAIOAICoreRate": 0.4,						# Increment per weighted AI core per month	#	Default : 0.4
-	"draconisAIOProgressUnit": 10,					# Diminishing-returns unit for AI core contrib (matching Hegemony)	#	Default : 10
-	"draconisAIOProgressMult": 0.75,				# Decay factor per unit (matching Hegemony)		#	Default : 0.75
+	"draconisAIOProgressUnit": 10,						# Diminishing-returns unit for AI core contrib (matching Hegemony)	#	Default : 10
+	"draconisAIOProgressMult": 0.75,					# Decay factor per unit (matching Hegemony)		#	Default : 0.75
 	"draconisAIORelationsMaxReduction": 0.7,			# Max fraction by which high DDA rep can reduce the increment (0.7 = 70% reduction at max rep)	#	Default : 0.7
 
 	# --- Shadow fleet scaling ---
@@ -81,6 +81,11 @@
 	"draconisAIODisruptionCooldownMin": 7.0,			# Minimum days between disruptions	#	Default : 7.0
 	"draconisAIODisruptionCooldownMax": 45.0,			# Maximum days between disruptions	#	Default : 45.0
 
+	# --- Impending disruption warning (telegraphs the AI core industry disruption above) ---
+	"draconisAIOWarningDays": 14.0,						# Days of advance warning before the disruption lands	#	Default : 14.0
+	"draconisAIOSecurityTeamSuccessChance": 0.75,		# Chance the paid security team stops the operation	#	Default : 0.7
+	"draconisAIOSecurityTeamCostFraction": 1.5,			# Security team cost, as a fraction of the targeted industry/station's build cost	#	Default : 1.5
+
 	# --- One-time factors (combat & donation) ---
 	"draconisAIOCombatHostilePoints": 5,				# Tracker increase when player fights any DDA/XLII fleet	#	Default : 5
 	"draconisAIOCombatShadowPoints": 3,					# Tracker increase when player defeats a shadow fleet (AIO notes capability)	#	Default : 3
@@ -92,7 +97,7 @@
 	# Recurring monthly arrangement offered by DDA intelligence contact at player-owned colony bars.
 	# Monthly cost = baseCost * max(1, sum of AI core weights across player colonies).
 	# Core weights: gamma = 1x, beta = 2x, alpha = 3x. Minimum charge is 1x base (no cores deployed).
-	"draconisAIOPaymentCost": 2500,					# Base cost unit per AI core weight	#	Default : 2500
+	"draconisAIOPaymentCost": 35000,					# Base cost unit per AI core weight	#	Default : 35000
 
 	# --- Rewards ---
 	# Beating the invasion at 100 gives you this buff to production
@@ -258,9 +263,46 @@
 
 	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
 
+    # ========================================
+    # KORRIN TALK MENU
+    # ========================================
+    # Caps the Talk menu regardless of how much content sits behind it.
+    # See work/outline/korrin-topic-draw.md before changing any of these.
+    #
+    # pityThreshold is a FLOOR, not a fixed trigger: the draw uses
+    # max(pityThreshold, ceil(candidates/slots) + 1). Setting it below one natural
+    # rotation of the pool has no effect - raising it above is what makes weight matter.
+    #
+    # How often he is allowed to speak, per delivery tier. Listener-driven reactions fire far more
+    # often than quest beats, so these are what keep him from remarking on every jump.
+    # A suppressed bark is dropped rather than queued, and is not recorded as fired - so raising
+    # barkCooldownDays spaces content out, it does not delete it.
+
+	"korrinReactions":{
+		"barkCooldownDays":5,
+		"nudgeCooldownDays":0,
+		"popupCooldownDays":2
+	},
+
+	"korrinTalk":{
+		"topicBudget":3,
+		"pressureGain":1,
+		"pityThreshold":4,
+		"classes":{
+			"arc":{"cap":1, "select":"pinned"},
+			"reaction":{"cap":2, "select":"priority"},
+			"offer":{"cap":1, "select":"pinned"},
+			"casual":{"cap":3, "select":"luck"},
+			"world":{"cap":1, "select":"luck", "staleAfter":60}
+		}
+	},
+
 	"graphics":{
 		"misc":{
 			"draconis_luna_icon":"graphics/hullmods/crest_draconis.png",
+			"XLII_korrin_crest_green":"graphics/factions/crest_draconis_status_green.png",
+			"XLII_korrin_crest_red":"graphics/factions/crest_draconis_status_red.png",
+			"XLII_korrin_crest_white":"graphics/factions/crest_draconis_status_white.png",
 			"XLII_marginal_allocation_icon":"graphics/icons/hullsys/XLII_marginal_allocation.png",
 		},
 		"intel":{
@@ -301,7 +343,9 @@
 			"XLII_torpedo_flare":"graphics/fx/XLII_torpedo_flare.png",
 			"XLII_explosion":"graphics/fx/XLII_explosion.png",
 			"XLII_explosion_smoke0":"graphics/fx/explosion6.png",
-			"XLII_explosion_smoke1":"graphics/fx/explosion5.png"
+			"XLII_explosion_smoke1":"graphics/fx/explosion5.png",
+			"XLII_sabot_empty_left":"graphics/missiles/XLII_sabot_empty_left.png",
+			"XLII_sabot_empty_right":"graphics/missiles/XLII_sabot_empty_right.png"
 		},
 		"planets":{
 			"XLII_itoron":"graphics/mod/planets/XLII_itoron.jpg",
@@ -324,7 +368,7 @@
 			"XLII_unknown":"graphics/portraits/characters/XLII_unknown.png",
 			"XLII_portrait_generic":"graphics/portraits/XLII_portrait_generic.png",
 
-			"XLII_sigma_octantis":"graphics/portraits/characters/XLII_sigma_octantis.png",
+			"XLII_longsight":"graphics/portraits/characters/XLII_longsight.png",
 
 			"XLII_emil_august":"graphics/portraits/characters/XLII_emil_august.png",
 			"XLII_elias_korrin":"graphics/portraits/characters/XLII_elias_korrin.png",

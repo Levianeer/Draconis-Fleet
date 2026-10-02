@@ -26,15 +26,13 @@ public class DraconisArmamentsBonus {
 
         Global.getSector().getMemoryWithoutUpdate().set(KEY, true);
 
-        // Track whether this bonus came from defeating the expedition (permanent)
-        // or from commission+rep (removable if commission lost)
+        // Track whether this bonus came from defeating the expedition (permanent) or commission+rep (removable if commission lost)
         if (fromDefeat) {
             Global.getSector().getMemoryWithoutUpdate().set(BONUS_FROM_DEFEAT_KEY, true);
         }
 
         sendGainedMessage();
 
-        // Apply export bonus to heavy armaments
         float exportBonus = Global.getSettings().getFloat("draconisArmamentsExportBonus");
         Global.getSector().getPlayerStats().getDynamic().getStat(
                         Stats.getCommodityExportCreditsMultId(Commodities.HAND_WEAPONS))

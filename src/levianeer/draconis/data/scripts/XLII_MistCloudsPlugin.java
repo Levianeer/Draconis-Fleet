@@ -25,11 +25,12 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     // Faction configuration
     private static final String DEPLOYER_WEAPON_ID = "XLII_SLAP-ER_deployer";
     private static final String ANCHOR_WEAPON_ID = "XLII_mist_anchor";
+    private static final String SLAP_ER_HULLMOD_ID = "XLII_slap_er";
 
     // Passive debuffs
     private static final float MISSILE_GUIDANCE_DEBUFF = -50f;
     private static final float MISSILE_SPEED_DEBUFF = -50f;
-    private static final float AUTOFIRE_DEBUFF = -75f;
+    private static final float AUTOFIRE_DEBUFF = -100f;
 
     // Cloud configuration
     private static final float CLOUD_RADIUS = XLII_MistCloudConstants.CLOUD_RADIUS;
@@ -38,10 +39,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     private static final int MAX_CLOUD_COUNT = 16;
     private static final float RESPAWN_INTERVAL_MIN = 60f;
     private static final float RESPAWN_INTERVAL_MAX = 90f;
-
-    // Activation thresholds (both must be met for missile spawning)
-    private static final float MIN_XLII_PERCENTAGE = XLII_MistCloudConstants.MIN_XLII_PERCENTAGE;
-    private static final int MIN_TOTAL_SUPPLY_COST = XLII_MistCloudConstants.MIN_TOTAL_SUPPLY_COST;
 
     // Buffs constants
     private static final float HEAL_PERCENT_PER_SEC = XLII_MistCloudConstants.HEAL_PERCENT_PER_SEC;
@@ -66,7 +63,8 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     private static final String STATS_MOD_ID = "XLII_mistcloud";
 
     // Spawn staggering configuration
-    private static final float SPAWN_STAGGER_DELAY = 5f; // Delay between missile spawns in seconds
+    private static final float SPAWN_STAGGER_DELAY = 6f; // Delay between missile spawns in seconds
+    private static final int MISSILES_PER_WAVE = 3; // Missiles deployed per wave, drawn from the finite supply
 
     // State
     private CombatEngineAPI engine;
@@ -75,11 +73,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     private final List<Cloud> clouds = new ArrayList<>();
     private float respawnTimer = 0f;
     private float nextRespawnInterval = RESPAWN_INTERVAL_MIN;
-
-    // Dynamic max cloud count based on fleet composition
-    private int dynamicMaxCloudCount = MAX_CLOUD_COUNT;
-    private float cloudCountRecalcTimer = 0f;
-    private static final float CLOUD_COUNT_RECALC_INTERVAL = 10f; // Recalculate every 10 seconds
 
     // XLII side detection for missile spawning
     private int xliiOwnerSide = -1; // 0 = left/player side, 1 = right/enemy side
@@ -93,7 +86,12 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     private float elapsedTime = 0f; // Total elapsed time for spawn queue processing
 
     // Periodic fleet scan - replaces init()-time fleet check so ships are actually on the field
-    private boolean initialMissilesQueued = false;
+    // Missile supply recomputed from current fleet composition on every periodic scan; already-
+    // deployed missiles are tracked separately so they're never reclaimed if the supply shrinks
+    private boolean activated = false; // true once the first missile batch has been deployed
+    private int missilesDeployed = 0; // Cumulative missiles queued so far this battle
+    private int remainingMissileSupply = 0; // currentSupply - missilesDeployed, refreshed each scan
+    private float currentPoolHpBonus = 0f; // S-mod pool HP bonus, refreshed each scan
     private float periodicScanTimer = 0f;
     private static final float PERIODIC_SCAN_INTERVAL = 10f;
 
@@ -122,12 +120,12 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         Color ringColor; // Boundary ring color (green for friendly, red for hostile)
         boolean ringRendered; // Track if ring sprite has been spawned
 
-        Cloud(Vector2f center, Color ringColor) {
+        Cloud(Vector2f center, Color ringColor, float poolHp) {
             this.id = "XLII_MIST_CLOUD_" + System.nanoTime(); // Unique ID
             this.center = new Vector2f(center);
             this.life = 0f;
             this.maxLife = CLOUD_MIN_LIFETIME + (float)(Math.random() * (CLOUD_MAX_LIFETIME - CLOUD_MIN_LIFETIME));
-            this.poolHp = XLII_MistCloudConstants.CLOUD_POOL_HP;
+            this.poolHp = poolHp;
             this.ringColor = ringColor;
             this.ringRendered = false; // Initialize as not rendered
         }
@@ -146,17 +144,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         }
     }
 
-    /**
-     * Results of a single-pass fleet scan used during init().
-     */
-    private static class InitStats {
-        boolean hasXLII = false;
-        int xliiOwnerSide = -1;
-        int xliiShips = 0;
-        int totalAlliedShips = 0;
-        int totalSupplyCost = 0;
-    }
-
     public XLII_MistCloudsPlugin(int ownerSide) {
         this.forcedOwnerSide = ownerSide;
     }
@@ -172,7 +159,7 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         // Fleet scan and missile queuing are deferred to the periodic scan in advance().
         // advanceInCombat() fires on ships that are still in the deployment queue, so
         // engine.getShips() is empty of XLII ships when init() runs here. The periodic
-        // scan waits until ships are actually on the field before evaluating thresholds.
+        // scan waits until ships are actually on the field before establishing the missile supply.
         hasXLIIShips = true; // Optimistic - periodic scan will correct this if needed
 
         // Load ring sprite (graphics only, safe to do immediately)
@@ -187,55 +174,89 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     }
 
     /**
-     * Single-pass fleet scan that computes all data needed by init().
-     * Avoids the 5 separate iterations that separate checkForXLII / calculateXLIIPercentage /
-     * calculateDynamicMaxCloudCount / meetsActivationThresholds calls would perform.
+     * Locates an XLII (SLAP-ER equipped) ship on the forced owner side to determine team side.
+     * @return the owner side if a SLAP-ER ship is found, -1 otherwise
      */
-    private InitStats computeInitStats() {
-        InitStats result = new InitStats();
+    private int findXLIIOwnerSide() {
+        cachedShipList.clear();
+        cachedShipList.addAll(engine.getShips());
+
+        for (ShipAPI ship : cachedShipList) {
+            if (ship == null || ship.isHulk()) continue;
+            if (ship.getOwner() != forcedOwnerSide) continue;
+            if (ship.getVariant() != null && ship.getVariant().hasHullMod(SLAP_ER_HULLMOD_ID)) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Draconis: Found XLII ship '" + ship.getHullSpec().getHullName() + "' on side " + ship.getOwner());
+                }
+                return ship.getOwner();
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Per-ship missile weight by hull size: frigate 1, destroyer 2, cruiser 3, capital 4.
+     */
+    private static int hullSizeWeight(ShipAPI.HullSize size) {
+        switch (size) {
+            case FRIGATE: return 1;
+            case DESTROYER: return 2;
+            case CRUISER: return 3;
+            case CAPITAL_SHIP: return 4;
+            default: return 0;
+        }
+    }
+
+    /**
+     * True if SLAP-ER is S-modded (built in via Story Point) on this variant, same check as
+     * BaseHullMod.isSMod(ShipAPI) uses.
+     */
+    private static boolean isSlapErSMod(ShipVariantAPI variant) {
+        return variant.getSMods().contains(SLAP_ER_HULLMOD_ID) ||
+                variant.getSModdedBuiltIns().contains(SLAP_ER_HULLMOD_ID);
+    }
+
+    /**
+     * Combined result of a single fleet scan for SLAP-ER missile weight and S-mod pool bonus.
+     */
+    private static class SlapErStats {
+        int missileWeight;
+        float poolHpBonus;
+    }
+
+    /**
+     * Sums, across all in-play allied ships equipped with SLAP-ER, the per-ship hull size missile
+     * weight and S-mod bonuses (+SMOD_MISSILE_BONUS missiles, +SMOD_POOL_HP_BONUS pool HP per
+     * S-modded ship). This directly drives missile supply and cloud pool size - no DP/supply
+     * gating is needed since the hull mod now has its own OP cost per size class.
+     */
+    private SlapErStats calculateSlapErStats() {
+        SlapErStats stats = new SlapErStats();
 
         cachedShipList.clear();
         cachedShipList.addAll(engine.getShips());
 
-        // Pass 1: locate the first XLII ship on the forced owner side to determine team side
-        for (ShipAPI ship : cachedShipList) {
-            if (ship == null || ship.isHulk()) continue;
-            if (ship.getOwner() != forcedOwnerSide) continue;
-            if (ship.getVariant() != null && ship.getVariant().hasHullMod("XLII_fortysecond")) {
-                result.xliiOwnerSide = ship.getOwner();
-                result.hasXLII = true;
-                if (log.isDebugEnabled()) {
-                    log.debug("Draconis: Found XLII ship '" + ship.getHullSpec().getHullName() + "' on side " + result.xliiOwnerSide);
-                }
-                break;
-            }
-        }
-
-        if (!result.hasXLII) return result;
-
-        // Temporarily set instance field so isOnSameTeamAsXLII() works in pass 2
-        xliiOwnerSide = result.xliiOwnerSide;
-
-        // Pass 2: count allied ships, XLII ships, and supply cost
         for (ShipAPI ship : cachedShipList) {
             if (ship == null || ship.isHulk() || ship.isFighter() || ship.isDrone()) continue;
             if (!engine.isEntityInPlay(ship)) continue; // Exclude deployment-queue ships
-            if (isOnSameTeamAsXLII(ship.getOwner())) {
-                result.totalAlliedShips++;
-                // Uses supply recovery cost as a fleet-strength proxy (not true DP)
-                result.totalSupplyCost += (int) ship.getHullSpec().getSuppliesToRecover();
-                if (ship.getVariant() != null && ship.getVariant().hasHullMod("XLII_fortysecond")) {
-                    result.xliiShips++;
-                }
+            if (!isOnSameTeamAsXLII(ship.getOwner())) continue;
+
+            ShipVariantAPI variant = ship.getVariant();
+            if (variant == null || !variant.hasHullMod(SLAP_ER_HULLMOD_ID)) continue;
+
+            stats.missileWeight += hullSizeWeight(ship.getHullSize());
+            if (isSlapErSMod(variant)) {
+                stats.missileWeight += XLII_MistCloudConstants.SMOD_MISSILE_BONUS;
+                stats.poolHpBonus += XLII_MistCloudConstants.SMOD_POOL_HP_BONUS;
             }
         }
 
-        return result;
+        return stats;
     }
 
     /**
-     * Check if a ship owner is on the same team as the XLII ships
-     * Handles multi-faction battles where player (owner 0) and allies (owner 2+) fight together
+     * Handles multi-faction battles where player (owner 0) and allies (owner 2+) fight together.
      *
      * @param shipOwner The owner ID to check
      * @return true if the ship is on the same team as XLII ships
@@ -258,177 +279,74 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
             return false;
         }
 
-        // If XLII is neutral/ally (owner 2+), assume fighting alongside player against owner 1
-        // This handles the case where XLII ships are allied with the player
+        // If XLII is neutral/ally (owner 2+), assume it's fighting alongside the player against owner 1.
         return shipOwner != 1;
     }
 
     /**
-     * Calculate the percentage of allied ships (on XLII team) that have the XLII_fortysecond hullmod
-     * Returns value from 0.0 (0%) to 1.0 (100%)
-     * Optimized to use cached ship list
-     */
-    private float calculateXLIIPercentage() {
-        int totalAlliedShips = 0;
-        int xliiShips = 0;
-
-        // OPTIMIZATION: Use cached ship list
-        cachedShipList.clear();
-        cachedShipList.addAll(engine.getShips());
-
-        for (ShipAPI ship : cachedShipList) {
-            if (ship == null || ship.isHulk() || ship.isFighter() || ship.isDrone()) continue;
-            if (!engine.isEntityInPlay(ship)) continue; // Exclude deployment-queue ships
-
-            // Count ships on the same team as XLII (not just same owner)
-            if (isOnSameTeamAsXLII(ship.getOwner())) {
-                totalAlliedShips++;
-                if (ship.getVariant() != null && ship.getVariant().hasHullMod("XLII_fortysecond")) {
-                    xliiShips++;
-                }
-            }
-        }
-
-        if (totalAlliedShips == 0) return 0f;
-        return (float)xliiShips / (float)totalAlliedShips;
-    }
-
-    /**
-     * Calculate dynamic max cloud count based on total fleet supply cost and XLII percentage
-     * Formula: 9 + (Total supply cost / 50) * XLII%
-     * Optimized to reuse cached ship list from calculateXLIIPercentage
-     */
-    private int calculateDynamicMaxCloudCount() {
-        int totalSupplyCost = 0;
-
-        // OPTIMIZATION: Reuse ship list from previous call (calculateXLIIPercentage was just called)
-        // If cachedShipList is empty, populate it
-        if (cachedShipList.isEmpty()) {
-            cachedShipList.addAll(engine.getShips());
-        }
-
-        // Calculate total supply cost of ships on XLII team
-        for (ShipAPI ship : cachedShipList) {
-            if (ship == null || ship.isHulk() || ship.isFighter() || ship.isDrone()) continue;
-            if (!engine.isEntityInPlay(ship)) continue; // Exclude deployment-queue ships
-
-            if (isOnSameTeamAsXLII(ship.getOwner())) {
-                // Uses supply recovery cost as a fleet-strength proxy (not true DP)
-                totalSupplyCost += (int) ship.getHullSpec().getSuppliesToRecover();
-            }
-        }
-
-        float xliiPercent = calculateXLIIPercentage();
-
-        // Formula: base (9) + (totalSupplyCost / 50) * xliiPercent
-        int additionalClouds = Math.round((totalSupplyCost / 50f) * xliiPercent);
-        int maxClouds = MAX_CLOUD_COUNT + additionalClouds;
-
-        if (log.isInfoEnabled()) {
-            log.debug("Draconis: Dynamic max cloud count: " + maxClouds + " (Base: " + MAX_CLOUD_COUNT +
-                     ", Supply cost: " + totalSupplyCost + ", XLII%: " + Math.round(xliiPercent * 100) + "%)");
-        }
-
-        return maxClouds;
-    }
-
-    /**
      * Runs every PERIODIC_SCAN_INTERVAL seconds.
-     * Detects XLII ships on the field, updates side/angle, checks thresholds,
-     * and queues the initial missile wave once thresholds first pass.
-     * Re-evaluates each tick so the system deactivates if the fleet shrinks below thresholds.
+     * Detects XLII ships on the field, updates side detection, and recomputes the missile supply
+     * from current fleet composition - so reinforcements raise it and losses lower it. No DP/
+     * supply gating - the hull mod's OP cost already pays for this, so the supply simply scales
+     * with equipped hull sizes. Already-deployed missiles are never reclaimed if the supply shrinks.
      */
     private void performPeriodicScan() {
-        InitStats stats = computeInitStats();
+        int ownerSide = findXLIIOwnerSide();
 
-        hasXLIIShips = stats.hasXLII;
+        hasXLIIShips = (ownerSide != -1);
         if (!hasXLIIShips) {
             log.debug("Draconis: Periodic scan - no XLII Battlegroup ships in play");
             return;
         }
 
-        // Update side detection
-        xliiOwnerSide = stats.xliiOwnerSide;
+        xliiOwnerSide = ownerSide;
 
-        // Update dynamic max cloud count
-        float xliiPercent = (stats.totalAlliedShips == 0) ? 0f
-                : (float) stats.xliiShips / stats.totalAlliedShips;
-        int additionalClouds = Math.round((stats.totalSupplyCost / 50f) * xliiPercent);
-        dynamicMaxCloudCount = MAX_CLOUD_COUNT + additionalClouds;
+        SlapErStats stats = calculateSlapErStats();
+        int currentSupply = stats.missileWeight;
+        remainingMissileSupply = Math.max(0, currentSupply - missilesDeployed);
+        currentPoolHpBonus = stats.poolHpBonus;
 
-        // Check thresholds
-        boolean meetsXLIIThreshold = xliiPercent >= MIN_XLII_PERCENTAGE;
-        boolean meetsCostThreshold = stats.totalSupplyCost >= MIN_TOTAL_SUPPLY_COST;
+        if (log.isDebugEnabled()) {
+            log.debug("Draconis: Periodic scan - supply " + currentSupply + ", deployed " + missilesDeployed
+                     + ", remaining " + remainingMissileSupply + ", S-mod pool bonus " + currentPoolHpBonus);
+        }
 
-        log.debug("Draconis: Periodic scan - " + stats.xliiShips + "/" + stats.totalAlliedShips +
-                  " XLII (" + Math.round(xliiPercent * 100) + "%, need " + Math.round(MIN_XLII_PERCENTAGE * 100) + "%), " +
-                  "supply cost " + stats.totalSupplyCost + " (need " + MIN_TOTAL_SUPPLY_COST + ") - " +
-                  (meetsXLIIThreshold && meetsCostThreshold ? "ACTIVE" : "thresholds not met"));
-
-        if (!meetsXLIIThreshold || !meetsCostThreshold) return;
-
-        // Queue the initial missile wave the first time thresholds pass
-        if (!initialMissilesQueued) {
-            initialMissilesQueued = true;
-            int initialMissileCount = Math.round(2 + (xliiPercent * 6));
-            Vector2f mapCenter = new Vector2f(0f, 0f);
-            for (int i = 0; i < initialMissileCount; i++) {
-                float spawnTime = elapsedTime + (i * SPAWN_STAGGER_DELAY);
-                spawnQueue.add(new PendingSpawn(spawnTime, mapCenter));
-            }
+        if (!activated && remainingMissileSupply > 0) {
+            activated = true;
             nextRespawnInterval = RESPAWN_INTERVAL_MIN +
                     (float)(Math.random() * (RESPAWN_INTERVAL_MAX - RESPAWN_INTERVAL_MIN));
             log.info("Draconis: Mist Clouds activated on side " + xliiOwnerSide
-                     + " - queued " + initialMissileCount + " initial missiles");
+                     + " - missile supply: " + currentSupply);
+
+            deployMissileBatch();
         }
     }
 
     /**
-     * Check if activation thresholds are met for missile spawning
-     * Requires BOTH minimum XLII percentage AND minimum total supply cost
-     * @return true if both thresholds are met, false otherwise
+     * Queues missiles, staggered by SPAWN_STAGGER_DELAY, up to the cloud cap.
      */
-    private boolean meetsActivationThresholds() {
-        int totalSupplyCost = 0;
-        int xliiShips = 0;
-        int totalAlliedShips = 0;
-
-        // OPTIMIZATION: Reuse cached ship list
-        if (cachedShipList.isEmpty()) {
-            cachedShipList.addAll(engine.getShips());
+    private void queueMissileWave(int count) {
+        Vector2f mapCenter = new Vector2f(0f, 0f);
+        for (int i = 0; i < count && (clouds.size() + spawnQueue.size()) < MAX_CLOUD_COUNT; i++) {
+            float spawnTime = elapsedTime + (i * SPAWN_STAGGER_DELAY);
+            spawnQueue.add(new PendingSpawn(spawnTime, mapCenter));
         }
+    }
 
-        // Calculate total supply cost and XLII percentage for ships on XLII team
-        for (ShipAPI ship : cachedShipList) {
-            if (ship == null || ship.isHulk() || ship.isFighter() || ship.isDrone()) continue;
-            if (!engine.isEntityInPlay(ship)) continue; // Exclude deployment-queue ships
+    /**
+     * Draws down the missile supply, MISSILES_PER_WAVE at a time, until it's exhausted.
+     */
+    private void deployMissileBatch() {
+        if (remainingMissileSupply <= 0) return;
 
-            if (isOnSameTeamAsXLII(ship.getOwner())) {
-                totalAlliedShips++;
-                // Uses supply recovery cost as a fleet-strength proxy (not true DP)
-                totalSupplyCost += (int) ship.getHullSpec().getSuppliesToRecover();
-                if (ship.getVariant() != null && ship.getVariant().hasHullMod("XLII_fortysecond")) {
-                    xliiShips++;
-                }
-            }
-        }
-
-        float xliiPercent = (totalAlliedShips == 0) ? 0f : (float)xliiShips / (float)totalAlliedShips;
-
-        // Both thresholds must be met
-        boolean meetsXLIIThreshold = xliiPercent >= MIN_XLII_PERCENTAGE;
-        boolean meetsCostThreshold = totalSupplyCost >= MIN_TOTAL_SUPPLY_COST;
-        boolean meetsThresholds = meetsXLIIThreshold && meetsCostThreshold;
+        int batch = Math.min(MISSILES_PER_WAVE, remainingMissileSupply);
+        queueMissileWave(batch);
+        missilesDeployed += batch;
+        remainingMissileSupply -= batch;
 
         if (log.isDebugEnabled()) {
-            log.debug("Draconis: Activation thresholds check - XLII%: " + Math.round(xliiPercent * 100) + "% (" +
-                     (meetsXLIIThreshold ? "PASS" : "FAIL - need " + Math.round(MIN_XLII_PERCENTAGE * 100) + "%") +
-                     "), Supply cost: " + totalSupplyCost + " (" +
-                     (meetsCostThreshold ? "PASS" : "FAIL - need " + MIN_TOTAL_SUPPLY_COST) +
-                     "), Overall: " + (meetsThresholds ? "PASS" : "FAIL"));
+            log.debug("Draconis: Deployed missile batch of " + batch + " (" + remainingMissileSupply + " remaining)");
         }
-
-        return meetsThresholds;
     }
 
     @Override
@@ -438,8 +356,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         // Track elapsed time for spawn queue processing
         elapsedTime += amount;
 
-        // Periodic fleet scan: detects XLII ships once they're actually deployed,
-        // checks thresholds, queues initial missiles, and re-evaluates as the battle evolves.
         periodicScanTimer += amount;
         if (periodicScanTimer >= PERIODIC_SCAN_INTERVAL) {
             periodicScanTimer = 0f;
@@ -448,35 +364,25 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
 
         if (!hasXLIIShips) return;
 
-        // Process staggered missile spawns
         processSpawnQueue();
 
-        // Recalculate dynamic max cloud count periodically
-        cloudCountRecalcTimer += amount;
-        if (cloudCountRecalcTimer >= CLOUD_COUNT_RECALC_INTERVAL) {
-            dynamicMaxCloudCount = calculateDynamicMaxCloudCount();
-            cloudCountRecalcTimer = 0f;
-        }
-
-        // Check for new cloud spawn signals from on-hit effects
         checkForNewClouds();
 
-        // Update existing clouds
         updateClouds(amount);
 
-        // Spawn new missiles periodically
-        respawnTimer += amount;
-        if (respawnTimer >= nextRespawnInterval && (clouds.size() + spawnQueue.size()) < dynamicMaxCloudCount) {
-            spawnPeriodicClouds();
-            respawnTimer = 0f;
-            nextRespawnInterval = RESPAWN_INTERVAL_MIN +
-                (float)(Math.random() * (RESPAWN_INTERVAL_MAX - RESPAWN_INTERVAL_MIN));
+        if (remainingMissileSupply > 0) {
+            respawnTimer += amount;
+            if (respawnTimer >= nextRespawnInterval && (clouds.size() + spawnQueue.size()) < MAX_CLOUD_COUNT) {
+                deployMissileBatch();
+                respawnTimer = 0f;
+                nextRespawnInterval = RESPAWN_INTERVAL_MIN +
+                    (float)(Math.random() * (RESPAWN_INTERVAL_MAX - RESPAWN_INTERVAL_MIN));
+            }
         }
 
         // Apply effects to ships (including fighters)
         applyCloudEffects();
 
-        // Render visual effects
         renderCloudVisuals(amount);
     }
 
@@ -514,26 +420,21 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         }
     }
 
-    /**
-     * Register a new cloud at the given location
-     */
     private void registerCloud(Vector2f location) {
-        if (clouds.size() >= dynamicMaxCloudCount) {
+        if (clouds.size() >= MAX_CLOUD_COUNT) {
             // Remove oldest cloud
             Cloud oldest = clouds.get(0);
             if (oldest.aiAnchor != null) {
                 engine.removeEntity(oldest.aiAnchor);
             }
-            // Remove from custom data tracking
             engine.getCustomData().remove(oldest.id);
             clouds.remove(0);
         }
 
-        // Determine ring color based on XLII ownership (green if player side, red if enemy side)
         Color ringColor = (xliiOwnerSide == 0) ? RING_COLOR_FRIENDLY : RING_COLOR_HOSTILE;
-        Cloud newCloud = new Cloud(location, ringColor);
+        float poolHp = XLII_MistCloudConstants.CLOUD_POOL_HP + currentPoolHpBonus;
+        Cloud newCloud = new Cloud(location, ringColor, poolHp);
 
-        // Create invisible AI anchor
         newCloud.aiAnchor = createInvisibleAnchor(location);
 
         // Store cloud location in custom data for missile AI to read
@@ -543,12 +444,9 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     }
 
     /**
-     * Create an invisible entity for AI to path toward/defend
-     * The anchor is owned by the XLII team, so XLII AI will defend it
-     * <p>
-     * Uses XLII_mist_anchor - a custom invisible projectile with no visual effects.
-     * This allows XLII AI to detect and defend cloud locations without visible missiles.
-     * Player-controlled ships ignore defend orders (manual control), but AI allies will defend.
+     * Spawns an invisible XLII_mist_anchor projectile, owned by the XLII team, so XLII AI treats
+     * the cloud location as something to defend without a visible missile marking it. Player-
+     * controlled ships ignore defend orders; AI allies will respond.
      */
     private CombatEntityAPI createInvisibleAnchor(Vector2f location) {
         try {
@@ -569,7 +467,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
                 return null;
             }
 
-            // Spawn invisible anchor missile
             WeaponAPI fakeWeapon = engine.createFakeWeapon(xliiShip, ANCHOR_WEAPON_ID);
             DamagingProjectileAPI projectile = (DamagingProjectileAPI) engine.spawnProjectile(
                 xliiShip,
@@ -597,7 +494,7 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     }
 
     /**
-     * Update cloud lifetimes and expire clouds that have exceeded their maximum lifetime
+     * Expires clouds that have run out their lifetime or drained their HP pool.
      */
     private void updateClouds(float dt) {
         Iterator<Cloud> iter = clouds.iterator();
@@ -612,7 +509,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
                 if (cloud.aiAnchor != null) {
                     engine.removeEntity(cloud.aiAnchor);
                 }
-                // Remove from custom data tracking
                 engine.getCustomData().remove(cloud.id);
                 iter.remove();
 
@@ -732,9 +628,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         }
     }
 
-    /**
-     * Remove cloud effects from a ship that left the cloud
-     */
     private void removeCloudEffects(ShipAPI ship, boolean isAlly) {
         MutableShipStatsAPI stats = ship.getMutableStats();
 
@@ -788,9 +681,7 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
     }
 
     /**
-     * Render EMP storm effects within clouds
-     * Creates random lightning arcs between points to simulate electrical activity
-     * Optimized with FastTrig and reusable vectors
+     * Renders random lightning arcs within each cloud to simulate electrical activity.
      */
     private void renderEMPStormEffects() {
         for (Cloud cloud : clouds) {
@@ -967,16 +858,11 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
 
         }
 
-        // Render EMP storm effects (lightning arcs)
         renderEMPStormEffects();
 
-        // Render boundary rings using MagicRender
         renderCloudRings();
     }
 
-    /**
-     * Process the spawn queue and spawn missiles when their scheduled time arrives
-     */
     private void processSpawnQueue() {
         if (spawnQueue.isEmpty()) return;
 
@@ -993,9 +879,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         }
     }
 
-    /**
-     * Spawn a smoke missile toward the map center
-     */
     private void spawnCloudMissile(Vector2f toward) {
         // Pick a ship from the XLII team to spawn from (needed for correct team assignment)
         // Accept any ship on the same team, not just exact owner match
@@ -1039,7 +922,6 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
             toward.y + (float)Math.sin(Math.toRadians(targetAngle)) * targetRadius
         );
 
-        // Calculate launch angle
         float launchAngle = Misc.getAngleInDegrees(spawnPos, targetPos);
 
         if (log.isDebugEnabled()) {
@@ -1073,43 +955,7 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         }
     }
 
-    /**
-     * Queue periodic cloud spawns with staggered timing
-     */
-    private void spawnPeriodicClouds() {
-        // Check activation thresholds before spawning missiles
-        if (!meetsActivationThresholds()) {
-            if (log.isDebugEnabled()) {
-                log.debug("Draconis: Periodic missile spawn skipped - activation thresholds not met");
-            }
-            return;
-        }
-
-        Vector2f mapCenter = new Vector2f(0f, 0f);
-
-        // Calculate XLII percentage for missile scaling
-        float xliiPercent = calculateXLIIPercentage();
-
-        // Scale periodic missile count: 1 at 0%, 4 at 100%
-        int count = Math.round(1 + (xliiPercent * 3));
-
-        // Queue spawns with staggered delays from current time
-        for (int i = 0; i < count && (clouds.size() + spawnQueue.size()) < dynamicMaxCloudCount; i++) {
-            float spawnTime = elapsedTime + (i * SPAWN_STAGGER_DELAY);
-            spawnQueue.add(new PendingSpawn(spawnTime, mapCenter));
-        }
-
-        if (log.isDebugEnabled()) {
-            log.debug("Draconis: Queued " + count + " additional mist cloud missiles with staggered spawning (XLII: " + Math.round(xliiPercent * 100) + "%)");
-        }
-    }
-
-    /**
-     * Spawn visual effect when a cloud fades out
-     * Optimized with reusable vector
-     */
     private void spawnFadeOutVisual(Vector2f location) {
-        // Fading smoke burst
         for (int i = 0; i < 3; i++) {
             engine.addSmoothParticle(
                 location,

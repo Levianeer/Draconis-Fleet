@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 8,
+    "fluxCapacitors": 3,
     "fluxVents": 30,
     "goalVariant": true,
     "hullId": "XLII_nushi",
@@ -16,8 +16,8 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0013": "XLII_montante",
-                "WS0014": "XLII_montante"
+                "WS0013": "mjolnir",
+                "WS0014": "mjolnir"
             }
         },
         {
@@ -34,5 +34,5 @@
             }
         }
     ],
-    "wings": ["XLII_thorne_wing"]
+    "wings": ["XLII_pulao_wing"]
 }

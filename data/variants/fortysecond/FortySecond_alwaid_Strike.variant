@@ -1,14 +1,13 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 6,
+    "fluxVents": 40,
     "goalVariant": true,
     "hullId": "XLII_alwaid_fortysecond",
     "hullMods": [
         "missleracks",
         "targetingunit",
-        "stabilizedshieldemitter",
-        "ecm"
+        "XLII_slap_er"
     ],
     "permaMods": [],
     "sMods": [],
@@ -34,6 +33,8 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
+                "WS0003": "XLII_halberd",
+                "WS0004": "XLII_halberd",
                 "WS0005": "XLII_halberd_pod",
                 "WS0006": "XLII_halberd_pod"
             }
@@ -42,8 +43,17 @@
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0025": "XLII_ttc",
-                "WS0026": "XLII_ttc"
+                "WS0025": "XLII_montante",
+                "WS0026": "XLII_montante"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
+                "WS0029": "XLII_estocflak"
             }
         },
         {
@@ -53,12 +63,22 @@
                 "WS0027": "XLII_razorflak",
                 "WS0031": "XLII_razorflak"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "XLII_LaWS",
+                "WS0008": "XLII_LaWS",
+                "WS0028": "XLII_LaWS"
+            }
         }
     ],
     "wings": [
         "XLII_tiangou_wing",
-        "XLII_tiangou_wing",
-        "XLII_thorne_wing",
-        "XLII_thorne_wing"
+        "XLII_shangshu_wing",
+        "XLII_shangshu_wing",
+        "XLII_shangshu_wing",
+        "XLII_tiangou_wing"
     ]
 }

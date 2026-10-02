@@ -1,10 +1,9 @@
 {
     "displayName": "Prototype",
     "fluxCapacitors": 0,
-    "fluxVents": 20,
+    "fluxVents": 5,
     "hullId": "XLII_zhushi_proto",
     "hullMods": [
-        "heavyarmor",
         "targetingunit",
         "magazines",
         "shrouded_thunderhead",

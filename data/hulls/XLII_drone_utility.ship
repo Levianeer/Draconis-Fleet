@@ -12,8 +12,8 @@
   "shieldRadius": 15,
   "viewOffset": 0,
   "builtInWeapons": {
-    "WS0002": "blinker_red",
-    "WS0003": "blinker_green"
+    "WS0002": "XLII_blinker_red",
+    "WS0003": "XLII_blinker_green"
   },
   "weaponSlots": [
     {

@@ -12,21 +12,32 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity;
 import com.fs.starfarer.api.impl.campaign.rulecmd.BaseCommandPlugin;
 import com.fs.starfarer.api.util.Misc;
-import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisWatchdog;
+import levianeer.draconis.data.campaign.intel.longsight.XLII_LongsightWatchdog;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Handles the Pristine Nanoforge -> Sigma Octantis exchange for the Admiral August quest.
+ * Handles the Pristine Nanoforge -> Longsight exchange for the Admiral August quest.
+ * <p>
+ * Split into two independent steps so the nanoforge delivery and the Longsight uplink grant can
+ * happen at different points in the questline (a deliberate pacing gap - see
+ * .claude/systems/longsight.md) rather than in the same beat.
  * <p>
  * Usage in rules.csv:
  *   Conditions column:  XLII_NanoforgeExchange check
  *     -> returns true if the player's cargo contains a Pristine Nanoforge
  * <p>
- *   Script column:      XLII_NanoforgeExchange give
- *     -> removes the Pristine Nanoforge, adds the Octantis Uplink, shows cargo notifications
+ *   Script column:      XLII_NanoforgeExchange install
+ *     -> removes the Pristine Nanoforge, upgrades Kori's nanoforge, shows cargo notifications
+ * <p>
+ *   Script column:      XLII_NanoforgeExchange give_uplink
+ *     -> adds the Longsight Uplink, registers the rep watchdog, shows cargo notifications
+ * <p>
+ * The give_uplink logic itself lives in the public static {@link #giveUplink(InteractionDialogAPI)} -
+ * called directly (not through rules.csv) by XLII_KoriStrike's pre-raid August confrontation, the
+ * other entry point to Cave (see .claude/systems/uplink-to-god-endgame-redesign.md).
  */
 @SuppressWarnings("unused")
 public class XLII_NanoforgeExchange extends BaseCommandPlugin {
@@ -34,7 +45,7 @@ public class XLII_NanoforgeExchange extends BaseCommandPlugin {
     private static final Logger log = Global.getLogger(XLII_NanoforgeExchange.class);
 
     private static final String NANOFORGE_ID = "pristine_nanoforge";
-    private static final String REWARD_ID = "draconis_sigma_octantis";
+    private static final String REWARD_ID = "draconis_longsight";
 
     @Override
     public boolean execute(String ruleId, InteractionDialogAPI dialog,
@@ -55,26 +66,52 @@ public class XLII_NanoforgeExchange extends BaseCommandPlugin {
             log.debug("Draconis: XLII_NanoforgeExchange check - Pristine Nanoforge not found");
             return false;
 
-        } else if ("give".equals(action)) {
+        } else if ("install".equals(action)) {
             cargo.removeItems(CargoAPI.CargoItemType.SPECIAL, nanoforge, 1f);
-            cargo.addCommodity(REWARD_ID, 1);
 
             installPristineNanoforgeOnKori();
 
-            // Start monitoring rep now that the core is in the player's hands
-            Global.getSector().addScript(new XLII_SigmaOctantisWatchdog());
-            log.info("Draconis: XLII_NanoforgeExchange - Sigma Octantis Watchdog registered");
-
-            // Show cargo change notifications in the dialog panel
             dialog.getTextPanel().addPara("Transferred Pristine Nanoforge to the Alliance.",
                     Misc.getNegativeHighlightColor(), "Pristine Nanoforge");
-            AddRemoveCommodity.addCommodityGainText(REWARD_ID, 1, dialog.getTextPanel());
 
-            log.info("Draconis: XLII_NanoforgeExchange - Pristine Nanoforge exchanged for Sigma Octantis");
+            log.info("Draconis: XLII_NanoforgeExchange - Pristine Nanoforge delivered to Kori");
+            return true;
+
+        } else if ("give_uplink".equals(action)) {
+            giveUplink(dialog);
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Extracted so XLII_KoriStrike's pre-raid August confrontation
+     * (.claude/systems/uplink-to-god-endgame-redesign.md) can call the exact same Cave mechanics
+     * directly from Java, without a rules.csv round-trip - same pattern as
+     * XLII_ShowBattlegroupAssessment.render(). The rulecmd's own execute() just delegates to this.
+     */
+    public static void giveUplink(InteractionDialogAPI dialog) {
+        CargoAPI cargo = Global.getSector().getPlayerFleet().getCargo();
+        cargo.addCommodity(REWARD_ID, 1);
+
+        // Start monitoring rep now that the core is in the player's hands. This is the personal,
+        // item-relationship consequence of holding the core - separate from the sector-wide
+        // Office Takeover crisis (XLII_LongsightCrisisManager), which no longer registers here.
+        Global.getSector().addScript(new XLII_LongsightWatchdog());
+        log.info("Draconis: XLII_NanoforgeExchange - Longsight Watchdog registered");
+
+        // Redesigned (see .claude/systems/uplink-to-god-endgame-redesign.md): the sector-wide
+        // crisis used to register here, the moment Cave granted the uplink - meaning Cave was a
+        // "safe" choice with a hidden, delayed punishment attached. Cave is now meant to be an
+        // honest, kept deal with no such hidden cost. XLII_LongsightCrisisManager registration
+        // moved to XLII_KoriStrike.finalizeFailure() - it fires only if the player commits to
+        // destroying Longsight and then loses the fleet fight, not for choosing not to fight at
+        // all.
+
+        AddRemoveCommodity.addCommodityGainText(REWARD_ID, 1, dialog.getTextPanel());
+
+        log.info("Draconis: XLII_NanoforgeExchange - Longsight uplink granted");
     }
 
     /**
@@ -91,7 +128,6 @@ public class XLII_NanoforgeExchange extends BaseCommandPlugin {
 
         SpecialItemData pristine = new SpecialItemData(NANOFORGE_ID, null);
 
-        // First pass: replace any existing nanoforge on any industry
         for (Industry industry : kori.getIndustries()) {
             SpecialItemData current = industry.getSpecialItem();
             if (current != null && current.getId() != null && current.getId().contains("nanoforge")) {
@@ -102,7 +138,6 @@ public class XLII_NanoforgeExchange extends BaseCommandPlugin {
             }
         }
 
-        // Second pass: no nanoforge found - install on Orbital Works directly
         Industry orbitalWorks = kori.getIndustry(Industries.ORBITALWORKS);
         if (orbitalWorks != null) {
             orbitalWorks.setSpecialItem(pristine);

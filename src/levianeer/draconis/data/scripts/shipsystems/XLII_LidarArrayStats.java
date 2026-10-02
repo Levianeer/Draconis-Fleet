@@ -200,10 +200,8 @@ public class XLII_LidarArrayStats extends BaseShipSystemScript {
         lidarRange += 100f;
         stats.getBeamWeaponRangeBonus().modifyFlat(id, lidarRange);
 
-        // always wait a quarter of a second before starting to fire the targeting lasers
-        // this is the worst-case turn time required for the dishes to face front
-        // doing this to keep the timing of the lidar ping sounds consistent relative
-        // to when the windup sound plays
+        // Quarter-second wait = worst-case dish turn time to face front; keeps lidar ping
+        // timing synced with the windup sound.
         float fireThreshold = 0.25f / 3.25f;
         fireThreshold += 0.02f; // making sure there's only 4 lidar pings; lines up with the timing of the lidardish weapon
         for (levianeer.draconis.data.scripts.shipsystems.XLII_LidarArrayStats.LidarDishData data : dishData) {

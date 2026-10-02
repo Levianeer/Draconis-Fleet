@@ -23,7 +23,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 public class DraconisRemnantRaidListener implements EveryFrameScript {
     private static final Logger log = Global.getLogger(DraconisRemnantRaidListener.class);
 
-    private static final float CHECK_INTERVAL = 14f; // Check every 14 days for core recovery
+    private static final float CHECK_INTERVAL = 14f;
     private float checkTimer = 0f;
 
     @Override
@@ -47,23 +47,16 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         checkRaidFleets();
     }
 
-    /**
-     * Check all active Remnant raid fleets and generate cores periodically
-     */
     private void checkRaidFleets() {
         for (CampaignFleetAPI fleet : Global.getSector().getCurrentLocation().getFleets()) {
-            // Only process Draconis Remnant raid fleets
             if (!fleet.getFaction().getId().equals(DRACONIS)) continue;
             if (!fleet.getMemoryWithoutUpdate().getBoolean("$draconis_remnantRaid")) continue;
 
-            // Check if fleet is in a Remnant system
             StarSystemAPI system = fleet.getStarSystem();
             if (system == null) continue;
 
-            // Check if system has Remnant presence
             if (!hasRemnantPresence(system)) continue;
 
-            // Check if we've already generated cores recently for this fleet
             long currentDay = Global.getSector().getClock().getDay();
             Long lastCoreDay = (Long) fleet.getMemoryWithoutUpdate().get("$lastCoreRecoveryDay");
 
@@ -71,14 +64,10 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
                 continue; // Already recovered cores this week
             }
 
-            // Generate cores based on fleet strength and time in system
             processRaidFleetCoreRecovery(fleet, system);
         }
     }
 
-    /**
-     * Check if a star system has Remnant presence
-     */
     private boolean hasRemnantPresence(StarSystemAPI system) {
         for (com.fs.starfarer.api.campaign.SectorEntityToken entity : system.getAllEntities()) {
             if (entity instanceof CampaignFleetAPI &&
@@ -90,9 +79,6 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         return false;
     }
 
-    /**
-     * Process core recovery for a raid fleet in a Remnant system
-     */
     private void processRaidFleetCoreRecovery(CampaignFleetAPI fleet, StarSystemAPI system) {
         log.info("Draconis: ========================================");
         log.info("Draconis: === DRACONIS REMNANT RAID - CORE RECOVERY ===");
@@ -100,11 +86,9 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         log.info("Draconis: System: " + system.getName());
         log.info("Draconis: Fleet strength: " + fleet.getFleetPoints() + " FP");
 
-        // Mark recovery time
         long currentDay = Global.getSector().getClock().getDay();
         fleet.getMemoryWithoutUpdate().set("$lastCoreRecoveryDay", currentDay);
 
-        // Generate cores based on fleet strength (represents successful battles over time)
         List<String> recoveredCores = generateCoresFromRaid(fleet);
 
         log.info("Draconis: Cores recovered: " + recoveredCores.size());
@@ -112,12 +96,10 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         if (!recoveredCores.isEmpty()) {
             installRecoveredCores(recoveredCores);
 
-            // Mark system as raided
             DraconisRemnantTargetScanner.markSystemAsRaided(system);
             log.info("Draconis: Marked " + system.getName() + " as raided");
         }
 
-        // Notify player if appropriate
         if (shouldNotifyPlayer(fleet)) {
             String message = "Draconis Alliance forces operating in " + system.getName() +
                            " have recovered " + recoveredCores.size() + " AI core" +
@@ -133,8 +115,7 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
     }
 
     /**
-     * Generate AI cores recovered from raid operations
-     * Based on fleet strength (stronger fleets = more successful raids)
+     * Stronger fleets recover more cores (see per-tier thresholds below).
      */
     private List<String> generateCoresFromRaid(CampaignFleetAPI fleet) {
         List<String> cores = new ArrayList<>();
@@ -171,11 +152,10 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
     }
 
     /**
-     * Route recovered cores through the canonical stockpile.
-     * DraconisAICoreStockpile.tryInstallStockpiledCores() handles priority sorting,
-     * displaced-core redistribution, and CME safety.
-     * Any cores that can't be installed right now remain in the stockpile and will be
-     * retried daily by DraconisAICoreDonationListener.advance().
+     * Routes cores through the canonical stockpile: DraconisAICoreStockpile.tryInstallStockpiledCores()
+     * handles priority sorting, displaced-core redistribution, and CME safety. Cores that can't
+     * install now stay in the stockpile and are retried daily by
+     * DraconisAICoreDonationListener.advance().
      */
     private void installRecoveredCores(List<String> cores) {
         if (cores.isEmpty()) return;
@@ -186,18 +166,13 @@ public class DraconisRemnantRaidListener implements EveryFrameScript {
         DraconisAICoreStockpile.tryInstallStockpiledCores();
     }
 
-    /**
-     * Check if player should be notified about the raid
-     */
     private boolean shouldNotifyPlayer(CampaignFleetAPI draconisFleet) {
-        // Always notify if player is in same system
         if (Global.getSector().getPlayerFleet() != null &&
             Global.getSector().getPlayerFleet().getContainingLocation() ==
             draconisFleet.getContainingLocation()) {
             return true;
         }
 
-        // Random chance otherwise
         return Math.random() < 0.3;
     }
 }

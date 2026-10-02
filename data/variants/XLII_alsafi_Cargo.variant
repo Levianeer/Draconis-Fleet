@@ -1,7 +1,7 @@
 {
     "displayName": "Custom",
     "fluxCapacitors": 20,
-    "fluxVents": 17,
+    "fluxVents": 16,
     "goalVariant": true,
     "hullId": "XLII_alsafi_cargo",
     "hullMods": [],

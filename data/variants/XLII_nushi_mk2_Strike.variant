@@ -1,13 +1,12 @@
 {
     "displayName": "Strike",
     "fluxCapacitors": 0,
-    "fluxVents": 15,
+    "fluxVents": 14,
     "goalVariant": true,
     "hullId": "XLII_nushi_mk2",
     "hullMods": [
         "targetingunit",
-        "hardenedshieldemitter",
-        "magazines"
+        "hardenedshieldemitter"
     ],
     "permaMods": [],
     "sMods": [],
@@ -46,5 +45,6 @@
             "mode": "LINKED",
             "weapons": {"WS0016": "XLII_swordbreaker"}
         }
-    ]
+    ],
+    "wings": ["XLII_pulao_wing"]
 }

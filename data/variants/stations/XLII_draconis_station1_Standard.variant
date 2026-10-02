@@ -1,0 +1,39 @@
+{
+  "variantId": "XLII_draconis_station1_Standard",
+  "hullId": "XLII_draconis_station1",
+  "displayName": "Standard",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 0.5,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [],
+  "modules": [
+    {
+      "WS_LEFT": "XLII_draconis_weapon_platform1_Standard"
+    },
+    {
+      "WS_RIGHT": "XLII_draconis_weapon_platform1_Standard"
+    },
+    {
+      "WS_TOP": "XLII_draconis_station_hangar1_Standard"
+    },
+    {
+      "WS_BOTTOM": "XLII_draconis_station_hangar1_Standard"
+    },
+    {
+      "WS0003": "XLII_draconis_station_blocker1_Standard"
+    },
+    {
+      "WS0001": "XLII_draconis_station_blocker1_Standard"
+    },
+    {
+      "WS0002": "XLII_draconis_station_blocker1_Standard"
+    },
+    {
+      "WS0004": "XLII_draconis_station_blocker1_Standard"
+    }
+  ],
+  "wings": []
+}

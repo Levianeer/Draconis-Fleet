@@ -26,6 +26,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class XLII_BuyShip extends BaseCommandPlugin {
     private static final Logger log = Global.getLogger(XLII_BuyShip.class);
+    private static final int WING_BUNDLE_SIZE = 3;
 
     @Override
     public boolean execute(String ruleId, InteractionDialogAPI dialog, List<Misc.Token> params, Map<String, MemoryAPI> memoryMap) {
@@ -35,7 +36,7 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         String variantId = params.get(0).getString(memoryMap);
         String factionId = "XLII_draconis";
-        float minRep = 0.5f; // Minimum reputation floor
+        float minRep = 0.5f;
 
         // Get the ship/wing base value dynamically by creating a temporary fleet member
         // Try as fighter wing first, then as ship
@@ -45,7 +46,7 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         try {
             tempMember = Global.getFactory().createFleetMember(FleetMemberType.FIGHTER_WING, variantId);
-            cost = (int) Global.getSettings().getFighterWingSpec(variantId).getBaseValue();
+            cost = (int) Global.getSettings().getFighterWingSpec(variantId).getBaseValue() * WING_BUNDLE_SIZE;
             isWing = true;
             log.info("XLII_BuyShip: Successfully identified " + variantId + " as fighter wing");
         } catch (RuntimeException e) {
@@ -76,17 +77,14 @@ public class XLII_BuyShip extends BaseCommandPlugin {
             }
         }
 
-        // Calculate reputation cost based on type and hull size
         float repCost;
         if (isWing) {
-            // Fighter wings cost 1 reputation point
-            repCost = -0.01f;
+            // Fighter wings cost 1 reputation point per wing in the bundle
+            repCost = -0.03f;
         } else {
-            // Ships use hull-size-based reputation cost
             repCost = getReputationCostByHullSize(tempMember);
         }
 
-        // Check if player has enough credits
         if (Global.getSector().getPlayerFleet().getCargo().getCredits().get() < cost) {
             String itemType = isWing ? "wing" : "ship";
             dialog.getTextPanel().addPara("Insufficient credits. This " + itemType + " costs " + Misc.getDGSCredits(cost) + ".");
@@ -95,11 +93,10 @@ public class XLII_BuyShip extends BaseCommandPlugin {
             return false;
         }
 
-        // Check if this purchase would drop reputation too low
         float currentRep = Global.getSector().getPlayerFaction().getRelationship(factionId);
         float newRep = currentRep + repCost; // repCost is negative, so this decreases rep
         if (newRep < minRep) {
-            dialog.getTextPanel().addPara("This purchase would reduce your standing with the Draconis Defence Alliance too much. " +
+            dialog.getTextPanel().addPara("This purchase would reduce your standing with the Draconis Defense Alliance too much. " +
                     "(Current: " + Misc.getRoundedValueMaxOneAfterDecimal(currentRep) +
                     ", After purchase: " + Misc.getRoundedValueMaxOneAfterDecimal(newRep) +
                     ", Minimum allowed: " + Misc.getRoundedValueMaxOneAfterDecimal(minRep) + ")");
@@ -110,34 +107,28 @@ public class XLII_BuyShip extends BaseCommandPlugin {
 
         setPurchaseFailed(memoryMap, null);
 
-        // Deduct credits
         AddRemoveCommodity.addCreditsLossText(cost, dialog.getTextPanel());
         Global.getSector().getPlayerFleet().getCargo().getCredits().subtract(cost);
 
-        // Adjust reputation and show notification
         FactionAPI faction = Global.getSector().getFaction(factionId);
         Global.getSector().getPlayerFaction().adjustRelationship(factionId, repCost);
 
-        // Add reputation loss text
         int repChange = (int) (repCost * 100); // Convert to reputation points
         dialog.getTextPanel().addPara("Lost " + Math.abs(repChange) + " reputation with " + faction.getDisplayName() + ".",
                 Misc.getNegativeHighlightColor(),
                 "" + Math.abs(repChange));
 
-        // Add the ship or wing to fleet/cargo
         if (isWing) {
-            // Wings are added to cargo, not fleet
-            Global.getSector().getPlayerFleet().getCargo().addFighters(variantId, 1);
-            log.info("XLII_BuyShip: Successfully purchased wing " + variantId +
+            // Wings are added to cargo, not fleet, in bundles of WING_BUNDLE_SIZE
+            Global.getSector().getPlayerFleet().getCargo().addFighters(variantId, WING_BUNDLE_SIZE);
+            log.info("XLII_BuyShip: Successfully purchased " + WING_BUNDLE_SIZE + "x wing " + variantId +
                      " for " + cost + " credits and " + Math.abs(repChange) + " reputation (added to cargo)");
         } else {
-            // Ships are added as fleet members
             Global.getSector().getPlayerFleet().getFleetData().addFleetMember(tempMember);
             log.info("XLII_BuyShip: Successfully purchased ship " + variantId +
                      " for " + cost + " credits and " + Math.abs(repChange) + " reputation (added to fleet)");
         }
 
-        // Increase Fleet Admiral Emil August's personal reputation
         adjustAdmiralReputation(repCost, dialog);
 
         // Update portrait immediately if rep threshold crossed
@@ -165,8 +156,6 @@ public class XLII_BuyShip extends BaseCommandPlugin {
     }
 
     /**
-     * Calculate reputation cost based on ship hull size.
-     * @param member The fleet member to calculate cost for
      * @return Negative reputation cost (e.g., -0.01f for frigates)
      */
     private float getReputationCostByHullSize(FleetMemberAPI member) {
@@ -181,21 +170,17 @@ public class XLII_BuyShip extends BaseCommandPlugin {
     }
 
     /**
-     * Adjusts Fleet Admiral Emil August's personal reputation with the player.
      * Called after a successful ship purchase to increase the admiral's favor.
      *
      * @param repCost The reputation cost of the purchase (negative value)
-     * @param dialog The interaction dialog for displaying feedback
      */
     private void adjustAdmiralReputation(float repCost, InteractionDialogAPI dialog) {
-        // Get Kori market
         MarketAPI koriMarket = Global.getSector().getEconomy().getMarket("kori_market");
         if (koriMarket == null) {
             log.debug("XLII_BuyShip: Kori market not found - skipping admiral reputation adjustment");
             return;
         }
 
-        // Find Fleet Admiral Emil August
         PersonAPI admiral = null;
         for (PersonAPI person : koriMarket.getPeopleCopy()) {
             if ("XLII_fleet_admiral_emil".equals(person.getId())) {
@@ -209,7 +194,6 @@ public class XLII_BuyShip extends BaseCommandPlugin {
             return;
         }
 
-        // Adjust personal reputation using official Starsector API
         // Convert negative faction cost to positive personal gain
         float repGain = (Math.abs(repCost)*4);
 

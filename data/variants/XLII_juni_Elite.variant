@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 13,
+    "fluxVents": 12,
     "goalVariant": true,
     "hullId": "XLII_juni",
     "hullMods": [
@@ -22,14 +22,14 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0018": "breach",
                 "WS0019": "breach"
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
             "weapons": {
                 "WS0001": "XLII_rapier",
@@ -37,9 +37,9 @@
             }
         },
         {
-            "autofire": false,
+            "autofire": true,
             "mode": "LINKED",
-            "weapons": {"WS0050": "XLII_cestus"}
+            "weapons": {"WS0050": "XLII_rapier"}
         },
         {
             "autofire": true,

@@ -32,33 +32,20 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
     //Damping of the turn speed when closing on the desired aim. The smaller the snappier.
     private final float DAMPING = 0.1f;
 
-    //Does the missile try to correct it's velocity vector as fast as possible or just point to the desired direction and drift a bit?
-    //  Can create strange results with large waving
-    //  Require a projectile with a decent turn rate and around twice that in turn acceleration
-    //  Usefull for slow torpedoes with low forward acceleration, or ultra precise anti-fighter missiles.
+    //Corrects the velocity vector immediately instead of drifting toward the facing.
+    //  Needs a projectile with a decent turn rate and about twice that in turn acceleration; can look
+    //  strange with large waving. Good for slow, low-acceleration torpedoes or precision anti-fighter missiles.
     private final boolean OVERSTEER = true;  //REQUIRE NO OVERSHOOT ANGLE!
 
-    //Does the missile switch its target if it has been destroyed?
     private final boolean TARGET_SWITCH = true;
 
     //Does the missile find a random target or aways tries to hit the ship's one?
     /*
-     *  NO_RANDOM,
-     * If the launching ship has a valid target within arc, the missile will pursue it.
-     * If there is no target, it will check for an unselected cursor target within arc.
-     * If there is none, it will pursue its closest valid threat within arc.
-     *
-     *  LOCAL_RANDOM,
-     * If the ship has a target, the missile will pick a random valid threat around that one.
-     * If the ship has none, the missile will pursue a random valid threat around the cursor, or itself.
-     * Can produce strange behavior if used with a limited search cone.
-     *
-     *  FULL_RANDOM,
-     * The missile will always seek a random valid threat within arc around itself.
-     *
-     *  IGNORE_SOURCE,
-     * The missile will pick the closest target of interest. Useful for custom MIRVs.
-     *
+     * NO_RANDOM: pursues the ship's target if valid, else the cursor target, else the closest threat in arc.
+     * LOCAL_RANDOM: picks a random valid threat near the ship's target (or near the cursor/self if none).
+     *   Can misbehave with a narrow search cone.
+     * FULL_RANDOM: always seeks a random valid threat in arc around itself.
+     * IGNORE_SOURCE: picks the closest target of interest. Useful for custom MIRVs.
      */
     private final MagicTargeting.targetSeeking seeking = MagicTargeting.targetSeeking.NO_RANDOM;
 
@@ -137,12 +124,10 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
             this.engine = Global.getCombatEngine();
         }
 
-        //skip the AI if the game is paused, the missile is engineless or fading
         if (Global.getCombatEngine().isPaused() || MISSILE.isFading() || MISSILE.isFizzling()) {
             return;
         }
 
-        //assigning a target if there is none or it got destroyed
         if (target == null
                 || (TARGET_SWITCH
                 && ((target instanceof ShipAPI && !((ShipAPI) target).isAlive())
@@ -163,17 +148,14 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
                             FAILSAFE
                     )
             );
-            //forced acceleration by default
             MISSILE.giveCommand(ShipCommand.ACCELERATE);
             return;
         }
 
         timer += amount;
-        //finding lead point to aim to
         if (launch || timer >= check) {
             launch = false;
             timer -= check;
-            //set the next check time
             check = Math.min(
                     0.25f,
                     Math.max(
@@ -181,14 +163,12 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
                             MathUtils.getDistanceSquared(MISSILE.getLocation(), target.getLocation()) / PRECISION_RANGE)
             );
             if (LEADING) {
-                //best intercepting point
                 lead = AIUtils.getBestInterceptPoint(
                         MISSILE.getLocation(),
                         MAX_SPEED * ECCM, //if eccm is intalled the point is accurate, otherwise it's placed closer to the target (almost tailchasing)
                         target.getLocation(),
                         target.getVelocity()
                 );
-                //null pointer protection
                 if (lead == null) {
                     lead = target.getLocation();
                 }
@@ -197,14 +177,12 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
             }
         }
 
-        //best velocity vector angle for interception
         float correctAngle = VectorUtils.getAngle(
                 MISSILE.getLocation(),
                 lead
         );
 
         if (OVERSTEER) {
-            //velocity angle correction
             float offCourseAngle = MathUtils.getShortestRotation(
                     VectorUtils.getFacing(MISSILE.getVelocity()),
                     correctAngle
@@ -217,12 +195,10 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
                     * 0.5f * //oversteer
                     (float) ((FastTrig.sin(MathUtils.FPI / 90 * (Math.min(Math.abs(offCourseAngle), 45))))); //damping when the correction isn't important
 
-            //modified optimal facing to correct the velocity vector angle as soon as possible
             correctAngle = correctAngle + correction;
         }
 
         if (WAVE_AMPLITUDE > 0) {
-            //waving
             float multiplier = 1;
             if (ECCM <= 1) {
                 multiplier = 0.3f;
@@ -230,7 +206,6 @@ public class XLII_magicMissileAI implements MissileAIPlugin, GuidedMissileAI {
             correctAngle += multiplier * WAVE_AMPLITUDE * check * Math.cos(OFFSET + MISSILE.getElapsed() * (2 * MathUtils.FPI / WAVE_TIME));
         }
 
-        //target angle for interception
         float aimAngle = MathUtils.getShortestRotation(MISSILE.getFacing(), correctAngle);
 
         if (OVERSHOT_ANGLE <= 0 || Math.abs(aimAngle) < OVERSHOT_ANGLE) {

@@ -1,0 +1,33 @@
+{
+	"id":"XLII_capacitor_overdraw",
+	"type":"STAT_MOD",
+	"aiType":"WEAPON_BOOST",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_CapacitorOverdrawStats",
+
+	"weaponGlowColor":[255,190,90,155],
+	"weaponTypes":[BALLISTIC],
+
+	"jitterUnderColor":[255,190,90,25],
+	"jitterUnderCopies":8,
+	"jitterUnderMinRange":0,
+	"jitterUnderRange":8,
+	"jitterUnderRangeRadiusFraction":0.01,
+
+	"jitterColor":[255,220,150,35],
+	"jitterCopies":3,
+	"jitterMinRange":0,
+	"jitterRange":5,
+	"jitterRangeRadiusFraction":0.01,
+
+	"runScriptWhileIdle":true, # unapply() never gets called
+
+	"fadeActivationSoundOnChargedown":true,
+	"useSound":"system_high_energy_focus_activate",
+	"loopSound":"system_high_energy_focus_loop",
+	"deactivateSound":"system_high_energy_focus_deactivate",
+	"outOfUsesSound":"gun_out_of_ammo",
+
+	"aiHints":{
+	}
+}

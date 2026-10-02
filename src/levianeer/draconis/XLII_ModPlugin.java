@@ -6,12 +6,19 @@ import com.fs.starfarer.api.PluginPick;
 import com.fs.starfarer.api.campaign.CampaignPlugin;
 import levianeer.draconis.data.campaign.XLII_CampaignPlugin;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirSystemMonitor;
-import levianeer.draconis.data.campaign.intel.sigma_octantis.XLII_SigmaOctantisWatchdog;
+import levianeer.draconis.data.campaign.intel.longsight.XLII_LongsightWatchdog;
+import levianeer.draconis.data.campaign.intel.longsight.crisis.XLII_LongsightCrisisManager;
+import levianeer.draconis.data.campaign.intel.longsight.crisis.XLII_LongsightCrisisCombatListener;
 import com.fs.starfarer.api.combat.MissileAIPlugin;
 import com.fs.starfarer.api.combat.MissileAPI;
 import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.combat.ShipAPI;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
+import levianeer.draconis.data.campaign.companion.KorrinCommentScript;
+import levianeer.draconis.data.campaign.companion.KorrinObserver;
+import levianeer.draconis.data.campaign.companion.KorrinRateLimit;
+import levianeer.draconis.data.campaign.companion.KorrinCompanion;
+import levianeer.draconis.data.campaign.companion.KorrinTalkMenu;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -31,6 +38,7 @@ import levianeer.draconis.data.campaign.events.XLII_FafnirRingPortBarEventCreato
 import levianeer.draconis.data.campaign.events.XLII_MissionBarEventWatchdog;
 import levianeer.draconis.data.campaign.intel.events.crisis.util.DraconisHostileActivityManager;
 import levianeer.draconis.data.campaign.intel.events.crisis.listener.DraconisFleetCombatListener;
+import levianeer.draconis.data.campaign.events.XLII_SectorTourListener;
 import levianeer.draconis.data.campaign.econ.conditions.DraconConfig;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.econ.conditions.DraconisSteelCurtainMonitor;
@@ -44,6 +52,13 @@ import levianeer.draconis.data.scripts.ai.XLII_SabreAI;
 import levianeer.draconis.data.scripts.ai.XLII_SlapERMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
 import levianeer.draconis.data.scripts.world.systems.XLII_System;
+import levianeer.draconis.data.campaign.events.XLII_BastionDestructionMonitor;
+import levianeer.draconis.data.campaign.intel.blind_eye.XLII_OfficeContactMonitor;
+import levianeer.draconis.data.scripts.world.systems.XLII_OfficeGarrisonManager;
+import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.campaign.StarSystemAPI;
 
 @SuppressWarnings("unused")
 public class XLII_ModPlugin extends BaseModPlugin {
@@ -132,20 +147,24 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: === onGameLoad() ===");
         log.info("Draconis: New game: " + newGame);
 
+        // Office Takeover crisis is actually triggered from XLII_NanoforgeExchange's give_uplink
+        // branch (Stage 7 of work/outline/office-takeover-crisis-checklist.md); createIfNecessary()
+        // here is a no-op unless DEBUG_FORCE_KEY was already set for real - same routine
+        // safety-net re-registration pattern as XLII_LongsightWatchdog's own.
+        XLII_LongsightCrisisManager.createIfNecessary();
+
         // Reset config singletons so they re-read settings.json on each game load.
         // Without this, the cached instance from a previous load (or onApplicationLoad)
         // persists and a settings change between loads would be ignored.
         DraconConfig.reset();
         DraconisAICoreScalingConfig.reset();
         DraconisWeaponEscalationMonitor.reset();
+        KorrinTalkMenu.reset();
+        KorrinRateLimit.reset();
 
-        // Remove old script instances from previous save/load cycles to prevent accumulation
-        // Scripts are serialized into saves, so without cleanup they stack on each game load
         cleanupOldScripts();
 
-        // Place the Rift warning beacon if it isn't in the sector yet. Idempotent, and a no-op
-        // when the Rift was never generated - this is also what backfills the beacon into saves
-        // made before it existed.
+        // Backfills the Rift beacon into saves made before it existed; see XLII_System.ensureRiftBeacon().
         XLII_System.ensureRiftBeacon();
 
         // Register campaign plugin (handles AI core officer picks, etc.)
@@ -161,26 +180,58 @@ public class XLII_ModPlugin extends BaseModPlugin {
             log.info("Draconis:   - Fafnir System Monitor");
         }
 
-        // Register Sigma Octantis watchdog only once the core has been awarded (nanoforge
-        // quest complete) and the confrontation hasn't fired yet. First-time registration
-        // is handled by XLII_NanoforgeExchange.give; this re-registers it on subsequent loads.
-        boolean sigmaQuestComplete = Global.getSector().getMemoryWithoutUpdate()
-                .getBoolean(XLII_SigmaOctantisWatchdog.NANOFORGE_QUEST_FLAG);
+        // Register Office contact monitor whenever the referral has been made but the courier
+        // hasn't delivered Ladon's coordinates yet. First-time registration is handled by
+        // XLII_BeginOfficeContact (mid-session); this re-registers it on subsequent loads.
+        if (XLII_OfficeContactMonitor.shouldRegister()) {
+            Global.getSector().addScript(new XLII_OfficeContactMonitor());
+            log.info("Draconis:   - Office Contact Monitor");
+        }
+
+        // Register the bastion-destruction watch for a player who reloaded mid-Burn-the-Machine
+        // finale (Kori strike done, Ladon not yet destroyed). First-time registration is handled
+        // by XLII_KoriStrike.finalizeStrike().
+        if (XLII_BastionDestructionMonitor.shouldRegister()) {
+            Global.getSector().addScript(new XLII_BastionDestructionMonitor());
+            log.info("Draconis:   - Bastion Destruction Monitor");
+        }
+
+        // Register Longsight watchdog only once the player actually holds the Longsight
+        // uplink (Office Takeover / Cave ending) and the confrontation hasn't fired yet.
+        // First-time registration is handled by XLII_NanoforgeExchange.give_uplink; this
+        // re-registers it on subsequent loads. Previously gated on nanoforge delivery being
+        // complete, which is true for virtually every player regardless of ending - see
+        // XLII_LongsightWatchdog.UPLINK_GRANTED_FLAG's own notes for why that let the watchdog
+        // re-arm for a player who went the Burn the Machine (destroy) route and never held the
+        // core at all.
+        boolean sigmaUplinkGranted = Global.getSector().getMemoryWithoutUpdate()
+                .getBoolean(XLII_LongsightWatchdog.UPLINK_GRANTED_FLAG);
         boolean sigmaConfrontationDone = Global.getSector().getMemoryWithoutUpdate()
-                .getBoolean(XLII_SigmaOctantisWatchdog.CONFRONTATION_FLAG);
-        if (sigmaQuestComplete && !sigmaConfrontationDone) {
+                .getBoolean(XLII_LongsightWatchdog.CONFRONTATION_FLAG);
+        if (sigmaUplinkGranted && !sigmaConfrontationDone) {
             // Reset the warning flag on each load so a save captured after dismissal doesn't
             // permanently suppress re-triggering. The confrontation flag is the true one-shot
             // gate; the warning is expected to re-fire on load if rep is still in range.
             Global.getSector().getMemoryWithoutUpdate()
-                    .unset(XLII_SigmaOctantisWatchdog.WARNING_FLAG);
-            Global.getSector().addScript(new XLII_SigmaOctantisWatchdog());
-            log.info("Draconis:   - Sigma Octantis Watchdog");
+                    .unset(XLII_LongsightWatchdog.WARNING_FLAG);
+            Global.getSector().addScript(new XLII_LongsightWatchdog());
+            log.info("Draconis:   - Longsight Watchdog");
         }
 
         // Initialize Draconis characters
         log.info("Draconis: Initializing characters");
         XLII_Characters.initializeAllCharacters();
+
+        // Korrin companion system - restores his intel entry and officer-slot modifier, then
+        // re-registers the script that drives his comments and tracks the officer roster.
+        KorrinCompanion.init();
+        Global.getSector().addScript(new KorrinCommentScript());
+
+        // Watches the base game on Korrin's behalf. Transient (not saved) - re-added fresh each
+        // game load, no cleanup needed.
+        KorrinObserver.register();
+        log.info("Draconis:   - Korrin Observer (base-game reactions)");
+        log.info("Draconis:   - Korrin Comment Script");
 
         // These four bar events used to be registered as BarEventCreators, which subjects them
         // to BarEventManager's random, capacity-limited sector-wide pick - unreliable for
@@ -209,6 +260,20 @@ public class XLII_ModPlugin extends BaseModPlugin {
         Global.getSector().getListenerManager().addListener(new DraconisFleetCombatListener(), true);
         log.info("Draconis:   - Fleet Combat Listener (AIO factors)");
 
+        // Register sector-tour listener - detects victories over the Remnants/Omega/Threat/Dweller
+        // for the sector-tour arc gating the Kori archive infiltration. Transient, same pattern as
+        // the fleet combat listener above.
+        XLII_SectorTourListener.migrate();
+        Global.getSector().getListenerManager().addListener(new XLII_SectorTourListener(), true);
+        log.info("Draconis:   - Sector Tour Listener (Remnant/Omega/Threat/Dweller)");
+
+        // Office Takeover crisis combat listener - the player-vs-Draconis hostility axis (attacking
+        // a crisis fleet costs Draconis rep, independent of the Sector-vs-Draconis fallout that
+        // happens automatically once a market is actually captured). Transient, same pattern as the
+        // other listeners above.
+        Global.getSector().getListenerManager().addListener(new XLII_LongsightCrisisCombatListener(), true);
+        log.info("Draconis:   - Longsight Crisis Combat Listener");
+
         // Add AI Core Fleet Scaling system
         if (enableAICoreFleetScaling) {
             log.info("Draconis: Registering AI Core Fleet Scaling");
@@ -221,6 +286,17 @@ public class XLII_ModPlugin extends BaseModPlugin {
         // QRF Manager - dynamic assignment logic for HighCommand garrison fleets
         Global.getSector().addScript(new DraconisQRFManager());
         log.info("Draconis:   - QRF Manager");
+
+        // Office Garrison Manager - single defending fleet for Ladon's one bastion. No-op if the
+        // bastion doesn't exist (e.g. Nexerelin random sector) or was already destroyed.
+        StarSystemAPI officeSystem = Global.getSector().getStarSystem(XLII_OfficeSystem.SYSTEM_ID);
+        if (officeSystem != null) {
+            SectorEntityToken bastion = officeSystem.getEntityById(XLII_OfficeSystem.BASTION_ID);
+            if (bastion instanceof CampaignFleetAPI bastionFleet && !bastionFleet.isEmpty()) {
+                Global.getSector().addScript(new XLII_OfficeGarrisonManager(officeSystem, bastionFleet, 5f));
+                log.info("Draconis:   - Office Garrison Manager");
+            }
+        }
 
         // If Nexerelin is present, add DRACON system and AI core acquisition
         if (hasNexerelin) {
@@ -301,9 +377,13 @@ public class XLII_ModPlugin extends BaseModPlugin {
                     || script instanceof DraconisRemnantTargetScanner
                     || script instanceof DraconisRemnantRaidManager
                     || script instanceof DraconisRemnantRaidListener
-                    || script instanceof XLII_SigmaOctantisWatchdog
+                    || script instanceof XLII_LongsightWatchdog
                     || script instanceof XLII_FafnirSystemMonitor
-                    || script instanceof DraconisQRFManager) {
+                    || script instanceof DraconisQRFManager
+                    || script instanceof XLII_OfficeGarrisonManager
+                    || script instanceof XLII_OfficeContactMonitor
+                    || script instanceof XLII_BastionDestructionMonitor
+                    || script instanceof KorrinCommentScript) {
                 toRemove.add(script);
             }
         }

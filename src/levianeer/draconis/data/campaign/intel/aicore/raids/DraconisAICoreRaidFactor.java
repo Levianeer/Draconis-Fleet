@@ -22,9 +22,6 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 public class DraconisAICoreRaidFactor {
     private static final Logger log = Global.getLogger(DraconisAICoreRaidFactor.class);
 
-    /**
-     * Get a Draconis market to use as the raid source
-     */
     public static MarketAPI getDraconisSource() {
         // Try Kori first (main military hub)
         MarketAPI source = Global.getSector().getEconomy().getMarket("kori_market");
@@ -57,16 +54,12 @@ public class DraconisAICoreRaidFactor {
     }
 
     /**
-     * Create a standalone AI core raid (for NPC faction targets)
-     * AI core theft is handled by finish() override in DraconisAICoreRaidIntel
+     * Create a standalone AI core raid for NPC faction targets.
      */
     public static void createStandaloneRaid(MarketAPI source, MarketAPI target, Random random) {
         createRaid(source, target, random);
     }
 
-    /**
-     * Internal method to create AI Core raids
-     */
     private static boolean createRaid(MarketAPI source, MarketAPI target, Random random) {
         if (source == null || target == null) {
             log.warn("Draconis: Cannot start AI core raid - source or target is null");
@@ -95,13 +88,12 @@ public class DraconisAICoreRaidFactor {
         // Raid target and behavior configuration
         params.raidParams.where = target.getStarSystem();
         params.raidParams.type = FGRaidType.SEQUENTIAL;  // Sequential like Luddic Path/Diktat
-        params.raidParams.tryToCaptureObjectives = false;  // Don't capture objectives
+        params.raidParams.tryToCaptureObjectives = false;
         params.raidParams.allowedTargets.add(target);
         params.raidParams.allowNonHostileTargets = true;  // Match base game pattern
         params.raidParams.setBombardment(BombardType.TACTICAL);  // Tactical bombardment for covert ops
 
-        // Additional raid behavior settings (match base game defaults)
-        params.raidParams.doNotGetSidetracked = true;  // Stay focused on target
+        params.raidParams.doNotGetSidetracked = true;
 
         params.style = FleetStyle.QUALITY;
         params.makeFleetsHostile = false;  // Use normal faction relations
@@ -120,8 +112,6 @@ public class DraconisAICoreRaidFactor {
         log.info("Draconis: Fleet 2 size: " + fleet2Size);
         log.info("Draconis: Fleet 3 size: " + fleet3Size);
 
-        // Create the raid intel
-        // AI core theft is handled by the finish() override in DraconisAICoreRaidIntel
         DraconisAICoreRaidIntel raid = new DraconisAICoreRaidIntel(params, target);
         Global.getSector().getIntelManager().addIntel(raid);
 
@@ -134,6 +124,17 @@ public class DraconisAICoreRaidFactor {
     private static final String TARGET_FAILURE_COOLDOWN_END_KEY = "$draconis_targetRaidFailureCooldownEnd";
 
     /**
+     * Bug fix: {@code CampaignClockAPI.getTimestamp()} is a raw millisecond counter, 86,400,000 ms
+     * per in-game day (confirmed against vanilla's decompiled {@code BaseIntelPlugin.createIntelInfo()},
+     * which computes {@code msPerDay = 60L*1000L*60L*24L}). {@code convertToSeconds(days)} is a
+     * different unit - elapsed simulation wall-clock seconds, on the order of single digits per day.
+     * The previous code here added the two together, so "N days from now" landed on "now": the
+     * cooldown was a no-op and failed targets could be re-picked almost immediately. (This method is
+     * also called by the Office Takeover crisis.)
+     */
+    private static final long MS_PER_DAY = 24L * 60L * 60L * 1000L;
+
+    /**
      * Mark a target market with a raid failure cooldown.
      * Prevents the same target from being selected again for {@code cooldownDays} days.
      */
@@ -141,8 +142,7 @@ public class DraconisAICoreRaidFactor {
         if (target == null) return;
 
         long currentTimestamp = Global.getSector().getClock().getTimestamp();
-        float cooldownSeconds = Global.getSector().getClock().convertToSeconds(cooldownDays);
-        long cooldownEnd = currentTimestamp + (long) cooldownSeconds;
+        long cooldownEnd = currentTimestamp + (long) (cooldownDays * MS_PER_DAY);
 
         target.getMemoryWithoutUpdate().set(TARGET_FAILURE_COOLDOWN_END_KEY, cooldownEnd);
 

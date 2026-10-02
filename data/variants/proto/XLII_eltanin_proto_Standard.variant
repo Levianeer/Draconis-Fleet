@@ -1,7 +1,7 @@
 {
     "displayName": "Prototype",
     "fluxCapacitors": 0,
-    "fluxVents": 0,
+    "fluxVents": 3,
     "hullId": "XLII_eltanin_proto",
     "hullMods": [
         "shrouded_thunderhead",
@@ -28,16 +28,6 @@
             "weapons": {
                 "WS0006": "disintegrator",
                 "WS0007": "disintegrator"
-            }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "mininglaser",
-                "WS0002": "mininglaser",
-                "WS0003": "mininglaser",
-                "WS0004": "mininglaser"
             }
         },
         {

@@ -1,0 +1,43 @@
+id,label,priority,tier,text,watch
+korrin_first_command,About the assignment order,10,popup,,
+korrin_infiltration_debrief,The archive infiltration,20,popup,,
+korrin_faction_hegemony,,0,bark,"""Commander. I keep circling back to the last Hegemony berth we sat in - nobody asked to see my papers the entire time we were docked. I was assured, repeatedly, that they would.""",
+korrin_entity_derelict_survey_ship,The fabrication marks,20,word,,
+korrin_market_chicomoztoc,The air on Chicomoztoc,15,word,,
+korrin_market_jangala,How Jangala is held,18,word,,
+korrin_market_ragnar_complex,The boneyard at Ragnar,16,word,,
+korrin_market_coatl,The compliance course,12,word,,
+korrin_market_culann,The fortress over Culann,17,word,,
+korrin_market_eochu_bres,The free port at Eochu Bres,17,word,,
+korrin_market_tibicena,The contracts on Tibicena,15,word,,
+korrin_market_port_tse,The recruitment board at Port Tse,14,word,,
+korrin_faction_tritachyon,,0,bark,"""Commander. There is a Tri-Tachyon concourse still bothering me - every price on it ran to four decimal places, and I never did find anyone who could tell me what the fourth one was for.""",
+korrin_market_mairaath,The orbit at Mairaath,13,word,,
+korrin_faction_persean,,0,bark,"""Something has stuck with me since that last League world, Commander. They shipped hardware to Athebyne for most of the war, and not one person I spoke to there had heard of either fact.""",
+korrin_market_kazeron,,0,bark,"""Kazeron keeps coming back to me. The decision to arm Athebyne was taken in a building on that rock, by a committee, and minuted. I would give a great deal to read the other items on that agenda.""",
+korrin_market_mazalot,,0,bark,"""Mazalot, still, for some reason. A Luddic majority under a League governor, and nobody on that world could tell me what the original concession actually was. I suspect the arrangement outlived everybody who ever found it objectionable.""",
+korrin_market_fikenhild,,0,bark,"""I have not stopped thinking about Fikenhild, Commander. They farm the entire ocean there - not a section of it, the ocean - and I asked a dockhand what the fish were called. He gave me eleven names before I made him stop.""",
+korrin_market_athebyne_market,The domes,23,word,,
+korrin_market_kori_market,The old requisition office,19,word,,
+korrin_market_vorium_market,,0,bark,"""Vorium has stayed with me, oddly. Nobody visits it who is not there for the gravity assist or the ore, and I have now met several of each. None of them had an opinion about the planet itself. I have decided that is the correct opinion to have, and you may quote me on it.""",
+korrin_entity_tiamat,,0,bark,"""Tiamat, again. Contract labor rotated through the extraction sites there on eighteen-month postings, forty cycles back. I have a specific interest in the manifest from one particular rotation. It has never once turned up.""",
+korrin_entity_nidhogg,,0,bark,"""Nidhogg keeps turning over in my head, Commander. Half of it has never seen a sunset, the other half has never seen a sunrise, and the station log calls both conditions nominal. I find that almost admirable.""",
+korrin_entity_jormungandr,,0,bark,"""Still thinking about Jormungandr. The storms on it are supposedly visible from three systems over. I have decided not to verify that personally, and I would like credit for the restraint.""",
+korrin_entity_hel,,0,bark,"""Hel is still on my mind, for some reason. The listening post out there logs every hyperspace anomaly within a dozen light years, and it has never once been asked a follow-up question. I intend to be the first, Commander, if you will indulge me.""",
+korrin_michal_trace,The trace results,24,word,,
+korrin_ga_archive,The archive on Aztlan,25,word,,gaKA_missionCompleted
+korrin_ga_ziggurat,The manta-ray hull,26,word,,gaPZ_missionCompleted
+korrin_ga_loke,Kanta's clone,27,word,,gaATG_missionCompleted
+korrin_ga_baird_betrayal,The broken spectacles,30,word,,gaATG_missionCompleted
+korrin_sdtu_macario,Macario's arithmetic,31,word,,sdtu_missionCompleted
+korrin_aio_ancker,The Office's price,32,word,,
+korrin_aio_invasion,"The 42nd, inbound",40,popup,,
+korrin_burn_epilogue,What he's holding now,41,word,,
+korrin_tour_remnant,Ask about the Remnant salvage,60,word,,
+korrin_tour_omega,Ask about the Omega,61,word,,
+korrin_tour_threat,Ask about the Threat,62,word,,
+korrin_tour_dweller,Ask about the Shrouded Dweller,63,word,,
+korrin_ringport_cost,The Ring-Port manifest,15,word,,$XLII_blindEyeComplete
+korrin_bastion_disbelief,The bastion,33,word,,$XLII_officeVettingComplete
+korrin_nanoforge_ask,The nanoforge lead,34,word,,$XLII_nanoforgeQuestOffered
+korrin_tour_nudge,Where to look next,35,word,,$XLII_nanoforgeQuestComplete

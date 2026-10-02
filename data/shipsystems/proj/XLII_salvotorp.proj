@@ -1,0 +1,51 @@
+{
+	"id":"XLII_salvotorp",
+	"specClass":"missile",
+	"missileType":"MISSILE",
+	"onHitEffect":"levianeer.draconis.data.scripts.weapons.XLII_SalvoTorpOnHitEffect",
+	"sprite":"graphics/missiles/XLII_phasetorp.png",
+	"size":[9,28],
+	"center":[4.5,14],
+	"collisionRadius":36,
+	"collisionClass":"MISSILE_FF",
+	"explosionColor":[255,150,50,255],  # purely visual, will get a white additively blended core on top of this color
+	"explosionRadius":125, # purely visual
+	"explosionSpec":{"duration":0.5f, # not visual
+					 "radius":87.5,
+					 "coreRadius":37.5, # full damage within core radius
+					 "collisionClass":HITS_SHIPS_AND_ASTEROIDS,
+					 "collisionClassByFighter":HITS_SHIPS_AND_ASTEROIDS,
+					 "particleSizeMin":1.5,
+					 "particleSizeRange":1.5,
+					 "particleDuration":1,
+					 "particleCount":50,
+					 "particleColor":[255,180,120,255]},
+	"noCollisionWhileFading":true,
+	"passThroughMissiles":true,
+	"passThroughFighters":true,
+	"applyOnHitEffectWhenPassThrough":false,
+	"engineSpec":{"turnAcc":250,
+				  "turnRate":50,
+				  "acc":250,
+				  "dec":100},
+	"engineSlots":[{"id":"ES1",
+					"loc":[-14, 0],
+				    "style":"CUSTOM",
+					"styleSpec":{
+						"mode":"QUAD_STRIP", # PARTICLES or QUAD_STRIP, determines which params are used
+						"engineColor":[255,150,50,225],
+						"glowSizeMult":1.25,
+						"glowAlternateColor":[255,100,30,205],
+						"contrailDuration":2.25,
+						"contrailWidthMult":0.875,
+						"contrailWidthAddedFractionAtEnd":1.0,  # can be negative. makes trail spread out/narrow at the end
+						"contrailMinSeg":4.5, # min segment length, in pixels
+						"contrailMaxSpeedMult":0.75f,
+						"contrailAngularVelocityMult":0.1f,
+						"contrailColor":[235,235,235,75],
+						"type":"GLOW" # GLOW or SMOKE; additive or regular blend mode
+					},
+				    "width":10.0,
+				    "length":50.0,
+				    "angle":180.0}]
+}

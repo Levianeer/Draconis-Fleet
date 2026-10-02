@@ -1,7 +1,7 @@
 {
     "displayName": "Prototype",
     "fluxCapacitors": 0,
-    "fluxVents": 44,
+    "fluxVents": 42,
     "hullId": "XLII_altais_proto",
     "hullMods": [
         "shrouded_thunderhead",

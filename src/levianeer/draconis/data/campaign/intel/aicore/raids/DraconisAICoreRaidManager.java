@@ -22,13 +22,13 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private static final Logger log = Global.getLogger(DraconisAICoreRaidManager.class);
 
     private float checkInterval = 0f;
-    private static final float CHECK_DAYS = 30f;  // Check for raid opportunities every 30 days
-    private static final float INITIAL_DELAY_DAYS = 90f;  // Minimum 90 days before first raid can trigger
+    private static final float CHECK_DAYS = 30f;
+    private static final float INITIAL_DELAY_DAYS = 90f;
 
     // Raid cap and cooldown settings
-    private static final int MAX_ACTIVE_RAIDS = 1;  // Maximum number of simultaneous raids
-    private static final float COOLDOWN_SUCCESS_DAYS = 90f;  // Cooldown after successful raid
-    private static final float COOLDOWN_FAILURE_DAYS = 180f;  // Longer cooldown after failed raid
+    private static final int MAX_ACTIVE_RAIDS = 1;
+    private static final float COOLDOWN_SUCCESS_DAYS = 90f;
+    private static final float COOLDOWN_FAILURE_DAYS = 180f;
 
     // Memory keys for persistent data
     private static final String ACTIVE_RAID_COUNT_KEY = "$draconis_activeRaidCount";
@@ -36,6 +36,17 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
     private static final String COOLDOWN_END_TIMESTAMP_KEY = "$draconis_cooldownEndTimestamp";
     private static final String LAST_RAID_WAS_SUCCESS_KEY = "$draconis_lastRaidWasSuccess";
     private static final String SYSTEM_START_TIMESTAMP_KEY = "$draconis_raidSystemStartTimestamp";
+
+    /**
+     * {@code CampaignClockAPI.getTimestamp()} is a raw millisecond counter, 86,400,000 ms per
+     * in-game day (matches vanilla's {@code BaseIntelPlugin.createIntelInfo()} msPerDay calc).
+     * {@code convertToSeconds(days)} is a different unit - elapsed simulation wall-clock
+     * seconds, on the order of single digits per day - not "internal time units" as this class
+     * used to assume. Adding the two together made "N days from now" land on "now," so the
+     * post-raid cooldown ({@link #COOLDOWN_SUCCESS_DAYS}/{@link #COOLDOWN_FAILURE_DAYS}) was
+     * silently a no-op. The Office Takeover crisis has this same bug.
+     */
+    private static final long MS_PER_DAY = 24L * 60L * 60L * 1000L;
 
     // Per-faction anti-harassment keys
     private static final String LAST_RAIDED_FACTION_KEY = "$draconis_lastRaidedFactionId";
@@ -56,7 +67,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
     @Override
     public void advance(float amount) {
-        // Check periodically if we should trigger a raid (independent system)
         float days = Global.getSector().getClock().convertToDays(amount);
         checkInterval += days;
 
@@ -66,16 +76,11 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         }
     }
 
-    /**
-     * Check if conditions are right to trigger an AI core raid
-     */
     private void checkForRaidOpportunity() {
         log.info("Draconis: === Checking for AI Core Raid Opportunity ===");
 
-        // Check if initial delay has passed
         long systemStartTimestamp = getSystemStartTimestamp();
         if (systemStartTimestamp == 0) {
-            // First time - record the start timestamp
             long currentTimestamp = Global.getSector().getClock().getTimestamp();
             Global.getSector().getMemoryWithoutUpdate().set(SYSTEM_START_TIMESTAMP_KEY, currentTimestamp);
             log.info("Draconis: AI Core raid system initialized - 90 day delay started");
@@ -89,7 +94,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
             return;
         }
 
-        // Check raid cap
         int activeRaids = getActiveRaidCount();
         log.info("Draconis: Active raids: " + activeRaids + "/" + MAX_ACTIVE_RAIDS);
         if (activeRaids >= MAX_ACTIVE_RAIDS) {
@@ -97,7 +101,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
             return;
         }
 
-        // Check cooldown using the last raid timestamp
         long lastRaidTimestamp = getLastRaidTimestamp();
         if (lastRaidTimestamp > 0) {
             float daysSinceLastRaid = Global.getSector().getClock().getElapsedDaysSince(lastRaidTimestamp);
@@ -109,7 +112,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
             }
         }
 
-        // Check if there's a high-value target
         MarketAPI target = getHighValueTarget();
         if (target == null) {
             log.info("Draconis: No high-value AI core target available - skipping raid check");
@@ -118,13 +120,12 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
         log.info("Draconis: High-value target found: " + target.getName());
 
-        // Skip player-owned markets - those are handled by the colony crisis system
+        // Skip player-owned markets - colony crisis system handles those
         if (target.isPlayerOwned()) {
             log.info("Draconis: Target is player-owned - handled by colony crisis system, skipping");
             return;
         }
 
-        // Get Draconis source market
         MarketAPI source = DraconisAICoreRaidFactor.getDraconisSource();
         if (source == null) {
             log.info("Draconis: No Draconis source market available for raid - skipping");
@@ -133,7 +134,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
 
         log.info("Draconis: Source market: " + source.getName());
 
-        // Check if Draconis is hostile enough to the target faction (rep <= 0)
         FactionAPI draconisFaction = Global.getSector().getFaction(DRACONIS);
         FactionAPI targetFaction = target.getFaction();
         float rep = draconisFaction.getRelationship(targetFaction.getId());
@@ -147,7 +147,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         log.info("Draconis: Reputation check passed: " +
             String.format("%.2f", rep) + " (hostile to " + targetFaction.getDisplayName() + ")");
 
-        // Random chance to trigger raid (30% per check)
         Random random = new Random();
         float roll = random.nextFloat();
         log.info("Draconis: Random roll: " + roll + " (need <= 0.3)");
@@ -157,21 +156,16 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
             return;
         }
 
-        // Create standalone raid with listener
-        // Listener will handle AI core theft on success and cooldown management
+        // The raid's listener handles AI core theft on success and cooldown management.
         log.info("Draconis: Triggering AI Core raid on " + target.getName());
         DraconisAICoreRaidFactor.createStandaloneRaid(source, target, random);
 
-        // Increment active raid count
-        // Listener will decrement when raid completes (success or failure)
+        // Listener decrements this when the raid completes (success or failure).
         incrementActiveRaidCount();
 
         log.info("Draconis: Raid created - listener will manage completion and cooldown");
     }
 
-    /**
-     * Find the current high-value AI core target
-     */
     private MarketAPI getHighValueTarget() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (market.getMemoryWithoutUpdate().getBoolean(
@@ -182,25 +176,16 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         return null;
     }
 
-    /**
-     * Get the current number of active raids
-     */
     private static int getActiveRaidCount() {
         return Global.getSector().getMemoryWithoutUpdate().getInt(ACTIVE_RAID_COUNT_KEY);
     }
 
-    /**
-     * Increment the active raid counter
-     */
     private static void incrementActiveRaidCount() {
         int current = getActiveRaidCount();
         Global.getSector().getMemoryWithoutUpdate().set(ACTIVE_RAID_COUNT_KEY, current + 1);
         log.info("Draconis: Active raid count increased to " + (current + 1));
     }
 
-    /**
-     * Decrement the active raid counter
-     */
     public static void decrementActiveRaidCount() {
         int current = getActiveRaidCount();
         if (current > 0) {
@@ -209,16 +194,10 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         }
     }
 
-    /**
-     * Get the timestamp of the last raid
-     */
     private static long getLastRaidTimestamp() {
         return Global.getSector().getMemoryWithoutUpdate().getLong(LAST_RAID_TIMESTAMP_KEY);
     }
 
-    /**
-     * Get the timestamp when the raid system started
-     */
     private static long getSystemStartTimestamp() {
         return Global.getSector().getMemoryWithoutUpdate().getLong(SYSTEM_START_TIMESTAMP_KEY);
     }
@@ -243,16 +222,12 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         long currentTimestamp = Global.getSector().getClock().getTimestamp();
         float cooldownDays = success ? COOLDOWN_SUCCESS_DAYS : COOLDOWN_FAILURE_DAYS;
 
-        // Convert days to seconds, then to timestamp units
-        // The timestamp uses internal time units that convertToSeconds() handles
-        float cooldownSeconds = Global.getSector().getClock().convertToSeconds(cooldownDays);
-        long cooldownEnd = currentTimestamp + (long)cooldownSeconds;
+        long cooldownEnd = currentTimestamp + (long) (cooldownDays * MS_PER_DAY);
 
         Global.getSector().getMemoryWithoutUpdate().set(COOLDOWN_END_TIMESTAMP_KEY, cooldownEnd);
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_TIMESTAMP_KEY, currentTimestamp);
         Global.getSector().getMemoryWithoutUpdate().set(LAST_RAID_WAS_SUCCESS_KEY, success);
 
-        // Record per-faction anti-harassment data
         if (targetFactionId != null) {
             recordRaidAttempt(targetFactionId, currentTimestamp);
         }
@@ -281,7 +256,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         attempts.put(factionId, count);
         Global.getSector().getMemoryWithoutUpdate().set(FACTION_RAID_ATTEMPTS_KEY, attempts);
 
-        // Per-faction timestamp
         Map<String, Long> timestamps = (Map<String, Long>)
             Global.getSector().getMemoryWithoutUpdate().get(FACTION_LAST_RAID_TIMESTAMP_KEY);
         if (timestamps == null) {
@@ -302,9 +276,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         return (String) Global.getSector().getMemoryWithoutUpdate().get(LAST_RAIDED_FACTION_KEY);
     }
 
-    /**
-     * Get the number of raid attempts against a specific faction.
-     */
     @SuppressWarnings("unchecked")
     public static int getFactionRaidAttempts(String factionId) {
         Map<String, Integer> attempts = (Map<String, Integer>)
@@ -313,9 +284,6 @@ public class DraconisAICoreRaidManager implements EveryFrameScript {
         return attempts.getOrDefault(factionId, 0);
     }
 
-    /**
-     * Get the timestamp of the last raid attempt against a specific faction.
-     */
     @SuppressWarnings("unchecked")
     public static long getFactionLastRaidTimestamp(String factionId) {
         Map<String, Long> timestamps = (Map<String, Long>)

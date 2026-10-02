@@ -20,9 +20,9 @@ import static com.fs.starfarer.api.impl.combat.EntropyAmplifierStats.KEY_TARGET;
 
 public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
 
-    private static final float MAX_RANGE = 2500f;
-    private static final float MAX_REDUCTION = 25f;
-    private static final float MIN_REDUCTION = 5f;
+    private static final float MAX_RANGE = 3000f;
+    private static final float MAX_REDUCTION = 40f;
+    private static final float MIN_REDUCTION = 10f;
     private static final Color TEXT_COLOR = new Color(200, 200, 200, 255);
     private static final float EMP_RADIUS_SCALE = 0.3f;
     private static final float EMP_COOLDOWN = 0.75f; // Minimum delay between EMP arcs per target
@@ -93,20 +93,16 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
             if (distSq > MAX_RANGE_SQ) continue;
             float distance = (float) Math.sqrt(distSq);
 
-            // Get the reduction percentage based on distance
             float reductionFactor = getReductionFactor(distance);
             float reductionPercentage = (reductionFactor / 100f) * effectLevel;
 
-            // Modify the range as you were already doing
             float finalMultiplier = 1f - reductionPercentage;
             target.getMutableStats().getBallisticWeaponRangeBonus().modifyMult(id, finalMultiplier);
             target.getMutableStats().getEnergyWeaponRangeBonus().modifyMult(id, finalMultiplier);
 
             if (target == Global.getCombatEngine().getPlayerShip()) {
-                // Pass the reduction percentage as a string to display it
                 String reductionText = String.format("%.0f%% range reduced", reductionPercentage * 100f);
 
-                // Show status on player ship
                 Global.getCombatEngine().maintainStatusForPlayerShip(
                         KEY_TARGET,
                         ship.getSystem().getSpecAPI().getIconSpriteName(),

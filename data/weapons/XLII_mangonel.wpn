@@ -3,6 +3,9 @@
 	"specClass":"projectile",
 	"type":"BALLISTIC",
 	"size":"LARGE",
+	"projectileSpecId":"XLII_mangonel_shot",
+	"onFireEffect":"levianeer.draconis.data.scripts.weapons.XLII_SabotDiscardEffect",
+	"everyFrameEffect":"levianeer.draconis.data.scripts.weapons.XLII_SabotDiscardEffect",
 	"turretSprite":"graphics/weapons/XLII_mangonel_turret_base.png",
 	"turretGunSprite":"graphics/weapons/XLII_mangonel_turret_recoil.png",
 	"hardpointSprite":"graphics/weapons/XLII_mangonel_hardpoint_base.png",
@@ -24,6 +27,5 @@
 					"particleCount":10,
 					"particleColor":[255,255,255,255]
 					},
-	"fireSoundTwo":"XLII_mangonel_fire",
-	"projectileSpecId":"XLII_mangonel_shot"
+	"fireSoundTwo":"XLII_mangonel_fire"
 }

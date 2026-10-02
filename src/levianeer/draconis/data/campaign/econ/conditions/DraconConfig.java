@@ -13,28 +13,24 @@ public class DraconConfig {
     private static final Logger log = Global.getLogger(DraconConfig.class);
     private static DraconConfig instance;
 
-    // System toggles
     private boolean enabled = true;
     private int testLevelOverride = -1;
 
-    // Factor weights
     private int warScorePerWar = 12;
     private int lostColonyScore = 20;
     private int unstableMarketScore = 4;
     private int maxFleetWeaknessScore = 20;
     private int invasionPressureScore = 15;
 
-    // Decay rates
     private int peacetimeDecay = -5;
     private int wartimeDecay = -2;
 
-    // Level thresholds (score >= threshold = that level)
+    // score >= threshold = that level
     private int level4Min = 30;
     private int level3Min = 50;
     private int level2Min = 70;
     private int level1Min = 90;
 
-    // Other settings
     private int instabilityThreshold = 4;
     private float checkIntervalDays = 30f;
     private int activeCrisisBonus = 35;
@@ -59,7 +55,6 @@ public class DraconConfig {
             enabled = config.optBoolean("enabled", true);
             testLevelOverride = config.optInt("testLevelOverride", -1);
 
-            // Factor weights
             JSONObject factors = config.optJSONObject("factorWeights");
             if (factors != null) {
                 warScorePerWar = factors.optInt("warScorePerWar", 12);
@@ -69,14 +64,12 @@ public class DraconConfig {
                 invasionPressureScore = factors.optInt("invasionPressureScore", 15);
             }
 
-            // Decay rates
             JSONObject decay = config.optJSONObject("decayRates");
             if (decay != null) {
                 peacetimeDecay = decay.optInt("peacetimeDecay", -5);
                 wartimeDecay = decay.optInt("wartimeDecay", -2);
             }
 
-            // Level thresholds
             JSONObject thresholds = config.optJSONObject("thresholds");
             if (thresholds != null) {
                 level4Min = thresholds.optInt("level4Min", 20);

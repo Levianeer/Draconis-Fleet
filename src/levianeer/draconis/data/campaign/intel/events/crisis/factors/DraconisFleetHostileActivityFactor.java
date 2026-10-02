@@ -28,6 +28,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipLocation;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.companion.KorrinTopicQueue;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
 import levianeer.draconis.data.campaign.ids.FleetTypes;
@@ -59,7 +60,7 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
     public static String RAIDER_FLEET = "$draconisRaider";
 
-    // Nominal progress value returned to HostileActivityEventIntel - keeps DDA visible
+    // Nominal progress value returned to HostileActivityEventIntel so DDA stays visible
     // in the colony crisis bar without driving any HAE events.
     private static final int NOMINAL_PROGRESS = 100;
 
@@ -117,8 +118,8 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         if (!playerMeetsColonyThreshold()) return 0;
         if (isCrisisPermanentlyEnded()) return 0;
         if (!checkFactionExists(DRACONIS, true)) return 0;
-        // Once the AIO Tracker is running it owns the crisis - remove DDA from the HAE bar.
-        // Shadow fleet spawning (getEffectMagnitude / getSpawnFrequency) is unaffected by this.
+        // Once the AIO Tracker is running it owns the crisis, so DDA is removed from the HAE bar;
+        // shadow fleet spawning (getEffectMagnitude / getSpawnFrequency) is unaffected.
         if (DraconisAIOTracker.get() != null) return 0;
         // Return nominal progress so DDA has non-zero weight in HAE's event picker before
         // the tracker is created. rollRandomizedStage weights as frequency × (progress/total × 0.9 + 0.1).
@@ -140,7 +141,6 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
     /**
      * Shadow fleet spawn magnitude, derived from the AIO Tracker value.
-     * 0 before tracker reaches 34; scales linearly from 34->100 to 0->maxMagnitude.
      */
     @Override
     public float getEffectMagnitude(StarSystemAPI system) {
@@ -158,7 +158,6 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         return t * maxMag;
     }
 
-    // Shadow Fleet creation - unchanged
     public CampaignFleetAPI createFleet(StarSystemAPI system, Random random) {
         float f = intel.getMarketPresenceFactor(system);
 
@@ -219,10 +218,13 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
     public float getEventFrequency(HostileActivityEventIntel intel, EventStageData stage) {
         if (!playerMeetsColonyThreshold()) return 0f;
         if (isCrisisPermanentlyEnded()) return 0f;
+        // Same gate as shouldShow(): without AI cores in any player industry the DDA has no
+        // casus belli, so HAE must never select it (previously the tracker could be created
+        // invisibly and the baseline floor would drive it to invasion on its own).
+        if (computeHAEAICoreProgress() <= 0) return 0f;
         if (stage.id != Stage.HA_EVENT) return 0f;
         if (DraconisAIOTracker.get() != null) return 0f; // tracker already running
-        // Homeworld check removed: tracker can exist without a homeworld.
-        // The invasion path (fireInvasion in DraconisAIOTracker) handles null homeworld gracefully.
+        // Tracker can exist without a homeworld; fireInvasion in DraconisAIOTracker handles a null homeworld.
         try {
             return Global.getSettings().getFloat("draconisExpeditionEventFrequency");
         } catch (Exception e) {
@@ -331,6 +333,13 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         DraconisPunitiveExpedition expedition = new DraconisPunitiveExpedition(params);
         expedition.setListener(this);
         Global.getSector().getIntelManager().addIntel(expedition);
+
+        // No rules.csv rule fires at this beat, so this is queued directly (the Java-call exception
+        // in .claude/systems/korrin-companion.md). One-shot, so later escalations aren't re-queued.
+        if (!Global.getSector().getMemoryWithoutUpdate().getBoolean("$XLII_korrin_aio_invasion_queued")) {
+            Global.getSector().getMemoryWithoutUpdate().set("$XLII_korrin_aio_invasion_queued", true);
+            KorrinTopicQueue.queue("korrin_aio_invasion");
+        }
 
         return true;
     }

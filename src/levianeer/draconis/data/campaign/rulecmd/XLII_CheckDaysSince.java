@@ -43,7 +43,7 @@ public class XLII_CheckDaysSince extends BaseCommandPlugin {
 
         if (!mem.contains(key)) {
             long now = Global.getSector().getClock().getTimestamp();
-            mem.set(key, now, 0f);
+            mem.set(key, now);
             log.debug("Draconis: XLII_CheckDaysSince - key not set, storing timestamp now and returning false: " + key);
             return false;
         }

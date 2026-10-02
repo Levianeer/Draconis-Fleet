@@ -44,7 +44,6 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
     public void advance(float amount) {
         super.advance(amount);
 
-        // Process AI core theft when raid succeeds
         if (isSucceeded() && !theftProcessed) {
             log.info("Draconis: Punitive expedition succeeded");
             handleRaidSuccess();
@@ -57,7 +56,6 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
             theftProcessed = true;
         }
 
-        // Grant bonus if raid failed (player defeated it) - notify AIO Tracker
         if (isFailed() && !theftProcessed) {
             log.info("Draconis: Punitive expedition defeated by player");
             DraconisAIOTracker tracker = DraconisAIOTracker.get();
@@ -169,22 +167,18 @@ public class DraconisPunitiveExpedition extends GenericRaidFGI {
     protected void configureFleet(int size, FleetCreatorMission m) {
         super.configureFleet(size, m);
 
-        // All expedition fleets are elite quality with SMOD_3
         m.triggerSetFleetQuality(HubMissionWithTriggers.FleetQuality.SMOD_3);
-        // Mark as expedition so DraconisFleetCombatListener skips it
         m.triggerSetFleetFlag("$dda_expedition_fleet");
     }
 
     /**
-     * Configure spawned fleet
-     * Adds marines for ground raid capability
+     * Adds marines for ground raid capability.
      */
     @Override
     protected void configureFleet(int size, CampaignFleetAPI fleet) {
         super.configureFleet(size, fleet);
 
         if (fleet != null) {
-            // Add marines for ground raid capability
             int estimatedFP = size * 10; // Rough estimate: difficulty 10 ≈ 100 FP
             int marineCount = Math.max(estimatedFP * 2, 100);  // ~2 marines per estimated FP
             fleet.getCargo().addMarines(marineCount);

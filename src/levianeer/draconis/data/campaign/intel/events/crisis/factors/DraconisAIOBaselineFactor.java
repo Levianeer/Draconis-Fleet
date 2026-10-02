@@ -15,14 +15,22 @@ import java.awt.Color;
 /**
  * Monthly factor: the floor contribution of the AIO tracker.
  * Only non-zero when the AI core contribution falls below the baseline floor.
- * Always shown so the player understands the tracker never stops advancing.
+ * Hidden while no AI cores are installed anywhere - the floor only exists for AI core users,
+ * and with zero cores the tracker holds its value instead of advancing.
  */
 public class DraconisAIOBaselineFactor extends BaseEventFactor {
+
+    /** Mirrors DraconisAIOTracker.calculateMonthlyIncrement(): zero cores means zero escalation. */
+    private boolean hasAICoresInstalled() {
+        float aiCoreRate = getSetting("draconisAIOAICoreRate", 0.4f);
+        return DraconisAIOTracker.computeAICoreContrib(aiCoreRate) > 0f;
+    }
 
     @Override
     public int getProgress(BaseEventIntel intel) {
         if (!(intel instanceof DraconisAIOTracker tracker)) return 0;
         if (tracker.isCommissioned()) return 0;
+        if (!hasAICoresInstalled()) return 0;
 
         float baseFloor = getSetting("draconisAIOBaseFloor", 0.5f);
         float aiCoreRate = getSetting("draconisAIOAICoreRate", 0.4f);
@@ -38,7 +46,7 @@ public class DraconisAIOBaselineFactor extends BaseEventFactor {
 
     @Override
     public boolean shouldShow(BaseEventIntel intel) {
-        return true; // always visible - reminds player the tracker never pauses
+        return hasAICoresInstalled(); // hidden with zero cores - the tracker is holding, not advancing
     }
 
     @Override

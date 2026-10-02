@@ -68,7 +68,7 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
     /** Days of ORBIT_AGGRESSIVE re-issued to a HighCommand fleet after intercept ends. */
     private static final float PATROL_RESUME_DAYS = 14f;
 
-    /** Check interval in seconds - same cadence as the Sigma Octantis watchdog. */
+    /** Check interval in seconds - same cadence as the Longsight watchdog. */
     private final IntervalUtil checkInterval = new IntervalUtil(5f, 5f);
 
     /**
@@ -134,18 +134,17 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
 
         // --- Ensure we have a live tagged fleet to intercept with ---
         if (!isFleetAliveInFafnir(interceptingFleet, fafnir)) {
-            // First time detecting entry, or previously dispatched fleet has left/despawned.
-            // Look for a new one. If none is present, player slips through undetected
-            // this tick; we'll check again on the next interval.
+            // First time detecting entry, or the previous fleet left/despawned: look for a new one.
+            // If none is present, the player slips through this tick; we'll check again next interval.
             interceptingFleet = findNearestDDAFleet(fafnir, playerFleet);
             if (interceptingFleet == null) return;
 
             interceptingFleet.getMemoryWithoutUpdate()
                     .set(FafnirAccessStrings.MEM_FLEET_INTERCEPT_TAG, true);
 
-            // Save the fleet's HighCommand home entity so releaseFleet() can restore
-            // the patrol assignment. Should always succeed since findNearestDDAFleet()
-            // only returns patrol fleets; log a warning if the industry is missing.
+            // Save the fleet's HighCommand home entity so releaseFleet() can restore the patrol
+            // assignment. Should always succeed since findNearestDDAFleet() only returns patrol
+            // fleets; log a warning if the industry is missing.
             SectorEntityToken home = findHighCommandHome(interceptingFleet, fafnir);
             if (home != null) {
                 interceptingFleet.getMemoryWithoutUpdate().set(FLEET_MEM_HOME, home);
@@ -158,10 +157,9 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
                     + interceptingFleet.getNameWithFaction());
         }
 
-        // Re-issue INTERCEPT assignment each tick to survive save/load resets.
-        // Only skip if the fleet is currently in combat (don't yank it out of a fight).
-        // XLII_CampaignPlugin.pickInteractionDialogPlugin() will intercept the resulting
-        // fleet interaction and show our custom dialog instead of the vanilla fleet dialog.
+        // Re-issue INTERCEPT each tick to survive save/load resets; skip only if the fleet is in
+        // combat (don't yank it out of a fight). XLII_CampaignPlugin.pickInteractionDialogPlugin()
+        // intercepts the resulting fleet interaction and shows our custom dialog instead of vanilla's.
         if (interceptingFleet.getBattle() == null) {
             interceptingFleet.clearAssignments();
             interceptingFleet.addAssignment(
@@ -282,7 +280,6 @@ public class XLII_FafnirSystemMonitor implements EveryFrameScript {
             String factionId = fleet.getFaction().getId();
             if (!DRACONIS_FACTION_ID.equals(factionId) && !FORTYSECOND_FACTION_ID.equals(factionId)) continue;
             if (!fleet.getMemoryWithoutUpdate().getBoolean(MemFlags.MEMORY_KEY_PATROL_FLEET)) continue;
-            // Skip patrol fleets that are already engaged in another vanilla system
             if (fleet.getMemoryWithoutUpdate().contains(MemFlags.FLEET_MILITARY_RESPONSE)) continue;
             if (fleet.getMemoryWithoutUpdate().getBoolean(MemFlags.FLEET_BUSY)) continue;
             if (fleet.getMemoryWithoutUpdate().getBoolean(MemFlags.FLEET_SPECIAL_ACTION)) continue;

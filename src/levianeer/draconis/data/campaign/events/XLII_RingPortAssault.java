@@ -16,7 +16,6 @@ import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.EngagementResultAPI;
 import com.fs.starfarer.api.impl.campaign.FleetEncounterContext;
 import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl;
-import com.fs.starfarer.api.impl.campaign.RuleBasedInteractionDialogPluginImpl;
 import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl.BaseFIDDelegate;
 import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl.FIDConfig;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3;
@@ -24,9 +23,7 @@ import com.fs.starfarer.api.impl.campaign.fleets.FleetParamsV3;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.impl.campaign.events.OfficerManagerEvent;
-import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
-import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import com.fs.starfarer.api.impl.campaign.rulecmd.AddRemoveCommodity;
 import com.fs.starfarer.api.impl.campaign.rulecmd.SetStoryOption;
 import levianeer.draconis.data.campaign.characters.XLII_Characters;
@@ -70,8 +67,9 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
     public static final int MINIMUM_MARINES = 500;
 
     // Briefing options
-    private static final String OPT_ASSAULT  = "xlii_assault_launch";
-    private static final String OPT_LEAVE    = "xlii_assault_leave";
+    private static final String OPT_ASSAULT   = "xlii_assault_launch";
+    private static final String OPT_LEAVE     = "xlii_assault_leave";
+    private static final String OPT_LEAVE_ACK = "xlii_assault_leave_ack";
 
     // Post-assault beat options
     private static final String OPT_RISKY    = "xlii_beat_risky";
@@ -95,7 +93,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
             // Risky
             "Your lead elements hit the blast doors running and the defenders were ready for exactly that. The kill zone " +
                     "is a forty-metre corridor and the fire lanes cross it at angles designed to negate cover - your first " +
-                    "stack takes casualties before the second one is through the threshold. Powered armour absorbs what " +
+                    "stack takes casualties before the second one is through the threshold. Powered armor absorbs what " +
                     "it can. Some of it isn't enough. By the time your force has numbers on the other side of the choke " +
                     "the equation flips - hard - open corridors, close quarters, and the defenders losing the geometry that " +
                     "made them dangerous. You're through in six minutes. The station knows it happened. " +
@@ -113,7 +111,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                     "time, quiet, spreading through the starboard section in the thirty minutes it takes to get your " +
                     "full complement inside. The defenders' patrol rotation has a gap on the starboard approach that " +
                     "Korrin's people created three weeks earlier and maintained since. Nobody checks the manifest. Nobody " +
-                    "checks the lock. The first indication something is wrong is the sound of powered armour in " +
+                    "checks the lock. The first indication something is wrong is the sound of powered armor in " +
                     "corridors that should be running empty - and by then your lead elements are already past " +
                     "the first internal checkpoint and moving."
         },
@@ -122,7 +120,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
             "The kill zone earns its name. The barricade geometry is deliberate - interlocking angles that force your " +
                     "lead stack into a compressed approach before they can spread out and use their numbers, and the " +
                     "defenders have every inch of it pre-sighted. Your first marines through take the worst of it. " +
-                    "Powered armour handles direct hits but the volume of fire at that range finds the gaps. You're through " +
+                    "Powered armor handles direct hits but the volume of fire at that range finds the gaps. You're through " +
                     "the first barricade in four minutes and the second in six - faster than the defenders planned for, " +
                     "slower than you needed. The ones that broke fell back in good order, not routing, withdrawing with " +
                     "discipline toward the station's interior. The station heard every second of this engagement and " +
@@ -149,23 +147,23 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         { // Beat 3 - Civilians
             // Risky
             "Your marines move and the crowd breaks around them in the way that crowds break when they have nowhere " +
-                    "organised to go - in every direction at once, the loudest people moving fastest and the rest following " +
+                    "organized to go - in every direction at once, the loudest people moving fastest and the rest following " +
                     "sound rather than sense. Your formation holds its line as best it can but two hundred panicked people " +
                     "in a corridor designed for a quarter of that number is chaos regardless of discipline. The retreating " +
                     "defender unit uses every second of it, moving against the flow with their weapons down and their " +
                     "heads low, and by the time your lead elements have line of sight again the unit has broken contact " +
                     "cleanly somewhere in the next section. You lost them. Some civilians were in the wrong place when " +
                     "your formation pushed through - not targeted, not deliberate, but present when the margins closed. " +
-                    "The command centre is going to be harder than the numbers suggested, and the defenders " +
+                    "The command center is going to be harder than the numbers suggested, and the defenders " +
                     "arriving there will be angry in a way that has nothing to do with tactics but their defense paid in blood",
             // Safe
             "Twenty-three minutes to clear a corridor that your timeline allocated four. Your marines establish a perimeter " +
                     "at both ends and begin directing civilians through the side passages methodically - two at a time " +
                     "through the left branch, larger groups when the right branch clears, nobody moving faster than the " +
                     "slowest person who needs help moving. It works. Nobody who isn't a combatant gets hurt. The retreating " +
-                    "defender unit walks through your perimeter's gap and reaches the command centre with time to spare, " +
+                    "defender unit walks through your perimeter's gap and reaches the command center with time to spare, " +
                     "time to brief the veterans inside on what they'd observed about your force composition, your equipment, " +
-                    "your approach patterns. The command centre knows exactly what's coming. It has had time to prepare " +
+                    "your approach patterns. The command center knows exactly what's coming. It has had time to prepare " +
                     "for exactly what's coming. You bought twenty minutes of clean conduct at a price that compounds.",
             // SP
             "Your marines move into the corridor in full kit at a pace that is neither charge nor hesitation - deliberate, " +
@@ -175,7 +173,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                     "in under ninety seconds. The retreating defender unit loses the cover they'd planned on before they're " +
                     "halfway to the next junction - your lead elements are on them in open corridor with nowhere to " +
                     "consolidate, and the brief engagement there is as clean as anything you've run today. The command " +
-                    "centre gets fewer defenders than it expected and no useful intelligence on your approach."
+                    "center gets fewer defenders than it expected and no useful intelligence on your approach."
         },
         { // Beat 4 - Command Center
             // Risky
@@ -183,7 +181,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                     "most prepared fighting position in the station. The veterans inside had allocated their strength " +
                     "assuming exactly this - the entry points are brutal for the first marines through each door, a few " +
                     "seconds of concentrated fire before the teams can spread and the room's geometry starts working against " +
-                    "the defenders instead of for them. It takes forty minutes to clear the command centre. Room by room, " +
+                    "the defenders instead of for them. It takes forty minutes to clear the command center. Room by room, " +
                     "position by position, against people who trained everyone you've fought through to get here and who " +
                     "fight that way until the last position falls. You're through. The cost is paid. The inner sanctum is ahead.",
             // Safe
@@ -194,16 +192,16 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                     "fully process what's happening. They collapse inward, falling back from a prepared position they " +
                     "can no longer justify holding, and your marines are waiting in the corridors. The fighting there is " +
                     "ugly in the way corridor fighting is always ugly - close range, no cover worth speaking of, powered " +
-                    "armour making the difference - but it's fighting on ground you chose rather than ground the defenders " +
+                    "armor making the difference - but it's fighting on ground you chose rather than ground the defenders " +
                     "prepared. Slower than a simultaneous breach. Significantly cleaner at every individual point of contact.",
             // SP
             "Fifty-eight seconds to get your comms specialist into the mining network and another four to confirm the " +
-                    "command centre's internal channels are dark. The defenders inside can see each other across the " +
+                    "command center's internal channels are dark. The defenders inside can see each other across the " +
                     "room but they can't coordinate between the primary and secondary positions - can't confirm whether " +
                     "the other door is under assault, can't redistribute strength in response to what's happening somewhere " +
                     "they can't see. Both doors blow simultaneously and the secondary breach team is inside before the " +
                     "secondary defenders know the primary entrance is gone. Thirty seconds of confused veterans in a " +
-                    "sealed room against a force that knows exactly what it's doing is enough. The command centre " +
+                    "sealed room against a force that knows exactly what it's doing is enough. The command center " +
                     "clears faster than any other approach would have managed."
         },
         { // Beat 5 - Last Stand
@@ -226,7 +224,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
             // SP
             "The voice on the frequency is the station's commanding officer - you ask and she answers without hesitation, " +
                     "rank and posting from a fleet that hasn't existed in thirty cycles. You offer formal military terms. " +
-                    "Full honours. Weapons collected not confiscated, personnel treated as prisoners of war under the " +
+                    "Full honors. Weapons collected not confiscated, personnel treated as prisoners of war under the " +
                     "Interstellar Transit Accords rather than criminals under Alliance law. There is a pause on the " +
                     "frequency that lasts long enough to mean something. Then: acknowledged. The door opens from the " +
                     "inside. The commander walks out first, unarmed, hands visible, spine straight. Eleven veterans " +
@@ -239,12 +237,12 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
     private static final String[] BEAT_TRANSITION_TEXT = {
         "Your force consolidates and pushes inward through the station's older sections, following Korrin's schematics " +
                 "into the original platform. The corridors narrow. Ahead, thermals pick up massed heat signatures at the primary junction.",
-        "Your force pushes deeper, following the fastest route toward the command centre. The resistance behind you has " +
+        "Your force pushes deeper, following the fastest route toward the command center. The resistance behind you has " +
                 "collapsed or withdrawn. Ahead the corridor opens into a wider transit section - and stops making sense on the thermals.",
-        "The final approach to the command centre runs through the oldest section of the station - original platform " +
+        "The final approach to the command center runs through the oldest section of the station - original platform " +
                 "construction, built to survive industrial accidents. The blast doors are visible at the end of the corridor. " +
                 "Thermals show the strongest concentration of the assault behind them.",
-        "The command centre is yours. The organised resistance is broken. Your marines push through into the inner " +
+        "The command center is yours. The organized resistance is broken. Your marines push through into the inner " +
                 "operations room - the original platform core, smaller than the rest, one sealed door between you and the end of it.",
         null
     };
@@ -336,6 +334,8 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
 
         if (OPT_ASSAULT.equals(key)) {
             launchAssault();
+        } else if (OPT_LEAVE_ACK.equals(key)) {
+            dialog.dismiss();
         } else {
             leaveToNormalInteraction();
         }
@@ -392,38 +392,34 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         }
 
         OptionPanelAPI opts = dialog.getOptionPanel();
-        opts.addOption("Continue.", OPT_ASSAULT);
+        opts.addOption("Continue", OPT_ASSAULT);
         if (!canAssault) {
             opts.setEnabled(OPT_ASSAULT, false);
         }
-        opts.addOption("Leave.", OPT_LEAVE);
+        opts.addOption("Leave", OPT_LEAVE);
     }
 
     // -------------------------------------------------------------------------
-    // Leave - reopen normal station interaction
+    // Leave - break off cleanly, no shortcut back into a hostile station's dialog
     // -------------------------------------------------------------------------
 
+    /**
+     * Previously dismissed and reopened a bare {@code RuleBasedInteractionDialogPluginImpl} on
+     * the station to let the player "normally" interact with it afterward. Ring-Port is still
+     * pirate-controlled (hostile) at this point, and no rules.csv content exists for a plain
+     * dock interaction with a hostile market outside the assault flow - the reopened dialog had
+     * nothing to show and no way to close, soft-locking any player under the marine minimum with
+     * no path forward except abandoning the save. Just show the break-off beat in this dialog and
+     * dismiss; the player is free to leave, gather marines, and redock to retrigger this same
+     * briefing (pickInteractionDialogPlugin dispatches it again as long as blindEyeMissionActive
+     * is set and ringPortTaken is not).
+     */
     private void leaveToNormalInteraction() {
-        final SectorEntityToken station = Global.getSector().getEntityById(STATION_ENTITY_ID);
-        dialog.dismiss();
-        if (station == null) return;
-
-        Global.getSector().addTransientScript(new EveryFrameScript() {
-            private boolean done = false;
-            @Override public boolean isDone() { return done; }
-            @Override public boolean runWhilePaused() { return true; }
-
-            @Override
-            public void advance(float amount) {
-                if (!Global.getSector().getCampaignUI().isShowingDialog()) {
-                    done = true;
-                    // Use explicit plugin to bypass pickInteractionDialogPlugin,
-                    // so the assault briefing does not re-trigger.
-                    Global.getSector().getCampaignUI().showInteractionDialog(
-                            new RuleBasedInteractionDialogPluginImpl(), station);
-                }
-            }
-        });
+        dialog.getOptionPanel().clearOptions();
+        dialog.getTextPanel().addPara(
+            "You break off. Ring-Port holds until your marines are ready for it - not before."
+        );
+        dialog.getOptionPanel().addOption("Continue", OPT_LEAVE_ACK);
     }
 
     // -------------------------------------------------------------------------
@@ -439,7 +435,6 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
             return;
         }
 
-        // Place defender fleet at the station's location
         SectorEntityToken station = Global.getSector().getEntityById(STATION_ENTITY_ID);
         if (station != null && station.getContainingLocation() != null) {
             station.getContainingLocation().addEntity(defenders);
@@ -457,6 +452,16 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         config.showCommLinkOption = false;
         config.showWarningDialogWhenNotHostile = false;
         config.dismissOnLeave = true;
+        // Bug fix, same pattern as XLII_KoriStrike.launchBattlegroupFight(): without this, the
+        // pre-battle screen offers two disengage options - plain "Disengage" and an SP-cost
+        // "special maneuvers" one (SetStoryOption.set(..., OptionId.CLEAN_DISENGAGE, ...) in
+        // FleetInteractionDialogPluginImpl) - either lets the player skip this scripted assault
+        // with zero combat. Both are gated behind noLeave = !context.isEngagedInHostilities() &&
+        // config.noLeaveOptionOnFirstEngagement. Forcing the first engagement is safe here because
+        // a loss still has a way back: pickInteractionDialogPlugin() re-intercepts docking at
+        // Ring-Port and reopens a fresh BRIEFING as long as $XLII_blindEyeMissionActive is set and
+        // the station isn't yet taken, and notifyLeave()'s losing branch below never clears that flag.
+        config.noLeaveOptionOnFirstEngagement = true;
         config.delegate = new BaseFIDDelegate() {
             private boolean won = false;
 
@@ -519,7 +524,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         }
         CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
         if (fleet != null) {
-            fleet.setFaction(Factions.PIRATES, true); // hostile for FID; ship pool already set
+            fleet.setFaction(Factions.PIRATES, true);
             fleet.setName("First Fleet");
             fleet.getMemoryWithoutUpdate().set("$XLII_ringPortDefenders", true);
         }
@@ -621,20 +626,20 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         }
         if (beat == 4) {
             if (c2 == BeatChoice.RISKY) {
-                lines.add("The junction engagement ran long enough for the command centre to hear it - they've had time to consolidate.");
+                lines.add("The junction engagement ran long enough for the command center to hear it - they've had time to consolidate.");
             } else if (c2 == BeatChoice.SAFE) {
-                lines.add("The suppress-and-flank took longer than a direct push would have - the command centre used every minute of the extended engagement.");
+                lines.add("The suppress-and-flank took longer than a direct push would have - the command center used every minute of the extended engagement.");
             } else if (c2 == BeatChoice.SP) {
                 lines.add("Korrin's cut resolved the junction before the rest of the station could react - " +
-                        "the command centre had less time to consolidate than it expected.");
+                        "the command center had less time to consolidate than it expected.");
             }
             if (c3 == BeatChoice.RISKY) {
-                lines.add("The unit that broke contact through the civilian corridor reached the command centre intact, " +
+                lines.add("The unit that broke contact through the civilian corridor reached the command center intact, " +
                         "with full intelligence on your force and time to use it.");
             } else if (c3 == BeatChoice.SAFE) {
-                lines.add("The retreating unit reached the command centre unimpeded and had time to brief the defenders on what they'd observed.");
+                lines.add("The retreating unit reached the command center unimpeded and had time to brief the defenders on what they'd observed.");
             } else if (c3 == BeatChoice.SP) {
-                lines.add("The retreating unit didn't make it to the command centre - fewer defenders inside, and nothing to brief them on.");
+                lines.add("The retreating unit didn't make it to the command center - fewer defenders inside, and nothing to brief them on.");
             }
         }
         if (beat == 5) {
@@ -648,9 +653,9 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                         "had time to consider what kind of force moves like that.");
             }
             if (c4 == BeatChoice.RISKY) {
-                lines.add("The command centre was cleared room by room - the veterans here know what happened to the people who trained them.");
+                lines.add("The command center was cleared room by room - the veterans here know what happened to the people who trained them.");
             } else if (c4 == BeatChoice.SP) {
-                lines.add("The comms blackout at the command centre was clean and witnessed - everyone on the station saw how that ended.");
+                lines.add("The comms blackout at the command center was clean and witnessed - everyone on the station saw how that ended.");
             }
             // c4 == SAFE: no modifier on beat 5
         }
@@ -684,7 +689,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         OptionPanelAPI opts = dialog.getOptionPanel();
 
         text.addPara("The station is venting from three sections. Your tactical display shows Ring-Port's defensive "
-                + "grid dark - the orbital engagement gutted it. What's left isn't an organised military defence. It's "
+                + "grid dark - the orbital engagement gutted it. What's left isn't an organized military defense. It's "
                 + "survivors in familiar corridors with nothing left to lose.");
 
         text.addPara("Korrin's last transmission was forty minutes ago. His people are in position, staged, and "
@@ -694,9 +699,9 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         text.addPara("Your marines are staged in the forward bays. Five hundred combat-ready personnel in powered "
                 + "armor, waiting on your order. The defenders that remain are professionals - fewer than they were an "
                 + "hour ago, but trained by people who fought a thirty-year war and survived it. The station's layout is "
-                + "what levels the odds back in their favour.");
+                + "what levels the odds back in their favor.");
 
-        opts.addOption("Continue.", OPT_BEAT_ADVANCE);
+        opts.addOption("Continue", OPT_BEAT_ADVANCE);
     }
 
     // -------------------------------------------------------------------------
@@ -712,7 +717,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
 
         text.addPara("The main docking bay is the obvious approach - wide, direct access to primary corridors. "
                 + "The defenders know it. Thermals show prepared positions behind the blast doors, "
-                + "overlapping fields of fire set up for a power-armoured assault. "
+                + "overlapping fields of fire set up for a power-armored assault. "
                 + "They've had decades to think about this.");
 
         text.addPara("The secondary option: a cluster of maintenance airlocks on the port side - "
@@ -724,9 +729,9 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                 + "maintenance cycle his people arranged, cycling a full fireteam at once. "
                 + "The defenders pulled that watch rotation three weeks ago.");
 
-        opts.addOption("Main docking bay assault.", OPT_RISKY);
-        opts.addOption("Maintenance airlock breach.", OPT_SAFE);
-        opts.addOption("Korrin's cargo lock.", OPT_SP, SP_COLOR, null);
+        opts.addOption("Main docking bay assault", OPT_RISKY);
+        opts.addOption("Maintenance airlock breach", OPT_SAFE);
+        opts.addOption("Korrin's cargo lock", OPT_SP, SP_COLOR, null);
     }
 
     // -------------------------------------------------------------------------
@@ -755,9 +760,9 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         text.addPara("Korrin's people are still in position. One controls the junction's lighting and "
                 + "ventilation from a maintenance terminal two sections back.");
 
-        opts.addOption("Direct breach.", OPT_RISKY);
+        opts.addOption("Direct breach", OPT_RISKY);
         opts.addOption("Suppress and flank", OPT_SAFE);
-        opts.addOption("Korrin's infrastructure.", OPT_SP, SP_COLOR, null);
+        opts.addOption("Korrin's infrastructure", OPT_SP, SP_COLOR, null);
     }
 
     // -------------------------------------------------------------------------
@@ -773,18 +778,18 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
 
         for (String line : getBeatContextLines(3)) { text.addPara(line); }
 
-        text.addPara("The fastest route to the command centre is blocked by civilians - two hundred station workers "
+        text.addPara("The fastest route to the command center is blocked by civilians - two hundred station workers "
                 + "moving in both directions, panicked. Moving through them in the opposite direction: a defender unit. "
                 + "Ten, maybe twenty fighters in civilian-adjacent gear, weapons down, "
-                + "falling back toward the command centre at a controlled pace.");
+                + "falling back toward the command center at a controlled pace.");
 
         text.addPara("They're not using the civilians as shields. Not explicitly. But they know you won't push "
                 + "through a crowd, and they're buying time to consolidate. Every second here is another second "
-                + "the command centre's defenders have to prepare.");
+                + "the command center's defenders have to prepare.");
 
-        opts.addOption("Maintain pressure.", OPT_RISKY);
-        opts.addOption("Hold and clear.", OPT_SAFE);
-        opts.addOption("Disciplined advance.", OPT_SP, SP_COLOR, null);
+        opts.addOption("Maintain pressure", OPT_RISKY);
+        opts.addOption("Hold and clear", OPT_SAFE);
+        opts.addOption("Disciplined advance", OPT_SP, SP_COLOR, null);
     }
 
     // -------------------------------------------------------------------------
@@ -796,7 +801,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         TextPanelAPI text = dialog.getTextPanel();
         OptionPanelAPI opts = dialog.getOptionPanel();
 
-        text.addPara("The command centre is the station's original operations core - thick walls, military-grade "
+        text.addPara("The command center is the station's original operations core - thick walls, military-grade "
                 + "blast doors, defenders with time to turn it into a proper strongpoint.");
 
         for (String line : getBeatContextLines(4)) { text.addPara(line); }
@@ -807,12 +812,12 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         text.addPara("Two approach vectors - a wide primary corridor to the main entrance, narrower secondary to a side "
                 + "access. Both are covered. Your breach charges are sufficient for one door at a time.");
 
-        text.addPara("Your comms specialist flags something: the command centre's internal network is running on old "
+        text.addPara("Your comms specialist flags something: the command center's internal network is running on old "
                 + "mining hardware. Accessible with the right equipment and sixty seconds.");
 
-        opts.addOption("Simultaneous two-point breach.", OPT_RISKY);
-        opts.addOption("Single point breach, full force.", OPT_SAFE);
-        opts.addOption("Cut their comms first.", OPT_SP, SP_COLOR, null);
+        opts.addOption("Simultaneous two-point breach", OPT_RISKY);
+        opts.addOption("Single point breach, full force", OPT_SAFE);
+        opts.addOption("Cut their comms first", OPT_SP, SP_COLOR, null);
     }
 
     // -------------------------------------------------------------------------
@@ -841,9 +846,9 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                 + "They seem to be waiting, not for mercy. Asking you to choose with full information. "
                 + "Korrin's people are at every checkpoint. This room is the last thing standing between you and a clean handover.");
 
-        opts.addOption("Breach and clear.", OPT_RISKY);
-        opts.addOption("Demand a full surrender.", OPT_SAFE);
-        opts.addOption("The station commander surrenders formally.", OPT_SP, SP_COLOR, null);
+        opts.addOption("Breach and clear", OPT_RISKY);
+        opts.addOption("Demand a full surrender", OPT_SAFE);
+        opts.addOption("The station commander surrenders formally", OPT_SP, SP_COLOR, null);
     }
 
     // -------------------------------------------------------------------------
@@ -864,7 +869,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                             + "your marines can spread out - you're accepting that. The bet is that once you're "
                             + "through the choke and into the station proper the advantage flips hard and fast. "
                             + "Speed is the logic. The entry point is where it costs you.");
-                    opts.addOption("Commit to the main bay assault.", OPT_CONFIRM);
+                    opts.addOption("Commit to the main bay assault", OPT_CONFIRM);
                 } else if (OPT_SAFE.equals(option)) {
                     text.addPara("Two marines per cycle, port side. Slow. The prepared positions aren't "
                             + "waiting for you because nobody builds a fire lane for a maintenance lock. "
@@ -872,7 +877,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                             + "enough have cycled through to hold ground. If a defender patrol finds them "
                             + "before that threshold, those marines are holding a corridor alone against "
                             + "people who know every angle of it. You're trading exposure time for a clean entry point.");
-                    opts.addOption("Commit to the airlock breach.", OPT_CONFIRM);
+                    opts.addOption("Commit to the airlock breach", OPT_CONFIRM);
                 } else if (OPT_SP.equals(option)) {
                     text.addPara("Full fireteam per cycle, starboard side. Korrin's people pulled the watch "
                             + "rotation three weeks ago and the maintenance window is yours. The question is "
@@ -889,7 +894,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                             + "the first position. You're accepting that cost. The logic is that once you're through "
                             + "and the defenders lose their prepared geometry the advantage shifts fast. Getting "
                             + "through is where it bleeds you.");
-                    opts.addOption("Commit to the direct breach.", OPT_CONFIRM);
+                    opts.addOption("Commit to the direct breach", OPT_CONFIRM);
                 } else if (OPT_SAFE.equals(option)) {
                     text.addPara("Pin the junction with sustained fire while a fireteam takes the maintenance corridor "
                             + "and comes out behind the left barricade. Clean tactical logic - the defenders can't hold "
@@ -897,7 +902,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                             + "minute comms blackout on your flanking team and the time it takes to execute. The rest of the "
                             + "station hears this engagement running long and starts consolidating. The junction is cheaper. "
                             + "What comes after isn't.");
-                    opts.addOption("Commit to the suppress and flank.", OPT_CONFIRM);
+                    opts.addOption("Commit to the suppress and flank", OPT_CONFIRM);
                 } else if (OPT_SP.equals(option)) {
                     text.addPara("One call to Korrin's contact. The junction lights cut simultaneously with a ventilation "
                             + "surge - disorienting, not lethal, but it breaks the defenders' disciplined spacing for approximately "
@@ -913,15 +918,15 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                     text.addPara("Push through. Full advance in close formation, direct line through the crowd - the civilians "
                             + "scatter, most get clear, but the chaos is total and you're not stopping to manage it. The "
                             + "retreating unit uses the confusion to break contact and you lose visibility on them for several "
-                            + "minutes. Some people get caught in the margins. The command centre gets its defenders back intact "
+                            + "minutes. Some people get caught in the margins. The command center gets its defenders back intact "
                             + "and they arrive angry. You're trading clean conduct for time, and you're not getting a good rate.");
                     opts.addOption("Commit to maintain pressure", OPT_CONFIRM);
                 } else if (OPT_SAFE.equals(option)) {
                     text.addPara("Stop the advance. Establish a perimeter at both ends and direct civilians out through "
                             + "the side passages. Controlled, methodical, nobody gets hurt who isn't a combatant. The "
-                            + "retreating unit reaches the command centre unmolested and has full time to integrate into the "
-                            + "defence. You're standing still while the clock runs. That's the cost and it compounds - "
-                            + "every minute here is a minute the command centre has to prepare.");
+                            + "retreating unit reaches the command center unmolested and has full time to integrate into the "
+                            + "defense. You're standing still while the clock runs. That's the cost and it compounds - "
+                            + "every minute here is a minute the command center has to prepare.");
                     opts.addOption("Commit to hold and clear", OPT_CONFIRM);
                 } else if (OPT_SP.equals(option)) {
                     text.addPara("Move into the corridor in full kit at a deliberate pace. Not charging. Not hesitating. "
@@ -939,18 +944,18 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                             + "against the most concentrated and experienced fighters in the station. Each breach team is going in undermanned "
                             + "relative to what's waiting on the other side. Powered armor carries the day eventually but the entry points "
                             + "are going to be brutal for the first marines through each door.");
-                    opts.addOption("Commit to the simultaneous two-point breach.", OPT_CONFIRM);
+                    opts.addOption("Commit to the simultaneous two-point breach", OPT_CONFIRM);
                 } else if (OPT_SAFE.equals(option)) {
                     text.addPara("Concentrate everything on the primary entrance. The defenders have allocated thirty to forty "
                             + "percent of their strength to the secondary corridor - don't split to meet them. Hitting the primary "
                             + "door with everything you have means superior numbers against their main position rather than equal "
                             + "numbers against two positions simultaneously. Slower to clear, but your marines aren't going in "
-                            + "undermanned anywhere. The secondary defenders realise what's happening and collapse inward - you're "
+                            + "undermanned anywhere. The secondary defenders realize what's happening and collapse inward - you're "
                             + "fighting them in the corridors afterward rather than at a prepared door. That's the better problem.");
-                    opts.addOption("Commit to the single point breach, full force.", OPT_CONFIRM);
+                    opts.addOption("Commit to the single point breach, full force", OPT_CONFIRM);
                 } else if (OPT_SP.equals(option)) {
                     text.addPara("Sixty seconds on the mining network. The assumption is that your comms specialist gets "
-                            + "in clean and the command centre goes dark internally - defenders can see each other but can't "
+                            + "in clean and the command center goes dark internally - defenders can see each other but can't "
                             + "coordinate between positions. If that holds, the two-point breach becomes viable at full force "
                             + "because the secondary defenders don't know the primary door is blown until your marines are "
                             + "already inside. Thirty seconds of confused defenders in a sealed room is decisive. "
@@ -976,7 +981,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                 } else if (OPT_SP.equals(option)) {
                     text.addPara("Respond on the frequency directly. Not terms - a question. Ask who you're speaking to.");
                     text.addPara("If it's the station's commanding officer you can offer something the breach team can't - a formal military surrender. "
-                            + "Full honours. Weapons collected not confiscated. Their people treated as prisoners of war rather than criminals. It takes time and "
+                            + "Full honors. Weapons collected not confiscated. Their people treated as prisoners of war rather than criminals. It takes time and "
                             + "it will be witnessed by every marine and every one of Korrin's embedded staff on the station.");
                     text.addPara("The alternative is a sealed room with twelve veterans who stopped firing four minutes ago. Your call.");
                     text.addPara("Nobody says out loud that August will appreciate the optics of a clean handover with no massacres to manage. Nobody needs to.");
@@ -985,7 +990,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
                 break;
         }
 
-        opts.addOption("Reconsider.", OPT_BACK);
+        opts.addOption("Reconsider", OPT_BACK);
     }
 
     // -------------------------------------------------------------------------
@@ -1024,7 +1029,6 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         int max = Math.max(min, ranges[beatIdx][1] + modifier);
         int lost = min + beatRandom.nextInt(max - min + 1);
 
-        // Never remove more marines than the player has
         CargoAPI cargo = Global.getSector().getPlayerFleet().getCargo();
         lost = Math.min(lost, cargo.getMarines());
         cargo.removeMarines(lost);
@@ -1049,7 +1053,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
             text.addPara(BEAT_TRANSITION_TEXT[beatIdx]);
         }
 
-        opts.addOption("Continue.", OPT_BEAT_ADVANCE);
+        opts.addOption("Continue", OPT_BEAT_ADVANCE);
     }
 
     // -------------------------------------------------------------------------
@@ -1093,7 +1097,7 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         text.addPara("Comms reports the Office is already moving, but that was always the plan. "
                 + "August's people are already here, which marks a job done. August will likely want to speak with you.");
 
-        dialog.getOptionPanel().addOption("Understood.", OPT_CONTINUE);
+        dialog.getOptionPanel().addOption("Understood", OPT_CONTINUE);
     }
 
     // -------------------------------------------------------------------------
@@ -1106,10 +1110,8 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
 
         // Performance tiers relative to the 500-marine minimum
         if (totalMarinesLost < (startingMarines * 0.2f)) {
-            // Precise: under 20% lost
             mem.set(MEM_RAID_PRECISE, true);
         } else if (totalMarinesLost > (startingMarines * 0.5f)) {
-            // Costly: over 50% lost
             mem.set(MEM_RAID_COSTLY, true);
         }
         // Acceptable (100-250 lost): neither flag set - rules.csv default branch
@@ -1159,46 +1161,21 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
         log.info("Draconis: XLII_RingPortAssault - Ring-Port captured, faction set to " + DRACONIS_FACTION);
     }
 
+    /**
+     * The generic mechanics (faction flip, submarket fixup, station-fleet re-faction, clearing the
+     * old faction's personnel) now live in the shared {@link XLII_MarketTransfer} utility - Nexerelin-
+     * aware when Nexerelin is present, which this call site never was before. This method now only
+     * does Ring-Port's own flourish on top: named admin/commander/portmaster NPCs, which a one-time
+     * story capture deserves and a repeating background crisis capture (Office Takeover's own use
+     * of the same shared utility) does not need.
+     */
     private void transferMarketDirect(MarketAPI market) {
-        market.setFactionId(DRACONIS_FACTION);
-
-        // BaseSubmarketPlugin.isBlackMarket() returns market.getFaction().isHostileTo(submarket.getFaction()).
-        // The open market submarket stores its faction at creation time (Pirates). If left stale, Draconis
-        // being hostile to Pirates causes the open market to be misidentified as a black market after capture.
-        if (market.hasSubmarket(Submarkets.SUBMARKET_OPEN)) {
-            market.getSubmarket(Submarkets.SUBMARKET_OPEN)
-                  .setFaction(Global.getSector().getFaction(DRACONIS_FACTION));
-        }
+        levianeer.draconis.data.campaign.econ.XLII_MarketTransfer.transferMarket(market, DRACONIS_FACTION);
+        log.info("Draconis: XLII_RingPortAssault - transferred market via shared utility");
 
         SectorEntityToken entity = market.getPrimaryEntity();
         if (entity == null) return;
 
-        entity.setFaction(DRACONIS_FACTION);
-
-        // The OrbitalStation (BATTLESTATION) industry maintains a hidden stationFleet
-        // whose faction is set at creation time and doesn't update automatically when
-        // the market faction changes. Update it directly so the station is fully captured.
-        MemoryAPI entityMem = entity.getMemoryWithoutUpdate();
-        Object stationFleetObj = entityMem.get(MemFlags.STATION_FLEET);
-        if (stationFleetObj instanceof CampaignFleetAPI) {
-            ((CampaignFleetAPI) stationFleetObj).setFaction(DRACONIS_FACTION, true);
-            log.info("Draconis: XLII_RingPortAssault - updated STATION_FLEET faction");
-        }
-        Object baseFleetObj = entityMem.get(MemFlags.STATION_BASE_FLEET);
-        if (baseFleetObj instanceof CampaignFleetAPI) {
-            ((CampaignFleetAPI) baseFleetObj).setFaction(DRACONIS_FACTION, true);
-            log.info("Draconis: XLII_RingPortAssault - updated STATION_BASE_FLEET faction");
-        }
-
-        // Clear pirate personnel - admin, roster, and comm directory entries
-        market.setAdmin(null);
-        for (PersonAPI person : market.getPeopleCopy()) {
-            market.removePerson(person);
-        }
-        market.getCommDirectory().clear();
-        log.info("Draconis: XLII_RingPortAssault - cleared pirate personnel and comm directory");
-
-        // Create a Draconis station administrator and add them to the comm directory
         com.fs.starfarer.api.campaign.FactionAPI dracFaction =
                 Global.getSector().getFaction(DRACONIS_FACTION);
         PersonAPI admin = OfficerManagerEvent.createAdmin(dracFaction, 0, new Random());
@@ -1229,5 +1206,40 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
 
         // Restore Elias Korrin as a visible comm directory contact
         XLII_Characters.updateCharacterPlacements();
+    }
+
+    // -------------------------------------------------------------------------
+    // Dev testing shortcuts - see .claude/systems/blind-eye.md, "Dev Testing"
+    // -------------------------------------------------------------------------
+
+    /**
+     * Skips the FID combat against the defender fleet and opens directly on the
+     * post-assault decision beats (Beat 0). The five beats and their dialogue are
+     * otherwise untouched - this only removes the space battle from the test loop.
+     * Invoked from Korrin's dev menu in rules.csv (XLII_DevSkipRingPortFight).
+     */
+    public static void devSkipToPostAssault() {
+        if (!Global.getSettings().isDevMode()) return;
+
+        XLII_RingPortAssault instance = new XLII_RingPortAssault();
+        instance.state = State.POST_ASSAULT;
+        instance.startingMarines = Global.getSector().getPlayerFleet().getCargo().getMarines();
+        if (instance.startingMarines <= 0) instance.startingMarines = MINIMUM_MARINES;
+        instance.showPostAssaultDialog();
+    }
+
+    /**
+     * Skips both the FID combat and the five decision beats, applying completeVictory()'s
+     * end state directly (market transfer, $XLII_ringPortTaken, comm-directory NPCs). For
+     * testing anything downstream of Ring-Port (the debrief with August, Elias's victory
+     * dialogue, the nanoforge quest) without touching this arc's own content at all.
+     * Invoked from Korrin's dev menu in rules.csv (XLII_DevSkipRingPortVictory).
+     */
+    public static void devSkipToVictory() {
+        if (!Global.getSettings().isDevMode()) return;
+
+        XLII_RingPortAssault instance = new XLII_RingPortAssault();
+        instance.startingMarines = Global.getSector().getPlayerFleet().getCargo().getMarines();
+        instance.completeVictory();
     }
 }

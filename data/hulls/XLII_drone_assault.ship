@@ -15,8 +15,8 @@
     "XLII_overclockcore"
   ],
   "builtInWeapons": {
-    "WS0001": "blinker_red",
-    "WS0002": "blinker_green",
+    "WS0001": "XLII_blinker_red",
+    "WS0002": "XLII_blinker_green",
     "WS0003": "XLII_drone_assault_cover"
   },
   "weaponSlots": [

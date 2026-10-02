@@ -242,11 +242,9 @@ public class XLII_MRM_StrikeStats extends BaseShipSystemScript implements DroneS
 		boolean player = ship == Global.getCombatEngine().getPlayerShip();
 		ShipAPI target = ship.getShipTarget();
 		
-		// If not the player:
-		// The AI sets forceNextTarget, so if we're here, that target got destroyed in the last frame
-		// or it's using a different AI
-		// so, find *something* as a failsafe
-		
+		// Not the player: the AI normally sets forceNextTarget, so getting here means that
+		// target died last frame or a different AI is active - fall back to finding *something*.
+
 		if (!player) {
 			Object test = ship.getAIFlags().getCustom(AIFlags.MANEUVER_TARGET);
 			if (test instanceof ShipAPI) {

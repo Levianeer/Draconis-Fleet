@@ -18,7 +18,7 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
     // Static constants for DOT configuration
     public static final int NUM_TICKS = 7; // Each tick is on average .9 seconds
-    public static final float DOT_DAMAGE_MULT = 1.0f; // % of weapon damage as DOT // 1.0 = 100%
+    public static final float DOT_DAMAGE_MULT = 1.0f; // Fraction of weapon damage dealt as DOT (1.0 = 100%)
     public static final String STATUS_KEY = "XLII_system_burn";
     private static final String STATUS_REGISTERED_KEY = "XLII_burn_status_registered";
 
@@ -40,10 +40,9 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
             return;
         }
 
-        // Calculate DOT damage based on weapon's base damage
         WeaponAPI weapon = projectile.getWeapon();
         float totalDotDamage = (weapon != null) ? weapon.getDamage().getDamage() * DOT_DAMAGE_MULT : 500f;
-        float dps = totalDotDamage / NUM_TICKS; // Calculate DPS for this instance
+        float dps = totalDotDamage / NUM_TICKS;
 
         // Preserve the projectile's damage type and EMP
         DamageType damageType = projectile.getDamageType();
@@ -53,29 +52,23 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         Vector2f offset = Vector2f.sub(point, ship.getLocation(), new Vector2f());
         offset = Misc.rotateAroundOrigin(offset, -ship.getFacing());
 
-        // Create new ignite instance
         IgniteInstance newIgnite = new IgniteInstance(projectile, ship, offset, totalDotDamage, dps, damageType, empPerTick);
 
-        // Add the visual effect to the engine
         CombatEntityAPI entity = engine.addLayeredRenderingPlugin(newIgnite);
         entity.getLocation().set(point);
 
-        // Register this ignite instance
         registerIgnite(ship, newIgnite);
 
-        // Register status plugin if not already registered and player is affected
         if (ship == engine.getPlayerShip() && !engine.getCustomData().containsKey(STATUS_REGISTERED_KEY)) {
             engine.addPlugin(new SystemBurnStatusPlugin());
             engine.getCustomData().put(STATUS_REGISTERED_KEY, Boolean.TRUE);
         }
     }
 
-    // Register a new ignite instance
     private void registerIgnite(ShipAPI ship, IgniteInstance ignite) {
         activeIgnites.computeIfAbsent(ship, k -> new ArrayList<>()).add(ignite);
     }
 
-    // Clean up expired ignite
     public static void unregisterIgnite(ShipAPI ship, IgniteInstance ignite) {
         List<IgniteInstance> ignites = activeIgnites.get(ship);
         if (ignites != null) {
@@ -91,7 +84,6 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         List<IgniteInstance> ignites = activeIgnites.get(ship);
         if (ignites == null || ignites.isEmpty()) return null;
 
-        // Clean up expired ignites first
         ignites.removeIf(ignite -> ignite == null || ignite.isExpired());
 
         if (ignites.isEmpty()) {
@@ -99,7 +91,6 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
             return null;
         }
 
-        // Return the highest DPS ignite that's still active
         IgniteInstance best = null;
         for (IgniteInstance ignite : ignites) {
             if (ignite != null && !ignite.isExpired() && ignite.ticks < NUM_TICKS) {
@@ -111,12 +102,10 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         return best;
     }
 
-    // Get status info for display
     public static DOTStatusInfo getStatusInfo(ShipAPI ship) {
         List<IgniteInstance> ignites = activeIgnites.get(ship);
         if (ignites == null || ignites.isEmpty()) return null;
 
-        // Clean up expired ignites
         ignites.removeIf(ignite -> ignite == null || ignite.isExpired());
 
         if (ignites.isEmpty()) {
@@ -141,11 +130,10 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         return new DOTStatusInfo(ignites.size(), totalDPS, totalRemainingDamage, maxTicksLeft);
     }
 
-    // Helper class for status info
         public record DOTStatusInfo(int totalInstances, float activeDPS, float totalRemainingDamage, int ticksRemaining) {
     }
 
-    // Particle data class (copied from base game)
+    // Copied from base game.
     public static class ParticleData {
         public SpriteAPI sprite;
         public Vector2f offset = new Vector2f();
@@ -259,13 +247,11 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         public void advance(float amount) {
             if (Global.getCombatEngine().isPaused()) return;
 
-            // Update entity location to follow target (like base game)
             Vector2f loc = new Vector2f(offset);
             loc = Misc.rotateAroundOrigin(loc, target.getFacing());
             Vector2f.add(target.getLocation(), loc, loc);
             entity.getLocation().set(loc);
 
-            // Update particles
             toRemoveParticles.clear();
             for (ParticleData p : particles) {
                 p.advance(amount);
@@ -275,7 +261,6 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
             }
             particles.removeAll(toRemoveParticles);
 
-            // Handle fading and sound
             boolean shouldEnd = ticks >= NUM_TICKS || !target.isAlive() || !Global.getCombatEngine().isEntityInPlay(target);
             float volume = 1f;
             if (shouldEnd) {
@@ -295,7 +280,6 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
                 dealDamage();
                 ticks++;
 
-                // Add particles when dealing damage
                 int numParticles = 3;
                 for (int i = 0; i < numParticles; i++) {
                     addParticle();
@@ -317,7 +301,6 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
             float damagePerTick = totalDamage / (float) NUM_TICKS;
             Vector2f point = new Vector2f(entity.getLocation());
 
-            // Apply damage using the original projectile's damage type
             engine.applyDamage(
                     target,                     // target
                     point,                      // point of impact
@@ -339,7 +322,7 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
 
         @Override
         public void render(CombatEngineLayers layer, ViewportAPI viewport) {
-            if (particles.isEmpty()) return; // Early exit if no particles
+            if (particles.isEmpty()) return;
 
             float x = entity.getLocation().x;
             float y = entity.getLocation().y;
@@ -362,7 +345,6 @@ public class XLII_SystemBurnOnHitEffect extends BaseCombatLayeredRenderingPlugin
         }
     }
 
-    // Status plugin for UI display
     public static class SystemBurnStatusPlugin implements EveryFrameCombatPlugin {
 
         @Override

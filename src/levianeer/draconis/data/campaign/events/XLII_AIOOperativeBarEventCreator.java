@@ -10,7 +10,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 /**
  * Creator for the AIO Operative reveal bar event.
- * Fires at Ring-Port after the assault when Vasner has not yet been met.
+ * Fires at Ring-Port after the assault when Ancker has not yet been met.
  */
 public class XLII_AIOOperativeBarEventCreator extends BaseBarEventCreator {
 

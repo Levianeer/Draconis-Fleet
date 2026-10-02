@@ -55,7 +55,6 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
         String shipId = ship.getId();
 
         if (state == ShipSystemStatsScript.State.OUT) {
-            // Restore original mass and clean up
             Float orig = originalMass.get(shipId);
             if (orig != null) {
                 ship.setMass(orig);
@@ -69,7 +68,6 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
             // Allow the next activation to schedule a fresh burst
             burstScheduled.remove(shipId);
         } else {
-            // Store the original mass once per activation
             if (!originalMass.containsKey(shipId)) {
                 originalMass.put(shipId, ship.getMass());
             }
@@ -78,12 +76,10 @@ public class XLII_EvasionProtocolStats extends BaseShipSystemScript {
             // effectLevel 0->1 gives mass = original * 1x->2x
             ship.setMass(originalMass.get(shipId) * (1f + effectLevel));
 
-            // Apply movement bonuses
             stats.getMaxSpeed().modifyFlat(id, VELOCITY * effectLevel);
             stats.getAcceleration().modifyFlat(id, DELTA * effectLevel);
             stats.getDeceleration().modifyFlat(id, DELTA * effectLevel);
 
-            // Schedule the burst on the first ACTIVE frame.
             // Each shot is a separate engine plugin so it fires at the right time
             // regardless of what state the system transitions to afterwards.
             if (state == ShipSystemStatsScript.State.ACTIVE

@@ -43,7 +43,7 @@ public class XLII_StoreCurrentDay extends BaseCommandPlugin {
         }
 
         long timestamp = Global.getSector().getClock().getTimestamp();
-        mem.set(key, timestamp, 0f);
+        mem.set(key, timestamp);
         log.debug("Draconis: XLII_StoreCurrentDay - stored timestamp " + timestamp + " to " + key);
         return true;
     }

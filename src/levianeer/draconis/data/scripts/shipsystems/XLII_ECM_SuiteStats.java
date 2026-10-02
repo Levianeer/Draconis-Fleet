@@ -37,13 +37,11 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
         ShipAPI ship = (ShipAPI) stats.getEntity();
         if (ship == null) return;
 
-        // Calculate effective disable radius
         float effectiveDisableRadius = DISABLE_RADIUS;
         if (ship.isFighter()) {
             effectiveDisableRadius = DISABLE_RADIUS * 0.25f;
         }
 
-        // Show activation text once when the system becomes fully active
         if (state == State.ACTIVE && !textDisplayed) {
             ship.getFluxTracker().showOverloadFloatyIfNeeded("Jamming!", TEXT_COLOR, 1f, true);
             textDisplayed = true;
@@ -100,7 +98,6 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
     }
 
     private void spawnHitParticle(Vector2f location) {
-        // Spawn hit particles to indicate missile disabling
         float angle = 0f;
 
         Global.getCombatEngine().addHitParticle(

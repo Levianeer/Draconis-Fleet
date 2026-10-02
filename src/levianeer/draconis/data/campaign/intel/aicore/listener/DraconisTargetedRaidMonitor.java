@@ -44,7 +44,6 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         float days = Global.getSector().getClock().convertToDays(amount);
         checkInterval += days;
 
-        // Don't check every single frame
         if (checkInterval < CHECK_FREQUENCY) return;
         checkInterval = 0f;
 
@@ -52,21 +51,17 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         List<IntelInfoPlugin> intelList = new ArrayList<>(Global.getSector().getIntelManager().getIntel());
 
         for (IntelInfoPlugin intel : intelList) {
-            // Check for Draconis AI Core raids
             if (intel instanceof DraconisAICoreRaidIntel) {
                 checkAICoreRaid((DraconisAICoreRaidIntel) intel);
             }
-            // Check for Nexerelin raids
             else if (intel instanceof NexRaidIntel) {
                 checkRaid((NexRaidIntel) intel);
             }
-            // Check for invasions
             else if (intel instanceof InvasionIntel) {
                 checkInvasion((InvasionIntel) intel);
             }
         }
 
-        // Cleanup old IDs periodically
         if (processedEvents.size() > 200) {
             log.info("Draconis: Clearing processed events cache");
             processedEvents.clear();
@@ -77,7 +72,6 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         MarketAPI target = raid.getTarget();
         if (target == null) return;
 
-        // Generate ID based on market and timestamp
         String eventId = generateStableEventId(target, "aicore_raid");
 
         // Check if raid is complete FIRST, before checking if we've processed it
@@ -85,13 +79,11 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         boolean isComplete = raid.isEnded() || raid.isSucceeded() || raid.isFailed();
 
         if (!isComplete) {
-            // Raid still in progress - don't process yet
             // Remove from processed set if it was added prematurely
             processedEvents.remove(eventId);
             return;
         }
 
-        // Raid is complete - check if we've already processed this completion
         if (!processedEvents.add(eventId)) {
             // Already processed this specific raid completion, skip
             return;
@@ -115,14 +107,11 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
             log.info("Draconis: AI core theft already handled by raid intel - monitor is just tracking completion");
             log.info("Draconis: ==========================================");
 
-            // Don't call handleSuccessfulAction - raid intel already stole cores
-            // Just clear the target flags if needed
             boolean wasHighValueTarget = target.getMemoryWithoutUpdate().getBoolean(
                     DraconisSingleTargetScanner.HIGH_VALUE_TARGET_FLAG
             );
 
             if (wasHighValueTarget) {
-                // Flags should already be cleared by raid intel, but double-check
                 log.info("Draconis: High-value target flags should already be cleared by raid intel");
             }
         } else if (raid.isFailed()) {
@@ -135,31 +124,26 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
     }
 
     private void checkRaid(NexRaidIntel raid) {
-        // Only process Draconis raids
         if (!isDraconisRaid(raid)) return;
 
         MarketAPI target = raid.getTarget();
         if (target == null) return;
 
-        // Generate ID based on market and timestamp
         String eventId = generateStableEventId(target, "raid");
 
         // Check if raid is complete FIRST, before checking if we've processed it
         boolean isComplete = raid.isEnded() || raid.isSucceeded() || raid.isFailed();
 
         if (!isComplete) {
-            // Raid still in progress - don't process yet
             processedEvents.remove(eventId);
             return;
         }
 
-        // Raid is complete - check if we've already processed this completion
         if (!processedEvents.add(eventId)) {
             // Already processed this specific raid completion, skip
             return;
         }
 
-        // DETAILED LOGGING: Log raid state for debugging
         log.info("Draconis: Checking raid on " + target.getName() +
                 " | Succeeded: " + raid.isSucceeded() +
                 " | Failed: " + raid.isFailed() +
@@ -167,9 +151,8 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
                 " | EventID: " + eventId
         );
 
-        // Process the completed raid
-        // IMPORTANT: Check isSucceeded() FIRST, even if isFailed() is also true
-        // Nexerelin sometimes sets both flags, but success should take priority
+        // IMPORTANT: check isSucceeded() first, even if isFailed() is also true - Nexerelin
+        // sometimes sets both flags, but success should take priority.
         if (raid.isSucceeded()) {
             log.info("Draconis: ==========================================");
             log.info("Draconis: === DRACONIS RAID SUCCEEDED ===");
@@ -215,18 +198,15 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
         boolean isComplete = invasion.isEnded() || invasion.isSucceeded() || invasion.isFailed();
 
         if (!isComplete) {
-            // Invasion still in progress - don't process yet
             processedEvents.remove(eventId);
             return;
         }
 
-        // Invasion is complete - check if we've already processed this completion
         if (!processedEvents.add(eventId)) {
             // Already processed this specific invasion completion, skip
             return;
         }
 
-        // Process the completed invasion
         if (invasion.isSucceeded()) {
             log.info("Draconis: ==========================================");
             log.info("Draconis: === DRACONIS INVASION SUCCEEDED ===");
@@ -256,12 +236,10 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
 
         log.info("Draconis: Attempting AI core theft from " + target.getName());
 
-        // Steal AI cores
         DraconisAICoreTheftListener.checkAndStealAICores(
                 target, isPlayerMarket, actionType
         );
 
-        // Clear high-value target flags if applicable
         if (wasHighValueTarget) {
             DraconisSingleTargetScanner.clearTargetAfterRaid(target);
             log.info("Draconis: Cleared high-value target flags - scanner will select new target");
@@ -277,7 +255,6 @@ public class DraconisTargetedRaidMonitor implements EveryFrameScript {
      */
     private String generateStableEventId(MarketAPI target, String actionType) {
         long currentDay = Global.getSector().getClock().getDay();
-        // Use market ID + day + action type as the unique identifier
         // This means each market can only have one successful raid/invasion processed per day
         return target.getId() + "_" + actionType + "_" + currentDay;
     }

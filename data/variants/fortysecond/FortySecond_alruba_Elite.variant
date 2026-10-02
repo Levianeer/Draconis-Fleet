@@ -1,11 +1,12 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 0,
-    "fluxVents": 9,
+    "fluxVents": 6,
     "goalVariant": true,
     "hullId": "XLII_alruba_fortysecond",
     "hullMods": [
         "safetyoverrides",
+        "XLII_slap_er",
         "hardened_subsystems"
     ],
     "permaMods": [],

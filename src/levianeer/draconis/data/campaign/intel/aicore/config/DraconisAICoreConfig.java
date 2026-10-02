@@ -39,16 +39,12 @@ public class DraconisAICoreConfig {
         }
     }
 
-    /**
-     * Gets AI core generation chances for a faction
-     */
     public static FactionCoreChances getFactionCoreChances(String factionId) {
         loadConfig();
 
         try {
             JSONObject factionChances = config.getJSONObject("factionCoreChances");
 
-            // Try exact faction match first
             if (factionChances.has(factionId)) {
                 JSONObject faction = factionChances.getJSONObject(factionId);
                 return new FactionCoreChances(
@@ -68,9 +64,6 @@ public class DraconisAICoreConfig {
         }
     }
 
-    /**
-     * Gets max cores that can be generated per raid
-     */
     public static int getMaxCoresPerRaid() {
         loadConfig();
         try {
@@ -80,9 +73,6 @@ public class DraconisAICoreConfig {
         }
     }
 
-    /**
-     * Whether to prefer actual installed cores over generated ones
-     */
     public static boolean preferActualCores() {
         loadConfig();
         try {
@@ -92,9 +82,6 @@ public class DraconisAICoreConfig {
         }
     }
 
-    /**
-     * Whether larger markets should be preferred for stolen core installation
-     */
     public static boolean preferLargeMarkets() {
         loadConfig();
         try {
@@ -104,9 +91,6 @@ public class DraconisAICoreConfig {
         }
     }
 
-    /**
-     * Weight multiplier for market size when choosing installation target
-     */
     public static float getMarketSizeWeight() {
         loadConfig();
         try {

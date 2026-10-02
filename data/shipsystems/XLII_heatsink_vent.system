@@ -1,0 +1,7 @@
+{
+	"id":"XLII_heatsink_vent",
+	"type":"STAT_MOD",
+	"aiType":"CUSTOM",
+
+	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_HeatsinkVentStats"
+}

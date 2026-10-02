@@ -1,0 +1,29 @@
+{
+  "variantId": "XLII_pulao_Interceptor",
+  "hullId": "XLII_pulao",
+  "displayName": "Interceptor Drone",
+  "goalVariant": false,
+  "fluxCapacitors": 0,
+  "fluxVents": 0,
+  "quality": 1,
+  "permaMods": [],
+  "hullMods": [],
+  "weaponGroups": [
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS 001": "XLII_falconet_fighter"
+      }
+    },
+    {
+      "autofire": true,
+      "mode": "LINKED",
+      "weapons": {
+        "WS 002": "XLII_LaWS"
+      }
+    }
+  ],
+  "modules": [],
+  "wings": []
+}

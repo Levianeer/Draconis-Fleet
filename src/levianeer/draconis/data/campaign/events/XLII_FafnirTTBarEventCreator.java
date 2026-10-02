@@ -52,10 +52,6 @@ public class XLII_FafnirTTBarEventCreator extends BaseBarEventCreator {
         return 10000000000f;
     }
 
-    // -------------------------------------------------------------------------
-    // Shared condition check
-    // -------------------------------------------------------------------------
-
     /**
      * Conditions: player has not already accepted or completed the TT quest, Fafnir
      * access is not yet granted, and player has Neutral or better rep with TT (>= -0.09).

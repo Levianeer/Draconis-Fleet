@@ -69,7 +69,6 @@ public class DraconManager implements EveryFrameScript {
         float days = Global.getSector().getClock().convertToDays(amount);
         daysElapsed += days;
 
-        // First-run initialization
         if (!initialized) {
             initialize();
             initialized = true;
@@ -80,15 +79,12 @@ public class DraconManager implements EveryFrameScript {
         if (daysElapsed < config.getCheckIntervalDays()) return;
         daysElapsed = 0f;
 
-        // Calculate and apply
         int newScore = calculateThreatScore();
         int newLevel = config.scoreToLevel(newScore);
 
-        // Store results
         Global.getSector().getMemoryWithoutUpdate().set(SCORE_KEY, newScore);
         Global.getSector().getMemoryWithoutUpdate().set(LEVEL_KEY, newLevel);
 
-        // Check for level transition
         Object prevObj = Global.getSector().getMemoryWithoutUpdate().get(PREVIOUS_LEVEL_KEY);
         int previousLevel = (prevObj instanceof Number) ? ((Number) prevObj).intValue() : 5;
 
@@ -103,13 +99,11 @@ public class DraconManager implements EveryFrameScript {
         log.debug("Draconis: Monthly DRACON update - Score: " + newScore +
                 ", Level: " + newLevel + " (" + DraconConfig.getLevelName(newLevel) + ")");
 
-        // Manage conditions on all markets
         updateMarketConditions();
 
         // Sync HighCommand shield state immediately on level change
         XLII_HighCommand.syncAllHighCommandShields();
 
-        // Update character placements
         XLII_Characters.updateCharacterPlacements();
     }
 
@@ -117,13 +111,10 @@ public class DraconManager implements EveryFrameScript {
      * First-run initialization: snapshot baseline markets, migrate from Steel Curtain.
      */
     private void initialize() {
-        // Check if baseline already exists (not first run)
         Object baselineObj = Global.getSector().getMemoryWithoutUpdate().get(BASELINE_KEY);
         if (baselineObj == null) {
-            // First run: snapshot current DDA markets as baseline
             snapshotBaselineMarkets();
 
-            // Set initial state
             Global.getSector().getMemoryWithoutUpdate().set(SCORE_KEY, 0);
             Global.getSector().getMemoryWithoutUpdate().set(LEVEL_KEY, 5);
             Global.getSector().getMemoryWithoutUpdate().set(PREVIOUS_LEVEL_KEY, 5);
@@ -134,7 +125,6 @@ public class DraconManager implements EveryFrameScript {
         // Migrate from Steel Curtain (runs every game load for save compat)
         migrateFromSteelCurtain();
 
-        // Ensure DRACON condition is on all DDA markets
         updateMarketConditions();
     }
 
@@ -153,9 +143,6 @@ public class DraconManager implements EveryFrameScript {
         log.debug("Draconis: Baseline markets captured: " + sb);
     }
 
-    /**
-     * Remove Steel Curtain from any market that still has it.
-     */
     private void migrateFromSteelCurtain() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (market.hasCondition(STEEL_CURTAIN_ID)) {
@@ -166,7 +153,6 @@ public class DraconManager implements EveryFrameScript {
     }
 
     /**
-     * Apply/remove DRACON condition based on DDA ownership.
      * Same pattern as DraconisSteelCurtainMonitor.
      */
     private void updateMarketConditions() {
@@ -227,7 +213,6 @@ public class DraconManager implements EveryFrameScript {
     private int calculateThreatScore() {
         DraconConfig config = DraconConfig.getInstance();
 
-        // Test override
         int testOverride = config.getTestLevelOverride();
         if (testOverride >= 1 && testOverride <= 5) {
             // Return a score in the middle of the target level's range
@@ -243,8 +228,7 @@ public class DraconManager implements EveryFrameScript {
         FactionAPI draconis = Global.getSector().getFaction(DRACONIS);
         if (draconis == null) return 0;
 
-        // Factor 1: Active wars (diminishing returns per additional hostile faction,
-        // so a large modded faction roster doesn't permanently saturate the score)
+        // Factor 1: Active wars
         int warCount = countActiveWars(draconis);
         int warScore = (int) Math.round(config.getWarScorePerWar() * Math.sqrt(warCount));
 
@@ -252,7 +236,7 @@ public class DraconManager implements EveryFrameScript {
         int lostCount = countLostColonies();
         int lostScore = lostCount * config.getLostColonyScore();
 
-        // Factor 3: Colony instability (excluding DRACON's own penalty)
+        // Factor 3: Colony instability
         int unstableCount = countUnstableColonies();
         int instabilityScore = unstableCount * config.getUnstableMarketScore();
 
@@ -262,7 +246,6 @@ public class DraconManager implements EveryFrameScript {
         // Factor 5: Invasion pressure
         int invasionScore = checkInvasionPressure() ? config.getInvasionPressureScore() : 0;
 
-        // Raw contributions
         int rawScore = warScore + lostScore + instabilityScore + fleetWeaknessScore + invasionScore;
 
         // Active AIO crisis: bonus scales with each invasion stage (+25 / +50 / +75)
@@ -272,7 +255,6 @@ public class DraconManager implements EveryFrameScript {
             rawScore += config.getActiveCrisisBonus() * (defeats + 1);
         }
 
-        // Apply decay
         boolean atWar = warCount > 0;
         int decay = atWar ? config.getWartimeDecay() : config.getPeacetimeDecay();
         int finalScore = Math.max(0, Math.min(100, rawScore + decay));
@@ -343,7 +325,6 @@ public class DraconManager implements EveryFrameScript {
             if (!DRACONIS.equals(market.getFactionId())) continue;
             if (market.isHidden()) continue;
 
-            // Subtract DRACON's own stability modifier to get "base" stability
             float baseStability = market.getStabilityValue() - draconStabilityMod;
             if (baseStability <= config.getInstabilityThreshold()) {
                 count++;
@@ -360,13 +341,11 @@ public class DraconManager implements EveryFrameScript {
     private int calculateFleetWeakness(FactionAPI draconis, int maxScore) {
         float ddaStrength = 0f;
 
-        // Track per-faction enemy strength to find the strongest
         Map<String, Float> enemyStrength = new HashMap<>();
 
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (market.isHidden()) continue;
 
-            // Use market size as base fleet contribution
             float contribution = market.getSize();
 
             String factionId = market.getFactionId();
@@ -379,7 +358,6 @@ public class DraconManager implements EveryFrameScript {
 
         if (ddaStrength <= 0) return maxScore; // No markets = maximum vulnerability
 
-        // Find strongest single enemy faction
         float strongestEnemy = 0f;
         for (float strength : enemyStrength.values()) {
             strongestEnemy = Math.max(strongestEnemy, strength);
@@ -391,13 +369,11 @@ public class DraconManager implements EveryFrameScript {
         if (ratio <= 1.0f) return 0;
         if (ratio >= 3.0f) return maxScore;
 
-        // Linear scale: 1.0 -> 0, 2.0 -> maxScore/2, 3.0 -> maxScore
         return Math.round((ratio - 1.0f) / 2.0f * maxScore);
     }
 
     /**
-     * Factor 5: Check for active Nexerelin invasion or raid fleets targeting DDA markets.
-     * Returns true if any inbound invasion/raid is targeting a DDA market.
+     * Factor 5: True if an active Nexerelin invasion or raid fleet is targeting a DDA market.
      */
     private boolean checkInvasionPressure() {
         try {

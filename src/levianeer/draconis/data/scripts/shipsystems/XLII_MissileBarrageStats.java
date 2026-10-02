@@ -32,17 +32,16 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
     private static final float OVERLOAD_SAFETY_MARGIN_MISSILES = 2f; // abort if this many missiles' worth of flux or less remains before overload
 
     // Toggle system penalties
-    private static final float SPEED_MULT = 0.9f; // 10% speed reduction
+    private static final float SPEED_MULT = 0.9f;
 
     // Toggle system buffs
-    private static final float WEAPON_DAMAGE_BONUS = 1.25f; // 25% damage increase
-    private static final float WEAPON_ROF_BONUS = 1.25f; // 25% fire rate increase
+    private static final float WEAPON_DAMAGE_BONUS = 1.25f;
+    private static final float WEAPON_ROF_BONUS = 1.25f;
 
     // Volley timing - fires at nearest enemy in forward arc
-    private static final float VOLLEY_INTERVAL = 9.0f; // Fixed interval between volleys
+    private static final float VOLLEY_INTERVAL = 9.0f;
     private static final float FORWARD_ARC_DEGREES = 120.0f; // Targeting arc (60° each side of facing)
 
-    // Visual effects
     private static final Color LAUNCH_ARC_COLOR = new Color(125, 125, 255, 205);
 
     // Track volley timer per ship
@@ -76,36 +75,28 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
 
         String shipId = ship.getId();
 
-        // Apply stat modifiers while active
         if (effectLevel > 0f) {
-            // Apply speed reduction
             stats.getMaxSpeed().modifyMult(id, SPEED_MULT);
             stats.getAcceleration().modifyMult(id, SPEED_MULT);
             stats.getDeceleration().modifyMult(id, SPEED_MULT);
 
-            // Apply weapon buffs
             stats.getBallisticWeaponDamageMult().modifyMult(id, WEAPON_DAMAGE_BONUS);
             stats.getEnergyWeaponDamageMult().modifyMult(id, WEAPON_DAMAGE_BONUS);
             stats.getBallisticRoFMult().modifyMult(id, WEAPON_ROF_BONUS);
             stats.getEnergyRoFMult().modifyMult(id, WEAPON_ROF_BONUS);
 
-            // Handle volley launches
             if (!engine.isPaused()) {
                 float timer = volleyTimers.getOrDefault(shipId, 0f);
                 timer -= engine.getElapsedInLastFrame();
 
                 if (timer <= 0f) {
-                    // Fire volley at nearest target in forward arc
                     launchVolley(ship, engine);
-
-                    // Reset to fixed interval
                     timer = VOLLEY_INTERVAL;
                 }
 
                 volleyTimers.put(shipId, timer);
             }
         } else {
-            // Remove stat modifiers when not active
             stats.getHullDamageTakenMult().unmodify(id);
             stats.getArmorDamageTakenMult().unmodify(id);
             stats.getShieldDamageTakenMult().unmodify(id);
@@ -117,14 +108,12 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
             stats.getBallisticRoFMult().unmodify(id);
             stats.getEnergyRoFMult().unmodify(id);
 
-            // Reset timer when system deactivates
             volleyTimers.put(shipId, 0f);
         }
     }
 
     @Override
     public void unapply(MutableShipStatsAPI stats, String id) {
-        // Remove all stat modifiers
         stats.getHullDamageTakenMult().unmodify(id);
         stats.getArmorDamageTakenMult().unmodify(id);
         stats.getShieldDamageTakenMult().unmodify(id);
@@ -152,7 +141,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
 
     @Override
     public boolean isUsable(ShipSystemAPI system, ShipAPI ship) {
-        // System is always usable if not out of ammo
         return !system.isOutOfAmmo();
     }
 
@@ -176,7 +164,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
      * All missiles in a volley target the same enemy, fired sequentially with small delay.
      */
     private void launchVolley(ShipAPI ship, CombatEngineAPI engine) {
-        // Get all SYSTEM weapon slots
         List<WeaponSlotAPI> systemSlots = getSystemWeaponSlots(ship);
 
         if (systemSlots.isEmpty()) {
@@ -184,14 +171,12 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
             return;
         }
 
-        // Find nearest target in forward arc
         ShipAPI target = findNearestTargetInForwardArc(ship);
         if (target == null) return;
 
         log.debug("Draconis: Missile Barrage - Firing volley: " + systemSlots.size() +
                  " missiles at " + target.getHullSpec().getHullName());
 
-        // Fire all missiles sequentially at the target
         float delay = 0f;
 
         for (WeaponSlotAPI slot : systemSlots) {
@@ -208,17 +193,12 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
     private void scheduleDelayedLaunch(ShipAPI ship, WeaponSlotAPI slot, ShipAPI target,
                                        CombatEngineAPI engine, float delay) {
         if (delay <= 0.001f) {
-            // Launch immediately
             launchMissileFromSlot(ship, slot, target, engine);
         } else {
-            // Schedule for later using a simple combat script
             engine.addPlugin(new DelayedLaunchScript(ship, slot, target, delay));
         }
     }
 
-    /**
-     * Launches a single missile from a weapon slot.
-     */
     private void launchMissileFromSlot(ShipAPI ship, WeaponSlotAPI slot, ShipAPI target,
                                        CombatEngineAPI engine) {
         if (!hasSafeFluxMargin(ship)) return;
@@ -226,13 +206,11 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
         Vector2f slotPos = slot.computePosition(ship);
         float slotAngle = slot.computeMidArcAngle(ship);
 
-        // Calculate launch direction (toward target)
         float launchAngle = Misc.getAngleInDegrees(slotPos, target.getLocation());
 
         // Create a fresh fake weapon for THIS missile only (each missile gets full ammo)
         WeaponAPI freshWeapon = engine.createFakeWeapon(ship, WEAPON_ID);
 
-        // Spawn the missile using the fresh weapon
         MissileAPI missile = (MissileAPI) engine.spawnProjectile(
             ship,
             freshWeapon,
@@ -243,20 +221,15 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
         );
 
         if (missile != null) {
-            // Apply flux cost for firing the missile
             ship.getFluxTracker().increaseFlux(FLUX_COST_PER_MISSILE, false);
 
-            // Set velocity toward target
             Vector2f velocity = Misc.getUnitVectorAtDegreeAngle(launchAngle);
             missile.getVelocity().set(velocity);
 
-            // Set the missile's AI target to the volley's selected target
-            // This ensures all missiles in a volley attack the same enemy
             if (missile.getMissileAI() instanceof GuidedMissileAI ai) {
                 ai.setTarget(target);
             }
 
-            // Visual effect: launch arc
             engine.spawnEmpArcVisual(
                 ship.getLocation(),
                 ship,
@@ -267,7 +240,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
                 Color.WHITE
             );
 
-            // Smoke effect at launch point
             for (int i = 0; i < 3; i++) {
                 Vector2f smokeVel = Misc.getUnitVectorAtDegreeAngle(slotAngle + (float)(Math.random() * 40 - 20));
                 smokeVel.scale(20f + (float)(Math.random() * 20f));
@@ -285,7 +257,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
     }
 
     /**
-     * Checks whether the ship has enough flux headroom to safely fire another missile.
      * Prevents the barrage from overloading its own ship: aborts if the remaining
      * headroom before overload is at or below the safety margin.
      */
@@ -295,9 +266,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
         return headroom > FLUX_COST_PER_MISSILE * OVERLOAD_SAFETY_MARGIN_MISSILES;
     }
 
-    /**
-     * Gets all SYSTEM type weapon slots from the ship.
-     */
     private List<WeaponSlotAPI> getSystemWeaponSlots(ShipAPI ship) {
         List<WeaponSlotAPI> systemSlots = new ArrayList<>();
 
@@ -326,7 +294,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
         float nearestDistance = Float.MAX_VALUE;
         float shipFacing = ship.getFacing();
 
-        // Find nearest enemy in forward arc
         for (ShipAPI enemy : engine.getShips()) {
             if (enemy.getOwner() == ship.getOwner()) continue;
             if (enemy.isHulk()) continue;
@@ -335,18 +302,15 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
             // Skip fighters - system targets larger ships only
             if (enemy.getHullSize() == ShipAPI.HullSize.FIGHTER) continue;
 
-            // Check if in range
             float distance = Misc.getDistance(ship.getLocation(), enemy.getLocation());
             float radSum = ship.getCollisionRadius() + enemy.getCollisionRadius();
 
             if (distance - radSum > missileRange) continue;
 
-            // Check if in forward arc
             float angleToTarget = Misc.getAngleInDegrees(ship.getLocation(), enemy.getLocation());
             float angleDiff = MathUtils.getShortestRotation(shipFacing, angleToTarget);
 
             if (Math.abs(angleDiff) <= FORWARD_ARC_DEGREES / 2f) {
-                // Target is in arc and range
                 if (distance < nearestDistance) {
                     nearestDistance = distance;
                     nearestTarget = enemy;
@@ -368,7 +332,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
             return missileRangeCache.get(shipId);
         }
 
-        // Get range from weapon spec
         WeaponSpecAPI weaponSpec = Global.getSettings().getWeaponSpec(WEAPON_ID);
         float range = 1500f; // Default fallback
 
@@ -386,9 +349,6 @@ public class XLII_MissileBarrageStats extends BaseShipSystemScript {
 
     // ==================== DELAYED LAUNCH SCRIPT ====================
 
-    /**
-     * Simple combat plugin to handle delayed missile launches.
-     */
     private class DelayedLaunchScript extends BaseEveryFrameCombatPlugin {
         private final ShipAPI ship;
         private final WeaponSlotAPI slot;

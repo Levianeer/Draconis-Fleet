@@ -18,8 +18,8 @@
 	"engineGlowWidthMult":0,
 	"engineGlowGlowMult":0,
 	
-	"range":600,
-	"randomRange":100,
+	"range":400,
+	"randomRange":0,
 	
 	"vulnerableChargeup":false,
 	"vulnerableChargedown":false,

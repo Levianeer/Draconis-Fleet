@@ -29,11 +29,9 @@ public class XLII_CulverinRange implements ProximityExplosionEffect {
 
         Vector2f loc = explosion.getLocation();
 
-        // Spawn explosions
         engine.spawnExplosion(loc, ZERO_VELOCITY, COLOR_FRINGE, LARGE_EXPLOSION_SIZE, EXPLOSION_DURATION);
         engine.spawnExplosion(loc, ZERO_VELOCITY, COLOR_CORE, SMALL_EXPLOSION_SIZE, EXPLOSION_DURATION);
 
-        // Particle FX
         engine.addNegativeNebulaParticle(loc, ZERO_VELOCITY, PARTICLE_SIZE, PARTICLE_DURATION,
                 0f, 0f, PARTICLE_OPACITY, COLOR_GLOW);
     }

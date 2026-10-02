@@ -92,7 +92,6 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
 
             affectingMissile = true;
 
-            // Slow: cap velocity to 50% of max speed
             Vector2f vel = missile.getVelocity();
             float currentSpeedSq = vel.x * vel.x + vel.y * vel.y;
             float cappedSpeed = missile.getMaxSpeed() * SPEED_MULT;
@@ -103,7 +102,6 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
                 vel.y *= scale;
             }
 
-            // HP drain
             engine.applyDamage(
                     missile,
                     missile.getLocation(),
@@ -132,10 +130,8 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
 
             stillInRange.add(target);
 
-            // Slow: 50% max speed
             target.getMutableStats().getMaxSpeed().modifyMult(modId, SPEED_MULT);
 
-            // Increased damage taken: +50%
             target.getMutableStats().getHullDamageTakenMult().modifyMult(modId, FIGHTER_DAMAGE_MULT);
             target.getMutableStats().getArmorDamageTakenMult().modifyMult(modId, FIGHTER_DAMAGE_MULT);
             target.getMutableStats().getShieldDamageTakenMult().modifyMult(modId, FIGHTER_DAMAGE_MULT);
@@ -151,7 +147,7 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
         currentlyAffected.clear();
         currentlyAffected.addAll(stillInRange);
 
-        // --- Ramp effectLevel based on whether anything is being affected ---
+        // --- Ramp effect level ---
         boolean hasTargets = affectingMissile || !stillInRange.isEmpty();
         float currentLevel = effectLevels.getOrDefault(ship, 0f);
         if (hasTargets) {
@@ -161,7 +157,7 @@ public class XLII_HeadacheECMSuite extends BaseHullMod {
         }
         effectLevels.put(ship, currentLevel);
 
-        // --- Ring visual: scales in/out with effectLevel ---
+        // --- Ring visual ---
         if (currentLevel > 0f) {
             if (ringSprite == null) ringSprite = Global.getSettings().getSprite("fx", "XLII_jammer_ring2");
             float spriteSize = effectRange * 2f * SPRITE_ALIGNMENT_SCALE * currentLevel;

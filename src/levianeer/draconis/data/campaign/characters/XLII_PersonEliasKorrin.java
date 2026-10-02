@@ -6,6 +6,8 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.characters.FullName;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Ranks;
+import levianeer.draconis.data.campaign.companion.KorrinCompanion;
+import levianeer.draconis.data.scripts.skills.XLII_SignalsDiscipline;
 import org.apache.log4j.Logger;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
@@ -47,14 +49,17 @@ public class XLII_PersonEliasKorrin {
         elias.setRankId(Ranks.AGENT);
         elias.setPostId(Ranks.POST_SPECIAL_AGENT);
 
+        elias.getStats().setSkillLevel(XLII_SignalsDiscipline.SKILL_ID, 1);
+
         elias.addTag("XLII_elias_korrin");
 
         elias.getName().setFirst("Elias");
         elias.getName().setLast("Korrin");
 
-        // Character notes: August's planned heir, raised during the final years of the war.
-        // Predates AIO institutional memory - the Office has no file on him.
-        // Deeply conflicted about Athebyne; loyal to August regardless.
+        // Character notes: August's intended heir - suspected by Korrin, never stated by either.
+        // Post-war generation, born on Itoron; third-generation Athebynian by descent.
+        // No AIO file: two recruitment flags withdrawn, and he did not withdraw them.
+        // See .claude/characters/character_profile-korrin.md.
         elias.getMemoryWithoutUpdate().set("$XLII_elias_heir_apparent", true);
 
         elias.setPortraitSprite(Global.getSettings().getSpriteName("characters", "XLII_elias_korrin"));
@@ -74,7 +79,8 @@ public class XLII_PersonEliasKorrin {
     }
 
     /**
-     * Syncs Elias Korrin's placement and visibility based on Ring-Port ownership.
+     * Syncs Elias Korrin's placement and visibility based on Ring-Port ownership, or hides him
+     * outright while he is travelling with the player.
      */
     public static void updatePlacement() {
         if (!Global.getSector().getMemoryWithoutUpdate().getBoolean(CREATED_FLAG)) {
@@ -85,11 +91,19 @@ public class XLII_PersonEliasKorrin {
         MarketAPI ringPortMarket = Global.getSector().getEconomy().getMarket(RING_PORT_MARKET_ID);
         if (elias == null || ringPortMarket == null) return;
 
+        // He cannot be at his post and in the player's fleet at once. Ownership does not matter
+        // while he is aboard; returnToStation() calls back in here and the branches below restore
+        // him. This is also why every other caller routes through updatePlacement().
+        if (KorrinCompanion.isAboard()) {
+            CommDirectoryEntryAPI aboardEntry = ringPortMarket.getCommDirectory().getEntryForPerson(elias);
+            if (aboardEntry != null) aboardEntry.setHidden(true);
+            return;
+        }
+
         boolean draconisOwned = DRACONIS.equals(ringPortMarket.getFactionId());
         boolean pirateOwned = com.fs.starfarer.api.impl.campaign.ids.Factions.PIRATES
                 .equals(ringPortMarket.getFactionId());
         if (draconisOwned) {
-            // After capture: ensure Elias is present and always visible
             boolean eliasOnMarket = ringPortMarket.getCommDirectory().getEntryForPerson(elias) != null;
             if (!eliasOnMarket) {
                 ringPortMarket.addPerson(elias);
@@ -99,7 +113,6 @@ public class XLII_PersonEliasKorrin {
             CommDirectoryEntryAPI entry = ringPortMarket.getCommDirectory().getEntryForPerson(elias);
             if (entry != null) entry.setHidden(false);
         } else if (pirateOwned) {
-            // Pirate-controlled: sync hidden state from transponder flag
             boolean transponderVerified = Global.getSector().getMemoryWithoutUpdate()
                     .getBoolean("$XLII_transponderVerified");
             CommDirectoryEntryAPI entry = ringPortMarket.getCommDirectory().getEntryForPerson(elias);

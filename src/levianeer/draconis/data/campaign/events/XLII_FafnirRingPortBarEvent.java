@@ -2,18 +2,14 @@ package levianeer.draconis.data.campaign.events;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
-import com.fs.starfarer.api.campaign.OptionPanelAPI;
-import com.fs.starfarer.api.campaign.TextPanelAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEvent;
+import com.fs.starfarer.api.impl.campaign.rulecmd.FireBest;
 import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
-import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessMissionIntel;
 
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Bar event: a Ring-Port broker (ex-First Fleet veteran) offers the player a weapons
@@ -23,19 +19,14 @@ import java.util.Set;
  * Fires at pirate or independent markets. One-shot: sets
  * {@code $fafnirRingPortQuestActive} on accept, granting pirate jump point credentials.
  * Delivery at Ring-Port Station (inside Fafnir) is a post-entry acknowledgement handled
- * by {@code XLII_FafnirRingPortDeliveryDialogPlugin}.
+ * by rules.csv's "# Ring-Port Delivery" section.
+ * <p>
+ * Same split as {@code XLII_FafnirTTBarEvent}: gating and the initial hook option stay
+ * Java (guaranteed-visibility and the {@code this}-as-option-data requirement respectively);
+ * the branching Q&amp;A, accept and decline flow lives in rules.csv on {@code XLII_rpBar*}
+ * triggers, painted in-place via {@link FireBest#fire} - no dismiss, no reopen.
  */
 public class XLII_FafnirRingPortBarEvent extends BaseBarEvent {
-
-    private enum OptionId {
-        INIT,
-        ASK_WHERE,
-        ASK_WHAT,
-        ACCEPT,
-        DECLINE
-    }
-
-    private final Set<OptionId> askedQuestions = EnumSet.noneOf(OptionId.class);
 
     @Override
     public boolean isAlwaysShow() {
@@ -54,10 +45,6 @@ public class XLII_FafnirRingPortBarEvent extends BaseBarEvent {
         return XLII_FafnirRingPortBarEventCreator.isTriggerConditionMet();
     }
 
-    // -------------------------------------------------------------------------
-    // Dialog flow
-    // -------------------------------------------------------------------------
-
     @Override
     public void addPromptAndOption(InteractionDialogAPI dialog, Map<String, MemoryAPI> memoryMap) {
         super.addPromptAndOption(dialog, memoryMap);
@@ -70,84 +57,16 @@ public class XLII_FafnirRingPortBarEvent extends BaseBarEvent {
     public void init(InteractionDialogAPI dialog, Map<String, MemoryAPI> memoryMap) {
         super.init(dialog, memoryMap);
         done = false;
-        optionSelected(null, OptionId.INIT);
+        FireBest.fire(null, dialog, memoryMap, "XLII_rpBarOpen");
     }
 
     @Override
     public void optionSelected(String optionText, Object optionData) {
-        if (!(optionData instanceof OptionId option)) return;
-
-        TextPanelAPI text      = dialog.getTextPanel();
-        OptionPanelAPI options = dialog.getOptionPanel();
-        options.clearOptions();
-
-        switch (option) {
-            case INIT:
-                showOpening(text, options);
-                break;
-
-            case ASK_WHERE:
-                askedQuestions.add(OptionId.ASK_WHERE);
-                text.addPara(FafnirAccessStrings.RP_ASK_WHERE_PARA1);
-                text.addPara(FafnirAccessStrings.RP_ASK_WHERE_PARA2);
-                text.addPara(FafnirAccessStrings.RP_ASK_WHERE_PARA3);
-                addMainOptions(options);
-                break;
-
-            case ASK_WHAT:
-                askedQuestions.add(OptionId.ASK_WHAT);
-                text.addPara(FafnirAccessStrings.RP_ASK_WHAT_PARA1);
-                text.addPara(FafnirAccessStrings.RP_ASK_WHAT_PARA2);
-                text.addPara(FafnirAccessStrings.RP_ASK_WHAT_PARA3);
-                addMainOptions(options);
-                break;
-
-            case ACCEPT:
-                text.addPara(FafnirAccessStrings.RP_ACCEPT_PARA1);
-                Global.getSector().getMemoryWithoutUpdate()
-                        .set(FafnirAccessStrings.MEM_RP_QUEST_ACTIVE, true);
-                new FafnirAccessMissionIntel(FafnirAccessStrings.PATH_RING_PORT);
-                clearBarSnapshots();
-                done = true;
-                options.addOption("Leave.", "leave");
-                break;
-
-            case DECLINE:
-                text.addPara(FafnirAccessStrings.RP_DECLINE_PARA1);
-                clearBarSnapshots();
-                done = true;
-                options.addOption("Leave.", "leave");
-                break;
+        String key = (String) optionData;
+        if ("barLeave".equals(key)) {
+            done = true;
+            return;
         }
-    }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    private void showOpening(TextPanelAPI text, OptionPanelAPI options) {
-        text.addPara(FafnirAccessStrings.RP_OPENING_PARA1);
-        text.addPara(FafnirAccessStrings.RP_OPENING_PARA2);
-        text.addPara(FafnirAccessStrings.RP_OPENING_PARA3);
-        text.addPara(FafnirAccessStrings.RP_OPENING_PARA4);
-        text.addPara(FafnirAccessStrings.RP_OPENING_PARA5);
-        addMainOptions(options);
-    }
-
-    private void addMainOptions(OptionPanelAPI options) {
-        if (!askedQuestions.contains(OptionId.ASK_WHERE))
-            options.addOption(FafnirAccessStrings.OPT_RP_ASK_WHERE, OptionId.ASK_WHERE);
-        if (!askedQuestions.contains(OptionId.ASK_WHAT))
-            options.addOption(FafnirAccessStrings.OPT_RP_ASK_WHAT,  OptionId.ASK_WHAT);
-        options.addOption(FafnirAccessStrings.OPT_RP_ACCEPT,    OptionId.ACCEPT);
-        options.addOption(FafnirAccessStrings.OPT_RP_DECLINE,   OptionId.DECLINE);
-    }
-
-    private static void clearBarSnapshots() {
-        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            if (Factions.PLAYER.equals(market.getFactionId())) {
-                market.getMemoryWithoutUpdate().unset("$BarCMD_shownEvents");
-            }
-        }
+        FireBest.fire(null, dialog, memoryMap, "XLII_rpBar_" + key);
     }
 }

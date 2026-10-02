@@ -15,10 +15,9 @@ import java.util.Map;
 public class XLII_IncomprehensibleHorrors extends BaseHullMod {
 
     private static final float COOLDOWN_REDUCTION = -35f;
-    private static final float HULL_RESTORE_PERCENT = 0.10f; // % of max hull at full modules (10%)
+    private static final float HULL_RESTORE_PERCENT = 0.10f; // % of max hull restored, at full modules
     private static final int TOTAL_MODULES = 4;
 
-    // Module hull IDs
     private static final String MODULE_FRONT = "XLII_module_sunsetter_armor_front";
     private static final String MODULE_BACK = "XLII_module_sunsetter_armor_back";
     private static final String MODULE_LEFT = "XLII_module_sunsetter_armor_left";
@@ -44,9 +43,6 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
         stats.getSystemCooldownBonus().modifyPercent(id, COOLDOWN_REDUCTION);
     }
 
-    /**
-     * Counts the number of alive armor modules on the Sunsetter
-     */
     private int countAliveModules(ShipAPI ship) {
         if (ship.getChildModulesCopy() == null) return 0;
 
@@ -105,12 +101,10 @@ public class XLII_IncomprehensibleHorrors extends BaseHullMod {
             }
         }
 
-        // System deactivated - reset restoration rate
         if (!isSystemActive && wasSystemActive) {
             hullRestorePerSecond = 0f;
         }
 
-        // Restore hull while system is active
         if (isSystemActive && hullRestorePerSecond > 0) {
             float hullToRestore = hullRestorePerSecond * amount;
             ship.setHitpoints(Math.min(ship.getHitpoints() + hullToRestore, ship.getMaxHitpoints()));

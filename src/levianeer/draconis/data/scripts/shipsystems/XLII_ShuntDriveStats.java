@@ -25,7 +25,6 @@ public class XLII_ShuntDriveStats extends BaseShipSystemScript {
     public void apply(MutableShipStatsAPI stats, String id, State state, float effectLevel) {
         if (!(stats.getEntity() instanceof ShipAPI ship)) return;
 
-        // Stat mod
         if (state == ShipSystemStatsScript.State.OUT) {
             stats.getMaxSpeed().unmodify(id);
             stats.getMaxTurnRate().unmodify(id);
@@ -44,11 +43,9 @@ public class XLII_ShuntDriveStats extends BaseShipSystemScript {
             stats.getMaxTurnRate().modifyPercent(id, 200f);
         }
 
-        // Engine visuals
         ship.getEngineController().fadeToOtherColor(this, engineColor, new Color(0, 0, 0, 0), effectLevel, 0.67f);
         ship.getEngineController().extendFlame(this, 2f * effectLevel, 1f, 1f);
 
-        // Exhaust particles
         spawnExhaustParticles(ship, effectLevel);
     }
 

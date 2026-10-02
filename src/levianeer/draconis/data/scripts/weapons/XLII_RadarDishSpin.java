@@ -12,8 +12,7 @@ public class XLII_RadarDishSpin implements EveryFrameWeaponEffectPlugin {
             return;
         }
 
-        // Cache the spec's base turn rate once to avoid stat modifier interference.
-        // This is a decorative spinning radar dish - it should spin at a constant rate.
+        // Cached once so stat modifiers don't affect this purely decorative spin.
         if (baseTurnRate < 0f) {
             baseTurnRate = weapon.getSpec().getTurnRate();
         }
