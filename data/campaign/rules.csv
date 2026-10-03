@@ -3300,14 +3300,16 @@ He keeps scrolling. ""The Alliance harvested this exact class during the war. I 
 XLII_korrin_c_tour_remnant_opt_did,XLII_KorrinCTourRemnantOptions,,,,"10:korrin_tour_remnant_did:I did",
 XLII_korrin_c_tour_remnant_opt_didnt,XLII_KorrinCTourRemnantOptions,,,,"11:korrin_tour_remnant_didnt:I didn't",
 XLII_korrin_c_tour_remnant_opt_later,XLII_KorrinCTourRemnantOptions,,,,"100:korrin_defer:Not now",
-XLII_korrin_a_tour_remnant_did,DialogOptionSelected,"$option == korrin_tour_remnant_did","XLII_Korrin rep 0.04","""That doesn't really surprise me. You've got a good eye, better than mine, apparently."" He gives an ever so brief chuckle.
+XLII_korrin_a_tour_remnant_did,DialogOptionSelected,$option == korrin_tour_remnant_did,"XLII_Korrin rep 0.04
+AddRemoveAnyItem SPECIAL modspec XLII_derelict_ecm_relay 1","""That doesn't really surprise me. You've got a good eye, better than mine, apparently."" He gives an ever so brief chuckle.
 
 He pulls a component off the wreck himself, his hands doing the work rather than his mouth.
 
-""Yours, if you can use it. Whatever Acquisitions would have called it, I promise this is shorter."" He hands it over without ceremony.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
-XLII_korrin_a_tour_remnant_didnt,DialogOptionSelected,"$option == korrin_tour_remnant_didnt","XLII_Korrin rep 0.04","""I don't think many people do. It's certainly not on the recruitment posters.""
+""Yours, if you can use it. Whatever Acquisitions would have called it, I promise this is shorter."" He hands it over without ceremony.",1:korrin_tour_close:Leave it there,Grants Derelict ECM Suite modspec (AddRemoveAnyItem SPECIAL modspec XLII_derelict_ecm_relay) - right-click the item in cargo to learn the hull mod.
+XLII_korrin_a_tour_remnant_didnt,DialogOptionSelected,$option == korrin_tour_remnant_didnt,"XLII_Korrin rep 0.04
+AddRemoveAnyItem SPECIAL modspec XLII_derelict_ecm_relay 1","""I don't think many people do. It's certainly not on the recruitment posters.""
 
-He pulls a component off the wreck himself, hands doing the work rather than his mouth. ""Yours, if you can use it. Whatever Acquisitions would have called it, I promise this is shorter."" He hands it over without ceremony.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
+He pulls a component off the wreck himself, hands doing the work rather than his mouth. ""Yours, if you can use it. Whatever Acquisitions would have called it, I promise this is shorter."" He hands it over without ceremony.",1:korrin_tour_close:Leave it there,Grants Derelict ECM Suite modspec (AddRemoveAnyItem SPECIAL modspec XLII_derelict_ecm_relay) - right-click the item in cargo to learn the hull mod.
 XLII_korrin_c_tour_omega,XLII_KorrinComment,"XLII_Korrin topicIs korrin_tour_omega","$global.XLII_tour_omega_heard = true
 XLII_Korrin visual
 FireAll XLII_KorrinCTourOmegaOptions","""The Omega..."" He looks back at the wreck.
@@ -3317,15 +3319,18 @@ XLII_korrin_c_tour_omega_opt_answers,XLII_KorrinCTourOmegaOptions,,,,"10:korrin_
 XLII_korrin_c_tour_omega_opt_speculate,XLII_KorrinCTourOmegaOptions,,,,"11:korrin_tour_omega_speculate:Rather not speculate",
 XLII_korrin_c_tour_omega_opt_what,XLII_KorrinCTourOmegaOptions,,,,"12:korrin_tour_omega_what:What do you think the Omega are?",
 XLII_korrin_c_tour_omega_opt_later,XLII_KorrinCTourOmegaOptions,,,,"100:korrin_defer:Not now",
-XLII_korrin_a_tour_omega_answers,DialogOptionSelected,"$option == korrin_tour_omega_answers","XLII_Korrin rep 0.05","""I don't know..."" Flat, no theater in it. ""But I can't shake the feeling there is a connection.""
+XLII_korrin_a_tour_omega_answers,DialogOptionSelected,$option == korrin_tour_omega_answers,"XLII_Korrin rep 0.05
+AddRemoveAnyItem SPECIAL modspec XLII_entropic_field 1","""I don't know..."" Flat, no theater in it. ""But I can't shake the feeling there is a connection.""
 
-He extracts something from the wreck himself. ""Whatever this is, don't ask me how it works. I don't think the engineers who'll install it know either."" He hands it over.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
-XLII_korrin_a_tour_omega_speculate,DialogOptionSelected,"$option == korrin_tour_omega_speculate","XLII_Korrin rep 0.03","""Neither would I, if I could help it."" A short, humorless laugh - the flat joke format failing him for once, and he seems to notice it failed. ""Anyway...""
+He extracts something from the wreck himself. ""Whatever this is, don't ask me how it works. I don't think the engineers who'll install it know either."" He hands it over.",1:korrin_tour_close:Leave it there,Grants Entropic Field modspec (AddRemoveAnyItem SPECIAL modspec XLII_entropic_field) - right-click the item in cargo to learn the hull mod.
+XLII_korrin_a_tour_omega_speculate,DialogOptionSelected,$option == korrin_tour_omega_speculate,"XLII_Korrin rep 0.03
+AddRemoveAnyItem SPECIAL modspec XLII_entropic_field 1","""Neither would I, if I could help it."" A short, humorless laugh - the flat joke format failing him for once, and he seems to notice it failed. ""Anyway...""
 
-He extracts something from the wreck himself. ""Whatever this is, don't ask me how it works. I don't think the engineers who'll install it know either."" He hands it over.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
-XLII_korrin_a_tour_omega_what,DialogOptionSelected,"$option == korrin_tour_omega_what","XLII_Korrin rep 0.05","""No idea. Nobody does, officially."" A shrug, the practiced kind. ""Probably the most honest thing anyone in the Persean Sector has said in cycles.""
+He extracts something from the wreck himself. ""Whatever this is, don't ask me how it works. I don't think the engineers who'll install it know either."" He hands it over.",1:korrin_tour_close:Leave it there,Grants Entropic Field modspec (AddRemoveAnyItem SPECIAL modspec XLII_entropic_field) - right-click the item in cargo to learn the hull mod.
+XLII_korrin_a_tour_omega_what,DialogOptionSelected,$option == korrin_tour_omega_what,"XLII_Korrin rep 0.05
+AddRemoveAnyItem SPECIAL modspec XLII_entropic_field 1","""No idea. Nobody does, officially."" A shrug, the practiced kind. ""Probably the most honest thing anyone in the Persean Sector has said in cycles.""
 
-He extracts something from the wreck himself. ""Whatever this is, don't ask me how it works. I don't think the engineers who'll install it know either."" He hands it over.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
+He extracts something from the wreck himself. ""Whatever this is, don't ask me how it works. I don't think the engineers who'll install it know either."" He hands it over.",1:korrin_tour_close:Leave it there,Grants Entropic Field modspec (AddRemoveAnyItem SPECIAL modspec XLII_entropic_field) - right-click the item in cargo to learn the hull mod.
 XLII_korrin_c_tour_threat,XLII_KorrinComment,"XLII_Korrin topicIs korrin_tour_threat","$global.XLII_tour_threat_heard = true
 XLII_Korrin visual
 FireAll XLII_KorrinCTourThreatOptions","""Whatever that was, it was there before the sensors flagged it. It chose the moment it wanted to be found."" He says it without the usual dry framing.
@@ -3339,15 +3344,18 @@ XLII_korrin_c_tour_threat_opt_alright,XLII_KorrinCTourThreatOptions,,,,"10:korri
 XLII_korrin_c_tour_threat_opt_over,XLII_KorrinCTourThreatOptions,,,,"11:korrin_tour_threat_over:Well the fight's already over",
 XLII_korrin_c_tour_threat_opt_silent,XLII_KorrinCTourThreatOptions,,,,"12:korrin_tour_threat_silent:Say nothing, let him work it out",
 XLII_korrin_c_tour_threat_opt_later,XLII_KorrinCTourThreatOptions,,,,"100:korrin_defer:Not now",
-XLII_korrin_a_tour_threat_alright,DialogOptionSelected,"$option == korrin_tour_threat_alright","XLII_Korrin rep 0.04","""Yeah."" He blurts out, too fast, and he seems to hear it. ""Give me a minute. It'll be funny eventually. I'm just not there yet.""
+XLII_korrin_a_tour_threat_alright,DialogOptionSelected,$option == korrin_tour_threat_alright,"XLII_Korrin rep 0.04
+AddRemoveAnyItem SPECIAL modspec XLII_reclamation_plating 1","""Yeah."" He blurts out, too fast, and he seems to hear it. ""Give me a minute. It'll be funny eventually. I'm just not there yet.""
 
-He sets the sensor log down, deliberately. ""Whatever it was, some of it's ours now."" A flatter attempt at the joke than usual, but he tries. ""Turnabout, I suppose.""","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
-XLII_korrin_a_tour_threat_over,DialogOptionSelected,"$option == korrin_tour_threat_over","XLII_Korrin rep 0.03","""That's not actually reassuring, but I appreciate the effort."" A short laugh, more relief than humor.
+He sets the sensor log down, deliberately. ""Whatever it was, some of it's ours now."" A flatter attempt at the joke than usual, but he tries. ""Turnabout, I suppose.""",1:korrin_tour_close:Leave it there,Grants Reclamation Plating modspec (AddRemoveAnyItem SPECIAL modspec XLII_reclamation_plating) - right-click the item in cargo to learn the hull mod.
+XLII_korrin_a_tour_threat_over,DialogOptionSelected,$option == korrin_tour_threat_over,"XLII_Korrin rep 0.03
+AddRemoveAnyItem SPECIAL modspec XLII_reclamation_plating 1","""That's not actually reassuring, but I appreciate the effort."" A short laugh, more relief than humor.
 
-He sets the sensor log down, deliberately. ""Whatever it was, some of it's ours now."" A flatter attempt at the joke than usual, but he tries. ""Turnabout, I suppose.""","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
-XLII_korrin_a_tour_threat_silent,DialogOptionSelected,"$option == korrin_tour_threat_silent","XLII_Korrin rep 0.05","He doesn't fill the silence either, for once. Just keeps checking a readout that already came back clean.
+He sets the sensor log down, deliberately. ""Whatever it was, some of it's ours now."" A flatter attempt at the joke than usual, but he tries. ""Turnabout, I suppose.""",1:korrin_tour_close:Leave it there,Grants Reclamation Plating modspec (AddRemoveAnyItem SPECIAL modspec XLII_reclamation_plating) - right-click the item in cargo to learn the hull mod.
+XLII_korrin_a_tour_threat_silent,DialogOptionSelected,$option == korrin_tour_threat_silent,"XLII_Korrin rep 0.05
+AddRemoveAnyItem SPECIAL modspec XLII_reclamation_plating 1","He doesn't fill the silence either, for once. Just keeps checking a readout that already came back clean.
 
-He sets the sensor log down, deliberately. ""Whatever it was, some of it's ours now."" A flatter attempt at the joke than usual, but he tries. ""Turnabout, I suppose.""","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
+He sets the sensor log down, deliberately. ""Whatever it was, some of it's ours now."" A flatter attempt at the joke than usual, but he tries. ""Turnabout, I suppose.""",1:korrin_tour_close:Leave it there,Grants Reclamation Plating modspec (AddRemoveAnyItem SPECIAL modspec XLII_reclamation_plating) - right-click the item in cargo to learn the hull mod.
 XLII_korrin_c_tour_dweller,XLII_KorrinComment,"XLII_Korrin topicIs korrin_tour_dweller","$global.XLII_tour_dweller_heard = true
 XLII_Korrin visual
 FireAll XLII_KorrinCTourDwellerOptions","""That's was rally a fleet, and I don't think 'creature' is right either."" He watches the readout fade rather than the debris itself. ""Have you got a name for this yet? Because I don't.""
@@ -3358,12 +3366,14 @@ He starts to say something else, then doesn't. He's already closing the readout 
 XLII_korrin_c_tour_dweller_opt_mean,XLII_KorrinCTourDwellerOptions,,,,"10:korrin_tour_dweller_mean:Ask what he means",
 XLII_korrin_c_tour_dweller_opt_hint,XLII_KorrinCTourDwellerOptions,,,,"11:korrin_tour_dweller_hint:Take the hint and change the subject",
 XLII_korrin_c_tour_dweller_opt_later,XLII_KorrinCTourDwellerOptions,,,,"100:korrin_defer:Not now",
-XLII_korrin_a_tour_dweller_mean,DialogOptionSelected,"$option == korrin_tour_dweller_mean","XLII_Korrin rep 0.03","""Nothing I can put a sentence around."" Not a dodge - he doesn't have the theory, and he isn't going to invent one. ""It's a feeling. I'd rather not build an argument out of a feeling.""
+XLII_korrin_a_tour_dweller_mean,DialogOptionSelected,$option == korrin_tour_dweller_mean,"XLII_Korrin rep 0.03
+AddRemoveAnyItem SPECIAL modspec XLII_shrouded_veil 1","""Nothing I can put a sentence around."" Not a dodge - he doesn't have the theory, and he isn't going to invent one. ""It's a feeling. I'd rather not build an argument out of a feeling.""
 
-He's already moving on to the next thing on the manifest as he hands something over.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
-XLII_korrin_a_tour_dweller_hint,DialogOptionSelected,"$option == korrin_tour_dweller_hint","XLII_Korrin rep 0.04","He seems lost in thought. But after a moment he gives a genuine smile.
+He's already moving on to the next thing on the manifest as he hands something over.",1:korrin_tour_close:Leave it there,Grants Shrouded Veil modspec (AddRemoveAnyItem SPECIAL modspec XLII_shrouded_veil) - right-click the item in cargo to learn the hull mod.
+XLII_korrin_a_tour_dweller_hint,DialogOptionSelected,$option == korrin_tour_dweller_hint,"XLII_Korrin rep 0.04
+AddRemoveAnyItem SPECIAL modspec XLII_shrouded_veil 1","He seems lost in thought. But after a moment he gives a genuine smile.
 
-He's already moving on to the next thing on the manifest as he hands something over.","1:korrin_tour_close:Leave it there","This is where a special hullmod is supposed to be given."
+He's already moving on to the next thing on the manifest as he hands something over.",1:korrin_tour_close:Leave it there,Grants Shrouded Veil modspec (AddRemoveAnyItem SPECIAL modspec XLII_shrouded_veil) - right-click the item in cargo to learn the hull mod.
 "#END [SHAPES OF OLD] Tour Stops",,,,,,
 ,,,,,,
 # [SHAPES OF OLD] Tour Close,,,,,,
