@@ -17,6 +17,9 @@ ___
 
 ### __Credits:__
 
+<details>
+<summary>Click to expand</summary>
+
 __Ed Harrison:__ Music from NEOTOKYO° OST, used with permission.<br>
 _Support him here! https://x.com/00edit & https://edharrison.bandcamp.com/_
 
@@ -30,11 +33,14 @@ __X4: Foundations:__ Weapon SFX.
 __Halo: Combat Evolved:__ Weapon SFX.<br>
 _Halo: Combat Evolved © Microsoft Corporation. Draconis Fleet was created under Microsoft's "Game Content Usage Rules" using assets from Halo: Combat Evolved, and it is not endorsed by or affiliated with Microsoft._<br>
 __Terms of Usage:__ https://www.xbox.com/en-US/developers/rules
+</details>
 
 ___
 
 ## __License:__
 
+<details>
+<summary>Click to expand</summary>
 This mod is licensed under: **[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)**.
 
 **Important Note:** Third-party assets (music, sounds, some code) listed in Credits above retain their original licenses and terms of use.
@@ -56,6 +62,8 @@ This mod is licensed under: **[CC BY-NC-SA 4.0](https://creativecommons.org/lice
 #### **You CANNOT:**
 - Use this mod or its contents for commercial purposes (selling, monetized distribution, etc.)
 - Apply additional restrictions that contradict this license
+
+</details>
 
 ___
 
