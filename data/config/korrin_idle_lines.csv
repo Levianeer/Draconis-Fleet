@@ -1,19 +1,5 @@
 id,bucket,text
-korrin_idle_commanding_01,commanding,"He picks up on the first ping. Behind him, his own bridge - quieter than yours, and arranged like he expects to be there a while.
-
-""Commander!"""
-korrin_idle_commanding_02,commanding,"He picks up on the first ping. His wardroom, mid-briefing. Three of his officers are enjoying it more than he is. He sends them out with a look and turns back to the pickup.
-
-""Commander. Good timing, as it happens."""
-korrin_idle_commanding_03,commanding,"He answers from somewhere in his own engineering spaces, with the sound of a running plant behind him.
-
-""One moment."" A hand gesture and the noise drops by half. ""Commander?"""
-korrin_idle_commanding_04,commanding,"He is on his bridge, leaning over a plot and correcting it without saying whose it was. The helm officer has the sense to look elsewhere.
-
-""Commander, what do you need?"""
-korrin_idle_commanding_05,commanding,"His quarters, with the door open behind him - which the crew have worked out is deliberate.
-
-""Commander. Come in, so to speak."""
+#Officer,,
 korrin_idle_officer_01,officer,"He is in your flag office, reading traffic nobody assigned him. He does not feign ignorance.
 
 ""Hello, Commander."""
@@ -29,6 +15,13 @@ korrin_idle_officer_04,officer,"You find him in cargo control, where he is check
 korrin_idle_officer_05,officer,"Inside the corridor outside the CIC, Korrin has been waiting to be useful about something.
 
 ""Yes, Commander?"""
+korrin_idle_officer_06,officer,"A maintenance panel lies flat against the ground, a conduit line half jury-rigged together that is not on any list of his duties, sleeves rolled, a rating holding a light for him because nobody told them not to.
+
+""Commander."" A pauses as he fiddles with something unseen. ""I'll have this closed up the second you need me for something.""
+
+He continues tinkering..."
+,,
+#Reserve,,
 korrin_idle_reserve_01,reserve,"He is in the observation blister on the spine, where the crew go when they want to not be found. He does not seem embarrassed to be caught at it.
 
 ""Commander."" He makes no attempt to look like he was doing something else. ""I am told idleness is good for the constitution."""
@@ -44,3 +37,26 @@ korrin_idle_reserve_04,reserve,"Korrin sits in a borrowed corner of the mess, a 
 korrin_idle_reserve_05,reserve,"He is sitting in on the navigation watch, saying nothing and missing less. He steps away when he sees the light.
 
 ""Commander?"""
+korrin_idle_reserve_06,reserve,"He is doing a slow circuit of the gun deck that looks exactly like an inspection round, right down to the pause and the considering look, except that it isn't his deck to inspect.
+
+""Commander, I was just-"" He stops himself. ""Walking. I was just walking."""
+,,
+#Commanding,,
+korrin_idle_commanding_01,commanding,"He picks up on the first ping. Behind him, his own bridge - quieter than yours, and arranged like he expects to be there a while.
+
+""Commander!"""
+korrin_idle_commanding_02,commanding,"He picks up on the first ping. His wardroom, mid-briefing. Three of his officers are enjoying it more than he is. He sends them out with a look and turns back to the pickup.
+
+""Commander. Good timing, as it happens."""
+korrin_idle_commanding_03,commanding,"He answers from somewhere in his own engineering spaces, with the sound of a running plant behind him.
+
+""One moment."" A hand gesture and the noise drops by half. ""Commander?"""
+korrin_idle_commanding_04,commanding,"He is on his bridge, leaning over a plot and correcting it without saying whose it was. The helm officer has the sense to look elsewhere.
+
+""Commander, what do you need?"""
+korrin_idle_commanding_05,commanding,"His quarters, with the door open behind him - which the crew have worked out is deliberate.
+
+""Commander. Come in, so to speak."""
+korrin_idle_commanding_06,commanding,"You catch him at the helm, meekly giving out orders with a full chain of reasoning attached - sourcing, confidence level, the lot - to a bridge crew that wanted four words and a heading. He catches the XO's expression partway through and winds it down himself.
+
+""Commander, my apologies."" A dry breath and an awkward moment. ""Used to get paid for the reasoning. Here, I'm told, that can wait."""
