@@ -1,0 +1,46 @@
+id,bucket,text
+korrin_idle_commanding_01,commanding,"He picks up on the first ping. Behind him, his own bridge - quieter than yours, and arranged like he expects to be there a while.
+
+""Commander!"""
+korrin_idle_commanding_02,commanding,"He picks up on the first ping. His wardroom, mid-briefing. Three of his officers are enjoying it more than he is. He sends them out with a look and turns back to the pickup.
+
+""Commander. Good timing, as it happens."""
+korrin_idle_commanding_03,commanding,"He answers from somewhere in his own engineering spaces, with the sound of a running plant behind him.
+
+""One moment."" A hand gesture and the noise drops by half. ""Commander?"""
+korrin_idle_commanding_04,commanding,"He is on his bridge, leaning over a plot and correcting it without saying whose it was. The helm officer has the sense to look elsewhere.
+
+""Commander, what do you need?"""
+korrin_idle_commanding_05,commanding,"His quarters, with the door open behind him - which the crew have worked out is deliberate.
+
+""Commander. Come in, so to speak."""
+korrin_idle_officer_01,officer,"He is in your flag office, reading traffic nobody assigned him. He does not feign ignorance.
+
+""Hello, Commander."""
+korrin_idle_officer_02,officer,"He is standing on your bridge, nestled in one of it's lonelier corners. Fidgeting with some small object.
+
+""Commander, just a second..."""
+korrin_idle_officer_03,officer,"He sits in your wardroom, where he is being extremely careful not to give anybody an order.
+
+""Commander. I was beginning to think I had been forgotten about."""
+korrin_idle_officer_04,officer,"You find him in cargo control, where he is checking a rotation that is not his to check. The rating on watch seems glad of the company.
+
+""Commander."""
+korrin_idle_officer_05,officer,"Inside the corridor outside the CIC, Korrin has been waiting to be useful about something.
+
+""Yes, Commander?"""
+korrin_idle_reserve_01,reserve,"He is in the observation blister on the spine, where the crew go when they want to not be found. He does not seem embarrassed to be caught at it.
+
+""Commander."" He makes no attempt to look like he was doing something else. ""I am told idleness is good for the constitution."""
+korrin_idle_reserve_02,reserve,"He is in the galley, at an hour when nobody else is in it, working through a stack of freight manifests he brought aboard himself.
+
+""Commander?"""
+korrin_idle_reserve_03,reserve,"Somewhere in the aft passages. He is learning your ship by walking it end to end, which he has been doing for serval days.
+
+""Commander. I think the frame numbering is inconsistent aft of the mid-section..."""
+korrin_idle_reserve_04,reserve,"Korrin sits in a borrowed corner of the mess, a datapad, and a cup of something that went cold a while ago.
+
+""Commander!"""
+korrin_idle_reserve_05,reserve,"He is sitting in on the navigation watch, saying nothing and missing less. He steps away when he sees the light.
+
+""Commander?"""

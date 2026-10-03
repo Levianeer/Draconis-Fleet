@@ -969,67 +969,6 @@ XLII_korrin_recruit_close,DialogOptionSelected,"$option == korrin_recruit_done",
 "#END [KORRIN] Recruitment",,,,,,
 ,,,,,,
 # [KORRIN] Companion Conversation,,,,,,
-XLII_korrin_talk_commanding,XLII_KorrinTalk,"XLII_Korrin state ABOARD_OFFICER
-XLII_Korrin hasCommand","XLII_Korrin visual
-XLII_Korrin menu","He picks up on the first ping. Behind him, his own bridge - quieter than yours, and arranged like he expects to be there a while.
-
-""Commander!""
-OR
-He picks up on the first ping. His wardroom, mid-briefing. Three of his officers are enjoying it more than he is. He sends them out with a look and turns back to the pickup.
-
-""Commander. Good timing, as it happens.""
-OR
-He answers from somewhere in his own engineering spaces, with the sound of a running plant behind him.
-
-""One moment."" A hand gesture and the noise drops by half. ""Commander?""
-OR
-He is on his bridge, leaning over a plot and correcting it without saying whose it was. The helm officer has the sense to look elsewhere.
-
-""Commander, what do you need?""
-OR
-His quarters, with the door open behind him - which the crew have worked out is deliberate.
-
-""Commander. Come in, so to speak.""",,"Two conditions, so FireBest prefers this over the roster-only greeting below when he has a hull. Text variants cycle at random - where he is belongs here, not on the intel panel."
-XLII_korrin_talk_officer,XLII_KorrinTalk,"XLII_Korrin state ABOARD_OFFICER","XLII_Korrin visual
-XLII_Korrin menu","He is in your flag office, reading traffic nobody assigned him. He does not feign ignorance.
-
-""Hello, Commander.""
-OR
-He is standing on your bridge, nestled in one of it's lonelier corners. Fidgeting with some small object.
-
-""Commander, just a second...""
-OR
-He sits in your wardroom, where he is being extremely careful not to give anybody an order.
-
-""Commander. I was beginning to think I had been forgotten about.""
-OR
-You find him in cargo control, where he is checking a rotation that is not his to check. The rating on watch seems glad of the company.
-
-""Commander.""
-OR
-Inside the corridor outside the CIC, Korrin has been waiting to be useful about something.
-
-""Yes, Commander?""",,"On the officer roster with no ship assigned. Scores 1, so it only wins when hasCommand fails."
-XLII_korrin_talk_reserve,XLII_KorrinTalk,"XLII_Korrin state ABOARD_RESERVE","XLII_Korrin visual
-XLII_Korrin menu","He is in the observation blister on the spine, where the crew go when they want to not be found. He does not seem embarrassed to be caught at it.
-
-""Commander."" He makes no attempt to look like he was doing something else. ""I am told idleness is good for the constitution.""
-OR
-He is in the galley, at an hour when nobody else is in it, working through a stack of freight manifests he brought aboard himself.
-
-""Commander?""
-OR
-Somewhere in the aft passages. He is learning your ship by walking it end to end, which he has been doing for serval days.
-
-""Commander. I think the frame numbering is inconsistent aft of the mid-section...""
-OR
-Korrin sits in a borrowed corner of the mess, a datapad, and a cup of something that went cold a while ago.
-
-""Commander!""
-OR
-He is sitting in on the navigation watch, saying nothing and missing less. He steps away when he sees the light.
-
-""Commander?""",,"Aboard, no commission."
 XLII_korrin_talk_bark_intro,XLII_KorrinTalk,"XLII_Korrin hasPendingBark score:1000","XLII_Korrin visual
 XLII_Korrin barkIntro",,"10:korrin_bark_continue:Continue","Wins FireBest over the three state greetings via the explicit score, whatever state he is in. XLII_Korrin barkIntro writes the pending bark's text straight into the dialog's text panel - korrin_topics.csv stays the source for bark lines, no per-bark rules.csv block needed. Text column here is deliberately blank; a $variable token only substitutes engine-known tokens, not arbitrary memory keys - an earlier version relied on that and shipped broken."
 XLII_korrin_bark_continue,DialogOptionSelected,"$option == korrin_bark_continue","XLII_Korrin menu",,,"Straight to the default Talk menu, no re-narrated greeting."
@@ -1038,6 +977,19 @@ XLII_korrin_talk_opt_leave,XLII_KorrinTalkOptions,,,,"100:korrin_talk_leave:Noth
 XLII_korrin_talk_close,DialogOptionSelected,"$option == korrin_talk_leave","DismissDialog",,,"DismissDialog, not EndConversation. This dialog is opened on the player fleet via IntelUIAPI.showDialog, so EndConversation's PopulateOptions fallback matches no rules and the dialog stays open with an empty option list. Same applies to any rule that closes a Korrin dialog launched from the intel screen or a comment popup."
 XLII_korrin_topic_open,DialogOptionSelected,"XLII_Korrin isTopicOption score:500","XLII_Korrin openTopic
 FireAll XLII_KorrinComment",,,"Catch-all for backlog options, whose option id is the topic id. score:500 clears the field of ordinary $option == rules, which score 1. Topic ids are korrin_ prefixed, so nothing else can match."
+,,,,,,
+# [KORRIN] Random,,,,,,
+XLII_korrin_talk_commanding,XLII_KorrinTalk,"XLII_Korrin state ABOARD_OFFICER
+XLII_Korrin hasCommand","XLII_Korrin visual
+XLII_Korrin randomGreeting commanding
+XLII_Korrin menu",,,"Two conditions, so FireBest prefers this over the roster-only greeting below when he has a hull. XLII_Korrin randomGreeting picks a random line from data/config/korrin_idle_lines.csv (bucket commanding) - where he is belongs here, not on the intel panel."
+XLII_korrin_talk_officer,XLII_KorrinTalk,XLII_Korrin state ABOARD_OFFICER,"XLII_Korrin visual
+XLII_Korrin randomGreeting officer
+XLII_Korrin menu",,,"On the officer roster with no ship assigned. Scores 1, so it only wins when hasCommand fails. XLII_Korrin randomGreeting picks a random line from korrin_idle_lines.csv (bucket officer)."
+XLII_korrin_talk_reserve,XLII_KorrinTalk,XLII_Korrin state ABOARD_RESERVE,"XLII_Korrin visual
+XLII_Korrin randomGreeting reserve
+XLII_Korrin menu",,,"Aboard, no commission. XLII_Korrin randomGreeting picks a random line from korrin_idle_lines.csv (bucket reserve)."
+"#END [KORRIN] Random",,,,,,
 "#END [KORRIN] Companion Conversation",,,,,,
 ,,,,,,
 # [KORRIN] Dialogue Topics,,,,,,

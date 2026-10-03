@@ -10,6 +10,7 @@ import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.characters.PersonAPI;
 import levianeer.draconis.data.campaign.companion.KorrinCompanion;
 import levianeer.draconis.data.campaign.companion.KorrinGiftRegistry;
+import levianeer.draconis.data.campaign.companion.KorrinIdleLines;
 import levianeer.draconis.data.campaign.companion.KorrinTalkMenu;
 import levianeer.draconis.data.campaign.companion.KorrinTopicQueue;
 import org.apache.log4j.Logger;
@@ -49,6 +50,7 @@ import java.util.Map;
  *   XLII_Korrin topicDefer             move the current comment to the backlog
  *   XLII_Korrin visual                 show Korrin's portrait in the dialog
  *   XLII_Korrin barkIntro              write the pending bark's text into the dialog, mark it delivered
+ *   XLII_Korrin randomGreeting &lt;bucket&gt; write a random idle line for that bucket into the dialog
  *   XLII_Korrin rep &lt;delta&gt;            adjust his personal reputation with the player (also used by
  *                                      the dev-only +/- menu, rules.csv `# Dev Testing`)
  *   XLII_Korrin giveGift &lt;giftId&gt;      remove the gift's item from cargo and mark it given
@@ -119,6 +121,8 @@ public class XLII_Korrin extends BaseCommandPlugin {
                 return showVisual(dialog);
             case "barkIntro":
                 return barkIntro(dialog);
+            case "randomGreeting":
+                return randomGreeting(dialog, arg);
             case "openTopic":
                 return openTopic(memoryMap);
             case "topicDone":
@@ -249,6 +253,21 @@ public class XLII_Korrin extends BaseCommandPlugin {
 
         dialog.getTextPanel().addParagraph(topic.text);
         KorrinTopicQueue.markDelivered(id);
+        return true;
+    }
+
+    /**
+     * Writes a random idle line for the given bucket straight into the dialog's text panel -
+     * same mechanism as {@link #barkIntro}, for the same reason: this content used to be a
+     * rules.csv OR-chain, which doesn't scale past a handful of variants.
+     */
+    private boolean randomGreeting(InteractionDialogAPI dialog, String bucket) {
+        if (dialog == null) return false;
+
+        String line = KorrinIdleLines.pickRandom(bucket);
+        if (line == null) return false;
+
+        dialog.getTextPanel().addParagraph(line);
         return true;
     }
 
