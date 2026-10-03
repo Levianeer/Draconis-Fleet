@@ -331,8 +331,8 @@ public class XLII_System implements SectorGeneratorPlugin {
         itoronMarket.addIndustry(Industries.FARMING);
         itoronMarket.addIndustry(Industries.LIGHTINDUSTRY);
         itoronMarket.addIndustry(Industries.COMMERCE);
-        itoronMarket.addIndustry("XLII_orbitalstation_remnant", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
-        itoronMarket.addIndustry(Industries.GROUNDDEFENSES);
+        itoronMarket.addIndustry(Industries.HEAVYBATTERIES);
+        itoronMarket.addIndustry(Industries.REFINING);
 
         itoronMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
         itoronMarket.addSubmarket(Submarkets.SUBMARKET_BLACK);
@@ -354,10 +354,11 @@ public class XLII_System implements SectorGeneratorPlugin {
         koriMarket.addIndustry(Industries.POPULATION);
         koriMarket.addIndustry(Industries.MEGAPORT);
         koriMarket.addIndustry(Industries.MINING);
-        koriMarket.addIndustry(Industries.REFINING);
         koriMarket.addIndustry(Industries.ORBITALWORKS, new ArrayList<>(List.of(Items.CORRUPTED_NANOFORGE)));
         koriMarket.addIndustry(Industries.HEAVYBATTERIES);
         koriMarket.addIndustry(Industries.FUELPROD);
+
+        koriMarket.addIndustry("XLII_orbitalstation_remnant", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
         koriMarket.addIndustry("XLII_highcommand", new ArrayList<>(List.of(Commodities.ALPHA_CORE)));
 
         koriMarket.addSubmarket(Submarkets.SUBMARKET_STORAGE);
