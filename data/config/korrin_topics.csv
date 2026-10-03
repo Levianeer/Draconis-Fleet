@@ -2,7 +2,7 @@ id,label,priority,tier,text,watch
 korrin_first_command,About the assignment order,10,popup,,
 korrin_infiltration_debrief,The archive infiltration,20,popup,,
 korrin_faction_hegemony,,0,bark,"""Commander. I keep circling back to the last Hegemony berth we sat in - nobody asked to see my papers the entire time we were docked. I was assured, repeatedly, that they would.""",
-korrin_entity_derelict_survey_ship,The fabrication marks,20,word,,
+korrin_entity_derelict_survey_ship,The nanoforge,20,word,,
 korrin_market_chicomoztoc,The air on Chicomoztoc,15,word,,
 korrin_market_jangala,How Jangala is held,18,word,,
 korrin_market_ragnar_complex,The boneyard at Ragnar,16,word,,
@@ -26,18 +26,18 @@ korrin_entity_jormungandr,,0,bark,"""Still thinking about Jormungandr. The storm
 korrin_entity_hel,,0,bark,"""Hel is still on my mind, for some reason. The listening post out there logs every hyperspace anomaly within a dozen light years, and it has never once been asked a follow-up question. I intend to be the first, Commander, if you will indulge me.""",
 korrin_michal_trace,The trace results,24,word,,
 korrin_ga_archive,The archive on Aztlan,25,word,,gaKA_missionCompleted
-korrin_ga_ziggurat,The manta-ray hull,26,word,,gaPZ_missionCompleted
+korrin_ga_ziggurat,The Ziggurat,26,word,,gaPZ_missionCompleted
 korrin_ga_loke,Kanta's clone,27,word,,gaATG_missionCompleted
 korrin_ga_baird_betrayal,The broken spectacles,30,word,,gaATG_missionCompleted
 korrin_sdtu_macario,Macario's arithmetic,31,word,,sdtu_missionCompleted
 korrin_aio_ancker,The Office's price,32,word,,
 korrin_aio_invasion,"The 42nd, inbound",40,popup,,
 korrin_burn_epilogue,What he's holding now,41,word,,
-korrin_tour_remnant,Ask about the Remnant salvage,60,word,,
-korrin_tour_omega,Ask about the Omega,61,word,,
-korrin_tour_threat,Ask about the Threat,62,word,,
-korrin_tour_dweller,Ask about the Shrouded Dweller,63,word,,
+korrin_tour_remnant,Ask about the automated ships,60,word,,
+korrin_tour_omega,Ask about the omega,61,word,,
+korrin_tour_threat,Ask about the machines,62,word,,
+korrin_tour_dweller,Ask about the creatures,63,word,,
 korrin_ringport_cost,The Ring-Port manifest,15,word,,$XLII_blindEyeComplete
 korrin_bastion_disbelief,The bastion,33,word,,$XLII_officeVettingComplete
 korrin_nanoforge_ask,The nanoforge lead,34,word,,$XLII_nanoforgeQuestOffered
-korrin_tour_nudge,Where to look next,35,word,,$XLII_nanoforgeQuestComplete
+korrin_tour_nudge,A bad idea,35,word,,$XLII_nanoforgeQuestComplete
