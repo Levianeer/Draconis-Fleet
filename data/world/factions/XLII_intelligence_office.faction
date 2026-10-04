@@ -148,7 +148,15 @@
 	},
 	
 	"music":{
-		"theme":"music_campaign_alpha_site",
+		"theme":"music_XLII_draconis_market_neutral",
+
+		"market_neutral":"music_XLII_draconis_market_neutral",
+		"market_hostile":"music_XLII_draconis_market_hostile",
+		"market_friendly":"music_XLII_draconis_market_friendly",
+
+		"encounter_neutral":"music_XLII_draconis_encounter_neutral",
+		"encounter_hostile":"music_XLII_draconis_encounter_hostile",
+		"encounter_friendly":"music_XLII_draconis_encounter_friendly",
 	},
 
 	"barSound":"bar_ambience",
