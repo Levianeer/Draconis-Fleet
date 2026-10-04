@@ -5,6 +5,7 @@ import com.fs.starfarer.api.campaign.CommDirectoryEntryAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.characters.FullName;
 import com.fs.starfarer.api.characters.PersonAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Ranks;
 import com.fs.starfarer.api.impl.campaign.ids.Skills;
 import org.apache.log4j.Logger;
 
@@ -53,8 +54,8 @@ public class XLII_PersonEmilAugust {
         admiral.setId(PERSON_ID);
         admiral.setFaction(DRACONIS);
         admiral.setGender(FullName.Gender.MALE);
-        admiral.setRankId("factionLeader");
-        admiral.setPostId("factionLeader");
+        admiral.setRankId(Ranks.FACTION_LEADER);
+        admiral.setPostId(Ranks.POST_FACTION_LEADER);
 
         admiral.addTag("XLII_fleet_admiral_emil");
         admiral.addTag("XLII_military_command");

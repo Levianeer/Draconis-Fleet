@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Ranks;
 import org.apache.log4j.Logger;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
+import static levianeer.draconis.data.campaign.ids.Factions.INTELLIGENCE_OFFICE;
 
 /**
  * Daniel Ancker - AIO operative stationed at Ring-Port.
@@ -52,9 +53,9 @@ public class XLII_PersonDanielAncker {
 
         PersonAPI Daniel = Global.getFactory().createPerson();
         Daniel.setId(PERSON_ID);
-        Daniel.setFaction(DRACONIS);
+        Daniel.setFaction(INTELLIGENCE_OFFICE);
         Daniel.setGender(FullName.Gender.MALE);
-        Daniel.setRankId(Ranks.AGENT);
+        Daniel.setRankId(Ranks.SPECIAL_AGENT);
         Daniel.setPostId(Ranks.POST_SPECIAL_AGENT);
 
         Daniel.addTag("XLII_aio_operative");

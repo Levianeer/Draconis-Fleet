@@ -35,7 +35,7 @@ public class XLII_PersonHaspelMonroe {
         Haspel.setId(PERSON_ID);
         Haspel.setFaction(INTELLIGENCE_OFFICE);
         Haspel.setGender(FullName.Gender.FEMALE);
-        Haspel.setRankId(Ranks.SPECIAL_AGENT);
+        Haspel.setRankId(Ranks.FACTION_LEADER);
         Haspel.setPostId(Ranks.POST_INTELLIGENCE_DIRECTOR);
 
         Haspel.addTag("XLII_aio_director");

@@ -46,7 +46,7 @@ public class XLII_PersonEliasKorrin {
         elias.setId(PERSON_ID);
         elias.setFaction(DRACONIS);
         elias.setGender(FullName.Gender.MALE);
-        elias.setRankId(Ranks.AGENT);
+        elias.setRankId(Ranks.SPECIAL_AGENT);
         elias.setPostId(Ranks.POST_SPECIAL_AGENT);
 
         elias.getStats().setSkillLevel(XLII_SignalsDiscipline.SKILL_ID, 1);
