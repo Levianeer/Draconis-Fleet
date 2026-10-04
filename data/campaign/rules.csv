@@ -3170,7 +3170,7 @@ A pause that costs her exactly as much as it costs her to spend it, then it's go
 
 She's already reaching for the slate again, done with you before she says so.
 
-""Tell August his something is cleared. He'll know what that means. He'll have work for you.""","monroeClose:Understood",
+""Tell August his request is cleared. He'll have work for you.""","monroeClose:Understood",
 XLII_monroe_close_sel,DialogOptionSelected,"$option == monroeClose","$global.XLII_officeVettingComplete = true
 ShowPersonVisual false XLII_aio_operative_Daniel
 FireBest XLII_AnckerEscortExit",,,"Redirects to XLII_ancker_escort_exit (his farewell beat) instead of dismissing directly - the actual DismissDialog now lives on XLII_ancker_escort_exit_close. No text of its own, per the execution-order rule, since the portrait swap needs to land before the next row's text composes."
