@@ -290,12 +290,26 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
         // Office Garrison Manager - single defending fleet for Ladon's one bastion. No-op if the
         // bastion doesn't exist (e.g. Nexerelin random sector) or was already destroyed.
-        StarSystemAPI officeSystem = Global.getSector().getStarSystem(XLII_OfficeSystem.SYSTEM_ID);
-        if (officeSystem != null) {
-            SectorEntityToken bastion = officeSystem.getEntityById(XLII_OfficeSystem.BASTION_ID);
-            if (bastion instanceof CampaignFleetAPI bastionFleet && !bastionFleet.isEmpty()) {
-                Global.getSector().addScript(new XLII_OfficeGarrisonManager(officeSystem, bastionFleet, 5f));
-                log.info("Draconis:   - Office Garrison Manager");
+        // Unlike the managers cleaned up above, this one is genuinely stateful - it owns live
+        // CampaignFleetAPI references that deserialize fine across save/load via its
+        // SeededFleetManager base - so a deserialized instance is left alone rather than
+        // discarded and recreated; recreating it added a fresh seed (and thus a fresh fleet)
+        // on every single load while the previously-spawned fleet stayed behind, orphaned.
+        boolean officeGarrisonManagerExists = false;
+        for (EveryFrameScript script : Global.getSector().getScripts()) {
+            if (script instanceof XLII_OfficeGarrisonManager) {
+                officeGarrisonManagerExists = true;
+                break;
+            }
+        }
+        if (!officeGarrisonManagerExists) {
+            StarSystemAPI officeSystem = Global.getSector().getStarSystem(XLII_OfficeSystem.SYSTEM_ID);
+            if (officeSystem != null) {
+                SectorEntityToken bastion = officeSystem.getEntityById(XLII_OfficeSystem.BASTION_ID);
+                if (bastion instanceof CampaignFleetAPI bastionFleet && !bastionFleet.isEmpty()) {
+                    Global.getSector().addScript(new XLII_OfficeGarrisonManager(officeSystem, bastionFleet, 5f));
+                    log.info("Draconis:   - Office Garrison Manager");
+                }
             }
         }
 
@@ -387,7 +401,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
                     || script instanceof XLII_LongsightWatchdog
                     || script instanceof XLII_FafnirSystemMonitor
                     || script instanceof DraconisQRFManager
-                    || script instanceof XLII_OfficeGarrisonManager
                     || script instanceof XLII_OfficeContactMonitor
                     || script instanceof XLII_BastionDestructionMonitor
                     || script instanceof KorrinCommentScript) {
