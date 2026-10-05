@@ -16,6 +16,7 @@ public class XLII_Characters {
     public static final String ELIAS_ID = XLII_PersonEliasKorrin.PERSON_ID;
     public static final String ANCKER_ID = XLII_PersonDanielAncker.PERSON_ID;
     public static final String MONROE_ID = XLII_PersonHaspelMonroe.PERSON_ID;
+    public static final String NISA_ID = XLII_PersonNisa.PERSON_ID;
 
     public static void initializeAllCharacters() {
         log.info("Draconis: Initializing core characters");
@@ -23,6 +24,7 @@ public class XLII_Characters {
         XLII_PersonEliasKorrin.createOrEnsureRegistered();
         XLII_PersonDanielAncker.createOrEnsureRegistered();
         XLII_PersonHaspelMonroe.createOrEnsureRegistered();
+        XLII_PersonNisa.createOrEnsureRegistered();
         updateCharacterPlacements();
     }
 
@@ -30,6 +32,7 @@ public class XLII_Characters {
         XLII_PersonEmilAugust.updatePlacement();
         XLII_PersonEliasKorrin.updatePlacement();
         XLII_PersonDanielAncker.updatePlacement();
+        XLII_PersonNisa.updatePlacement();
     }
 
     public static void revealEliasKorrin() {

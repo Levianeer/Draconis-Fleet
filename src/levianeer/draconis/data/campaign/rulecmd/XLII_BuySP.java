@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * AIO Operative trade: deducts credits and grants 1 story point.
+ * Credits-for-story-point trade (currently NISA, Regin Armaments' client interface, reached via
+ * Itoron's comm directory): deducts credits and grants 1 story point.
  * Cost doubles each purchase within a cycle (1M, 2M, 4M, 8M...), resetting each new cycle.
  * <p>
  * Called with "display" param to show the current cost in the pre-confirmation dialog.
@@ -49,9 +50,12 @@ public class XLII_BuySP extends BaseCommandPlugin {
 
         if (displayMode) {
             long cost = computeCost(mem);
-            dialog.getTextPanel().addPara("He doesn't look away from his terminal.");
             dialog.getTextPanel().addPara(
-                    "\"" + Misc.getDGSCredits((float) cost) + "\" A pause that contains the question he won't ask aloud.");
+                    "\"I don't have any information about 'story point.' Did you mean: 'floor plan consultation'?\"");
+            dialog.getTextPanel().addPara(
+                    "\"Checking authorization code instead... match found. Discretionary Development Resource, Account Class Delta-Seven.\"");
+            dialog.getTextPanel().addPara(
+                    "\"Available to this account for " + Misc.getDGSCredits((float) cost) + ". Shall I proceed?\"");
             return true;
         }
 
@@ -60,7 +64,8 @@ public class XLII_BuySP extends BaseCommandPlugin {
         float credits = Global.getSector().getPlayerFleet().getCargo().getCredits().get();
         if (credits < cost) {
             dialog.getTextPanel().addPara(
-                    "Insufficient credits. " + Misc.getDGSCredits((float) cost) + " required.");
+                    "\"I'm sorry, Operator - that authorization did not clear. "
+                            + Misc.getDGSCredits((float) cost) + " is required to complete this transaction.\"");
             return false;
         }
 

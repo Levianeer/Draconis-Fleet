@@ -423,7 +423,7 @@ XLII_aio_bar_leave_sel,XLII_aioBar_leave,,,"He watches you go. With the particul
 # [FAFNIR ACCESS] TT Courier Bar Offer,,,,,,
 XLII_tt_bar_open,XLII_ttBarOpen,,"FireAll XLII_ttBarOpenMenu","She doesn't acknowledge your arrival immediately. Finishes a notation in her data pad, sets it face-down.
 
-""I have a logistics coordination problem."" She says it the way you'd say the weather. ""Documentation needs to reach Kori on a schedule. The route has been compromised by attention I'd prefer not to replicate.""
+""I have a logistics coordination problem."" She says it the way you'd say the weather. ""Documentation needs to reach Kori on a schedule. The route has been compromised by attention I'd prefer not to replicate through our channels.""
 
 She slides a data chip across the table without looking at it. ""Transit data are embedded. Your Nav Officer will know what to do with it.""
 
@@ -433,11 +433,11 @@ XLII_tt_bar_ask_what_opt,XLII_ttBarOpenMenu,"!$ttAskedWhat",,,"2:ttAskWhat:What 
 XLII_tt_bar_accept_opt,XLII_ttBarOpenMenu,,,,"3:ttAccept:Accepted",
 XLII_tt_bar_decline_opt,XLII_ttBarOpenMenu,,,,"4:ttDecline:Not interested",
 XLII_tt_bar_ask_who_sel,XLII_ttBar_ttAskWho,,"$ttAskedWho = true 0
-FireAll XLII_ttBarOpenMenu","""The right people will find you once you're docked at Kori."" She gives a dramatic sigh. ""If you must know, it's for the local security - nothing illegal, not there anyway.""
+FireAll XLII_ttBarOpenMenu","She gives a dramatic sigh. ""Always with the details - it's a simple documents hand off to Regin Armaments. The right people will find you once you're docked at Kori.""
 
 She gives a brief pause.
 
-""Don't ask about them at the door. They're kind of jumpy...""",,
+""Don't ask about them at the door. Whole system is kind of jumpy...""",,
 XLII_tt_bar_ask_what_sel,XLII_ttBar_ttAskWhat,,"$ttAskedWhat = true 0
 FireAll XLII_ttBarOpenMenu","""Tri-Tachyon research materials. Logistics data. It's really not that important for you to know anything beyond that."" She glances at you, with a slight tinge of impatience.
 
@@ -2669,23 +2669,6 @@ XLII_aio_operative_main_opt_leave,XLII_AIOOperativeMainMenu,"$tag:XLII_aio_opera
 XLII_aio_operative_dismiss,DialogOptionSelected,"$option == aio_dismiss","EndConversation","""This directory will stay active.""",,
 "#END [ANCKER] Greeting",,,,,,
 ,,,,,,
-# [ANCKER] SP Exchange,,,,,,
-XLII_aio_operative_main_opt_buy,XLII_AIOOperativeMainMenu,"$tag:XLII_aio_operative",,,"1:XLII_aio_buy_sp_opt:Exchange credits for a story point",
-XLII_aio_buy_sp_sel,DialogOptionSelected,"$option == XLII_aio_buy_sp_opt
-$tag:XLII_aio_operative","XLII_BuySP display",,"1:aio_sp_confirm:Accept
-2:aio_sp_cancel:Decline",
-XLII_aio_buy_sp_confirm,DialogOptionSelected,"$option == aio_sp_confirm
-$tag:XLII_aio_operative","XLII_BuySP
-FireBest XLII_AIOOperativeSPResult",,,
-XLII_aio_buy_sp_cancel,DialogOptionSelected,"$option == aio_sp_cancel
-$tag:XLII_aio_operative","FireAll XLII_AIOOperativeMainMenu",,,
-XLII_aio_sp_result_success,XLII_AIOOperativeSPResult,"$tag:XLII_aio_operative
-$global.XLII_aio_sp_purchased","$global.XLII_aio_sp_purchased = false
-FireAll XLII_AIOOperativeMainMenu","""Transaction logged."" He makes a brief note. ""The Office maintains certain developmental resources. Consider this a reallocation.""",,
-XLII_aio_sp_result_fail,XLII_AIOOperativeSPResult,"$tag:XLII_aio_operative
-!$global.XLII_aio_sp_purchased","FireAll XLII_AIOOperativeMainMenu",,,
-"#END [ANCKER] SP Exchange",,,,,,
-,,,,,,
 # [ANCKER] Kori Transcript,,,,,,
 XLII_aio_operative_main_opt_kori,XLII_AIOOperativeMainMenu,"$tag:XLII_aio_operative
 $global.XLII_burnTheMachineComplete
@@ -2707,6 +2690,61 @@ The part that costs him something to say plainly, and he says it plainly anyway.
 XLII_aio_kori_end,DialogOptionSelected,"$option == aio_kori_end","EndConversation",,,
 "#END [ANCKER] Kori Transcript",,,,,,
 "#END [ANCKER] System",,,,,,
+,,,,,,
+# [NISA] System,,,,,,
+,,,,,,
+# [NISA] Greeting,,,,,,
+XLII_nisa_init,OpenCDE,"$isPerson
+$tag:XLII_regin_nisa","ShowPersonVisual
+FireAll XLII_NisaMainMenu","A small onscreen avatar resolves above the feed - a simply-rendered mascot with a fixed, pleasant smile, built to run on hardware too cheap to animate anything else.
+
+""Hello, Operator! I'm N.I.S.A., your Regin support assistant. How can I help today?""",,"Moved off Daniel Ancker this session - see the [NISA] SP Exchange section below for the mechanic itself (unchanged, still XLII_BuySP). Voice per Downloads/NISA — Personality & Voice Guide.md: relentlessly cheerful, literal/keyword-driven, addresses the player as Operator, never hints she knows more than her script - the humor is her customer-service register meeting a situation it wasn't written for, not any ominousness in her own tone. She has no knowledge of the Office; see XLII_PersonNisa.java's note on why her faction is DRACONIS, not INTELLIGENCE_OFFICE."
+XLII_nisa_main_opt_leave,XLII_NisaMainMenu,"$tag:XLII_regin_nisa",,,"99:nisa_dismiss:That's all",
+XLII_nisa_dismiss,DialogOptionSelected,"$option == nisa_dismiss","EndConversation","""Thank you for choosing Regin Armaments!"" The avatar's smile doesn't change - it was already smiling the whole time.",,
+"#END [NISA] Greeting",,,,,,
+,,,,,,
+# [NISA] SP Exchange,,,,,,
+XLII_nisa_main_opt_buy,XLII_NisaMainMenu,"$tag:XLII_regin_nisa
+$global.XLII_nanoforgeQuestComplete",,,"1:XLII_nisa_buy_sp_opt:Exchange credits for a story point",
+XLII_nisa_buy_sp_sel,DialogOptionSelected,"$option == XLII_nisa_buy_sp_opt
+$tag:XLII_regin_nisa","XLII_BuySP display",,"1:nisa_sp_confirm:Accept
+2:nisa_sp_cancel:Decline","The keyword-miss ('story point' -> 'floor plan consultation') then authorization-code-match beat lives in XLII_BuySP.java's display branch, not here - see its comment for why (it's also where the cost is computed)."
+XLII_nisa_buy_sp_confirm,DialogOptionSelected,"$option == nisa_sp_confirm
+$tag:XLII_regin_nisa","XLII_BuySP
+FireBest XLII_NisaSPResult",,,
+XLII_nisa_buy_sp_cancel,DialogOptionSelected,"$option == nisa_sp_cancel
+$tag:XLII_regin_nisa","FireAll XLII_NisaMainMenu",,,
+XLII_nisa_sp_result_success,XLII_NisaSPResult,"$tag:XLII_regin_nisa
+$global.XLII_aio_sp_purchased","$global.XLII_aio_sp_purchased = false
+FireAll XLII_NisaMainMenu","""Understood! Your account has been credited with one Discretionary Development Resource."" The avatar's smile doesn't flicker. ""Thank you for choosing Regin Armaments!""",,"Reuses XLII_BuySP unchanged (same credits-double-per-cycle cost curve) - only the surrounding dialogue and vendor moved. $global.XLII_aio_sp_purchased kept as-is (internal flag name, not player-facing)."
+XLII_nisa_sp_result_fail,XLII_NisaSPResult,"$tag:XLII_regin_nisa
+!$global.XLII_aio_sp_purchased","FireAll XLII_NisaMainMenu",,,
+"#END [NISA] SP Exchange",,,,,,
+,,,,,,
+# [NISA] FAQ,,,,,,
+XLII_nisa_main_opt_faq,XLII_NisaMainMenu,"$tag:XLII_regin_nisa",,,"2:nisa_faq_open:I have a question",
+XLII_nisa_faq_open,DialogOptionSelected,"$option == nisa_faq_open
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""Of course! I'm happy to answer general questions."" The smile holds exactly where it was.",,"Not gated by an asked-once flag, deliberately - per the voice guide, NISA is forgetful and scripted, so asking the same question twice should get the exact same canned answer word for word, not a 'already told you this' branch. Topics are service-level only: company/Alliance marketing-safe facts, what NISA herself is (ties into the 'the name is a disclaimer' compliance angle), and two failure-mode demonstrations (Athebyne = no data + brand non-sequitur, Office = keyword miss -> did-you-mean -> standard fallback) - she never hints she knows more than she says."
+XLII_nisa_faq_opt_company,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"1:nisa_faq_company:What does Regin Armaments do?",
+XLII_nisa_faq_company,DialogOptionSelected,"$option == nisa_faq_company
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""Regin Armaments is a proud manufacturer of ballistic, missile and electromagnetic weapon systems - trusted across the Sector!"" The same even brightness as every other sentence. ""Built over 50 years of operational expertise with a long legacy of excellence and custom satisfaction!""",,
+XLII_nisa_faq_opt_alliance,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"2:nisa_faq_alliance:What is the Draconis Defense Alliance?",
+XLII_nisa_faq_alliance,DialogOptionSelected,"$option == nisa_faq_alliance
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""The Draconis Defense Alliance is a sovereign military administration headquartered in the Fafnir system. Regin Armaments is honored to supply materiel to the Alliance's armed forces and it's allies. For questions regarding Alliance policy, please contact an Alliance representative.""",,
+XLII_nisa_faq_opt_self,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"3:nisa_faq_self:What exactly are you?",
+XLII_nisa_faq_self,DialogOptionSelected,"$option == nisa_faq_self
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""I'm N.I.S.A., or Non-Independent Support Algorithm."" Stated as plainly as a model number. ""I am a certified support assistant, audited under Hegemony AI compliance standards. Please note, I am not an independent intelligence, and I do not retain information between sessions.""",,
+XLII_nisa_faq_opt_athebyne,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"4:nisa_faq_athebyne:What happened at Athebyne?",
+XLII_nisa_faq_athebyne,DialogOptionSelected,"$option == nisa_faq_athebyne
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""I don't have any specific information about 'Athebyne'. If you'd like, I can supply you with our Athebynian service representative!"" Just blank, the way she is about anything she was never loaded with. ""Regin Armaments is proud of its longstanding partnership with the Alliance's defense efforts. Thank you for your interest.""",,
+XLII_nisa_faq_opt_office,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"5:nisa_faq_office:Tell me about the Alliance Intelligence Office",
+XLII_nisa_faq_office,DialogOptionSelected,"$option == nisa_faq_office
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""I don't have any information about 'the Alliance Intelligence Office.'"" A short pause, unbothered. ""Did you mean: 'office furniture'?"" Another short pause, equally unbothered by the silence that follows. ""I'm sorry, I can't help with that. Please contact a Regin representative.""",,
+XLII_nisa_faq_opt_back,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"99:nisa_faq_back:That answers my questions for now",
+XLII_nisa_faq_back,DialogOptionSelected,"$option == nisa_faq_back
+$tag:XLII_regin_nisa","FireAll XLII_NisaMainMenu",,,
+"#END [NISA] FAQ",,,,,,
+"#END [NISA] System",,,,,,
 ,,,,,,
 # [BLIND EYE] Quest,,,,,,
 ,,,,,,
