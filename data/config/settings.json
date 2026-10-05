@@ -304,6 +304,7 @@
 			"XLII_korrin_crest_red":"graphics/factions/crest_draconis_status_red.png",
 			"XLII_korrin_crest_white":"graphics/factions/crest_draconis_status_white.png",
 			"XLII_marginal_allocation_icon":"graphics/icons/hullsys/XLII_marginal_allocation.png",
+			"XLII_overhead_blue":"graphics/icons/markets/overhead_blue.png"
 		},
 		"intel":{
 			"XLII_ai_found":"graphics/icons/intel/XLII_ai_found.png",
@@ -317,7 +318,7 @@
 			"XLII_hostile_activity_2":"graphics/icons/campaign/hostile_activity2.png",
 			"XLII_hostile_activity_3":"graphics/icons/campaign/hostile_activity3.png",
 			"XLII_hostile_activity_4":"graphics/icons/campaign/hostile_activity4.png",
-			"XLII_bastion_stage":"graphics/icons/industry/battlestation.png",
+			"XLII_bastion_stage":"graphics/icons/campaign/hyperspace_burn.png"
 		},
 		"missiles":{
 			"XLII_phasetorp_glow1":"graphics/missiles/XLII_phasetorp_glow1.png",
@@ -363,7 +364,7 @@
 			"XLII_orbital":"graphics/illustrations/orbital.jpg",
 			"XLII_raid_preparation":"graphics/illustrations/raid_preparation.jpg",
 			"XLII_covert_squad":"graphics/illustrations/covert_squad.jpg",
-			"XLII_facility_explosion":"graphics/illustrations/facility_explosion.jpg",
+			"XLII_facility_explosion":"graphics/illustrations/facility_explosion.jpg"
 		},
 		"characters":{
 			"XLII_unknown":"graphics/portraits/characters/XLII_unknown.png",
