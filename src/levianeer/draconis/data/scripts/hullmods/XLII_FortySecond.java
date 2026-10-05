@@ -46,12 +46,12 @@ public class XLII_FortySecond extends XLII_SystemHullModBase {
     }
 
     public static float PROFILE_MULT = 0.9f;
-    public static float MISSILE_AFFECT_CHANCE = 0.25f;
-    public static final float DEGRADE_INCREASE_PERCENT = 50f;
+    public static float MISSILE_AFFECT_CHANCE = 0.2f;
+    public static final float DEGRADE_INCREASE_PERCENT = 100f;
 
     // ID and bonus for the upgrade hullmod (@XLII_FortySecondMk2)
     public static final String UPGRADE_HULLMOD_ID = "XLII_fortysecond_mk2";
-    public static final float UPGRADE_CHANCE_BONUS = 0.25f;
+    public static final float UPGRADE_CHANCE_BONUS = 0.3f;
     private static final Color JAMMER_COLOR = new Color(50, 50, 255, 155);
     private static final Color CONVERSION_COLOR = new Color(50, 255, 50, 155);
 
