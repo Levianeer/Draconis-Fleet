@@ -1,7 +1,7 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 0,
+    "fluxCapacitors": 10,
+    "fluxVents": 10,
     "hullId": "XLII_draconis_station_hangar1",
     "hullMods": [],
     "permaMods": [],
@@ -14,8 +14,7 @@
     }],
     "wings": [
         "XLII_tianbang_wing",
-        "XLII_tianbang_wing",
-        "XLII_shangshu_wing",
-        "XLII_shangshu_heavy_wing"
+        "XLII_shangshu_heavy_wing",
+        "XLII_shangshu_wing"
     ]
 }

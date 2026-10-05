@@ -1,9 +1,9 @@
 {
     "displayName": "Standard",
-    "fluxCapacitors": 0,
-    "fluxVents": 0,
+    "fluxCapacitors": 10,
+    "fluxVents": 10,
     "hullId": "XLII_draconis_weapon_platform1",
-    "hullMods": [],
+    "hullMods": ["magazines"],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_draconis_weapon_platform1_Standard",
@@ -27,10 +27,14 @@
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS0011": "XLII_ttc"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_montante",
-                "WS0006": "XLII_montante",
-                "WS0011": "XLII_montante"
+                "WS0005": "XLII_longsword",
+                "WS0006": "XLII_longsword"
             }
         },
         {
@@ -40,11 +44,6 @@
                 "WS0009": "XLII_particlelance",
                 "WS0010": "XLII_particlelance"
             }
-        },
-        {
-            "autofire": true,
-            "mode": "LINKED",
-            "weapons": {"WS0012": "XLII_LaWS"}
         },
         {
             "autofire": true,
@@ -59,7 +58,8 @@
             "mode": "ALTERNATING",
             "weapons": {
                 "WS0003": "XLII_swordbreaker",
-                "WS0004": "XLII_swordbreaker"
+                "WS0004": "XLII_swordbreaker",
+                "WS0012": "XLII_swordbreaker"
             }
         }
     ]

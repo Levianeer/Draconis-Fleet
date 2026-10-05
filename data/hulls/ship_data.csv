@@ -76,15 +76,8 @@ Alwaid,XLII_alwaid_proto,Battlecarrier,Proto-Draconis,XLII_esw_suite,35,15000,95
 ,XLII_module_sunsetter_armor_left,Vambrace Module,Draconis,,1,15000,1200,0,,100,0,,0,0,0,10,10,300,NONE,,0,0,0,,,0,0,0,0,1,,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",module_hull_bar_only,,,,1,2,4,,711000
 ,XLII_module_sunsetter_armor_right,Vambrace Module,Draconis,,1,15000,1200,0,,100,0,,0,0,0,10,10,300,NONE,,0,0,0,,,0,0,0,0,1,,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",module_hull_bar_only,,,,1,2,4,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#STATIONS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Orbital Fortress,XLII_draconis_station1,Draconis Orbital Fortress,Draconis,mine_strike_station,400,150000,2000,1000,,100,0,,30,200,200,3,3,5000,NONE,,0,0,0,,,0,0,0,0,1,0,0,500000,10,10,,,100,50,,,,,,,"STATION, UNBOARDABLE",codex_unlockable,,,,0,,,,711000
-,XLII_draconis_weapon_platform1,Draconis Weapon Platform,Draconis,ammofeed,1,12500,1750,22000,,1000,1000,,0,0,0,10,10,1000,FRONT,,160,0.3,1.0,,,0,0,0,0,1,0,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",,,,,0.5,2,2,,711000
-,XLII_draconis_station_hangar1,Draconis Station Hangar,Draconis,recalldevice,1,7500,1250,7500,,500,1000,4,0,0,0,10,10,750,FRONT,,70,0.3,1.0,,,0,0,0,0,1,0,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",,,,,0.5,2,2,,711000
-,XLII_draconis_station_blocker1,Draconis Structural Spur,Draconis,,1,5000,1500,0,,100,0,,0,0,0,10,10,300,NONE,,0,0,0,,,0,0,0,0,1,0,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",,,,,1,2,3,,711000
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#STATION,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Orbital Fortress,XLII_draconis_station1,Draconis Orbital Fortress,Draconis,mine_strike_station,200,50000,1600,1000,,100,0,,30,200,200,3,3,5000,NONE,,0,0,0,,,0,0,0,0,1,0,0,500000,10,10,,,100,50,,,,,,,"STATION, UNBOARDABLE",codex_unlockable,,,,0,,,,711000
+,XLII_draconis_weapon_platform1,Draconis Weapon Platform,Draconis,forgevats_station,1,10000,1500,15000,,1000,1000,,0,0,0,10,10,1000,FRONT,,140,0.4,1.0,,,0,0,0,0,1,0,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",,,,,0.5,2,2,,711000
+,XLII_draconis_station_hangar1,Draconis Station Hangar,Draconis,recalldevice,1,5000,750,5000,,300,1000,3,0,0,0,10,10,700,FRONT,,70,0.4,1.0,,,0,0,0,0,1,0,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",,,,,0.5,2,2,,711000
+,XLII_draconis_station_blocker1,Draconis Structural Spur,Draconis,,1,5000,1500,0,,100,0,,0,0,0,10,10,500,NONE,,0,0,0,,,0,0,0,0,1,0,,500000,,1,,,0,0,,,,,,,"UNBOARDABLE, HIDE_IN_CODEX, MODULE",,,,,0.5,2,2,,711000

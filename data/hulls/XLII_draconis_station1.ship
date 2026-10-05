@@ -5,8 +5,8 @@
   "spriteName": "graphics/ships/station/XLII_draconis_station1.png",
   "style": "DRACONIS",
   "height": 636,
-  "width": 302,
-  "center": [151, 318],
+  "width": 396,
+  "center": [198, 318],
   "collisionRadius": 475.5,
   "shieldCenter": [0, 0],
   "shieldRadius": 457,
@@ -22,7 +22,7 @@
       "angle": 180,
       "arc": 8,
       "id": "WS_LEFT",
-      "locations": [-200, 0],
+      "locations": [-116, 0],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -31,7 +31,7 @@
       "angle": 0,
       "arc": 8,
       "id": "WS_RIGHT",
-      "locations": [200, 0],
+      "locations": [116, 0],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -40,7 +40,7 @@
       "angle": -90,
       "arc": 8,
       "id": "WS_TOP",
-      "locations": [0, -133],
+      "locations": [0, -80],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -49,7 +49,7 @@
       "angle": 90,
       "arc": 8,
       "id": "WS_BOTTOM",
-      "locations": [0, 133],
+      "locations": [0, 80],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -58,7 +58,7 @@
       "angle": 110,
       "arc": 8,
       "id": "WS0001",
-      "locations": [-68, 76],
+      "locations": [-78, 74],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -67,7 +67,7 @@
       "angle": -110,
       "arc": 8,
       "id": "WS0002",
-      "locations": [-68, -76],
+      "locations": [-78, -74],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -76,7 +76,7 @@
       "angle": 70,
       "arc": 8,
       "id": "WS0003",
-      "locations": [68, 76],
+      "locations": [78, 74],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"
@@ -85,7 +85,7 @@
       "angle": -70,
       "arc": 8,
       "id": "WS0004",
-      "locations": [68, -76],
+      "locations": [78, -74],
       "mount": "HARDPOINT",
       "size": "LARGE",
       "type": "STATION_MODULE"

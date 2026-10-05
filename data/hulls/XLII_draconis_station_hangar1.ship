@@ -4,24 +4,26 @@
   "hullSize": "FRIGATE",
   "spriteName": "graphics/ships/station/XLII_draconis_station_hangar1.png",
   "style": "DRACONIS",
-  "height": 149,
+  "height": 174,
   "width": 121,
-  "center": [66, 30],
+  "center": [66, 17.5],
   "collisionRadius": 187,
-  "shieldCenter": [0, 0],
+  "shieldCenter": [14.5, 0],
   "shieldRadius": 170.5,
   "viewOffset": 0,
   "builtInMods": [
     "supercomputer",
     "reduced_explosion",
+    "never_detaches",
+    "vastbulk",
     "chassis_storage"
   ],
   "weaponSlots": [
     {
-      "angle": -45,
-      "arc": 220,
+      "angle": -15,
+      "arc": 130,
       "id": "WS_PD",
-      "locations": [45, -19],
+      "locations": [82.5, -19],
       "mount": "TURRET",
       "size": "MEDIUM",
       "type": "UNIVERSAL"
@@ -31,10 +33,10 @@
       "arc": 90,
       "id": "WS_BAY1",
       "locations": [
-        37.5, 22.5,
-        37.5, 17.5,
-        37.5, 9.5,
-        37.5, 3.5
+        74, 23.5,
+        74, 16.5,
+        74, 10.5,
+        74, 2.5
       ],
       "mount": "HIDDEN",
       "size": "LARGE",
@@ -45,10 +47,10 @@
       "arc": 90,
       "id": "WS_BAY2",
       "locations": [
-        43.5, 3.5,
-        43.5, 22.5,
-        43.5, 17.5,
-        43.5, 9.5
+        81, 2.5,
+        81, 16.5,
+        81, 10.5,
+        81, 23.5
       ],
       "mount": "HIDDEN",
       "size": "LARGE",
@@ -57,20 +59,22 @@
   ],
   "engineSlots": [],
   "bounds": [
-    97, -21,
-    56, -54.5,
-    49.5, -50.5,
-    24.5, -50.5,
-    -21, -40.5,
-    -21.5, -22,
-    -28, -22,
-    -28, 22,
-    -21.5, 22,
-    -21.5, 40.5,
-    -16.5, 48.5,
-    55.5, 65.5,
-    111, 39,
-    119, 29.5,
-    83.5, -3.5
+    134, -21.5,
+    93, -53.5,
+    87.5, -49.5,
+    71.5, -50.5,
+    62, -50.5,
+    31, -45.5,
+    16, -40.5,
+    16, -28.5,
+    -17, -5.5,
+    -17, 5.5,
+    16, 28.5,
+    17, 43.5,
+    22, 48.5,
+    93, 65.5,
+    148, 38.5,
+    156, 29.5,
+    120, -4
   ]
 }
