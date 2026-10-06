@@ -156,8 +156,8 @@ public class XLII_DerelictECMRelay extends BaseHullMod {
 
         tooltip.addPara(
                 "Salvaged targeting-network hardware that latches onto enemy flight deck cycles. Whenever " +
-                        "your fleet's ECM rating exceeds the enemy's, every point of that advantage adds %s to " +
-                        "how long it takes the enemy to replace a lost fighter.",
+                        "your fleet's ECM rating exceeds the enemy's, every point over adds %s to " +
+                        "the fighter replacement rate.",
                 opad, h, Math.round(SECONDS_PER_ECM_PERCENT) + "s");
 
         tooltip.addPara(
