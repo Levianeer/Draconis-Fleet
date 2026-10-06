@@ -53,7 +53,8 @@ public class XLII_BuySP extends BaseCommandPlugin {
             dialog.getTextPanel().addPara(
                     "\"I don't have any information about 'story point.' Did you mean: 'floor plan consultation'?\"");
             dialog.getTextPanel().addPara(
-                    "\"Checking authorization code instead... match found. Discretionary Development Resource, Account Class Delta-Seven.\"");
+                    "\"Checking authorization code instead... match found. Discretionary Development Resource™, " +
+                         "account access class Lima-One-Two-Colon-One-Five.\"");
             dialog.getTextPanel().addPara(
                     "\"Available to this account for " + Misc.getDGSCredits((float) cost) + ". Shall I proceed?\"");
             return true;

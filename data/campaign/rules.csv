@@ -2698,7 +2698,7 @@ XLII_nisa_init,OpenCDE,"$isPerson
 $tag:XLII_regin_nisa","ShowPersonVisual
 FireAll XLII_NisaMainMenu","A small onscreen avatar resolves above the feed - a simply-rendered mascot with a fixed, pleasant smile, built to run on hardware too cheap to animate anything else.
 
-""Hello, Operator! I'm N.I.S.A., your Regin support assistant. How can I help today?""",,"Moved off Daniel Ancker this session - see the [NISA] SP Exchange section below for the mechanic itself (unchanged, still XLII_BuySP). Voice per Downloads/NISA — Personality & Voice Guide.md: relentlessly cheerful, literal/keyword-driven, addresses the player as Operator, never hints she knows more than her script - the humor is her customer-service register meeting a situation it wasn't written for, not any ominousness in her own tone. She has no knowledge of the Office; see XLII_PersonNisa.java's note on why her faction is DRACONIS, not INTELLIGENCE_OFFICE."
+""Hello, Operator! I'm N.I.S.A., your Regin Armaments support assistant. How can I help today?""",,"Moved off Daniel Ancker this session - see the [NISA] SP Exchange section below for the mechanic itself (unchanged, still XLII_BuySP). Voice per Downloads/NISA — Personality & Voice Guide.md: relentlessly cheerful, literal/keyword-driven, addresses the player as Operator, never hints she knows more than her script - the humor is her customer-service register meeting a situation it wasn't written for, not any ominousness in her own tone. She has no knowledge of the Office; see XLII_PersonNisa.java's note on why her faction is DRACONIS, not INTELLIGENCE_OFFICE."
 XLII_nisa_main_opt_leave,XLII_NisaMainMenu,"$tag:XLII_regin_nisa",,,"99:nisa_dismiss:That's all",
 XLII_nisa_dismiss,DialogOptionSelected,"$option == nisa_dismiss","EndConversation","""Thank you for choosing Regin Armaments!"" The avatar's smile doesn't change - it was already smiling the whole time.",,
 "#END [NISA] Greeting",,,,,,
@@ -2716,7 +2716,7 @@ XLII_nisa_buy_sp_cancel,DialogOptionSelected,"$option == nisa_sp_cancel
 $tag:XLII_regin_nisa","FireAll XLII_NisaMainMenu",,,
 XLII_nisa_sp_result_success,XLII_NisaSPResult,"$tag:XLII_regin_nisa
 $global.XLII_aio_sp_purchased","$global.XLII_aio_sp_purchased = false
-FireAll XLII_NisaMainMenu","""Understood! Your account has been credited with one Discretionary Development Resource."" The avatar's smile doesn't flicker. ""Thank you for choosing Regin Armaments!""",,"Reuses XLII_BuySP unchanged (same credits-double-per-cycle cost curve) - only the surrounding dialogue and vendor moved. $global.XLII_aio_sp_purchased kept as-is (internal flag name, not player-facing)."
+FireAll XLII_NisaMainMenu","""Understood! Your account has been credited with one Discretionary Development Resource™."" The avatar's smile doesn't flicker. ""Thank you for choosing Regin Armaments!""",,"Reuses XLII_BuySP unchanged (same credits-double-per-cycle cost curve) - only the surrounding dialogue and vendor moved. $global.XLII_aio_sp_purchased kept as-is (internal flag name, not player-facing)."
 XLII_nisa_sp_result_fail,XLII_NisaSPResult,"$tag:XLII_regin_nisa
 !$global.XLII_aio_sp_purchased","FireAll XLII_NisaMainMenu",,,
 "#END [NISA] SP Exchange",,,,,,
@@ -2724,63 +2724,65 @@ XLII_nisa_sp_result_fail,XLII_NisaSPResult,"$tag:XLII_regin_nisa
 # [NISA] FAQ,,,,,,
 XLII_nisa_main_opt_faq,XLII_NisaMainMenu,"$tag:XLII_regin_nisa",,,"2:nisa_faq_open:I have a question",
 XLII_nisa_faq_open,DialogOptionSelected,"$option == nisa_faq_open
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQMenu,"""Of course! I'm happy to answer general questions."" The smile holds exactly where it was.",,"Fires the top-level category picker (XLII_NisaFAQMenu: Regin Armaments / The Draconis Defense Alliance / Itoron's Government), not a flat topic list - split out (2026-10) once the flat list got cramped with the governance chain below. Each category is its own submenu trigger (XLII_NisaFAQCompanyMenu/AllianceMenu/GovernmentMenu) with a shared 'Back to topics' option (XLII_nisa_faq_cat_back) returning to this picker. Chain-unlocked entries per category (2026-10, revised after playtesting): Company has 4 (duration/products off 'company', compliance/hq off 'self' - hq is a deliberate keyword-miss non-answer since Regin's HQ is unestablished lore); Alliance has 2 (fafnir/allies off 'alliance' - Kori and Hegemony were originally separate chained reveals off fafnir/allies respectively but read better folded directly into the Fafnir/Allies answers as continued text, so they were merged in rather than kept as their own clicks); Government has 3 (legislature off august, vacant off legislature, states off vacant - Harrows was likewise folded into August's own answer rather than kept as a separate reveal). Categories are no longer count-balanced as a result - ask if you want new distinct topics added to Alliance/Government to restore parity, now that the 'fold vs. reveal' judgment call has been made per-topic. Not gated by an asked-once flag at the base-topic level, deliberately - per the voice guide, NISA is forgetful and scripted, so asking the same question twice should get the exact same canned answer word for word, not a 'already told you this' branch. Remaining chain-unlock flags are $global. (not session-local) - the unlock isn't NISA remembering the player, it's that asking the parent question navigates one level deeper into her static script tree, same as expanding a FAQ page's related-topics accordion. She never hints she knows more than she says."
-XLII_nisa_faq_opt_cat_company,XLII_NisaFAQMenu,$tag:XLII_regin_nisa,,,1:nisa_faq_cat_company:Regin Armaments,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu","""Of course! I'm happy to answer general questions."" The smile holds exactly where it was.",,"Fires the top-level category picker (XLII_NisaFAQMenu: Regin Armaments / The Draconis Defense Alliance / Itoron's Government), not a flat topic list - split out (2026-10) once the flat list got cramped with the governance chain below. Each category is its own submenu trigger (XLII_NisaFAQCompanyMenu/AllianceMenu/GovernmentMenu) with a shared 'Back to topics' option (XLII_nisa_faq_cat_back) returning to this picker. Chain-unlocked entries per category (2026-10, revised after playtesting): Company has 4 (duration/products off 'company', compliance/hq off 'self' - hq is a deliberate keyword-miss non-answer since Regin's HQ is unestablished lore); Alliance has 2 (fafnir/allies off 'alliance' - Kori and Hegemony were originally separate chained reveals off fafnir/allies respectively but read better folded directly into the Fafnir/Allies answers as continued text, so they were merged in rather than kept as their own clicks); Government has 3 (legislature off august, vacant off legislature, states off vacant - Harrows was likewise folded into August's own answer rather than kept as a separate reveal). Categories are no longer count-balanced as a result - ask if you want new distinct topics added to Alliance/Government to restore parity, now that the 'fold vs. reveal' judgment call has been made per-topic. Not gated by an asked-once flag at the base-topic level, deliberately - per the voice guide, NISA is forgetful and scripted, so asking the same question twice should get the exact same canned answer word for word, not a 'already told you this' branch. Remaining chain-unlock flags are $global. (not session-local) - the unlock isn't NISA remembering the player, it's that asking the parent question navigates one level deeper into her static script tree, same as expanding a FAQ page's related-topics accordion. She never hints she knows more than she says."
+XLII_nisa_faq_opt_cat_company,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"1:nisa_faq_cat_company:Regin Armaments",
 XLII_nisa_faq_cat_company,DialogOptionSelected,"$option == nisa_faq_cat_company
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQCompanyMenu,"""Of course!""",,
-XLII_nisa_faq_opt_cat_alliance,XLII_NisaFAQMenu,$tag:XLII_regin_nisa,,,2:nisa_faq_cat_alliance:The Draconis Defense Alliance,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQCompanyMenu","""Of course!""",,
+XLII_nisa_faq_opt_cat_alliance,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"2:nisa_faq_cat_alliance:The Draconis Defense Alliance",
 XLII_nisa_faq_cat_alliance,DialogOptionSelected,"$option == nisa_faq_cat_alliance
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQAllianceMenu,"""Of course!""",,
-XLII_nisa_faq_opt_cat_government,XLII_NisaFAQMenu,$tag:XLII_regin_nisa,,,3:nisa_faq_cat_government:Itoron's Government,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQAllianceMenu","""Of course!""",,
+XLII_nisa_faq_opt_cat_government,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"3:nisa_faq_cat_government:Itoron's Government",
 XLII_nisa_faq_cat_government,DialogOptionSelected,"$option == nisa_faq_cat_government
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQGovernmentMenu,"""Of course!""",,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQGovernmentMenu","""Of course!""",,
 XLII_nisa_faq_cat_back,DialogOptionSelected,"$option == nisa_faq_cat_back
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQMenu,,,"Shared handler for the 'Back to topics' option added to all three FAQ category submenus - always returns to the top-level category picker (XLII_NisaFAQMenu), so one rule covers all three rather than three near-identical ones."
-XLII_nisa_faq_opt_company,XLII_NisaFAQCompanyMenu,$tag:XLII_regin_nisa,,,1:nisa_faq_company:Tell me about Regin Armaments,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQMenu",,,"Shared handler for the 'Back to topics' option added to all three FAQ category submenus - always returns to the top-level category picker (XLII_NisaFAQMenu), so one rule covers all three rather than three near-identical ones."
+XLII_nisa_faq_opt_company,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa",,,"1:nisa_faq_company:Tell me about Regin Armaments",
 XLII_nisa_faq_opt_duration,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_company",,,3:nisa_faq_duration:How long has Regin Armaments been in business?,Unlocked after asking about Regin Armaments - part of balancing the Company category's hidden-entry count to match the other two categories (4 each).
+$global.XLII_nisa_asked_company",,,"3:nisa_faq_duration:How long has Regin Armaments been in business?","Unlocked after asking about Regin Armaments - part of balancing the Company category's hidden-entry count to match the other two categories (4 each)."
 XLII_nisa_faq_duration,DialogOptionSelected,"$option == nisa_faq_duration
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQCompanyMenu,"""Regin Armaments has proudly served customers for over 50 years, from the Core Worlds to the Fringe!""
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQCompanyMenu","""Regin Armaments has proudly served customers for over 50 years, from the Core Worlds to the Fringe!""
 
 ""Every generation of Regin hardware is built on this same foundation of excellence. Regin Armaments: trusted across the Sector!""",,
 XLII_nisa_faq_opt_products,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_company",,,4:nisa_faq_products:What does Regin Armaments manufacture?,
+$global.XLII_nisa_asked_company",,,"4:nisa_faq_products:What does Regin Armaments manufacture?",
 XLII_nisa_faq_products,DialogOptionSelected,"$option == nisa_faq_products
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQCompanyMenu,"""Regin Armaments specializes in ballistic weapons, missile systems, and point-defense arrays - everything a discerning fleet commander needs!""
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQCompanyMenu","""Regin Armaments specializes in small arms, armored fighting vehicles, spaceborne ballistic weapons, missile systems, and electronic warfare arrays - everything a discerning fleet commander needs!""
+
+""Additionally, we also play an important advisory role in Draconis Naval ship design! We help pioneer modern ship design!""
 
 ""Ask your Regin representative about our full product catalogue today!""",,
 XLII_nisa_faq_opt_compliance,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_self",,,5:nisa_faq_compliance:What are Hegemony AI compliance standards?,
+$global.XLII_nisa_asked_self",,,"5:nisa_faq_compliance:What are Hegemony AI compliance standards?",
 XLII_nisa_faq_compliance,DialogOptionSelected,"$option == nisa_faq_compliance
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQCompanyMenu,"""Hegemony AI compliance standards are a voluntary certification Regin Armaments submits every N.I.S.A. unit to, unprompted.""
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQCompanyMenu","""Hegemony AI compliance standards are a voluntary certification Regin Armaments submits to, unprompted.""
 
-""Our compliance certificates are printed in the front of every manual! Regin Armaments: the most-audited support algorithm in Fafnir.""",,
+""Our compliance certificates are printed in the front of every manual! Regin Armaments: the most-audited product in Fafnir. Trusted Sector-wide!""",,
 XLII_nisa_faq_opt_hq,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_self",,,6:nisa_faq_hq:Where is Regin Armaments headquartered?,"Keyword-miss fallback, same shape as the Alliance category's office/athebyne demos - Regin's HQ location is genuinely unestablished lore, so rather than invent it this sidesteps the question in character instead."
+$global.XLII_nisa_asked_self",,,"6:nisa_faq_hq:Where is Regin Armaments headquartered?","Keyword-miss fallback, same shape as the Alliance category's office/athebyne demos - Regin's HQ location is genuinely unestablished lore, so rather than invent it this sidesteps the question in character instead."
 XLII_nisa_faq_hq,DialogOptionSelected,"$option == nisa_faq_hq
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQCompanyMenu,"""I don't have any information about 'Regin Armaments headquarters.'"" A short pause, unbothered. ""Did you mean: 'authorized service center locations'?"" Another short pause, equally unbothered by the silence that follows. ""I'm sorry, I can't help with that. Please contact a Regin representative.""",,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQCompanyMenu","""I don't have any information about 'Regin Armaments headquarters.'"" A short pause, unbothered. ""Did you mean: 'authorized service center locations'?"" Another short pause, equally unbothered by the silence that follows. ""I'm sorry, I can't help with that. Please contact a Regin representative.""",,
 XLII_nisa_faq_company,DialogOptionSelected,"$option == nisa_faq_company
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_company = true
 FireAll XLII_NisaFAQCompanyMenu","""Regin Armaments is a proud manufacturer of ballistic, missile and electromagnetic weapon systems - trusted across the Sector!"" The same even brightness as every other sentence. ""Built over 50 years of operational expertise with a long legacy of excellence and custom satisfaction!""",,
-XLII_nisa_faq_opt_alliance,XLII_NisaFAQAllianceMenu,$tag:XLII_regin_nisa,,,1:nisa_faq_alliance:Tell me about the Draconis Defense Alliance,
+XLII_nisa_faq_opt_alliance,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa",,,"1:nisa_faq_alliance:Tell me about the Draconis Defense Alliance",
 XLII_nisa_faq_opt_fafnir,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_alliance",,,4:nisa_faq_fafnir:Tell me about the Fafnir system,Unlocked after asking about the Alliance - its answer already names the Fafnir system as HQ. Part of balancing the Alliance category's hidden-entry count to match the other two categories (4 each).
+$global.XLII_nisa_asked_alliance",,,"4:nisa_faq_fafnir:Tell me about the Fafnir system","Unlocked after asking about the Alliance - its answer already names the Fafnir system as HQ. Part of balancing the Alliance category's hidden-entry count to match the other two categories (4 each)."
 XLII_nisa_faq_fafnir,DialogOptionSelected,"$option == nisa_faq_fafnir
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQAllianceMenu,"""The Fafnir system is the Alliance's home system - anchored by Itoron, 'the Jewel of Fafnir,' its sister world Athebyne, and the moon Kori.""
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQAllianceMenu","""The Fafnir system is the Alliance's home system - anchored by Itoron, 'the Jewel of Fafnir,' its sister world Athebyne, and the moon Kori.""
 
 ""Kori is the Alliance's principal military-industrial world, home to CENTCOM Headquarters and the bulk of the Draconis Navy's shipyards.""
 
-""Regin Armaments proudly supplies materiel to the Alliance's armed forces and its allies throughout the Fafnir system - including right here at Kori. Thank you for your continued business!""",,
+""Regin Armaments proudly supplies materiel to the Alliance's armed forces and its allies throughout the Fafnir system - including right here at Itoron. Thank you for your continued business!""",,
 XLII_nisa_faq_opt_allies,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_alliance",,,6:nisa_faq_allies:Who are the Alliance's allies?,
+$global.XLII_nisa_asked_alliance",,,"6:nisa_faq_allies:Who are the Alliance's allies?",
 XLII_nisa_faq_allies,DialogOptionSelected,"$option == nisa_faq_allies
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQAllianceMenu,"""The Alliance maintains a valued trade and defense partnership with Tri-Tachyon Corporation, alongside a respectful working relationship with the Hegemony of Sector governments.""
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQAllianceMenu","""The Alliance maintains a valued trade and defense partnership with Tri-Tachyon Corporation, alongside a respectful working relationship with the Hegemony.""
 
 ""Regin Armaments is honored to supply materiel to the Alliance's armed forces and its allies alike, in full compliance with all applicable Sector weapons regulations. Trusted across the Sector!""",,
 XLII_nisa_faq_alliance,DialogOptionSelected,"$option == nisa_faq_alliance
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_alliance = true
 FireAll XLII_NisaFAQAllianceMenu","""The Draconis Defense Alliance is a sovereign military administration headquartered in the Fafnir system. Regin Armaments is honored to supply materiel to the Alliance's armed forces and it's allies. For questions regarding Alliance policy, please contact an Alliance representative.""",,
-XLII_nisa_faq_opt_august,XLII_NisaFAQGovernmentMenu,$tag:XLII_regin_nisa,,,1:nisa_faq_august:Tell me about the Emil August,
+XLII_nisa_faq_opt_august,XLII_NisaFAQGovernmentMenu,"$tag:XLII_regin_nisa",,,"1:nisa_faq_august:Tell me about the Emil August",
 XLII_nisa_faq_august,DialogOptionSelected,"$option == nisa_faq_august
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_august = true
 FireAll XLII_NisaFAQGovernmentMenu","""Of course! Emil August is the Fleet Admiral of the Draconis Defense Alliance, proudly carrying forward the Director-General's wartime mandate.""
@@ -2789,38 +2791,38 @@ FireAll XLII_NisaFAQGovernmentMenu","""Of course! Emil August is the Fleet Admir
 
 ""Director-General Harrows served through the opening decades of the war against Athebyne before passing away in its second decade, having secured Itoron's defense in capable hands.""",,
 XLII_nisa_faq_opt_legislature,XLII_NisaFAQGovernmentMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_august",,,2:nisa_faq_legislature:Tell me about the Combined Legislature,Unlocked after asking about August - his FAQ answer name-drops both the Legislature and Harrows. Source: Downloads/Directorate_and_Combined_Legislature.docx.
+$global.XLII_nisa_asked_august",,,"2:nisa_faq_legislature:Tell me about the Combined Legislature","Unlocked after asking about August - his FAQ answer name-drops both the Legislature and Harrows. Source: Downloads/Directorate_and_Combined_Legislature.docx."
 XLII_nisa_faq_legislature,DialogOptionSelected,"$option == nisa_faq_legislature
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_legislature = true
 FireAll XLII_NisaFAQGovernmentMenu","""The Combined Legislature was Itoron's assembly of member states, convened before the war - each state sending its head of government to sit on it.""
 
 ""Early in the war, the Legislature proudly granted the Director-General full wartime authority to defend Itoron, standing down its own sessions for the duration of the emergency. The Alliance continues to honor that mandate to this day.""",,
 XLII_nisa_faq_opt_vacant,XLII_NisaFAQGovernmentMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_legislature",,,4:nisa_faq_vacant:Why isn't there a Director-General now?,
+$global.XLII_nisa_asked_legislature",,,"4:nisa_faq_vacant:Why isn't there a Director-General now?",
 XLII_nisa_faq_vacant,DialogOptionSelected,"$option == nisa_faq_vacant
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_vacant = true
 FireAll XLII_NisaFAQGovernmentMenu","""Fleet Admiral August proudly continues the Director-General's wartime mandate, safeguarding Itoron's government exactly as Director-General Harrows intended.""
 
 ""The Alliance is honored to carry that mandate forward on behalf of every citizen of Itoron. For questions regarding Alliance policy, please contact an Alliance representative.""",,"Deliberately a non-answer to the skeptical premise in its own option text ('Why isn't there a Director-General now?') - NISA doesn't concede there's a gap to explain, she just reasserts continuity/legitimacy. Per the voice guide she's a propaganda mouthpiece, not an analyst: no hedge words ('technically', 'rather than', 'formally vacant'), no explaining of the legal mechanism, just the brand-safe conclusion stated as plain fact."
 XLII_nisa_faq_opt_states,XLII_NisaFAQGovernmentMenu,"$tag:XLII_regin_nisa
-$global.XLII_nisa_asked_vacant",,,5:nisa_faq_states:What happened to Itoron's other member states?,
+$global.XLII_nisa_asked_vacant",,,"5:nisa_faq_states:What happened to Itoron's other member states?",
 XLII_nisa_faq_states,DialogOptionSelected,"$option == nisa_faq_states
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQGovernmentMenu,"""Itoron's former member states now enjoy the stability and protection of unified military governance under the Alliance.""
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQGovernmentMenu","""Itoron's former member states now enjoy the stability and protection of unified military governance under the Alliance.""
 
 ""Regin Armaments proudly maintains authorized service centers in every administrative district. Thank you for your continued business!""",,
-XLII_nisa_faq_opt_back_government,XLII_NisaFAQGovernmentMenu,$tag:XLII_regin_nisa,,,99:nisa_faq_cat_back:Back to topics,
-XLII_nisa_faq_opt_office,XLII_NisaFAQAllianceMenu,$tag:XLII_regin_nisa,,,2:nisa_faq_office:Tell me about the Alliance Intelligence Office,
+XLII_nisa_faq_opt_back_government,XLII_NisaFAQGovernmentMenu,"$tag:XLII_regin_nisa",,,"99:nisa_faq_cat_back:Back to topics",
+XLII_nisa_faq_opt_office,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa",,,"2:nisa_faq_office:Tell me about the Alliance Intelligence Office",
 XLII_nisa_faq_office,DialogOptionSelected,"$option == nisa_faq_office
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQAllianceMenu,"""I don't have any information about 'the Alliance Intelligence Office.'"" A short pause, unbothered. ""Did you mean: 'office furniture'?"" Another short pause, equally unbothered by the silence that follows. ""I'm sorry, I can't help with that. Please contact a Regin representative.""",,
-XLII_nisa_faq_opt_self,XLII_NisaFAQCompanyMenu,$tag:XLII_regin_nisa,,,2:nisa_faq_self:What exactly are you?,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQAllianceMenu","""I don't have any information about 'the Alliance Intelligence Office.'"" A short pause, unbothered. ""Did you mean: 'office furniture'?"" Another short pause, equally unbothered by the silence that follows. ""I'm sorry, I can't help with that. Please contact a Regin representative.""",,
+XLII_nisa_faq_opt_self,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa",,,"2:nisa_faq_self:What exactly are you?",
 XLII_nisa_faq_self,DialogOptionSelected,"$option == nisa_faq_self
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_self = true
 FireAll XLII_NisaFAQCompanyMenu","""I'm N.I.S.A., or Non-Independent Support Algorithm."" Stated as plainly as a model number. ""I am a certified support assistant, audited under Hegemony AI compliance standards. Please note, I am not an independent intelligence, and I do not retain information between sessions.""",,
-XLII_nisa_faq_opt_back_company,XLII_NisaFAQCompanyMenu,$tag:XLII_regin_nisa,,,99:nisa_faq_cat_back:Back to topics,
-XLII_nisa_faq_opt_athebyne,XLII_NisaFAQAllianceMenu,$tag:XLII_regin_nisa,,,3:nisa_faq_athebyne:What happened at Athebyne?,
+XLII_nisa_faq_opt_back_company,XLII_NisaFAQCompanyMenu,"$tag:XLII_regin_nisa",,,"99:nisa_faq_cat_back:Back to topics",
+XLII_nisa_faq_opt_athebyne,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa",,,"3:nisa_faq_athebyne:What happened at Athebyne?",
 XLII_nisa_faq_athebyne,DialogOptionSelected,"$option == nisa_faq_athebyne
-$tag:XLII_regin_nisa",FireAll XLII_NisaFAQAllianceMenu,"""I don't have any specific information about 'Athebyne'. If you'd like, I can supply you with our Athebynian service representative!"" Just blank, the way she is about anything she was never loaded with. ""Regin Armaments is proud of its longstanding partnership with the Alliance's defense efforts. Thank you for your interest.""",,
-XLII_nisa_faq_opt_back_alliance,XLII_NisaFAQAllianceMenu,$tag:XLII_regin_nisa,,,99:nisa_faq_cat_back:Back to topics,
+$tag:XLII_regin_nisa","FireAll XLII_NisaFAQAllianceMenu","""I don't have any specific information about 'Athebyne'. If you'd like, I can supply you with our Athebynian service representative!"" Just blank, the way she is about anything she was never loaded with. ""Regin Armaments is proud of its longstanding partnership with the Alliance's defense efforts both here on Itoron and abroad at our Athebyne branch! Thank you for your interest.""",,
+XLII_nisa_faq_opt_back_alliance,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa",,,"99:nisa_faq_cat_back:Back to topics",
 XLII_nisa_faq_opt_back,XLII_NisaFAQMenu,"$tag:XLII_regin_nisa",,,"99:nisa_faq_back:That answers my questions for now",
 XLII_nisa_faq_back,DialogOptionSelected,"$option == nisa_faq_back
 $tag:XLII_regin_nisa","FireAll XLII_NisaMainMenu",,,
