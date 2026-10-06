@@ -109,9 +109,6 @@ public class XLII_ShroudedVeil extends BaseHullMod {
         if (ship.getVariant().getHullSize() == HullSize.CAPITAL_SHIP) {
             return "Can not be installed on capital ships";
         }
-        if (ship.getVariant().hasHullMod(HullMods.SAFETYOVERRIDES)) {
-            return "Incompatible with Safety Overrides";
-        }
         return null;
     }
 
