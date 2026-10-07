@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.scripts.combat.carrierdoctrine.CarrierDoctrinePluginResolver;
 import org.apache.log4j.Logger;
 import org.lazywizard.lazylib.MathUtils;
 import org.lazywizard.lazylib.combat.CombatUtils;
@@ -72,6 +73,18 @@ public class XLII_FortySecond extends XLII_SystemHullModBase {
         stats.getSightRadiusMod().modifyFlat(id, combatMag.get(hullSize));
         stats.getSensorProfile().modifyMult(id, PROFILE_MULT);
         stats.getCRLossPerSecondPercent().modifyPercent(id, DEGRADE_INCREASE_PERCENT);
+    }
+
+    /**
+     * Every FortySecond-skinned hull carries this hullmod as a built-in, so it's a reliable
+     * combat-only (no campaign-layer bridging needed) way to lazily bootstrap the carrier
+     * doctrine controller the first time any FortySecond ship enters the engine - mirrors
+     * ThreatHullmod's bootstrap pattern.
+     */
+    @Override
+    public void applyEffectsAfterShipAddedToCombatEngine(ShipAPI ship, String id) {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        CarrierDoctrinePluginResolver.installIfNeeded(engine);
     }
 
     @Override
