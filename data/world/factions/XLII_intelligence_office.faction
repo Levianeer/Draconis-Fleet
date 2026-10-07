@@ -117,28 +117,34 @@
 	},
 	
 	"factionDoctrine":{
-		"warships":3,
+		"warships":4,
 		"carriers":0,
 		"phaseShips":3,
 
-		"officerQuality":7,
+		"officerQuality":1,
 		"shipQuality":5,
-		"numShips":5,
+		"numShips":1,
 
 		"shipSize":4,
 
-		"aggression":5,
+		"aggression":2,
 
 		"combatFreighterProbability":0,     				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":1,				# as part of the normal combat lineup
 		"combatFreighterCombatUseFractionWhenPriority":1,   # as part of normal combat lineup, when marked as priority ship
 		"autofitRandomizeProbability":0.25,
 
+		"officerSkillsShuffleProbability":1f,
+		"officerSkills":[
+			"energy_weapon_mastery",
+			"field_modulation",
+		],
 		"commanderSkillsShuffleProbability":1,
 		"commanderSkills":[
+			"electronic_warfare",
 			"flux_regulation",
-			"coordinated_maneuvers",
-		],
+			"cybernetic_augmentation",
+		]
 	},
 
 	"shipRoles":{
