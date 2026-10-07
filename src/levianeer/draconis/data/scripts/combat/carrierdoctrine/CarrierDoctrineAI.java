@@ -1360,7 +1360,7 @@ public class CarrierDoctrineAI {
         }
 
         boolean evading = evasionHoldTimer > 0f;
-        if (evading != lastLoggedEvading) {
+        if (lastLoggedEvading == null || evading != lastLoggedEvading.booleanValue()) {
             lastLoggedEvading = evading;
             log.info("CarrierDoctrineAI[owner=" + owner + "]: carrier evasion " + (evading ? "ENGAGED" : "CLEARED"));
             debugMessage("Carrier Doctrine: EVASION " + (evading ? "ENGAGED" : "CLEARED"));
