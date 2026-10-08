@@ -471,6 +471,15 @@ public class CarrierDoctrineAI {
                 + " battleline=" + battleline.size() + " pickets=" + pickets.size());
         activateIfNeeded();
 
+        // Bug-fix #4: strip ships already withdrawing/escorting (from a prior tick - this
+        // tick's own withdrawal decisions can't be known yet, see below) out of battleline/
+        // screen before measuring the local force ratio - otherwise a ship mid Transverse Jump
+        // charge (still deployed and alive, no longer actually fighting) counted at full combat
+        // strength toward a ratio that then decides new withdrawal thresholds and the
+        // battleline's own advance/fallback distance.
+        excludeWithdrawalRelated(battleline);
+        excludeWithdrawalRelated(screen);
+
         // M9: local force ratio around where the line currently sits (last tick's position, not
         // the one about to be recomputed - see lastBattlelineLoc) - feeds both how far the line
         // pushes/falls back this tick and how readily a hull-cripple withdraws.
@@ -486,20 +495,46 @@ public class CarrierDoctrineAI {
         // strike cycle's minFrr/targeting, CAP escort, and updateFormation()'s holdPosition()
         // calls) re-tasks every bucketed member every tick, which previously overwrote the
         // RETREAT/LIGHT_ESCORT orders handleWithdrawals() just gave them about 1s later.
+        // battleline/screen were already filtered above for the force-ratio calc - redone here
+        // too so this tick's own newly-decided withdrawals/escorts (just assigned by
+        // handleWithdrawals(), impossible to know before it ran) are excluded as well.
         excludeWithdrawalRelated(carriers);
         excludeWithdrawalRelated(screen);
         excludeWithdrawalRelated(battleline);
         excludeWithdrawalRelated(pickets);
 
+        // Bug-fix #5/#6: computed once per tick and threaded through as parameters, rather than
+        // each downstream method recomputing it off the same (now-filtered) carriers list -
+        // getFormationAnchor() was being called up to 3x/tick (here, runStrikeCycle() in COVER
+        // mode, and updateFormation()) and countEnemyFighterWingsNear() up to 3x per carrier/tick
+        // (updateCapEscort(), updateCarrierEvasion(), pickCarrierForScreenEscort()) for the exact
+        // same answer each time.
+        Vector2f formationAnchor = getFormationAnchor(carriers);
+        Map<ShipAPI, Integer> carrierThreat = computeCarrierThreatCounts(carriers);
+
         updateCarrierCapability(carriers);
         assignCarrierDuties(carriers);
-        updateCapLadder(carriers, getFormationAnchor(carriers));
+        updateCapLadder(carriers, formationAnchor);
         logCarrierDuties();
-        updateCapEscort(carriers);
-        runStrikeCycle(carriers, battleline);
+        updateCapEscort(carriers, carrierThreat);
+        runStrikeCycle(carriers, battleline, formationAnchor);
         updateObjectiveCapture(pickets);
-        updateFormation(carriers, screen, battleline, pickets, localForceRatio);
+        updateFormation(carriers, screen, battleline, pickets, localForceRatio, formationAnchor, carrierThreat);
         updatePicketUnpredictability(pickets);
+    }
+
+    /** Bug-fix #5: each carrier's "any role" enemy-fighter threat count (see
+     * {@link #countEnemyFighterWingsNear}), computed once per tick so updateCapEscort(),
+     * updateCarrierEvasion(), and pickCarrierForScreenEscort() can share one scan instead of
+     * each re-scanning every enemy fighter wing per carrier. */
+    protected Map<ShipAPI, Integer> computeCarrierThreatCounts(List<DeployedFleetMemberAPI> carriers) {
+        Map<ShipAPI, Integer> result = new LinkedHashMap<>();
+        for (DeployedFleetMemberAPI member : carriers) {
+            ShipAPI ship = member.getShip();
+            if (ship == null) continue;
+            result.put(ship, countEnemyFighterWingsNear(ship.getLocation(), false));
+        }
+        return result;
     }
 
     /**
@@ -724,15 +759,22 @@ public class CarrierDoctrineAI {
     /** Bug-fix #4: withdrawalEscortAssignments used to only be cleared in deactivate(), so a
      * finished escort (its charge already off the map or dead) stayed permanently excluded from
      * its normal role bucket for the rest of the battle. Tears down and drops any entry whose
-     * charge is no longer deployed or alive, freeing that escort back to {@link #excludeWithdrawalRelated}. */
+     * charge is no longer deployed or alive, freeing that escort back to {@link #excludeWithdrawalRelated}.
+     *
+     * Bug-fix #3: also releases an entry whose escort itself (not just its charge) is no longer
+     * deployed or alive - the charge-only check left a dead escort's AssignmentInfo dangling
+     * until deactivate() if its charge happened to still be alive and deployed. */
     protected void releaseFinishedWithdrawalEscorts(List<DeployedFleetMemberAPI> deployed) {
         Set<ShipAPI> stillDeployed = stillDeployedShips(deployed);
         for (Iterator<Map.Entry<ShipAPI, AssignmentInfo>> it = withdrawalEscortAssignments.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<ShipAPI, AssignmentInfo> entry = it.next();
+            ShipAPI escort = entry.getKey();
             ShipAPI charge = getEscortCharge(entry.getValue());
-            if (charge == null || !charge.isAlive() || !stillDeployed.contains(charge)) {
+            boolean escortGone = !escort.isAlive() || !stillDeployed.contains(escort);
+            boolean chargeGone = charge == null || !charge.isAlive() || !stillDeployed.contains(charge);
+            if (escortGone || chargeGone) {
                 taskManager.removeAssignment(entry.getValue());
-                debugMessage("Carrier Doctrine: ESCORT RELEASED " + entry.getKey().getName());
+                debugMessage("Carrier Doctrine: ESCORT RELEASED " + escort.getName());
                 it.remove();
             }
         }
@@ -760,7 +802,7 @@ public class CarrierDoctrineAI {
      * every tick off a live threat count would thrash escorts between carriers as that count
      * flickers by one, which looks like nothing is actually holding position.
      */
-    protected void updateScreenEscort(List<DeployedFleetMemberAPI> screen, List<DeployedFleetMemberAPI> carriers) {
+    protected void updateScreenEscort(List<DeployedFleetMemberAPI> screen, List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> carrierThreat) {
         if (carriers.isEmpty()) {
             for (AssignmentInfo info : screenEscortAssignments.values()) taskManager.removeAssignment(info);
             screenEscortAssignments.clear();
@@ -795,7 +837,7 @@ public class CarrierDoctrineAI {
             ShipAPI escort = member.getShip();
             if (escort == null || screenEscortAssignments.containsKey(escort)) continue;
 
-            DeployedFleetMemberAPI target = pickCarrierForScreenEscort(carriers, escortCount);
+            DeployedFleetMemberAPI target = pickCarrierForScreenEscort(carriers, escortCount, carrierThreat);
             if (target == null || target.getShip() == null) continue;
 
             AssignmentInfo info = taskManager.createAssignment(CombatAssignmentType.LIGHT_ESCORT, target, false);
@@ -812,13 +854,13 @@ public class CarrierDoctrineAI {
      * fighter-wing count {@link #updateCapEscort} already uses. Updated incrementally by the
      * caller as each new escort is picked, so several newcomers assigned in the same tick still
      * spread across more than one threatened carrier instead of piling onto just the worst one. */
-    protected DeployedFleetMemberAPI pickCarrierForScreenEscort(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> escortCount) {
+    protected DeployedFleetMemberAPI pickCarrierForScreenEscort(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> escortCount, Map<ShipAPI, Integer> carrierThreat) {
         DeployedFleetMemberAPI best = null;
         float bestRatio = Float.MAX_VALUE;
         for (DeployedFleetMemberAPI member : carriers) {
             ShipAPI ship = member.getShip();
             if (ship == null) continue;
-            float threatWeight = countEnemyFighterWingsNear(ship.getLocation(), false) + 1f;
+            float threatWeight = carrierThreat.getOrDefault(ship, 0) + 1f;
             float ratio = escortCount.getOrDefault(ship, 0) / threatWeight;
             if (ratio < bestRatio) {
                 bestRatio = ratio;
@@ -847,7 +889,11 @@ public class CarrierDoctrineAI {
     /** Bug-fix #3: prefers the nearest SCREEN-tagged ship, then the nearest PICKET-tagged ship,
      * then the nearest anything-else - but never a CARRIER-tagged ship, which the old "nearest
      * healthy ship of any role" selection could and would pull off the line. Also skips ships
-     * already escorting another withdrawing ship (see withdrawalEscortAssignments). */
+     * already escorting another withdrawing ship (see withdrawalEscortAssignments), and ships
+     * currently capturing a battle objective (see objectiveCaptureAssignments) - picking one of
+     * those used to silently overwrite its CAPTURE order with LIGHT_ESCORT, and since
+     * updateObjectiveCapture() only clears that bookkeeping on death or an actual capture, the
+     * objective was left permanently stuck "already assigned" to a picket no longer working it. */
     protected DeployedFleetMemberAPI pickWithdrawalEscort(ShipAPI withdrawing, List<DeployedFleetMemberAPI> deployed) {
         DeployedFleetMemberAPI bestScreen = null, bestPicket = null, bestOther = null;
         float bestScreenDist = Float.MAX_VALUE, bestPicketDist = Float.MAX_VALUE, bestOtherDist = Float.MAX_VALUE;
@@ -858,6 +904,7 @@ public class CarrierDoctrineAI {
             if (ship == withdrawing || !ship.isAlive() || ship.isHulk()) continue;
             if (withdrawingShips.contains(ship)) continue;
             if (withdrawalEscortAssignments.containsKey(ship)) continue;
+            if (objectiveCaptureAssignments.containsKey(ship)) continue;
             if (ship.getHullSpec().hasTag(CarrierDoctrineTags.CARRIER)) continue;
 
             float dist = Misc.getDistance(ship.getLocation(), withdrawing.getLocation());
@@ -1030,11 +1077,11 @@ public class CarrierDoctrineAI {
      * alternate between, so the single-group cycle below still applies directly (this is also
      * exactly the doc's "one carrier: run strike/rebuild cycles" case).
      */
-    protected void runStrikeCycle(List<DeployedFleetMemberAPI> carriers, List<DeployedFleetMemberAPI> battleline) {
+    protected void runStrikeCycle(List<DeployedFleetMemberAPI> carriers, List<DeployedFleetMemberAPI> battleline, Vector2f formationAnchor) {
         Vector2f zoneCenter = null;
         Float zoneRadius = null;
         if (isCoverMission()) {
-            zoneCenter = getFormationAnchor(carriers);
+            zoneCenter = formationAnchor;
             float enemyRange = getEnemyLongestNonMissileRange();
             zoneRadius = getCarrierStandoffDistance(enemyRange) + enemyRange * LINE_RELEASE_GUN_RANGE_MULT;
         }
@@ -1505,7 +1552,7 @@ public class CarrierDoctrineAI {
      * just bombers) are actually threatening a carrier, not only strike wings. setShipTarget on
      * a friendly ship makes its wings escort it.
      */
-    protected void updateCapEscort(List<DeployedFleetMemberAPI> carriers) {
+    protected void updateCapEscort(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> carrierThreat) {
         List<ShipAPI> capCarriers = new ArrayList<>();
         for (DeployedFleetMemberAPI member : carriers) {
             if (carrierDuty.get(member.getShip()) == CarrierDuty.CAP) {
@@ -1518,7 +1565,7 @@ public class CarrierDoctrineAI {
         int mostThreatenedCount = -1;
         for (DeployedFleetMemberAPI member : carriers) {
             ShipAPI ship = member.getShip();
-            int threat = countEnemyFighterWingsNear(ship.getLocation(), false);
+            int threat = carrierThreat.getOrDefault(ship, 0);
             if (threat > mostThreatenedCount) {
                 mostThreatenedCount = threat;
                 mostThreatened = ship;
@@ -1691,8 +1738,8 @@ public class CarrierDoctrineAI {
 
     protected void updateFormation(List<DeployedFleetMemberAPI> carriers, List<DeployedFleetMemberAPI> screen,
                                     List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> pickets,
-                                    float localForceRatio) {
-        Vector2f carrierCenter = getFormationAnchor(carriers);
+                                    float localForceRatio, Vector2f formationAnchor, Map<ShipAPI, Integer> carrierThreat) {
+        Vector2f carrierCenter = formationAnchor;
         Vector2f enemyCenter = getEnemyCenterOfMass();
 
         if (!hasAwareEnemy()) {
@@ -1716,7 +1763,7 @@ public class CarrierDoctrineAI {
         // Bug-fix #9: it must NOT propagate into battlelineLoc (see battlelineAnchor below) -
         // the line holds while only the carriers (and the screen, which still rings them) fall
         // back further.
-        if (updateCarrierEvasion(carriers)) {
+        if (updateCarrierEvasion(carriers, carrierThreat)) {
             carrierStandoff = Math.min(carrierStandoff * CARRIER_EVASION_STANDOFF_MULT, getStandoffMapCap());
         }
 
@@ -1822,7 +1869,7 @@ public class CarrierDoctrineAI {
         // screenCoversBattleline's forwardScreen (busy holding the line) - rings the carriers
         // individually via updateScreenEscort() instead of holding one shared point ahead of them.
         List<DeployedFleetMemberAPI> ringScreen = screenCoversBattleline ? Collections.<DeployedFleetMemberAPI>emptyList() : screen;
-        updateScreenEscort(ringScreen, carriers);
+        updateScreenEscort(ringScreen, carriers, carrierThreat);
 
         logScreenFormation(screen.size(), reservedGuard.size(), screenCoversBattleline);
 
@@ -1859,6 +1906,12 @@ public class CarrierDoctrineAI {
      * not just the one going rogue - IGNORES_ORDERS sidesteps that entirely since it's a
      * per-ship AI override, independent of the assignment's own bookkeeping). This is a pure
      * timer, not threat-reactive, matching Threat's own "some units just go feral" flavor.
+     *
+     * Bug-fix #2: skips any picket currently capturing a battle objective (see
+     * objectiveCaptureAssignments) - this used to roll against the full bucket, so a picket
+     * mid-capture could go IGNORES_ORDERS and abandon the objective while still being counted
+     * as actively working it (updateObjectiveCapture() only releases that bookkeeping on death
+     * or an actual capture, not on going rogue).
      */
     protected void updatePicketUnpredictability(List<DeployedFleetMemberAPI> pickets) {
         untilPicketSND -= tick.getIntervalDuration();
@@ -1867,6 +1920,7 @@ public class CarrierDoctrineAI {
         for (DeployedFleetMemberAPI member : pickets) {
             ShipAPI ship = member.getShip();
             if (ship == null || ship.getAI() == null) continue;
+            if (objectiveCaptureAssignments.containsKey(ship)) continue;
             if ((float) Math.random() > PICKET_SND_FRACTION) continue;
 
             float duration = PICKET_SND_BASE_SECONDS * (0.75f + (float) Math.random() * 0.5f);
@@ -1934,12 +1988,12 @@ public class CarrierDoctrineAI {
      * without the hold, the boosted standoff would flicker on/off as the enemy count crosses
      * the threshold tick to tick.
      */
-    protected boolean updateCarrierEvasion(List<DeployedFleetMemberAPI> carriers) {
+    protected boolean updateCarrierEvasion(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> carrierThreat) {
         boolean threatened = false;
         for (DeployedFleetMemberAPI member : carriers) {
             ShipAPI ship = member.getShip();
             if (ship == null) continue;
-            if (countEnemyFighterWingsNear(ship.getLocation(), false) >= CARRIER_EVASION_THREAT_THRESHOLD) {
+            if (carrierThreat.getOrDefault(ship, 0) >= CARRIER_EVASION_THREAT_THRESHOLD) {
                 threatened = true;
                 break;
             }
