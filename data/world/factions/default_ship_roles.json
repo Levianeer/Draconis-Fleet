@@ -1,6 +1,7 @@
 {
 	"combatSmallForSmallFleet":{
 		"XLII_thuban_Elite":1.5,
+		"FortySecond_thuban_Elite":0.5,
 
 		"XLII_alruba_Elite":0.25,
 		"FortySecond_alruba_Elite":1,
@@ -16,9 +17,11 @@
 	"combatSmall":{
 		"XLII_thuban_Elite":2,
 
+		"FortySecond_thuban_Elite":1,
+
 		"XLII_alruba_Elite":0.25,
-		"FortySecond_alruba_Elite":1,
-		"FortySecond_alruba_Strike":1,
+		"FortySecond_alruba_Elite":0.5,
+		"FortySecond_alruba_Strike":0.5,
 
 		"XLII_alruba_mk2_Elite":0.75,
 
