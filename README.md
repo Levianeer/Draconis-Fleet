@@ -11,7 +11,7 @@ Draconis hulls are built around a consistent philosophy: flux capacity and speed
 
 ___
 
-![Fleet](https://i.imgur.com/6fKqspt.png)
+![Fleet](https://raw.githubusercontent.com/Levianeer/Draconis-Fleet/refs/heads/beta/graphics/fleet_roster.png)
 
 ___
 
