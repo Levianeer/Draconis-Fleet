@@ -1176,6 +1176,10 @@ public class CarrierDoctrineAI {
      * biggest hull - a rough priority order, not a literal port of anything, tuned in the
      * simulator like everything else.
      *
+     * Bug-fix #6: the carrier bonus is scaled by {@link #getCarrierStrikePotential} rather than
+     * flat - a carrier already emptied of its air group is no real priority target and was
+     * previously a perfect decoy for luring strikes away from everything else.
+     *
      * @param zoneCenter/zoneRadius when non-null, restricts candidates to inside this circle -
      *                              COVER mode's "carriers strike only targets inside the
      *                              protected zone" rule. Pass null for DESTROY (no restriction).
@@ -1195,7 +1199,9 @@ public class CarrierDoctrineAI {
             if (zoneCenter != null && Misc.getDistance(ship.getLocation(), zoneCenter) > zoneRadius) continue;
 
             float score = 0f;
-            if (ship.getHullSpec().getHints().contains(ShipTypeHints.CARRIER)) score += 1000f;
+            if (ship.getHullSpec().getHints().contains(ShipTypeHints.CARRIER)) {
+                score += 1000f * getCarrierStrikePotential(ship);
+            }
             if (ship == engine.getPlayerShip()) score += PLAYER_FLAGSHIP_TARGET_BONUS;
             if (isEngagedByBattleline(ship, battleline)) score += 75f;
             score += ship.getHullSize().ordinal() * 10f;
@@ -1221,6 +1227,33 @@ public class CarrierDoctrineAI {
             if (wing.getSpec() != null && wing.getSpec().getRole() == WingRole.BOMBER) return true;
         }
         return false;
+    }
+
+    /** Bug-fix #6: count of {@code ship}'s wings that aren't permanently destroyed - a wing
+     * that's merely away on a sortie or rebuilding in the bay still counts; only a wing wiped
+     * out for good doesn't. */
+    protected int countLiveWings(ShipAPI ship) {
+        int count = 0;
+        for (FighterWingAPI wing : ship.getAllWings()) {
+            if (!wing.isDestroyed()) count++;
+        }
+        return count;
+    }
+
+    /**
+     * Bug-fix #6 (decoy exploit): fraction of {@code ship}'s fighter bays still backed by a live
+     * wing, clamped to [0.15, 1] so a carrier that's merely mid-cycle (wings out, bays briefly
+     * looking empty) doesn't get undervalued, while one that's been fully gutted still scores
+     * far below an intact carrier instead of the same flat bonus. Used to scale the
+     * carrier-targeting bonus in {@link #pickStrikeTarget} - without this, an enemy carrier with
+     * every wing already destroyed was a perfect lure, since it scored the same +1000 as a
+     * fully loaded one.
+     */
+    protected float getCarrierStrikePotential(ShipAPI ship) {
+        int maxWings = ship.getNumFighterBays();
+        if (maxWings <= 0) return 1f; // no bay data to measure against - don't penalize
+        float fraction = (float) countLiveWings(ship) / maxWings;
+        return Math.max(0.15f, Math.min(1f, fraction));
     }
 
     /**
@@ -1540,7 +1573,8 @@ public class CarrierDoctrineAI {
         Vector2f perp = new Vector2f(axis.y, -axis.x);
 
         float enemyRange = getEnemyLongestNonMissileRange();
-        float carrierStandoff = getCarrierStandoffDistance(enemyRange);
+        float baseCarrierStandoff = getCarrierStandoffDistance(enemyRange);
+        float carrierStandoff = baseCarrierStandoff;
 
         // M8: doc's air-defense ladder ends with "carriers evade - back away from the attack."
         // A group-level reaction, not per-ship - simpler than splitting the shared RALLY_CARRIER
@@ -1548,6 +1582,9 @@ public class CarrierDoctrineAI {
         // group as a whole falls back further when under direct threat, then returns to the
         // normal standoff once clear). The boosted distance propagates into protectedZoneRadius
         // below too, which is coherent - an evading group's protected zone should grow with it.
+        // Bug-fix #9: it must NOT propagate into battlelineLoc (see battlelineAnchor below) -
+        // the line holds while only the carriers (and the screen, which still rings them) fall
+        // back further.
         if (updateCarrierEvasion(carriers)) {
             carrierStandoff = Math.min(carrierStandoff * CARRIER_EVASION_STANDOFF_MULT, getStandoffMapCap());
         }
@@ -1569,13 +1606,21 @@ public class CarrierDoctrineAI {
         carrierLoc.scale(-carrierStandoff);
         Vector2f.add(carrierLoc, enemyCenter, carrierLoc);
 
+        // Bug-fix #9: battlelineLoc is derived from this separate, non-evading anchor rather
+        // than carrierLoc - carrierLoc already absorbed the evasion boost above, and deriving
+        // battlelineLoc from it as a fixed fraction of the carrierLoc-to-enemy vector meant the
+        // line retreated by the same proportion as the carriers every time evasion triggered.
+        Vector2f battlelineAnchor = new Vector2f(axis);
+        battlelineAnchor.scale(-baseCarrierStandoff);
+        Vector2f.add(battlelineAnchor, enemyCenter, battlelineAnchor);
+
         // M9: push past the baseline BATTLELINE_ADVANCE_FRACTION when the local force ratio
         // favors us, fall back toward the carrier/CAP umbrella when it doesn't - a fixed
         // geometry point regardless of whether the line is winning or losing there is exactly
         // what lets a player concentrate on one part of it for free.
-        Vector2f toEnemy = Vector2f.sub(enemyCenter, carrierLoc, new Vector2f());
+        Vector2f toEnemy = Vector2f.sub(enemyCenter, battlelineAnchor, new Vector2f());
         toEnemy.scale(resolveBattlelineAdvanceFraction(localForceRatio));
-        Vector2f battlelineLoc = Vector2f.add(carrierLoc, toEnemy, new Vector2f());
+        Vector2f battlelineLoc = Vector2f.add(battlelineAnchor, toEnemy, new Vector2f());
 
         if (cover && !lineReleased) {
             // COVER, not released: the line holds inside the protected zone rather than
@@ -1769,6 +1814,10 @@ public class CarrierDoctrineAI {
      * zone, but is released to advance like DESTROY once either enemy surface ships are
      * already inside that zone (nothing left to gain by holding back), or the enemy has no
      * carriers left at all (nothing left to protect our own carrier standoff against).
+     *
+     * Bug-fix #6: "has a carrier" means one with at least one live wing left (see
+     * {@link #countLiveWings}) - otherwise an enemy carrier that's already been emptied of its
+     * air group would keep this line locked forever for nothing.
      */
     protected boolean isLineReleased(Vector2f carrierCenter, float protectedZoneRadius) {
         boolean enemyHasCarrier = false;
@@ -1778,7 +1827,7 @@ public class CarrierDoctrineAI {
             ShipAPI ship = member.getShip();
             if (ship.isHulk() || !ship.isAlive() || !engine.isAwareOf(owner, ship)) continue;
 
-            if (ship.getHullSpec().getHints().contains(ShipTypeHints.CARRIER)) {
+            if (ship.getHullSpec().getHints().contains(ShipTypeHints.CARRIER) && countLiveWings(ship) > 0) {
                 enemyHasCarrier = true;
             }
             if (Misc.getDistance(ship.getLocation(), carrierCenter) <= protectedZoneRadius) {
