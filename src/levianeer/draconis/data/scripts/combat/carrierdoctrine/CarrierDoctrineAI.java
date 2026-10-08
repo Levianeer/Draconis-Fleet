@@ -3,6 +3,7 @@ package levianeer.draconis.data.scripts.combat.carrierdoctrine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.AssignmentTargetAPI;
+import com.fs.starfarer.api.combat.BattleObjectiveAPI;
 import com.fs.starfarer.api.combat.CombatAssignmentType;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
@@ -169,6 +171,48 @@ public class CarrierDoctrineAI {
     public static float PICKET_SND_TIMER_SECONDS = 60f;
     public static float PICKET_SND_FRACTION = 0.5f; // chance per picket, per cycle, to go independent
 
+    // --- M9: flux-window strikes, finishing cripples, player pressure ---
+    // Review-driven: a bomber wave that arrives while the target is overloaded/venting is far
+    // deadlier than one timed purely off our own deck readiness. Carriers may launch below the
+    // normal DECK_LOAD_FRR_THRESHOLD if the picked target is already flux-locked.
+    public static float VULNERABLE_LAUNCH_FRR_THRESHOLD = 0.70f;
+    public static float OVERLOADED_TARGET_BONUS = 220f; // was 200, bumped now that venting scores too
+    public static float VENTING_TARGET_BONUS = 150f;
+    public static float CRIPPLE_TARGET_HULL_FRACTION = 0.4f; // enemy hull below this scores as "finish it"
+    public static float CRIPPLE_TARGET_BONUS = 180f;
+    public static float RETREATING_TARGET_BONUS = 150f; // candidate has a RETREAT assignment on its own side
+    public static float PLAYER_FLAGSHIP_TARGET_BONUS = 120f;
+
+    // --- M9: predictability-breaking ---
+    // Deck-load/recovery/sweep thresholds are jittered once per battle instance (see the
+    // constructor) rather than staying at a learnable fixed value forever.
+    public static float THRESHOLD_JITTER_FRACTION = 0.10f;
+    // Single-group strike cycle only (see runStrikeCycle): a per-wave chance to launch anyway at
+    // a reduced threshold, independent of target vulnerability - breaks the pure FRR-timer rhythm
+    // even against a healthy target. Not applied to the 2+-carrier rotation path (M5) - rotation
+    // already varies via the jitter above plus its own swap timing, and layering a second
+    // randomized trigger there risks fighting the rotation handoff logic for little added benefit.
+    public static float OFF_CYCLE_STRIKE_CHANCE = 0.12f;
+    public static float OFF_CYCLE_LAUNCH_FRR_THRESHOLD = 0.75f;
+
+    // --- M9: local force ratio ---
+    // DP x CR x hull x flux-headroom, summed over our battleline+screen vs. enemy ships within
+    // this radius of where the line currently sits - not the whole enemy fleet, so a skirmish on
+    // one flank doesn't make the whole battle look lost. Ratio feeds both the battleline's
+    // advance/fallback distance and (see WITHDRAWAL_*_HULL_MULT below) the withdrawal threshold.
+    public static float LOCAL_FORCE_RADIUS_MULT = 2f;
+    public static float LOCAL_FORCE_RADIUS_MIN = 3000f;
+    public static float LOCAL_RATIO_PUSH_THRESHOLD = 1.15f;
+    public static float LOCAL_RATIO_FALLBACK_THRESHOLD = 0.85f;
+    public static float BATTLELINE_ADVANCE_FRACTION_PUSH = 0.75f;
+    public static float BATTLELINE_ADVANCE_FRACTION_FALLBACK = 0.35f;
+    // Hull-cripple retreat only (see handleWithdrawals) - PPT exhaustion is a hard fuel-out
+    // condition and isn't scaled by how the local fight is going. >1 retreats earlier (losing
+    // locally), <1 retreats later (winning locally) - a ship preservation call shouldn't give the
+    // player a free break out of a fight we're actually winning.
+    public static float WITHDRAWAL_WINNING_HULL_MULT = 0.6f;
+    public static float WITHDRAWAL_LOSING_HULL_MULT = 1.25f;
+
     protected final int owner;
     protected final CombatEngineAPI engine;
     protected final CombatFleetManagerAPI fleetManager;
@@ -214,13 +258,22 @@ public class CarrierDoctrineAI {
     protected boolean rotationActive = false;
     protected int activeMainGroup = 0;
     protected ShipAPI rotationTarget;
+    /** Bug-fix #5: persistent carrier -> rotation group (0 or 1) assignment, so a carrier dying
+     * mid-strike doesn't reshuffle every other carrier's group the way splitting mainCarriers by
+     * list index did. Mutated only in {@link #partitionRotationGroups} - dead/removed carriers
+     * are dropped without touching anyone else's group, new ones join whichever group is
+     * currently smaller, and no already-assigned carrier is ever moved. */
+    protected final Map<ShipAPI, Integer> rotationGroupAssignment = new LinkedHashMap<>();
 
     /** Ships already ordered to retreat for endurance reasons (hull cripple or PPT exhaustion) -
      * tracked so we don't re-issue the retreat/escort order every tick. */
     protected final Set<ShipAPI> withdrawingShips = new LinkedHashSet<>();
-    /** LIGHT_ESCORT assignments created in handleWithdrawals() - tracked so deactivate() can
-     * tear them down too, same as the four formation assignment fields. */
-    protected final List<AssignmentInfo> withdrawalEscortAssignments = new ArrayList<>();
+    /** Bug-fix #2/#4: escort ship -> the LIGHT_ESCORT AssignmentInfo tasking it to guard a
+     * withdrawing ship. Keyed by escort (not by the withdrawing ship) so the role buckets can
+     * exclude active escorts with a plain containsKey lookup. Released - assignment torn down,
+     * entry removed - the moment its charge is no longer deployed or alive (see
+     * {@link #releaseFinishedWithdrawalEscorts}), not only in deactivate() like before. */
+    protected final Map<ShipAPI, AssignmentInfo> withdrawalEscortAssignments = new LinkedHashMap<>();
 
     protected float evasionHoldTimer = 0f;
     protected Boolean lastLoggedEvading = null; // Boolean, not boolean - null means "never logged yet"
@@ -230,6 +283,33 @@ public class CarrierDoctrineAI {
      * pickets share one DEFEND AssignmentInfo and a per-ship timer would tempt touching that
      * shared assignment per-ship (risking removing it for every picket, not just one). */
     protected float untilPicketSND = 0f;
+
+    // --- M9: per-battle jittered thresholds (set once in the constructor, ±THRESHOLD_JITTER_FRACTION
+    // off the public static baseline above) - breaks the fixed 85%/55%/4s rhythm a player would
+    // otherwise learn within a few fights, without losing the tunable baseline for balance work. ---
+    protected final float deckLoadThresholdInstance;
+    protected final float recoveryThresholdInstance;
+    protected final float vulnerableLaunchThresholdInstance;
+    protected final float offCycleLaunchThresholdInstance;
+    protected final float sweepDelaySecondsInstance;
+
+    /** M9: rolled fresh every time {@link #resetSingleGroupStrikeState} fires - whether this
+     * wave of the single-group strike cycle gets the off-cycle early-launch discount. */
+    protected boolean offCycleThisWave = false;
+
+    /** M9: picket -> its CAPTURE AssignmentInfo on a battle objective, so {@link #updateFormation}
+     * can exclude these pickets from the normal flank DEFEND assignment and so {@link #deactivate}
+     * can tear the CAPTURE assignments down too. */
+    protected final Map<ShipAPI, AssignmentInfo> objectiveCaptureAssignments = new LinkedHashMap<>();
+
+    /** M9: last tick's final battleline position - used as the center for this tick's local
+     * force ratio measurement instead of the position about to be computed, for the same
+     * feedback-loop reason {@code carrierLoc}/{@code battlelineLoc} are anchored off the enemy's
+     * position rather than their own previous output (see the M4 bug note). Null until the first
+     * tick the formation is actually computed. */
+    protected Vector2f lastBattlelineLoc;
+
+    protected String lastLoggedForceRatio = null; // separate throttle slot, local-force-ratio state transitions
 
     public CarrierDoctrineAI(int owner) {
         this.owner = owner;
@@ -250,8 +330,20 @@ public class CarrierDoctrineAI {
             abort = true;
         }
 
+        deckLoadThresholdInstance = jitter(DECK_LOAD_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
+        recoveryThresholdInstance = jitter(RECOVERY_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
+        vulnerableLaunchThresholdInstance = jitter(VULNERABLE_LAUNCH_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
+        offCycleLaunchThresholdInstance = jitter(OFF_CYCLE_LAUNCH_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
+        sweepDelaySecondsInstance = jitter(SWEEP_DELAY_SECONDS, THRESHOLD_JITTER_FRACTION);
+
         resetPicketSNDTimer();
         log.info("CarrierDoctrineAI constructed for owner " + owner + (abort ? " (aborted: ESCAPE goal)" : ""));
+    }
+
+    /** M9: {@code base} randomized by up to {@code fraction} in either direction, rolled once -
+     * used to jitter the deck-load/recovery/sweep thresholds per battle instance. */
+    protected static float jitter(float base, float fraction) {
+        return base * (1f - fraction + (float) Math.random() * 2f * fraction);
     }
 
     public void advance(float amount) {
@@ -342,14 +434,35 @@ public class CarrierDoctrineAI {
         logReason("GATE PASSED: carriers=" + carriers.size() + " screen=" + screen.size()
                 + " battleline=" + battleline.size() + " pickets=" + pickets.size());
         activateIfNeeded();
-        handleWithdrawals(deployed);
+
+        // M9: local force ratio around where the line currently sits (last tick's position, not
+        // the one about to be recomputed - see lastBattlelineLoc) - feeds both how far the line
+        // pushes/falls back this tick and how readily a hull-cripple withdraws.
+        Vector2f lineRef = lastBattlelineLoc != null ? lastBattlelineLoc : getFormationAnchor(carriers);
+        float localRadius = Math.max(LOCAL_FORCE_RADIUS_MIN, getEnemyLongestNonMissileRange() * LOCAL_FORCE_RADIUS_MULT);
+        float localForceRatio = computeLocalForceRatio(battleline, screen, lineRef, localRadius);
+        logForceRatio(localForceRatio);
+
+        handleWithdrawals(deployed, localForceRatio);
+
+        // Bug-fix #1/#2: strip ships that are withdrawing, or currently escorting a withdrawing
+        // ship, out of the role buckets now - everything below this point (duty assignment, the
+        // strike cycle's minFrr/targeting, CAP escort, and updateFormation()'s holdPosition()
+        // calls) re-tasks every bucketed member every tick, which previously overwrote the
+        // RETREAT/LIGHT_ESCORT orders handleWithdrawals() just gave them about 1s later.
+        excludeWithdrawalRelated(carriers);
+        excludeWithdrawalRelated(screen);
+        excludeWithdrawalRelated(battleline);
+        excludeWithdrawalRelated(pickets);
+
         updateCarrierCapability(carriers);
         assignCarrierDuties(carriers);
         updateCapLadder(carriers, getFormationAnchor(carriers));
         logCarrierDuties();
         updateCapEscort(carriers);
         runStrikeCycle(carriers, battleline);
-        updateFormation(carriers, screen, battleline, pickets);
+        updateObjectiveCapture(pickets);
+        updateFormation(carriers, screen, battleline, pickets, localForceRatio);
         updatePicketUnpredictability(pickets);
     }
 
@@ -437,10 +550,14 @@ public class CarrierDoctrineAI {
         if (screenAssignment != null) { taskManager.removeAssignment(screenAssignment); screenAssignment = null; }
         if (battlelineAssignment != null) { taskManager.removeAssignment(battlelineAssignment); battlelineAssignment = null; }
         if (picketAssignment != null) { taskManager.removeAssignment(picketAssignment); picketAssignment = null; }
-        for (AssignmentInfo info : withdrawalEscortAssignments) {
+        for (AssignmentInfo info : withdrawalEscortAssignments.values()) {
             taskManager.removeAssignment(info);
         }
         withdrawalEscortAssignments.clear();
+        for (AssignmentInfo info : objectiveCaptureAssignments.values()) {
+            taskManager.removeAssignment(info);
+        }
+        objectiveCaptureAssignments.clear();
 
         // hand fighter/target control back cleanly - don't leave a carrier stuck in Regroup or
         // still pointed at a stale CAP-escort target once vanilla admiral AI resumes managing it.
@@ -462,11 +579,14 @@ public class CarrierDoctrineAI {
         rotationActive = false;
         activeMainGroup = 0;
         rotationTarget = null;
+        rotationGroupAssignment.clear();
         withdrawingShips.clear();
         evasionHoldTimer = 0f;
         lastLoggedEvading = null;
         lastLoggedDuties = null;
         lastLoggedMission = null;
+        lastBattlelineLoc = null;
+        lastLoggedForceRatio = null;
         debugMessage("Carrier Doctrine: INACTIVE");
     }
 
@@ -515,9 +635,16 @@ public class CarrierDoctrineAI {
      * whose only activation condition is {@code ship.isDirectRetreat()}. A direct retreat order
      * is exactly what flips that flag, so this is what makes a withdrawing ship actually
      * Transverse Jump out instead of just sailing for the map edge like a plain retreat would.
+     *
+     * M9: the hull-cripple trigger (not PPT exhaustion, a hard fuel-out condition unrelated to
+     * how the fight is going) scales with {@code localForceRatio} via {@link #resolveCrippleThreshold} -
+     * pulling a ship out of a fight we're actually winning locally just hands the player a free
+     * break, so it retreats later when ahead and earlier when outmatched.
      */
-    protected void handleWithdrawals(List<DeployedFleetMemberAPI> deployed) {
+    protected void handleWithdrawals(List<DeployedFleetMemberAPI> deployed, float localForceRatio) {
         withdrawingShips.retainAll(stillDeployedShips(deployed));
+        releaseFinishedWithdrawalEscorts(deployed);
+        float crippleThreshold = resolveCrippleThreshold(localForceRatio);
 
         for (DeployedFleetMemberAPI member : deployed) {
             if (member.isFighterWing() || member.getShip() == null) continue;
@@ -527,7 +654,7 @@ public class CarrierDoctrineAI {
             if (withdrawingShips.contains(ship)) continue;
 
             float maxCR = ship.getMutableStats().getMaxCombatReadiness().getModifiedValue();
-            boolean crippled = ship.getHullLevel() < CRIPPLE_HULL_FRACTION;
+            boolean crippled = ship.getHullLevel() < crippleThreshold;
             boolean pptExhausted = maxCR > 0f && ship.getCurrentCR() < maxCR * PPT_EXHAUSTED_CR_FRACTION;
             if (!crippled && !pptExhausted) continue;
 
@@ -541,9 +668,41 @@ public class CarrierDoctrineAI {
                 AssignmentInfo info = taskManager.createAssignment(CombatAssignmentType.LIGHT_ESCORT, member, false);
                 taskManager.setAssignmentWeight(info, 0f);
                 taskManager.giveAssignment(escort, info, false);
-                withdrawalEscortAssignments.add(info);
+                withdrawalEscortAssignments.put(escort.getShip(), info);
             }
         }
+    }
+
+    /** Bug-fix #4: withdrawalEscortAssignments used to only be cleared in deactivate(), so a
+     * finished escort (its charge already off the map or dead) stayed permanently excluded from
+     * its normal role bucket for the rest of the battle. Tears down and drops any entry whose
+     * charge is no longer deployed or alive, freeing that escort back to {@link #excludeWithdrawalRelated}. */
+    protected void releaseFinishedWithdrawalEscorts(List<DeployedFleetMemberAPI> deployed) {
+        Set<ShipAPI> stillDeployed = stillDeployedShips(deployed);
+        for (Iterator<Map.Entry<ShipAPI, AssignmentInfo>> it = withdrawalEscortAssignments.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<ShipAPI, AssignmentInfo> entry = it.next();
+            ShipAPI charge = getEscortCharge(entry.getValue());
+            if (charge == null || !charge.isAlive() || !stillDeployed.contains(charge)) {
+                taskManager.removeAssignment(entry.getValue());
+                it.remove();
+            }
+        }
+    }
+
+    /** The withdrawing ship a LIGHT_ESCORT AssignmentInfo (created in handleWithdrawals()) is
+     * guarding - its target is the withdrawing member itself, same object passed to
+     * createAssignment() there. */
+    protected ShipAPI getEscortCharge(AssignmentInfo info) {
+        AssignmentTargetAPI target = info.getTarget();
+        return target instanceof DeployedFleetMemberAPI ? ((DeployedFleetMemberAPI) target).getShip() : null;
+    }
+
+    /** Bug-fix #1/#2: strips ships that are withdrawing, or are currently tasked to escort a
+     * withdrawing ship, out of a role bucket. Called right after handleWithdrawals() in
+     * advance() - see the comment there for why this matters. */
+    protected void excludeWithdrawalRelated(List<DeployedFleetMemberAPI> members) {
+        members.removeIf(member -> member.getShip() != null
+                && (withdrawingShips.contains(member.getShip()) || withdrawalEscortAssignments.containsKey(member.getShip())));
     }
 
     protected Set<ShipAPI> stillDeployedShips(List<DeployedFleetMemberAPI> deployed) {
@@ -554,24 +713,43 @@ public class CarrierDoctrineAI {
         return result;
     }
 
-    /** Closest other alive, non-withdrawing, non-fighter ship on our side - a simple stand-in
-     * for "whoever's free and nearby," not a dedicated escort-role selection. */
+    /** Bug-fix #3: prefers the nearest SCREEN-tagged ship, then the nearest PICKET-tagged ship,
+     * then the nearest anything-else - but never a CARRIER-tagged ship, which the old "nearest
+     * healthy ship of any role" selection could and would pull off the line. Also skips ships
+     * already escorting another withdrawing ship (see withdrawalEscortAssignments). */
     protected DeployedFleetMemberAPI pickWithdrawalEscort(ShipAPI withdrawing, List<DeployedFleetMemberAPI> deployed) {
-        DeployedFleetMemberAPI best = null;
-        float bestDist = Float.MAX_VALUE;
+        DeployedFleetMemberAPI bestScreen = null, bestPicket = null, bestOther = null;
+        float bestScreenDist = Float.MAX_VALUE, bestPicketDist = Float.MAX_VALUE, bestOtherDist = Float.MAX_VALUE;
+
         for (DeployedFleetMemberAPI member : deployed) {
             if (member.isFighterWing() || member.getShip() == null) continue;
             ShipAPI ship = member.getShip();
             if (ship == withdrawing || !ship.isAlive() || ship.isHulk()) continue;
             if (withdrawingShips.contains(ship)) continue;
+            if (withdrawalEscortAssignments.containsKey(ship)) continue;
+            if (ship.getHullSpec().hasTag(CarrierDoctrineTags.CARRIER)) continue;
 
             float dist = Misc.getDistance(ship.getLocation(), withdrawing.getLocation());
-            if (dist < bestDist) {
-                bestDist = dist;
-                best = member;
+            if (ship.getHullSpec().hasTag(CarrierDoctrineTags.SCREEN)) {
+                if (dist < bestScreenDist) { bestScreenDist = dist; bestScreen = member; }
+            } else if (ship.getHullSpec().hasTag(CarrierDoctrineTags.PICKET)) {
+                if (dist < bestPicketDist) { bestPicketDist = dist; bestPicket = member; }
+            } else {
+                if (dist < bestOtherDist) { bestOtherDist = dist; bestOther = member; }
             }
         }
-        return best;
+        if (bestScreen != null) return bestScreen;
+        if (bestPicket != null) return bestPicket;
+        return bestOther;
+    }
+
+    /** M9: scales {@link #CRIPPLE_HULL_FRACTION} by how the local fight is going - winning
+     * locally raises the bar for pulling a ship out (fight through more damage), losing locally
+     * lowers it (preserve ships earlier). See {@link #handleWithdrawals}. */
+    protected float resolveCrippleThreshold(float localForceRatio) {
+        if (localForceRatio >= LOCAL_RATIO_PUSH_THRESHOLD) return CRIPPLE_HULL_FRACTION * WITHDRAWAL_WINNING_HULL_MULT;
+        if (localForceRatio <= LOCAL_RATIO_FALLBACK_THRESHOLD) return CRIPPLE_HULL_FRACTION * WITHDRAWAL_LOSING_HULL_MULT;
+        return CRIPPLE_HULL_FRACTION;
     }
 
     /**
@@ -653,12 +831,15 @@ public class CarrierDoctrineAI {
     }
 
     /** Resets the four single-group strike-cycle fields together - was previously copy-pasted
-     * at every reset site, risking a future change missing one and leaving stale state behind. */
+     * at every reset site, risking a future change missing one and leaving stale state behind.
+     * M9: also rerolls {@link #offCycleThisWave} - a fresh wave gets a fresh chance at the
+     * off-cycle early-launch discount, see {@link #OFF_CYCLE_STRIKE_CHANCE}. */
     protected void resetSingleGroupStrikeState() {
         strikeLaunched = false;
         mainWaveReleased = false;
         sweepTimer = 0f;
         strikeTarget = null;
+        offCycleThisWave = (float) Math.random() < OFF_CYCLE_STRIKE_CHANCE;
     }
 
     /** M7: true once enough enemy fighter presence sits near {@code target} to call it still
@@ -684,14 +865,16 @@ public class CarrierDoctrineAI {
 
     /** Arms (or skips, if there's nothing to stage with) the sweep-then-main-wave delay for the
      * group about to become active - used by {@link #runRotatingMainWave} both on first launch
-     * and on every subsequent swap, so each wave gets its own sweep-ahead treatment. */
+     * and on every subsequent swap, so each wave gets its own sweep-ahead treatment. M9: on top
+     * of the per-battle jittered {@link #sweepDelaySecondsInstance}, adds its own per-wave
+     * +-15% variance so sweep timing isn't even consistent within one battle. */
     protected void armSweepStaging(List<ShipAPI> sweepCarriers) {
         if (sweepCarriers.isEmpty()) {
             mainWaveReleased = true;
             sweepTimer = 0f;
         } else {
             mainWaveReleased = false;
-            sweepTimer = SWEEP_DELAY_SECONDS;
+            sweepTimer = sweepDelaySecondsInstance * (0.85f + (float) Math.random() * 0.3f);
         }
     }
 
@@ -753,6 +936,7 @@ public class CarrierDoctrineAI {
             rotationActive = false;
             activeMainGroup = 0;
             rotationTarget = null;
+            rotationGroupAssignment.clear();
         }
 
         List<ShipAPI> strikeCarriers = new ArrayList<>(sweepCarriers);
@@ -764,30 +948,31 @@ public class CarrierDoctrineAI {
         }
 
         if (!strikeLaunched) {
-            boolean deckLoadReady = true;
-            for (ShipAPI ship : strikeCarriers) {
-                if (ship.getSharedFighterReplacementRate() < DECK_LOAD_FRR_THRESHOLD) {
-                    deckLoadReady = false;
-                    break;
-                }
-            }
-            if (deckLoadReady) {
-                strikeTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
-                strikeLaunched = strikeTarget != null;
-                if (strikeLaunched) {
-                    if (!sweepCarriers.isEmpty() && !mainCarriers.isEmpty()) {
-                        mainWaveReleased = false;
-                        sweepTimer = SWEEP_DELAY_SECONDS;
-                        debugMessage("Carrier Doctrine: STRIKE SWEEP LAUNCHED (" + sweepCarriers.size()
-                                + " fighter-only carriers -> " + strikeTarget.getName()
-                                + ", main wave in " + SWEEP_DELAY_SECONDS + "s)");
-                    } else {
-                        // nothing to stage a sweep with (either everyone has bombers, or nobody
-                        // does) - launch the whole strike group together, same as before M3
-                        mainWaveReleased = true;
-                        debugMessage("Carrier Doctrine: STRIKE LAUNCHED (" + strikeCarriers.size()
-                                + " carriers -> " + strikeTarget.getName() + ")");
-                    }
+            // M9: pick the candidate target first so its vulnerability (overloaded/venting) can
+            // lower the launch bar - a wave arriving on a flux-locked target is far deadlier than
+            // one timed purely off our own deck readiness. The off-cycle roll (single-group cycle
+            // only - see OFF_CYCLE_STRIKE_CHANCE) can lower it further, independent of the target.
+            ShipAPI candidate = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
+            float threshold = resolveLaunchThreshold(isVulnerableTarget(candidate));
+            if (offCycleThisWave) threshold = Math.min(threshold, offCycleLaunchThresholdInstance);
+
+            if (candidate != null && minFrr(strikeCarriers) >= threshold) {
+                strikeTarget = candidate;
+                strikeLaunched = true;
+                String flavor = (isVulnerableTarget(strikeTarget) ? " [target flux-locked]" : "")
+                        + (offCycleThisWave ? " [off-cycle]" : "");
+                if (!sweepCarriers.isEmpty() && !mainCarriers.isEmpty()) {
+                    mainWaveReleased = false;
+                    sweepTimer = sweepDelaySecondsInstance * (0.85f + (float) Math.random() * 0.3f);
+                    debugMessage("Carrier Doctrine: STRIKE SWEEP LAUNCHED (" + sweepCarriers.size()
+                            + " fighter-only carriers -> " + strikeTarget.getName()
+                            + ", main wave in ~" + Math.round(sweepTimer) + "s)" + flavor);
+                } else {
+                    // nothing to stage a sweep with (either everyone has bombers, or nobody
+                    // does) - launch the whole strike group together, same as before M3
+                    mainWaveReleased = true;
+                    debugMessage("Carrier Doctrine: STRIKE LAUNCHED (" + strikeCarriers.size()
+                            + " carriers -> " + strikeTarget.getName() + ")" + flavor);
                 }
             }
         } else {
@@ -804,14 +989,9 @@ public class CarrierDoctrineAI {
                 strikeTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
             }
 
-            float minFRR = Float.MAX_VALUE;
-            for (ShipAPI ship : strikeCarriers) {
-                minFRR = Math.min(minFRR, ship.getSharedFighterReplacementRate());
-            }
-
-            if (strikeTarget == null || minFRR < RECOVERY_FRR_THRESHOLD) {
+            if (strikeTarget == null || minFrr(strikeCarriers) < recoveryThresholdInstance) {
                 resetSingleGroupStrikeState();
-                debugMessage("Carrier Doctrine: STRIKE RECALLED (FRR below " + RECOVERY_FRR_THRESHOLD + ")");
+                debugMessage("Carrier Doctrine: STRIKE RECALLED (FRR below " + Math.round(recoveryThresholdInstance * 100) + "%)");
             }
         }
 
@@ -852,9 +1032,7 @@ public class CarrierDoctrineAI {
                                         Vector2f zoneCenter, Float zoneRadius, List<DeployedFleetMemberAPI> battleline) {
         List<ShipAPI> groupA = new ArrayList<>();
         List<ShipAPI> groupB = new ArrayList<>();
-        for (int i = 0; i < mainCarriers.size(); i++) {
-            (i % 2 == 0 ? groupA : groupB).add(mainCarriers.get(i));
-        }
+        partitionRotationGroups(mainCarriers, groupA, groupB);
         if (groupB.isEmpty()) {
             // an odd split landed everyone in groupA this tick (e.g. exactly 2 carriers and one
             // just died) - nothing to rotate with right now, fall back to running groupA solo
@@ -866,14 +1044,17 @@ public class CarrierDoctrineAI {
         List<ShipAPI> standby = activeMainGroup == 0 ? groupB : groupA;
 
         if (!rotationActive) {
-            if (allFrrAbove(active, DECK_LOAD_FRR_THRESHOLD)) {
-                rotationTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
-                rotationActive = rotationTarget != null;
-                if (rotationActive) {
-                    armSweepStaging(sweepCarriers);
-                    debugMessage("Carrier Doctrine: ROTATION STARTED (group of " + active.size()
-                            + " -> " + rotationTarget.getName() + ")");
-                }
+            // M9: same flux-window check as the single-group cycle (no off-cycle roll here - see
+            // OFF_CYCLE_STRIKE_CHANCE's note on why that's scoped out of rotation mode).
+            ShipAPI candidate = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
+            float threshold = resolveLaunchThreshold(isVulnerableTarget(candidate));
+            if (candidate != null && minFrr(active) >= threshold) {
+                rotationTarget = candidate;
+                rotationActive = true;
+                armSweepStaging(sweepCarriers);
+                debugMessage("Carrier Doctrine: ROTATION STARTED (group of " + active.size()
+                        + " -> " + rotationTarget.getName() + ")"
+                        + (isVulnerableTarget(rotationTarget) ? " [target flux-locked]" : ""));
             }
         } else {
             if (!mainWaveReleased) {
@@ -889,8 +1070,8 @@ public class CarrierDoctrineAI {
                 rotationTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
             }
 
-            if (rotationTarget == null || minFrr(active) < RECOVERY_FRR_THRESHOLD) {
-                if (rotationTarget != null && allFrrAbove(standby, DECK_LOAD_FRR_THRESHOLD)) {
+            if (rotationTarget == null || minFrr(active) < recoveryThresholdInstance) {
+                if (rotationTarget != null && allFrrAbove(standby, deckLoadThresholdInstance)) {
                     activeMainGroup = 1 - activeMainGroup;
                     List<ShipAPI> swap = active; active = standby; standby = swap;
                     armSweepStaging(sweepCarriers);
@@ -917,6 +1098,38 @@ public class CarrierDoctrineAI {
         }
     }
 
+    /**
+     * Bug-fix #5: resolves {@code mainCarriers} into the two rotation groups via the persistent
+     * {@link #rotationGroupAssignment} map instead of list index - a carrier dying shifts every
+     * later carrier's index, which could land a carrier mid-strike in the standby group and get
+     * its wings instantly recalled (standby always gets {@code setPullBackFighters(true)}).
+     * Carriers no longer present are dropped from the map without touching anyone else's group;
+     * a carrier seen for the first time joins whichever group is currently smaller. No
+     * already-assigned carrier is ever moved, so this never reshuffles a group mid-strike.
+     */
+    protected void partitionRotationGroups(List<ShipAPI> mainCarriers, List<ShipAPI> groupA, List<ShipAPI> groupB) {
+        rotationGroupAssignment.keySet().retainAll(mainCarriers);
+
+        for (ShipAPI ship : mainCarriers) {
+            if (!rotationGroupAssignment.containsKey(ship)) {
+                int group = countRotationGroup(0) <= countRotationGroup(1) ? 0 : 1;
+                rotationGroupAssignment.put(ship, group);
+            }
+        }
+
+        for (ShipAPI ship : mainCarriers) {
+            (rotationGroupAssignment.get(ship) == 0 ? groupA : groupB).add(ship);
+        }
+    }
+
+    protected int countRotationGroup(int group) {
+        int count = 0;
+        for (int assigned : rotationGroupAssignment.values()) {
+            if (assigned == group) count++;
+        }
+        return count;
+    }
+
     protected boolean allFrrAbove(List<ShipAPI> ships, float threshold) {
         for (ShipAPI ship : ships) {
             if (ship.getSharedFighterReplacementRate() < threshold) return false;
@@ -932,10 +1145,36 @@ public class CarrierDoctrineAI {
         return min;
     }
 
+    /** M9: the deck-load launch bar for this wave - the per-battle jittered baseline, or the
+     * (lower) vulnerable-target bar if {@code vulnerable} is true. See
+     * {@link #VULNERABLE_LAUNCH_FRR_THRESHOLD}. */
+    protected float resolveLaunchThreshold(boolean vulnerable) {
+        return vulnerable ? vulnerableLaunchThresholdInstance : deckLoadThresholdInstance;
+    }
+
+    /** M9: true if {@code ship} is overloaded or venting - a flux window a strike should exploit
+     * rather than wait out, since players vent/overload on a schedule and that schedule is
+     * exactly what a well-timed wave punishes. */
+    protected boolean isVulnerableTarget(ShipAPI ship) {
+        return ship != null && ship.getFluxTracker().isOverloadedOrVenting();
+    }
+
+    /** M9: true if {@code ship} currently has a RETREAT assignment on its own side's task
+     * manager - checks both the non-ally and ally task manager since this doctrine's targeting
+     * doesn't otherwise care which allied sub-fleet an enemy ship belongs to (see
+     * {@link #pickStrikeTarget}'s own unfiltered scan). A kill that sticks on a ship already
+     * pulling out hurts the player across the whole campaign, not just this fight. */
+    protected boolean isEnemyRetreating(ShipAPI ship) {
+        AssignmentInfo info = enemyFleetManager.getTaskManager(false).getAssignmentFor(ship);
+        if (info == null) info = enemyFleetManager.getTaskManager(true).getAssignmentFor(ship);
+        return info != null && info.getType() == CombatAssignmentType.RETREAT;
+    }
+
     /**
-     * Enemy carriers first, then ships already engaged by our battleline, then the highest-
-     * flux/overloaded, then the biggest hull - a rough priority order, not a literal port of
-     * anything, tuned in the simulator like everything else.
+     * Enemy carriers first, then the player's own flagship, then ships already engaged by our
+     * battleline, then flux-locked/low-hull/retreating targets ("finish cripples" - M9), then
+     * biggest hull - a rough priority order, not a literal port of anything, tuned in the
+     * simulator like everything else.
      *
      * @param zoneCenter/zoneRadius when non-null, restricts candidates to inside this circle -
      *                              COVER mode's "carriers strike only targets inside the
@@ -957,10 +1196,17 @@ public class CarrierDoctrineAI {
 
             float score = 0f;
             if (ship.getHullSpec().getHints().contains(ShipTypeHints.CARRIER)) score += 1000f;
+            if (ship == engine.getPlayerShip()) score += PLAYER_FLAGSHIP_TARGET_BONUS;
             if (isEngagedByBattleline(ship, battleline)) score += 75f;
             score += ship.getHullSize().ordinal() * 10f;
             score += ship.getFluxTracker().getFluxLevel() * 100f;
-            if (ship.getFluxTracker().isOverloaded()) score += 200f;
+            if (ship.getFluxTracker().isOverloaded()) {
+                score += OVERLOADED_TARGET_BONUS;
+            } else if (ship.getFluxTracker().isVenting()) {
+                score += VENTING_TARGET_BONUS;
+            }
+            if (ship.getHullLevel() < CRIPPLE_TARGET_HULL_FRACTION) score += CRIPPLE_TARGET_BONUS;
+            if (isEnemyRetreating(ship)) score += RETREATING_TARGET_BONUS;
 
             if (score > bestScore) {
                 bestScore = score;
@@ -1148,8 +1394,140 @@ public class CarrierDoctrineAI {
         return count;
     }
 
+    /** M9: DP x CR x hull x flux-headroom for one deployed, non-fighter member - a rough "how
+     * much this ship can still bring to a fight right now" score, not a literal port of
+     * anything. Dead/hulked/fighter members score 0. */
+    protected float computeShipForceScore(DeployedFleetMemberAPI member) {
+        if (member.isFighterWing() || member.getShip() == null) return 0f;
+        ShipAPI ship = member.getShip();
+        if (!ship.isAlive() || ship.isHulk()) return 0f;
+
+        float dp = member.getMember().getFleetPointCost();
+        float cr = Math.max(0f, ship.getCurrentCR());
+        float hull = Math.max(0f, ship.getHullLevel());
+        float fluxHeadroom = Math.max(0.05f, 1f - ship.getFluxTracker().getFluxLevel());
+        return dp * cr * hull * fluxHeadroom;
+    }
+
+    protected float computeForceScore(List<DeployedFleetMemberAPI> members) {
+        float total = 0f;
+        for (DeployedFleetMemberAPI member : members) total += computeShipForceScore(member);
+        return total;
+    }
+
+    /**
+     * M9: our (battleline+screen) force score vs. the enemy's, counting only enemy ships within
+     * {@code radius} of {@code lineCenter} - not the whole enemy fleet, since a skirmish on one
+     * flank shouldn't make a battle elsewhere on the map look lost. Feeds
+     * {@link #resolveBattlelineAdvanceFraction} and {@link #resolveCrippleThreshold}.
+     *
+     * @return a ratio around 1.0 (even), with no local enemy resistance at all treated as
+     *         strongly favorable (clamped to {@link #LOCAL_RATIO_PUSH_THRESHOLD}, not infinite).
+     */
+    protected float computeLocalForceRatio(List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> screen,
+                                            Vector2f lineCenter, float radius) {
+        float ourScore = computeForceScore(battleline) + computeForceScore(screen);
+
+        float enemyScore = 0f;
+        for (DeployedFleetMemberAPI member : enemyFleetManager.getDeployedCopyDFM()) {
+            if (member.isFighterWing() || member.getShip() == null) continue;
+            ShipAPI ship = member.getShip();
+            if (!ship.isAlive() || ship.isHulk() || !engine.isAwareOf(owner, ship)) continue;
+            if (Misc.getDistance(ship.getLocation(), lineCenter) > radius) continue;
+            enemyScore += computeShipForceScore(member);
+        }
+
+        if (enemyScore <= 0.01f) return ourScore > 0.01f ? LOCAL_RATIO_PUSH_THRESHOLD : 1f;
+        return ourScore / enemyScore;
+    }
+
+    /** M9: maps the local force ratio onto the battleline's advance fraction - piecewise-linear
+     * through (fallback threshold, FALLBACK), (1.0, the baseline BATTLELINE_ADVANCE_FRACTION),
+     * (push threshold, PUSH), clamped at the two threshold ends. */
+    protected float resolveBattlelineAdvanceFraction(float ratio) {
+        if (ratio <= LOCAL_RATIO_FALLBACK_THRESHOLD) return BATTLELINE_ADVANCE_FRACTION_FALLBACK;
+        if (ratio >= LOCAL_RATIO_PUSH_THRESHOLD) return BATTLELINE_ADVANCE_FRACTION_PUSH;
+        if (ratio < 1f) {
+            float t = (ratio - LOCAL_RATIO_FALLBACK_THRESHOLD) / (1f - LOCAL_RATIO_FALLBACK_THRESHOLD);
+            return BATTLELINE_ADVANCE_FRACTION_FALLBACK + t * (BATTLELINE_ADVANCE_FRACTION - BATTLELINE_ADVANCE_FRACTION_FALLBACK);
+        }
+        float t = (ratio - 1f) / (LOCAL_RATIO_PUSH_THRESHOLD - 1f);
+        return BATTLELINE_ADVANCE_FRACTION + t * (BATTLELINE_ADVANCE_FRACTION_PUSH - BATTLELINE_ADVANCE_FRACTION);
+    }
+
+    /** Logs local-force-ratio state transitions (PUSHING/HOLDING/FALLING BACK) to starsector.log,
+     * only when the state changes - the ratio itself drifts every tick, so throttling on the raw
+     * float would never actually throttle anything. */
+    protected void logForceRatio(float ratio) {
+        String state = ratio >= LOCAL_RATIO_PUSH_THRESHOLD ? "PUSHING"
+                : ratio <= LOCAL_RATIO_FALLBACK_THRESHOLD ? "FALLING BACK" : "HOLDING";
+        if (state.equals(lastLoggedForceRatio)) return;
+        lastLoggedForceRatio = state;
+        log.info("CarrierDoctrineAI[owner=" + owner + "]: local force ratio " + String.format("%.2f", ratio) + " -> " + state);
+    }
+
+    /**
+     * M9: pickets are the natural capturers - with {@code setNoOrders(true)} suppressing the
+     * admiral and nothing else in this doctrine ever touching {@link BattleObjectiveAPI}s,
+     * ceding every nav/sensor/comm point handed the player free CP, speed, and ECM for the
+     * whole battle. Pairs each uncaptured objective with its nearest still-available picket
+     * (one picket per objective); any pickets left over keep their usual flank duty (see the
+     * filter in {@link #updateFormation}). An objective already ours, or no longer present,
+     * releases its picket back to flank duty.
+     */
+    protected void updateObjectiveCapture(List<DeployedFleetMemberAPI> pickets) {
+        for (Iterator<Map.Entry<ShipAPI, AssignmentInfo>> it = objectiveCaptureAssignments.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<ShipAPI, AssignmentInfo> entry = it.next();
+            ShipAPI ship = entry.getKey();
+            AssignmentTargetAPI target = entry.getValue().getTarget();
+            boolean captured = target instanceof BattleObjectiveAPI && ((BattleObjectiveAPI) target).getOwner() == owner;
+            if (!ship.isAlive() || captured) {
+                taskManager.removeAssignment(entry.getValue());
+                it.remove();
+            }
+        }
+
+        List<BattleObjectiveAPI> uncaptured = new ArrayList<>();
+        for (BattleObjectiveAPI obj : engine.getObjectives()) {
+            if (obj.getOwner() == owner) continue;
+            boolean alreadyAssigned = false;
+            for (AssignmentInfo info : objectiveCaptureAssignments.values()) {
+                if (info.getTarget() == obj) { alreadyAssigned = true; break; }
+            }
+            if (!alreadyAssigned) uncaptured.add(obj);
+        }
+        if (uncaptured.isEmpty()) return;
+
+        List<DeployedFleetMemberAPI> available = new ArrayList<>();
+        for (DeployedFleetMemberAPI member : pickets) {
+            if (member.getShip() != null && !objectiveCaptureAssignments.containsKey(member.getShip())) {
+                available.add(member);
+            }
+        }
+
+        for (BattleObjectiveAPI obj : uncaptured) {
+            if (available.isEmpty()) break;
+            DeployedFleetMemberAPI nearest = null;
+            float bestDist = Float.MAX_VALUE;
+            for (DeployedFleetMemberAPI member : available) {
+                float dist = Misc.getDistance(member.getShip().getLocation(), obj.getLocation());
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    nearest = member;
+                }
+            }
+            available.remove(nearest);
+
+            AssignmentInfo info = taskManager.createAssignment(CombatAssignmentType.CAPTURE, obj, false);
+            taskManager.giveAssignment(nearest, info, false);
+            objectiveCaptureAssignments.put(nearest.getShip(), info);
+            debugMessage("Carrier Doctrine: PICKET " + nearest.getShip().getName() + " CAPTURING " + obj.getDisplayName());
+        }
+    }
+
     protected void updateFormation(List<DeployedFleetMemberAPI> carriers, List<DeployedFleetMemberAPI> screen,
-                                    List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> pickets) {
+                                    List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> pickets,
+                                    float localForceRatio) {
         Vector2f carrierCenter = getFormationAnchor(carriers);
         Vector2f enemyCenter = getEnemyCenterOfMass();
 
@@ -1191,8 +1569,12 @@ public class CarrierDoctrineAI {
         carrierLoc.scale(-carrierStandoff);
         Vector2f.add(carrierLoc, enemyCenter, carrierLoc);
 
+        // M9: push past the baseline BATTLELINE_ADVANCE_FRACTION when the local force ratio
+        // favors us, fall back toward the carrier/CAP umbrella when it doesn't - a fixed
+        // geometry point regardless of whether the line is winning or losing there is exactly
+        // what lets a player concentrate on one part of it for free.
         Vector2f toEnemy = Vector2f.sub(enemyCenter, carrierLoc, new Vector2f());
-        toEnemy.scale(BATTLELINE_ADVANCE_FRACTION);
+        toEnemy.scale(resolveBattlelineAdvanceFraction(localForceRatio));
         Vector2f battlelineLoc = Vector2f.add(carrierLoc, toEnemy, new Vector2f());
 
         if (cover && !lineReleased) {
@@ -1267,13 +1649,27 @@ public class CarrierDoctrineAI {
             screenAssignment = null;
         }
 
-        if (!pickets.isEmpty()) {
+        // M9: pickets currently off capturing a battle objective (see updateObjectiveCapture)
+        // keep their CAPTURE assignment instead of being pulled back onto the flank waypoint
+        // every tick - re-applying DEFEND here would silently override that assignment.
+        List<DeployedFleetMemberAPI> flankPickets = new ArrayList<>();
+        for (DeployedFleetMemberAPI member : pickets) {
+            if (member.getShip() != null && objectiveCaptureAssignments.containsKey(member.getShip())) continue;
+            flankPickets.add(member);
+        }
+
+        if (!flankPickets.isEmpty()) {
             float picketFlankOffset = getPicketFlankDistance(carriers, carrierStandoff);
             Vector2f picketLoc = new Vector2f(perp);
             picketLoc.scale(picketFlankOffset);
             Vector2f.add(picketLoc, battlelineLoc, picketLoc);
-            picketAssignment = holdPosition(pickets, CombatAssignmentType.DEFEND, picketLoc, picketAssignment);
+            picketAssignment = holdPosition(flankPickets, CombatAssignmentType.DEFEND, picketLoc, picketAssignment);
+        } else if (picketAssignment != null) {
+            taskManager.removeAssignment(picketAssignment);
+            picketAssignment = null;
         }
+
+        lastBattlelineLoc = new Vector2f(battlelineLoc);
     }
 
     /**
