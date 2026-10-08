@@ -6,6 +6,7 @@
 	"draconisEnableAICoreRaids": true,					# Enable/disable AI core raids on faction markets	#	Default : true
 	"draconisEnableRemnantRaids": true,					# Enable/disable raids on Remnant installations		#	Default : true
 	"draconisEnableWeaponEscalation": true,				# Replace Draconis Naginata loadouts with Daikyu-class when player fields nuclear weapons	#	Default : true
+	"draconisCarrierDoctrineDebugMessages": false,		# Show in-combat Carrier Doctrine AI debug messages (STRIKE/ROTATION/CAP/WITHDRAWAL/SCREEN)	#	Default : false
 
 	# ========================================
 	# SHADOW FLEET PATROLS
@@ -25,7 +26,7 @@
 	# Formula: difficulty = FleetSizeMult × Base × (MinFactor + MaxFactor × MarketPresence)
 
 	# --- Timing ---
-	"draconisExpeditionEventFrequency": 300000000.0,			# Likelihood the crisis triggers (lower = less likely)	#	Default : 3.0
+	"draconisExpeditionEventFrequency": 3.0,			# Likelihood the crisis triggers (lower = less likely)	#	Default : 3.0
 	"draconisExpeditionPrepDaysMin": 14.0,				# Minimum days to prepare expedition	#	Default : 14.0
 	"draconisExpeditionPrepDaysVariance": 14.0,			# Random variance (0 to this value) added to prep days	#	Default : 14.0
 	"draconisExpeditionPayloadDaysMin": 27.0,			# Minimum days for expedition to travel/operate	#	Default : 27.0

@@ -27,7 +27,6 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
 import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.combat.WeaponAPI.AIHints;
 import com.fs.starfarer.api.combat.WeaponAPI.WeaponType;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.loading.WingRole;
@@ -90,12 +89,14 @@ public class CarrierDoctrineAI {
      * regardless of this fraction - see {@link #findFortySecondGateFailure}. */
     public static float FORTYSECOND_MAJORITY_FRACTION = 0.5f;
 
-    /** Testing-only on-screen combat messages (gate ACTIVE/INACTIVE, STRIKE/ROTATION/CAP
-     * PROMOTION/WITHDRAWING/MISSION transitions) and nothing else - starsector.log diagnostics
-     * (logReason/logCarrierDuties/logMission) are unaffected by this flag and always run.
-     * Defaults off: M1-M5 are all implemented now, so this is no longer "testing-only" scaffolding
-     * that's about to be stripped - leave it off for normal play and flip it on when testing. */
-    public static boolean DEBUG_MESSAGES = false;
+    /** Settings.json key for {@link #debugMessagesEnabled} - a player/bug-reporter toggle, not
+     * a dev one, so it has to survive without a recompile. */
+    protected static final String DEBUG_MESSAGES_SETTING_ID = "draconisCarrierDoctrineDebugMessages";
+    // Same exact on-screen text recurring within this window is suppressed - e.g. the rotation
+    // cycle re-announcing "MAIN WAVE RELEASED (3 carriers)" every swap with nothing actually new
+    // to tell the player. starsector.log is untouched by this - logReason/logCarrierDuties/
+    // logMission/logScreenFormation keep their own always-on, change-only throttle there.
+    public static float DEBUG_MESSAGE_REPEAT_COOLDOWN = 15f;
 
     // --- formation ratios - always expressed relative to something the battle already
     // measures, never a fixed distance, so they scale across weapon/PD tiers automatically ---
@@ -104,8 +105,6 @@ public class CarrierDoctrineAI {
     // backstop against any outlier weapon (not just stations, which are already excluded from
     // the range calc) blowing the standoff distance out to where carriers won't engage at all
     public static float CARRIER_STANDOFF_MAX_MAP_FRACTION = 0.3f;
-    public static float SCREEN_RANGE_MULT = 0.65f;
-    public static float SCREEN_DISTANCE_MIN = 400f;
     public static float BATTLELINE_ADVANCE_FRACTION = 0.6f; // 0 = sit on the carriers, 1 = sit on the enemy
     // M7: was a flat 2000 - violated the "always a ratio" principle above it. Pickets sit near
     // the edge of our own strike wings' engagement range (doc: "near the edge of fighter
@@ -220,6 +219,14 @@ public class CarrierDoctrineAI {
     protected final CombatTaskManagerAPI taskManager;
     protected final boolean allyMode = false; // this doctrine only ever runs for owner 1 (never player/ally side)
 
+    /** On-screen combat messages (gate ACTIVE/INACTIVE, STRIKE/ROTATION/CAP PROMOTION/
+     * WITHDRAWING/ESCORT/SCREEN/MISSION transitions) and nothing else, driven by
+     * {@link #DEBUG_MESSAGES_SETTING_ID} in settings.json rather than a Java constant - read
+     * once per battle in the constructor, so a player can turn this on for a bug report without
+     * recompiling. starsector.log diagnostics (logReason/logCarrierDuties/logMission/
+     * logScreenFormation) are unaffected by this and always run. */
+    protected final boolean debugMessagesEnabled;
+
     protected final IntervalUtil tick = new IntervalUtil(0.8f, 1.2f);
 
     protected boolean abort = false;
@@ -227,6 +234,7 @@ public class CarrierDoctrineAI {
     protected String lastLoggedReason = null; // only log on change, avoid spamming once/sec forever
     protected String lastLoggedDuties = null; // separate throttle slot from lastLoggedReason
     protected String lastLoggedMission = null; // separate throttle slot, mission flag transitions
+    protected String lastLoggedScreen = null; // separate throttle slot, screen formation state transitions
 
     protected AssignmentInfo carrierAssignment;
     protected AssignmentInfo screenAssignment;
@@ -278,6 +286,13 @@ public class CarrierDoctrineAI {
     protected float evasionHoldTimer = 0f;
     protected Boolean lastLoggedEvading = null; // Boolean, not boolean - null means "never logged yet"
 
+    /** Running clock for {@link #DEBUG_MESSAGE_REPEAT_COOLDOWN}, advanced once per advance() call
+     * (unlike {@code tick}, never gated on the ~1s interval) - paired with
+     * {@link #lastDebugMessageTime} to suppress an on-screen message repeating its exact text
+     * within the cooldown window. */
+    protected float totalTime = 0f;
+    protected final Map<String, Float> lastDebugMessageTime = new LinkedHashMap<>();
+
     /** Countdown to the next picket Search & Destroy roll - same single-shared-timer structure
      * as ThreatCombatStrategyAI's own untilSNDOnSkirmishUnits, not a per-ship timer, since our
      * pickets share one DEFEND AssignmentInfo and a per-ship timer would tempt touching that
@@ -301,6 +316,16 @@ public class CarrierDoctrineAI {
      * can exclude these pickets from the normal flank DEFEND assignment and so {@link #deactivate}
      * can tear the CAPTURE assignments down too. */
     protected final Map<ShipAPI, AssignmentInfo> objectiveCaptureAssignments = new LinkedHashMap<>();
+
+    /** Bug-fix #8: screen ship -> the escort AssignmentInfo tasking it to ring one of our
+     * carriers, replacing the old single shared DEFEND waypoint that put the whole screen on
+     * one point ahead of the carriers and left the flanks/rear open. Keyed by escort, same
+     * shape as {@link #withdrawalEscortAssignments} - {@link #getEscortCharge} recovers which
+     * carrier a given entry targets. Persistent like {@link #rotationGroupAssignment}: once
+     * assigned, a screen ship keeps escorting the same carrier (no thrash from flickering
+     * threat counts) until that carrier dies/leaves or the ship itself leaves the screen
+     * bucket - see {@link #updateScreenEscort}. */
+    protected final Map<ShipAPI, AssignmentInfo> screenEscortAssignments = new LinkedHashMap<>();
 
     /** M9: last tick's final battleline position - used as the center for this tick's local
      * force ratio measurement instead of the position about to be computed, for the same
@@ -330,6 +355,15 @@ public class CarrierDoctrineAI {
             abort = true;
         }
 
+        boolean debugMessages;
+        try {
+            debugMessages = Global.getSettings().getBoolean(DEBUG_MESSAGES_SETTING_ID);
+        } catch (Exception e) {
+            log.warn("Draconis: Failed to load " + DEBUG_MESSAGES_SETTING_ID + " setting, defaulting to false", e);
+            debugMessages = false;
+        }
+        debugMessagesEnabled = debugMessages;
+
         deckLoadThresholdInstance = jitter(DECK_LOAD_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
         recoveryThresholdInstance = jitter(RECOVERY_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
         vulnerableLaunchThresholdInstance = jitter(VULNERABLE_LAUNCH_FRR_THRESHOLD, THRESHOLD_JITTER_FRACTION);
@@ -349,6 +383,8 @@ public class CarrierDoctrineAI {
     public void advance(float amount) {
         if (abort) return;
         if (engine.isPaused()) return;
+
+        totalTime += amount;
 
         tick.advance(amount);
         if (!tick.intervalElapsed()) return;
@@ -558,6 +594,10 @@ public class CarrierDoctrineAI {
             taskManager.removeAssignment(info);
         }
         objectiveCaptureAssignments.clear();
+        for (AssignmentInfo info : screenEscortAssignments.values()) {
+            taskManager.removeAssignment(info);
+        }
+        screenEscortAssignments.clear();
 
         // hand fighter/target control back cleanly - don't leave a carrier stuck in Regroup or
         // still pointed at a stale CAP-escort target once vanilla admiral AI resumes managing it.
@@ -585,6 +625,8 @@ public class CarrierDoctrineAI {
         lastLoggedEvading = null;
         lastLoggedDuties = null;
         lastLoggedMission = null;
+        lastLoggedScreen = null;
+        lastDebugMessageTime.clear();
         lastBattlelineLoc = null;
         lastLoggedForceRatio = null;
         debugMessage("Carrier Doctrine: INACTIVE");
@@ -614,8 +656,13 @@ public class CarrierDoctrineAI {
     }
 
     protected void debugMessage(String text) {
-        if (!DEBUG_MESSAGES) return;
+        if (!debugMessagesEnabled) return;
         if (engine.getCombatUI() == null) return;
+
+        Float lastShown = lastDebugMessageTime.get(text);
+        if (lastShown != null && totalTime - lastShown < DEBUG_MESSAGE_REPEAT_COOLDOWN) return;
+        lastDebugMessageTime.put(text, totalTime);
+
         engine.getCombatUI().addMessage(0, (owner == 0 ? "[player] " : "[enemy] ") + text);
     }
 
@@ -669,6 +716,7 @@ public class CarrierDoctrineAI {
                 taskManager.setAssignmentWeight(info, 0f);
                 taskManager.giveAssignment(escort, info, false);
                 withdrawalEscortAssignments.put(escort.getShip(), info);
+                debugMessage("Carrier Doctrine: ESCORT " + escort.getShip().getName() + " -> " + ship.getName());
             }
         }
     }
@@ -684,17 +732,100 @@ public class CarrierDoctrineAI {
             ShipAPI charge = getEscortCharge(entry.getValue());
             if (charge == null || !charge.isAlive() || !stillDeployed.contains(charge)) {
                 taskManager.removeAssignment(entry.getValue());
+                debugMessage("Carrier Doctrine: ESCORT RELEASED " + entry.getKey().getName());
                 it.remove();
             }
         }
     }
 
-    /** The withdrawing ship a LIGHT_ESCORT AssignmentInfo (created in handleWithdrawals()) is
-     * guarding - its target is the withdrawing member itself, same object passed to
-     * createAssignment() there. */
+    /** The ship an escort-type AssignmentInfo's target represents - the withdrawing ship for a
+     * LIGHT_ESCORT created in handleWithdrawals(), or the carrier for one created in
+     * updateScreenEscort() (bug-fix #8). Both pass the charge's own DeployedFleetMemberAPI
+     * straight to createAssignment() as the target, so this is just unwrapping it. */
     protected ShipAPI getEscortCharge(AssignmentInfo info) {
         AssignmentTargetAPI target = info.getTarget();
         return target instanceof DeployedFleetMemberAPI ? ((DeployedFleetMemberAPI) target).getShip() : null;
+    }
+
+    /**
+     * Bug-fix #8: gives each screen ship in {@code screen} a LIGHT_ESCORT on one of our
+     * {@code carriers} instead of the whole bucket sharing one DEFEND waypoint ahead of the
+     * group - vanilla's own escort AI spaces multiple escorts of the same target out around it,
+     * so this is what actually rings the carriers rather than leaving the flanks/rear open.
+     *
+     * Already-assigned ships are left completely alone (no re-giveAssignment, no reconsidering
+     * which carrier they're on) as long as their assignment is still valid - only a ship with no
+     * valid assignment (new to the bucket, or its carrier just died/left) gets a fresh pick, via
+     * {@link #pickCarrierForScreenEscort}. This is deliberate: reconsidering every ship's carrier
+     * every tick off a live threat count would thrash escorts between carriers as that count
+     * flickers by one, which looks like nothing is actually holding position.
+     */
+    protected void updateScreenEscort(List<DeployedFleetMemberAPI> screen, List<DeployedFleetMemberAPI> carriers) {
+        if (carriers.isEmpty()) {
+            for (AssignmentInfo info : screenEscortAssignments.values()) taskManager.removeAssignment(info);
+            screenEscortAssignments.clear();
+            return;
+        }
+
+        Set<ShipAPI> screenShips = new LinkedHashSet<>();
+        for (DeployedFleetMemberAPI member : screen) {
+            if (member.getShip() != null) screenShips.add(member.getShip());
+        }
+        Set<ShipAPI> carrierShips = new LinkedHashSet<>();
+        for (DeployedFleetMemberAPI member : carriers) {
+            if (member.getShip() != null) carrierShips.add(member.getShip());
+        }
+
+        Map<ShipAPI, Integer> escortCount = new LinkedHashMap<>();
+        for (ShipAPI carrier : carrierShips) escortCount.put(carrier, 0);
+
+        for (Iterator<Map.Entry<ShipAPI, AssignmentInfo>> it = screenEscortAssignments.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<ShipAPI, AssignmentInfo> entry = it.next();
+            ShipAPI escort = entry.getKey();
+            ShipAPI carrier = getEscortCharge(entry.getValue());
+            if (!screenShips.contains(escort) || carrier == null || !carrierShips.contains(carrier)) {
+                taskManager.removeAssignment(entry.getValue());
+                it.remove();
+                continue;
+            }
+            escortCount.merge(carrier, 1, Integer::sum);
+        }
+
+        for (DeployedFleetMemberAPI member : screen) {
+            ShipAPI escort = member.getShip();
+            if (escort == null || screenEscortAssignments.containsKey(escort)) continue;
+
+            DeployedFleetMemberAPI target = pickCarrierForScreenEscort(carriers, escortCount);
+            if (target == null || target.getShip() == null) continue;
+
+            AssignmentInfo info = taskManager.createAssignment(CombatAssignmentType.LIGHT_ESCORT, target, false);
+            taskManager.setAssignmentWeight(info, 0f);
+            taskManager.giveAssignment(member, info, false);
+            screenEscortAssignments.put(escort, info);
+            escortCount.merge(target.getShip(), 1, Integer::sum);
+            debugMessage("Carrier Doctrine: SCREEN " + escort.getName() + " ESCORTING " + target.getShip().getName());
+        }
+    }
+
+    /** Bug-fix #8: the carrier with the lowest current-escorts-to-threat ratio - i.e. the most
+     * under-covered relative to how threatened it is right now, using the same "any role"
+     * fighter-wing count {@link #updateCapEscort} already uses. Updated incrementally by the
+     * caller as each new escort is picked, so several newcomers assigned in the same tick still
+     * spread across more than one threatened carrier instead of piling onto just the worst one. */
+    protected DeployedFleetMemberAPI pickCarrierForScreenEscort(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> escortCount) {
+        DeployedFleetMemberAPI best = null;
+        float bestRatio = Float.MAX_VALUE;
+        for (DeployedFleetMemberAPI member : carriers) {
+            ShipAPI ship = member.getShip();
+            if (ship == null) continue;
+            float threatWeight = countEnemyFighterWingsNear(ship.getLocation(), false) + 1f;
+            float ratio = escortCount.getOrDefault(ship, 0) / threatWeight;
+            if (ratio < bestRatio) {
+                bestRatio = ratio;
+                best = member;
+            }
+        }
+        return best;
     }
 
     /** Bug-fix #1/#2: strips ships that are withdrawing, or are currently tasked to escort a
@@ -1682,17 +1813,18 @@ public class CarrierDoctrineAI {
 
         if (!reservedGuard.isEmpty()) {
             screenAssignment = holdPosition(reservedGuard, CombatAssignmentType.DEFEND, carrierLoc, screenAssignment);
-        } else if (!screen.isEmpty() && !screenCoversBattleline) {
-            float screenRange = getScreenMinPDRange(screen);
-            float screenDist = Math.max(SCREEN_DISTANCE_MIN, screenRange * SCREEN_RANGE_MULT);
-            Vector2f screenLoc = new Vector2f(axis);
-            screenLoc.scale(screenDist);
-            Vector2f.add(screenLoc, carrierLoc, screenLoc);
-            screenAssignment = holdPosition(screen, CombatAssignmentType.DEFEND, screenLoc, screenAssignment);
         } else if (screenAssignment != null) {
             taskManager.removeAssignment(screenAssignment);
             screenAssignment = null;
         }
+
+        // Bug-fix #8: the rest of the screen - everyone except the Leyte reserve guard above and
+        // screenCoversBattleline's forwardScreen (busy holding the line) - rings the carriers
+        // individually via updateScreenEscort() instead of holding one shared point ahead of them.
+        List<DeployedFleetMemberAPI> ringScreen = screenCoversBattleline ? Collections.<DeployedFleetMemberAPI>emptyList() : screen;
+        updateScreenEscort(ringScreen, carriers);
+
+        logScreenFormation(screen.size(), reservedGuard.size(), screenCoversBattleline);
 
         // M9: pickets currently off capturing a battle objective (see updateObjectiveCapture)
         // keep their CAPTURE assignment instead of being pulled back onto the flank waypoint
@@ -1760,6 +1892,25 @@ public class CarrierDoctrineAI {
         lastLoggedMission = summary;
         log.info("CarrierDoctrineAI[owner=" + owner + "]: mission=" + summary);
         debugMessage("Carrier Doctrine: MISSION " + summary);
+    }
+
+    /** Logs the screen's current formation mode and ship count, throttled to only log on
+     * change. */
+    protected void logScreenFormation(int screenCount, int reservedGuardCount, boolean screenCoversBattleline) {
+        String summary;
+        if (screenCount == 0) {
+            summary = "none deployed";
+        } else if (reservedGuardCount > 0) {
+            summary = reservedGuardCount + "/" + screenCount + " guarding carriers directly (Leyte reserve), rest holding the line";
+        } else if (screenCoversBattleline) {
+            summary = screenCount + " covering battleline duty (no dedicated battleline deployed)";
+        } else {
+            summary = screenCount + " ringing the carriers (per-ship escort)";
+        }
+        if (summary.equals(lastLoggedScreen)) return;
+        lastLoggedScreen = summary;
+        log.info("CarrierDoctrineAI[owner=" + owner + "]: screen: " + summary);
+        debugMessage("Carrier Doctrine: SCREEN " + summary);
     }
 
     /** Capped at a fraction of the map's smaller dimension as a backstop - even with stations
@@ -1966,24 +2117,5 @@ public class CarrierDoctrineAI {
             if (range > 0f && Misc.getDistance(candidate.getLocation(), line.getLocation()) <= range) return true;
         }
         return false;
-    }
-
-    /**
-     * Smallest "best PD range" across the screen, not the biggest - sizing the ring off the
-     * shortest-ranged escort is what actually keeps every screen ship's PD bubble overlapping
-     * the carriers; sizing off the longest would leave the short-ranged ones too far out.
-     */
-    protected float getScreenMinPDRange(List<DeployedFleetMemberAPI> screen) {
-        float min = Float.MAX_VALUE;
-        for (DeployedFleetMemberAPI member : screen) {
-            if (member.getShip() == null) continue;
-            float best = 0f;
-            for (WeaponAPI weapon : member.getShip().getAllWeapons()) {
-                if (!weapon.hasAIHint(AIHints.PD)) continue;
-                if (weapon.getRange() > best) best = weapon.getRange();
-            }
-            if (best > 0f && best < min) min = best;
-        }
-        return min == Float.MAX_VALUE ? SCREEN_DISTANCE_MIN : min;
     }
 }
