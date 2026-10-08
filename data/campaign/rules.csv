@@ -2763,7 +2763,7 @@ XLII_nisa_faq_hq,DialogOptionSelected,"$option == nisa_faq_hq
 $tag:XLII_regin_nisa","FireAll XLII_NisaFAQCompanyMenu","""I don't have any information about 'Regin Armaments headquarters.'"" A short pause, unbothered. ""Did you mean: 'authorized service center locations'?"" Another short pause, equally unbothered by the silence that follows. ""I'm sorry, I can't help with that. Please contact a Regin representative.""",,
 XLII_nisa_faq_company,DialogOptionSelected,"$option == nisa_faq_company
 $tag:XLII_regin_nisa","$global.XLII_nisa_asked_company = true
-FireAll XLII_NisaFAQCompanyMenu","""Regin Armaments is a proud manufacturer of ballistic, missile and electromagnetic weapon systems - trusted across the Sector!"" The same even brightness as every other sentence. ""Built over 50 years of operational expertise with a long legacy of excellence and custom satisfaction!""",,
+FireAll XLII_NisaFAQCompanyMenu","""Regin Armaments is a proud manufacturer of ballistic, missile and electromagnetic weapon systems - trusted across the Sector!"" The same even brightness as every other sentence. ""Built over 50 years of operational expertise with a long legacy of excellence and customer satisfaction!""",,
 XLII_nisa_faq_opt_alliance,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa",,,"1:nisa_faq_alliance:Tell me about the Draconis Defense Alliance",
 XLII_nisa_faq_opt_fafnir,XLII_NisaFAQAllianceMenu,"$tag:XLII_regin_nisa
 $global.XLII_nisa_asked_alliance",,,"4:nisa_faq_fafnir:Tell me about the Fafnir system","Unlocked after asking about the Alliance - its answer already names the Fafnir system as HQ. Part of balancing the Alliance category's hidden-entry count to match the other two categories (4 each)."

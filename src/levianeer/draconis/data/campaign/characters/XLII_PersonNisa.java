@@ -62,7 +62,7 @@ public class XLII_PersonNisa {
         nisa.getName().setLast("");
 
         // Placeholder pending dedicated art for NISA/Regin Armaments.
-        nisa.setPortraitSprite(Global.getSettings().getSpriteName("characters", "XLII_portrait_generic"));
+        nisa.setPortraitSprite(Global.getSettings().getSpriteName("characters", "XLII_NISA"));
 
         Global.getSector().getImportantPeople().addPerson(nisa);
 
