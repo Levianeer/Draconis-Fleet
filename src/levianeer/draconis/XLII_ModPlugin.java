@@ -148,10 +148,12 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis: === onGameLoad() ===");
         log.info("Draconis: New game: " + newGame);
 
-        // Office Takeover crisis is actually triggered from XLII_NanoforgeExchange's give_uplink
-        // branch (Stage 7 of work/outline/office-takeover-crisis-checklist.md); createIfNecessary()
-        // here is a no-op unless DEBUG_FORCE_KEY was already set for real - same routine
-        // safety-net re-registration pattern as XLII_LongsightWatchdog's own.
+        // Office Takeover crisis is triggered from XLII_KoriStrike.finalizeFailure() (the player
+        // commits to destroying Longsight and loses the fleet fight) - not from the Status Quo
+        // ending (XLII_NanoforgeExchange's give_uplink), which no longer registers the crisis since
+        // the endgame redesign (see .claude/systems/uplink-to-god-endgame-redesign.md). This
+        // createIfNecessary() call here is a no-op unless DEBUG_FORCE_KEY was already set for real -
+        // same routine safety-net re-registration pattern as XLII_LongsightWatchdog's own.
         XLII_LongsightCrisisManager.createIfNecessary();
 
         // Reset config singletons so they re-read settings.json on each game load.
@@ -198,7 +200,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
         }
 
         // Register Longsight watchdog only once the player actually holds the Longsight
-        // uplink (Office Takeover / Cave ending) and the confrontation hasn't fired yet.
+        // uplink (Status Quo / Cave ending) and the confrontation hasn't fired yet.
         // First-time registration is handled by XLII_NanoforgeExchange.give_uplink; this
         // re-registers it on subsequent loads. Previously gated on nanoforge delivery being
         // complete, which is true for virtually every player regardless of ending - see

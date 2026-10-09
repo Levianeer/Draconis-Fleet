@@ -43,28 +43,44 @@ import java.util.Random;
 
 /**
  * InteractionDialogPlugin for Burn the Machine's climax - the strike on Kori's undercroft to sever
- * the Longsight installation, then the interception and reckoning with Fleet Admiral August that
- * follows leaving.
+ * the Longsight installation, then the fleet-fight reckoning with Fleet Admiral August that follows.
  * <p>
  * Opened by {@code XLII_BeginKoriStrike} once the player has declared intent (set at the
  * Longsight-warning fork in {@code XLII_LongsightContactDialog} - see rules.csv's "Burn the Machine"
- * section).
+ * section). The real entry point is {@code State.AUGUST_INTERCEPT}, not the briefing - see
+ * .claude/systems/uplink-to-god-endgame-redesign.md for why Cave moved here, pre-raid, instead of
+ * living post-raid as it originally did.
  * <p>
- * Full flow: briefing -> hands off to the base game's marine-raid system (MarketCMD.raidNonMarket(),
- * driven from rules.csv - see XLII_burn_raid_setup/_success/_continue) -> raid resolves,
- * XLII_ResolveBurnRaid reopens this dialog at AFTERMATH -> hands off to rules.csv's
+ * Full flow: {@code showAugustInterceptApproach()}/{@code _shipList()}/{@code _intercept()}/
+ * {@code _offer()} - August, tipped off by Longsight, confronts the player before any marines move
+ * and offers the same deal Longsight already made once - its own fork, the real point of departure
+ * from the raid entirely:
+ * <ul>
+ * <li><b>Stand down</b> -> {@code showAugustInterceptCave()}: grants the Longsight Uplink
+ * ({@code XLII_NanoforgeExchange.giveUplink()}), ends the questline right there as Status Quo. No
+ * raid, no fleet fight, no crisis - {@code XLII_LongsightCrisisManager} never registers on this
+ * path. Unreachable once the raid has launched - this pre-raid offer is the only entry point.</li>
+ * <li><b>This is happening anyway</b> -> {@code showAugustInterceptProceedResponse()} ->
+ * {@code showBriefingMain()} -> the raid itself, hands off to the base game's marine-raid system
+ * (MarketCMD.raidNonMarket(), driven from rules.csv - see XLII_burn_raid_setup/_success/_continue) ->
+ * raid resolves, XLII_ResolveBurnRaid reopens this dialog at AFTERMATH -> hands off to rules.csv's
  * XLII_interception_open chain (August, the Forty-Second Battlegroup, and Ancker intercepting the
- * player as they leave) -> its own fork: Cave ends the questline there (Office Takeover, entirely in
- * rules.csv); Commit fires XLII_BeginBattlegroupFight, reopening this class at FLEET_FIGHT -> a real
- * space battle (launchBattlegroupFight()) -> **win**: boarding the crippled flagship
+ * player as they leave) - no fork here anymore, Cave already happened or didn't; a single pacing
+ * Continue (XLII_interception_declare) leads straight into Commit, firing
+ * XLII_BeginBattlegroupFight and reopening this class at FLEET_FIGHT.</li>
+ * </ul>
+ * The fleet fight itself (launchBattlegroupFight()) -> <b>win</b>: boarding the crippled flagship
  * (showBoardingBeat(), hand-authored, no marine-raid mechanic) -> the Q&A-then-verdict scene with
  * August -> the escape reveal (Ancker and the Battlegroup's survivors were covering their own
- * extraction, not defending) -> finalize (no market transfer - Kori stays Draconis-owned; this is a
- * fleet action, not a capture). **Loss** (see .claude/systems/uplink-to-god-endgame-redesign.md):
- * permanent and terminal, no retry - reopens at FAILURE instead, where Longsight kills August
- * directly (showFailureDeath()), Korrin leaves permanently if he rode along
- * (showFailureKorrinReaction()), and Monroe takes August's channel (showFailureMonroeTakeover()),
- * which is also the sector-wide Office Takeover crisis's inciting moment (finalizeFailure()).
+ * extraction, not defending) -> finalize via finalizeStrike() (no market transfer - Kori stays
+ * Draconis-owned; this is a fleet action, not a capture). <b>Loss</b> (see
+ * .claude/systems/uplink-to-god-endgame-redesign.md): permanent and terminal, no retry - reopens at
+ * FAILURE instead, where Longsight kills August directly (showFailureDeath()), Korrin leaves
+ * permanently if he rode along (showFailureKorrinReaction()), and Monroe takes August's channel
+ * (showFailureMonroeTakeover()) -> finalizeFailure(), which is the Office Takeover ending - the
+ * *only* path that registers the sector-wide {@code XLII_LongsightCrisisManager} crisis. (Several
+ * older comments in this codebase call Cave/Stand down "Office Takeover" instead - that's stale
+ * terminology from before this redesign moved the crisis trigger off of it; Cave is Status Quo.)
  * <p>
  * Previously ran its own hand-rolled combat and narrated ground beats with manually tracked marine
  * losses (see {@code XLII_KoriInfiltration}, now just a compat-constants shim) - replaced by hooking
@@ -479,7 +495,7 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
     }
 
     /**
-     * Pre-raid Cave resolution - the ONLY entry point to Office Takeover (see the section-header
+     * Pre-raid Cave resolution - the ONLY entry point to Status Quo (see the section-header
      * note above). Cave is not reachable at all once the raid has happened
      * (XLII_interception_declare in rules.csv no longer offers it). This method calls
      * XLII_NanoforgeExchange.giveUplink() + sets $XLII_longsightUplinkGranted directly -
@@ -647,12 +663,15 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
     }
 
     /**
-     * Hands off to rules.csv's interception chain (August/the Forty-Second Battlegroup/Ancker
-     * confronting the player as they leave Kori) - the confrontation content that used to precede
-     * the raid, relocated here and reframed. Same in-place RuleBasedInteractionDialogPluginImpl swap
-     * as launchRaid(). Ends in the interception's own second fork: Cave resolves entirely in
-     * rules.csv (Office Takeover); Commit fires XLII_BeginBattlegroupFight, which reopens this class
-     * fresh at FLEET_FIGHT via forFleetFight().
+     * Hands off to rules.csv's post-raid interception chain (August/the Forty-Second Battlegroup/
+     * Ancker confronting the player as they leave Kori). Same in-place
+     * RuleBasedInteractionDialogPluginImpl swap as launchRaid(). No fork here anymore - Cave moved
+     * pre-raid (showAugustInterceptCave(), reached from State.AUGUST_INTERCEPT, well before this
+     * method ever runs) and is unreachable once the raid has launched, so
+     * XLII_interception_declare is a single pacing Continue straight into Commit, which fires
+     * XLII_BeginBattlegroupFight and reopens this class fresh at FLEET_FIGHT via forFleetFight().
+     * See .claude/systems/uplink-to-god-endgame-redesign.md for the redesign that moved Cave here
+     * from this chain.
      */
     private void launchInterception() {
         RuleBasedInteractionDialogPluginImpl interception =

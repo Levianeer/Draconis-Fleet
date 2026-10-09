@@ -42,7 +42,7 @@ public class XLII_LongsightWatchdog implements EveryFrameScript {
      * every player who progresses this far, regardless of ending. That re-armed the watchdog on
      * load even for a player who took the Burn the Machine (destroy) route and never held the
      * Longsight core. The watchdog only makes sense once the player actually has the uplink
-     * (Office Takeover / Cave path), which is what this flag tracks - no "$global." prefix on the
+     * (Status Quo / Cave path), which is what this flag tracks - no "$global." prefix on the
      * literal key, matching LongsightQuestMission's own
      * GlobalBooleanChecker("$XLII_longsightUplinkGranted"). Currently set by
      * XLII_KoriStrike's showAugustInterceptCave() directly in Java (previously set by

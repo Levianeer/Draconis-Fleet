@@ -79,11 +79,16 @@ public class LongsightQuestMission extends HubMissionWithBarEvent {
         setStageOnCustomCondition(Stage.COMPLETED,            new GlobalBooleanChecker(XLII_BastionDestructionMonitor.FINALE_FLAG));
         // Alternate terminal paths - the player can also end this quest by refusing the uplink
         // outright (Status Quo+, walking away at Longsight's own warning - resolves directly in
-        // XLII_LongsightContactDialog, no August involved) or by consciously taking it (Office
-        // Takeover). Office Takeover moved (see .claude/systems/uplink-to-god-endgame-redesign.md)
+        // XLII_LongsightContactDialog, no August involved) or by consciously taking it (Status
+        // Quo). Status Quo moved (see .claude/systems/uplink-to-god-endgame-redesign.md)
         // from a post-raid rules.csv choice (XLII_interception_cave, deleted) to
         // XLII_KoriStrike's pre-raid August confrontation (showAugustInterceptCave()) - the raid is
         // now the point of no return, so standing down must happen before it, not after.
+        // ("Office Takeover" is a different ending entirely - XLII_KoriStrike.finalizeFailure(),
+        // the player commits to the raid and loses the fleet fight, which is what actually
+        // registers XLII_LongsightCrisisManager's sector-wide crisis. Several older comments in
+        // this codebase used "Office Takeover" for this Status Quo ending instead, left over from
+        // before the endgame redesign moved the crisis trigger off of it.)
         setStageOnCustomCondition(Stage.COMPLETED,            new GlobalBooleanChecker("$XLII_longsightUplinkGranted"));
         setStageOnCustomCondition(Stage.COMPLETED,            new GlobalBooleanChecker("$XLII_longsightUplinkRefused"));
         // Fourth terminal path (added in the endgame redesign, see
