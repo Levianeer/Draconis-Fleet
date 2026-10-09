@@ -11,7 +11,7 @@ import com.fs.starfarer.api.util.Misc;
 import java.util.List;
 import java.util.Map;
 
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
+import static levianeer.draconis.data.campaign.ids.Factions.INTELLIGENCE_OFFICE;
 
 /**
  * Script command: shows Longsight's portrait in the current dialog. Longsight has no registered
@@ -37,7 +37,7 @@ public class XLII_ShowLongsightVisual extends BaseCommandPlugin {
         PersonAPI sigma = Global.getFactory().createPerson();
         sigma.setName(new FullName("Longsight", "", FullName.Gender.ANY));
         sigma.setPortraitSprite("graphics/portraits/characters/XLII_longsight.png");
-        sigma.setFaction(FORTYSECOND);
+        sigma.setFaction(INTELLIGENCE_OFFICE);
         return sigma;
     }
 

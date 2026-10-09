@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Map;
 
-import static levianeer.draconis.data.campaign.ids.Factions.FORTYSECOND;
+import static levianeer.draconis.data.campaign.ids.Factions.INTELLIGENCE_OFFICE;
 
 /**
  * InteractionDialogPlugin for the Longsight hostile-rep confrontation.
@@ -58,7 +58,7 @@ public class XLII_LongsightConfrontation implements InteractionDialogPlugin {
         PersonAPI sigma = Global.getFactory().createPerson();
         sigma.setName(new FullName("Longsight", "", FullName.Gender.ANY));
         sigma.setPortraitSprite("graphics/portraits/characters/XLII_longsight.png");
-        sigma.setFaction(FORTYSECOND);
+        sigma.setFaction(INTELLIGENCE_OFFICE);
         dialog.getVisualPanel().showPersonInfo(sigma, false);
 
         showOpening();
