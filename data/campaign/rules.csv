@@ -92,12 +92,25 @@ XLII_admiral_init_commissioned,admiralPickGreeting,"XLII_HasDraconisCommission",
 
 A pause while credentials clear against something you never see. ""Confirmed."" The voice doesn't change register for it - clearance is just another line item to this one. ""Patching you through.""","1:XLII_admiral_init_commissionedTrader:Continue","Added this session: the same duty-officer screening now gates every first contact, commissioned or not - previously only XLII_admiral_init_not_commissioned went through the aide, which let a commissioned/high-rep player skip straight to August. Shares its opening paragraph verbatim with that row (the aide's pickup line); the two rows diverge only on whether credentials clear. August still doesn't speak for himself until XLII_admiral_init_commissionedTrader."
 XLII_admiral_init_commissionedTrader,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
-$tag:XLII_fleet_admiral_emil","ShowPersonVisual
+$tag:XLII_fleet_admiral_emil
+!$global.XLII_admiralFirstContactDone","$global.XLII_admiralFirstContactDone = true
+ShowPersonVisual
 FireAll XLII_AdmiralMainMenu","""Commander $playerLastName."" The distorted visage tilts slightly, as if examining you through the compression grain. What might be satisfaction colors the modulated voice. ""We've been watching your work."" A beat. ""Impressed, I should say.""
 
 He leans forward slightly, the motion causing the encryption to ripple and distort. ""The Draconis Defense Alliance rewards competence. More importantly, we recognize when someone possesses the tactical acumen we need for what's coming.""
 
-Your command console chimes softly - an incoming data packet, heavily encrypted.",,"Added ShowPersonVisual this session - this is the first row where August actually speaks for himself (see XLII_admiral_init_greeting's notes), so his portrait needs to swap in here explicitly now that the outer greeting no longer shows it by default."
+Your command console chimes softly - an incoming data packet, heavily encrypted.",,"Restored to the original one-time first-contact scene (author request, this session) - now gated by !$global.XLII_admiralFirstContactDone, which this row's own script sets true. Previously fired identically on every visit (no flag existed); the author wants the full 'we've been watching your work' framing kept, but only for the actual first contact. See XLII_admiral_init_commissionedTrader_repeat (same $option, 2 conditions instead of 3) for what plays on every visit after this one - it only wins DialogOptionSelected's FireBest once this row's extra condition stops matching. ShowPersonVisual still kept (see XLII_admiral_init_greeting's notes) - this is still the first row where August actually speaks for himself."
+XLII_admiral_init_commissionedTrader_repeat,DialogOptionSelected,"$option == XLII_admiral_init_commissionedTrader
+$tag:XLII_fleet_admiral_emil","ShowPersonVisual
+FireAll XLII_AdmiralMainMenu","""Commander $playerLastName."" The distorted visage tilts slightly, encryption artifacts rippling with the motion. ""Go ahead.""
+OR
+""Commander."" No preamble, no delay - just the name, clipped through the compression grain. ""What do you need?""
+OR
+The modulated voice doesn't bother with pleasantries. ""Commander $playerLastName. I assume this isn't a courtesy call.""
+OR
+""Commander."" A pause, as if something off-screen is holding more of his attention than you are. ""Make it quick.""
+OR
+The encrypted silhouette inclines its head fractionally - acknowledgment, nothing more. ""Commander $playerLastName. Report.""",,"Fires via DialogOptionSelected's FireBest semantics whenever the option-handler row above (XLII_admiral_init_commissionedTrader) doesn't win - i.e. every visit after the first. Shares the same $option match and only 2 conditions vs. that row's 3 (its extra !$global.XLII_admiralFirstContactDone condition), so it loses priority by score until the flag is set, then becomes the only match. Short OR-pool of generic curt greetings, written so repeat contacts don't replay the one-time 'we've been watching your work' first-contact framing every single visit (author request)."
 ,,,,,,
 # [EMIL STORE] Main Menu,,,,,,
 XLII_admiral_main_menu_opts,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil",,,"8:ask_special:Is there anything special you could offer?
