@@ -110,13 +110,19 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
     private CampaignFleetAPI bastionFleet;
     private XLII_LongsightCrisisGarrisonManager garrisonManager;
 
-    // ==================== Stage 3: targeting + invasion dispatch ====================
-    // TEMP, cranked extreme to speed-run testing the "Longsight wins" end state - see the matching
-    // note in XLII_LongsightCrisisManager. NOT the real pacing intent; restore before Stage 8's
-    // tuning pass. Only one invasion in flight per Bastion at a time either way.
-    private static final float INVASION_INTERVAL_MIN_DAYS = 0.5f;
-    private static final float INVASION_INTERVAL_MAX_DAYS = 1f;
-    private static final float INVASION_TARGET_FAILURE_COOLDOWN_DAYS = 2f;
+    // ==================== Stage 8 tuning: targeting + invasion dispatch ====================
+    // Only one invasion in flight per Bastion at a time either way. With MAX_CONCURRENT Bastions
+    // (XLII_LongsightCrisisManager) each dispatching on this cadence, the Sector sees roughly one
+    // fresh invasion every couple of days at full strength - steady pressure, not a Bastion-per-day
+    // deluge.
+    private static final float INVASION_INTERVAL_MIN_DAYS = 5f;
+    private static final float INVASION_INTERVAL_MAX_DAYS = 10f;
+
+    /** Comparable in scale to the AIO colony crisis's own disruption cooldown
+     *  (draconisAIODisruptionCooldownMin/Max in settings.json) - long enough that a failed invasion
+     *  doesn't just immediately retry the same target. */
+    private static final float INVASION_TARGET_FAILURE_COOLDOWN_DAYS = 15f;
+
     private static final float INVASION_COMBAT_POINTS = 600f;
 
     // ==================== Siege pacing ====================
@@ -150,10 +156,8 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
             Industries.STARFORTRESS, Industries.STARFORTRESS_MID, Industries.STARFORTRESS_HIGH,
     };
 
-    // TEMP, cranked for the same speed-run reason as the rest of Stage 3's numbers - restore to
-    // something sane before Stage 8's real tuning pass.
-    private static final float ASSAULT_INTERVAL_MIN_DAYS = 1f;
-    private static final float ASSAULT_INTERVAL_MAX_DAYS = 2f;
+    private static final float ASSAULT_INTERVAL_MIN_DAYS = 2f;
+    private static final float ASSAULT_INTERVAL_MAX_DAYS = 4f;
 
     /**
      * Time-compression safety cap, deliberately less than ASSAULT_INTERVAL_MIN_DAYS so at least two

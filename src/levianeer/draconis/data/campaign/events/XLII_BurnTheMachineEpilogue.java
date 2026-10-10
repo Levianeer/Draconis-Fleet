@@ -63,11 +63,11 @@ public class XLII_BurnTheMachineEpilogue implements InteractionDialogPlugin {
         }
 
         text.addPara(
-            "The Rift is still falling. It will keep falling with or without a black site to guard - " +
-            "that machinery never needed the Office's permission, and it does not need yours either. " +
-            "Somewhere beneath Kori's ice, or beneath some other ice a great deal farther away, Sigma " +
-            "Longsight is either finished or waiting. Nothing recovered from either site has ever " +
-            "settled which."
+            "The Rift had already gone quiet back at Kori, the hour CENTCOM's own collapse ran past " +
+            "the point anyone could still have called it back. Ladon's death doesn't add anything to " +
+            "that - it just closes the one door that was still open while the station stood. Somewhere " +
+            "beneath Kori's ice, or beneath some other ice a great deal farther away, Sigma Longsight " +
+            "is either finished or waiting. Nothing recovered from either site has ever settled which."
         );
 
         OptionPanelAPI opts = dialog.getOptionPanel();

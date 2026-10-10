@@ -54,6 +54,7 @@ import levianeer.draconis.data.scripts.ai.XLII_SlapERMissileAI;
 import levianeer.draconis.data.scripts.world.XLII_WorldGen;
 import levianeer.draconis.data.scripts.world.systems.XLII_System;
 import levianeer.draconis.data.campaign.events.XLII_BastionDestructionMonitor;
+import levianeer.draconis.data.campaign.events.XLII_KoriStrike;
 import levianeer.draconis.data.campaign.intel.blind_eye.XLII_OfficeContactMonitor;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeGarrisonManager;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
@@ -169,6 +170,13 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
         // Backfills the Rift beacon into saves made before it existed; see XLII_System.ensureRiftBeacon().
         XLII_System.ensureRiftBeacon();
+
+        // Backfills Rift removal for saves that already finished Burn the Machine's win path
+        // (XLII_KoriStrike.finalizeStrike()) before the Rift was wired to MEM_RIFT_COLLAPSED; see
+        // XLII_System.disableRiftTerrain(). No-op if the Rift is already gone.
+        if (Global.getSector().getMemoryWithoutUpdate().getBoolean(XLII_KoriStrike.MEM_RIFT_COLLAPSED)) {
+            XLII_System.disableRiftTerrain();
+        }
 
         // Register campaign plugin (handles AI core officer picks, etc.)
         // Unregister first to prevent duplicates across save/load cycles

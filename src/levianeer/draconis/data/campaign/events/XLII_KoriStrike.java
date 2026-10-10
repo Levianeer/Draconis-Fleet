@@ -9,6 +9,7 @@ import com.fs.starfarer.api.campaign.InteractionDialogPlugin;
 import com.fs.starfarer.api.campaign.OptionPanelAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.TextPanelAPI;
+import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
@@ -36,6 +37,7 @@ import levianeer.draconis.data.campaign.rulecmd.XLII_NanoforgeExchange;
 import levianeer.draconis.data.campaign.rulecmd.XLII_ShowBattlegroupAssessment;
 import levianeer.draconis.data.campaign.rulecmd.XLII_ShowLongsightVisual;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
+import levianeer.draconis.data.scripts.world.systems.XLII_System;
 import org.apache.log4j.Logger;
 
 import java.awt.Color;
@@ -121,6 +123,12 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
      * raid. Gated on !MEM_RAID_COMPLETE instead.
      */
     public static final String MEM_RAID_COMPLETE = "$XLII_burnTheMachineRaidComplete";
+
+    // CENTCOM's own disruption window after the raid severs the chamber's power spine - matches
+    // the vanilla precedent in HIActionStage.java (15 + random * 45 = 15-60 days), applied via
+    // Industry.setDisrupted() in disruptCentcom() below.
+    private static final float CENTCOM_DISRUPT_MIN_DAYS = 15f;
+    private static final float CENTCOM_DISRUPT_MAX_DAYS = 60f;
 
     // The Forty-Second is a real, combat-capable faction in this mod (data/world/factions/
     // XLII_fortysecond.faction) with its own dedicated hull pool (FortySecond_* variants under
@@ -813,11 +821,44 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
 
         text.addPara(
             "The chamber's power spine is severed regardless of whatever that was, Longsight's " +
-            "own uplink already gone dark on its own. What's left standing between here and the " +
-            "surface is August, and the answer he was always going to owe you eventually."
+            "own uplink already gone dark on its own. Severed is not the same as finished, though " +
+            "- CENTCOM's own damage-control crews could still reroute around a dead spine and " +
+            "arrest the collapse spreading out from it, given enough uninterrupted time to try. " +
+            "What's left standing between here and the surface is August, and the answer he was " +
+            "always going to owe you eventually."
         );
 
+        disruptCentcom(text);
+
         opts.addOption("Continue", OPT_AFTERMATH_CONTINUE);
+    }
+
+    /**
+     * CENTCOM's own patrol spawning and ground defenses go down for a while as a direct,
+     * mechanical consequence of the raid - reuses vanilla {@code Industry.setDisrupted()} (the same
+     * mechanism a normal colony raid's "disrupt industry" objective uses), not a bespoke flag.
+     * {@code XLII_HighCommand.isFunctional()} already composes with {@code BaseIndustry.isFunctional()}'s
+     * own {@code isDisrupted()} check, so this alone halts QRF fleet spawning and the ground-defense
+     * bonus for the duration - no further wiring needed. Day range matches the vanilla precedent in
+     * {@code HIActionStage.java} (15-60 days).
+     */
+    private void disruptCentcom(TextPanelAPI text) {
+        MarketAPI kori = Global.getSector().getEconomy().getMarket("kori_market");
+        Industry centcom = kori != null ? kori.getIndustry("XLII_highcommand") : null;
+        if (centcom == null) return;
+
+        float days = CENTCOM_DISRUPT_MIN_DAYS
+                + new Random().nextFloat() * (CENTCOM_DISRUPT_MAX_DAYS - CENTCOM_DISRUPT_MIN_DAYS);
+        centcom.setDisrupted(days);
+
+        text.addPara(
+            "CENTCOM itself is still standing, but barely functioning now - patrol dispatch, grid " +
+            "defense, the whole apparatus August built this command around, scrambling to recover " +
+            "from a wound it was never built to take. It will be at least %s days before any of it " +
+            "answers normally again.",
+            Misc.getHighlightColor(),
+            "" + (int) Math.round(days)
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -1344,6 +1385,12 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
         // MEM_MARINES_LOST and XLII_KoriInfiltration.MEM_OUTCOME are already set - see
         // showRaidAftermath()'s comment for why that moved earlier this pass.
         mem.set(MEM_RIFT_COLLAPSED, true);
+        // MEM_RIFT_COLLAPSED was set here from the start but never actually read anywhere -
+        // the Rift itself kept running regardless. Wired up (author request): the Battlegroup
+        // fight is what bought CENTCOM's collapse enough time to become irreversible, and this
+        // is the point that's finally true, win, August's fate decided, Ancker gone. See
+        // XLII_System.disableRiftTerrain().
+        XLII_System.disableRiftTerrain();
         mem.set(MEM_COMPLETE, true);
 
         // Backward-compat with the archive infiltration this raid absorbed - ShapesOfOldMission and
@@ -1395,9 +1442,10 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
      * usage (it has no ImportantPeopleAPI registration, so that class's buildPerson() is called
      * directly instead of routing through an id-based lookup).
      * <p>
-     * The death is stated outright, not left to be inferred - echoes the same blunt reporting style
-     * resolveFate()'s Execute branch uses for August's other possible death, reinforcing the mirror
-     * between the two.
+     * The kill itself is grounded in XLII_MarginalAllocation's established combat signature (forced
+     * overload, no Revival Protocol save) rather than stated outright or left to pure inference -
+     * measured against the ordinary combat overloads the player has already survived dozens of
+     * times, so the absence of the usual mercy window reads as final without naming the mechanic.
      */
     private void showFailureDeath() {
         showAugustPortrait();
@@ -1416,9 +1464,12 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
             "with you before. \"So is this.\""
         );
         text.addPara(
-            "\"I have already-\" August does not finish the sentence. It is over quickly, and " +
-            "quietly, and this time there is no one present to record how - not even you, on the " +
-            "other end of an open channel. Fleet Admiral Emil August is dead."
+            "\"I have already-\" August doesn't finish it. The feed flashes white once. No alarm. " +
+            "No half-second to brace, the way an overload is supposed to give a crew. Just the " +
+            "flash, and then the channel carrying nothing at all."
+        );
+        text.addPara(
+            "You were listening when it happened, and there is nothing to show for having been."
         );
 
         opts.addOption("Continue", OPT_FAILURE_DEATH_CONTINUE);

@@ -543,4 +543,29 @@ public class XLII_System implements SectorGeneratorPlugin {
                 new Color(180, 85, 45, 255),   // DDA bright UI colour - the Alliance owns the loop now
                 new Color(250, 125, 0, 255));
     }
+
+    /**
+     * Removes the Rift and its beacon from hyperspace - called on the Burn the Machine win path
+     * once Ladon's Office bastion is destroyed (see {@code XLII_BastionDestructionMonitor}).
+     * <p>
+     * Idempotent: each lookup no-ops if the entity is already gone, so this is safe to call again
+     * as a save-load backfill for saves that finished that ending before this existed.
+     */
+    public static void disableRiftTerrain() {
+        LocationAPI hyperspace = Global.getSector().getHyperspace();
+
+        String[] ids = {
+                "XLII_rift_storm",
+                "XLII_rift_storm_inner_glow",
+                "XLII_rift_storm_outer_haze",
+                RIFT_BEACON_ID
+        };
+
+        for (String id : ids) {
+            SectorEntityToken riftEntity = hyperspace.getEntityById(id);
+            if (riftEntity != null) {
+                hyperspace.removeEntity(riftEntity);
+            }
+        }
+    }
 }

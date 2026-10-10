@@ -119,11 +119,8 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
             return;
         }
 
-        // A percentage of the manager's own spawn-check interval, not a raw day count - that
-        // IntervalUtil's real duration is currently a sub-day testing placeholder (see
-        // XLII_LongsightCrisisManager.PLACEHOLDER_BASE_INTERVAL_DAYS's own doc), so showing whole
-        // days of progress would round to a near-binary 0/1 bar. A 0-100 percentage stays a smooth,
-        // meaningful bar regardless of how that interval is eventually tuned.
+        // A percentage of the manager's own spawn-check interval, not a raw day count - a 0-100
+        // percentage stays a smooth, meaningful bar regardless of how that interval is tuned.
         IntervalUtil tracker = manager.getTracker();
         float duration = tracker.getIntervalDuration();
         float frac = duration > 0f ? tracker.getElapsed() / duration : 0f;

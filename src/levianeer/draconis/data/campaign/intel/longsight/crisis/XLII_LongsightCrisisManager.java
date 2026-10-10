@@ -66,14 +66,16 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
      *  {@code convertToSeconds()} instead). */
     private static final String CREATED_TIMESTAMP_KEY = "$XLII_longsightCrisisCreatedTimestamp";
 
-    // ==================== Placeholder tuning (Stage 1 / Stage 8) ====================
-    // TEMP, cranked deliberately extreme to speed-run testing the "Longsight wins" end state, which
-    // otherwise requires consuming the whole Sector to observe. NOT the real pacing intent - restore
-    // to something sane before Stage 8's tuning pass. Not yet time-scaled (no growth-over-time curve).
-    private static final int PLACEHOLDER_MIN_CONCURRENT = 5;
-    private static final int PLACEHOLDER_MAX_CONCURRENT = 12;
-    private static final float PLACEHOLDER_BASE_INTERVAL_DAYS = 0.5f;
-    private static final int PLACEHOLDER_HARD_LIMIT = 40;
+    // ==================== Stage 8 tuning ====================
+    // Modeled on vanilla's own PirateBaseManager (min/max concurrent bases, a 10-day spawn-check
+    // interval) rather than invented from scratch - this manager is structurally the same shape, just
+    // with a smaller, more dangerous roster of bases instead of pirates' larger, weaker one. No
+    // getHardLimit() override - the base class default (2x the Sector's market count) is already far
+    // above MAX_CONCURRENT and was never the real constraint. Not yet time-scaled (no
+    // growth-over-time curve).
+    private static final int MIN_CONCURRENT = 2;
+    private static final int MAX_CONCURRENT = 4;
+    private static final float BASE_INTERVAL_DAYS = 10f;
 
     private final Random random = new Random();
 
@@ -91,9 +93,9 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
      * How long the active count has to stay at zero, with nothing new spawning, before "player
      * wins" is declared. BaseEventManager's own spawn-check timing isn't directly observable from
      * here, so this is a grace-period heuristic (a multiple of the base interval) rather than a
-     * precise "is a spawn pending" flag - placeholder, not tuned, see checklist Stage 8.
+     * precise "is a spawn pending" flag.
      */
-    private static final float VICTORY_GRACE_DAYS = PLACEHOLDER_BASE_INTERVAL_DAYS * 3f;
+    private static final float VICTORY_GRACE_DAYS = BASE_INTERVAL_DAYS * 3f;
 
     private float daysWithNoActiveBastions = 0f;
     private boolean crisisResolved = false;
@@ -117,12 +119,10 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
     private static final String REVEALED_KEY = "$XLII_longsightCrisisRevealed";
 
     /**
-     * TEMP placeholder, deliberately short for testing convenience - matches the other placeholder
-     * constants above (see {@link #PLACEHOLDER_MIN_CONCURRENT} etc.). Explicitly called out as
-     * not-yet-tuned in the design doc; restore to something deliberately paced before Stage 8's
-     * tuning pass.
+     * A month of silent buildup before the reveal scene fires - long enough that the crisis reads as
+     * something that was already underway when the player finds out, not an immediate jump-scare.
      */
-    private static final float REVEAL_THRESHOLD_DAYS = 5f;
+    private static final float REVEAL_THRESHOLD_DAYS = 30f;
 
     public static boolean isRevealed() {
         return Global.getSector().getMemoryWithoutUpdate().getBoolean(REVEALED_KEY);
@@ -180,8 +180,6 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
     // ==================== Destroyed-Bastion slowdown ====================
     // Decaying friction: each Bastion the player destroys temporarily slows the next one's
     // appearance via getIntervalRateMult() below, fading back to nothing over FRICTION_DECAY_DAYS.
-    // Placeholder tuning, consistent with every other "TEMP"/"PLACEHOLDER" constant in this class -
-    // not yet balanced against real play.
 
     private static final float FRICTION_PER_DESTRUCTION = 0.15f;
     private static final float FRICTION_DECAY_DAYS = 30f;
@@ -287,22 +285,17 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
 
     @Override
     protected int getMinConcurrent() {
-        return PLACEHOLDER_MIN_CONCURRENT;
+        return MIN_CONCURRENT;
     }
 
     @Override
     protected int getMaxConcurrent() {
-        return PLACEHOLDER_MAX_CONCURRENT;
+        return MAX_CONCURRENT;
     }
 
     @Override
     protected float getBaseInterval() {
-        return PLACEHOLDER_BASE_INTERVAL_DAYS;
-    }
-
-    @Override
-    protected int getHardLimit() {
-        return PLACEHOLDER_HARD_LIMIT;
+        return BASE_INTERVAL_DAYS;
     }
 
     @Override
@@ -411,12 +404,10 @@ public class XLII_LongsightCrisisManager extends BaseEventManager {
             if (system.getStar() == null) continue;
             if (!Misc.getMarketsInLocation(system).isEmpty()) continue;
 
-            // TEMP: dropped from 45 for the same speed-run reason as the constants above - a
-            // heavily-explored save could otherwise bottleneck spawning on this alone. Restore
-            // before Stage 8.
+            // Matches vanilla PirateBaseManager.pickSystemForPirateBase()'s own threshold.
             float daysSinceVisit = Global.getSector().getClock()
                     .getElapsedDaysSince(system.getLastPlayerVisitTimestamp());
-            if (daysSinceVisit < 5f) continue;
+            if (daysSinceVisit < 45f) continue;
 
             float weight;
             if (system.hasTag(Tags.THEME_CORE_UNPOPULATED)) {
