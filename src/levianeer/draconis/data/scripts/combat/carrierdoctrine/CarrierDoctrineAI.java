@@ -180,7 +180,15 @@ public class CarrierDoctrineAI {
     public static float CRIPPLE_TARGET_HULL_FRACTION = 0.4f; // enemy hull below this scores as "finish it"
     public static float CRIPPLE_TARGET_BONUS = 180f;
     public static float RETREATING_TARGET_BONUS = 150f; // candidate has a RETREAT assignment on its own side
-    public static float PLAYER_FLAGSHIP_TARGET_BONUS = 120f;
+    // M10: zeroing this (tools/CLAUDE.md "overshoot, isolate the term" methodology) confirmed it
+    // was the deciding factor behind a playtest report of strikes "always" locking onto the
+    // player at the original value of 120 - restored at half (60) now that pickStrikeTarget's
+    // other M10 bugs (rotation re-targeting, reachability, assignment consistency) are fixed and
+    // confirmed by playtest, so the vulnerability-based scoring (flux/cripple/retreating) gets a
+    // real chance to compete rather than the player winning by default. See
+    // .claude/systems/carrier-doctrine.md's M10 note - still worth another playtest pass to
+    // confirm 60 doesn't reproduce the original "always" complaint.
+    public static float PLAYER_FLAGSHIP_TARGET_BONUS = 60f;
 
     // --- M9: predictability-breaking ---
     // Deck-load/recovery/sweep thresholds are jittered once per battle instance (see the
@@ -249,10 +257,25 @@ public class CarrierDoctrineAI {
      * carrier's default STRIKE assignment to CAP if enemy bomber presence demands it. */
     protected final Map<ShipAPI, CarrierDuty> carrierDuty = new LinkedHashMap<>();
 
+    /** Last-computed role buckets (full, pre-withdrawal-exclusion), kept for
+     * {@link CarrierDoctrineDebugOverlay} - role is a per-tick classification only, nothing else
+     * needs it to persist between ticks. */
+    protected List<ShipAPI> lastCarriers = Collections.emptyList();
+    protected List<ShipAPI> lastScreen = Collections.emptyList();
+    protected List<ShipAPI> lastBattleline = Collections.emptyList();
+    protected List<ShipAPI> lastPickets = Collections.emptyList();
+
     protected boolean strikeLaunched = false;
     protected boolean mainWaveReleased = false; // true once bomber-carrying carriers have joined the sweep
     protected float sweepTimer = 0f;
     protected ShipAPI strikeTarget;
+    /** Bug fix: {@code ship.setShipTarget()} only aims a carrier's own guns - its wings are
+     * actually steered by giving the carrier a shared {@link CombatAssignmentType#STRIKE}
+     * assignment via {@link #taskManager}, the same {@code CombatTaskManagerAPI} channel every
+     * other role in this class already uses (screen/battleline/picket/withdrawal escort) and
+     * presumably what lets vanilla admiral-controlled carriers retarget wings mid-sortie - see
+     * {@link #giveStrikeAssignment}. */
+    protected AssignmentInfo strikeAssignment;
 
     /** The one STRIKE-capable carrier currently pulled into CAP duty by the ladder, if any. */
     protected ShipAPI capPromotion;
@@ -266,6 +289,25 @@ public class CarrierDoctrineAI {
     protected boolean rotationActive = false;
     protected int activeMainGroup = 0;
     protected ShipAPI rotationTarget;
+    /** Rotation path's own {@link #strikeAssignment} - kept separate since the single-group cycle
+     * and rotation are mutually exclusive but both reset independently (see
+     * {@link #resetSingleGroupStrikeState} vs. the rotation reset in {@link #runStrikeCycle}). */
+    protected AssignmentInfo rotationAssignment;
+
+    /** Bug fix: the single-group/rotation strike cycles only ever run once per ~1s AI
+     * {@link #tick}, so {@link #strikeAssignment}/{@link #rotationAssignment} only got
+     * (re)applied that often too - too coarse. Diable Avionics' own
+     * {@code DALastLineOpeningEscortPlugin} re-verifies its assignment against the ship's
+     * *actual* current one (via {@code CombatTaskManagerAPI#getAssignmentFor}) and reapplies
+     * whenever something else has silently replaced it, on a tighter cycle than ours; UAF's
+     * {@code uaf_linkedHangar} hullmod refreshes its own {@code CARRIER_FIGHTER_TARGET} flag
+     * every single frame. These three are refreshed every tick by whichever of
+     * {@link #runStrikeCycle}/{@link #runRotatingMainWave} is active, then re-enforced every
+     * single engine frame by {@link #reapplyActiveStrikeOrders} regardless of the AI tick. */
+    protected List<ShipAPI> activeStrikeStrikers = Collections.emptyList();
+    protected ShipAPI activeStrikeTarget;
+    protected AssignmentInfo activeStrikeAssignment;
+
     /** Bug-fix #5: persistent carrier -> rotation group (0 or 1) assignment, so a carrier dying
      * mid-strike doesn't reshuffle every other carrier's group the way splitting mainCarriers by
      * list index did. Mutated only in {@link #partitionRotationGroups} - dead/removed carriers
@@ -384,6 +426,10 @@ public class CarrierDoctrineAI {
         if (abort) return;
         if (engine.isPaused()) return;
 
+        // Bug fix: runs every frame regardless of the tick gate below - see
+        // activeStrikeStrikers' note on why a once-per-AI-tick reapply wasn't tight enough.
+        reapplyActiveStrikeOrders();
+
         totalTime += amount;
 
         tick.advance(amount);
@@ -471,6 +517,11 @@ public class CarrierDoctrineAI {
                 + " battleline=" + battleline.size() + " pickets=" + pickets.size());
         activateIfNeeded();
 
+        lastCarriers = toShipList(carriers);
+        lastScreen = toShipList(screen);
+        lastBattleline = toShipList(battleline);
+        lastPickets = toShipList(pickets);
+
         // Bug-fix #4: strip ships already withdrawing/escorting (from a prior tick - this
         // tick's own withdrawal decisions can't be known yet, see below) out of battleline/
         // screen before measuring the local force ratio - otherwise a ship mid Transverse Jump
@@ -547,11 +598,11 @@ public class CarrierDoctrineAI {
      * strict "abort if anything doesn't match" idiom ThreatCombatStrategyAI uses for its own
      * hullmod check: this doctrine should never leak onto some unrelated fleet that merely
      * happens to be fighting alongside a FortySecond/Draconis one.
-     *
+     * <p>
      * Stations/modules are excluded here for the same reason the size gate excludes them: a
      * defended friendly station can never carry either hullmod, so without this exclusion a
      * COVER mission (station defense) would fail this gate on every single tick.
-     *
+     * <p>
      * Non-FortySecond ships swept up this way get no doctrine-assigned role at all - FortySecond
      * tags only exist on the 8 FortySecond skins, so a plain Draconis/Intel-Office ship falls
      * through every role bucket untouched. With no admiral orders (suppressed while the doctrine
@@ -621,6 +672,11 @@ public class CarrierDoctrineAI {
         if (screenAssignment != null) { taskManager.removeAssignment(screenAssignment); screenAssignment = null; }
         if (battlelineAssignment != null) { taskManager.removeAssignment(battlelineAssignment); battlelineAssignment = null; }
         if (picketAssignment != null) { taskManager.removeAssignment(picketAssignment); picketAssignment = null; }
+        if (strikeAssignment != null) { taskManager.removeAssignment(strikeAssignment); strikeAssignment = null; }
+        if (rotationAssignment != null) { taskManager.removeAssignment(rotationAssignment); rotationAssignment = null; }
+        activeStrikeStrikers = Collections.emptyList();
+        activeStrikeTarget = null;
+        activeStrikeAssignment = null;
         for (AssignmentInfo info : withdrawalEscortAssignments.values()) {
             taskManager.removeAssignment(info);
         }
@@ -664,7 +720,88 @@ public class CarrierDoctrineAI {
         lastDebugMessageTime.clear();
         lastBattlelineLoc = null;
         lastLoggedForceRatio = null;
+        lastCarriers = Collections.emptyList();
+        lastScreen = Collections.emptyList();
+        lastBattleline = Collections.emptyList();
+        lastPickets = Collections.emptyList();
         debugMessage("Carrier Doctrine: INACTIVE");
+    }
+
+    /** Bug fix: {@code ship.setShipTarget()} only aims a carrier's own guns - it does not direct
+     * its wings (confirmed by playtest: neither that alone, nor layering {@code AIFlags} hacks on
+     * top - {@code CARRIER_FIGHTER_TARGET}, clearing {@code IN_ATTACK_RUN}/{@code POST_ATTACK_RUN}
+     * - made an already-airborne wing switch off its first live target). Every *other* role in
+     * this class points its ships via a shared {@code CombatTaskManagerAPI} assignment instead
+     * (screen/battleline/picket/withdrawal escort) - strike targeting is the one place that never
+     * did, despite {@link CombatAssignmentType#STRIKE} existing for exactly this. Gives every ship
+     * in {@code strikers} a shared STRIKE assignment against {@code target}, recreating it
+     * whenever the target ship changes and tearing it down once there's nothing to strike.
+     * {@code existing} is the assignment from last tick (or null); returns the current one (or
+     * null) to store back - same pattern as {@link #holdPosition}. */
+    protected AssignmentInfo giveStrikeAssignment(List<ShipAPI> strikers, ShipAPI target, AssignmentInfo existing) {
+        DeployedFleetMemberAPI targetMember = target != null ? findDeployedMember(enemyFleetManager, target) : null;
+
+        if (existing != null) {
+            AssignmentTargetAPI existingTarget = existing.getTarget();
+            boolean stale = targetMember == null
+                    || !(existingTarget instanceof DeployedFleetMemberAPI)
+                    || ((DeployedFleetMemberAPI) existingTarget).getShip() != target;
+            if (stale) {
+                taskManager.removeAssignment(existing);
+                existing = null;
+            }
+        }
+
+        if (targetMember == null || strikers.isEmpty()) {
+            return existing;
+        }
+
+        if (existing == null) {
+            existing = taskManager.createAssignment(CombatAssignmentType.STRIKE, targetMember, false);
+        }
+        for (ShipAPI ship : strikers) {
+            DeployedFleetMemberAPI member = findDeployedMember(fleetManager, ship);
+            if (member != null) taskManager.giveAssignment(member, existing, false);
+        }
+        return existing;
+    }
+
+    /** @return the {@code DeployedFleetMemberAPI} wrapping {@code ship} in {@code manager}'s
+     * currently-deployed list, or null if it's no longer deployed (e.g. just died this tick). */
+    protected DeployedFleetMemberAPI findDeployedMember(CombatFleetManagerAPI manager, ShipAPI ship) {
+        for (DeployedFleetMemberAPI member : manager.getDeployedCopyDFM()) {
+            if (member.getShip() == ship) return member;
+        }
+        return null;
+    }
+
+    /** Bug fix: re-enforces the current strike order every single engine frame rather than only
+     * once per ~1s AI {@link #tick} - see {@link #activeStrikeStrikers}'s note. Re-applies
+     * {@code ship.setShipTarget()} and checks each striker's *actual* current assignment via
+     * {@link CombatTaskManagerAPI#getAssignmentFor} rather than trusting
+     * {@link #activeStrikeAssignment} never gets silently replaced (the same failure mode Diable
+     * Avionics' own escort plugin guards against) - only re-gives it when that check actually
+     * finds a mismatch, so this isn't spamming {@code giveAssignment} every frame for no reason. */
+    protected void reapplyActiveStrikeOrders() {
+        if (activeStrikeStrikers.isEmpty() || activeStrikeTarget == null || activeStrikeAssignment == null) return;
+        for (ShipAPI ship : activeStrikeStrikers) {
+            if (!ship.isAlive()) continue;
+            ship.setShipTarget(activeStrikeTarget);
+            if (taskManager.getAssignmentFor(ship) != activeStrikeAssignment) {
+                DeployedFleetMemberAPI member = findDeployedMember(fleetManager, ship);
+                if (member != null) taskManager.giveAssignment(member, activeStrikeAssignment, false);
+            }
+        }
+    }
+
+    /** {@link CarrierDoctrineDebugOverlay} reads plain {@code ShipAPI} lists rather than
+     * {@code DeployedFleetMemberAPI} - it only needs ship identity/location, not fleet-member data. */
+    protected static List<ShipAPI> toShipList(List<DeployedFleetMemberAPI> members) {
+        List<ShipAPI> result = new ArrayList<>(members.size());
+        for (DeployedFleetMemberAPI member : members) {
+            if (member.getShip() != null) result.add(member.getShip());
+        }
+        return result;
     }
 
     /** Logs a gate-state reason to starsector.log, but only when it changes from the last
@@ -711,13 +848,13 @@ public class CarrierDoctrineAI {
      * same idiom vanilla's own escort assignments use, so the retreating ship isn't abandoned
      * on its way off the map. Tracked in {@link #withdrawingShips} so the order is only issued
      * once per ship rather than re-applied every tick.
-     *
+     * <p>
      * Retreat is ordered as a *direct* retreat ({@code orderRetreat(member, cp, direct=true)}) -
      * every Draconis/FortySecond hull carries {@code XLII_SystemHullModBase.WarpDriveScript},
      * whose only activation condition is {@code ship.isDirectRetreat()}. A direct retreat order
      * is exactly what flips that flag, so this is what makes a withdrawing ship actually
      * Transverse Jump out instead of just sailing for the map edge like a plain retreat would.
-     *
+     * <p>
      * M9: the hull-cripple trigger (not PPT exhaustion, a hard fuel-out condition unrelated to
      * how the fight is going) scales with {@code localForceRatio} via {@link #resolveCrippleThreshold} -
      * pulling a ship out of a fight we're actually winning locally just hands the player a free
@@ -760,7 +897,7 @@ public class CarrierDoctrineAI {
      * finished escort (its charge already off the map or dead) stayed permanently excluded from
      * its normal role bucket for the rest of the battle. Tears down and drops any entry whose
      * charge is no longer deployed or alive, freeing that escort back to {@link #excludeWithdrawalRelated}.
-     *
+     * <p>
      * Bug-fix #3: also releases an entry whose escort itself (not just its charge) is no longer
      * deployed or alive - the charge-only check left a dead escort's AssignmentInfo dangling
      * until deactivate() if its charge happened to still be alive and deployed. */
@@ -794,7 +931,7 @@ public class CarrierDoctrineAI {
      * {@code carriers} instead of the whole bucket sharing one DEFEND waypoint ahead of the
      * group - vanilla's own escort AI spaces multiple escorts of the same target out around it,
      * so this is what actually rings the carriers rather than leaving the flanks/rear open.
-     *
+     * <p>
      * Already-assigned ships are left completely alone (no re-giveAssignment, no reconsidering
      * which carrier they're on) as long as their assignment is still valid - only a ship with no
      * valid assignment (new to the bucket, or its carrier just died/left) gets a fresh pick, via
@@ -963,7 +1100,7 @@ public class CarrierDoctrineAI {
      * Resolves each carrier's capability set (see {@link #updateCarrierCapability}) into one
      * duty for this cycle. Single-capability carriers are locked to that duty. A carrier with
      * neither (support/assault wings only, or none) gets no duty and is left alone.
-     *
+     * <p>
      * A dual-capable carrier (has both a bomber-contributing and a CAP-contributing wing) is
      * decided primarily by which role actually dominates its loadout - count of dedicated
      * BOMBER wings vs dedicated INTERCEPTOR wings. This matters because almost every FortySecond
@@ -972,7 +1109,7 @@ public class CarrierDoctrineAI {
      * STRIKE" tie-break would send even a CAP-heavy loadout (e.g. 1 FIGHTER + 2 INTERCEPTOR,
      * zero bombers) to STRIKE just because of that one flex wing, leaving almost no standing CAP
      * in practice.
-     *
+     * <p>
      * When the loadout vote is a genuine tie (including 0-0, a FIGHTER-flex-only carrier), hull
      * size breaks it: CRUISER-or-bigger leans STRIKE, DESTROYER-or-smaller leans CAP. Keeps the
      * biggest, most valuable strike wings concentrated on the biggest hulls rather than scattered
@@ -1018,6 +1155,14 @@ public class CarrierDoctrineAI {
         sweepTimer = 0f;
         strikeTarget = null;
         offCycleThisWave = (float) Math.random() < OFF_CYCLE_STRIKE_CHANCE;
+        if (strikeAssignment != null) { taskManager.removeAssignment(strikeAssignment); strikeAssignment = null; }
+        // Bug fix: covers the early-return paths in runStrikeCycle (e.g. no strike carriers left)
+        // that call this and bail before reaching the per-tick cache update at the bottom of
+        // runStrikeCycle/runRotatingMainWave - without this, reapplyActiveStrikeOrders would keep
+        // enforcing a stale strikers/target/assignment combo every frame off the previous tick.
+        activeStrikeStrikers = Collections.emptyList();
+        activeStrikeTarget = null;
+        activeStrikeAssignment = null;
     }
 
     /** M7: true once enough enemy fighter presence sits near {@code target} to call it still
@@ -1062,14 +1207,14 @@ public class CarrierDoctrineAI {
      * target so wings arrive together, and recall back to Regroup once the minimum FRR among
      * them drops below {@link #RECOVERY_FRR_THRESHOLD}. Hysteresis between the two thresholds,
      * tracked via {@link #strikeLaunched}, keeps this from flapping.
-     *
+     * <p>
      * Fighter sweep (M3): STRIKE-duty carriers with no bomber wing at all (fighter/interceptor-
      * only, on STRIKE duty via the FIGHTER flex capability) launch immediately as the "sweep" -
      * bomber-carrying carriers hold Regroup for {@link #SWEEP_DELAY_SECONDS} longer before
      * releasing as the "main wave". A carrier's wings launch atomically (setPullBackFighters is
      * per-ship, not per-wing), so a carrier with any bomber wing is main-wave regardless of what
      * else it also carries - the split is which carriers go in which wave, not which wings.
-     *
+     * <p>
      * Continuous-flow rotation (M5): with 2+ bomber-carrying ("main") STRIKE carriers, this
      * synchronized single-group cycle is replaced by {@link #runRotatingMainWave} instead -
      * every main carrier launching and recalling together leaves a gap with no strikes at all
@@ -1115,6 +1260,7 @@ public class CarrierDoctrineAI {
             activeMainGroup = 0;
             rotationTarget = null;
             rotationGroupAssignment.clear();
+            if (rotationAssignment != null) { taskManager.removeAssignment(rotationAssignment); rotationAssignment = null; }
         }
 
         List<ShipAPI> strikeCarriers = new ArrayList<>(sweepCarriers);
@@ -1130,7 +1276,7 @@ public class CarrierDoctrineAI {
             // lower the launch bar - a wave arriving on a flux-locked target is far deadlier than
             // one timed purely off our own deck readiness. The off-cycle roll (single-group cycle
             // only - see OFF_CYCLE_STRIKE_CHANCE) can lower it further, independent of the target.
-            ShipAPI candidate = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
+            ShipAPI candidate = pickStrikeTarget(zoneCenter, zoneRadius, battleline, strikeCarriers);
             float threshold = resolveLaunchThreshold(isVulnerableTarget(candidate));
             if (offCycleThisWave) threshold = Math.min(threshold, offCycleLaunchThresholdInstance);
 
@@ -1163,8 +1309,9 @@ public class CarrierDoctrineAI {
                 }
             }
 
-            if (strikeTarget == null || !strikeTarget.isAlive() || !engine.isAwareOf(owner, strikeTarget)) {
-                strikeTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
+            if (strikeTarget == null || !strikeTarget.isAlive() || !engine.isAwareOf(owner, strikeTarget)
+                    || !isWithinStrikeRange(strikeTarget, strikeCarriers)) {
+                strikeTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline, strikeCarriers);
             }
 
             if (strikeTarget == null || minFrr(strikeCarriers) < recoveryThresholdInstance) {
@@ -1173,10 +1320,12 @@ public class CarrierDoctrineAI {
             }
         }
 
+        List<ShipAPI> activeStrikers = new ArrayList<>();
         for (ShipAPI ship : sweepCarriers) {
             ship.setPullBackFighters(!strikeLaunched);
             if (strikeLaunched && strikeTarget != null) {
                 ship.setShipTarget(strikeTarget);
+                activeStrikers.add(ship);
             }
         }
         for (ShipAPI ship : mainCarriers) {
@@ -1186,8 +1335,13 @@ public class CarrierDoctrineAI {
                 // vanilla carrier AI can re-pick its own target on its own logic - re-apply
                 // every tick while launched rather than setting it once and hoping it holds
                 ship.setShipTarget(strikeTarget);
+                activeStrikers.add(ship);
             }
         }
+        strikeAssignment = giveStrikeAssignment(activeStrikers, strikeLaunched ? strikeTarget : null, strikeAssignment);
+        activeStrikeStrikers = activeStrikers;
+        activeStrikeTarget = strikeLaunched ? strikeTarget : null;
+        activeStrikeAssignment = strikeAssignment;
     }
 
     /**
@@ -1198,7 +1352,7 @@ public class CarrierDoctrineAI {
      * out on a strike, the other is already rebuilding FRR, and they swap the instant the
      * active group needs to recall - rather than the whole main-carrier set pulsing on/off
      * together with a gap where nothing is striking at all.
-     *
+     * <p>
      * Sweep carriers always launch alongside whichever group is currently active, since their
      * role (soak PD/CAP ahead of the bombers) is relevant any time a strike is out at all - but
      * (M7) the *active* group itself still waits on {@link #mainWaveReleased}/{@link #sweepTimer}
@@ -1224,7 +1378,7 @@ public class CarrierDoctrineAI {
         if (!rotationActive) {
             // M9: same flux-window check as the single-group cycle (no off-cycle roll here - see
             // OFF_CYCLE_STRIKE_CHANCE's note on why that's scoped out of rotation mode).
-            ShipAPI candidate = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
+            ShipAPI candidate = pickStrikeTarget(zoneCenter, zoneRadius, battleline, active);
             float threshold = resolveLaunchThreshold(isVulnerableTarget(candidate));
             if (candidate != null && minFrr(active) >= threshold) {
                 rotationTarget = candidate;
@@ -1244,17 +1398,26 @@ public class CarrierDoctrineAI {
                 }
             }
 
-            if (rotationTarget == null || !rotationTarget.isAlive() || !engine.isAwareOf(owner, rotationTarget)) {
-                rotationTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline);
+            if (rotationTarget == null || !rotationTarget.isAlive() || !engine.isAwareOf(owner, rotationTarget)
+                    || !isWithinStrikeRange(rotationTarget, active)) {
+                rotationTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline, active);
             }
 
             if (rotationTarget == null || minFrr(active) < recoveryThresholdInstance) {
                 if (rotationTarget != null && allFrrAbove(standby, deckLoadThresholdInstance)) {
                     activeMainGroup = 1 - activeMainGroup;
                     List<ShipAPI> swap = active; active = standby; standby = swap;
+                    // Bug fix: re-pick rather than carry over the outgoing group's target - without
+                    // this, rotationTarget only ever changes on death/awareness loss (see above),
+                    // so once rotation starts alternating groups the target locks for the rest of
+                    // the battle and the M9 vulnerability bonuses (flux-locked/crippled/retreating)
+                    // never get a fresh pick to act on again.
+                    ShipAPI freshTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline, active);
+                    if (freshTarget != null) rotationTarget = freshTarget;
                     armSweepStaging(sweepCarriers);
                     debugMessage("Carrier Doctrine: ROTATION SWAP (group of " + active.size()
-                            + " now striking, group of " + standby.size() + " rebuilding)");
+                            + " now striking, group of " + standby.size() + " rebuilding)"
+                            + (isVulnerableTarget(rotationTarget) ? " [target flux-locked]" : ""));
                 } else {
                     rotationActive = false;
                     debugMessage("Carrier Doctrine: ROTATION PAUSED (standby group not ready yet)");
@@ -1262,18 +1425,29 @@ public class CarrierDoctrineAI {
             }
         }
 
+        List<ShipAPI> activeStrikers = new ArrayList<>();
         for (ShipAPI ship : sweepCarriers) {
             ship.setPullBackFighters(!rotationActive);
-            if (rotationActive && rotationTarget != null) ship.setShipTarget(rotationTarget);
+            if (rotationActive && rotationTarget != null) {
+                ship.setShipTarget(rotationTarget);
+                activeStrikers.add(ship);
+            }
         }
         for (ShipAPI ship : active) {
             boolean launch = rotationActive && mainWaveReleased;
             ship.setPullBackFighters(!launch);
-            if (launch && rotationTarget != null) ship.setShipTarget(rotationTarget);
+            if (launch && rotationTarget != null) {
+                ship.setShipTarget(rotationTarget);
+                activeStrikers.add(ship);
+            }
         }
         for (ShipAPI ship : standby) {
             ship.setPullBackFighters(true);
         }
+        rotationAssignment = giveStrikeAssignment(activeStrikers, rotationActive ? rotationTarget : null, rotationAssignment);
+        activeStrikeStrikers = activeStrikers;
+        activeStrikeTarget = rotationActive ? rotationTarget : null;
+        activeStrikeAssignment = rotationAssignment;
     }
 
     /**
@@ -1353,7 +1527,7 @@ public class CarrierDoctrineAI {
      * battleline, then flux-locked/low-hull/retreating targets ("finish cripples" - M9), then
      * biggest hull - a rough priority order, not a literal port of anything, tuned in the
      * simulator like everything else.
-     *
+     * <p>
      * Bug-fix #6: the carrier bonus is scaled by {@link #getCarrierStrikePotential} rather than
      * flat - a carrier already emptied of its air group is no real priority target and was
      * previously a perfect decoy for luring strikes away from everything else.
@@ -1366,8 +1540,18 @@ public class CarrierDoctrineAI {
      *                              a proxy for "already engaged," since there's no reliable way
      *                              to query a ship's current live target. Finishing off a target
      *                              the line is already hitting beats splitting damage further.
+     * @param strikers              bug fix: candidates outside {@code strikers}' own fighter
+     *                              range, measured from their collective live centroid
+     *                              ({@link #isWithinStrikeRange}), are skipped - without this, a
+     *                              lone retreating enemy that had already fled out of reach
+     *                              (exactly what {@link #RETREATING_TARGET_BONUS} favors) kept
+     *                              getting re-picked as "best" since nothing else was even
+     *                              competing, leaving the carriers re-issuing a STRIKE assignment
+     *                              against something they could never catch instead of recalling
+     *                              to wait for a reachable target.
      */
-    protected ShipAPI pickStrikeTarget(Vector2f zoneCenter, Float zoneRadius, List<DeployedFleetMemberAPI> battleline) {
+    protected ShipAPI pickStrikeTarget(Vector2f zoneCenter, Float zoneRadius, List<DeployedFleetMemberAPI> battleline,
+                                        List<ShipAPI> strikers) {
         ShipAPI best = null;
         float bestScore = -1f;
         for (DeployedFleetMemberAPI member : enemyFleetManager.getDeployedCopyDFM()) {
@@ -1375,6 +1559,7 @@ public class CarrierDoctrineAI {
             ShipAPI ship = member.getShip();
             if (ship.isHulk() || !ship.isAlive() || !engine.isAwareOf(owner, ship)) continue;
             if (zoneCenter != null && Misc.getDistance(ship.getLocation(), zoneCenter) > zoneRadius) continue;
+            if (!isWithinStrikeRange(ship, strikers)) continue;
 
             float score = 0f;
             if (ship.getHullSpec().getHints().contains(ShipTypeHints.CARRIER)) {
@@ -1457,6 +1642,46 @@ public class CarrierDoctrineAI {
         return min;
     }
 
+    /** Bug fix: a locked-on {@link #strikeTarget}/{@link #rotationTarget} only ever got re-picked
+     * on death or lost awareness - nothing checked whether it had simply flown out of our wings'
+     * actual reach (easy for a retreating target to do, which {@link #RETREATING_TARGET_BONUS}
+     * deliberately favors), so the carriers kept re-issuing a STRIKE assignment against something
+     * unreachable instead of swapping to a target they could still hit.
+     * <p>
+     * Bug fix #2: originally checked distance against *each individual* striker's own location,
+     * returning true if any single one was close enough - but the group shares one STRIKE
+     * assignment, so a single straggler sitting far from the rest of the group could validate a
+     * target only it could reach, locking the whole group onto something the rest of them
+     * couldn't actually hit (playtest-reported: one out-of-position ship picking a target
+     * "stopped the rest of the group from agreeing").
+     * <p>
+     * Bug fix #3: tried checking against {@link #getFormationAnchor} next, but that's the wrong
+     * reference point - it deliberately substitutes a defended friendly station's location for
+     * the carrier average (correct for the zone/doctrinal-positioning logic it's meant for),
+     * which can be nowhere near where the carriers - and therefore their wings - actually launch
+     * from, breaking this check universally in COVER mode regardless of formation cohesion
+     * (playtest-reported: targeting stopped working entirely, even with no straggler). Computes
+     * {@code strikers}' own live centroid internally instead - self-contained, correct
+     * regardless of mode, and still solves bug fix #2's straggler problem since one outlier's
+     * position is diluted into an average rather than elevated to a sole deciding vote. */
+    protected boolean isWithinStrikeRange(ShipAPI target, List<ShipAPI> strikers) {
+        if (target == null || strikers.isEmpty()) return false;
+        float range = Float.MAX_VALUE;
+        Vector2f center = new Vector2f();
+        for (ShipAPI ship : strikers) {
+            Vector2f.add(ship.getLocation(), center, center);
+            for (FighterWingAPI wing : ship.getAllWings()) {
+                if (wing.getSpec() == null) continue;
+                float wingRange = wing.getRange();
+                if (wingRange <= 0f) wingRange = wing.getSpec().getRange();
+                if (wingRange > 0f && wingRange < range) range = wingRange;
+            }
+        }
+        if (range >= Float.MAX_VALUE) return true; // nothing measurable to cap on - don't block
+        center.scale(1f / strikers.size());
+        return Misc.getDistance(center, target.getLocation()) <= range;
+    }
+
     /**
      * M7: pickets sit near the edge of our own strike wings' engagement range - doc: "post
      * pickets out on the flanks near the edge of fighter range." Falls back to a ratio of the
@@ -1476,7 +1701,7 @@ public class CarrierDoctrineAI {
      * CAP, and hold that decision for {@link #CAP_LADDER_HOLD_SECONDS} before reconsidering it
      * (release works the same way in reverse) - without the hold, this would re-decide every
      * tick as the enemy wing count fluctuates by one.
-     *
+     * <p>
      * CAP handoff (M5): the hold is bypassed the instant measured CAP coverage drops below what
      * it was last tick - a CAP carrier lost or crippled (see {@link #handleWithdrawals}) is a
      * real loss of coverage, not the kind of noisy one-off fluctuation the hold exists to ignore.
@@ -1906,7 +2131,7 @@ public class CarrierDoctrineAI {
      * not just the one going rogue - IGNORES_ORDERS sidesteps that entirely since it's a
      * per-ship AI override, independent of the assignment's own bookkeeping). This is a pure
      * timer, not threat-reactive, matching Threat's own "some units just go feral" flavor.
-     *
+     * <p>
      * Bug-fix #2: skips any picket currently capturing a battle objective (see
      * objectiveCaptureAssignments) - this used to roll against the full bucket, so a picket
      * mid-capture could go IGNORES_ORDERS and abandon the objective while still being counted
@@ -2019,7 +2244,7 @@ public class CarrierDoctrineAI {
      * zone, but is released to advance like DESTROY once either enemy surface ships are
      * already inside that zone (nothing left to gain by holding back), or the enemy has no
      * carriers left at all (nothing left to protect our own carrier standoff against).
-     *
+     * <p>
      * Bug-fix #6: "has a carrier" means one with at least one live wing left (see
      * {@link #countLiveWings}) - otherwise an enemy carrier that's already been emptied of its
      * air group would keep this line locked forever for nothing.

@@ -26,6 +26,7 @@ public class CarrierDoctrinePlugin extends BaseEveryFrameCombatPlugin {
 
         if (ai == null) {
             ai = new CarrierDoctrineAI(AI_OWNER);
+            Global.getCombatEngine().addLayeredRenderingPlugin(new CarrierDoctrineDebugOverlay(ai));
         }
         ai.advance(amount);
     }
