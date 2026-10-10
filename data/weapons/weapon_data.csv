@@ -64,7 +64,7 @@ Halberd-class Torpedo (Fighter),XLII_halberd_fighter,0,,100000,1200,,4000,,250,1
 Bardiche Launcher (Fighter),XLII_bardiche_fighter,0,,100000,1200,,125,250,5,16,,,,,FRAGMENTATION,0,,0,9,2,0.4,6,6,,,,250,400,12,100,,,"SYSTEM,DO_NOT_AIM,DO_NOT_CONSERVE,MISSILE_SPREAD,GROUP_LINKED",show_in_codex,,Draconis,,Suppression,Medium,Medium,,,,,,,,711000,,,,,,,,,,,,,,,,,,,
 Particle Burst Lance (Fighter),XLII_particlelance_fighter,0,,100000,700,850,,,0,28,,3,4,4,HIGH_EXPLOSIVE,,850,0.005,0.005,0.1,0.03,,,,,10000000,,,,,,,"SYSTEM,PD",show_in_codex,,Draconis,,General,,,,,,,,,,711000,,,,,,,,,,,,,,,,,,,
 Hankyu-class Torpedo (Fighter),XLII_hankyu_fighter,0,,100000,1200,,2000,,750,9,,1,,,ENERGY,0,,0.5,0,1,,,,,,,400,50,5,350,,,"SYSTEM,STRIKE,BOMB,DANGEROUS",show_in_codex,,Draconis,,HEDP Torpedo,Very Slow,Limited,,,,,,,TRUE,711000,,,,,,,,,,,,,,,,,,,
-Falconet Launcher (Fighter),XLII_falconet_fighter,0,,100000,500,,500,,25,120,9,2,0.1,,FRAGMENTATION,0,,0,1,1,,0,0,0,0,,50,100,16,250,,,"SYSTEM,ANTI_FTR,PD_ONLY",show_in_codex,,Draconis,,Pressure / Anti Fighter,Very Slow,None,,,"Not affected by missile speed, acceleration, and flight time modifiers.",,,,TRUE,711000,,,,,,,,,,,,,,,,,,,
+Falconet Launcher (Fighter),XLII_falconet_fighter,0,,100000,500,,500,,10,0,1,2,0.1,,FRAGMENTATION,0,,0,1,1,,0,0,0,0,,50,20,9,250,,,"SYSTEM,DO_NOT_AIM,ANTI_FTR,PD_ONLY,",show_in_codex,,Draconis,,Anti Fighter (Fighter),,,,,,,,,TRUE,711000,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #SCRIPTED WEAPONS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Automat Cannon,XLII_automat,0,,100000,1000,,200,,5,40,,,,,KINETIC,150,,0,1.5,,,0.15,0.15,,,,875,,,500,,,SYSTEM,,,Draconis,,General,,,,,,,,,,711000,,,,,,,,,,,,,,,,,,,
