@@ -60,9 +60,11 @@ import org.apache.log4j.Logger;
  * (hold the main wave past its base delay if the target is still contested, up to a capped
  * extension) - applied to both the single-group cycle and the rotation path, which previously
  * had no sweep-staging of its own at all.
- * M8: carrier evasion (fall back further when any carrier is under direct fighter threat) and
- * picket unpredictability (ThreatCombatStrategyAI-style Search & Destroy randomization adapted
- * for pickets).
+ * M8: picket unpredictability (ThreatCombatStrategyAI-style Search & Destroy randomization
+ * adapted for pickets). (Carrier evasion, M8's other half plus its M12 fast-mover extension, was
+ * implemented, tuned across several playtest rounds, and then scrapped entirely - both trigger
+ * paths added negligible benefit while hurting formation cohesion. See
+ * .claude/systems/carrier-doctrine.md's "Removed" section if revisiting this.)
  * See .claude/systems/carrier-doctrine.md.
  */
 public class CarrierDoctrineAI {
@@ -150,18 +152,6 @@ public class CarrierDoctrineAI {
     // peak performance time has actually run out), treat the ship the same as a hull cripple.
     public static float PPT_EXHAUSTED_CR_FRACTION = 0.65f;
 
-    // --- carrier evasion (M8) ---
-    // Enemy fighter wings near a single carrier (any role, same counting updateCapEscort uses)
-    // needed to call that carrier under direct threat and trigger evasion for the whole group.
-    public static float CARRIER_EVASION_THREAT_THRESHOLD = 2f;
-    // Multiplies the normal carrier standoff distance while evading - still capped by
-    // getStandoffMapCap() same as the baseline, so this can't blow standoff out further than
-    // the existing backstop already allows.
-    public static float CARRIER_EVASION_STANDOFF_MULT = 1.5f;
-    // Minimum time to keep evading once triggered, even if the threat clears sooner - otherwise
-    // the boosted standoff would flicker on/off as the enemy wing count crosses the threshold.
-    public static float CARRIER_EVASION_HOLD_SECONDS = 10f;
-
     // --- picket unpredictability (M8) ---
     // Same idiom as vanilla ThreatCombatStrategyAI's Search & Destroy randomization for its own
     // Skirmish-tagged units, adapted for pickets: periodically let a picket off its flank
@@ -220,6 +210,15 @@ public class CarrierDoctrineAI {
     public static float WITHDRAWAL_WINNING_HULL_MULT = 0.6f;
     public static float WITHDRAWAL_LOSING_HULL_MULT = 1.25f;
 
+    // --- M11: enemy battle-group segmentation (idea borrowed from AITweaks' FleetSegmentation,
+    // adapted to this doctrine's own data) ---
+    // How close two enemy ships must be to merge into the same battle group.
+    public static float BATTLE_GROUP_MERGE_RANGE = 2000f;
+    // pickStrikeTarget concentration-of-force bonus for a candidate inside the enemy's main
+    // body (the largest valid battle group) - weaker than isEngagedByBattleline's 75 (that's a
+    // sharper "already being hit" signal), stronger than the flat hull-size/flux terms.
+    public static float PRIMARY_GROUP_TARGET_BONUS = 50f;
+
     protected final int owner;
     protected final CombatEngineAPI engine;
     protected final CombatFleetManagerAPI fleetManager;
@@ -264,6 +263,17 @@ public class CarrierDoctrineAI {
     protected List<ShipAPI> lastScreen = Collections.emptyList();
     protected List<ShipAPI> lastBattleline = Collections.emptyList();
     protected List<ShipAPI> lastPickets = Collections.emptyList();
+
+    /** M11: enemy fleet clustered into battle groups by proximity, recomputed once per ~1s tick
+     * Sorted largest-DP-first; every real deployed enemy ship ends up in
+     * some group - not filtered by validity, since {@link #computeLocalForceRatio} needs every
+     * genuinely engaged ship counted, not just the main body. */
+    protected List<List<DeployedFleetMemberAPI>> enemyBattleGroups = Collections.emptyList();
+
+    /** M11: ships in the largest valid battle group this tick (capital-anchored, or at least a
+     * quarter of the largest group's DP) - the enemy's main body, used by
+     * {@link #pickStrikeTarget}'s concentration-of-force bonus. Empty if nothing qualifies. */
+    protected Set<ShipAPI> primaryEnemyGroupShips = Collections.emptySet();
 
     protected boolean strikeLaunched = false;
     protected boolean mainWaveReleased = false; // true once bomber-carrying carriers have joined the sweep
@@ -324,9 +334,6 @@ public class CarrierDoctrineAI {
      * entry removed - the moment its charge is no longer deployed or alive (see
      * {@link #releaseFinishedWithdrawalEscorts}), not only in deactivate() like before. */
     protected final Map<ShipAPI, AssignmentInfo> withdrawalEscortAssignments = new LinkedHashMap<>();
-
-    protected float evasionHoldTimer = 0f;
-    protected Boolean lastLoggedEvading = null; // Boolean, not boolean - null means "never logged yet"
 
     /** Running clock for {@link #DEBUG_MESSAGE_REPEAT_COOLDOWN}, advanced once per advance() call
      * (unlike {@code tick}, never gated on the ~1s interval) - paired with
@@ -531,12 +538,19 @@ public class CarrierDoctrineAI {
         excludeWithdrawalRelated(battleline);
         excludeWithdrawalRelated(screen);
 
+        // M11: cluster the enemy fleet into battle groups once per tick - feeds both the local
+        // force ratio just below (group-aware radius inclusion instead of a per-ship radius
+        // chop that could split one cluster in half) and pickStrikeTarget's concentration-of-
+        // force bonus (primaryEnemyGroupShips).
+        enemyBattleGroups = segmentEnemyFleet();
+        primaryEnemyGroupShips = pickPrimaryEnemyGroup(enemyBattleGroups);
+
         // M9: local force ratio around where the line currently sits (last tick's position, not
         // the one about to be recomputed - see lastBattlelineLoc) - feeds both how far the line
         // pushes/falls back this tick and how readily a hull-cripple withdraws.
         Vector2f lineRef = lastBattlelineLoc != null ? lastBattlelineLoc : getFormationAnchor(carriers);
         float localRadius = Math.max(LOCAL_FORCE_RADIUS_MIN, getEnemyLongestNonMissileRange() * LOCAL_FORCE_RADIUS_MULT);
-        float localForceRatio = computeLocalForceRatio(battleline, screen, lineRef, localRadius);
+        float localForceRatio = computeLocalForceRatio(battleline, screen, lineRef, localRadius, enemyBattleGroups);
         logForceRatio(localForceRatio);
 
         handleWithdrawals(deployed, localForceRatio);
@@ -558,8 +572,7 @@ public class CarrierDoctrineAI {
         // each downstream method recomputing it off the same (now-filtered) carriers list -
         // getFormationAnchor() was being called up to 3x/tick (here, runStrikeCycle() in COVER
         // mode, and updateFormation()) and countEnemyFighterWingsNear() up to 3x per carrier/tick
-        // (updateCapEscort(), updateCarrierEvasion(), pickCarrierForScreenEscort()) for the exact
-        // same answer each time.
+        // (updateCapEscort() and pickCarrierForScreenEscort()) for the exact same answer each time.
         Vector2f formationAnchor = getFormationAnchor(carriers);
         Map<ShipAPI, Integer> carrierThreat = computeCarrierThreatCounts(carriers);
 
@@ -575,9 +588,9 @@ public class CarrierDoctrineAI {
     }
 
     /** Bug-fix #5: each carrier's "any role" enemy-fighter threat count (see
-     * {@link #countEnemyFighterWingsNear}), computed once per tick so updateCapEscort(),
-     * updateCarrierEvasion(), and pickCarrierForScreenEscort() can share one scan instead of
-     * each re-scanning every enemy fighter wing per carrier. */
+     * {@link #countEnemyFighterWingsNear}), computed once per tick so updateCapEscort() and
+     * pickCarrierForScreenEscort() can share one scan instead of each re-scanning every enemy
+     * fighter wing per carrier. */
     protected Map<ShipAPI, Integer> computeCarrierThreatCounts(List<DeployedFleetMemberAPI> carriers) {
         Map<ShipAPI, Integer> result = new LinkedHashMap<>();
         for (DeployedFleetMemberAPI member : carriers) {
@@ -712,8 +725,6 @@ public class CarrierDoctrineAI {
         rotationTarget = null;
         rotationGroupAssignment.clear();
         withdrawingShips.clear();
-        evasionHoldTimer = 0f;
-        lastLoggedEvading = null;
         lastLoggedDuties = null;
         lastLoggedMission = null;
         lastLoggedScreen = null;
@@ -724,6 +735,8 @@ public class CarrierDoctrineAI {
         lastScreen = Collections.emptyList();
         lastBattleline = Collections.emptyList();
         lastPickets = Collections.emptyList();
+        enemyBattleGroups = Collections.emptyList();
+        primaryEnemyGroupShips = Collections.emptySet();
         debugMessage("Carrier Doctrine: INACTIVE");
     }
 
@@ -1567,6 +1580,7 @@ public class CarrierDoctrineAI {
             }
             if (ship == engine.getPlayerShip()) score += PLAYER_FLAGSHIP_TARGET_BONUS;
             if (isEngagedByBattleline(ship, battleline)) score += 75f;
+            if (primaryEnemyGroupShips.contains(ship)) score += PRIMARY_GROUP_TARGET_BONUS;
             score += ship.getHullSize().ordinal() * 10f;
             score += ship.getFluxTracker().getFluxLevel() * 100f;
             if (ship.getFluxTracker().isOverloaded()) {
@@ -1859,22 +1873,119 @@ public class CarrierDoctrineAI {
      *
      * @return a ratio around 1.0 (even), with no local enemy resistance at all treated as
      *         strongly favorable (clamped to {@link #LOCAL_RATIO_PUSH_THRESHOLD}, not infinite).
+     * @param enemyGroups M11: this tick's {@link #segmentEnemyFleet()} result - a battle group
+     *                    counts toward the enemy score if ANY of its members is within {@code
+     *                    radius} of {@code lineCenter}, so one cluster straddling the radius
+     *                    boundary isn't arbitrarily split into "half counts, half doesn't."
      */
     protected float computeLocalForceRatio(List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> screen,
-                                            Vector2f lineCenter, float radius) {
+                                            Vector2f lineCenter, float radius,
+                                            List<List<DeployedFleetMemberAPI>> enemyGroups) {
         float ourScore = computeForceScore(battleline) + computeForceScore(screen);
 
         float enemyScore = 0f;
-        for (DeployedFleetMemberAPI member : enemyFleetManager.getDeployedCopyDFM()) {
-            if (member.isFighterWing() || member.getShip() == null) continue;
-            ShipAPI ship = member.getShip();
-            if (!ship.isAlive() || ship.isHulk() || !engine.isAwareOf(owner, ship)) continue;
-            if (Misc.getDistance(ship.getLocation(), lineCenter) > radius) continue;
-            enemyScore += computeShipForceScore(member);
+        for (List<DeployedFleetMemberAPI> group : enemyGroups) {
+            if (isGroupWithinRadius(group, lineCenter, radius)) enemyScore += computeForceScore(group);
         }
 
         if (enemyScore <= 0.01f) return ourScore > 0.01f ? LOCAL_RATIO_PUSH_THRESHOLD : 1f;
         return ourScore / enemyScore;
+    }
+
+    /** M11: true if any member of {@code group} is within {@code radius} of {@code lineCenter} -
+     * see {@link #computeLocalForceRatio}'s {@code enemyGroups} param for why this is
+     * group-inclusive rather than per-ship. */
+    protected boolean isGroupWithinRadius(List<DeployedFleetMemberAPI> group, Vector2f lineCenter, float radius) {
+        for (DeployedFleetMemberAPI member : group) {
+            ShipAPI ship = member.getShip();
+            if (ship != null && Misc.getDistance(ship.getLocation(), lineCenter) <= radius) return true;
+        }
+        return false;
+    }
+
+    /**
+     * M11: clusters the deployed enemy fleet into battle groups by proximity - the same
+     * union-find idiom AITweaks' {@code FleetSegmentation} uses (a mod studied for ideas on this
+     * doctrine, not otherwise related): a frigate can't anchor a group on its own and stops
+     * trying to attach once it's joined one, and groups within {@link #BATTLE_GROUP_MERGE_RANGE}
+     * of each other merge. Dead/hulked/fighter/unaware members are excluded up front, same filter
+     * {@link #pickStrikeTarget} already uses.
+     * <p>
+     * Returned groups are sorted largest-DP-first but NOT filtered by validity - every real,
+     * engaged enemy ship ends up in some group, which is what {@link #computeLocalForceRatio}
+     * needs (dropping a small but genuinely engaged straggler group would understate local enemy
+     * strength). Validity filtering only happens in {@link #pickPrimaryEnemyGroup}, which is
+     * picking a single "main body" to bias targeting toward, not accounting for everything
+     * currently shooting at us.
+     */
+    protected List<List<DeployedFleetMemberAPI>> segmentEnemyFleet() {
+        List<DeployedFleetMemberAPI> fleet = new ArrayList<>();
+        for (DeployedFleetMemberAPI member : enemyFleetManager.getDeployedCopyDFM()) {
+            if (member.isFighterWing() || member.getShip() == null) continue;
+            ShipAPI ship = member.getShip();
+            if (!ship.isAlive() || ship.isHulk() || !engine.isAwareOf(owner, ship)) continue;
+            fleet.add(member);
+        }
+        if (fleet.isEmpty()) return Collections.emptyList();
+
+        int[] groupOf = new int[fleet.size()];
+        for (int i = 0; i < groupOf.length; i++) groupOf[i] = i;
+
+        for (int i = 0; i < fleet.size(); i++) {
+            for (int j = 0; j < fleet.size(); j++) {
+                if (groupOf[i] == groupOf[j]) continue;
+                ShipAPI shipI = fleet.get(i).getShip();
+                ShipAPI shipJ = fleet.get(j).getShip();
+                if (shipJ.getHullSize() == HullSize.FRIGATE) continue; // can't anchor a group via a frigate
+                if (shipI.getHullSize() == HullSize.FRIGATE && groupOf[i] != i) continue; // already attached elsewhere
+                if (Misc.getDistance(shipI.getLocation(), shipJ.getLocation()) > BATTLE_GROUP_MERGE_RANGE) continue;
+
+                int from = groupOf[i];
+                int to = groupOf[j];
+                for (int k = 0; k < groupOf.length; k++) {
+                    if (groupOf[k] == from) groupOf[k] = to;
+                }
+            }
+        }
+
+        Map<Integer, List<DeployedFleetMemberAPI>> groups = new LinkedHashMap<>();
+        for (int i = 0; i < fleet.size(); i++) {
+            groups.computeIfAbsent(groupOf[i], k -> new ArrayList<>()).add(fleet.get(i));
+        }
+
+        List<List<DeployedFleetMemberAPI>> sorted = new ArrayList<>(groups.values());
+        sorted.sort((a, b) -> Float.compare(groupDP(b), groupDP(a)));
+        return sorted;
+    }
+
+    /** M11: the largest-DP-first {@code groups} entry that's either capital-anchored or carries
+     * at least a quarter of the single largest group's DP - the enemy's main body, not every
+     * scattered straggler cluster. Empty if {@code groups} is empty or nothing qualifies. */
+    protected Set<ShipAPI> pickPrimaryEnemyGroup(List<List<DeployedFleetMemberAPI>> groups) {
+        if (groups.isEmpty()) return Collections.emptySet();
+
+        float largestDP = groupDP(groups.get(0));
+        for (List<DeployedFleetMemberAPI> group : groups) {
+            boolean hasCapital = false;
+            for (DeployedFleetMemberAPI member : group) {
+                if (member.getShip().getHullSize() == HullSize.CAPITAL_SHIP) {
+                    hasCapital = true;
+                    break;
+                }
+            }
+            if (hasCapital || groupDP(group) * 4f >= largestDP) {
+                Set<ShipAPI> ships = new LinkedHashSet<>();
+                for (DeployedFleetMemberAPI member : group) ships.add(member.getShip());
+                return ships;
+            }
+        }
+        return Collections.emptySet();
+    }
+
+    protected float groupDP(List<DeployedFleetMemberAPI> group) {
+        float total = 0f;
+        for (DeployedFleetMemberAPI member : group) total += member.getMember().getFleetPointCost();
+        return total;
     }
 
     /** M9: maps the local force ratio onto the battleline's advance fraction - piecewise-linear
@@ -1976,21 +2087,7 @@ public class CarrierDoctrineAI {
         Vector2f perp = new Vector2f(axis.y, -axis.x);
 
         float enemyRange = getEnemyLongestNonMissileRange();
-        float baseCarrierStandoff = getCarrierStandoffDistance(enemyRange);
-        float carrierStandoff = baseCarrierStandoff;
-
-        // M8: doc's air-defense ladder ends with "carriers evade - back away from the attack."
-        // A group-level reaction, not per-ship - simpler than splitting the shared RALLY_CARRIER
-        // waypoint per threatened ship, and still delivers the doctrinal intent (the carrier
-        // group as a whole falls back further when under direct threat, then returns to the
-        // normal standoff once clear). The boosted distance propagates into protectedZoneRadius
-        // below too, which is coherent - an evading group's protected zone should grow with it.
-        // Bug-fix #9: it must NOT propagate into battlelineLoc (see battlelineAnchor below) -
-        // the line holds while only the carriers (and the screen, which still rings them) fall
-        // back further.
-        if (updateCarrierEvasion(carriers, carrierThreat)) {
-            carrierStandoff = Math.min(carrierStandoff * CARRIER_EVASION_STANDOFF_MULT, getStandoffMapCap());
-        }
+        float carrierStandoff = getCarrierStandoffDistance(enemyRange);
 
         boolean cover = isCoverMission();
         float protectedZoneRadius = carrierStandoff + enemyRange * LINE_RELEASE_GUN_RANGE_MULT;
@@ -2009,21 +2106,13 @@ public class CarrierDoctrineAI {
         carrierLoc.scale(-carrierStandoff);
         Vector2f.add(carrierLoc, enemyCenter, carrierLoc);
 
-        // Bug-fix #9: battlelineLoc is derived from this separate, non-evading anchor rather
-        // than carrierLoc - carrierLoc already absorbed the evasion boost above, and deriving
-        // battlelineLoc from it as a fixed fraction of the carrierLoc-to-enemy vector meant the
-        // line retreated by the same proportion as the carriers every time evasion triggered.
-        Vector2f battlelineAnchor = new Vector2f(axis);
-        battlelineAnchor.scale(-baseCarrierStandoff);
-        Vector2f.add(battlelineAnchor, enemyCenter, battlelineAnchor);
-
         // M9: push past the baseline BATTLELINE_ADVANCE_FRACTION when the local force ratio
         // favors us, fall back toward the carrier/CAP umbrella when it doesn't - a fixed
         // geometry point regardless of whether the line is winning or losing there is exactly
         // what lets a player concentrate on one part of it for free.
-        Vector2f toEnemy = Vector2f.sub(enemyCenter, battlelineAnchor, new Vector2f());
+        Vector2f toEnemy = Vector2f.sub(enemyCenter, carrierLoc, new Vector2f());
         toEnemy.scale(resolveBattlelineAdvanceFraction(localForceRatio));
-        Vector2f battlelineLoc = Vector2f.add(battlelineAnchor, toEnemy, new Vector2f());
+        Vector2f battlelineLoc = Vector2f.add(carrierLoc, toEnemy, new Vector2f());
 
         if (cover && !lineReleased) {
             // COVER, not released: the line holds inside the protected zone rather than
@@ -2202,41 +2291,6 @@ public class CarrierDoctrineAI {
 
     protected float getStandoffMapCap() {
         return Math.min(engine.getMapWidth(), engine.getMapHeight()) * CARRIER_STANDOFF_MAX_MAP_FRACTION;
-    }
-
-    /**
-     * M8 carrier evasion: true while the carrier group should fall back further than its normal
-     * standoff - doc's "carriers evade, back away from the attack," the last rung of the
-     * air-defense ladder. Triggers if *any* carrier has enough enemy fighter presence nearby
-     * (same "any role" counting {@link #updateCapEscort} uses for its own threat check), and
-     * stays triggered for {@link #CARRIER_EVASION_HOLD_SECONDS} after the threat clears -
-     * without the hold, the boosted standoff would flicker on/off as the enemy count crosses
-     * the threshold tick to tick.
-     */
-    protected boolean updateCarrierEvasion(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> carrierThreat) {
-        boolean threatened = false;
-        for (DeployedFleetMemberAPI member : carriers) {
-            ShipAPI ship = member.getShip();
-            if (ship == null) continue;
-            if (carrierThreat.getOrDefault(ship, 0) >= CARRIER_EVASION_THREAT_THRESHOLD) {
-                threatened = true;
-                break;
-            }
-        }
-
-        if (threatened) {
-            evasionHoldTimer = CARRIER_EVASION_HOLD_SECONDS;
-        } else if (evasionHoldTimer > 0f) {
-            evasionHoldTimer -= tick.getIntervalDuration();
-        }
-
-        boolean evading = evasionHoldTimer > 0f;
-        if (lastLoggedEvading == null || evading != lastLoggedEvading.booleanValue()) {
-            lastLoggedEvading = evading;
-            log.info("CarrierDoctrineAI[owner=" + owner + "]: carrier evasion " + (evading ? "ENGAGED" : "CLEARED"));
-            debugMessage("Carrier Doctrine: EVASION " + (evading ? "ENGAGED" : "CLEARED"));
-        }
-        return evading;
     }
 
     /**

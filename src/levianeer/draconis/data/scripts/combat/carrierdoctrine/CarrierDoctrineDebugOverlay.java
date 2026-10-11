@@ -9,22 +9,33 @@ import org.lwjgl.util.vector.Vector2f;
 
 import com.fs.starfarer.api.combat.BaseCombatLayeredRenderingPlugin;
 import com.fs.starfarer.api.combat.CombatEngineLayers;
+import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
+import com.fs.starfarer.api.util.Misc;
 
 /**
  * {@link CarrierDoctrineAI} debug visualization - a ring per ship for its doctrine role, a
  * marker above each carrier for its current {@link CarrierDuty}, a line from STRIKE-duty
- * carriers to the wave's current target, and a line from CAP-duty carriers to whatever their
- * ship is actually currently targeting (green if friendly - escorting; orange if enemy -
- * harassing/intercepting). Both lines read ground truth (the AI's own
+ * carriers to the wave's current target, a line from CAP-duty carriers to whatever their ship
+ * is actually currently targeting (green if friendly - escorting; orange if enemy -
+ * harassing/intercepting), and a red line from any STRIKE-duty carrier whose own live target
+ * doesn't match the rest of the group's. All of these read ground truth (the AI's own
  * {@link CarrierDoctrineAI#activeStrikeStrikers}/{@link CarrierDoctrineAI#activeStrikeTarget}
- * for STRIKE, {@code ship.getShipTarget()} directly for CAP) rather than inferring intent, so a
- * carrier whose actual behavior has drifted from what the doctrine intended - the exact class of
- * bug this overlay was built to catch - shows up as a line going somewhere unexpected instead of
- * being masked by what the AI merely *meant* to do. Gated by the same
- * {@link CarrierDoctrineAI#debugMessagesEnabled} flag as the existing text debug messages -
- * see {@link CarrierDoctrinePlugin} for where this is attached.
+ * for the shared STRIKE line, {@code ship.getShipTarget()} directly for CAP and the red
+ * mismatch line) rather than inferring intent, so a carrier whose actual behavior has drifted
+ * from what the doctrine intended - the exact class of bug this overlay was built to catch -
+ * shows up as a line going somewhere unexpected instead of being masked by what the AI merely
+ * *meant* to do. Gated by the same {@link CarrierDoctrineAI#debugMessagesEnabled} flag as the
+ * existing text debug messages - see {@link CarrierDoctrinePlugin} for where this is attached.
+ * <p>
+ * M11: also draws a ring around each enemy battle group ({@link CarrierDoctrineAI#enemyBattleGroups})
+ * sized to encompass every member - crimson for the group {@link CarrierDoctrineAI#pickStrikeTarget}
+ * treats as the enemy's main body ({@link CarrierDoctrineAI#primaryEnemyGroupShips}), dim gray for
+ * every other group - so a segmentation bug (a main body that's clearly one army icon in the
+ * engagement camera but doesn't ring as a single group here, or a ring that includes ships that
+ * are obviously not part of that fight) is visible at a glance rather than only inferable from
+ * targeting behavior.
  */
 public class CarrierDoctrineDebugOverlay extends BaseCombatLayeredRenderingPlugin {
 
@@ -47,6 +58,13 @@ public class CarrierDoctrineDebugOverlay extends BaseCombatLayeredRenderingPlugi
     protected static final Color TARGET_LINE_COLOR = Color.WHITE;
     protected static final Color CAP_ESCORT_LINE_COLOR = new Color(60, 255, 120);
     protected static final Color CAP_HARASS_LINE_COLOR = new Color(255, 160, 0);
+    protected static final Color MISMATCH_LINE_COLOR = Color.RED;
+
+    // M11: enemy battle-group rings.
+    protected static final float GROUP_RING_MARGIN = 60f;
+    protected static final float GROUP_RING_ALPHA = 0.35f;
+    protected static final Color PRIMARY_GROUP_COLOR = new Color(220, 20, 60);
+    protected static final Color SECONDARY_GROUP_COLOR = new Color(110, 110, 110);
 
     protected final CarrierDoctrineAI ai;
 
@@ -75,9 +93,11 @@ public class CarrierDoctrineDebugOverlay extends BaseCombatLayeredRenderingPlugi
         drawRoleRings(ai.lastBattleline, ROLE_BATTLELINE_COLOR, alphaMult);
         drawRoleRings(ai.lastPickets, ROLE_PICKET_COLOR, alphaMult);
 
+        drawEnemyBattleGroups(alphaMult);
         drawJobMarkers(alphaMult);
         drawTargetLines(alphaMult);
         drawCapLines(alphaMult);
+        drawMismatchedStrikeLines(alphaMult);
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
@@ -145,6 +165,79 @@ public class CarrierDoctrineDebugOverlay extends BaseCombatLayeredRenderingPlugi
             drawLine(ship.getLocation(), capTarget.getLocation(), color, TARGET_LINE_ALPHA * alphaMult);
             drawDiamond(capTarget.getLocation(), CAP_TARGET_MARKER_SIZE, color, alphaMult);
         }
+    }
+
+    /** Catches exactly the class of bug this whole overlay exists for: a STRIKE-duty carrier
+     * whose own live {@code ship.getShipTarget()} doesn't match {@link CarrierDoctrineAI#activeStrikeTarget}
+     * (the group's intended, shared target) draws a red line to wherever it's *actually* aimed
+     * instead - whether that's a different enemy, a stale target left over from a previous
+     * wave/duty, or simply nothing at all. A carrier correctly on the shared target already gets
+     * its line from {@link #drawTargetLines} and is skipped here, so this is purely "this one
+     * doesn't agree with the rest of the group" at a glance. */
+    protected void drawMismatchedStrikeLines(float alphaMult) {
+        ShipAPI groupTarget = ai.activeStrikeTarget;
+        for (Map.Entry<ShipAPI, CarrierDuty> entry : ai.carrierDuty.entrySet()) {
+            if (entry.getValue() != CarrierDuty.STRIKE) continue;
+            ShipAPI ship = entry.getKey();
+            if (!ship.isAlive()) continue;
+
+            ShipAPI actualTarget = ship.getShipTarget();
+            if (actualTarget == null || !actualTarget.isAlive() || actualTarget == groupTarget) continue;
+
+            drawLine(ship.getLocation(), actualTarget.getLocation(), MISMATCH_LINE_COLOR, TARGET_LINE_ALPHA * alphaMult);
+            drawDiamond(actualTarget.getLocation(), TARGET_MARKER_SIZE, MISMATCH_LINE_COLOR, alphaMult);
+        }
+    }
+
+    /** M11: one ring per {@link CarrierDoctrineAI#enemyBattleGroups} entry, centered on the
+     * group's own centroid and sized to encompass every live member - crimson for whichever
+     * group is this tick's {@link CarrierDoctrineAI#primaryEnemyGroupShips} (the main body
+     * {@link CarrierDoctrineAI#pickStrikeTarget} is biased toward), dim gray otherwise. */
+    protected void drawEnemyBattleGroups(float alphaMult) {
+        for (List<DeployedFleetMemberAPI> group : ai.enemyBattleGroups) {
+            Vector2f centroid = computeGroupCentroid(group);
+            if (centroid == null) continue;
+
+            float radius = computeGroupRadius(group, centroid);
+            Color color = isPrimaryGroup(group) ? PRIMARY_GROUP_COLOR : SECONDARY_GROUP_COLOR;
+            drawCircle(centroid, radius + GROUP_RING_MARGIN, color, GROUP_RING_ALPHA * alphaMult);
+        }
+    }
+
+    protected Vector2f computeGroupCentroid(List<DeployedFleetMemberAPI> group) {
+        float sumX = 0f, sumY = 0f;
+        int count = 0;
+        for (DeployedFleetMemberAPI member : group) {
+            ShipAPI ship = member.getShip();
+            if (ship == null || !ship.isAlive()) continue;
+            sumX += ship.getLocation().x;
+            sumY += ship.getLocation().y;
+            count++;
+        }
+        if (count == 0) return null;
+        return new Vector2f(sumX / count, sumY / count);
+    }
+
+    /** Furthest live member's own edge (distance from {@code centroid} plus that ship's
+     * collision radius) from the centroid - the smallest ring that still encompasses the whole
+     * group rather than just its center points. */
+    protected float computeGroupRadius(List<DeployedFleetMemberAPI> group, Vector2f centroid) {
+        float max = 0f;
+        for (DeployedFleetMemberAPI member : group) {
+            ShipAPI ship = member.getShip();
+            if (ship == null || !ship.isAlive()) continue;
+            float dist = Misc.getDistance(ship.getLocation(), centroid) + ship.getCollisionRadius();
+            if (dist > max) max = dist;
+        }
+        return max;
+    }
+
+    protected boolean isPrimaryGroup(List<DeployedFleetMemberAPI> group) {
+        for (DeployedFleetMemberAPI member : group) {
+            ShipAPI ship = member.getShip();
+            if (ship != null && ai.primaryEnemyGroupShips.contains(ship)) return true;
+        }
+        return false;
     }
 
     protected void drawCircle(Vector2f center, float radius, Color color, float alpha) {
