@@ -13,8 +13,7 @@
   "viewOffset": 0,
   "builtInMods": [
     "XLII_draconishull",
-    "XLII_fluxreactivearmor",
-    "hbi"
+    "XLII_fluxreactivearmor"
   ],
   "builtInWeapons": {
     "WS0015": "XLII_vernier",

@@ -51,7 +51,7 @@ Tianlong,XLII_tianlong,Battlecruiser,Draconis,XLII_capacitance_core,28,15000,750
 Tianlong Mk.II,XLII_tianlong_mk2,Battlecruiser,Draconis,XLII_plasma_burn,28,15000,750,20000,,800,240,,85,35,45,16,16,2750,OMNI,,200,0.3,1.0,,,425,950,300,400,8,,7,450000,3,15,600,0.25,45,45,,,,,,,,"XLII_ship_bp, req_military",,,,0.5,2,4,,711000
 Jufeng,XLII_jufeng,Battlecruiser,Draconis,XLII_shunt_drive,30,10000,600,18500,,725,225,,60,18,24,14,12,2250,FRONT,,30,0.3,0.7,,,275,450,300,300,10,,7,700000,3,15,600,0.25,50,50,,,,,,,SHIP_WITH_MODULES,"XLII_ship_bp, req_military",,,,0.4,2,4,,711000
 Kuma,XLII_kuma,Battleship,Draconis,XLII_safety_overrides,32,10000,750,18000,,880,255,2,50,12,10,4,6,4000,OMNI,,300,0.3,0.9,,,300,2500,500,500,6,,6,500000,3,20,720,0.25,50,50,,,,,,,,"XLII_ship_bp, req_military",,,,0.5,2,4,,711000
-Alwaid,XLII_alwaid,Battlecarrier,Draconis,XLII_esw_suite,34,15000,900,20000,,1200,340,5,55,10,10,7,4,3000,OMNI,,260,0.3,1.2,,,350,900,400,450,10,,6,700000,3,20,600,0.25,60,60,,,,,,,"CARRIER, COMBAT, NO_AUTO_ESCORT","XLII_ship_bp, req_military",,,,0.4,2,4,,711000
+Alwaid,XLII_alwaid,Battlecarrier,Draconis,XLII_esw_suite,34,15000,900,20000,,1200,360,5,55,10,10,7,4,3000,OMNI,,260,0.3,1.2,,,350,900,400,450,10,,6,700000,3,20,600,0.25,60,60,,,,,,,"CARRIER, COMBAT, NO_AUTO_ESCORT","XLII_ship_bp, req_military",,,,0.4,2,4,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #REDACTED,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Asuia,XLII_asuia,Cruiser,Draconis,XLII_temporaldash,20,8000,700,12000,,600,125,1,60,35,30,20,25,2000,OMNI,,270,0.6,1.0,,,120,300,120,90,3,,8,125000,4,15,420,0.25,25,25,,,,,,,,"codex_unlockable, no_auto_penalty",,,,0.5,2,3,,711000
