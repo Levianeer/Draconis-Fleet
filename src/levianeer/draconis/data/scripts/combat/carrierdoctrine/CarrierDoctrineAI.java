@@ -201,6 +201,12 @@ public class CarrierDoctrineAI {
     public static float LOCAL_FORCE_RADIUS_MIN = 3000f;
     public static float LOCAL_RATIO_PUSH_THRESHOLD = 1.15f;
     public static float LOCAL_RATIO_FALLBACK_THRESHOLD = 0.85f;
+    // M13: carriers count toward "our" side of the local force ratio at this fraction of their
+    // full DP x CR x hull x flux-headroom score - see computeLocalForceRatio's note. 1.0 would
+    // treat standoff carriers as full front-line combatants; 0 (the old behavior) understated
+    // our own strength for every doctrine-eligible fleet, since the hard size gate guarantees
+    // carriers are a large chunk of its FP.
+    public static float CARRIER_FORCE_SCORE_WEIGHT = 0.5f;
     public static float BATTLELINE_ADVANCE_FRACTION_PUSH = 0.75f;
     public static float BATTLELINE_ADVANCE_FRACTION_FALLBACK = 0.35f;
     // Hull-cripple retreat only (see handleWithdrawals) - PPT exhaustion is a hard fuel-out
@@ -537,6 +543,7 @@ public class CarrierDoctrineAI {
         // battleline's own advance/fallback distance.
         excludeWithdrawalRelated(battleline);
         excludeWithdrawalRelated(screen);
+        excludeWithdrawalRelated(carriers);
 
         // M11: cluster the enemy fleet into battle groups once per tick - feeds both the local
         // force ratio just below (group-aware radius inclusion instead of a per-ship radius
@@ -550,7 +557,7 @@ public class CarrierDoctrineAI {
         // pushes/falls back this tick and how readily a hull-cripple withdraws.
         Vector2f lineRef = lastBattlelineLoc != null ? lastBattlelineLoc : getFormationAnchor(carriers);
         float localRadius = Math.max(LOCAL_FORCE_RADIUS_MIN, getEnemyLongestNonMissileRange() * LOCAL_FORCE_RADIUS_MULT);
-        float localForceRatio = computeLocalForceRatio(battleline, screen, lineRef, localRadius, enemyBattleGroups);
+        float localForceRatio = computeLocalForceRatio(battleline, screen, carriers, lineRef, localRadius, enemyBattleGroups);
         logForceRatio(localForceRatio);
 
         handleWithdrawals(deployed, localForceRatio);
@@ -746,11 +753,28 @@ public class CarrierDoctrineAI {
      * - made an already-airborne wing switch off its first live target). Every *other* role in
      * this class points its ships via a shared {@code CombatTaskManagerAPI} assignment instead
      * (screen/battleline/picket/withdrawal escort) - strike targeting is the one place that never
-     * did, despite {@link CombatAssignmentType#STRIKE} existing for exactly this. Gives every ship
-     * in {@code strikers} a shared STRIKE assignment against {@code target}, recreating it
-     * whenever the target ship changes and tearing it down once there's nothing to strike.
-     * {@code existing} is the assignment from last tick (or null); returns the current one (or
-     * null) to store back - same pattern as {@link #holdPosition}. */
+     * did, despite {@link CombatAssignmentType#STRIKE} existing for exactly this.
+     * <p>
+     * M13 bug fix: the shared STRIKE assignment used to be given to the carriers in
+     * {@code strikers} themselves, which also commands the carrier *hull* to close distance on
+     * the target - directly fighting {@link #updateFormation}'s {@code RALLY_CARRIER} standoff
+     * hold on the same ship every tick, and losing almost every time because
+     * {@link #reapplyActiveStrikeOrders} re-asserts STRIKE every engine frame while
+     * {@code RALLY_CARRIER} only gets reasserted once per ~1s {@link #tick}. Confirmed by
+     * playtest: carriers abandoning standoff and closing to melee range whenever a strike was
+     * active. {@code CombatTaskManagerAPI.getAssignmentFor}'s own javadoc notes a wing's
+     * assignment can be queried via *any* fighter in it - wings carry their own assignment
+     * concept, independent of their parent carrier's. So the fix targets that concept directly:
+     * give the shared STRIKE assignment to each carrier's currently-launched wing leaders (via
+     * {@link #getLaunchedWingLeaders}) instead of the carrier itself, leaving the carrier hull's
+     * own assignment slot solely occupied by {@code RALLY_CARRIER} - no more conflict, and the
+     * wings still get steered exactly as before.
+     * <p>
+     * Gives every launched wing leader under a ship in {@code strikers} a shared STRIKE
+     * assignment against {@code target}, recreating it whenever the target ship changes and
+     * tearing it down once there's nothing to strike. {@code existing} is the assignment from
+     * last tick (or null); returns the current one (or null) to store back - same pattern as
+     * {@link #holdPosition}. */
     protected AssignmentInfo giveStrikeAssignment(List<ShipAPI> strikers, ShipAPI target, AssignmentInfo existing) {
         DeployedFleetMemberAPI targetMember = target != null ? findDeployedMember(enemyFleetManager, target) : null;
 
@@ -773,10 +797,25 @@ public class CarrierDoctrineAI {
             existing = taskManager.createAssignment(CombatAssignmentType.STRIKE, targetMember, false);
         }
         for (ShipAPI ship : strikers) {
-            DeployedFleetMemberAPI member = findDeployedMember(fleetManager, ship);
-            if (member != null) taskManager.giveAssignment(member, existing, false);
+            for (ShipAPI leader : getLaunchedWingLeaders(ship)) {
+                DeployedFleetMemberAPI member = findDeployedMember(fleetManager, leader);
+                if (member != null) taskManager.giveAssignment(member, existing, false);
+            }
         }
         return existing;
+    }
+
+    /** M13: the currently-launched (airborne) wing leader ships belonging to {@code carrier} -
+     * these, not the carrier itself, are what {@link #giveStrikeAssignment} should be pointing
+     * at the strike target. A wing still sitting in its bay has no leader ship deployed yet, so
+     * it's naturally excluded here without any extra FRR/duty check. */
+    protected List<ShipAPI> getLaunchedWingLeaders(ShipAPI carrier) {
+        List<ShipAPI> leaders = new ArrayList<>();
+        for (FighterWingAPI wing : carrier.getAllWings()) {
+            ShipAPI leader = wing.getLeader();
+            if (leader != null && leader.isAlive()) leaders.add(leader);
+        }
+        return leaders;
     }
 
     /** @return the {@code DeployedFleetMemberAPI} wrapping {@code ship} in {@code manager}'s
@@ -790,19 +829,24 @@ public class CarrierDoctrineAI {
 
     /** Bug fix: re-enforces the current strike order every single engine frame rather than only
      * once per ~1s AI {@link #tick} - see {@link #activeStrikeStrikers}'s note. Re-applies
-     * {@code ship.setShipTarget()} and checks each striker's *actual* current assignment via
-     * {@link CombatTaskManagerAPI#getAssignmentFor} rather than trusting
-     * {@link #activeStrikeAssignment} never gets silently replaced (the same failure mode Diable
-     * Avionics' own escort plugin guards against) - only re-gives it when that check actually
-     * finds a mismatch, so this isn't spamming {@code giveAssignment} every frame for no reason. */
+     * {@code ship.setShipTarget()} (carrier gun-aim only) and, per launched wing leader (see
+     * {@link #getLaunchedWingLeaders} and the M13 note on {@link #giveStrikeAssignment}), checks
+     * its *actual* current assignment via {@link CombatTaskManagerAPI#getAssignmentFor} rather
+     * than trusting {@link #activeStrikeAssignment} never gets silently replaced (the same
+     * failure mode Diable Avionics' own escort plugin guards against) - only re-gives it when
+     * that check actually finds a mismatch, so this isn't spamming {@code giveAssignment} every
+     * frame for no reason. Deliberately never touches the carrier hull's own assignment here -
+     * that stays whatever {@link #updateFormation} last gave it ({@code RALLY_CARRIER}). */
     protected void reapplyActiveStrikeOrders() {
         if (activeStrikeStrikers.isEmpty() || activeStrikeTarget == null || activeStrikeAssignment == null) return;
         for (ShipAPI ship : activeStrikeStrikers) {
             if (!ship.isAlive()) continue;
             ship.setShipTarget(activeStrikeTarget);
-            if (taskManager.getAssignmentFor(ship) != activeStrikeAssignment) {
-                DeployedFleetMemberAPI member = findDeployedMember(fleetManager, ship);
-                if (member != null) taskManager.giveAssignment(member, activeStrikeAssignment, false);
+            for (ShipAPI leader : getLaunchedWingLeaders(ship)) {
+                if (taskManager.getAssignmentFor(leader) != activeStrikeAssignment) {
+                    DeployedFleetMemberAPI member = findDeployedMember(fleetManager, leader);
+                    if (member != null) taskManager.giveAssignment(member, activeStrikeAssignment, false);
+                }
             }
         }
     }
@@ -1866,10 +1910,21 @@ public class CarrierDoctrineAI {
     }
 
     /**
-     * M9: our (battleline+screen) force score vs. the enemy's, counting only enemy ships within
-     * {@code radius} of {@code lineCenter} - not the whole enemy fleet, since a skirmish on one
-     * flank shouldn't make a battle elsewhere on the map look lost. Feeds
+     * M9: our (battleline+screen+carriers) force score vs. the enemy's, counting only enemy
+     * ships within {@code radius} of {@code lineCenter} - not the whole enemy fleet, since a
+     * skirmish on one flank shouldn't make a battle elsewhere on the map look lost. Feeds
      * {@link #resolveBattlelineAdvanceFraction} and {@link #resolveCrippleThreshold}.
+     * <p>
+     * M13 bug fix: carriers were left out of "our" score entirely. Every doctrine-eligible fleet
+     * has a large share of its own FP tied up in carriers by definition (the hard size gate
+     * requires them to be the fleet's biggest ships), so excluding them systematically
+     * understated our own local strength - pushing the ratio into FALLING BACK far more readily
+     * than the fleet's actual strength warranted, which looked like the battleline/screen being
+     * permanently timid around any carrier-heavy composition. Counted at
+     * {@link #CARRIER_FORCE_SCORE_WEIGHT} rather than full weight: a standoff carrier's real
+     * front-line combat contribution (mostly PD) is genuine but well below a dedicated
+     * battleline/screen ship's, so this fixes the systematic undercount without swinging the
+     * ratio the other way into overclaiming carriers as front-line combat power.
      *
      * @return a ratio around 1.0 (even), with no local enemy resistance at all treated as
      *         strongly favorable (clamped to {@link #LOCAL_RATIO_PUSH_THRESHOLD}, not infinite).
@@ -1879,9 +1934,10 @@ public class CarrierDoctrineAI {
      *                    boundary isn't arbitrarily split into "half counts, half doesn't."
      */
     protected float computeLocalForceRatio(List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> screen,
-                                            Vector2f lineCenter, float radius,
+                                            List<DeployedFleetMemberAPI> carriers, Vector2f lineCenter, float radius,
                                             List<List<DeployedFleetMemberAPI>> enemyGroups) {
-        float ourScore = computeForceScore(battleline) + computeForceScore(screen);
+        float ourScore = computeForceScore(battleline) + computeForceScore(screen)
+                + computeForceScore(carriers) * CARRIER_FORCE_SCORE_WEIGHT;
 
         float enemyScore = 0f;
         for (List<DeployedFleetMemberAPI> group : enemyGroups) {
