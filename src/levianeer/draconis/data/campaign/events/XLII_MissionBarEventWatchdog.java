@@ -9,10 +9,18 @@ import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTrac
 import levianeer.draconis.data.campaign.intel.events.crisis.factors.DraconisFleetHostileActivityFactor;
 
 /**
- * Ensures the four mission-starting bar events (Fafnir TT Courier, Fafnir Ring-Port,
+ * Ensures the mission-starting bar events (Fafnir TT Courier, Fafnir Ring-Port,
  * AIO Operative reveal, AIO payment negotiation) are created deterministically as soon
  * as their trigger condition is met, instead of waiting on BarEventManager's random,
  * capacity-limited sector-wide pick.
+ * <p>
+ * Waste Not's own bar hook/report-back do NOT use this mechanism - they're built on vanilla's
+ * {@code AddBarEvents}/{@code AddBarEvent} rules.csv trigger instead (confirmed against the base
+ * game's own rules.csv, e.g. the Luddic Path and League questline bar hooks), which evaluates
+ * live every time the bar screen populates rather than needing a pre-registered Java event
+ * instance at all. Simpler and more reliable than this class' own approach for a one-shot
+ * narrative hook - see {@code .claude/systems/waste-not.md} if that gets written, or the
+ * {@code # [WASTE NOT] Quest} section of rules.csv directly.
  * <p>
  * Adds each event directly to {@link PortsideBarData}, mirroring vanilla's own approach
  * for guaranteed one-off bar events (see {@code PirateBaseIntel.addPlayerFleetToLocation}

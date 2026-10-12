@@ -1,4 +1,5 @@
 id,label,priority,tier,text,watch
+korrin_waste_not_aftermath,Talk about what you found,45,word,,
 korrin_first_command,About the assignment order,10,popup,,
 korrin_infiltration_debrief,The archive infiltration,20,popup,,
 korrin_faction_hegemony,,0,bark,"""Commander. I keep circling back to the last Hegemony berth we sat in - nobody asked to see my papers the entire time we were docked. I was assured, repeatedly, that they would.""",
@@ -40,4 +41,4 @@ korrin_tour_dweller,Ask about the creatures,63,word,,
 korrin_ringport_cost,The Ring-Port manifest,15,word,,$XLII_blindEyeComplete
 korrin_bastion_disbelief,The bastion,33,word,,$XLII_officeVettingComplete
 korrin_nanoforge_ask,The nanoforge lead,34,word,,$XLII_nanoforgeQuestOffered
-korrin_tour_nudge,A bad idea,35,word,,$XLII_nanoforgeQuestComplete
+korrin_tour_nudge,A bad idea,35,word,,$XLII_wasteNotComplete

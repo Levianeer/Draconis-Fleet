@@ -3349,17 +3349,137 @@ XLII_nanoforge_deliver_close,DialogOptionSelected,"$option == nanoforge_deliver_
 "#END [CHAIN OF CUSTODY] Monroe Vetting",,,,,,
 "#END [CHAIN OF CUSTODY] Quest",,,,,,
 ,,,,,,
+# [WASTE NOT] Quest,,,,,,
+,,,,,,
+# [WASTE NOT] Hook,,,,,,
+XLII_waste_not_bar_add,AddBarEvents,"!$market.isHidden
+XLII_Korrin aboard
+$global.XLII_nanoforgeQuestComplete
+!$global.XLII_wasteNotStarted","AddBarEvent XLII_waste_not_hook ""Talk to the plainly-dressed man"" ""A man at a corner table, unremarkable on purpose. No faction patch, no unit marking. He's watching the door, not the drink in front of him."" highlight",,,
+XLII_waste_not_hook_open,DialogOptionSelected,$option == XLII_waste_not_hook,FireAll XLII_WasteNotHookOptions,"""Captain. Got a minute? I'm not selling anything.""
+
+""Name's Walt Hollis. Independent - no faction backing, no badge. I look into things people don't have the time or the interest to look into themselves.""
+
+""There's a colony, small, independent, out past where anyone's patrolling regularly. Stopped answering calls about two months back. No distress signal, no wreckage on record, nothing. I've asked around - three different people who'd have reason to send someone, and all three said more or less the same thing: too small, not theirs, not worth the trip.""
+
+""I don't have the ship for it myself. You do. I'm not asking for a rescue - probably past that. I'm asking you to go take a look and tell me what actually happened. I'll pay for a straight answer. Doesn't have to be a good one.""",,
+XLII_waste_not_hook_opt_who,XLII_WasteNotHookOptions,!$askedWasteNotWho,,,10:waste_not_ask_who:Who hired you to look into this?,
+XLII_waste_not_hook_opt_why,XLII_WasteNotHookOptions,!$askedWasteNotWhyOfficial,,,11:waste_not_ask_why:Why hasn't anyone with real resources looked into this?,
+XLII_waste_not_hook_opt_accept,XLII_WasteNotHookOptions,,,,20:waste_not_accept:I'll take the job,
+XLII_waste_not_hook_opt_decline,XLII_WasteNotHookOptions,,,,21:waste_not_decline:Not interested,
+XLII_waste_not_hook_who,DialogOptionSelected,$option == waste_not_ask_who,"$askedWasteNotWho = true 0
+FireAll XLII_WasteNotHookOptions","""Someone who used to do business with the place, before it went quiet. Noticed before anyone official did. That tends to be how it goes - the people who'd actually notice are rarely the ones anyone asks.""",,
+XLII_waste_not_hook_why,DialogOptionSelected,$option == waste_not_ask_why,"$askedWasteNotWhyOfficial = true 0
+FireAll XLII_WasteNotHookOptions","""Nothing about it reads as urgent on paper. No attack, no treaty broken, no bodies reported - just silence. That's not the kind of thing that gets a fleet diverted. In my experience it's usually worth more attention than that, not less, but that's not how the budget gets decided.""",,
+XLII_waste_not_hook_accept,DialogOptionSelected,$option == waste_not_accept,"XLII_WasteNotSetWaltActive
+$global.XLII_wasteNotStarted = true
+BeginMission WasteNotMission","""Appreciate it. I'll get you a position - it's out of the way, so it'll take some doing to find. Go take a look. Come back and tell me what you find, good or bad.""",1:backToBar:Return to the bar,
+XLII_waste_not_hook_decline,DialogOptionSelected,$option == waste_not_decline,,"""Understood. I'll keep asking around. If you change your mind, I'm not hard to find.""",1:backToBar:Return to the bar,
+"#END [WASTE NOT] Hook",,,,,,
+,,,,,,
+# [WASTE NOT] Colony,,,,,,
+XLII_waste_not_colony_arrival,XLII_WasteNotColonyScene,,ShowDefaultVisual,"The approach reads wrong before anyone says a word. No distress beacon. No wreckage. No radiation bloom, no scorch pattern, nothing that explains silence with violence. Habitat domes intact. Running lights still cycling on a timer nobody's reset in weeks. Whatever happened here didn't happen loudly.",1:waste_not_colony_c1:Continue,
+XLII_waste_not_colony_arrival_continue,DialogOptionSelected,$option == waste_not_colony_c1,,"Word comes back from the ground: nobody home. No bodies. No mass grave, no sign of a fight. Just rooms left mid-use - a meal half-eaten, a shift log with an entry that never got finished, lights on in a nursery with nothing in it.
+
+There's no record on-site of a transport ever docking to take this many people anywhere. Whatever moved them, it didn't come through anything the colony's own systems logged.",1:waste_not_colony_c2:Continue,
+XLII_waste_not_colony_ops_chief,DialogOptionSelected,$option == waste_not_colony_c2,,"""I've gone through what's left of their shipping and arrivals logs twice. There's no departure entry, no requisition for a transport that size, nothing filed with any registry I can cross-check. People don't just stop logging things. Someone did this carefully enough that the paperwork doesn't even admit anything happened.""",1:waste_not_colony_c3:Continue,Unnamed vanilla-style 'your ops chief' voice - no portrait. See korrin-companion/longsight build notes.
+XLII_waste_not_colony_korrin,DialogOptionSelected,$option == waste_not_colony_c3,XLII_Korrin visual,"He's quiet longer than usual before he says anything.
+
+""I've seen colonies lost to raiders. To plague, to a bad harvest, to each other. I've never seen one go this clean. Someone wanted this to look like nothing, and they very nearly managed it.""",1:waste_not_colony_c4:Continue,
+XLII_waste_not_colony_manifest,DialogOptionSelected,$option == waste_not_colony_c4,,"A duty roster, recovered from a terminal that was still running on backup power - population counts, work assignments, nothing unusual until a column near the end: Reallocation, with a run of names checked against it and a routing code instead of a destination.
+
+It isn't addressed anywhere the colony's own registry recognizes. But the code format isn't unfamiliar - it reads like an internal transfer reference, the kind written for people who already know where it points.",1:waste_not_colony_c5:Continue,
+XLII_waste_not_colony_lead,DialogOptionSelected,$option == waste_not_colony_c5,$global.XLII_wasteNotManifestFound = true,"Cross-referencing the routing code against the system's own charts turns up exactly one match: an unregistered installation, close enough in-system to have never needed a transport log at all.",1:waste_not_colony_c6:Continue,"Sets the flag WasteNotMission.Stage.INSTALLATION watches, and also unblocks the deferred installation map marker (syncInstallationMarker). See [WASTE NOT] Installation below."
+XLII_waste_not_colony_close,DialogOptionSelected,$option == waste_not_colony_c6,DismissDialog,,,
+"#END [WASTE NOT] Colony",,,,,,
+,,,,,,
+# [WASTE NOT] Installation,,,,,,
+XLII_waste_not_installation_boarding_open,XLII_WasteNotInstallationBoarding,,,"The picket doesn't hold long. This was never built to survive contact, only to avoid it.
+
+Deeper in, the alarms change character - not combat alert anymore, something quieter and more procedural, the sound of a process finishing on schedule regardless of what's shooting at the walls around it.
+
+The holding section is a long corridor of tanks, most of them already dark, fluid draining out through floor grates built for exactly that purpose.",1:waste_not_installation_boarding_c2:Continue,
+XLII_waste_not_installation_boarding_result,DialogOptionSelected,$option == waste_not_installation_boarding_c2,"XLII_ResolveWasteNotInstallation
+XLII_Korrin queue korrin_waste_not_aftermath","Further down the corridor, tanks are still going dark one at a time as the last of the sequence runs its course - nothing left to interrupt by the time anyone reaches them.
+
+No one on the comm says anything on the way back to the ships.",1:waste_not_installation_boarding_close:Leave,
+XLII_waste_not_installation_boarding_close,DialogOptionSelected,$option == waste_not_installation_boarding_close,DismissDialog,,,
+XLII_waste_not_installation_press,DialogOptionSelected,$option == waste_not_installation_press,XLII_LaunchWasteNotInstallationFight,,,"Command dismisses the dialog itself and launches the FID - see XLII_LaunchWasteNotInstallationFight. No text here on purpose (execution-order rule: text composes before script runs, and the dismiss makes any text here flash and vanish)."
+XLII_waste_not_installation_open,XLII_WasteNotInstallationScene,,FireAll XLII_WasteNotInstallationOptions,"It isn't on any chart, and it isn't trying to be found - tucked into a debris field, running dark enough that a casual pass would miss it entirely. But it isn't dead the way the colony was. Heat bleeds off the hull in slow, even pulses. Running lights, dimmed but cycling. Something here is still working, on a schedule, like it has somewhere to be.",,"Single, unconditional init row - a prior version split this into two competing rows gated on XLII_IsTransponderOff and let FireBest pick between them, which worked on first approach but broke on re-approach after leaving once (confirmed in live testing: second visit showed only a bare Leave button, no text). Collapsed to one row that always fires plus a merged, re-populated options menu instead - matches the hook scene's own Pattern 8 menu, proven to re-evaluate correctly across repeat visits."
+XLII_waste_not_installation_opt_observe,XLII_WasteNotInstallationOptions,"XLII_IsTransponderOff
+!$global.XLII_wasteNotInstallationFailed",,,"10:waste_not_installation_observe:Approach quietly, gather what you can from a distance",
+XLII_waste_not_installation_opt_press,XLII_WasteNotInstallationOptions,!$global.XLII_wasteNotInstallationFailed,,,20:waste_not_installation_press:Press the attack,
+XLII_waste_not_installation_opt_leave,XLII_WasteNotInstallationOptions,,,,30:waste_not_installation_leave:Pull back without engaging,
+XLII_waste_not_installation_opt_wreckage,XLII_WasteNotInstallationOptions,$global.XLII_wasteNotInstallationFailed,,,15:waste_not_installation_wreckage:Survey the wreckage,
+XLII_waste_not_installation_wreckage,DialogOptionSelected,$option == waste_not_installation_wreckage,"$global.XLII_wasteNotOutcome = failed
+$global.XLII_wasteNotInstallationResolved = true
+XLII_Korrin queue korrin_waste_not_aftermath","There was a fight here, and not a small one. Hull plating scorched and vented, the site's own defenses burned down to slag defending nothing anyone can find anymore.
+
+Whatever alarms the installation had, they ran the same shutdown sequence a successful breach would have triggered - someone inside decided losing the evidence was cheaper than losing it to a boarding party. Being driven off cost more than ships. It cost the only chance to get there before that sequence finished.
+
+There's nothing left to recover. Just confirmation that something was here, and a clean, professional job of making sure that's all that's left to find.",1:waste_not_installation_close:Leave,"Resolves the quest after a lost fight (XLII_LaunchWasteNotInstallationFight sets $XLII_wasteNotInstallationFailed on loss without reopening immediately, since a real defeat can teleport the player away before any dialog could show) - the player gets here by returning to the planet on their own schedule and picking the one option available once failed. No items granted; see korrin_waste_not_aftermath's _failed branch and XLII_waste_not_report_failed for the matching downstream reactions."
+XLII_waste_not_installation_observe,DialogOptionSelected,$option == waste_not_installation_observe,"$global.XLII_wasteNotOutcome = observed
+$global.XLII_wasteNotInstallationResolved = true
+XLII_Korrin queue korrin_waste_not_aftermath","Running silent lets the fleet close without being noticed. What comes back isn't a picture so much as a set of readings nobody wanted.
+
+Heat signatures consistent with sustained stasis - far more of it than a station this size has any ordinary reason to need. Shuttle traffic, short-range, logged under cargo designations rather than personnel transfers. A fragment of intercepted comm chatter, clipped and administrative, repeating a term enough times for it to stop sounding like a euphemism.
+
+Nobody says anything for a while after it's all collected. There isn't a version of saying it out loud that improves on just knowing.",1:waste_not_installation_close:Leave,
+XLII_waste_not_installation_leave,DialogOptionSelected,$option == waste_not_installation_leave,DismissDialog,The fleet pulls back before anything closes the distance. Whatever's inside doesn't know you were ever here - you can always come back.,,
+XLII_waste_not_installation_close,DialogOptionSelected,$option == waste_not_installation_close,DismissDialog,,,
+"#END [WASTE NOT] Installation",,,,,,
+,,,,,,
+# [WASTE NOT] Report Back,,,,,,
+XLII_waste_not_report_bar_add,AddBarEvents,"!$market.isHidden
+$global.XLII_wasteNotInstallationResolved
+!$global.XLII_wasteNotComplete","AddBarEvent XLII_waste_not_report ""Sit down with Walt Hollis"" ""Walt Hollis, at a table near the back - waiting, not working the room this time."" highlight",,,
+XLII_waste_not_report_open,DialogOptionSelected,$option == XLII_waste_not_report,,"""You look like someone who found an answer they didn't want.""
+
+He doesn't ask for it right away. He waits for you to actually say it.",1:waste_not_report_tell:Tell him what you found,
+XLII_waste_not_report_forced,DialogOptionSelected,"$option == waste_not_report_tell
+$global.XLII_wasteNotOutcome == forced","AddCredits 15000
+$global.XLII_wasteNotComplete = true","He listens, and partway through - the tanks, the ones they didn't reach in time, the ones that made it out - something in his expression goes still in a way that reads more like recognition than shock.
+
+""I've heard rumors shaped like this before. Never anything I could chase down. Never anything with a name attached, let alone proof you could put a hand on.""
+
+""I can't do much with this alone. No authority, no standing, no court that'll hear a freelancer's word against whoever's running that site. But I can make noise in the right ears, and sometimes noise is worth more than people think - especially with something real behind it, for once.""
+
+""That's not in the original terms. Call it a bonus for bringing back more than I had any right to ask for. I don't know what you plan to do with what's in your hold. That's not my call to make. Just - be careful who finds out you have it, before you've decided.""
+
+""If this goes anywhere, you'll have been the one who actually went and looked, when nobody else would. That's not nothing. For what it's worth - good hunting, whatever's next.""",1:backToBar:Return to the bar,
+XLII_waste_not_report_observed,DialogOptionSelected,"$option == waste_not_report_tell
+$global.XLII_wasteNotOutcome == observed","AddCredits 10000
+$global.XLII_wasteNotComplete = true","He listens without interrupting - the manifest, the routing code, the readings off the installation, the term repeated enough times on an intercepted channel to stop sounding like paperwork.
+
+""I was afraid it'd be something like that. Not specifically. Just - that shape. Something that only works because nobody with the power to stop it ever has a reason to look.""
+
+""I can't do much with this alone. No authority, no standing, no court that'll hear a freelancer's word against whoever's running that site. But I can make noise in the right ears, and sometimes noise is worth more than people think.""
+
+""You did what I asked. Found the truth, brought it back even though it wasn't a good one. That's worth something on its own, whatever happens with it after.""
+
+""If this goes anywhere, you'll have been the one who actually went and looked, when nobody else would. That's not nothing. For what it's worth - good hunting, whatever's next.""",1:backToBar:Return to the bar,
+XLII_waste_not_report_failed,DialogOptionSelected,"$option == waste_not_report_tell
+$global.XLII_wasteNotOutcome == failed",$global.XLII_wasteNotComplete = true,"He listens through all of it - the manifest, the routing code, the fight that didn't go your way, the shutdown sequence that beat you to it either way.
+
+""You went in and it still cost you the evidence. That's not failure, that's just what it costs to go up against something that's already decided losing the record is cheaper than losing the argument.""
+
+""I can't do much with this alone even with proof in hand. Without it, even less. But I believe you, and in my line of work that's not nothing - I'll make what noise I can with what you've told me.""
+
+""If this goes anywhere, you'll have been the one who actually went and looked, when nobody else would. That's not nothing. For what it's worth - good hunting, whatever's next.""",1:backToBar:Return to the bar,"No AddCredits - unlike the observed/forced branches, there's nothing concrete to pay for here (no evidence recovered), matching the forced branch's own 'I'll pay for a straight answer, doesn't have to be a good one' framing from the hook - this is the floor of that promise, not a reward tier."
+"#END [WASTE NOT] Report Back",,,,,,
+"#END [WASTE NOT] Quest",,,,,,
+,,,,,,
 # [SHAPES OF OLD] Quest,,,,,,
 ,,,,,,
 # [SHAPES OF OLD] Tour Nudge,,,,,,
-XLII_korrin_c_tour_nudge,XLII_KorrinComment,"XLII_Korrin topicIs korrin_tour_nudge","XLII_Korrin visual
-FireAll XLII_KorrinCTourNudgeOptions","""I have a confession - while on our way back, I had a look at the forge, and well...""
+XLII_korrin_c_tour_nudge,XLII_KorrinComment,XLII_Korrin topicIs korrin_tour_nudge,"XLII_Korrin visual
+FireAll XLII_KorrinCTourNudgeOptions","""I've been turning it over since we left. That installation - you'd call it logistics, if you didn't already know better.""
 
-Korrin has the derelict-survey data pulled up - the same file he's been circling since before since meeting with Monroe.
+Korrin has the old derelict-survey data pulled back up - the same file he's been circling since before Monroe, now sitting next to whatever he salvaged from the installation's own records.
 
-""...All manufacturing leaves a fingerprint. And I have a hunch that whatever created the Domain used to create their tech is seemingly still active, or at least part of it. And I think Draconis has it.""
+""I want to look again at the things we've been calling 'old shapes' - Remnants, Omega, the Threat, whatever the Dweller actually is - and ask whether any of them are hiding the same kind of arithmetic behind something easier to look away from.""
 
-""If you're willing, I'd like to hunt some demons..."" He puts a particular exaggeration on the word demons. ""I don't expect any one of them to hand us an answer. But it could confirm what I am thinking.""",,"New this session - fires off $global.XLII_nanoforgeQuestComplete, right after the forge exchange. This is the bug fix from this session's item 8: previously nothing guided the player toward the sector-tour arc (Remnant/Omega/Threat/Dweller, see ""Stage 4 (Midpoint)"" further down and work/outline/main-story-endings.md's ""0b"") except discovering it unprompted; now Korrin actively proposes it, which is also why the 30-day XLII_admiral_main_longsight_signal_opt timer fallback was deleted (see XLII_nanoforge_deliver_success's notes) - the tour is always reachable from here, not gated behind a hidden clock."
+""If you're willing, I'd like to hunt some demons..."" He puts a particular exaggeration on the word demons. ""I don't expect any one of them to hand us an answer outright. But it would tell us whether this is isolated, or whether we've been walking past this for years without the right question in hand.""",,"Rewritten (Waste Not build): previously framed as a generic forge-fingerprint hunch fired immediately off $global.XLII_nanoforgeQuestComplete ('while on our way back, I had a look at the forge'); korrin_tour_nudge's watch column now points at $XLII_wasteNotComplete instead, so this fires after the full Waste Not arc, not right after the forge exchange - rewritten to pick up directly from the aftermath topic's own closing line (korrin_waste_not_aftermath) rather than reference the forge at all."
 XLII_korrin_c_tour_nudge_opt_in,XLII_KorrinCTourNudgeOptions,,,,"10:korrin_tour_nudge_in:We'll look into it",
 XLII_korrin_c_tour_nudge_opt_why,XLII_KorrinCTourNudgeOptions,,,,"11:korrin_tour_nudge_why:Looking for something in particular?",
 XLII_korrin_c_tour_nudge_opt_later,XLII_KorrinCTourNudgeOptions,,,,"100:korrin_defer:Not now",
@@ -3515,6 +3635,42 @@ XLII_Korrin rep 0.02","He's quieter than usual once the ship is properly underwa
 ""Something logged the door on the way out,"" he says. ""I don't know how much of a problem that is yet. I'd rather tell you now than have you hear it from August first.""
 
 ""For what it's worth - I'd do it again. I haven't worked out what that says about either of us.""","1:korrin_infil_debrief_close:Understood","Rewritten (author request, this session, same fix as XLII_korrin_c_infil_debrief_clean): ""he is quieter than usual when he finds you"" implied he'd been off on his own and rejoined the player afterward - a holdover from the standalone-infiltration era, and now flatly contradicted by XLII_KoriStrike's chamber scene (showChamberOrb()/showChamberCouncil()), which puts him physically alongside the player for the entire encounter with the sphere. Reworded to place the quiet after the fact, once they're both back aboard ship, rather than implying a separate return."
+XLII_korrin_c_waste_not_aftermath_observed,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
+$global.XLII_wasteNotOutcome == observed","XLII_Korrin visual
+XLII_Korrin topicDone
+XLII_Korrin rep 0.05","He doesn't say anything on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
+
+""I've spent most of my career believing the worst things in this sector have names we already know. Remnants. Omega. Whatever's left of the Domain, still running on momentum nobody shut off properly. Things old enough that being afraid of them feels almost respectable.""
+
+""This had a budget line. A shipping schedule. Someone's signature on a requisition form, probably filed on time. That's worse. That's not a monster that got loose - that's a system somebody built on purpose, and kept feeding, and nobody above it ever asked what it was actually feeding on.""
+
+""I don't know yet whether this is one place, or whether it's the first one we've just happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""
+
+""You've spent years calling the things out past the frontier 'old shapes' - Remnants, Omega, whatever the Dweller actually is. I used to think that was just a figure of speech. Now I want to go look at every one of them again, carefully, and ask whether we've been looking at the wrong half of the picture the whole time. If something this deliberate can hide behind a shipping manifest, I don't trust that we'd have recognized it anywhere else either.""",1:korrin_waste_not_aftermath_close:Understood,
+XLII_korrin_c_waste_not_aftermath_forced,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
+$global.XLII_wasteNotOutcome == forced","XLII_Korrin visual
+XLII_Korrin topicDone
+XLII_Korrin rep 0.03","He doesn't say anything on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
+
+""Some of them are in a cargo hold two decks from here. Alive, as much as that word still applies. I keep thinking about the ones we didn't get to in time - not as a number, as a sound, the alarms changing right before the tanks went dark one at a time. I don't think that's going to stop being the thing I hear when I close my eyes.""
+
+""This had a budget line. A shipping schedule. Someone's signature on a requisition form, probably filed on time. That's worse than a monster that got loose - that's a system somebody built on purpose, and kept feeding, and nobody above it ever asked what it was feeding on.""
+
+""I don't know yet whether this is one place, or the first one we've happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""
+
+""You've spent years calling the things out past the frontier 'old shapes' - Remnants, Omega, whatever the Dweller actually is. I used to think that was just a figure of speech. Now I want to go look at every one of them again, carefully, and ask whether we've been looking at the wrong half of the picture the whole time. If something this deliberate can hide behind a shipping manifest, I don't trust that we'd have recognized it anywhere else either.""",1:korrin_waste_not_aftermath_close:Understood,
+XLII_korrin_c_waste_not_aftermath_failed,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
+$global.XLII_wasteNotOutcome == failed","XLII_Korrin visual
+XLII_Korrin topicDone","He doesn't say anything on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
+
+""We didn't get in. Whatever was running that place decided losing the evidence was cheaper than losing it to us - the same shutdown sequence either way, just faster than we were. I keep running the numbers on whether a different approach gets us through in time, and I don't like any of the answers.""
+
+""This had a budget line. A shipping schedule. Someone's signature on a requisition form, probably filed on time. That's worse than a monster that got loose - that's a system somebody built on purpose, and kept feeding, and nobody above it ever asked what it was feeding on.""
+
+""I don't know yet whether this is one place, or the first one we've happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""
+
+""You've spent years calling the things out past the frontier 'old shapes' - Remnants, Omega, whatever the Dweller actually is. I used to think that was just a figure of speech. Now I want to go look at every one of them again, carefully, and ask whether we've been looking at the wrong half of the picture the whole time. If something this deliberate can hide behind a shipping manifest, I don't trust that we'd have recognized it anywhere else either.""",1:korrin_waste_not_aftermath_close:Understood,"No rep delta, unlike the observed/forced branches - this one didn't go well, and nothing about it reflects on the player's judgment the way a choice between those two did."
+XLII_korrin_waste_not_aftermath_close,DialogOptionSelected,$option == korrin_waste_not_aftermath_close,DismissDialog,,,
 XLII_korrin_infil_debrief_close,DialogOptionSelected,"$option == korrin_infil_debrief_close","DismissDialog",,,
 "#END [SHAPES OF OLD] Infiltration Debrief",,,,,,
 ,,,,,,

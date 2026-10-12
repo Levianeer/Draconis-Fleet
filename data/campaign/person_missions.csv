@@ -3,3 +3,4 @@ BlindEyeQuestMission,,,,,"priority, non_repeatable",0,,,,,,,,,graphics/icons/mis
 LongsightQuestMission,,,,,"priority, non_repeatable",0,,,,,,,,,graphics/icons/missions/data_retrieval.png,levianeer.draconis.data.campaign.intel.longsight.LongsightQuestMission
 OfficeReferralMission,,,,,"priority, non_repeatable",0,,,,,,,,,graphics/icons/missions/data_retrieval.png,levianeer.draconis.data.campaign.intel.longsight.OfficeReferralMission
 ShapesOfOldMission,,,,,"priority, non_repeatable",0,,,,,,,,,graphics/icons/missions/data_retrieval.png,levianeer.draconis.data.campaign.intel.longsight.ShapesOfOldMission
+WasteNotMission,,,,,"priority, non_repeatable",0,,,,,,,,,graphics/icons/missions/data_retrieval.png,levianeer.draconis.data.campaign.intel.waste_not.WasteNotMission

@@ -21,6 +21,8 @@ import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirBlockedDialogPlugin;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirSystemMonitor;
 import levianeer.draconis.data.campaign.intel.longsight.XLII_LongsightOfficerPlugin;
+import levianeer.draconis.data.campaign.intel.waste_not.WasteNotMission;
+import levianeer.draconis.data.campaign.intel.waste_not.XLII_LiteCoreOfficerPlugin;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
 import org.apache.log4j.Logger;
 
@@ -44,6 +46,12 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
                 CampaignPlugin.PickPriority.MOD_SPECIFIC
             );
         }
+        if (XLII_LiteCoreOfficerPlugin.CORE_ID.equals(commodityId)) {
+            return new PluginPick<>(
+                new XLII_LiteCoreOfficerPlugin(),
+                CampaignPlugin.PickPriority.MOD_SPECIFIC
+            );
+        }
         return null;
     }
 
@@ -62,6 +70,44 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
     @Override
     public PluginPick<InteractionDialogPlugin> pickInteractionDialogPlugin(
             SectorEntityToken interactionTarget) {
+
+        // --- Waste Not: the derelict colony and the AIO installation ---
+        // Both are real planets picked by WasteNotMission.pickPlanets() (not custom entities -
+        // see that method's doc comment for why), so dispatch is by comparing against the
+        // engine-generated planet ids it stores in sector memory, not a fixed constant.
+        //
+        // Each override is gated on its own "not yet resolved" flag - fixed after live testing
+        // found the first version intercepted unconditionally forever, permanently capturing the
+        // planet's interaction even after the story content concluded (the player could never
+        // reach that planet's normal interaction - survey, market, whatever it would otherwise
+        // offer - again for the rest of the game). Once resolved, this falls through entirely and
+        // the planet reverts to vanilla's own default interaction, same as any other planet. The
+        // rules.csv "revisit" fallback rows added in the same earlier pass (XLII_waste_not_colony
+        // _revisit / _installation_revisit) are now unreachable and were removed with this fix -
+        // the dispatch guard is the single source of truth for "is this still ours to show."
+        {
+            MemoryAPI wasteNotMem = Global.getSector().getMemoryWithoutUpdate();
+
+            String colonyPlanetId = wasteNotMem.getString(WasteNotMission.MEM_COLONY_PLANET_ID);
+            if (colonyPlanetId != null && colonyPlanetId.equals(interactionTarget.getId())
+                    && !wasteNotMem.getBoolean("$XLII_wasteNotManifestFound")) {
+                log.debug("Draconis: Waste Not colony interaction intercepted");
+                return new PluginPick<>(
+                        new RuleBasedInteractionDialogPluginImpl("XLII_WasteNotColonyScene"),
+                        CampaignPlugin.PickPriority.MOD_SPECIFIC
+                );
+            }
+
+            String installationPlanetId = wasteNotMem.getString(WasteNotMission.MEM_INSTALLATION_PLANET_ID);
+            if (installationPlanetId != null && installationPlanetId.equals(interactionTarget.getId())
+                    && !wasteNotMem.getBoolean("$XLII_wasteNotInstallationResolved")) {
+                log.debug("Draconis: Waste Not installation interaction intercepted");
+                return new PluginPick<>(
+                        new RuleBasedInteractionDialogPluginImpl("XLII_WasteNotInstallationScene"),
+                        CampaignPlugin.PickPriority.MOD_SPECIFIC
+                );
+            }
+        }
 
         // --- Fafnir unauthorized-entry fleet intercept ---
         // The monitor tags the dispatched fleet with MEM_FLEET_INTERCEPT_TAG and issues
