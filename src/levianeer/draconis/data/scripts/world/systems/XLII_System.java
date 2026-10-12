@@ -503,7 +503,7 @@ public class XLII_System implements SectorGeneratorPlugin {
     public static final String RIFT_BEACON_MEM_FLAG = "$XLII_riftBeacon";
 
     /** How far outside {@link XLII_RiftTerrainPlugin#RIFT_RADIUS} the beacon sits. */
-    private static final float RIFT_BEACON_OFFSET = 250f;
+    private static final float RIFT_BEACON_OFFSET = 500f;
 
     /**
      * Places the Rift warning beacon in hyperspace if it is not already there.
@@ -571,7 +571,7 @@ public class XLII_System implements SectorGeneratorPlugin {
         }
     }
 
-    /** True once the Rift has collapsed - see {@link XLII_KoriStrike#finalizeStrike()}. */
+    /** True once the Rift has collapsed. */
     public static boolean isRiftCollapsed() {
         return Global.getSector().getMemoryWithoutUpdate().getBoolean(XLII_KoriStrike.MEM_RIFT_COLLAPSED);
     }
@@ -580,8 +580,7 @@ public class XLII_System implements SectorGeneratorPlugin {
      * While the Rift is up, marks every Fafnir market with Nexerelin's
      * {@code $nex_npc_no_invade} memory flag so the faction invasion AI
      * ({@code exerelin.campaign.fleets.InvasionFleetManager}) won't target them; clears the flag
-     * again once the Rift collapses. No-op without Nexerelin. Safe to call repeatedly - called from
-     * {@code XLII_ModPlugin.onGameLoad} and from {@link XLII_KoriStrike#finalizeStrike()}.
+     * again once the Rift collapses. No-op without Nexerelin. Safe to call repeatedly.
      */
     public static void syncFafnirInvasionExclusion() {
         if (!Global.getSettings().getModManager().isModEnabled("nexerelin")) return;
