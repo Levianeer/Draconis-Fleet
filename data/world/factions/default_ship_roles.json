@@ -97,8 +97,6 @@
 		"XLII_dziban_Elite":0.25,
 		"XLII_dziban_Strike":0.25,
 
-		"XLII_sunsetter_Experimental":0.5,
-
 		"fallback":{"combatLarge":1}
 	},
 	"carrierSmall":{
