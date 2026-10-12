@@ -1,4 +1,4 @@
-package levianeer.draconis.data.campaign.intel.waste_not;
+package levianeer.draconis.data.campaign.aicores;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.AICoreOfficerPlugin;
@@ -13,18 +13,14 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import java.util.Random;
 
 /**
- * Officer plugin for the Auxiliary Cognition Unit ({@code XLII_ai_core_bio}) - the item recovered
- * from Waste Not's installation. Modeled directly on {@code XLII_LongsightOfficerPlugin} (this
- * mod's own existing example of this mechanism, found while wiring this one), not on a
- * borrow-and-downgrade approach some other mods use (e.g. Tahlan Shipworks' {@code
+ * Officer plugin for the Auxiliary Cognition Unit ({@code XLII_ai_core_bio}) - first recovered
+ * from Waste Not's installation, but not scoped to that arc: lives in its own package (moved out
+ * of {@code intel.waste_not}, author request) since this is meant to be reused by other future
+ * content, not a one-quest mechanic. Modeled directly on {@code XLII_LongsightOfficerPlugin}
+ * (intel/longsight - that one stays put, it's a genuinely unique one-off Domain item, unlike this
+ * one), not on a borrow-and-downgrade approach some other mods use (e.g. Tahlan Shipworks' {@code
  * DaemonOfficerPlugin}, which calls a real core's own plugin and relabels the result) - this mod's
  * own precedent builds the person from scratch, so this does too.
- * <p>
- * Deliberately weaker than even a real Gamma Core (vanilla: level 3, three skills at level 2) -
- * low level, one skill, no personality suited to combat. That's the point: a cut-rate substitute,
- * not a bargain find. The commodity itself (see {@code commodities.csv}) carries no {@code ai_core}
- * tag, unlike every real core - it doesn't draw the scrutiny a real one would, which is the whole
- * reason the operation it came from could run at volume in the first place.
  */
 public class XLII_LiteCoreOfficerPlugin implements AICoreOfficerPlugin {
 
@@ -44,18 +40,19 @@ public class XLII_LiteCoreOfficerPlugin implements AICoreOfficerPlugin {
 
         person.setRankId(Ranks.SPACE_CAPTAIN);
         person.setPostId(null);
-        person.setPersonality(Personalities.TIMID);
+        person.setPersonality(Personalities.RECKLESS);
 
         person.getStats().setSkipRefresh(true);
 
-        person.getStats().setLevel(1);
+        person.getStats().setLevel(2);
         person.getStats().setSkillLevel(Skills.HELMSMANSHIP, 1);
+        person.getStats().setSkillLevel(Skills.ELECTRONIC_WARFARE, 1);
 
         person.getStats().setSkipRefresh(false);
 
-        person.getMemoryWithoutUpdate().set(AUTOMATED_POINTS_MULT, 2f);
+        person.getMemoryWithoutUpdate().set(AUTOMATED_POINTS_MULT, 1f);
 
-        person.setPortraitSprite("graphics/portraits/portrait_ai1b.png");
+        person.setPortraitSprite(Global.getSettings().getSpriteName("characters", "XLII_bio_ai"));
 
         return person;
     }
@@ -63,8 +60,8 @@ public class XLII_LiteCoreOfficerPlugin implements AICoreOfficerPlugin {
     @Override
     public void createPersonalitySection(PersonAPI person, TooltipMakerAPI tooltip) {
         tooltip.addPara(
-            "Provisional-grade substrate, installed as crew. Expected service life is short. "
-            + "The manifest does not specify what it replaces.",
+            "A technologically advanced but limited cerebral networking core created from nervous tissue. " +
+            "Supports the integration of the body with inorganic machinery.",
             0f
         );
     }

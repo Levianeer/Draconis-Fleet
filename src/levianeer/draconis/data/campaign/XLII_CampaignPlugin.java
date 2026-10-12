@@ -21,8 +21,8 @@ import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirBlockedDialogPlugin;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirSystemMonitor;
 import levianeer.draconis.data.campaign.intel.longsight.XLII_LongsightOfficerPlugin;
+import levianeer.draconis.data.campaign.aicores.XLII_LiteCoreOfficerPlugin;
 import levianeer.draconis.data.campaign.intel.waste_not.WasteNotMission;
-import levianeer.draconis.data.campaign.intel.waste_not.XLII_LiteCoreOfficerPlugin;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
 import org.apache.log4j.Logger;
 
