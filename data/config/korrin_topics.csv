@@ -3,7 +3,7 @@ korrin_waste_not_aftermath,Talk about what you found,45,word,,
 korrin_first_command,About the assignment order,10,popup,,
 korrin_infiltration_debrief,The archive infiltration,20,popup,,
 korrin_faction_hegemony,,0,bark,"""Commander. I keep circling back to the last Hegemony berth we sat in - nobody asked to see my papers the entire time we were docked. I was assured, repeatedly, that they would.""",
-korrin_entity_derelict_survey_ship,The nanoforge,20,word,,
+korrin_entity_derelict_survey_ship,Abou the nanoforge,20,word,,
 korrin_market_chicomoztoc,The air on Chicomoztoc,15,word,,
 korrin_market_jangala,How Jangala is held,18,word,,
 korrin_market_ragnar_complex,The boneyard at Ragnar,16,word,,
@@ -39,6 +39,6 @@ korrin_tour_omega,Ask about the omega,61,word,,
 korrin_tour_threat,Ask about the machines,62,word,,
 korrin_tour_dweller,Ask about the creatures,63,word,,
 korrin_ringport_cost,The Ring-Port manifest,15,word,,$XLII_blindEyeComplete
-korrin_bastion_disbelief,The bastion,33,word,,$XLII_officeVettingComplete
+korrin_bastion_disbelief,The Office's station,33,word,,$XLII_officeVettingComplete
 korrin_nanoforge_ask,The nanoforge lead,34,word,,$XLII_nanoforgeQuestOffered
 korrin_tour_nudge,A bad idea,35,word,,$XLII_wasteNotComplete
