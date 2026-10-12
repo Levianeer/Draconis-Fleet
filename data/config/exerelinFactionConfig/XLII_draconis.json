@@ -12,7 +12,7 @@
     "diplomacyTraits": ["stalwart","irredentist","lowprofile","devious"],
 
     "maxRelationships":{"remnant":-0.51,"luddic_church":-0.1,"luddic_path":-0.4},
-    "diplomacyPositiveChance":{"luddic_church":0.8,"luddic_path":0.4,"tritachyon":1.6,"hegemony":0.6},
+    "diplomacyPositiveChance":{"luddic_church":0.8,"luddic_path":0.4,"tritachyon":2.6,"hegemony":0.6},
     "diplomacyNegativeChance":{"luddic_church":1.2,"luddic_path":1.6,"tritachyon":0.4,"hegemony":1.4},
 
     "alignments":{
