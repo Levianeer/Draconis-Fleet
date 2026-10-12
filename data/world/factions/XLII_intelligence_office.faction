@@ -121,11 +121,11 @@
 
 		"officerQuality":1,
 		"shipQuality":5,
-		"numShips":1,
+		"numShips":2,
 
 		"shipSize":4,
 
-		"aggression":2,
+		"aggression":3,
 
 		"combatFreighterProbability":0,     				# instead of some portion of the freighters in a fleet
 		"combatFreighterCombatUseFraction":1,				# as part of the normal combat lineup
@@ -220,6 +220,7 @@
 		"posts":{
 		},
 	},
+
 	"custom":{
 		"engageWhenEvenStrength":true,
 		"allowsTransponderOffTrade":true, # to prevent cargoscan dialog from "patrols"
