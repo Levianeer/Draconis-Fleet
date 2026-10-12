@@ -1391,6 +1391,9 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
         // is the point that's finally true, win, August's fate decided, Ancker gone. See
         // XLII_System.disableRiftTerrain().
         XLII_System.disableRiftTerrain();
+        // Fafnir is no longer Rift-protected from Nexerelin invasions - see
+        // XLII_System.syncFafnirInvasionExclusion().
+        XLII_System.syncFafnirInvasionExclusion();
         mem.set(MEM_COMPLETE, true);
 
         // Backward-compat with the archive infiltration this raid absorbed - ShapesOfOldMission and

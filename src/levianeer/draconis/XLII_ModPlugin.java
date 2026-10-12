@@ -61,6 +61,10 @@ import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
+import exerelin.campaign.AllianceManager;
+import exerelin.campaign.alliances.Alliance.Alignment;
+
+import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 
 @SuppressWarnings("unused")
 public class XLII_ModPlugin extends BaseModPlugin {
@@ -134,6 +138,12 @@ public class XLII_ModPlugin extends BaseModPlugin {
                 skipGeneration = true;
                 log.info("Draconis: Nexerelin random sector detected - skipping custom sector generation");
             }
+
+            AllianceManager.create();
+            AllianceManager.createAlliance(
+                    com.fs.starfarer.api.impl.campaign.ids.Factions.TRITACHYON, DRACONIS, Alignment.MILITARIST,
+                    "Hybrasil Treaty");
+            log.info("Draconis: Formed TriTachyon-Draconis militarist alliance (Hybrasil Treaty)");
         }
 
         if (!skipGeneration) {
@@ -177,6 +187,10 @@ public class XLII_ModPlugin extends BaseModPlugin {
         if (Global.getSector().getMemoryWithoutUpdate().getBoolean(XLII_KoriStrike.MEM_RIFT_COLLAPSED)) {
             XLII_System.disableRiftTerrain();
         }
+
+        // Re-applies (or clears) Fafnir's Nexerelin invasion exclusion on every load - see
+        // XLII_System.syncFafnirInvasionExclusion().
+        XLII_System.syncFafnirInvasionExclusion();
 
         // Register campaign plugin (handles AI core officer picks, etc.)
         // Unregister first to prevent duplicates across save/load cycles

@@ -9,6 +9,8 @@ import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
 import com.fs.starfarer.api.impl.campaign.terrain.MagneticFieldTerrainPlugin;
 import com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
+import exerelin.ExerelinConstants;
+import levianeer.draconis.data.campaign.events.XLII_KoriStrike;
 import levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -566,6 +568,30 @@ public class XLII_System implements SectorGeneratorPlugin {
             if (riftEntity != null) {
                 hyperspace.removeEntity(riftEntity);
             }
+        }
+    }
+
+    /** True once the Rift has collapsed - see {@link XLII_KoriStrike#finalizeStrike()}. */
+    public static boolean isRiftCollapsed() {
+        return Global.getSector().getMemoryWithoutUpdate().getBoolean(XLII_KoriStrike.MEM_RIFT_COLLAPSED);
+    }
+
+    /**
+     * While the Rift is up, marks every Fafnir market with Nexerelin's
+     * {@code $nex_npc_no_invade} memory flag so the faction invasion AI
+     * ({@code exerelin.campaign.fleets.InvasionFleetManager}) won't target them; clears the flag
+     * again once the Rift collapses. No-op without Nexerelin. Safe to call repeatedly - called from
+     * {@code XLII_ModPlugin.onGameLoad} and from {@link XLII_KoriStrike#finalizeStrike()}.
+     */
+    public static void syncFafnirInvasionExclusion() {
+        if (!Global.getSettings().getModManager().isModEnabled("nexerelin")) return;
+
+        StarSystemAPI fafnir = Global.getSector().getStarSystem("Fafnir");
+        if (fafnir == null) return;
+
+        boolean exclude = !isRiftCollapsed();
+        for (MarketAPI market : Misc.getMarketsInLocation(fafnir)) {
+            market.getMemoryWithoutUpdate().set(ExerelinConstants.MEMORY_KEY_NPC_NO_INVADE, exclude);
         }
     }
 }
