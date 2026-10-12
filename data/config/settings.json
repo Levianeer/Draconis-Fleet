@@ -193,64 +193,14 @@
 	},
 
 	# ========================================
-	# AI CORE FLEET SCALING
+	# AI CORE FLEET INFLATER
 	# ========================================
-	# Draconis gradually uses more AI cores in their fleets as the game progresses
+	# Draconis fills empty officer slots on its fleets with Lite Core officers
 	# AI cores only fill empty officer slots (does NOT replace human officers)
 
 	"draconisAICoreScaling": {
 		"enabled": true,						# Enable/disable AI core fleet scaling	#	Default : true
-		"testCycleOverride": -1,				# DEBUG: Override game cycle for testing (-1 = disabled, X = test at that cycle)	#	Default : -1
-		"recheckIntervalDays": 30.0,			# How often to recheck fleets for new empty slots (in days)	#	Default : 30.0
-
-		# Cycle thresholds defining the scaling curve
-		# NOTE: Starsector campaigns start at cycle ~206, so these are absolute cycle numbers
-		"cycleThresholds": {
-			"earlyGameEnd": 208,				# No AI cores before this cycle	#	Default : 208
-			"midGameStart": 208,				# Start adding AI cores			#	Default : 208
-			"midGameEnd": 213,					# Transition point				#	Default : 213
-			"lateGameStart": 213,				# More AI cores begin appearing	#	Default : 213
-			"lateGameEnd": 221,					# Heavy AI core usage			#	Default : 221
-			"endGameStart": 221,				# Very heavy usage begins		#	Default : 221
-			"endGameEnd": 231					# Maximum saturation			#	Default : 231
-		},
-
-		# Coverage percentages (how many empty officer slots to fill with AI cores)
-		"coveragePercentages": {
-			"earlyGame": 0.1,					# 10% at cycle 206-208		#	Default : 0.1
-			"midGame": 0.25,					# 25% at cycle 208-213		#	Default : 0.25
-			"lateGame": 0.75,					# 75% at cycle 213-221		#	Default : 0.75
-			"endGame": 1.0						# 100% at cycle 221+		#	Default : 1.0
-		},
-
-		# Core type distribution weights (interpolated between milestones)
-		"coreTypeWeights": {
-			"earlyMidGame": {					# Only Gamma cores
-				"gamma": 1.0,
-				"beta": 0.0,
-				"alpha": 0.0
-			},
-			"midGame": {						# Still only Gamma
-				"gamma": 0.9,
-				"beta": 0.1,
-				"alpha": 0.0
-			},
-			"midLateGame": {					# Mostly Gamma, some Beta
-				"gamma": 0.75,
-				"beta": 0.2,
-				"alpha": 0.05
-			},
-			"lateGame": {						# Mix of all types
-				"gamma": 0.5,
-				"beta": 0.4,
-				"alpha": 0.1
-			},
-			"endGame": {						# Full distribution
-				"gamma": 0.25,
-				"beta": 0.5,
-				"alpha": 0.25
-			}
-		}
+		"recheckIntervalDays": 30.0				# How often to recheck fleets for new empty slots (in days)	#	Default : 30.0
 	},
 
     # ========================================

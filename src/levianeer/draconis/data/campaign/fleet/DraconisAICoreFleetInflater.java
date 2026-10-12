@@ -10,9 +10,9 @@ import com.fs.starfarer.api.campaign.ai.FleetAssignmentDataAPI;
 import com.fs.starfarer.api.characters.MutableCharacterStatsAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.aicores.XLII_LiteCoreOfficerPlugin;
 import levianeer.draconis.data.campaign.intel.longsight.XLII_LongsightOfficerPlugin;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.ids.Factions;
@@ -20,13 +20,12 @@ import org.apache.log4j.Logger;
 
 import java.io.Serial;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Monitors Draconis and Forty-Second fleets and fills empty officer slots
- * with AI cores based on game progression (cycles).
+ * with Lite Core officers ({@link XLII_LiteCoreOfficerPlugin}).
  */
 public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private static final Logger log = Global.getLogger(DraconisAICoreFleetInflater.class);
@@ -35,14 +34,7 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     private static final String MEMORY_KEY_TIMESTAMP = "$draconisAICoreScaling_lastProcessed";
     private static final float CHECK_INTERVAL = 30.0f;
 
-    // DRACON readiness overrides - applied at high alert levels
-    private static final float DRACON_2_COVERAGE_BOOST = 0.25f;  // +25% coverage at BARE STEEL
-    private static final float DRACON_2_GAMMA_WEIGHT = 0.30f;
-    private static final float DRACON_2_BETA_WEIGHT = 0.45f;
-    private static final float DRACON_ALERT_RECHECK_DAYS = 10f;  // Faster recheck at DRACON 1-2
-
     private float daysElapsed = 0f;
-    private boolean firstRun = true;
 
     @Override
     public boolean isDone() {
@@ -67,44 +59,18 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         if (daysElapsed < CHECK_INTERVAL) return;
         daysElapsed = 0f;
 
-        // Get current game cycle (may be overridden for testing)
-        float actualCycle = Global.getSector().getClock().getCycle();
-        float currentCycle = config.getEffectiveCycle(actualCycle);
-
-        float coveragePercent = config.calculateCoveragePercent(currentCycle);
-
-        if (firstRun) {
-            firstRun = false;
-            log.debug("Draconis: === AI Core Fleet Inflater First Run ===");
-            if (actualCycle != currentCycle) {
-                log.debug(String.format("Draconis:   Actual cycle: %.2f | TEST OVERRIDE: %.2f", actualCycle, currentCycle));
-            } else {
-                log.debug(String.format("Draconis:   Current cycle: %.2f", currentCycle));
-            }
-            log.debug(String.format("Draconis:   Coverage percent: %.0f%%", coveragePercent * 100));
-            if (coveragePercent <= 0f) {
-                log.debug("Draconis:   Coverage is 0% - no AI cores will be assigned yet");
-            } else {
-                log.debug("Draconis:   System is active - will process eligible fleets");
-            }
-        }
-
-        // If 0% coverage, skip processing entirely (unless DRACON override is active)
-        int draconLevel = getCurrentDraconLevel();
-        if (coveragePercent <= 0f && draconLevel > 2) return;
-
         // Defensive copies to prevent ConcurrentModificationException
         for (StarSystemAPI system : Global.getSector().getStarSystems()) {
             for (CampaignFleetAPI fleet : new ArrayList<>(system.getFleets())) {
                 if (shouldProcessFleet(fleet)) {
-                    processFleet(fleet, currentCycle, coveragePercent, config);
+                    processFleet(fleet);
                 }
             }
         }
 
         for (CampaignFleetAPI fleet : new ArrayList<>(Global.getSector().getHyperspace().getFleets())) {
             if (shouldProcessFleet(fleet)) {
-                processFleet(fleet, currentCycle, coveragePercent, config);
+                processFleet(fleet);
             }
         }
     }
@@ -116,31 +82,22 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         if (fleet.isStationMode()) return false;
 
-        // Check reprocess timing (skip this check in test mode to allow re-processing)
-        if (!config.isTestModeActive()) {
-            float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
+        // Check reprocess timing
+        float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
 
-            // Use shorter recheck interval at high DRACON alert
-            float recheckInterval = config.getRecheckIntervalDays();
-            int draconLevel = getCurrentDraconLevel();
-            if (draconLevel <= 2) {
-                recheckInterval = Math.min(recheckInterval, DRACON_ALERT_RECHECK_DAYS);
-            }
+        if (fleet.getMemoryWithoutUpdate().contains(MEMORY_KEY_TIMESTAMP)) {
+            float lastProcessed = fleet.getMemoryWithoutUpdate().getFloat(MEMORY_KEY_TIMESTAMP);
+            float timeSinceLastCheck = currentTime - lastProcessed;
 
-            if (fleet.getMemoryWithoutUpdate().contains(MEMORY_KEY_TIMESTAMP)) {
-                float lastProcessed = fleet.getMemoryWithoutUpdate().getFloat(MEMORY_KEY_TIMESTAMP);
-                float timeSinceLastCheck = currentTime - lastProcessed;
-
-                if (timeSinceLastCheck < recheckInterval) {
-                    return false;
-                }
-            }
-            // SAVE COMPATIBILITY: Migrate old boolean key to timestamp
-            else if (fleet.getMemoryWithoutUpdate().getBoolean(MEMORY_KEY)) {
-                // Fleet was processed in old system - set timestamp to now and skip this time
-                fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
+            if (timeSinceLastCheck < config.getRecheckIntervalDays()) {
                 return false;
             }
+        }
+        // SAVE COMPATIBILITY: Migrate old boolean key to timestamp
+        else if (fleet.getMemoryWithoutUpdate().getBoolean(MEMORY_KEY)) {
+            // Fleet was processed in old system - set timestamp to now and skip this time
+            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
+            return false;
         }
 
         String factionId = fleet.getFaction().getId();
@@ -202,20 +159,10 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         return assignmentType == FleetAssignment.STANDING_DOWN;
     }
 
-    private void processFleet(CampaignFleetAPI fleet, float currentCycle,
-                              float coveragePercent, DraconisAICoreScalingConfig config) {
-
-        int draconLevel = getCurrentDraconLevel();
-
-        float effectiveCoverage = coveragePercent;
-        if (draconLevel <= 2) {
-            effectiveCoverage = Math.min(1.0f, coveragePercent + DRACON_2_COVERAGE_BOOST);
-        }
-
+    private static List<FleetMemberAPI> findEmptyOfficerSlots(CampaignFleetAPI fleet, boolean forceReplace) {
         List<FleetMemberAPI> emptySlots = new ArrayList<>();
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-            if (member.isFighterWing()) continue;
-            if (member.isCivilian()) continue;
+            if (member.isFighterWing() || member.isCivilian()) continue;
 
             // Real officers (human or AI core) have trained skills (level > 0);
             // default/placeholder captains have skill entries but all at level 0
@@ -232,104 +179,51 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
                 }
             }
 
-            if (!hasTrainedSkills) {
+            if (!hasTrainedSkills || forceReplace) {
                 emptySlots.add(member);
             }
         }
+        return emptySlots;
+    }
 
-        if (emptySlots.isEmpty()) {
-            // DRACON 1: Still attempt Longsight assignment even if all slots filled
-            if (draconLevel == 1) {
-                assignLongsightFlagship(fleet);
-            }
-            float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
-            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
-            return;
-        }
-
-        emptySlots.sort(Comparator.comparing(FleetMemberAPI::getFleetPointCost).reversed());
-
-        int slotsToFill = Math.round(emptySlots.size() * effectiveCoverage);
-
-        if (slotsToFill <= 0) {
-            float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
-            fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
-            return;
-        }
+    private void processFleet(CampaignFleetAPI fleet) {
+        List<FleetMemberAPI> emptySlots = findEmptyOfficerSlots(fleet, false);
 
         Random random = new Random();
-        int coresAssigned = 0;
-        int gammaCount = 0, betaCount = 0, alphaCount = 0;
-
-        for (int i = 0; i < slotsToFill && i < emptySlots.size(); i++) {
-            FleetMemberAPI member = emptySlots.get(i);
-
-            // Select core type - DRACON overrides cycle-based selection
-            String coreType;
-            if (draconLevel <= 2) {
-                coreType = rollDracon2CoreType(random.nextFloat());
-            } else {
-                coreType = config.rollCoreType(currentCycle, random.nextFloat());
-            }
-
-            PersonAPI aiCore = createAICoreOfficer(coreType, fleet.getFaction().getId(), random);
-
-            if (aiCore != null) {
-                // Step 1: Add to fleet's officer pool
-                fleet.getFleetData().addOfficer(aiCore);
-
-                // Step 2: Assign as captain to this specific ship
-                member.setCaptain(aiCore);
-
-                coresAssigned++;
-
-                // Count by type for logging
-                switch (coreType) {
-                    case com.fs.starfarer.api.impl.campaign.ids.Commodities.GAMMA_CORE -> gammaCount++;
-                    case com.fs.starfarer.api.impl.campaign.ids.Commodities.BETA_CORE -> betaCount++;
-                    case com.fs.starfarer.api.impl.campaign.ids.Commodities.ALPHA_CORE -> alphaCount++;
-                }
+        for (FleetMemberAPI member : emptySlots) {
+            PersonAPI liteCore = createLiteCoreOfficer(fleet.getFaction().getId(), random);
+            if (liteCore != null) {
+                fleet.getFleetData().addOfficer(liteCore);
+                member.setCaptain(liteCore);
             }
         }
 
-        // DRACON 1: Replace the highest-FP AI core with Longsight.
-        // Done after the fill loop so freshly-assigned cores are also eligible.
-        if (draconLevel == 1) {
+        // DRACON 1: Assign Longsight to the flagship regardless of whether any empty slots existed
+        if (getCurrentDraconLevel() == 1) {
             assignLongsightFlagship(fleet);
         }
 
         float currentTime = Global.getSector().getClock().getElapsedDaysSince(0);
         fleet.getMemoryWithoutUpdate().set(MEMORY_KEY_TIMESTAMP, currentTime);
 
-        if (coresAssigned > 0) {
-            String draconTag = (draconLevel <= 2) ?
-                    " [DRACON " + draconLevel + " BOOST]" : "";
-            log.debug(String.format(
-                "Draconis: Assigned %d AI cores to %s: %d Gamma, %d Beta, %d Alpha%s",
-                coresAssigned,
-                fleet.getNameWithFaction(),
-                gammaCount,
-                betaCount,
-                alphaCount,
-                draconTag
-            ));
+        if (!emptySlots.isEmpty()) {
+            log.debug(String.format("Draconis: Assigned %d Lite Cores to %s",
+                    emptySlots.size(), fleet.getNameWithFaction()));
         }
     }
 
-    private PersonAPI createAICoreOfficer(String coreType, String factionId, Random random) {
+    private PersonAPI createLiteCoreOfficer(String factionId, Random random) {
         try {
-            AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(coreType);
-            if (plugin != null) {
-                return plugin.createPerson(coreType, factionId, random);
-            }
+            return new XLII_LiteCoreOfficerPlugin().createPerson(
+                    XLII_LiteCoreOfficerPlugin.CORE_ID, factionId, random);
         } catch (Exception e) {
-            log.error("Draconis: Failed to create AI core officer of type " + coreType, e);
+            log.error("Draconis: Failed to create Lite Core officer", e);
+            return null;
         }
-        return null;
     }
 
     /** Returns 5 (COLD FORGE) by default. */
-    private int getCurrentDraconLevel() {
+    private static int getCurrentDraconLevel() {
         Object stored = Global.getSector().getMemoryWithoutUpdate().get(DraconManager.LEVEL_KEY);
         if (stored instanceof Number) {
             return ((Number) stored).intValue();
@@ -382,22 +276,8 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     }
 
     /**
-     * Roll core type using DRACON 2 (BARE STEEL) enhanced weights.
-     * Shifts distribution toward higher-tier cores.
-     */
-    private String rollDracon2CoreType(float random) {
-        if (random < DRACON_2_GAMMA_WEIGHT) {
-            return Commodities.GAMMA_CORE;
-        } else if (random < DRACON_2_GAMMA_WEIGHT + DRACON_2_BETA_WEIGHT) {
-            return Commodities.BETA_CORE;
-        } else {
-            return Commodities.ALPHA_CORE;
-        }
-    }
-
-    /**
-     * Immediately fill empty officer slots with AI cores (respecting the scaling config)
-     * and assign Longsight as flagship captain.
+     * Immediately fill empty officer slots with Lite Core officers and assign
+     * Longsight as flagship captain.
      * Called at spawn time for hostile-activity patrol fleets and raid fleets.
      * Uses forceReplace=false; existing trained human officers are preserved.
      */
@@ -406,9 +286,9 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     }
 
     /**
-     * Immediately fill officer slots with AI cores and assign Longsight as flagship captain.
+     * Immediately fill officer slots with Lite Core officers and assign Longsight as flagship captain.
      *
-     * @param forceReplace when true, human officers (trained or not) are displaced by AI cores;
+     * @param forceReplace when true, human officers (trained or not) are displaced by Lite Cores;
      *                     use this for freshly spawned crisis/raid fleets that may have
      *                     quality-assigned officers from FleetCreatorMission.
      *                     When false, only ships with no trained captain are eligible.
@@ -419,86 +299,38 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         DraconisAICoreScalingConfig config = DraconisAICoreScalingConfig.getInstance();
         if (!config.isEnabled()) return;
 
-        float actualCycle = Global.getSector().getClock().getCycle();
-        float currentCycle = config.getEffectiveCycle(actualCycle);
-        float coveragePercent = config.calculateCoveragePercent(currentCycle);
+        List<FleetMemberAPI> emptySlots = findEmptyOfficerSlots(fleet, forceReplace);
 
-        int draconLevel = 5;
-        Object stored = Global.getSector().getMemoryWithoutUpdate().get(DraconManager.LEVEL_KEY);
-        if (stored instanceof Number) draconLevel = ((Number) stored).intValue();
-
-        if (coveragePercent <= 0f && draconLevel > 2) {
-            // No AI cores yet, but still assign Longsight to the flagship
-            assignLongsightToFlagship(fleet);
-            return;
-        }
-
-        float effectiveCoverage = coveragePercent;
-        if (draconLevel <= 2) {
-            effectiveCoverage = Math.min(1.0f, coveragePercent + DRACON_2_COVERAGE_BOOST);
-        }
-
-        List<FleetMemberAPI> emptySlots = new ArrayList<>();
-        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-            if (member.isFighterWing() || member.isCivilian()) continue;
-            PersonAPI captain = member.getCaptain();
-            if (captain != null && captain.isAICore()) continue;
-            boolean hasTrainedSkills = false;
-            if (captain != null) {
-                for (MutableCharacterStatsAPI.SkillLevelAPI skill : captain.getStats().getSkillsCopy()) {
-                    if (skill.getLevel() > 0) { hasTrainedSkills = true; break; }
-                }
-            }
-            if (!hasTrainedSkills || forceReplace) emptySlots.add(member);
-        }
-
-        emptySlots.sort(Comparator.comparing(FleetMemberAPI::getFleetPointCost).reversed());
-
-        int slotsToFill = Math.round(emptySlots.size() * effectiveCoverage);
         Random random = new Random();
         int coresAssigned = 0;
 
-        for (int i = 0; i < slotsToFill && i < emptySlots.size(); i++) {
-            FleetMemberAPI member = emptySlots.get(i);
-            String coreType;
-            if (draconLevel <= 2) {
-                float roll = random.nextFloat();
-                if (roll < DRACON_2_GAMMA_WEIGHT) coreType = Commodities.GAMMA_CORE;
-                else if (roll < DRACON_2_GAMMA_WEIGHT + DRACON_2_BETA_WEIGHT) coreType = Commodities.BETA_CORE;
-                else coreType = Commodities.ALPHA_CORE;
-            } else {
-                coreType = config.rollCoreType(currentCycle, random.nextFloat());
-            }
+        for (FleetMemberAPI member : emptySlots) {
             try {
-                AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(coreType);
-                if (plugin != null) {
-                    PersonAPI aiCore = plugin.createPerson(coreType, fleet.getFaction().getId(), random);
-                    if (aiCore != null) {
-                        // Remove displaced human officer from fleet data before assigning AI core
-                        PersonAPI existing = member.getCaptain();
-                        if (existing != null) fleet.getFleetData().removeOfficer(existing);
-                        fleet.getFleetData().addOfficer(aiCore);
-                        member.setCaptain(aiCore);
-                        coresAssigned++;
-                    }
-                }
+                PersonAPI liteCore = new XLII_LiteCoreOfficerPlugin().createPerson(
+                        XLII_LiteCoreOfficerPlugin.CORE_ID, fleet.getFaction().getId(), random);
+                // Remove displaced human officer from fleet data before assigning Lite Core
+                PersonAPI existing = member.getCaptain();
+                if (existing != null) fleet.getFleetData().removeOfficer(existing);
+                fleet.getFleetData().addOfficer(liteCore);
+                member.setCaptain(liteCore);
+                coresAssigned++;
             } catch (Exception e) {
-                log.error("Draconis: inflateFleetNow - failed to create AI core of type " + coreType, e);
+                log.error("Draconis: inflateFleetNow - failed to create Lite Core officer", e);
             }
         }
 
+        // DRACON 1: Assign Longsight to the flagship regardless of whether any empty slots existed
+        if (getCurrentDraconLevel() == 1) {
+            assignLongsightToFlagship(fleet);
+        }
+
         if (coresAssigned > 0) {
-            log.debug(String.format("Draconis: inflateFleetNow assigned %d AI cores to %s",
+            log.debug(String.format("Draconis: inflateFleetNow assigned %d Lite Cores to %s",
                     coresAssigned, fleet.getNameWithFaction()));
         }
     }
 
     /**
-     * Assign Longsight as the captain of the highest-FP combat ship in the fleet.
-     * Properly adds Sigma to the fleet's officer list and sets them as ship captain,
-     * displacing any existing officer. Works regardless of whether the ship has an
-     * AI core or human officer already assigned.
-     * <p>
      * One-shot script attached to a fleet at spawn time.
      * Waits one advance frame (so the Starsector FleetInflater can assign its officers first),
      * then calls inflateFleetNow to replace those human officers with AI cores.
@@ -532,6 +364,12 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         }
     }
 
+    /**
+     * Assign Longsight as the captain of the highest-FP combat ship in the fleet.
+     * Properly adds Sigma to the fleet's officer list and sets them as ship captain,
+     * displacing any existing officer. Works regardless of whether the ship has an
+     * AI core or human officer already assigned.
+     */
     private static void assignLongsightToFlagship(CampaignFleetAPI fleet) {
         FleetMemberAPI target = null;
         float highestCost = -1f;
