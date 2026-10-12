@@ -169,8 +169,8 @@ public class XLII_LaunchWasteNotInstallationFight extends BaseCommandPlugin {
         FleetParamsV3 params = new FleetParamsV3();
         params.factionId = Factions.INTELLIGENCE_OFFICE;
         params.fleetType = FleetTypes.PATROL_SMALL;
-        params.quality   = 0.4f;
-        params.combatPts = 100f;
+        params.quality   = 7f;
+        params.combatPts = 200f;
         params.random    = new Random();
 
         CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
