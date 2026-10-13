@@ -62,8 +62,7 @@ ___
 
 This mod is licensed under: **[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)**.
 
-> [!IMPORTANT]
-> Third-party assets (music, sounds, some code) listed in Credits above retain their original licenses and terms of use.
+**IMPORTANT:** Third-party assets (music, sounds, some code) listed in Credits above retain their original licenses and terms of use.
 
 ### **What this means:**
 
