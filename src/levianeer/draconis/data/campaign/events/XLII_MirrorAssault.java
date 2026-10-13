@@ -302,6 +302,11 @@ public class XLII_MirrorAssault {
      * Fires once, the first time the player commits to destroying any array: fails every active
      * Draconis mission tracker outright and flips Draconis hostile. No quest relation to Burn the
      * Machine - this is a separate, mutually-exclusive hostile path (author decision).
+     * <p>
+     * MEM_HOSTILE_DECLARED is also watched directly by data/config/korrin_leave_triggers.csv
+     * (action forever) - turning on the player's own faction is treated the same as witnessing
+     * August's death in XLII_KoriStrike. No local presence flag needed here: KorrinLeaveTriggers
+     * only fires while he's actually aboard, which already covers "was he there for it."
      */
     private static void declareHostilityIfNeeded() {
         MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();

@@ -824,11 +824,7 @@ $global.XLII_mirrorCharlieSurveyed
 !$global.XLII_mirrorCharlieDestroyed",,,"3:XLII_mirrorCharlieDestroyOpt:Move to destroy this array",
 XLII_mirror_destroy_alpha_select,DialogOptionSelected,"$option == XLII_mirrorAlphaDestroyOpt",,"Your Ops Chief looks up from the slate.
 
-""Captain - this is a Draconis asset, inside a Draconis system, maintained under Alliance authority whatever it's actually feeding. Putting weapons on it is an act of war against the people who gave you this ship.""
-
-A pause.
-
-""Every standing arrangement you hold with them ends the moment you fire. I need to hear you say it.""","1:XLII_mirrorAlphaDestroyConfirm:Open fire on the array
+""Captain...?""","1:XLII_mirrorAlphaDestroyConfirm:Open fire on the array
 2:XLII_mirrorAlphaDestroyCancel:Stand down","Confirm gate before XLII_LaunchMirrorAssault. See XLII_MirrorAssault.declareHostilityIfNeeded() - this fails every active Draconis mission tracker outright and flips Draconis hostile, no quest relation to Burn the Machine (author decision)."
 XLII_mirror_destroy_bravo_select,DialogOptionSelected,"$option == XLII_mirrorBravoDestroyOpt",,"Your Ops Chief looks up from the slate.
 
@@ -836,7 +832,7 @@ XLII_mirror_destroy_bravo_select,DialogOptionSelected,"$option == XLII_mirrorBra
 2:XLII_mirrorBravoDestroyCancel:Stand down",
 XLII_mirror_destroy_charlie_select,DialogOptionSelected,"$option == XLII_mirrorCharlieDestroyOpt",,"Your Ops Chief looks up from the slate.
 
-""Last one, Commander...""","1:XLII_mirrorCharlieDestroyConfirm:Open fire on the array
+""Commander...?""","1:XLII_mirrorCharlieDestroyConfirm:Open fire on the array
 2:XLII_mirrorCharlieDestroyCancel:Stand down",
 XLII_mirror_destroy_alpha_cancel,DialogOptionSelected,"$option == XLII_mirrorAlphaDestroyCancel","FireAll XLII_MirrorSurveyOptions","Weapons stay cold. The array keeps turning, patient as ever.",,
 XLII_mirror_destroy_bravo_cancel,DialogOptionSelected,"$option == XLII_mirrorBravoDestroyCancel","FireAll XLII_MirrorSurveyOptions","Weapons stay cold. The array keeps turning, patient as ever.",,
@@ -1886,6 +1882,14 @@ XLII_korrin_o_burn_epi_ask,XLII_KorrinBurnEpilogueOptions,,,,"10:korrin_burn_epi
 XLII_korrin_o_burn_epi_defer,XLII_KorrinBurnEpilogueOptions,,,,"100:korrin_defer:Not now",
 XLII_korrin_a_burn_epi_ask,DialogOptionSelected,"$option == korrin_burn_epi_ask","XLII_Korrin topicDone
 XLII_Korrin rep 0.05","""I don't know yet. I've stopped being embarrassed about that answer - it's the only honest one I've got, and it's the same one I've had for four years now. Whatever this becomes, it isn't going to be because I finally worked out a theory of the thing in one conversation."" He almost changes the subject, and doesn't. ""I'd rather build it slowly and get it wrong in small pieces than get it right once by accident and not know how I did it.""","1:korrin_done:Leave it there",
+XLII_korrin_c_mirror_assault,XLII_KorrinComment,"XLII_Korrin topicIs korrin_mirror_assault_reaction","XLII_Korrin visual
+FireAll XLII_KorrinMirrorAssaultOptions","[TODO: write Korrin's reaction to the player destroying the Stellar Mirrors and turning Draconis hostile. See showFailureKorrinReaction() in XLII_KoriStrike.java for tone reference on a similar permanent-departure beat - this is action=forever too.]",,"Stellar Mirror assault reaction - popup tier, queued by KorrinLeaveTriggers (korrin_mirror_assault row in korrin_leave_triggers.csv) when $XLII_mirrorAssaultHostileDeclared goes true. The leave action (leaveForever) does not fire until this topic is read - see KorrinLeaveTriggers.pollWatches()'s topic-wait handling."
+XLII_korrin_o_mirror_opt_a,XLII_KorrinMirrorAssaultOptions,,,,"10:korrin_mirror_opt_a:[TODO: player response A]",
+XLII_korrin_o_mirror_opt_b,XLII_KorrinMirrorAssaultOptions,,,,"11:korrin_mirror_opt_b:[TODO: player response B]",
+XLII_korrin_a_mirror_opt_a,DialogOptionSelected,"$option == korrin_mirror_opt_a","XLII_Korrin topicDone","[TODO: Korrin's reply to response A.]","1:korrin_mirror_close:Understood",
+XLII_korrin_a_mirror_opt_b,DialogOptionSelected,"$option == korrin_mirror_opt_b","XLII_Korrin topicDone","[TODO: Korrin's reply to response B.]","1:korrin_mirror_close:Understood",
+XLII_korrin_o_mirror_defer,XLII_KorrinMirrorAssaultOptions,,,,"100:korrin_defer:Not now","Shared decline handler - moves the topic to the backlog. Since the leave action waits on this topic resolving, declining also defers his actual departure, not just the conversation."
+XLII_korrin_c_mirror_close,DialogOptionSelected,"$option == korrin_mirror_close","DismissDialog",,,"DismissDialog - the popup is opened on the player fleet, where EndConversation does nothing."
 "#END [KORRIN] Dialogue Topics",,,,,,
 ,,,,,,
 # [KORRIN] Casual Topics,,,,,,

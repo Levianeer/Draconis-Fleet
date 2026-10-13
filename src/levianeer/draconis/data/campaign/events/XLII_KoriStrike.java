@@ -108,6 +108,14 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
     public static final String MEM_FAILED = "$XLII_burnTheMachineFailed";
 
     /**
+     * Set by finalizeFailure() only when eliasStayed is also true - the AND of "fight was lost"
+     * and "Korrin rode along" that KorrinCompanion.leaveForever() actually needs. Watched by
+     * data/config/korrin_leave_triggers.csv (action forever) instead of calling leaveForever()
+     * directly - see KorrinLeaveTriggers.
+     */
+    public static final String MEM_KORRIN_WITNESSED_AUGUST_DEATH = "$XLII_korrinWitnessedAugustDeath";
+
+    /**
      * Persists the player's transponder state across the round-trip through rules.csv/MarketCMD -
      * launchRaid() forces the transponder on before handing off (see that method's notes) and
      * XLII_ResolveBurnRaid restores it from this flag once the raid concludes, since Java object
@@ -1483,8 +1491,8 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
      * ($XLII_burnTheMachineEliasStayed). He witnesses this directly, not secondhand - the payoff to
      * his own loyalty-fork line at commit ("Ask me again after..."). Skipped entirely if he didn't
      * ride along - see optionSelected()'s dispatch out of OPT_FAILURE_DEATH_CONTINUE.
-     * KorrinCompanion.leaveForever() is called from finalizeFailure(), not here - this beat is text
-     * only.
+     * finalizeFailure() sets MEM_KORRIN_WITNESSED_AUGUST_DEATH, which korrin_leave_triggers.csv
+     * watches to actually call KorrinCompanion.leaveForever() - this beat is text only.
      */
     private void showFailureKorrinReaction() {
         PersonAPI korrin = KorrinCompanion.getKorrin();
@@ -1574,6 +1582,10 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
      * Bug fix: this method never removed August from Kori's comm directory, despite
      * showFailureDeath() stating he's dead - the player could still hail a dead man.
      * XLII_PersonEmilAugust.markGone() fixes it, same call resolveFate()'s Execute branch uses.
+     * <p>
+     * No longer calls KorrinCompanion.leaveForever() directly - sets
+     * MEM_KORRIN_WITNESSED_AUGUST_DEATH instead, which korrin_leave_triggers.csv watches (action
+     * forever) and acts on from KorrinCommentScript's next tick. See KorrinLeaveTriggers.
      */
     private void finalizeFailure() {
         MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
@@ -1586,7 +1598,7 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
         XLII_PersonDanielAncker.markGone();
 
         if (eliasStayed) {
-            KorrinCompanion.leaveForever();
+            mem.set(MEM_KORRIN_WITNESSED_AUGUST_DEATH, true);
         }
 
         mem.set(XLII_LongsightCrisisManager.DEBUG_FORCE_KEY, true);

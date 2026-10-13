@@ -17,7 +17,8 @@ import org.apache.log4j.Logger;
  * sends him away, and that is reversible.
  * <p>
  * One deliberate exception: {@link #leaveForever()} is a one-way transition into {@link
- * State#GONE}, fired only by the Uplink to God failure sequence (see
+ * State#GONE}, fired by {@link KorrinLeaveTriggers} off a data/config/korrin_leave_triggers.csv
+ * row - currently just the Uplink to God failure sequence (see
  * .claude/systems/uplink-to-god-endgame-redesign.md) when Korrin rode along and witnessed it. Every
  * other transition method in this class guards on its own required starting state, so none of them
  * can move a GONE Korrin anywhere else - that is what makes it terminal, not a special check here.
@@ -192,9 +193,11 @@ public class KorrinCompanion {
 
     /**
      * ABOARD_OFFICER/ABOARD_RESERVE -> GONE. Terminal, deliberately not reversible - see the class
-     * doc. Only called from the Uplink to God failure sequence (XLII_KoriStrike, on a lost fleet
-     * fight) and only when Korrin rode along ($XLII_burnTheMachineEliasStayed) and witnessed it.
-     * Strips him from the officer roster/slot the same way standDown() does, then locks the state.
+     * doc. Called from {@link KorrinLeaveTriggers#pollWatches()} when a
+     * data/config/korrin_leave_triggers.csv row's watch flag goes true with action {@code forever} -
+     * currently just the Uplink to God failure sequence (XLII_KoriStrike sets
+     * MEM_KORRIN_WITNESSED_AUGUST_DEATH only when Korrin rode along and witnessed it). Strips him
+     * from the officer roster/slot the same way standDown() does, then locks the state.
      */
     public static void leaveForever() {
         if (!isAboard()) return;

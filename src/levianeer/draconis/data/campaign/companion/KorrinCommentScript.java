@@ -72,6 +72,8 @@ public class KorrinCommentScript implements EveryFrameScript {
         // the only route in for Fafnir's own worlds, already surveyed and so unable to raise
         // SurveyPlanetListener.
         KorrinObserver.pollNearbyPlanets();
+        // Data-driven "force Korrin to leave" triggers - see korrin_leave_triggers.csv.
+        KorrinLeaveTriggers.pollWatches();
 
         float days = Global.getSector().getClock().convertToDays(amount);
         if (cooldown > 0f) cooldown -= days;

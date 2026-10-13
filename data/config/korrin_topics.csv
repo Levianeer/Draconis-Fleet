@@ -42,3 +42,4 @@ korrin_ringport_cost,The Ring-Port manifest,15,word,,$XLII_blindEyeComplete
 korrin_bastion_disbelief,The Office's station,33,word,,$XLII_officeVettingComplete
 korrin_nanoforge_ask,The nanoforge lead,34,word,,$XLII_nanoforgeQuestOffered
 korrin_tour_nudge,A bad idea,35,word,,$XLII_wasteNotComplete
+korrin_mirror_assault_reaction,He has something to say about the mirrors.,100,popup,,
