@@ -813,6 +813,65 @@ Nobody finishes the thought aloud.
 The Rift is not weather. The Rift is exhaust - and the machinery that makes it has been running, without interruption or supervision, since long before anyone in Fafnir was born.
 
 Which leaves one question, and your Ops Chief has the good sense not to ask it. What becomes of the wall, if the machinery ever stops.",,"Sets $global.XLII_mirrorSurveyComplete - dormant hook for later AIO/Iron Moth dialogue referencing the player having worked this out."
+XLII_mirror_destroy_alpha_opt,XLII_MirrorSurveyOptions,"$id == fafnir_mirror1
+$global.XLII_mirrorAlphaSurveyed
+!$global.XLII_mirrorAlphaDestroyed",,,"3:XLII_mirrorAlphaDestroyOpt:Move to destroy this array","New row on the same XLII_MirrorSurveyOptions trigger rather than editing XLII_mirror_opts_alpha - gated on this array alone having been surveyed, not the full cross-reference payoff."
+XLII_mirror_destroy_bravo_opt,XLII_MirrorSurveyOptions,"$id == fafnir_mirror2
+$global.XLII_mirrorBravoSurveyed
+!$global.XLII_mirrorBravoDestroyed",,,"3:XLII_mirrorBravoDestroyOpt:Move to destroy this array",
+XLII_mirror_destroy_charlie_opt,XLII_MirrorSurveyOptions,"$id == fafnir_mirror3
+$global.XLII_mirrorCharlieSurveyed
+!$global.XLII_mirrorCharlieDestroyed",,,"3:XLII_mirrorCharlieDestroyOpt:Move to destroy this array",
+XLII_mirror_destroy_alpha_select,DialogOptionSelected,"$option == XLII_mirrorAlphaDestroyOpt",,"Your Ops Chief looks up from the slate.
+
+""Captain - this is a Draconis asset, inside a Draconis system, maintained under Alliance authority whatever it's actually feeding. Putting weapons on it is an act of war against the people who gave you this ship.""
+
+A pause.
+
+""Every standing arrangement you hold with them ends the moment you fire. I need to hear you say it.""","1:XLII_mirrorAlphaDestroyConfirm:Open fire on the array
+2:XLII_mirrorAlphaDestroyCancel:Stand down","Confirm gate before XLII_LaunchMirrorAssault. See XLII_MirrorAssault.declareHostilityIfNeeded() - this fails every active Draconis mission tracker outright and flips Draconis hostile, no quest relation to Burn the Machine (author decision)."
+XLII_mirror_destroy_bravo_select,DialogOptionSelected,"$option == XLII_mirrorBravoDestroyOpt",,"Your Ops Chief looks up from the slate.
+
+""Sir...?""","1:XLII_mirrorBravoDestroyConfirm:Open fire on the array
+2:XLII_mirrorBravoDestroyCancel:Stand down",
+XLII_mirror_destroy_charlie_select,DialogOptionSelected,"$option == XLII_mirrorCharlieDestroyOpt",,"Your Ops Chief looks up from the slate.
+
+""Last one, Commander...""","1:XLII_mirrorCharlieDestroyConfirm:Open fire on the array
+2:XLII_mirrorCharlieDestroyCancel:Stand down",
+XLII_mirror_destroy_alpha_cancel,DialogOptionSelected,"$option == XLII_mirrorAlphaDestroyCancel","FireAll XLII_MirrorSurveyOptions","Weapons stay cold. The array keeps turning, patient as ever.",,
+XLII_mirror_destroy_bravo_cancel,DialogOptionSelected,"$option == XLII_mirrorBravoDestroyCancel","FireAll XLII_MirrorSurveyOptions","Weapons stay cold. The array keeps turning, patient as ever.",,
+XLII_mirror_destroy_charlie_cancel,DialogOptionSelected,"$option == XLII_mirrorCharlieDestroyCancel","FireAll XLII_MirrorSurveyOptions","Weapons stay cold. The array keeps turning, patient as ever.",,
+XLII_mirror_destroy_alpha_confirm,DialogOptionSelected,"$option == XLII_mirrorAlphaDestroyConfirm","XLII_LaunchMirrorAssault alpha","""Weapons hot.""
+
+The array doesn't flee, doesn't signal, doesn't even stop turning. What rises off its dark side to meet you does not look like a defense Alliance doctrine ever fielded.",,"Script dismisses this dialog and swaps into the fleet fight - see XLII_MirrorAssault.launch()."
+XLII_mirror_destroy_bravo_confirm,DialogOptionSelected,"$option == XLII_mirrorBravoDestroyConfirm","XLII_LaunchMirrorAssault bravo","""Weapons hot.""
+
+Same silence from the array, same answer rising to meet you off its dark side.",,
+XLII_mirror_destroy_charlie_confirm,DialogOptionSelected,"$option == XLII_mirrorCharlieDestroyConfirm","XLII_LaunchMirrorAssault charlie","""Weapons hot.""
+
+Whatever is coming off Charlie's dark side looks exactly like what came off the other two. It would be strange if it didn't.",,
+XLII_mirror_alpha_destroyed,XLII_mirror_alpha_destroyed,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss. Stellar Array Alpha hangs dead in its orbit, hull split along the spine.
+
+Whatever was feeding gets a third less tonight.","1:defaultLeave:Continue","Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onMirrorDestroyed() on a win, when at least one array is still standing."
+XLII_mirror_bravo_destroyed,XLII_mirror_bravo_destroyed,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss. Stellar Array Bravo hangs dead in its orbit, hull split along the spine.
+
+Whatever was feeding gets a third less tonight.","1:defaultLeave:Continue",
+XLII_mirror_charlie_destroyed,XLII_mirror_charlie_destroyed,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss. Stellar Array Charlie hangs dead in its orbit, hull split along the spine.
+
+Whatever was feeding gets a third less tonight.","1:defaultLeave:Continue",
+XLII_mirror_all_destroyed,XLII_mirror_all_destroyed,,,"The third detachment breaks apart the same way the first two did - in silence, logged by nobody.
+
+For the first time since anyone in Fafnir was born, the collection budget reads zero across all three arrays at once.
+
+Your sensor officer is the one who notices the hyperspace plot. The Rift's edge, which has not moved in thirty cycles of war, is receding.
+
+Nobody on the bridge says anything for a long moment. Then your Ops Chief, quietly: ""Whatever was blasting that radiation, Captain - you just pulled the plug.""","1:defaultLeave:Continue","Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onMirrorDestroyed() once all three arrays are dead - fires instead of the per-array row above. Java has already set XLII_KoriStrike.MEM_RIFT_COLLAPSED and called XLII_System.disableRiftTerrain()/syncFafnirInvasionExclusion() by the time this text shows, reusing the Burn the Machine win path's own Rift-collapse plumbing as an alternate, hostile route to the same mechanical outcome."
+XLII_mirror_alpha_open_dead,OpenInteractionDialog,"$id == fafnir_mirror1 score:1001
+$global.XLII_mirrorAlphaDestroyed",,"Stellar Array Alpha hangs dead in its orbit where you left it, hull split along the spine. Nothing answers the hail.","100:defaultLeave:Leave","Post-destruction approach text. score:1001 (not 1000) so this outscores the live XLII_mirror_alpha_open once destroyed, rather than tying with it - that row's own condition is not touched."
+XLII_mirror_bravo_open_dead,OpenInteractionDialog,"$id == fafnir_mirror2 score:1001
+$global.XLII_mirrorBravoDestroyed",,"Stellar Array Bravo hangs dead in its orbit where you left it, hull split along the spine. Nothing answers the hail.","100:defaultLeave:Leave",
+XLII_mirror_charlie_open_dead,OpenInteractionDialog,"$id == fafnir_mirror3 score:1001
+$global.XLII_mirrorCharlieDestroyed",,"Stellar Array Charlie hangs dead in its orbit where you left it, hull split along the spine. Nothing answers the hail.","100:defaultLeave:Leave",
 "#END [FAFNIR LORE] Stellar Arrays",,,,,,
 ,,,,,,
 # [FAFNIR LORE] Bar Vignettes,,,,,,

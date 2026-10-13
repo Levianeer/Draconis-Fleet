@@ -252,4 +252,13 @@ public class LongsightQuestMission extends HubMissionWithBarEvent {
                 break;
         }
     }
+
+    /**
+     * Fails this mission outright - called once when the player destroys a Fafnir Mirror array
+     * and goes hostile to Draconis (see XLII_MirrorAssault). No-op if already ended.
+     */
+    public void failForMirrorAssault() {
+        if (getResult() != null) return;
+        endFailure(null, null);
+    }
 }
