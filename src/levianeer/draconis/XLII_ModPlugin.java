@@ -62,6 +62,7 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import exerelin.campaign.AllianceManager;
+import exerelin.campaign.alliances.Alliance;
 import exerelin.campaign.alliances.Alliance.Alignment;
 
 import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
@@ -140,10 +141,17 @@ public class XLII_ModPlugin extends BaseModPlugin {
             }
 
             AllianceManager.create();
-            AllianceManager.createAlliance(
+            Alliance hybrasilTreaty = AllianceManager.createAlliance(
                     com.fs.starfarer.api.impl.campaign.ids.Factions.TRITACHYON, DRACONIS, Alignment.MILITARIST,
                     "Hybrasil Treaty");
-            log.info("Draconis: Formed TriTachyon-Draconis militarist alliance (Hybrasil Treaty)");
+            if (hybrasilTreaty != null) {
+                // Perma members are immune to Nexerelin's relationship-decay and war-breakout dissolution checks
+                hybrasilTreaty.addPermaMember(com.fs.starfarer.api.impl.campaign.ids.Factions.TRITACHYON);
+                hybrasilTreaty.addPermaMember(DRACONIS);
+                log.info("Draconis: Formed TriTachyon-Draconis militarist alliance (Hybrasil Treaty)");
+            } else {
+                log.warn("Draconis: Failed to form Hybrasil Treaty - a faction was already in an alliance");
+            }
         }
 
         if (!skipGeneration) {
