@@ -6,7 +6,13 @@ import com.fs.starfarer.api.combat.ShipAPI;
 
 public class XLII_ZeroFluxOverdrive extends BaseHullMod {
 
+    public static final float FLUX_MULT = 1.5f;
+
     public void applyEffectsBeforeShipCreation(ShipAPI.HullSize hullSize, MutableShipStatsAPI stats, String id) {
-        stats.getZeroFluxSpeedBoost().modifyMult(id, 2f);
+        stats.getZeroFluxSpeedBoost().modifyMult(id, FLUX_MULT);
+    }
+    public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
+        if (index == 0) return FLUX_MULT + "×";
+        return null;
     }
 }
