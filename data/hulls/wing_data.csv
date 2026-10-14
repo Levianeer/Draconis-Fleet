@@ -21,7 +21,7 @@ XLII_shangshu_wing,XLII_shangshu_Bomber,"XLII_fortysecond_bp, bomber, bomber5, n
 XLII_shangshu_heavy_wing,XLII_shangshu_Heavy,"XLII_fortysecond_bp, bomber, bomber6, no_drop, no_dealer, no_sell, codex_unlockable",3,,9,22,V,4000,1200,700,2,BOMBER,Strategic Bomber,30,12000,,,,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Fourth Generation,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-XLII_pulao_wing,XLII_pulao_Interceptor,"XLII_fighter_bp, interceptor3, interceptor, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, attack_at_an_angle",3,,6,6,CLAW,4000,600,100,5,INTERCEPTOR,Interceptor Drone,4,5000,,,,,,,,,,,,,7
+XLII_pulao_wing,XLII_pulao_Interceptor,"XLII_fighter_bp, interceptor3, interceptor, auto_fighter, rapid_reform, leader_no_swarm, wingmen_no_swarm, match_leader_facing, attack_at_an_angle",3,,6,6,BOX,4000,600,100,6,INTERCEPTOR,Interceptor Drone,4,5000,,,,,,,,,,,,,7
 XLII_tiangou_wing,XLII_tiangou_Fighter,"XLII_fortysecond_bp, fighter, fighter6, leader_no_swarm, wingmen_no_swarm, stay_in_front_of_ship, no_drop, no_dealer, no_sell, codex_unlockable",3,,9,21,CLAW,4000,800,900,1,FIGHTER,Multirole Fighter,24,96000,,,,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
