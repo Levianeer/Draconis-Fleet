@@ -14,9 +14,11 @@ import java.util.Random;
 
 /**
  * Rule command: resolves the forced-entry branch of the Waste Not installation fight. Grants
- * 1-3 AuxCog Cores (floor 1, flat random roll per author direction - not worth a
- * dedicated tracker for finer-grained outcome tiers, unlike the later Kori raid's loss-ratio
- * buckets), announces the gain via {@code AddRemoveCommodity.addCommodityGainText} (the same
+ * 2-4 AuxCog Cores (flat random roll per author direction - not worth a dedicated tracker for
+ * finer-grained outcome tiers, unlike the later Kori raid's loss-ratio buckets; set higher than
+ * the stealth branch's flat 1, see {@code XLII_ResolveWasteNotObservation}, since boarding risks
+ * a fight the stealth route doesn't), announces the gain via
+ * {@code AddRemoveCommodity.addCommodityGainText} (the same
  * "Gained Nx <item>" cargo-toast helper vanilla's own commodity-granting rules use - added after
  * a live-test report that the item was appearing in cargo with no on-screen acknowledgment at
  * all), then sets the outcome/resolved flags {@code WasteNotMission} watches.
@@ -39,7 +41,7 @@ public class XLII_ResolveWasteNotInstallation extends BaseCommandPlugin {
     public boolean execute(String ruleId, InteractionDialogAPI dialog,
                             List<Misc.Token> params, Map<String, MemoryAPI> memoryMap) {
         CargoAPI cargo = Global.getSector().getPlayerFleet().getCargo();
-        int count = 1 + new Random().nextInt(3); // 1-3, floor 1
+        int count = 2 + new Random().nextInt(3); // 2-4
         cargo.addCommodity(ITEM_ID, count);
 
         if (dialog != null) {
