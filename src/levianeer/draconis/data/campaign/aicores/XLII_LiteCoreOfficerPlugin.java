@@ -47,8 +47,6 @@ public class XLII_LiteCoreOfficerPlugin implements AICoreOfficerPlugin {
         person.getStats().setSkipRefresh(true);
 
         person.getStats().setLevel(2);
-        person.getStats().setSkillLevel(Skills.HELMSMANSHIP, 1);
-        person.getStats().setSkillLevel(Skills.ELECTRONIC_WARFARE, 1);
 
         person.getStats().setSkipRefresh(false);
 
