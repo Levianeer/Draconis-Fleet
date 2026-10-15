@@ -13,6 +13,7 @@ import com.fs.starfarer.api.ui.IntelUIAPI;
 import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.rulecmd.XLII_IsWasteNotHookMarket;
 
 import java.awt.Color;
 import java.util.Set;
@@ -167,11 +168,13 @@ public class WasteNotMission extends HubMissionWithBarEvent {
     protected void advanceImpl(float amount) {
         super.advanceImpl(amount);
         syncInstallationMarker();
+        syncReportBackMarker();
     }
 
     @Override
     protected void updateInteractionDataImpl() {
         syncInstallationMarker();
+        syncReportBackMarker();
     }
 
     private void syncInstallationMarker() {
@@ -186,8 +189,16 @@ public class WasteNotMission extends HubMissionWithBarEvent {
         // rest of the save's life. Once the mission is past this stage, there's nothing left to
         // backfill - skip entirely instead of registering something that will never be visited
         // again by setCurrentStage()'s own cleanup pass.
-        if (currentStage != Stage.INSTALLATION) {
+        if (currentStage == Stage.REPORT_BACK || currentStage == Stage.COMPLETED) {
             installationMarkerSynced = true;
+            return;
+        }
+        if (currentStage != Stage.INSTALLATION) {
+            // Bug fix: the manifest flag is set from rules.csv before BaseHubMission's own
+            // periodic tracker re-evaluates setStageOnCustomCondition() and advances currentStage
+            // to INSTALLATION, so this can run while currentStage is still SEARCH_SYSTEM. Don't
+            // latch installationMarkerSynced here - retry on the next tick instead, or the marker
+            // never gets registered for the rest of the session.
             return;
         }
         installationMarkerSynced = true;
@@ -197,6 +208,45 @@ public class WasteNotMission extends HubMissionWithBarEvent {
         if (installation != null) {
             makeImportant(installation, null, Stage.INSTALLATION);
         }
+    }
+
+    /**
+     * Not serialised: same once-per-load pattern as {@link #installationMarkerSynced}. Walt has no
+     * fixed home market the way {@code OfficeReferralMission}'s August does - he's locked to
+     * whichever bar he first turned up at (see {@link XLII_IsWasteNotHookMarket}) - so the
+     * REPORT_BACK marker has to resolve that locked market id rather than point at a hardcoded one.
+     */
+    private transient boolean reportBackMarkerSynced = false;
+
+    /**
+     * Registers Walt's locked bar market as REPORT_BACK's objective marker/map location, same
+     * stage-race fix as {@link #syncInstallationMarker}: only latch {@link #reportBackMarkerSynced}
+     * once the mission has actually reached REPORT_BACK (or moved past it, to skip stale backfill
+     * once COMPLETED), not on the frame the resolved-installation flag fires but before
+     * {@code BaseHubMission}'s periodic tracker has advanced {@code currentStage} to match.
+     */
+    private void syncReportBackMarker() {
+        if (reportBackMarkerSynced) return;
+        if (!Global.getSector().getMemoryWithoutUpdate().getBoolean("$XLII_wasteNotInstallationResolved")) return;
+        if (currentStage == Stage.COMPLETED) {
+            reportBackMarkerSynced = true;
+            return;
+        }
+        if (currentStage != Stage.REPORT_BACK) {
+            return;
+        }
+        reportBackMarkerSynced = true;
+
+        MarketAPI market = resolveWaltMarket();
+        if (market != null) {
+            makeImportant(market, null, Stage.REPORT_BACK);
+        }
+    }
+
+    private MarketAPI resolveWaltMarket() {
+        String marketId = Global.getSector().getMemoryWithoutUpdate().getString(XLII_IsWasteNotHookMarket.MEM_KEY);
+        if (marketId == null || marketId.isEmpty()) return null;
+        return Global.getSector().getEconomy().getMarket(marketId);
     }
 
     /**
@@ -216,6 +266,9 @@ public class WasteNotMission extends HubMissionWithBarEvent {
         String installationId = Global.getSector().getMemoryWithoutUpdate().getString(MEM_INSTALLATION_PLANET_ID);
         SectorEntityToken installation = installationId == null ? null : Global.getSector().getEntityById(installationId);
         if (installation != null) makeUnimportant(installation);
+
+        MarketAPI waltMarket = resolveWaltMarket();
+        if (waltMarket != null) makeUnimportant(waltMarket);
     }
 
     @Override
