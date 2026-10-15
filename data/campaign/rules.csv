@@ -2778,38 +2778,18 @@ XLII_korrin_dev_n_back,DialogOptionSelected,"$option == korrin_dev_back","XLII_K
 ,,,,,,
 # [ANCKER] System,,,,,,
 ,,,,,,
-# [ANCKER] Greeting,,,,,,
-XLII_aio_operative_init,OpenCDE,"$isPerson
-$tag:XLII_aio_operative
-$global.XLII_aio_operative_revealed","ShowPersonVisual
-FireAll XLII_AIOOperativeMainMenu","The link connects without delay. Ancker is already looking at you when the feed connects.
-
-A pause that holds something back.
-
-Followed by a simple. ""Yeah?""",,
-XLII_aio_operative_main_opt_leave,XLII_AIOOperativeMainMenu,"$tag:XLII_aio_operative",,,"99:aio_dismiss:That's all",
-XLII_aio_operative_dismiss,DialogOptionSelected,"$option == aio_dismiss","EndConversation","""This directory will stay active.""",,
-"#END [ANCKER] Greeting",,,,,,
-,,,,,,
 # [ANCKER] Kori Transcript,,,,,,
-XLII_aio_operative_main_opt_kori,XLII_AIOOperativeMainMenu,"$tag:XLII_aio_operative
-$global.XLII_burnTheMachineComplete
-!$global.XLII_koriTranscriptRead",,,"2:aio_kori_transcript:There's something in the traffic about Kori",
-XLII_aio_kori_transcript_open,DialogOptionSelected,"$option == aio_kori_transcript
-$tag:XLII_aio_operative",,"""There is,"" he says, before you finish asking. He does not sound surprised that you asked - only that it took this long.
+XLII_ancker_kori_transcript_open,XLII_AnckerKoriTranscript,,"ShowPersonVisual false XLII_aio_operative_Daniel","Ancker meets you himself this time, no relay, no escort - just him, waiting with a slate already open. ""There's something in the traffic about Kori."" He doesn't wait for you to ask.
 
-He does not summarize it. He puts the fragment on your screen exactly as recovered, unedited, timestamp intact.","1:aio_kori_frag1:Continue",
-XLII_aio_kori_frag1,DialogOptionSelected,"$option == aio_kori_frag1
-$tag:XLII_aio_operative","AddTextSmall ""Recovered Fragment 1 of 2 - Loss Report Addendum, Kori Undercroft"" highlight","""Uplink XLII-07, Longsight liaison equipment, reported non-responsive at 0347 local, coincident with unauthorized entry to the undercroft. Equipment presumed destroyed in the subsequent engagement. Terminal channel logged one unscheduled outbound transmission immediately prior to loss of signal. Origin unconfirmed. Content follows.""","1:aio_kori_frag2:Continue",
-XLII_aio_kori_frag2,DialogOptionSelected,"$option == aio_kori_frag2
-$tag:XLII_aio_operative","AddTextSmall ""Recovered Fragment 2 of 2 - Unscheduled Outbound Transmission"" highlight","""the hour was come / it has passed / (i have kept an older hour besides)""","1:aio_kori_close:Continue","Longsight's epitaph, per work/outline/main-story-endings.md - full archaic register, delivered as recovered transcript text rather than spoken live, per character_profile-longsight.md's 'match its register exactly or don't have it speak at all.' Lowercase/verse-break typography matches the live voice rewrite - see character_profile-longsight.md's Omega/THREAT typographic references."
-XLII_aio_kori_close,DialogOptionSelected,"$option == aio_kori_close
-$tag:XLII_aio_operative","$global.XLII_koriTranscriptRead = true","Ancker lets it sit on the screen longer than he needs to before he closes the file. ""I don't have a reading on that I'd stake anything on. I've stopped trying to have one for anything that comes out of Kori.""
+He doesn't summarize it. He puts the fragment on your screen exactly as recovered, unedited, timestamp intact.","1:aio_kori_frag1:Continue","Relocated this session (author request) from the old Ring-Port comm-directory OpenCDE scene (formerly XLII_aio_operative_init/XLII_aio_operative_main_opt_kori, # [ANCKER] Greeting) onto a dedicated bastion-revisit scene instead - dispatched from XLII_CampaignPlugin.pickInteractionDialogPlugin() the same way Monroe's own standing exchange is (see the [CHAIN OF CUSTODY] Monroe Vetting section's notes), checked ahead of that exchange so a fresh $global.XLII_burnTheMachineComplete && !$global.XLII_koriTranscriptRead visit always gets this scene first. Ring-Port no longer has any placement or comm-directory role for Ancker at all - see XLII_PersonDanielAncker's own doc comment."
+XLII_aio_kori_frag1,DialogOptionSelected,"$option == aio_kori_frag1","AddTextSmall ""Recovered Fragment 1 of 2 - Loss Report Addendum, Kori Undercroft"" highlight","""Uplink XLII-07, Longsight liaison equipment, reported non-responsive at 0347 local, coincident with unauthorized entry to the undercroft. Equipment presumed destroyed in the subsequent engagement. Terminal channel logged one unscheduled outbound transmission immediately prior to loss of signal. Origin unconfirmed. Content follows.""","1:aio_kori_frag2:Continue",
+XLII_aio_kori_frag2,DialogOptionSelected,"$option == aio_kori_frag2","AddTextSmall ""Recovered Fragment 2 of 2 - Unscheduled Outbound Transmission"" highlight","""the hour was come / it has passed / (i have kept an older hour besides)""","1:aio_kori_close:Continue","Longsight's epitaph, per work/outline/main-story-endings.md - full archaic register, delivered as recovered transcript text rather than spoken live, per character_profile-longsight.md's 'match its register exactly or don't have it speak at all.' Lowercase/verse-break typography matches the live voice rewrite - see character_profile-longsight.md's Omega/THREAT typographic references."
+XLII_aio_kori_close,DialogOptionSelected,"$option == aio_kori_close","$global.XLII_koriTranscriptRead = true","Ancker lets it sit on the screen longer than he needs to before he closes the file. ""I don't have a reading on that I'd stake anything on. I've stopped trying to have one for anything that comes out of Kori.""
 
 The part that costs him something to say plainly, and he says it plainly anyway. ""The Rift is failing. Whatever held it up went with the installation. Hegemony inspection traffic will reach this system eventually - weeks, possibly less. That is not a variable I can manage for you.""
 
 ""One loose end left, and it's mine to name, not yours to guess at. Ladon. The bastion's garrison went hostile again the moment Kori did - the Office doesn't keep black sites standing for men it no longer trusts to know where they are."" A pause that isn't for effect. ""I'd call that your problem now.""","1:aio_kori_end:Understood",
-XLII_aio_kori_end,DialogOptionSelected,"$option == aio_kori_end","EndConversation",,,
+XLII_aio_kori_end,DialogOptionSelected,"$option == aio_kori_end","DismissDialog",,,"Standalone bare RuleBasedInteractionDialogPluginImpl scene dispatched directly from XLII_CampaignPlugin's bastion interception, same shape as XLII_MonroeVetting/XLII_MonroeExchangeOpen - DismissDialog, not EndConversation (no parent menu to fall back to). See the longsight.md Gotchas 'sibling trap' entry."
 "#END [ANCKER] Kori Transcript",,,,,,
 "#END [ANCKER] System",,,,,,
 ,,,,,,
@@ -3346,8 +3326,7 @@ XLII_monroe_vetting_open,XLII_MonroeVetting,"$global.XLII_aio_operative_revealed
 
 The Tri-Tachyon livery and stenciling have been replaced by AIO markings. Whatever they refitted this for, they took paranoia as a design constraint before it took anything else - the redundancy stops reading as doctrine somewhere past the third layer and starts reading like something standing watch.","1:ancker_escort_arrival_met:Continue","Split this session: the arrival paragraph now stands alone with no portrait (ShowDefaultVisual - the bastion's own interaction image, not a person), separated from Ancker's own greeting by a plain Continue, so the player reads the approach alone before any character appears. Ancker's greeting moved to XLII_ancker_escort_greeting_met, reached via ancker_escort_arrival_met."
 XLII_monroe_vetting_open_unmet,XLII_MonroeVetting,"!$global.XLII_aio_operative_revealed","$global.XLII_aio_operative_revealed = true
-XLII_RevealDanielAncker
-ShowDefaultVisual","The approach towards the station alone tells you a lot. Checkpoints challenge the ship at ranges no crewed defense grid would be able to react to in time. Sensor arrays cycle through patterns that never quite repeat. The bastion resolves out of the dark already lit for a docking nobody scheduled anywhere you can see. The Tri-Tachyon livery and stenciling have been replaced by AIO markings. Whatever they refitted this for, they took paranoia as a design constraint before it took anything else - the redundancy stops reading as doctrine somewhere past the third layer and starts reading like something standing watch.","1:ancker_escort_arrival_unmet:Continue","Split this session - see XLII_monroe_vetting_open's notes for the shared pattern. Ancker's greeting moved to XLII_ancker_escort_greeting_unmet, reached via ancker_escort_arrival_unmet. The reveal-flag/XLII_RevealDanielAncker side effects stay on this row (they must run regardless of the Continue click that follows)."
+ShowDefaultVisual","The approach towards the station alone tells you a lot. Checkpoints challenge the ship at ranges no crewed defense grid would be able to react to in time. Sensor arrays cycle through patterns that never quite repeat. The bastion resolves out of the dark already lit for a docking nobody scheduled anywhere you can see. The Tri-Tachyon livery and stenciling have been replaced by AIO markings. Whatever they refitted this for, they took paranoia as a design constraint before it took anything else - the redundancy stops reading as doctrine somewhere past the third layer and starts reading like something standing watch.","1:ancker_escort_arrival_unmet:Continue","Split this session - see XLII_monroe_vetting_open's notes for the shared pattern. Ancker's greeting moved to XLII_ancker_escort_greeting_unmet, reached via ancker_escort_arrival_unmet. The reveal-flag side effect stays on this row (it must run regardless of the Continue click that follows) - XLII_RevealDanielAncker itself was retired this session along with Ancker's Ring-Port comm-directory placement, see XLII_PersonDanielAncker's doc comment."
 XLII_ancker_escort_greeting_met,DialogOptionSelected,"$option == ancker_escort_arrival_met","ShowPersonVisual false XLII_aio_operative_Daniel
 FireAll XLII_AnckerEscortOptions","""Commander."" The same clipped address as before, nothing added to it. Ancker doesn't stand from wherever he's positioned - he's already watching the door you came through. ""Didn't expect to be the one meeting you here.""
 
@@ -3569,8 +3548,7 @@ XLII_Korrin queue korrin_waste_not_aftermath","Hull plating scorched and vented,
 Whatever alarms the installation had, they ran their sequence successfully - someone inside decided losing the evidence was cheaper than losing it to a boarding party. Being driven off cost more than ships. It cost the only chance to get there before that sequence finished.
 
 There's nothing left to recover. Just confirmation that something was here, and a clean, professional job of making sure that's all that's left to find.","1:waste_not_installation_close:Leave","Resolves the quest after a lost fight (XLII_LaunchWasteNotInstallationFight sets $XLII_wasteNotInstallationFailed on loss without reopening immediately, since a real defeat can teleport the player away before any dialog could show) - the player gets here by returning to the planet on their own schedule and picking the one option available once failed. No items granted; see korrin_waste_not_aftermath's _failed branch and XLII_waste_not_report_failed for the matching downstream reactions."
-XLII_waste_not_installation_observe,DialogOptionSelected,"$option == waste_not_installation_observe","$global.XLII_wasteNotOutcome = observed
-$global.XLII_wasteNotInstallationResolved = true
+XLII_waste_not_installation_observe,DialogOptionSelected,"$option == waste_not_installation_observe","XLII_ResolveWasteNotObservation
 XLII_Korrin queue korrin_waste_not_aftermath","Running silent lets the fleet close without being noticed. What comes back isn't a picture so much as a set of readings.
 
 Heat signatures consistent with sustained stasis - far more of it than a station this size has any ordinary reason to need. Shuttle traffic, short-range, logged under cargo designations rather than personnel transfers. A fragment of intercepted comm chatter, clipped and administrative, repeating a term enough times for it to stop sounding like a euphemism.
