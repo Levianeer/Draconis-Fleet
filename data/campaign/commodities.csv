@@ -1,6 +1,6 @@
 name,id,demand class,base price,export value,price variability,utility,origin,tags,stack size,cargo space,icon,sound id,sound id drop,order,economyTier,econUnitOrigUnused,econUnit,baseRaidDanger,eU * base value,iconWidthMult,plugin,desc
 Longsight Uplink,draconis_longsight,ai_cores,,,0,1000,,"nonecon, ai_core, no_loss_from_combat, no_drop, codex_unlockable",1000,,graphics/icons/cargo/ai_omega_core.png,ai_core_pickup,ui_alpha_core_drop,711000,,,,EXTREME,,1,,
-Auxiliary Cognition Unit,XLII_ai_core_bio,ai_cores,,,0,5,,"nonecon, ai_core, no_loss_from_combat, no_drop, codex_unlockable",1000,1,graphics/icons/cargo/XLII_ai_core_bio.png,ai_core_pickup,ui_gamma_core_drop,711000,,,,MEDIUM,,1,,
+AuxCog Core,XLII_ai_core_bio,ai_cores,,,0,5,,"nonecon, ai_core, no_loss_from_combat, no_drop, codex_unlockable",1000,1,graphics/icons/cargo/XLII_ai_core_bio.png,ai_core_pickup,ui_gamma_core_drop,711000,,,,MEDIUM,,1,,
 ,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,
