@@ -74,7 +74,7 @@ This mod is licensed under: **[CC BY-NC-SA 4.0](https://creativecommons.org/lice
 
 #### **You MUST:**
 - Give appropriate credit to Levianeer
-  - (https://github.com/Levianeer/Draconis-Fleet & https://fractalsoftworks.com/forum/index.php?topic=33489)
+  - [Github](https://github.com/Levianeer/Draconis-Fleet) & [Forum](https://fractalsoftworks.com/forum/index.php?topic=33489)
 - Indicate if you made any changes to the original
 - Distribute your modifications under the same CC BY-NC-SA 4.0 license
 
