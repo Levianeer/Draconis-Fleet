@@ -14,7 +14,7 @@ import java.util.Random;
 
 /**
  * Rule command: resolves the forced-entry branch of the Waste Not installation fight. Grants
- * 1-3 Auxiliary Cognition Units (floor 1, flat random roll per author direction - not worth a
+ * 1-3 AuxCog Cores (floor 1, flat random roll per author direction - not worth a
  * dedicated tracker for finer-grained outcome tiers, unlike the later Kori raid's loss-ratio
  * buckets), announces the gain via {@code AddRemoveCommodity.addCommodityGainText} (the same
  * "Gained Nx <item>" cargo-toast helper vanilla's own commodity-granting rules use - added after

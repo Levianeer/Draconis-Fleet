@@ -58,15 +58,21 @@ public class XLII_OfficeContactMonitor implements EveryFrameScript {
 
     private static final float COMBAT_POINTS = 80f;
     private static final float INTERCEPT_ASSIGNMENT_DAYS = 3f;
-    private static final float SPAWN_DISTANCE = 3000f;
+    private static final float SPAWN_DISTANCE = 1000f;
 
-    /** If the fleet falls further than this from the player, it's repositioned rather than left to search. */
-    private static final float MAX_LEASH_DISTANCE = 6000f;
+    /**
+     * If the fleet falls further than this from the player, it's repositioned rather than left to
+     * search. Kept short (rather than vanilla patrol-chase distances) because this is a one-shot
+     * story courier that has to land its message, not an ordinary patrol a player is expected to be
+     * able to outrun - a wide leash just meant a slow escort fleet could keep losing ground to a
+     * fast player fleet faster than the periodic re-leash could close it again.
+     */
+    private static final float MAX_LEASH_DISTANCE = 1500f;
 
     /** Safety cap on how long onContactFired() waits for the Transverse Jump ability before despawning anyway. */
     private static final float DESPAWN_TIMEOUT_SECONDS = 15f;
 
-    private final IntervalUtil checkInterval = new IntervalUtil(5f, 5f);
+    private final IntervalUtil checkInterval = new IntervalUtil(2f, 2f);
     private final Random random = new Random();
 
     private CampaignFleetAPI interceptingFleet = null;

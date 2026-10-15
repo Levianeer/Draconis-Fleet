@@ -12,6 +12,7 @@ import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.campaign.listeners.CurrentLocationChangedListener;
 import com.fs.starfarer.api.campaign.listeners.DiscoverEntityListener;
 import com.fs.starfarer.api.campaign.listeners.SurveyPlanetListener;
+import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.util.Misc;
 import org.apache.log4j.Logger;
 
@@ -192,7 +193,9 @@ public class KorrinObserver implements ColonyInteractionListener, CurrentLocatio
      * <p>
      * Checks sector memory first, then falls back to the player person's memory - some vanilla
      * quests (e.g. Sword of Eventide's duel/Neriene outcomes) write their branch flags there instead
-     * of to sector memory, and rules.csv's own {@code $player.} scope resolves the same way.
+     * of to sector memory, and rules.csv's own {@code $player.} scope resolves the same way. See
+     * {@link KorrinTopicQueue#isFlagSet} - the actual lookup now lives there, shared with
+     * {@link KorrinTopicQueue#isExpired}.
      */
     public static void pollWatches() {
         // See consider()'s own note on GONE.
@@ -203,11 +206,46 @@ public class KorrinObserver implements ColonyInteractionListener, CurrentLocatio
 
         for (KorrinTopicQueue.Topic topic : KorrinTopicQueue.getWatchers()) {
             if (hasFired(topic.id)) continue;
-            boolean flagSet = Global.getSector().getMemoryWithoutUpdate().getBoolean(topic.watch)
-                    || Global.getSector().getPlayerPerson().getMemoryWithoutUpdate().getBoolean(topic.watch);
-            if (!flagSet) continue;
+            // Already moot by the time its own watch flag would have queued it (e.g. a dev
+            // shortcut setting "offered" and "complete" in the same tick) - mark it fired without
+            // ever surfacing it, same end state pruneExpired() reaches for one already queued.
+            if (KorrinTopicQueue.isExpired(topic)) {
+                markFired(topic.id);
+                continue;
+            }
+            if (!KorrinTopicQueue.isFlagSet(topic.watch)) continue;
+            if (!topic.watch2.isEmpty() && !KorrinTopicQueue.isFlagSet(topic.watch2)) continue;
+            if (!waitedLongEnough(topic)) continue;
             consider(topic.id);
         }
+
+        KorrinTopicQueue.pruneExpired();
+    }
+
+    /** Sector memory key prefix timestamping when a delayed topic's watch flags were first satisfied. */
+    private static final String ARMED_KEY_PREFIX = "$korrin_watch_armed_";
+
+    /**
+     * True once {@code topic.delayDays} have passed since its watch flag(s) were first satisfied,
+     * or immediately if it declares no delay (the default, and the whole mod's prior behavior).
+     * Starts the timer itself, lazily, the first time it's asked about a topic with a delay - same
+     * self-starting idiom as {@code XLII_CheckDaysSince} elsewhere in this mod, so a flag that was
+     * already true before this check first ran (e.g. set via dev console) still gets the full
+     * delay counted from when it was actually noticed, not retroactively.
+     */
+    private static boolean waitedLongEnough(KorrinTopicQueue.Topic topic) {
+        if (topic.delayDays <= 0f) return true;
+
+        String key = ARMED_KEY_PREFIX + topic.id;
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+
+        if (!mem.contains(key)) {
+            mem.set(key, Global.getSector().getClock().getTimestamp());
+            return false;
+        }
+
+        long armedAt = ((Number) mem.get(key)).longValue();
+        return Global.getSector().getClock().getElapsedDaysSince(armedAt) >= topic.delayDays;
     }
 
     // --- one-shot bookkeeping ------------------------------------------------------------------

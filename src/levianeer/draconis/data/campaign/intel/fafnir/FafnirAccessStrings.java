@@ -39,6 +39,8 @@ public class FafnirAccessStrings {
     public static final String PATH_RING_PORT        = "ring_port";
     public static final String PATH_BRUTE_FORCE      = "brute_force";
     public static final String PATH_TRANSVERSE_JUMP  = "transverse_jump";
+    /** Recorded when access is backfilled by {@code XLII_System.disableRiftTerrain()} rather than earned via one of the four paths above - the Rift itself is gone, so there's nothing left to gate. */
+    public static final String PATH_RIFT_COLLAPSED   = "rift_collapsed";
 
     // =========================================================================
     // Reputation deltas applied at access time (0-1 float, Starsector rep scale)

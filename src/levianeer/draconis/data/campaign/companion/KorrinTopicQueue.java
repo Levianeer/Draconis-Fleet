@@ -74,14 +74,43 @@ public class KorrinTopicQueue {
          * vanilla quests reach him: they have no listener, so the declared flags are polled.
          */
         public final String watch;
+        /**
+         * Sector memory flag whose becoming set means this topic is moot and should be dropped
+         * rather than surfaced, or empty. For a topic like "where would you even find one of
+         * those" that stops making sense once the quest has moved past it (the item has already
+         * been delivered) - without this, a topic the player did not get around to reading just
+         * sits in the backlog forever, per this class's own "nothing is ever lost" rule, and
+         * eventually plays as a continuity error. Checked by {@link #pruneExpired()}.
+         */
+        public final String expire;
+        /**
+         * Second sector memory flag that must also be set before this topic queues, or empty. The
+         * {@code watch} flag alone is sometimes not enough of a gate - e.g. a quest's completion
+         * flag can fire before the player has actually engaged a specific prior conversation (word
+         * tier topics are picked at the player's own leisure, not forced), and a topic that reads
+         * as a direct follow-on to that conversation would otherwise surface before it. Checked by
+         * {@link KorrinObserver#pollWatches()} alongside {@code watch} - both must be true.
+         */
+        public final String watch2;
+        /**
+         * Days to wait, once {@code watch} (and {@code watch2}, if set) are satisfied, before
+         * actually queuing the topic - 0 (the default) queues immediately, same as before this
+         * existed. Gives a beat the pacing room to land rather than firing the instant its
+         * prerequisite does. See {@link KorrinObserver#pollWatches()} for the timer mechanism.
+         */
+        public final float delayDays;
 
-        Topic(String id, String label, int priority, Tier tier, String text, String watch) {
+        Topic(String id, String label, int priority, Tier tier, String text, String watch, String expire,
+              String watch2, float delayDays) {
             this.id = id;
             this.label = label;
             this.priority = priority;
             this.tier = tier;
             this.text = text;
             this.watch = watch;
+            this.expire = expire;
+            this.watch2 = watch2;
+            this.delayDays = delayDays;
         }
     }
 
@@ -102,6 +131,38 @@ public class KorrinTopicQueue {
             if (!topic.watch.isEmpty()) out.add(topic);
         }
         return out;
+    }
+
+    /**
+     * Reads a memory flag the same way the {@code watch}/{@code expire} columns are resolved:
+     * sector memory first, then the player person's memory - some vanilla quests write their
+     * branch flags there instead of to sector memory, and rules.csv's own {@code $player.} scope
+     * resolves the same way. Shared so {@link KorrinObserver#pollWatches()} and this class's own
+     * {@link #isExpired} never drift apart on how a flag is looked up.
+     */
+    public static boolean isFlagSet(String flag) {
+        if (flag == null || flag.isEmpty()) return false;
+        return Global.getSector().getMemoryWithoutUpdate().getBoolean(flag)
+                || Global.getSector().getPlayerPerson().getMemoryWithoutUpdate().getBoolean(flag);
+    }
+
+    /** True if {@code topic} declares an {@code expire} flag and that flag is currently set. */
+    public static boolean isExpired(Topic topic) {
+        return topic != null && !topic.expire.isEmpty() && isFlagSet(topic.expire);
+    }
+
+    /**
+     * Drops any pending/backlog topic whose declared {@code expire} flag has fired - the event or
+     * quest stage the topic depended on has moved past the point where it still makes sense.
+     * Called every tick alongside {@link KorrinObserver#pollWatches()} so a topic the player never
+     * got around to reading quietly disappears instead of surfacing as a continuity error.
+     */
+    public static void pruneExpired() {
+        for (Topic topic : getTopics().values()) {
+            if (topic.expire.isEmpty()) continue;
+            if (!isPending(topic.id) && !contains(BACKLOG_KEY, topic.id)) continue;
+            if (isExpired(topic)) dropExpired(topic.id);
+        }
     }
 
     private static Map<String, Topic> getTopics() {
@@ -127,7 +188,10 @@ public class KorrinTopicQueue {
                         row.optInt("priority", 0),
                         tier,
                         text,
-                        row.optString("watch", "").trim()));
+                        row.optString("watch", "").trim(),
+                        row.optString("expire", "").trim(),
+                        row.optString("watch2", "").trim(),
+                        (float) row.optDouble("delayDays", 0)));
             }
             log.info("Draconis: loaded " + topics.size() + " Korrin topic(s)");
         } catch (Exception e) {
@@ -262,6 +326,16 @@ public class KorrinTopicQueue {
 
     /** Topic has been delivered - drop it from both lists. */
     public static void markDelivered(String topicId) {
+        removeFromQueues(topicId);
+    }
+
+    /** Topic was never read - its {@code expire} flag fired first. Drop it the same way. */
+    private static void dropExpired(String topicId) {
+        log.info("Draconis: Korrin topic '" + topicId + "' expired unread, dropping");
+        removeFromQueues(topicId);
+    }
+
+    private static void removeFromQueues(String topicId) {
         remove(PENDING_KEY, topicId);
         remove(BACKLOG_KEY, topicId);
     }

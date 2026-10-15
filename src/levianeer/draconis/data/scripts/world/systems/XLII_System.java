@@ -3,6 +3,7 @@ package levianeer.draconis.data.scripts.world.systems;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.impl.campaign.procgen.NebulaEditor;
 import com.fs.starfarer.api.impl.campaign.terrain.HyperspaceTerrainPlugin;
@@ -11,6 +12,7 @@ import com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
 import exerelin.ExerelinConstants;
 import levianeer.draconis.data.campaign.events.XLII_KoriStrike;
+import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
 import levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -548,10 +550,24 @@ public class XLII_System implements SectorGeneratorPlugin {
 
     /**
      * Removes the Rift and its beacon from hyperspace - called on the Burn the Machine win path
-     * once Ladon's Office bastion is destroyed (see {@code XLII_BastionDestructionMonitor}).
+     * once Ladon's Office bastion is destroyed (see {@code XLII_BastionDestructionMonitor}) or on
+     * the Mirror Assault's hostile route to the same outcome (see {@code XLII_MirrorAssault}).
      * <p>
      * Idempotent: each lookup no-ops if the entity is already gone, so this is safe to call again
      * as a save-load backfill for saves that finished that ending before this existed.
+     * <p>
+     * <b>Bug fix (author request): also grants Fafnir access.</b> Every caller of this method
+     * represents the same real-world fact - the Rift, the thing the whole Fafnir Access System
+     * (see {@code .claude/systems/fafnir-access.md}) exists to gate entry around, is now gone -
+     * but that system's own JP lock, in-system intercept monitor, and backfill checks all key
+     * exclusively off {@code FafnirAccessStrings.MEM_ACCESS_GRANTED}, which nothing here ever set.
+     * A player who hadn't already completed one of the four entry paths (TT Courier/Ring-Port
+     * Contractor/Brute Force/Transverse Jump) before the Rift collapsed would still get blocked at
+     * every Fafnir jump point and still get intercepted in-system, despite the obstacle those
+     * mechanisms exist to enforce no longer existing. Setting the flag here, rather than adding a
+     * parallel "is the Rift down" check to every gate individually, means every one of those
+     * checkpoints falls through correctly for free - they were already written to skip themselves
+     * once access is granted, by design.
      */
     public static void disableRiftTerrain() {
         LocationAPI hyperspace = Global.getSector().getHyperspace();
@@ -568,6 +584,12 @@ public class XLII_System implements SectorGeneratorPlugin {
             if (riftEntity != null) {
                 hyperspace.removeEntity(riftEntity);
             }
+        }
+
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+        if (!mem.getBoolean(FafnirAccessStrings.MEM_ACCESS_GRANTED)) {
+            mem.set(FafnirAccessStrings.MEM_ACCESS_GRANTED, true);
+            mem.set(FafnirAccessStrings.MEM_ENTRY_PATH, FafnirAccessStrings.PATH_RIFT_COLLAPSED);
         }
     }
 

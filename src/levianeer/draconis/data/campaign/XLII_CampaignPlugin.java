@@ -178,6 +178,27 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
                             CampaignPlugin.PickPriority.MOD_SPECIFIC
                     );
                 }
+
+                // --- Office bastion: Monroe's standing organ/core exchange (author request) ---
+                // Reachable on any later visit once Monroe has already vetted the player AND the
+                // player has personally seen what an AuxCog Core actually is (Waste Not) - before
+                // that, offering this trade would mean nothing to a player who has never heard of
+                // the item. Gated on both rather than just the first so this never surfaces ahead
+                // of the reveal it depends on, regardless of which order a player happens to
+                // finish the two in relative to each other.
+                if (mem.getBoolean("$XLII_officeVettingComplete")
+                        && mem.getBoolean("$XLII_wasteNotComplete")) {
+                    // First visit plays Monroe's full reveal; every visit after that skips
+                    // straight to a short greeting + the standing menu, rather than replaying the
+                    // same large reveal paragraph verbatim on every return trip (author request).
+                    String trigger = mem.getBoolean("$XLII_monroeExchangeIntroSeen")
+                            ? "XLII_MonroeExchangeReturn" : "XLII_MonroeExchangeOpen";
+                    log.debug("Draconis: Office bastion Monroe exchange intercept (" + trigger + ")");
+                    return new PluginPick<>(
+                            new RuleBasedInteractionDialogPluginImpl(trigger),
+                            CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    );
+                }
             }
         }
 

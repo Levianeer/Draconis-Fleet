@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.missions.hub.BaseHubMission.GlobalBooleanChecker;
 import com.fs.starfarer.api.impl.campaign.missions.hub.HubMissionWithBarEvent;
 import com.fs.starfarer.api.impl.campaign.missions.hub.ReqMode;
+import com.fs.starfarer.api.ui.IntelUIAPI;
 import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
@@ -176,6 +177,19 @@ public class WasteNotMission extends HubMissionWithBarEvent {
     private void syncInstallationMarker() {
         if (installationMarkerSynced) return;
         if (!Global.getSector().getMemoryWithoutUpdate().getBoolean("$XLII_wasteNotManifestFound")) return;
+        // Bug fix: without this, a save reloaded after the mission has already moved past
+        // INSTALLATION (REPORT_BACK/COMPLETED) would still register a fresh ImportanceData entry
+        // for this stage on every load (installationMarkerSynced resets to false each load, by
+        // design, to backfill old saves) - harmless to the live marker itself (makeImportant()'s
+        // own inCurrentStage check already keeps it from actually lighting up again here), but a
+        // dead entry accumulates in that stage's own importance list every single load for the
+        // rest of the save's life. Once the mission is past this stage, there's nothing left to
+        // backfill - skip entirely instead of registering something that will never be visited
+        // again by setCurrentStage()'s own cleanup pass.
+        if (currentStage != Stage.INSTALLATION) {
+            installationMarkerSynced = true;
+            return;
+        }
         installationMarkerSynced = true;
 
         String installationId = Global.getSector().getMemoryWithoutUpdate().getString(MEM_INSTALLATION_PLANET_ID);
@@ -183,6 +197,39 @@ public class WasteNotMission extends HubMissionWithBarEvent {
         if (installation != null) {
             makeImportant(installation, null, Stage.INSTALLATION);
         }
+    }
+
+    /**
+     * Bug fix (author report): the colony/installation map markers could survive the quest ending.
+     * Belt-and-suspenders on top of vanilla's own per-stage {@code setCurrentStage()} cleanup
+     * (which unmarks a stage's own {@code makeImportant} entries the moment the mission transitions
+     * off of it) - mirrors the identical pattern already established for this exact class of bug in
+     * {@code OfficeReferralMission.clearStageMarkers()}, called from both the mission's own natural
+     * end (success) and the manual "Delete entry" path, so neither route can leave either planet
+     * stuck marked important regardless of which one actually needs it.
+     */
+    private void clearStageMarkers() {
+        String colonyId = Global.getSector().getMemoryWithoutUpdate().getString(MEM_COLONY_PLANET_ID);
+        SectorEntityToken colony = colonyId == null ? null : Global.getSector().getEntityById(colonyId);
+        if (colony != null) makeUnimportant(colony);
+
+        String installationId = Global.getSector().getMemoryWithoutUpdate().getString(MEM_INSTALLATION_PLANET_ID);
+        SectorEntityToken installation = installationId == null ? null : Global.getSector().getEntityById(installationId);
+        if (installation != null) makeUnimportant(installation);
+    }
+
+    @Override
+    protected void notifyEnded() {
+        super.notifyEnded();
+        clearStageMarkers();
+    }
+
+    @Override
+    public void buttonPressConfirmed(Object buttonId, IntelUIAPI ui) {
+        if (buttonId == BUTTON_DELETE) {
+            clearStageMarkers();
+        }
+        super.buttonPressConfirmed(buttonId, ui);
     }
 
     private Stage determineStartingStage() {

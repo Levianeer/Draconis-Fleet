@@ -2716,7 +2716,8 @@ He says it lightly, and means it.
 XLII_korrin_c_waste_not_aftermath_observed,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
 $global.XLII_wasteNotOutcome == observed","XLII_Korrin visual
 XLII_Korrin topicDone
-XLII_Korrin rep 0.05","He doesn't say much on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
+XLII_Korrin rep 0.05
+$global.XLII_wasteNotAftermathAcked = true","He doesn't say much on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
 
 ""I've spent most of my career believing the worst things in this sector have names we already know. Whatever's left of the Domain, still running on momentum nobody shut off properly. Things old enough that being afraid of them feels almost respectable.""
 
@@ -2726,7 +2727,8 @@ XLII_Korrin rep 0.05","He doesn't say much on the way back. It's only once the s
 XLII_korrin_c_waste_not_aftermath_forced,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
 $global.XLII_wasteNotOutcome == forced","XLII_Korrin visual
 XLII_Korrin topicDone
-XLII_Korrin rep 0.03","He doesn't say much on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
+XLII_Korrin rep 0.03
+$global.XLII_wasteNotAftermathAcked = true","He doesn't say much on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
 
 ""I've spent most of my career believing the worst things in this sector have names we already know. Whatever's left of the Domain, still running on momentum nobody shut off properly. Things old enough that being afraid of them feels almost respectable.""
 
@@ -2735,7 +2737,8 @@ XLII_Korrin rep 0.03","He doesn't say much on the way back. It's only once the s
 ""I don't know yet whether this is one place, or whether it's the first one we've just happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""","1:korrin_waste_not_aftermath_close:Leave it there",
 XLII_korrin_c_waste_not_aftermath_failed,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
 $global.XLII_wasteNotOutcome == failed","XLII_Korrin visual
-XLII_Korrin topicDone","He doesn't say much on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
+XLII_Korrin topicDone
+$global.XLII_wasteNotAftermathAcked = true","He doesn't say much on the way back. It's only once the ship's quiet again, no crew in earshot, that he finally does.
 
 ""I've spent most of my career believing the worst things in this sector have names we already know. Whatever's left of the Domain, still running on momentum nobody shut off properly. Things old enough that being afraid of them feels almost respectable.""
 
@@ -2743,6 +2746,19 @@ XLII_Korrin topicDone","He doesn't say much on the way back. It's only once the 
 
 ""I don't know yet whether this is one place, or whether it's the first one we've just happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""","1:korrin_waste_not_aftermath_close:Leave it there","No rep delta, unlike the observed/forced branches - this one didn't go well, and nothing about it reflects on the player's judgment the way a choice between those two did."
 XLII_korrin_waste_not_aftermath_close,DialogOptionSelected,"$option == korrin_waste_not_aftermath_close","DismissDialog",,,
+XLII_korrin_c_office_exchange,XLII_KorrinComment,"XLII_Korrin topicIs korrin_office_exchange_reaction","XLII_Korrin visual
+FireAll XLII_KorrinCOfficeExchangeOptions","""So it isn't a operation that got out of hand. It's a program."" He says it flatly, like he's updating a file rather than reacting to one. ""Monroe didn't even bother denying it to your face. That's not an oversight on her part, Commander. That's confidence.""
+
+A pause.
+
+""I don't know what unsettles me more - that it's real, or that she assumed you'd keep doing business with her anyway.""",,"Queued directly (XLII_Korrin queue korrin_office_exchange_reaction) from the first successful trade, not watch-polled - there's no single flag to poll for ""has traded at least once"" that wouldn't also need the same one-shot guard the trade row already carries."
+XLII_korrin_c_office_exchange_opt_judge,XLII_KorrinCOfficeExchangeOptions,,,,"10:korrin_exchange_judge:Ask if he thinks less of you for it",
+XLII_korrin_c_office_exchange_opt_justify,XLII_KorrinCOfficeExchangeOptions,,,,"11:korrin_exchange_justify:Say the alternative is buying real cores off someone worse",
+XLII_korrin_c_office_exchange_opt_later,XLII_KorrinCOfficeExchangeOptions,,,,"100:korrin_defer:Not now",
+XLII_korrin_a_exchange_judge,DialogOptionSelected,"$option == korrin_exchange_judge","XLII_Korrin topicDone
+XLII_Korrin rep 0.02","""No."" He doesn't take a beat to decide that. ""You didn't build the arrangement, Commander. You found it, and then you used it, same as everyone else who's ever stood where you're standing. I'd think less of you for pretending otherwise.""","1:korrin_done:Leave it there",
+XLII_korrin_a_exchange_justify,DialogOptionSelected,"$option == korrin_exchange_justify","XLII_Korrin topicDone
+XLII_Korrin rep 0.01","""Maybe."" He doesn't sound convinced, but he doesn't sound like he's arguing either. ""I'd just rather you not need a worse alternative to compare yourself against before it starts feeling acceptable.""","1:korrin_done:Leave it there",
 "#END [KORRIN] Casual Topics",,,,,,
 ,,,,,,
 # [KORRIN] Dev Testing,,,,,,
@@ -2988,11 +3004,15 @@ $tag:XLII_fleet_admiral_emil","$global.XLII_logQ3Complete = true","""Our key to 
 
 He shifts. The encryption distorts around the motion.
 
-""A Domain-era computational device. Designated LONGSIGHT. Built to coordinate colonial infrastructure across multiple systems - resource allocation, logistics, production planning. Never finished. Sealed when the Collapse severed its purpose.""
+""I'm not handing you the rest of it over a channel like this one, Commander - not because I doubt you. Because I don't trust the line.""
 
 He is quiet for a moment.
 
-""Then the Office woke it."" Another pause, heavier. ""And that's where the fog of war begins. I know the outline. The Office knows the rest.""","1:gate_logs_q_return:Continue",
+""What I'll say is this: whatever answered us at Kori didn't come through the Gate. It was already there, and the Office has kept it closer than anything else in their keeping since.""
+
+Another pause, heavier.
+
+""You'll know the shape of it in time. Not from me, and not today. I know the outline. The Office knows the rest.""","1:gate_logs_q_return:Continue",
 XLII_gate_logs_finale_sel,DialogOptionSelected,"$option == gate_logs_finale
 $tag:XLII_fleet_admiral_emil",,"The line is quiet for a moment. Longer than it needs to be.
 
@@ -3442,13 +3462,47 @@ XLII_nanoforge_deliver_close,DialogOptionSelected,"$option == nanoforge_deliver_
 "#END [CHAIN OF CUSTODY] Monroe Vetting",,,,,,
 "#END [CHAIN OF CUSTODY] Quest",,,,,,
 ,,,,,,
+# [MONROE] Standing Trade,,,,,,
+XLII_monroe_exchange_open,XLII_MonroeExchangeOpen,,"ShowPersonVisual false XLII_aio_director_Haspel
+$global.XLII_monroeExchangeIntroSeen = true","Monroe doesn't rise, and doesn't pretend the return visit is a surprise. ""Commander. I take it Walt Hollis's suspicion bore fruit.""
+
+She lets that sit for a moment before continuing.
+
+""What you found there wasn't an aberration the Office failed to notice. It was a provisioning line - run exactly the way it's meant to be run, until someone like you walks through the middle of it.""
+
+""Genuine cores are not plentiful, and the people who would ordinarily requisition one are not always people the Office can route a requisition through on paper. So: we don't requisition them. We grow a cheaper substitute out of what's already being discarded, on a schedule, in more than one place.""
+
+A pause.
+
+""I'm not going to pretend that is a comfortable thing to have confirmed to your face. I'm going to offer you a standing arrangement regardless, because the arrangement exists with or without you, and you evidently have access to a supply the Office does not. Bring us Harvested Organs. We return processed cores - same substrate, same specification. Whatever conclusions you draw from that are yours to draw, Commander, on your own time.""","1:monroe_exchange_continue:Continue","New this session (author request, item 6 of TODO.md) - the standing Harvested Organs -> AuxCog Core exchange. Dispatched from XLII_CampaignPlugin.pickInteractionDialogPlugin() on any bastion revisit once both $global.XLII_officeVettingComplete and $global.XLII_wasteNotComplete are set - gated on the latter so this never surfaces before the player has personally seen what an AuxCog Core actually is and where it comes from. Monroe confirms outright that Waste Not's site was not an isolated black operation."
+XLII_monroe_exchange_continue_sel,DialogOptionSelected,"$option == monroe_exchange_continue","FireAll XLII_MonroeExchangeOptions",,,
+XLII_monroe_exchange_return,XLII_MonroeExchangeReturn,,"ShowPersonVisual false XLII_aio_director_Haspel
+FireAll XLII_MonroeExchangeOptions","Monroe doesn't look up right away. ""Commander. Same arrangement as before, I take it.""",,,"Added alongside XLII_MonroeExchangeOpen (author request) - every bastion visit after the first skipped straight back into the full reveal paragraph verbatim, which read as Monroe repeating herself. XLII_CampaignPlugin now dispatches here instead once $global.XLII_monroeExchangeIntroSeen is set (by the open row above), going straight to the standing menu rather than replaying the reveal."
+XLII_monroe_exchange_opt_trade,XLII_MonroeExchangeOptions,"PlayerHasCargo organs 500",,,"10:monroe_exchange_trade:Hand over 500 units of Harvested Organs","Hidden once the player can't afford the trade rather than shown disabled - consistent with how this dialog's other option menus (e.g. XLII_MonroeQAMenu) prune by condition. 500 organs per core is a starting value, not final - see tools/CLAUDE.md for balance-tuning guidelines if this needs revisiting."
+XLII_monroe_exchange_opt_leave,XLII_MonroeExchangeOptions,,,,"20:monroe_exchange_leave:Leave",
+XLII_monroe_exchange_trade_first,DialogOptionSelected,"$option == monroe_exchange_trade
+!$global.XLII_monroeExchangeFirstTrade","$global.XLII_monroeExchangeFirstTrade = true
+AddRemoveCommodity organs - 500 true
+AddRemoveCommodity XLII_ai_core_bio 1 true
+XLII_Korrin queue korrin_office_exchange_reaction","Monroe takes the manifest without making a show of it - no change in her expression as her own people catalogue what's actually being handed over. A sealed, anonymous core comes back a moment later in its place.
+
+""Pleasure doing business, Commander."" A held exaggeration on the last word, as a near hidden glint of white shows under the folds of dark obscuring her, a sure sign of a wolf grinning.","1:monroe_exchange_loop_continue:Continue","First-time-only branch, split from the repeat branch below purely to queue Korrin's one-time reaction (korrin_office_exchange_reaction) without repeating it on every subsequent trade - he isn't physically present at the bastion, same as his reaction to the vetting visit itself (see XLII_korrin_c_bastion_disbelief above)."
+XLII_monroe_exchange_trade_repeat,DialogOptionSelected,"$option == monroe_exchange_trade
+$global.XLII_monroeExchangeFirstTrade","AddRemoveCommodity organs - 500 true
+AddRemoveCommodity XLII_ai_core_bio 1 true","""Pleasure doing business, Commander."" The exchange happens the same way it did the first time - quick, procedural, nothing said that doesn't need to be.","1:monroe_exchange_loop_continue:Continue",
+XLII_monroe_exchange_loop_continue_sel,DialogOptionSelected,"$option == monroe_exchange_loop_continue","FireAll XLII_MonroeExchangeOptions",,,
+XLII_monroe_exchange_leave_sel,DialogOptionSelected,"$option == monroe_exchange_leave","DismissDialog","""That's all, then."" She's already back to the data-slate before you're out of comm range.",,
+"#END [MONROE] Standing Trade",,,,,,
+,,,,,,
 # [WASTE NOT] Quest,,,,,,
 ,,,,,,
 # [WASTE NOT] Hook,,,,,,
 XLII_waste_not_bar_add,AddBarEvents,"!$market.isHidden
 XLII_Korrin aboard
 $global.XLII_nanoforgeQuestComplete
-!$global.XLII_wasteNotStarted","AddBarEvent XLII_waste_not_hook ""Talk to the plainly-dressed man"" ""An unremarkable man at a corner table - no faction patch, no unit marking. He's watching the door, not the drink in front of him."" highlight",,,
+!$global.XLII_wasteNotStarted
+XLII_IsWasteNotHookMarket","XLII_LockWasteNotHookMarket
+AddBarEvent XLII_waste_not_hook ""Talk to the plainly-dressed man"" ""An unremarkable man at a corner table - no faction patch, no unit marking. He's watching the door, not the drink in front of him."" highlight",,,"Bug fix (author request): used to have no market restriction at all, so Walt could turn up in every bar the player docked at simultaneously. XLII_IsWasteNotHookMarket/XLII_LockWasteNotHookMarket lock him to whichever market he first appears at - see those classes' own doc comments."
 XLII_waste_not_hook_open,DialogOptionSelected,"$option == XLII_waste_not_hook","FireAll XLII_WasteNotHookOptions","""Captain. Got a minute? I'm not selling anything.""
 
 He sits up to shake your hand.
@@ -3529,7 +3583,9 @@ XLII_waste_not_installation_close,DialogOptionSelected,"$option == waste_not_ins
 # [WASTE NOT] Report Back,,,,,,
 XLII_waste_not_report_bar_add,AddBarEvents,"!$market.isHidden
 $global.XLII_wasteNotInstallationResolved
-!$global.XLII_wasteNotComplete","AddBarEvent XLII_waste_not_report ""Sit down with Walt Hollis"" ""Walt Hollis, at a table near the back - waiting, not working the room this time."" highlight",,,
+!$global.XLII_wasteNotComplete
+XLII_IsWasteNotHookMarket","XLII_LockWasteNotHookMarket
+AddBarEvent XLII_waste_not_report ""Sit down with Walt Hollis"" ""Walt Hollis, at a table near the back - waiting, not working the room this time."" highlight",,,"Same lock as XLII_waste_not_bar_add, reused rather than a separate flag - Walt reports back at the same bar he was found in. XLII_LockWasteNotHookMarket is still called here (not just the hook) as a one-time backfill for a save that reached $global.XLII_wasteNotStarted before this lock existed."
 XLII_waste_not_report_open,DialogOptionSelected,"$option == XLII_waste_not_report",,"""I know that look...""
 
 He doesn't ask for it right away. He waits for you to actually say it.","1:waste_not_report_tell:Tell him what you found",
@@ -3577,7 +3633,9 @@ Korrin has the old derelict-survey data pulled back up - the same file he's been
 
 ""I want to look again at the things we've been calling 'old shapes' - Remnants, Omega, the Threat, whatever the Dweller actually is - and ask whether any of them are hiding the same kind of arithmetic behind something easier to look away from.""
 
-""If you're willing, I'd like to hunt some demons..."" He puts a particular exaggeration on the word demons. ""I don't expect any one of them to hand us an answer outright. But it would tell us whether this is isolated, or whether we've been walking past this for years without the right question in hand.""",,"Rewritten (Waste Not build): previously framed as a generic forge-fingerprint hunch fired immediately off $global.XLII_nanoforgeQuestComplete ('while on our way back, I had a look at the forge'); korrin_tour_nudge's watch column now points at $XLII_wasteNotComplete instead, so this fires after the full Waste Not arc, not right after the forge exchange - rewritten to pick up directly from the aftermath topic's own closing line (korrin_waste_not_aftermath) rather than reference the forge at all."
+""If you're willing, I'd like to hunt some demons..."" He puts a particular exaggeration on the word demons. ""I don't expect any one of them to hand us an answer outright. But it would tell us whether this is isolated, or whether we've been walking past this for years without the right question in hand.""",,"Rewritten (Waste Not build): previously framed as a generic forge-fingerprint hunch fired immediately off $global.XLII_nanoforgeQuestComplete ('while on our way back, I had a look at the forge'); korrin_tour_nudge's watch column now points at $XLII_wasteNotComplete instead, so this fires after the full Waste Not arc, not right after the forge exchange - rewritten to pick up directly from the aftermath topic's own closing line (korrin_waste_not_aftermath) rather than reference the forge at all.
+
+Bug fix (author request, later session): watch alone let this queue even if the player reported back to Walt without ever opening korrin_waste_not_aftermath first (a word-tier topic the player picks at their own leisure, not forced) - reading oddly since this line explicitly picks up from that conversation. korrin_topics.csv now also sets watch2=$XLII_wasteNotAftermathAcked (set by all three XLII_korrin_c_waste_not_aftermath_* rows alongside their existing XLII_Korrin topicDone) and delayDays=4, so this can't queue until the player has actually had that reaction AND a few days have passed - see KorrinObserver.pollWatches()/waitedLongEnough()."
 XLII_korrin_c_tour_nudge_opt_in,XLII_KorrinCTourNudgeOptions,,,,"10:korrin_tour_nudge_in:We'll look into it",
 XLII_korrin_c_tour_nudge_opt_why,XLII_KorrinCTourNudgeOptions,,,,"11:korrin_tour_nudge_why:Looking for something in particular?",
 XLII_korrin_c_tour_nudge_opt_later,XLII_KorrinCTourNudgeOptions,,,,"100:korrin_defer:Not now",

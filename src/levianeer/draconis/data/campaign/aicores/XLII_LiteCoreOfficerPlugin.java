@@ -13,7 +13,9 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import java.util.Random;
 
 /**
- * Officer plugin for the Auxiliary Cognition Unit ({@code XLII_ai_core_bio}) - first recovered
+ * Officer plugin for the AuxCog Core ({@code XLII_ai_core_bio}, renamed this session from
+ * "Auxiliary Cognition Unit" - author request, needed "Core" in the name to read as an AI core
+ * rather than some other kind of item) - first recovered
  * from Waste Not's installation, but not scoped to that arc: lives in its own package (moved out
  * of {@code intel.waste_not}, author request) since this is meant to be reused by other future
  * content, not a one-quest mechanic. Modeled directly on {@code XLII_LongsightOfficerPlugin}
