@@ -8,13 +8,14 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEvent;
-import levianeer.draconis.data.campaign.characters.XLII_Characters;
 
 import java.util.Map;
 
 /**
  * One-time bar event: player meets AIO Operative Daniel Ancker (IRON MOTH) at Ring-Port
- * after the assault. Completing the encounter reveals Ancker in the comm directory.
+ * after the assault. Retired (author request) - see
+ * {@code XLII_AIOOperativeBarEventCreator}'s doc comment; kept only so any existing save with
+ * this event already serialized into {@code PortsideBarData} still deserializes cleanly.
  */
 public class XLII_AIOOperativeBarEvent extends BaseBarEvent {
 
@@ -88,7 +89,6 @@ public class XLII_AIOOperativeBarEvent extends BaseBarEvent {
                 text.addPara("A nod. Minimal. He returns to his drink without ceremony.");
                 Global.getSector().getMemoryWithoutUpdate()
                         .set(XLII_AIOOperativeBarEventCreator.MEM_OPERATIVE_REVEALED, true);
-                XLII_Characters.revealDanielAncker();
                 clearBarSnapshots();
                 done = true;
                 options.addOption("Leave", "leave");

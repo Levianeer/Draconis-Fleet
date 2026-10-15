@@ -1300,10 +1300,9 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
      * watching, could.
      * <p>
      * Also where Ancker is marked gone - his escape is established here, on either of August's fates.
-     * XLII_PersonDanielAncker.markGone() sets a persistent flag so his placement isn't resurrected on
-     * the next save load (same bug shape XLII_PersonEmilAugust.markGone() fixes for August above).
-     * Only touches his Ring-Port comm entry, not his ImportantPeopleAPI registration, so
-     * showAnckerTaunt()'s portrait lookup right after this still succeeds.
+     * XLII_PersonDanielAncker.markGone() just sets a persistent flag now (he has no placement left
+     * to protect, see that class' doc comment) - does not touch his ImportantPeopleAPI registration,
+     * so showAnckerTaunt()'s portrait lookup right after this still succeeds.
      */
     private void showEscapeReveal() {
         TextPanelAPI text = dialog.getTextPanel();

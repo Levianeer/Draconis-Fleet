@@ -6,15 +6,23 @@ import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.intel.bar.PortsideBarEvent;
 import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEventCreator;
 
-import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
-
 /**
  * Creator for the AIO Operative reveal bar event.
- * Fires at Ring-Port after the assault when Ancker has not yet been met.
+ * <p>
+ * Retired (author request): Ancker's reveal at Ring-Port duplicated his real introduction at the
+ * AIO bastion ({@code XLII_ancker_escort_*} rows, rules.csv, reached via
+ * {@code XLII_monroe_vetting_open_unmet}) - that escort scene is now the only canonical "reveal
+ * beat", so {@link #isTriggerConditionMet} is permanently disabled below rather than this class
+ * being deleted outright, which would break deserialization for any existing save that already
+ * has an {@link XLII_AIOOperativeBarEvent} instance serialized into {@code PortsideBarData} (see
+ * {@code XLII_MissionBarEventWatchdog}'s own doc comment on how these events get added). Ancker
+ * has no market/comm-directory placement left at all now (see
+ * {@code XLII_PersonDanielAncker}'s doc comment) - the AIO crisis payment deal
+ * ({@code XLII_CreateAIOPaymentDeal}) only ever needed the reveal flag for bastion-escort text
+ * branching, not this bar event or any comm-directory visibility.
  */
 public class XLII_AIOOperativeBarEventCreator extends BaseBarEventCreator {
 
-    static final String MEM_RING_PORT_TAKEN = "$XLII_ringPortTaken";
     static final String MEM_OPERATIVE_REVEALED = "$XLII_aio_operative_revealed";
 
     @Override
@@ -54,9 +62,6 @@ public class XLII_AIOOperativeBarEventCreator extends BaseBarEventCreator {
     }
 
     static boolean isTriggerConditionMet() {
-        var mem = Global.getSector().getMemoryWithoutUpdate();
-        if (!mem.getBoolean(MEM_RING_PORT_TAKEN)) return false;
-        if (mem.getBoolean(MEM_OPERATIVE_REVEALED)) return false;
-        return !(Global.getSector().getPlayerFaction().getRelationship(DRACONIS) < 0f);
+        return false;
     }
 }

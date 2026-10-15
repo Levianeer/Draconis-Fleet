@@ -31,15 +31,10 @@ public class XLII_Characters {
     public static void updateCharacterPlacements() {
         XLII_PersonEmilAugust.updatePlacement();
         XLII_PersonEliasKorrin.updatePlacement();
-        XLII_PersonDanielAncker.updatePlacement();
         XLII_PersonNisa.updatePlacement();
     }
 
     public static void revealEliasKorrin() {
         XLII_PersonEliasKorrin.reveal();
-    }
-
-    public static void revealDanielAncker() {
-        XLII_PersonDanielAncker.reveal();
     }
 }
