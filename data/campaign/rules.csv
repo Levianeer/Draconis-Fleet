@@ -185,16 +185,20 @@ XLII_admiral_narrative_grumium,XLII_AdmiralNarrative,"$XLII_store_selected == XL
 A brief pause as the transfer finalizes.
 
 ""Commander.""","1:transaction_complete:Continue",
-XLII_admiral_narrative_grumium_alt,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_grumium_alt_wing",,"""I remember a raid on Athebyne's supply depots, some cycles ago. We were running low on everything - fuel, munitions, pilots. Lieutenant Reyes - solid flyer, came up through the reserves - took a squadron of Grumiums on what should've been a suicide run. Six wings, loaded heavy, against fortified emplacements and interceptor screens.""
+XLII_admiral_narrative_grumium_alt,XLII_AdmiralNarrative,$XLII_store_selected == XLII_grumium_alt_wing,,"""The other Grumium loadout. Command commissioned it after Reyes' run - someone decided the wing needed more bite before it ever reached the depot.
 
-""Lumbered in like cargo haulers. Reyes lost half his wing before they even lined up the shot. But the ones that made it through? Dropped their payload right into the heart of the depot. Chain reactions lit up the night side of the planet. We got the resupply we needed to hold the line another month.""
+Put it to the test at the Juwal minefield, clearing a lane for the main fleet. Ensign Okafor took four wings in low, skimming the belt. No fancy flying. Just enough firepower to crack the mine clusters before they could swarm the capitals behind her.
 
-""Reyes brought three back. Got a commendation posthumously - caught a missile on the egress. The Grumium's no hero's ride. Slow, ugly work. But if it kills, it serves. And sometimes, that's all you need.""
+Lost one wing to a proximity detonation. The other three punched the lane open in under ten minutes - fleet went through without losing a hull.
+
+Okafor's still flying. Made lieutenant off that one. Doesn't talk about it much.
+
+Same slow, ugly airframe. Different teeth. Still does the job.""
 
 A brief pause as the transfer finalizes.
 
-""Commander.""","1:transaction_complete:Continue",
-XLII_admiral_narrative_alruba,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_alruba_fortysecond",,"""Most people look at her now and see a relic - ill fit for modern combat. But I remember when she was all we had.
+""Commander.""",1:transaction_complete:Continue,
+XLII_admiral_narrative_alruba,XLII_AdmiralNarrative,$XLII_store_selected == XLII_alruba_fortysecond,,"""Most people look at her now and see a relic - ill fit for modern combat. But I remember when she was all we had.
 
 Third week of the siege at Athebyne orbital. My flagship had taken a reactor hit, and I transferred my flag to the Resolute - an Alruba. We had six of them left in the picket line, facing down twice our number.
 
@@ -202,12 +206,12 @@ The captain - Walker, good officer - kept us between the troop transports and th
 
 Walker didn't. Reactor breach on the final push.
 
-The Alruba's not fast. Not elegant. But she's honest. And doesn't quit until she's a debris field. Sometimes that's enough.""
+She's slow off the mark, and nobody's ever called her elegant. What she is, is stubborn. On that day, in that line, stubborn was the only thing that mattered.""
 
 A brief pause as the data finalizes.
 
-""That'll be all, Commander.""","1:transaction_complete:Continue",
-XLII_admiral_narrative_shaobi,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_shaobi_fortysecond",,"""The Shaobi. The Marines' favorite toy. Command didn't want to build her - too specialized, too expensive. But the Marines made their case, and somehow, it stuck.
+""That'll be all, Commander.""",1:transaction_complete:Continue,
+XLII_admiral_narrative_shaobi,XLII_AdmiralNarrative,$XLII_store_selected == XLII_shaobi_fortysecond,,"""The Shaobi. The Marines' favorite toy. Command didn't want to build her - too specialized, too expensive. But the Marines made their case, and somehow, it stuck.
 
 I'll admit, I didn't see the value. Not at first.
 
@@ -219,54 +223,52 @@ The captain - Major Hartley, Marine Corps - she coordinated the whole thing from
 
 We took Ring-Port in six hours. Minimal casualties. Hartley got a medal. The Warhound got a reputation.
 
-The Shaobi's not a fleet carrier. She's not meant to be. But if you need boots on a station or a hostile ship, she'll get them there - and bring them home.
-
-Sometimes that's worth more than another fighter wing.""
+Try pricing twenty minutes and three docking points, station taken intact. I couldn't, and I had the budget to compare it against.""
 
 A pause.
 
-""The Alliance chose well with you, Commander. Transfer authorized.""","1:transaction_complete:Continue",
-XLII_admiral_narrative_errakis,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_errakis_fortysecond",,"""A carrier escort strictly speaking. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
+""The Alliance chose well with you, Commander. Transfer authorized.""",1:transaction_complete:Continue,
+XLII_admiral_narrative_errakis,XLII_AdmiralNarrative,$XLII_store_selected == XLII_errakis_fortysecond,,"""A carrier escort, strictly speaking. Compromised sensors to save weight and meet project requirements. Command signed off on it because she was never meant to operate independently.
 
-That became a problem during the push on Athebyne's outer stations. We had the Milwaukee - assigned to screen the Io's carrier group. Standard formation, textbook deployment. Then the carrier's sensor array took a hit from long-range fire. Partial failure - enough to briefly shunt the datalink, not enough to justify pulling back.
+That became a problem running convoy screen through the Juwal belt - mined, contested, and the only lane wide enough for a supply train that size. We had the Milwaukee assigned to screen the Io's carrier group through it. Standard formation, textbook deployment. Then a mine detonation close enough to shake the carrier's own sensor array. Partial failure - enough to shunt the datalink, not enough to justify pulling the whole convoy back.
 
-The Milwaukee was supposed to provide missile support. But with the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual range. Captain Holt - had a ship full of ordnance and nothing to shoot at.
+The Milwaukee was supposed to provide missile support from range. With the carrier's sensors degraded and her own array already limited, she couldn't get a clean firing solution on anything beyond visual. Captain Holt had a ship full of ordnance and nothing to shoot at.
 
 So he did what the ship wasn't designed to do: he moved in close. Uncomfortably close.
 
-The Milwaukee took more hits in that engagement than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition cook off. But the carrier stayed operational, and the screen held.""
+The Milwaukee took more hits in that run than any other ship in the group. Lost two crew compartments, vented half her missile reserves in an ammunition cook-off. But the carrier stayed operational, and the convoy came through without losing a hull.""
 
 Your sensors officer glances back at you, eyebrows raised. Authorization codes transmitted.
 
-""Until next time, Commander.""","1:transaction_complete:Continue",
-XLII_admiral_narrative_juza,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_juza_fortysecond",,"""Even while it serves it's considered a 'prototype'. Armored like a battleship, just fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? A damned miracle - when she works.
+""Until next time, Commander.""",1:transaction_complete:Continue,
+XLII_admiral_narrative_juza,XLII_AdmiralNarrative,$XLII_store_selected == XLII_juza_fortysecond,,"""Even while it serves, it's considered a 'prototype.' Armored like a battleship, just fast enough to keep up with cruiser squadrons. On paper, she's perfect. In practice? A damned miracle - when she works.
 
-At end of the war had four Juzas in active service. The Jericho was flagship for the third battle group - my XO's command. Fleet engagement near Athebyne's inner belt. Standard line battle, cruiser-on-cruiser.
+Had four Juzas in active service during the Kori blockade. The Jericho was flagship for the third battle group - my XO's command. Standard line battle, cruiser-on-cruiser, nothing that should've gone wrong.
 
-Then the Jericho's flux regulators spiked. Total system failure - her shields dropped, her weapons went cold. A paperweight in the middle of a firing line.
+Then the Jericho's flux regulators spiked. Total system failure - shields dropped, weapons went cold. A paperweight in the middle of a firing line.
 
-Her chief engineer - man named Nowak, stubborn bastard - he rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes. A miracle to put it bluntly.
+Her chief engineer - man named Nowak, stubborn bastard - rerouted power through the secondary grid, bypassed the safeties, and brought the flux system back online in under three minutes.
 
-By the time the Jericho came back, she'd taken fourteen direct hits. Her armor held. Barely. Nowak kept her running for another six hours before the system burned out for good. We won that engagement.
+By the time the Jericho came back online, she'd taken fourteen direct hits. Her armor held. Barely. Nowak kept her running for another six hours before the system burned out for good - we won that engagement because of those six hours.
 
-The Juza's temperamental. High-maintenance. But if you've got a crew that knows her quirks, she'll hold the line when everything else breaks.""
+Ask Nowak how he did it and he'll tell you he doesn't remember, which is either modesty or a lie. I've never worked out which.""
 
-A brief silence followed by an authorization code transmission.
+A brief silence, followed by an authorization code transmission.
 
-""Authorization granted.""","1:transaction_complete:Continue",
-XLII_admiral_narrative_alwaid,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_alwaid_fortysecond",,"""I've heard the jokes - ""by the time she arrives, the war's over."" The crews call her the 'Late Arrival.'
+""Authorization granted.""",1:transaction_complete:Continue,
+XLII_admiral_narrative_alwaid,XLII_AdmiralNarrative,$XLII_store_selected == XLII_alwaid_fortysecond,,"""I've heard the jokes - ""by the time she arrives, the war's over."" The crews call her the 'Late Arrival.'
 
-An anecdote: Textbook carrier doctrine. Three battlegroups were to warp directly into the fight. The Alwaid's group? Delayed by a drive malfunction - forty minutes late to the fight.
+An anecdote: textbook carrier doctrine. Three battlegroups were to warp directly into the fight. The Alwaid's group? Delayed by a drive malfunction - forty minutes late.
 
 By the time they arrived, we'd lost Heaven's Axiom and half her escort. The Diligence was burning, venting atmosphere from six hull breaches. We were fifteen minutes from a full retreat.
 
 Then the Eternity translated in-system. Two hundred and sixty fighters. Every torpedo tube loaded. She didn't win the battle herself - but she ended it. The enemy scattered. We held the orbitals.
 
-The Alwaid's slow. But when she gets there, she brings everything.""
+Ask the survivors of Heaven's Axiom's escort whether forty minutes early would have changed anything. There wouldn't have been anything left for the Alwaid to arrive at.""
 
 The faintest pause.
 
-""It's yours.""","1:transaction_complete:Continue",
+""It's yours.""",1:transaction_complete:Continue,
 XLII_admiral_narrative_tianlong,XLII_AdmiralNarrative,"$XLII_store_selected == XLII_tianlong_fortysecond",,"""Four cycles ago, a Pather raiding flotilla entered Kori's orbital space in coordination with a surface sabotage operation. The intent was to occupy our response force long enough for the ground teams to finish their work. The Covenant was in the patrol rotation.
 
 Vasile, her commander, took her through the center of the formation. Struck their lead ship at speed, engaged the second at close range, and repositioned between the flotilla and their egress vector before their command element had processed what had happened. The aft section took heavy damage. Prioritized forward coverage with the rear mount. But even so, the flotilla broke. The surface teams lost their extraction window.
@@ -1083,18 +1085,18 @@ XLII_korrin_c_ringport_cost_opt_regret,XLII_KorrinCRingportCostOptions,,,,"10:ko
 XLII_korrin_c_ringport_cost_opt_worth,XLII_KorrinCRingportCostOptions,,,,"11:korrin_ringport_cost_worth:Say the cost was worth it",
 XLII_korrin_c_ringport_cost_opt_subject,XLII_KorrinCRingportCostOptions,,,,"12:korrin_ringport_cost_subject:Change the subject",
 XLII_korrin_c_ringport_cost_opt_later,XLII_KorrinCRingportCostOptions,,,,"100:korrin_defer:Not now",
-XLII_korrin_a_ringport_cost_regret,DialogOptionSelected,"$option == korrin_ringport_cost_regret","XLII_Korrin topicDone
+XLII_korrin_a_ringport_cost_regret,DialogOptionSelected,$option == korrin_ringport_cost_regret,"XLII_Korrin topicDone
 XLII_Korrin rep 0.03","""No."" He says it immediately, then seems to hear how fast that was. ""That's not a dodge. I've checked. It's just not the question that's still open for me.""
 
-""Ring-Port runs itself these days. August has people for the paperwork."" A pause, timed like a joke, because it is one. ""I'm told that's a compliment."" Then, dropping it: ""August will want more from you soon. He always does, once he's decided someone's worth the asking.""","1:korrin_done:Leave it there",
-XLII_korrin_a_ringport_cost_worth,DialogOptionSelected,"$option == korrin_ringport_cost_worth","XLII_Korrin topicDone
+""Ring-Port doesn't need me anymore, if that's what you're really asking. August has people for the paperwork."" A thin smile, there and gone. ""I'm told that's a compliment."" Then he's done with it: ""He'll want more from you soon, by the way. He always does, once he's decided someone's worth the asking.""",1:korrin_done:Leave it there,
+XLII_korrin_a_ringport_cost_worth,DialogOptionSelected,$option == korrin_ringport_cost_worth,"XLII_Korrin topicDone
 XLII_Korrin rep 0.05","""Maybe."" He picks the slate back up, mostly so his hands have somewhere to be. ""Ask me again once Ring-Port's had a winter under new management. I'll have a better answer.""
 
-""Ring-Port runs itself these days. August has people for the paperwork."" A pause, timed like a joke, because it is one. ""I'm told that's a compliment."" Then, dropping it: ""August will want more from you soon. He always does, once he's decided someone's worth the asking.""","1:korrin_done:Leave it there",
-XLII_korrin_a_ringport_cost_subject,DialogOptionSelected,"$option == korrin_ringport_cost_subject","XLII_Korrin topicDone
+""It runs fine without me these days, anyway. August has people for the paperwork now."" He lets that sit a beat longer than it needs to. ""I'm told that's a compliment."" Then he moves past it: ""He'll want more from you soon. He always does, once he's decided someone's worth the asking.""",1:korrin_done:Leave it there,
+XLII_korrin_a_ringport_cost_subject,DialogOptionSelected,$option == korrin_ringport_cost_subject,"XLII_Korrin topicDone
 XLII_Korrin rep 0.02","""Fair enough."" He sets the slate aside without protest.
 
-""Ring-Port runs itself these days. August has people for the paperwork."" A pause, timed like a joke, because it is one. ""I'm told that's a compliment."" Then, dropping it: ""August will want more from you soon. He always does, once he's decided someone's worth the asking.""","1:korrin_done:Leave it there",
+""For what it's worth, Ring-Port doesn't need me anymore. August has people for the paperwork."" A dry look. ""I'm told that's a compliment."" Then, moving on: ""He'll want more from you soon. He always does, once he's decided someone's worth the asking.""",1:korrin_done:Leave it there,
 XLII_korrin_c_bastion_disbelief,XLII_KorrinComment,"XLII_Korrin topicIs korrin_bastion_disbelief","XLII_Korrin visual
 FireAll XLII_KorrinCBastionOptions","Korrin doesn't wait for you to bring it up.
 
@@ -1882,12 +1884,22 @@ XLII_korrin_o_burn_epi_ask,XLII_KorrinBurnEpilogueOptions,,,,"10:korrin_burn_epi
 XLII_korrin_o_burn_epi_defer,XLII_KorrinBurnEpilogueOptions,,,,"100:korrin_defer:Not now",
 XLII_korrin_a_burn_epi_ask,DialogOptionSelected,"$option == korrin_burn_epi_ask","XLII_Korrin topicDone
 XLII_Korrin rep 0.05","""I don't know yet. I've stopped being embarrassed about that answer - it's the only honest one I've got, and it's the same one I've had for four years now. Whatever this becomes, it isn't going to be because I finally worked out a theory of the thing in one conversation."" He almost changes the subject, and doesn't. ""I'd rather build it slowly and get it wrong in small pieces than get it right once by accident and not know how I did it.""","1:korrin_done:Leave it there",
-XLII_korrin_c_mirror_assault,XLII_KorrinComment,"XLII_Korrin topicIs korrin_mirror_assault_reaction","XLII_Korrin visual
-FireAll XLII_KorrinMirrorAssaultOptions","[TODO: write Korrin's reaction to the player destroying the Stellar Mirrors and turning Draconis hostile. See showFailureKorrinReaction() in XLII_KoriStrike.java for tone reference on a similar permanent-departure beat - this is action=forever too.]",,"Stellar Mirror assault reaction - popup tier, queued by KorrinLeaveTriggers (korrin_mirror_assault row in korrin_leave_triggers.csv) when $XLII_mirrorAssaultHostileDeclared goes true. The leave action (leaveForever) does not fire until this topic is read - see KorrinLeaveTriggers.pollWatches()'s topic-wait handling."
-XLII_korrin_o_mirror_opt_a,XLII_KorrinMirrorAssaultOptions,,,,"10:korrin_mirror_opt_a:[TODO: player response A]",
-XLII_korrin_o_mirror_opt_b,XLII_KorrinMirrorAssaultOptions,,,,"11:korrin_mirror_opt_b:[TODO: player response B]",
-XLII_korrin_a_mirror_opt_a,DialogOptionSelected,"$option == korrin_mirror_opt_a","XLII_Korrin topicDone","[TODO: Korrin's reply to response A.]","1:korrin_mirror_close:Understood",
-XLII_korrin_a_mirror_opt_b,DialogOptionSelected,"$option == korrin_mirror_opt_b","XLII_Korrin topicDone","[TODO: Korrin's reply to response B.]","1:korrin_mirror_close:Understood",
+XLII_korrin_c_mirror_assault,XLII_KorrinComment,XLII_Korrin topicIs korrin_mirror_assault_reaction,"XLII_Korrin visual
+FireAll XLII_KorrinMirrorAssaultOptions","He doesn't say anything right away. When he finally does, his voice has the careful flatness of someone choosing each word before he lets it go.
+
+""You didn't just put the Alliance on alert. Whatever those things were holding back, nobody on either side of this war ever found out - and you decided that question for all of us, without asking a single person who'd have to live with the answer.""
+
+""I signed on for a lot of things I didn't love. A commission I'm not thrilled about. A fleet I argue with constantly. I didn't sign on for this.""
+
+""I'm not doing the rest of it with you. Whatever happens next - you'll be doing it without me.""",,"Stellar Mirror assault reaction - popup tier, queued by KorrinLeaveTriggers (korrin_mirror_assault row in korrin_leave_triggers.csv) when $XLII_mirrorAssaultHostileDeclared goes true. The leave action (leaveForever) does not fire until this topic is read - see KorrinLeaveTriggers.pollWatches()'s topic-wait handling."
+XLII_korrin_o_mirror_opt_a,XLII_KorrinMirrorAssaultOptions,,,,10:korrin_mirror_opt_a:It needed to come down,
+XLII_korrin_o_mirror_opt_b,XLII_KorrinMirrorAssaultOptions,,,,11:korrin_mirror_opt_b:I didn't think it through,
+XLII_korrin_a_mirror_opt_a,DialogOptionSelected,$option == korrin_mirror_opt_a,XLII_Korrin topicDone,"""That's not a reason, Commander. That's a conclusion you'd already reached before you gave the order."" A short silence, nothing left in it to fill. ""Maybe you're right. I don't actually know. Neither do you - that's the part I can't get past.""
+
+""I'm still not doing the rest of it with you.""",1:korrin_mirror_close:Understood,
+XLII_korrin_a_mirror_opt_b,DialogOptionSelected,$option == korrin_mirror_opt_b,XLII_Korrin topicDone,"""At least that's honest."" He doesn't sound like it helps. ""I'd rather have heard that than a justification. It still doesn't change what's on the other side of this.""
+
+""I'm still not doing the rest of it with you.""",1:korrin_mirror_close:Understood,
 XLII_korrin_o_mirror_defer,XLII_KorrinMirrorAssaultOptions,,,,"100:korrin_defer:Not now","Shared decline handler - moves the topic to the backlog. Since the leave action waits on this topic resolving, declining also defers his actual departure, not just the conversation."
 XLII_korrin_c_mirror_close,DialogOptionSelected,"$option == korrin_mirror_close","DismissDialog",,,"DismissDialog - the popup is opened on the player fleet, where EndConversation does nothing."
 "#END [KORRIN] Dialogue Topics",,,,,,
@@ -2734,7 +2746,9 @@ $global.XLII_wasteNotAftermathAcked = true","He doesn't say much on the way back
 
 ""This had a budget line. A shipping schedule. Someone's signature on a requisition form, probably filed on time. That's worse. That's not a monster that got loose - that's a system somebody built on purpose, and kept feeding, and nobody above it ever asked what it was actually feeding on.""
 
-""I don't know yet whether this is one place, or whether it's the first one we've just happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""","1:korrin_waste_not_aftermath_close:Leave it there",
+""We got in fast enough to see the tanks still draining. Not fast enough to stop it. I keep turning that over - whether getting there at all was worth watching it finish.""
+
+""I don't know yet whether this is one place, or whether it's the first one we've just happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""",1:korrin_waste_not_aftermath_close:Leave it there,
 XLII_korrin_c_waste_not_aftermath_failed,XLII_KorrinComment,"XLII_Korrin topicIs korrin_waste_not_aftermath
 $global.XLII_wasteNotOutcome == failed","XLII_Korrin visual
 XLII_Korrin topicDone
@@ -2742,9 +2756,11 @@ $global.XLII_wasteNotAftermathAcked = true","He doesn't say much on the way back
 
 ""I've spent most of my career believing the worst things in this sector have names we already know. Whatever's left of the Domain, still running on momentum nobody shut off properly. Things old enough that being afraid of them feels almost respectable.""
 
-""This had a budget line. A shipping schedule. Someone's signature on a requisition form, probably filed on time. That's worse. That's not a monster that got loose - that's a system somebody built on purpose, and kept feeding, and nobody above it ever asked what it was actually feeding on.""
+""This had a budget line. A shipping schedule. Someone's signature on a requisition form, probably filed on time. And now it's slag, and whoever signed that form is still out there, filing the next one somewhere else.""
 
-""I don't know yet whether this is one place, or whether it's the first one we've just happened to find. I'd like to find out before I decide how angry I'm allowed to be about it.""","1:korrin_waste_not_aftermath_close:Leave it there","No rep delta, unlike the observed/forced branches - this one didn't go well, and nothing about it reflects on the player's judgment the way a choice between those two did."
+""We didn't lose because we were careless. We lost because someone decided ahead of time what losing the evidence was worth to them, and it turned out to be more than we had to spend getting it.""
+
+""I don't know yet whether this was one place, or the first one we'll just never get proof of. I'd like to find out before I decide how angry I'm allowed to be about it.""",1:korrin_waste_not_aftermath_close:Leave it there,"No rep delta, unlike the observed/forced branches - this one didn't go well, and nothing about it reflects on the player's judgment the way a choice between those two did."
 XLII_korrin_waste_not_aftermath_close,DialogOptionSelected,"$option == korrin_waste_not_aftermath_close","DismissDialog",,,
 XLII_korrin_c_office_exchange,XLII_KorrinComment,"XLII_Korrin topicIs korrin_office_exchange_reaction","XLII_Korrin visual
 FireAll XLII_KorrinCOfficeExchangeOptions","""So it isn't a operation that got out of hand. It's a program."" He says it flatly, like he's updating a file rather than reacting to one. ""Monroe didn't even bother denying it to your face. That's not an oversight on her part, Commander. That's confidence.""
@@ -3142,9 +3158,9 @@ XLII_elias_return_opt_accept,XLII_EliasReturnOptions,,,,"1:elias_return_accept:I
 XLII_elias_return_opt_leave,XLII_EliasReturnOptions,,,,"2:elias_return_leave:Not yet",
 XLII_elias_return_accept,DialogOptionSelected,"$option == elias_return_accept
 XLII_HasMarinesForAssault","$global.XLII_blindEyeDeclined = false
-FireAll XLII_EliasConfirmOptions","He scans his terminal display. ""That's what I need to hear. My people are staged - the watch rotation on the cargo lock is clear, the maintenance window holds for another six hours. You have a window and the force to use it."" He closes the feed channel. ""The moment you launch, I'm inside with you.""",,
+FireAll XLII_EliasConfirmOptions","He scans his terminal display again, like he's been keeping it open since you left. ""Good. Nothing's changed on my end - watch rotation on the cargo lock is still clear, maintenance window still holds. You have a window and the force to use it."" He closes the feed channel. ""The moment you launch, I'm inside with you.""",,
 XLII_elias_return_accept_nomines,DialogOptionSelected,"$option == elias_return_accept
-!XLII_HasMarinesForAssault","FireAll XLII_EliasNeedMarinesOptions","He shakes his head. ""Not yet. The garrison runs thick for its size - First Fleet veterans who've spent two decades hardening that station against exactly this kind of assault. Five hundred marines minimum, and that's assuming everything I've arranged goes right. Come back when you have the numbers.""",,
+!XLII_HasMarinesForAssault",FireAll XLII_EliasNeedMarinesOptions,"He shakes his head. ""Still not yet. The garrison hasn't gotten any thinner since we last talked - First Fleet veterans who've spent two decades hardening that station against exactly this kind of assault. Five hundred marines minimum, same as before. Come back when you have the numbers.""",,
 XLII_elias_return_leave,DialogOptionSelected,"$option == elias_return_leave","EndConversation",,,
 XLII_elias_confirm_launch_opt,XLII_EliasConfirmOptions,,,,"1:elias_confirm_launch:Launch the assault",
 XLII_elias_confirm_wait_opt,XLII_EliasConfirmOptions,,,,"2:elias_confirm_wait:Not yet",
@@ -3577,7 +3593,7 @@ $global.XLII_wasteNotComplete = true","He listens, and partway through - the tan
 
 ""That's not in the original terms. Call it a bonus for bringing back more than I had any right to ask for. I don't know what you plan to do with what's in your hold. That's not my call to make. Just - be careful who finds out you have it, before you've decided.""
 
-""If this goes anywhere, you'll have been the one who actually went and looked, when nobody else would. That's not nothing. For what it's worth - good hunting, whatever's next.""","1:backToBar:Return to the bar",
+""You went in and came out with proof, when you didn't have to go in at all. I won't forget that part. Good hunting, whatever's next.""",1:backToBar:Return to the bar,
 XLII_waste_not_report_observed,DialogOptionSelected,"$option == waste_not_report_tell
 $global.XLII_wasteNotOutcome == observed","AddCredits 30000
 $global.XLII_wasteNotComplete = true","He listens without interrupting - the manifest, the routing code, the readings off the installation, the term repeated enough times on an intercepted channel to stop sounding like paperwork.
@@ -3597,7 +3613,7 @@ $global.XLII_wasteNotComplete = true","He listens through all of it - the manife
 
 ""I can't do much with this alone even with proof in hand. Without it, even less. But I believe you, and in my line of work that's not nothing - I'll make what noise I can with what you've told me.""
 
-""If this goes anywhere, you'll have been the one who actually went and looked, when nobody else would. That's not nothing. For what it's worth - good hunting, whatever's next.""","1:backToBar:Return to the bar","No AddCredits - unlike the observed/forced branches, there's nothing concrete to pay for here (no evidence recovered), matching the forced branch's own 'I'll pay for a straight answer, doesn't have to be a good one' framing from the hook - this is the floor of that promise, not a reward tier."
+""Most people wouldn't have gone back a second time to confirm there was nothing left to find. That counts for something too, even empty-handed. Good hunting, whatever's next.""",1:backToBar:Return to the bar,"No AddCredits - unlike the observed/forced branches, there's nothing concrete to pay for here (no evidence recovered), matching the forced branch's own 'I'll pay for a straight answer, doesn't have to be a good one' framing from the hook - this is the floor of that promise, not a reward tier."
 "#END [WASTE NOT] Report Back",,,,,,
 "#END [WASTE NOT] Quest",,,,,,
 ,,,,,,
