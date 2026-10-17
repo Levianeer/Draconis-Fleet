@@ -136,7 +136,7 @@ public class XLII_PhaseShuntStats extends BaseShipSystemScript {
 		Global.getSoundPlayer().playSound(
 				EMP_SOUND_ID,
 				1.0f,
-				1.0f,
+				0.5f,
 				ship.getLocation(),
 				new Vector2f()
 		);
