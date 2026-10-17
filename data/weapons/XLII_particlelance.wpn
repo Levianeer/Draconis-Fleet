@@ -10,7 +10,6 @@
 	"turretGlowSprite":"graphics/weapons/XLII_particlelance_turret_base_glow.png",
 	"hardpointSprite":"graphics/weapons/XLII_particlelance_hardpoint_base.png",
 	"hardpointGlowSprite":"graphics/weapons/XLII_particlelance_hardpoint_base_glow.png",
-	"interruptibleBurst":false,
 	"darkCore":true,
 	"glowColor":[230,125,95,225],
 	"hitGlowRadius":5,
@@ -26,6 +25,6 @@
 	"pixelsPerTexel":48,
 	"pierceSet":[PROJECTILE_FF,PROJECTILE_NO_FF,PROJECTILE_FIGHTER],
 	"playFullFireSoundOne":true,
-	"autocharge":true,  # whether the weapon will continue charging and fire if the LMB is tapped instead of held
 	"fireSoundOne":"XLII_particlelance_fire",
+	"beamEffect":"levianeer.draconis.data.scripts.weapons.XLII_ParticleLanceBurstEffect",
 }
