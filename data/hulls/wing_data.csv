@@ -12,7 +12,7 @@ XLII_eldsich_wing,XLII_eldsich_Bomber,"XLII_fighter_bp, bomber, bomber4",1,,7,14
 #Second Generation,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 XLII_aldibain_wing,XLII_aldibain_Fighter,"XLII_fighter_bp, fighter, fighter4, leader_no_swarm, wingmen_no_swarm, stay_in_front_of_ship",2,,6,11,V,4000,800,750,3,FIGHTER,Multirole Fighter,12,7500,,,,,,,,,,,,,711000
 XLII_nodus_wing,XLII_nodus_Bomber,"XLII_fighter_bp, bomber, bomber5, auto_fighter",2,,8,14,V,4000,1200,600,2,BOMBER,Strike Drone,20,10000,,,,,,,,,,,,,711000
-XLII_tianyi_wing,XLII_tianyi_Fighter,"XLII_fighter_bp, interceptor, interceptor4",2,,8,12,BOX,2000,700,-400,3,INTERCEPTOR,EW Fighter,10,10000,,,,,,,,,,,,,711000
+XLII_tianyi_wing,XLII_tianyi_Fighter,"XLII_fighter_bp, fighter, support3",2,,8,12,BOX,2000,700,0,2,SUPPORT,EW Support,15,10000,,,,,,,,,,,,,711000
 XLII_thorne_wing,XLII_thorne_Fighter,"XLII_fighter_bp, interceptor, interceptor5, rapid_reform",3,,9,18,BOX,4000,700,900,2,INTERCEPTOR,Interceptor,16,16000,,,,,,,,,,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #Third Generation,,,,,,,,,,,,,,,,,,,,,,,,,,,,

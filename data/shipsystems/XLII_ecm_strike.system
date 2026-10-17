@@ -6,13 +6,13 @@
 
 	"statsScript":"levianeer.draconis.data.scripts.shipsystems.XLII_ECM_StrikeStats",
 
-	"jitterUnderColor":[90,165,255,155],
+	"jitterUnderColor":[255,165,90,155],
 	"jitterUnderCopies":10,
 	"jitterUnderMinRange":0,
 	"jitterUnderRange":7,
 	"jitterUnderRangeRadiusFraction":0,
 
-	"jitterColor":[90,165,255,55],
+	"jitterColor":[255,165,90,55],
 	"jitterCopies":2,
 	"jitterMinRange":0,
 	"jitterRange":5,

@@ -117,6 +117,7 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
         float disableRadius = ship.isFighter() ? 250f : 1000f;
         // How far beyond the disable radius to watch for missiles that are about to close in.
         float watchRadius = disableRadius + (ship.isFighter() ? 150f : 500f);
+        int enemyOwner = ship.getOwner() == 0 ? 1 : 0;
 
         int threateningMissiles = 0;
         float totalThreatValue = 0f;
@@ -125,8 +126,12 @@ public class XLII_ECM_SuiteAI implements ShipSystemAIScript {
 
         for (MissileAPI missile : engine.getMissiles()) {
             if (missile.getSource() == null) continue;
-            if (missile.getSource().getOwner() == ship.getOwner()) continue;
-            if (missile.isFading() || missile.didDamage()) continue;
+            // Must check for the enemy owner specifically, not just "not mine" - a friendly missile's
+            // source ship can die mid-flight and become a neutral (owner 100) hulk, which would
+            // otherwise get misread as hostile here.
+            if (missile.getSource().getOwner() != enemyOwner) continue;
+            // Already disabled (fizzling/unguided) missiles aren't worth jamming again.
+            if (missile.isFading() || missile.isFizzling() || missile.didDamage()) continue;
             if (missile.isFlare() || (isHijack && isBomb(missile))) continue;
             if (isAboutToFadeOut(missile)) continue;
 

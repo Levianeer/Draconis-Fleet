@@ -79,9 +79,13 @@ public class XLII_ECM_SuiteStats extends BaseShipSystemScript {
         }
 
         // Missile disable logic - use spatial query instead of iterating all missiles
+        int enemyOwner = ship.getOwner() == 0 ? 1 : 0;
         List<MissileAPI> nearbyMissiles = CombatUtils.getMissilesWithinRange(ship.getLocation(), effectiveDisableRadius);
         for (MissileAPI missile : nearbyMissiles) {
-            if (missile.getSource() != null && missile.getSource().getOwner() != ship.getOwner()) {
+            // Must check for the enemy owner specifically, not just "not mine" - a friendly missile's
+            // source ship can die mid-flight and become a neutral (owner 100) hulk, which would
+            // otherwise get misread as hostile here.
+            if (missile.getSource() != null && missile.getSource().getOwner() == enemyOwner) {
                 missile.setDamageAmount(0);
                 missile.setOwner(100);
                 missile.setMissileAI(null);

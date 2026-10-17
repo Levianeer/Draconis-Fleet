@@ -23,16 +23,19 @@ import static com.fs.starfarer.api.combat.CollisionClass.NONE;
 
 public class XLII_ECM_StrikeStats extends BaseShipSystemScript {
 
-    private static final float MAX_RANGE = 4000f;
-    private static final float AOE_RADIUS = 500f;
+    private static final float MAX_RANGE = 1500f;
+    private static final float AOE_RADIUS = 250f;
 
     private static final float ROTATION_SPEED = 5f; // degrees per second
     private static final float SPRITE_ALIGNMENT_SCALE = 512f / 448f; // ring art is smaller than PNG bounds
-    private static final Color RING_COLOR = new Color(90, 165, 255, 55);
+    private static final Color RING_COLOR = new Color(255, 165, 90, 55);
+    private static final Color LINK_LINE_COLOR = new Color(255, 165, 90, 200);
+    private static final float LINK_LINE_THICKNESS = 10f;
 
     public static Color TEXT_COLOR = new Color(200, 200, 200);
 
     private SpriteAPI ringSprite = null;
+    private SpriteAPI lineSprite = null;
     private boolean textDisplayed = false;
     private Vector2f lockedTarget = null;
 
@@ -81,15 +84,20 @@ public class XLII_ECM_StrikeStats extends BaseShipSystemScript {
                         view.convertWorldXtoScreenX(lockedTarget.x) * screenScale,
                         view.convertWorldYtoScreenY(lockedTarget.y) * screenScale
                 );
+                renderLinkLine(ship, view, screenScale, effectLevel);
                 GL11.glPopMatrix();
                 GL11.glPopAttrib();
             }
         }
 
         // Missile disable logic - use spatial query instead of iterating all missiles
+        int enemyOwner = ship.getOwner() == 0 ? 1 : 0;
         List<MissileAPI> nearbyMissiles = CombatUtils.getMissilesWithinRange(lockedTarget, AOE_RADIUS);
         for (MissileAPI missile : nearbyMissiles) {
-            if (missile.getSource() != null && missile.getSource().getOwner() != ship.getOwner()) {
+            // Must check for the enemy owner specifically, not just "not mine" - a friendly missile's
+            // source ship can die mid-flight and become a neutral (owner 100) hulk, which would
+            // otherwise get misread as hostile here.
+            if (missile.getSource() != null && missile.getSource().getOwner() == enemyOwner) {
                 missile.setDamageAmount(0);
                 missile.setOwner(100);
                 missile.setMissileAI(null);
@@ -124,6 +132,37 @@ public class XLII_ECM_StrikeStats extends BaseShipSystemScript {
         lockedTarget = null;
     }
 
+    // Straight glowing line from the ship to the locked target, drawn as a stretched quad in the
+    // same screen-space pass as the ring so it tracks the ship and fades in/out with effectLevel.
+    private void renderLinkLine(ShipAPI ship, ViewportAPI view, float screenScale, float effectLevel) {
+        Vector2f from = new Vector2f(
+                view.convertWorldXtoScreenX(ship.getLocation().x) * screenScale,
+                view.convertWorldYtoScreenY(ship.getLocation().y) * screenScale
+        );
+        Vector2f to = new Vector2f(
+                view.convertWorldXtoScreenX(lockedTarget.x) * screenScale,
+                view.convertWorldYtoScreenY(lockedTarget.y) * screenScale
+        );
+
+        Vector2f dir = Vector2f.sub(to, from, new Vector2f());
+        if (dir.lengthSquared() < 1f) return;
+        dir.normalise();
+        Vector2f perp = new Vector2f(-dir.y, dir.x);
+        float halfThickness = LINK_LINE_THICKNESS * 0.5f * screenScale * effectLevel / view.getViewMult();
+        perp.scale(halfThickness);
+
+        if (lineSprite == null) lineSprite = Global.getSettings().getSprite("fx", "XLII_beam_contrail");
+        lineSprite.setColor(LINK_LINE_COLOR);
+        lineSprite.setAlphaMult(effectLevel);
+        lineSprite.setAdditiveBlend();
+        lineSprite.renderWithCorners(
+                from.x - perp.x, from.y - perp.y,
+                from.x + perp.x, from.y + perp.y,
+                to.x + perp.x, to.y + perp.y,
+                to.x - perp.x, to.y - perp.y
+        );
+    }
+
     private void spawnHitParticle(Vector2f location) {
         float angle = 0f;
 
@@ -133,7 +172,7 @@ public class XLII_ECM_StrikeStats extends BaseShipSystemScript {
                 10f,
                 1f,
                 0.1f,
-                new Color(50, 50, 255, 155)
+                new Color(255, 140, 50, 155)
         );
     }
 
