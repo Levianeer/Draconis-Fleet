@@ -11,58 +11,65 @@
   "shieldCenter": [0, -0],
   "shieldRadius": 31.5,
   "viewOffset": 0,
-  "builtInMods": [
-  ],
   "builtInWeapons": {
     "WS0001": "XLII_radar_dish"
   },
   "weaponSlots": [
     {
-      "id": "WS0001",
-      "size": "SMALL",
-      "type": "DECORATIVE",
-      "mount": "TURRET",
+      "angle": 0,
       "arc": 360,
-      "angle": 0,
-      "locations": [-1.5, -0]
+      "id": "WS0001",
+      "locations": [-1.5, -0],
+      "mount": "TURRET",
+      "size": "SMALL",
+      "type": "DECORATIVE"
     },
     {
+      "angle": 0,
+      "arc": 0,
       "id": "WS0002",
-      "size": "SMALL",
-      "type": "UNIVERSAL",
+      "locations": [2, 13.5],
       "mount": "HIDDEN",
-      "arc": 20,
-      "angle": 0,
-      "locations": [12.5, 7]
+      "size": "SMALL",
+      "type": "UNIVERSAL"
     },
     {
-      "id": "WS0003",
-      "size": "SMALL",
-      "type": "UNIVERSAL",
-      "mount": "HIDDEN",
-      "arc": 20,
       "angle": -0,
-      "locations": [12.5, -7]
+      "arc": 0,
+      "id": "WS0003",
+      "locations": [2, -13.5],
+      "mount": "HIDDEN",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
+    },
+    {
+      "angle": 0,
+      "arc": 5,
+      "id": "WS0004",
+      "locations": [9, -3.5],
+      "mount": "HARDPOINT",
+      "size": "SMALL",
+      "type": "UNIVERSAL"
     }
   ],
   "engineSlots": [
     {
-      "location": [-16, 8.5],
-      "length": 30,
-      "width": 10,
       "angle": 180,
       "contrailSize": 30,
+      "length": 30,
+      "location": [-16, 8.5],
       "style": "CUSTOM",
-      "styleId": "DRACONIS_FIGHTER"
+      "styleId": "DRACONIS_FIGHTER",
+      "width": 10
     },
     {
-      "location": [-16, -8.5],
-      "length": 30,
-      "width": 10,
       "angle": -180,
       "contrailSize": 30,
+      "length": 30,
+      "location": [-16, -8.5],
       "style": "CUSTOM",
-      "styleId": "DRACONIS_FIGHTER"
+      "styleId": "DRACONIS_FIGHTER",
+      "width": 10
     }
   ],
   "bounds": [

@@ -13,8 +13,15 @@
       "autofire": false,
       "mode": "LINKED",
       "weapons": {
-        "WS0002": "lightac",
-        "WS0003": "lightac"
+        "WS0004": "XLII_kestros"
+      }
+    },
+    {
+      "autofire": false,
+      "mode": "LINKED",
+      "weapons": {
+        "WS0002": "XLII_arquebus",
+        "WS0003": "XLII_arquebus"
       }
     }
   ],
