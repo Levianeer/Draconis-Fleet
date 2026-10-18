@@ -705,11 +705,18 @@ It takes your sensor officer several minutes to say what is wrong with the retur
 
 The hull is clean. Not maintained - clean. Thirty cycles of war in this system, and the surface reads as though nothing has ever been near it.",,"Stellar Array Charlie. score:1000 for the same reason as XLII_mirror_alpha_open. Approach text must stay order-independent: the player can reach any array first. Reference the three-array geometry freely (it is on the system chart) but never anything learned at another array."
 XLII_mirror_opts_alpha,XLII_MirrorSurveyOptions,"$id == fafnir_mirror1
-!$global.XLII_mirrorAlphaSurveyed",,,"1:XLII_mirrorAlphaSurvey:Run a collection survey","Survey option, offered only at the array in question and only once."
+!$global.XLII_mirrorAlphaSurveyed
+!$global.XLII_stellarMirrorQuestActive",,,1:XLII_mirrorAlphaSurvey:Run a collection survey,"Survey option, offered only at the array in question and only once.
+
+!$global.XLII_stellarMirrorQuestActive (author request): accepting Faller's job closes the survey path. Once you are here to demolish the array you are no longer here to study it, so any array still unsurveyed at the moment the quest starts stays unsurveyed for good.
+
+XLII_mirror_opts_crossref deliberately does NOT carry this condition and does not need it - it already requires all three Surveyed flags, so it only ever appears for a player who finished surveying before taking the quest. That is exactly the ""has already done them all"" case, which keeps its payoff."
 XLII_mirror_opts_bravo,XLII_MirrorSurveyOptions,"$id == fafnir_mirror2
-!$global.XLII_mirrorBravoSurveyed",,,"1:XLII_mirrorBravoSurvey:Run a collection survey",
+!$global.XLII_mirrorBravoSurveyed
+!$global.XLII_stellarMirrorQuestActive",,,1:XLII_mirrorBravoSurvey:Run a collection survey,
 XLII_mirror_opts_charlie,XLII_MirrorSurveyOptions,"$id == fafnir_mirror3
-!$global.XLII_mirrorCharlieSurveyed",,,"1:XLII_mirrorCharlieSurvey:Run a collection survey",
+!$global.XLII_mirrorCharlieSurveyed
+!$global.XLII_stellarMirrorQuestActive",,,1:XLII_mirrorCharlieSurvey:Run a collection survey,
 XLII_mirror_opts_crossref,XLII_MirrorSurveyOptions,"$global.XLII_mirrorAlphaSurveyed
 $global.XLII_mirrorBravoSurveyed
 $global.XLII_mirrorCharlieSurveyed
@@ -816,14 +823,18 @@ The Rift is not weather. The Rift is exhaust - and the machinery that makes it h
 
 Which leaves one question, and your Ops Chief has the good sense not to ask it. What becomes of the wall, if the machinery ever stops.",,"Sets $global.XLII_mirrorSurveyComplete - dormant hook for later AIO/Iron Moth dialogue referencing the player having worked this out."
 XLII_mirror_destroy_alpha_opt,XLII_MirrorSurveyOptions,"$id == fafnir_mirror1
-$global.XLII_mirrorAlphaSurveyed
-!$global.XLII_mirrorAlphaDestroyed",,,"3:XLII_mirrorAlphaDestroyOpt:Move to destroy this array","New row on the same XLII_MirrorSurveyOptions trigger rather than editing XLII_mirror_opts_alpha - gated on this array alone having been surveyed, not the full cross-reference payoff."
+!$global.XLII_mirrorAlphaDestroyed
+$global.XLII_stellarMirrorQuestActive",,,3:XLII_mirrorAlphaDestroyOpt:Move to destroy this array,"New row on the same XLII_MirrorSurveyOptions trigger rather than editing XLII_mirror_opts_alpha.
+
+$global.XLII_stellarMirrorQuestActive is Faller's Stellar Mirror quest (# [STELLAR MIRROR] Quest) and is now the SOLE prerequisite. The old $global.XLII_mirrorAlphaSurveyed condition was removed when the survey option itself became quest-disabled (see XLII_mirror_opts_alpha): keeping both would have stranded this option behind a prerequisite the player can no longer satisfy, hard-locking the quest for anyone who accepted it before surveying all three arrays - which is the common path, since Faller's offer does not care about survey progress. Do not re-add a survey condition here without also re-enabling the survey option.
+
+The gate is a knowledge gate, not just a permission one: the arrays cannot be destroyed by hulls at all, so without Faller's briefing (XLII_faller_bar_accept_sel) the player would take this option with no way to know marines are the actual prerequisite and that killing the guard starts a clock. If this option is ever reachable by another route, that route has to carry the same briefing."
 XLII_mirror_destroy_bravo_opt,XLII_MirrorSurveyOptions,"$id == fafnir_mirror2
-$global.XLII_mirrorBravoSurveyed
-!$global.XLII_mirrorBravoDestroyed",,,"3:XLII_mirrorBravoDestroyOpt:Move to destroy this array",
+!$global.XLII_mirrorBravoDestroyed
+$global.XLII_stellarMirrorQuestActive",,,3:XLII_mirrorBravoDestroyOpt:Move to destroy this array,
 XLII_mirror_destroy_charlie_opt,XLII_MirrorSurveyOptions,"$id == fafnir_mirror3
-$global.XLII_mirrorCharlieSurveyed
-!$global.XLII_mirrorCharlieDestroyed",,,"3:XLII_mirrorCharlieDestroyOpt:Move to destroy this array",
+!$global.XLII_mirrorCharlieDestroyed
+$global.XLII_stellarMirrorQuestActive",,,3:XLII_mirrorCharlieDestroyOpt:Move to destroy this array,
 XLII_mirror_destroy_alpha_select,DialogOptionSelected,"$option == XLII_mirrorAlphaDestroyOpt",,"Your Ops Chief looks up from the slate.
 
 ""Captain...?""","1:XLII_mirrorAlphaDestroyConfirm:Open fire on the array
@@ -848,28 +859,128 @@ Same silence from the array, same answer rising to meet you off its dark side.",
 XLII_mirror_destroy_charlie_confirm,DialogOptionSelected,"$option == XLII_mirrorCharlieDestroyConfirm","XLII_LaunchMirrorAssault charlie","""Weapons hot.""
 
 Whatever is coming off Charlie's dark side looks exactly like what came off the other two. It would be strange if it didn't.",,
-XLII_mirror_alpha_destroyed,XLII_mirror_alpha_destroyed,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss. Stellar Array Alpha hangs dead in its orbit, hull split along the spine.
+XLII_mirror_alpha_destroyed,XLII_mirror_single_destroyed,$id == fafnir_mirror1,,"The charges go off down the collector root in sequence.
 
-Whatever was feeding gets a third less tonight.","1:defaultLeave:Continue","Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onMirrorDestroyed() on a win, when at least one array is still standing."
-XLII_mirror_bravo_destroyed,XLII_mirror_bravo_destroyed,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss. Stellar Array Bravo hangs dead in its orbit, hull split along the spine.
+Stellar Array Alpha folds along its own spine - slowly, and with no sound that reaches anyone aboard - and the dish goes dark for the first time since before the Collapse.
 
-Whatever was feeding gets a third less tonight.","1:defaultLeave:Continue",
-XLII_mirror_charlie_destroyed,XLII_mirror_charlie_destroyed,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss. Stellar Array Charlie hangs dead in its orbit, hull split along the spine.
+Whatever was feeding gets a third less tonight.",1:defaultLeave:Continue,"Reached via FireBest XLII_mirror_single_destroyed from XLII_mirror_raid_one, once the marine raid has actually finished the array and at least one other is still standing. Selects itself off $id, the same mechanism XLII_mirror_opts_alpha already uses, so one trigger name serves all three arrays.
 
-Whatever was feeding gets a third less tonight.","1:defaultLeave:Continue",
-XLII_mirror_all_destroyed,XLII_mirror_all_destroyed,,,"The third detachment breaks apart the same way the first two did - in silence, logged by nobody.
+Re-cut for the two-step kill: this row used to be a bare trigger fired straight off the guard-fleet win, and its first paragraph narrated the guard detachment breaking apart AND the array dying together. The guard half now lives in XLII_mirror_alpha_guard_down, because those are two separate scenes separated by a marine raid and (potentially) weeks of travel. Do not re-merge them."
+XLII_mirror_bravo_destroyed,XLII_mirror_single_destroyed,$id == fafnir_mirror2,,"The charges go off down the collector root in sequence.
+
+Stellar Array Bravo folds along its own spine - slowly, and with no sound that reaches anyone aboard - and the dish goes dark for the first time since before the Collapse.
+
+Whatever was feeding gets a third less tonight.",1:defaultLeave:Continue,
+XLII_mirror_charlie_destroyed,XLII_mirror_single_destroyed,$id == fafnir_mirror3,,"The charges go off down the collector root in sequence.
+
+Stellar Array Charlie folds along its own spine - slowly, and with no sound that reaches anyone aboard - and the dish goes dark for the first time since before the Collapse.
+
+Whatever was feeding gets a third less tonight.",1:defaultLeave:Continue,
+XLII_mirror_all_destroyed,XLII_mirror_all_destroyed,,,"The third spine folds the same way the first two did - slowly, in silence, logged by nobody.
 
 For the first time since anyone in Fafnir was born, the collection budget reads zero across all three arrays at once.
 
 Your sensor officer is the one who notices the hyperspace plot. The Rift's edge, which has not moved in thirty cycles of war, is receding.
 
-Nobody on the bridge says anything for a long moment. Then your Ops Chief, quietly: ""Whatever was blasting that radiation, Captain - you just pulled the plug.""","1:defaultLeave:Continue","Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onMirrorDestroyed() once all three arrays are dead - fires instead of the per-array row above. Java has already set XLII_KoriStrike.MEM_RIFT_COLLAPSED and called XLII_System.disableRiftTerrain()/syncFafnirInvasionExclusion() by the time this text shows, reusing the Burn the Machine win path's own Rift-collapse plumbing as an alternate, hostile route to the same mechanical outcome."
+Nobody on the bridge says anything for a long moment. Then your Ops Chief, quietly: ""Whatever was blasting that radiation, Captain - you just pulled the plug.""",1:defaultLeave:Continue,"Reached via FireBest XLII_mirror_all_destroyed from XLII_mirror_raid_all - fires instead of XLII_mirror_single_destroyed once the third array goes down. By the time this text shows, XLII_MirrorAssault.arrayRaided() has already set XLII_KoriStrike.MEM_RIFT_COLLAPSED and called XLII_System.disableRiftTerrain()/syncFafnirInvasionExclusion(), reusing the Burn the Machine win path's own Rift-collapse plumbing as an alternate, hostile route to the same mechanical outcome. It has also set MEM_ALL_DESTROYED, which moves StellarMirrorQuestMission to RETURN_TO_FALLER and makes XLII_faller_return_add match so the payoff hook appears at Ring-Port.
+
+Re-cut for the two-step kill: the opening line used to read ""The third detachment breaks apart the same way the first two did"", which no longer describes what just happened - the detachment died weeks earlier and a marine raid is what finished the array. Everything from the collection-budget beat onward is the original text, unchanged."
 XLII_mirror_alpha_open_dead,OpenInteractionDialog,"$id == fafnir_mirror1 score:1001
 $global.XLII_mirrorAlphaDestroyed",,"Stellar Array Alpha hangs dead in its orbit where you left it, hull split along the spine. Nothing answers the hail.","100:defaultLeave:Leave","Post-destruction approach text. score:1001 (not 1000) so this outscores the live XLII_mirror_alpha_open once destroyed, rather than tying with it - that row's own condition is not touched."
 XLII_mirror_bravo_open_dead,OpenInteractionDialog,"$id == fafnir_mirror2 score:1001
 $global.XLII_mirrorBravoDestroyed",,"Stellar Array Bravo hangs dead in its orbit where you left it, hull split along the spine. Nothing answers the hail.","100:defaultLeave:Leave",
 XLII_mirror_charlie_open_dead,OpenInteractionDialog,"$id == fafnir_mirror3 score:1001
 $global.XLII_mirrorCharlieDestroyed",,"Stellar Array Charlie hangs dead in its orbit where you left it, hull split along the spine. Nothing answers the hail.","100:defaultLeave:Leave",
+XLII_mirror_alpha_guard_down,XLII_mirror_alpha_guard_down,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss.
+
+Stellar Array Alpha does not stop turning.
+
+The forward batteries have put everything they had into the dish, and the collection figure on your own passive scan has not moved a tenth of a percent. The scarring is cosmetic. Whatever carries the load sits deeper in.
+
+""Faller was right, Captain. That comes out from the inside or it doesn't come out."" Your marine officer, not your Ops Chief. ""We can do it. But Ops puts us on a $global.XLII_mirrorRaidWindowDays day clock before the Alliance replaces what we just killed - and if they get there first, we fight that detachment again before we get another shot at the spine.""
+",1:defaultLeave:Continue,"Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onGuardDestroyed() on a win. Replaces the old single-step XLII_mirror_alpha_destroyed hand-off: the guard is dead, the array is not. No Show*Visual command on purpose - this dialog's interaction target is the guard fleet, which onGuardDestroyed() has already despawned, and ShowDefaultVisual on a fleet draws a strength-comparison panel rather than anything useful. $global.XLII_mirrorRaidWindowDays is set by the same Java method off XLII_MirrorAssault.RAID_WINDOW_DAYS, so this prose cannot drift from the real expiry."
+XLII_mirror_bravo_guard_down,XLII_mirror_bravo_guard_down,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss.
+
+Stellar Array Bravo does not stop turning.
+
+The forward batteries have put everything they had into the dish, and the collection figure on your own passive scan has not moved a tenth of a percent. The scarring is cosmetic. Whatever carries the load sits deeper in.
+
+""Faller was right, Captain. That comes out from the inside or it doesn't come out."" Your marine officer, not your Ops Chief. ""We can do it. But Ops puts us on a $global.XLII_mirrorRaidWindowDays day clock before the Alliance replaces what we just killed - and if they get there first, we fight that detachment again before we get another shot at the spine.""
+",1:defaultLeave:Continue,"Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onGuardDestroyed() on a win. Replaces the old single-step XLII_mirror_bravo_destroyed hand-off: the guard is dead, the array is not. No Show*Visual command on purpose - this dialog's interaction target is the guard fleet, which onGuardDestroyed() has already despawned, and ShowDefaultVisual on a fleet draws a strength-comparison panel rather than anything useful. $global.XLII_mirrorRaidWindowDays is set by the same Java method off XLII_MirrorAssault.RAID_WINDOW_DAYS, so this prose cannot drift from the real expiry."
+XLII_mirror_charlie_guard_down,XLII_mirror_charlie_guard_down,,,"The guard detachment breaks apart without a distress call, without a survivor's beacon - nothing an Alliance tracker will ever log as a loss.
+
+Stellar Array Charlie does not stop turning.
+
+The forward batteries have put everything they had into the dish, and the collection figure on your own passive scan has not moved a tenth of a percent. The scarring is cosmetic. Whatever carries the load sits deeper in.
+
+""Faller was right, Captain. That comes out from the inside or it doesn't come out."" Your marine officer, not your Ops Chief. ""We can do it. But Ops puts us on a $global.XLII_mirrorRaidWindowDays day clock before the Alliance replaces what we just killed - and if they get there first, we fight that detachment again before we get another shot at the spine.""
+",1:defaultLeave:Continue,"Entry trigger passed to RuleBasedInteractionDialogPluginImpl by XLII_MirrorAssault.onGuardDestroyed() on a win. Replaces the old single-step XLII_mirror_charlie_destroyed hand-off: the guard is dead, the array is not. No Show*Visual command on purpose - this dialog's interaction target is the guard fleet, which onGuardDestroyed() has already despawned, and ShowDefaultVisual on a fleet draws a strength-comparison panel rather than anything useful. $global.XLII_mirrorRaidWindowDays is set by the same Java method off XLII_MirrorAssault.RAID_WINDOW_DAYS, so this prose cannot drift from the real expiry."
+XLII_mirror_alpha_open_breach,OpenInteractionDialog,"$id == fafnir_mirror1 score:1002
+$global.XLII_mirrorAlphaGuardDown
+!$global.XLII_mirrorAlphaDestroyed","ShowDefaultVisual
+$raidDifficulty = 75 0
+$raidGoBackTrigger = XLII_MirrorBreachOptions 0
+$raidContinueTrigger = XLII_mirror_raid_finished2 0
+$raidRestrictToTrigger = XLII_mirror_alpha_raid_finished 0
+AddRaidObjective genericIcon ""Demolish Stellar Array Alpha"" HIGH 3000 XLII_mirror_alpha_raid_finished true
+FireAll XLII_MirrorBreachOptions","Stellar Array Alpha turns in the dark where its guard used to be. The dish is marked now - long black streaks across a surface nothing had ever touched - and it is still, measurably, collecting.
+
+Your marine officer has the spine mapped as far as a hull scan can manage, and a cut order that starts at the collector root. The boarding plan is four hours old, and nobody aboard expects it to survive contact intact.",,"score:1002 so this outscores both the live approach row (1000) and the post-destruction row (1001) while the guard is down but the array is still standing. Because it wins, XLII_MirrorSurveyOptions never fires here and the destroy option is correctly absent - there is no guard left to re-fight. Once $global.XLII_mirrorAlphaGuardDown expires (XLII_MirrorAssault.RAID_WINDOW_DAYS) this row stops matching, the live row wins again and its destroy option is back: that fall-through IS the reinforcement mechanic, no timer script involved.
+
+$raidDifficulty is the defender's flat ""Expected resistance"" stat weighed against the player's marines + FLEET_GROUND_SUPPORT (MarketCMD.raidNonMarket()) - it is NOT the marine requirement. The requirement comes from the RaidDangerLevel param (HIGH = 5 marine tokens, 0.16 loss multiplier, per MarketCMD.RaidDangerLevel). Both are starting values, not final - see tools/CLAUDE.md, and open this menu on a test save before committing to them.
+
+Raid setup is deliberately not re-run on go-back: AddRaidObjective's adder only deregisters itself on an advance() with amount > 0, and the expiry-0 memory keys live until the dialog closes, so backing out only needs the options re-added - which is why $raidGoBackTrigger points at the options trigger, not back here.
+
+LOAD-BEARING DEPENDENCY: this raid only works because XLII_MirrorAssault.addRaidMarket(), called from XLII_System worldgen, gives each array a hidden market. Vanilla's raid pipeline assumes the raided entity has one - vanilla's own ""non-market"" raids all target planets, which do - and third-party listeners dereference it without checking. With Nexerelin installed a market-less array crashes in two places, one of them a listener fired by vanilla's own raidConfirmContinue() that no rules.csv scoring can intercept. Do not remove that market thinking it is decorative; the whole raid step depends on it."
+XLII_mirror_bravo_open_breach,OpenInteractionDialog,"$id == fafnir_mirror2 score:1002
+$global.XLII_mirrorBravoGuardDown
+!$global.XLII_mirrorBravoDestroyed","ShowDefaultVisual
+$raidDifficulty = 75 0
+$raidGoBackTrigger = XLII_MirrorBreachOptions 0
+$raidContinueTrigger = XLII_mirror_raid_finished2 0
+$raidRestrictToTrigger = XLII_mirror_bravo_raid_finished 0
+AddRaidObjective genericIcon ""Demolish Stellar Array Bravo"" HIGH 3000 XLII_mirror_bravo_raid_finished true
+FireAll XLII_MirrorBreachOptions","Stellar Array Bravo turns in the dark where its guard used to be. The dish is marked now - long black streaks across a surface nothing had ever touched - and it is still, measurably, collecting.
+
+Your marine officer has the spine mapped as far as a hull scan can manage, and a cut order that starts at the collector root. The boarding plan is four hours old, and nobody aboard expects it to survive contact intact.",,"score:1002 so this outscores both the live approach row (1000) and the post-destruction row (1001) while the guard is down but the array is still standing. Because it wins, XLII_MirrorSurveyOptions never fires here and the destroy option is correctly absent - there is no guard left to re-fight. Once $global.XLII_mirrorBravoGuardDown expires (XLII_MirrorAssault.RAID_WINDOW_DAYS) this row stops matching, the live row wins again and its destroy option is back: that fall-through IS the reinforcement mechanic, no timer script involved.
+
+$raidDifficulty is the defender's flat ""Expected resistance"" stat weighed against the player's marines + FLEET_GROUND_SUPPORT (MarketCMD.raidNonMarket()) - it is NOT the marine requirement. The requirement comes from the RaidDangerLevel param (HIGH = 5 marine tokens, 0.16 loss multiplier, per MarketCMD.RaidDangerLevel). Both are starting values, not final - see tools/CLAUDE.md, and open this menu on a test save before committing to them.
+
+Raid setup is deliberately not re-run on go-back: AddRaidObjective's adder only deregisters itself on an advance() with amount > 0, and the expiry-0 memory keys live until the dialog closes, so backing out only needs the options re-added - which is why $raidGoBackTrigger points at the options trigger, not back here."
+XLII_mirror_charlie_open_breach,OpenInteractionDialog,"$id == fafnir_mirror3 score:1002
+$global.XLII_mirrorCharlieGuardDown
+!$global.XLII_mirrorCharlieDestroyed","ShowDefaultVisual
+$raidDifficulty = 75 0
+$raidGoBackTrigger = XLII_MirrorBreachOptions 0
+$raidContinueTrigger = XLII_mirror_raid_finished2 0
+$raidRestrictToTrigger = XLII_mirror_charlie_raid_finished 0
+AddRaidObjective genericIcon ""Demolish Stellar Array Charlie"" HIGH 3000 XLII_mirror_charlie_raid_finished true
+FireAll XLII_MirrorBreachOptions","Stellar Array Charlie turns in the dark where its guard used to be. The dish is marked now - long black streaks across a surface nothing had ever touched - and it is still, measurably, collecting.
+
+Your marine officer has the spine mapped as far as a hull scan can manage, and a cut order that starts at the collector root. The boarding plan is four hours old, and nobody aboard expects it to survive contact intact.",,"score:1002 so this outscores both the live approach row (1000) and the post-destruction row (1001) while the guard is down but the array is still standing. Because it wins, XLII_MirrorSurveyOptions never fires here and the destroy option is correctly absent - there is no guard left to re-fight. Once $global.XLII_mirrorCharlieGuardDown expires (XLII_MirrorAssault.RAID_WINDOW_DAYS) this row stops matching, the live row wins again and its destroy option is back: that fall-through IS the reinforcement mechanic, no timer script involved.
+
+$raidDifficulty is the defender's flat ""Expected resistance"" stat weighed against the player's marines + FLEET_GROUND_SUPPORT (MarketCMD.raidNonMarket()) - it is NOT the marine requirement. The requirement comes from the RaidDangerLevel param (HIGH = 5 marine tokens, 0.16 loss multiplier, per MarketCMD.RaidDangerLevel). Both are starting values, not final - see tools/CLAUDE.md, and open this menu on a test save before committing to them.
+
+Raid setup is deliberately not re-run on go-back: AddRaidObjective's adder only deregisters itself on an advance() with amount > 0, and the expiry-0 memory keys live until the dialog closes, so backing out only needs the options re-added - which is why $raidGoBackTrigger points at the options trigger, not back here."
+XLII_mirror_breach_opts,XLII_MirrorBreachOptions,,,,"1:mktRaidNonMarket:Send in the marines
+100:defaultLeave:Leave","Shared by all three arrays - the options never differ, only the approach text does. mktRaidNonMarket is handled by the base game's own marketHostileRaidNonMarket row (MarketCMD raidNonMarket); no handler of ours is needed. It is also the only option id AddRaidObjective's custom objectives will show up under at all - see that class's own header comment. Leaving is intentionally still legal: it costs window, not progress."
+XLII_mirror_alpha_raid_finished,XLII_mirror_alpha_raid_finished,,XLII_MirrorMarineRaid alpha,"The shuttles go in under the dish's own shadow.
+
+What the teams do inside the spine is not complicated. They walk the collector root with a scan plot and a load diagram, set charges where the structure carries weight, and are back aboard before anything is lit.",,"Fired by AddRaidObjective's success callback (FireAll from reportRaidObjectivesAchieved). No options column on purpose - the engine supplies the Continue itself, because CustomRaidObjective.withContinueBeforeResult() is true; that Continue fires $raidContinueTrigger. Same shape as vanilla's lkeVirensRaidFinishedA.
+
+The state change lives here rather than in the _finished2 step (vanilla puts it in its B row) specifically because _finished2's rows branch on $global.XLII_mirrorAllDestroyed, which XLII_MirrorMarineRaid is what sets. Conditions are evaluated before script within a row, so the flag has to already be true by the time those rows are picked."
+XLII_mirror_bravo_raid_finished,XLII_mirror_bravo_raid_finished,,XLII_MirrorMarineRaid bravo,"The shuttles go in under the dish's own shadow.
+
+What the teams do inside the spine is not complicated. They walk the collector root with a scan plot and a load diagram, set charges where the structure carries weight, and are back aboard before anything is lit.",,"Fired by AddRaidObjective's success callback (FireAll from reportRaidObjectivesAchieved). No options column on purpose - the engine supplies the Continue itself, because CustomRaidObjective.withContinueBeforeResult() is true; that Continue fires $raidContinueTrigger. Same shape as vanilla's lkeVirensRaidFinishedA.
+
+The state change lives here rather than in the _finished2 step (vanilla puts it in its B row) specifically because _finished2's rows branch on $global.XLII_mirrorAllDestroyed, which XLII_MirrorMarineRaid is what sets. Conditions are evaluated before script within a row, so the flag has to already be true by the time those rows are picked."
+XLII_mirror_charlie_raid_finished,XLII_mirror_charlie_raid_finished,,XLII_MirrorMarineRaid charlie,"The shuttles go in under the dish's own shadow.
+
+What the teams do inside the spine is not complicated. They walk the collector root with a scan plot and a load diagram, set charges where the structure carries weight, and are back aboard before anything is lit.",,"Fired by AddRaidObjective's success callback (FireAll from reportRaidObjectivesAchieved). No options column on purpose - the engine supplies the Continue itself, because CustomRaidObjective.withContinueBeforeResult() is true; that Continue fires $raidContinueTrigger. Same shape as vanilla's lkeVirensRaidFinishedA.
+
+The state change lives here rather than in the _finished2 step (vanilla puts it in its B row) specifically because _finished2's rows branch on $global.XLII_mirrorAllDestroyed, which XLII_MirrorMarineRaid is what sets. Conditions are evaluated before script within a row, so the flag has to already be true by the time those rows are picked."
+XLII_mirror_raid_all,XLII_mirror_raid_finished2,$global.XLII_mirrorAllDestroyed,FireBest XLII_mirror_all_destroyed,,,"$raidContinueTrigger target, shared by all three arrays (it is read from the array's own entity memory, so one trigger name serves all three without collision). Branches into the existing epilogue rows rather than restating them."
+XLII_mirror_raid_one,XLII_mirror_raid_finished2,!$global.XLII_mirrorAllDestroyed,FireBest XLII_mirror_single_destroyed,,,"The per-array epilogue rows select themselves off $id, the same way XLII_mirror_opts_alpha/_bravo/_charlie already do - so this one row covers all three arrays without needing the key."
 "#END [FAFNIR LORE] Stellar Arrays",,,,,,
 ,,,,,,
 # [FAFNIR LORE] Bar Vignettes,,,,,,
@@ -3324,13 +3435,17 @@ Keep doing what you're doing. That conversation will happen when the time is rig
 ,,,,,,
 # [CHAIN OF CUSTODY] Office Contact Intercept,,,,,,
 XLII_office_contact_scene,XLII_OfficeContactScene,,"ShowPersonVisual","The small unmarked fleet that intercepted you broadcasts a comms request. Their channel resolves on an officer you don't recognize. They've clearly been looking for you.","1:XLII_office_contact_cont:Continue","One-shot comm from the Office fleet spawned by XLII_OfficeContactMonitor. ShowPersonVisual (bare) falls back to fleet.getCommander() for a CampaignFleetAPI target, matching XLII_FafnirBFIntercept/XLII_FafnirTJIntercept's own bare ShowPersonVisual - this row used to have no visual command at all on the mistaken assumption those two were also anonymous; they aren't (confirmed by reading their actual rows, not the older doc note that claimed otherwise). Text rewritten to match - no longer claims 'no visual'. Ported from XLII_OfficeContactDialog.java (deleted) - see .claude/systems/fafnir-access.md and .claude/systems/blind-eye.md."
-XLII_office_contact_cont,DialogOptionSelected,,,"""Commander. Coordinates are attached. Ladon, $global.XLII_officeSystemName system.""
+XLII_office_contact_cont,DialogOptionSelected,$option == XLII_office_contact_cont,,"""Commander. Coordinates are attached. Ladon, $global.XLII_officeSystemName system.""
 
 ""The site's defenses have been briefed. Approach on a clean heading and you won't need to fight your way in.""
 
 ""The Director is waiting for you.""
 
-The channel closes without waiting for a reply.","1:office_contact_ok:Continue",
+The channel closes without waiting for a reply.",1:office_contact_ok:Continue,"Second beat of the Office contact intercept, reached from XLII_office_contact_scene's ""1:XLII_office_contact_cont:Continue"" option.
+
+BUG FIX: this row previously had an EMPTY conditions cell. A DialogOptionSelected row with no conditions matches EVERY option selection in the game at score 0, so it fired as the fallback winner any time the player picked an option that no better-scoring rule claimed - most visibly dumping Ladon's coordinates into the portside bar screen on entering any bar. The row id matching the option id does nothing: rules.csv dispatches on trigger + conditions only, never on id. Its sibling XLII_office_contact_ok_sel always had this right ($option == office_contact_ok).
+
+Any new DialogOptionSelected row needs an explicit $option == <id> condition (or a custom command condition that inspects the option itself, the way XLII_korrin_topic_open's XLII_Korrin isTopicOption does). Naming the row after the option is not a substitute."
 XLII_office_contact_ok_sel,DialogOptionSelected,"$option == office_contact_ok","$global.XLII_officeContactDone = true
 $global.XLII_officeAccessGranted = true
 XLII_CompleteOfficeContact
@@ -3472,7 +3587,7 @@ A pause.
 ""I'm not going to pretend that is a comfortable thing to have confirmed to your face. I'm going to offer you a standing arrangement regardless, because the arrangement exists with or without you, and you evidently have access to a supply the Office does not. Bring us Harvested Organs. We return processed cores - same substrate, same specification. Whatever conclusions you draw from that are yours to draw, Commander, on your own time.""","1:monroe_exchange_continue:Continue","New this session (author request, item 6 of TODO.md) - the standing Harvested Organs -> AuxCog Core exchange. Dispatched from XLII_CampaignPlugin.pickInteractionDialogPlugin() on any bastion revisit once both $global.XLII_officeVettingComplete and $global.XLII_wasteNotComplete are set - gated on the latter so this never surfaces before the player has personally seen what an AuxCog Core actually is and where it comes from. Monroe confirms outright that Waste Not's site was not an isolated black operation."
 XLII_monroe_exchange_continue_sel,DialogOptionSelected,"$option == monroe_exchange_continue","FireAll XLII_MonroeExchangeOptions",,,
 XLII_monroe_exchange_return,XLII_MonroeExchangeReturn,,"ShowPersonVisual false XLII_aio_director_Haspel
-FireAll XLII_MonroeExchangeOptions","Monroe doesn't look up right away. ""Commander. Same arrangement as before, I take it.""",,,"Added alongside XLII_MonroeExchangeOpen (author request) - every bastion visit after the first skipped straight back into the full reveal paragraph verbatim, which read as Monroe repeating herself. XLII_CampaignPlugin now dispatches here instead once $global.XLII_monroeExchangeIntroSeen is set (by the open row above), going straight to the standing menu rather than replaying the reveal."
+FireAll XLII_MonroeExchangeOptions","Monroe doesn't look up right away. ""Commander. Same arrangement as before, I take it.""",,"Added alongside XLII_MonroeExchangeOpen (author request) - every bastion visit after the first skipped straight back into the full reveal paragraph verbatim, which read as Monroe repeating herself. XLII_CampaignPlugin now dispatches here instead once $global.XLII_monroeExchangeIntroSeen is set (by the open row above), going straight to the standing menu rather than replaying the reveal."
 XLII_monroe_exchange_opt_trade,XLII_MonroeExchangeOptions,"PlayerHasCargo organs 500",,,"10:monroe_exchange_trade:Hand over 500 units of Harvested Organs","Hidden once the player can't afford the trade rather than shown disabled - consistent with how this dialog's other option menus (e.g. XLII_MonroeQAMenu) prune by condition. 500 organs per core is a starting value, not final - see tools/CLAUDE.md for balance-tuning guidelines if this needs revisiting."
 XLII_monroe_exchange_opt_leave,XLII_MonroeExchangeOptions,,,,"20:monroe_exchange_leave:Leave",
 XLII_monroe_exchange_trade_first,DialogOptionSelected,"$option == monroe_exchange_trade
@@ -3960,3 +4075,108 @@ XLII_interception_begin_fight,DialogOptionSelected,"$option == interception_begi
 "#END [UPLINK TO GOD] Burn the Machine",,,,,,
 "#END [UPLINK TO GOD] Quest",,,,,,
 
+# [STELLAR MIRROR] Quest,,,,,,
+,,,,,,
+# [STELLAR MIRROR] Offer,,,,,,
+XLII_faller_bar_add,AddBarEvents,"!$market.isHidden
+XLII_IsAtRingPort
+!$global.XLII_stellarMirrorQuestActive
+!$global.XLII_mirrorAllDestroyed
+!$global.XLII_nanoforgeQuestComplete","AddBarEvent XLII_faller_hook ""Approach the old man"" ""An old man at the end of the bar hasn't looked away from you since you walked in."" highlight",,,"Vanilla AddBarEvents hook, same mechanism as XLII_waste_not_bar_add - NOT a Java BaseBarEvent. Deliberate: AddBarEvents is re-fired from scratch on every bar visit (BarCMD.java:218-220 clears temp events then FireAll's this trigger), so it is immune to the $BarCMD_shownEvents snapshot that hides newly-registered PortsideBarData events for 20-40 days, and it has none of XLII_MissionBarEventWatchdog's 10-day tick latency. It also needs no PersonAPI, no shouldShowAtMarket(), and cannot leak a portrait into the bar screen the way an addPromptAndOption() override can.
+
+XLII_IsAtRingPort scopes this to Ring-Port Station. $global.XLII_nanoforgeQuestComplete is the player's stated point of no return: once the nanoforge is handed over, the offer stops appearing for good. It gates the OFFER only and does not abort an accepted quest."
+XLII_faller_bar_open,DialogOptionSelected,$option == XLII_faller_hook,"XLII_SetFallerActive
+ShowPersonVisual false
+FireAll XLII_fallerBarOpenMenu","He waits until you're close enough that he doesn't have to raise his voice.
+
+""You've been out to the mirrors."" Not a question. ""Three of them. Big dish, long spine, no crew, and nothing on any registry that says who services them.""
+
+He turns a glass a quarter turn on the table and doesn't drink from it.
+
+""I flew for Athebyne's First Fleet. What's left of us came here when the peace was signed, because the alternative was swearing an oath to the man who did the bombing. Thirty cycles I've been sitting in this station looking at the same wall on the same chart.""
+
+""The Rift isn't weather. You know that by now, or you wouldn't have run a survey. It's exhaust. Those three arrays feed whatever makes it, and whatever makes it is the only reason the Alliance has never once had to defend that approach against anyone who mattered.""
+
+""I want them gone. All three.""
+",,"Entry scene. XLII_SetFallerActive creates/caches Faller and sets him as the bar's active person; the bare ShowPersonVisual form then shows whoever that is, so no person id is passed and there is nothing to NPE on. ShowPersonVisual's two-arg form does getImportantPeople().getData(id).getPerson() with no null check, which would crash the first time anyone meets him.
+
+false is the minimalMode flag, and minimalMode is the inverse of ""show the faction"" - BaseHubMission.showPersonInfo() is literally showPersonInfo(person, !withFaction, withRelBar) (BaseHubMission.java:1019-1021). So false = portrait WITH the faction crest, which is what we want; true would suppress it. Same value XLII_monroe_exchange_open passes.
+
+Showing the portrait HERE is correct and is not the bug that was fixed earlier - that one was a Java BaseBarEvent calling showPersonInfo() from addPromptAndOption(), which runs for every event while the bar screen paints and so hijacked the shared visual panel from whichever event the player actually picked. This row only runs after the player has chosen Faller."
+XLII_faller_bar_ask_why_opt,XLII_fallerBarOpenMenu,!$global.XLII_fallerAskedWhy,,,1:fallerAskWhy:Why do you want them gone?,"$global. scope, not local: the asked-flags have to outlive a single bar visit or the questions come back on the next one."
+XLII_faller_bar_ask_how_opt,XLII_fallerBarOpenMenu,!$global.XLII_fallerAskedHow,,,2:fallerAskHow:Three arrays is a lot of ordnance. Why hasn't anyone done it?,
+XLII_faller_bar_ask_pay_opt,XLII_fallerBarOpenMenu,!$global.XLII_fallerAskedPay,,,3:fallerAskPay:What's it worth to you?,
+XLII_faller_bar_accept_opt,XLII_fallerBarOpenMenu,,,,4:fallerAccept:Accepted,
+XLII_faller_bar_decline_opt,XLII_fallerBarOpenMenu,,,,5:fallerDecline:Not interested,
+XLII_faller_bar_ask_why_sel,DialogOptionSelected,$option == fallerAskWhy,"$global.XLII_fallerAskedWhy = true
+FireAll XLII_fallerBarOpenMenu","""Itoron buried my world and then inherited it."" He says it without heat, the way a man reads off a figure he has checked many times. ""They have a saviour on one planet and a war criminal on the other, and the only reason that question never got settled is that nobody from outside could ever get in to settle it.""
+
+""I'm not asking you to shoot Itoron. I'm asking you to take the roof off. After that it stops being our argument and starts being everyone's.""
+",,
+XLII_faller_bar_ask_how_sel,DialogOptionSelected,$option == fallerAskHow,"$global.XLII_fallerAskedHow = true
+FireAll XLII_fallerBarOpenMenu","""Because I tried."" Flat. ""Four of us, a long time ago, with everything we had left between us. You can hull that thing end to end and it keeps collecting. The spine is the collector, and it's buried in the structure - it has to be cut out from the inside, by people standing on it.""
+
+""So you'll need marines. Real ones, a lot of them, in your holds before you start shooting - not a run back to a market afterward.""
+
+He finally drinks.
+
+""And the guard is the other half of it. Kill the guard and you've told the Alliance exactly which array to reinforce. They're slow about it. They are not stupid. You'll have weeks, not months. Go in with the ground team already aboard, or don't go in.""
+",,"Elaborates on the brief. The load-bearing copy of that information lives in the accept row, which every accepting player reads - this question is optional and must never be its only home."
+XLII_faller_bar_ask_pay_sel,DialogOptionSelected,$option == fallerAskPay,"$global.XLII_fallerAskedPay = true
+FireAll XLII_fallerBarOpenMenu","""Everything First Fleet still has."" No hesitation at all. ""Which is a good deal more than it looks like from where you're sitting. We've been taking a cut off Alliance shipping since before you were flying, and not one of us had children to leave it to.""
+
+""The other half isn't for you. The survey returns go to the Hegemony - every spine schematic, every collection figure, the lot. They've wanted a reason to come through here for a century and they have never once had a chart worth the fuel.""
+
+He sets the glass down.
+
+""That part isn't negotiable. That part is what I actually want.""
+",,Sets up both halves of the payoff - First Fleet's credits and the Hegemony getting the survey returns - so neither lands unmotivated at the return scene.
+XLII_faller_bar_accept_sel,DialogOptionSelected,$option == fallerAccept,"$global.XLII_stellarMirrorQuestActive = true
+XLII_SetFallerActive
+BeginMission StellarMirrorQuestMission","He doesn't thank you, and he doesn't offer his hand.
+
+""Three of them. Any order."" He's already looking past you at the door. ""And hear this part, because it's the part that gets crews killed. Hulls won't do it. I've tried. The spine gets cut from the inside, by people standing on it - so you'll want marines, and you'll want them already aboard the first time you go out there, not fetched afterward.""
+
+""Kill a guard detachment and the Alliance knows exactly which array to reinforce. You'll have weeks to finish what you started.""
+
+He picks the glass back up.
+
+""Not months.""",1:fallerAcceptDone:Leave,"XLII_SetFallerActive must come BEFORE BeginMission in this same cell: it sets Faller as the bar's active person, which is what BeginMission reads to populate personOverride, which is what gives the intel panel its portrait and crest. Same arrangement as XLII_WasteNotSetWaltActive. See .claude/systems/intel.md.
+
+This row - not the optional ask_how - is where the quest's load-bearing brief has to live, because it is the only node every accepting player is guaranteed to read: hulls cannot destroy an array, marines must be aboard before the first attempt, and killing a guard starts the XLII_MirrorAssault.RAID_WINDOW_DAYS clock."
+XLII_faller_bar_decline_sel,DialogOptionSelected,$option == fallerDecline,,"""Thought not."" He doesn't seem surprised, or especially disappointed. ""I've been wrong about this for a long time. Another year won't kill me.""
+
+He's still sitting there when you leave.
+",1:fallerDeclineDone:Leave,"Declining sets nothing, so XLII_faller_bar_add still matches and the offer returns on the next visit until the nanoforge gate closes it."
+XLII_faller_bar_leave,DialogOptionSelected,$option == fallerAcceptDone,DismissDialog,,,"DismissDialog, not EndConversation - a bar scene has no parent menu to fall back to, and EndConversation would leave the dialog with nothing to show (see the rules-csv skill's note on that soft-lock)."
+XLII_faller_bar_leave_decline,DialogOptionSelected,$option == fallerDeclineDone,DismissDialog,,,
+"#END [STELLAR MIRROR] Offer",,,,,,
+# [STELLAR MIRROR] Payoff,,,,,,
+XLII_faller_return_add,AddBarEvents,"!$market.isHidden
+XLII_IsAtRingPort
+$global.XLII_stellarMirrorQuestActive
+$global.XLII_mirrorAllDestroyed
+!$global.XLII_stellarMirrorComplete","AddBarEvent XLII_faller_return ""Tell him it's done"" ""Faller is exactly where you left him, like he never moved."" highlight",,,"Payoff hook. Because AddBarEvents is evaluated live on every bar visit, this appears the moment the third array drops - no watchdog tick to wait out, which matters because Ring-Port is in Fafnir, minutes from the arrays."
+XLII_faller_return_open,DialogOptionSelected,$option == XLII_faller_return,"XLII_SetFallerActive
+ShowPersonVisual false","He already knows. Someone at this station always knows first.
+
+""Say it anyway.""
+",1:fallerDone:All three are down. The Rift is receding,"Payoff scene. XLII_SetFallerActive is called again rather than assuming the offer scene already created him: the dev ""start quest"" row bypasses the bar entirely, so this cannot rely on him existing. It is idempotent - it returns the cached person when there is one."
+XLII_faller_return_done,DialogOptionSelected,$option == fallerDone,"XLII_CompleteStellarMirrorQuest
+AddCredits 400000","Faller sits with that for a while.
+
+""I had a list of things I was going to say when this happened. Wrote it down once."" He doesn't produce it. ""Turns out I don't want to say any of them.""
+
+He pushes a credit chit across the table. Your datapad pings before your hand reaches it - the transfer is already clearing, and it is not a small one.
+
+""Hegemony took the charts off me last week. Six weeks for a survey office to decide a thing, thirty cycles for anybody to ask the question."" A short breath that isn't quite a laugh. ""They'll be through the old approach before the next harvest, and they'll call it an inspection.""
+
+""The Alliance gets to find out what it's worth without a wall around it. That's all I ever wanted, and I don't feel a thing.""
+
+He turns the glass another quarter turn.
+
+""Go on, Captain. You're done here.""
+",1:fallerReturnDone:Leave,"Reward is a starting value, not final - see tools/CLAUDE.md. Amount is deliberately not stated in the text (0 of 92 vanilla AddCredits rows name a figure). XLII_CompleteStellarMirrorQuest sets $XLII_stellarMirrorComplete, which both closes StellarMirrorQuestMission and stops XLII_faller_return_add matching."
+XLII_faller_return_leave,DialogOptionSelected,$option == fallerReturnDone,DismissDialog,,,
+"#END [STELLAR MIRROR] Payoff",,,,,,
+"#END [STELLAR MIRROR] Quest",,,,,,

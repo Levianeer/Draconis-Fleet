@@ -12,6 +12,7 @@ import com.fs.starfarer.api.impl.campaign.terrain.RadioChatterTerrainPlugin;
 import com.fs.starfarer.api.util.Misc;
 import exerelin.ExerelinConstants;
 import levianeer.draconis.data.campaign.events.XLII_KoriStrike;
+import levianeer.draconis.data.campaign.events.XLII_MirrorAssault;
 import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
 import levianeer.draconis.data.campaign.terrain.XLII_RiftTerrainPlugin;
 import org.lwjgl.util.vector.Vector2f;
@@ -151,6 +152,12 @@ public class XLII_System implements SectorGeneratorPlugin {
         SectorEntityToken fafnir_mirror3 = system.addCustomEntity("fafnir_mirror3", "Stellar Array Charlie", "stellar_mirror", DRACONIS);
         fafnir_mirror3.setCircularOrbitPointingDown(system.getEntityById("XLII_fafnir"), 240, 1500, 90);
         fafnir_mirror3.setCustomDescriptionId("XLII_stellar_mirror");
+
+        // Each array needs a hidden market or the marine-demolition step crashes - vanilla's
+        // ground-raid pipeline assumes the raided entity has one. See addRaidMarket().
+        XLII_MirrorAssault.addRaidMarket(fafnir_mirror1);
+        XLII_MirrorAssault.addRaidMarket(fafnir_mirror2);
+        XLII_MirrorAssault.addRaidMarket(fafnir_mirror3);
 
         // PLANETS
 
