@@ -3225,11 +3225,13 @@ $global.XLII_transponderVerified
 XLII_Korrin meet
 FireAll XLII_EliasIntro",,,"First contact with Elias. Fires intro scene."
 XLII_elias_intro_continue,XLII_EliasIntro,,,"The feed resolves after a moment - no ident header, no station routing tag. A young man, background dark. He looks at the pickup. ""Commander."" A pause. ""Korrin.""","1:elias_continue:Continue",
-XLII_elias_briefing,DialogOptionSelected,"$option == elias_continue","FireAll XLII_EliasOptions","'You received the note?"" He follows up before you can answer. ""Good. Apologies for the secrecy - this operation is too important to risk on sloppiness.""
+XLII_elias_briefing,DialogOptionSelected,"$option == elias_continue","FireAll XLII_EliasOptions","""You received the note?"" He follows up before you can answer. ""Good. Apologies for the secrecy - this operation is too important to risk on sloppiness.""
 
-""I've been told to brief you on our operation, so to cut it short - the Fleet Admiral sent me to prepare the station for a change of hands. The operational specifics are recent.""
+""I've been told to brief you. The Fleet Admiral sent me to prepare the station for a change of hands - the specifics are recent.""
 
-""August wants Ring-Port back, but not via our usual channels. And until now we haven't been able to commit Alliance assets without AIO oversight, and the Office's involvement would mean documentation, a review and secure process, and a multi-cycle delay while the Office investigates every nook and cranny of this facility before they even considered a direct assault."" A pause. ""You are not subject to that oversight.""",,"Briefing text. Fires XLII_EliasOptions to populate Q&A and accept/decline choices."
+""August wants Ring-Port back. Not through our usual channels.""
+
+""Normally the Office would have to sign off. Documentation, review, a multi-cycle audit of this facility before anyone discussed an assault."" A pause. ""You are not subject to that oversight.""",,"Briefing text. Fires XLII_EliasOptions to populate Q&A and accept/decline choices."
 XLII_elias_opt_why,XLII_EliasOptions,"!$global.XLII_elias_askedWhy",,,"1:elias_why:Why Ring-Port? Why now?",
 XLII_elias_opt_occupants,XLII_EliasOptions,"!$global.XLII_elias_askedOccupants",,,"2:elias_occupants:The station's current occupants",
 XLII_elias_opt_accept,XLII_EliasOptions,,,,"3:elias_accept:I'll do it",
@@ -3237,25 +3239,35 @@ XLII_elias_opt_decline,XLII_EliasOptions,,,,"4:elias_decline:Not yet",
 XLII_elias_dev_opt_skip_fight_early,XLII_EliasOptions,"$global.isDevMode",,,"10:elias_dev_skip_fight:>> (dev) skip fight","Dev-only ($global.isDevMode). Second placement of the same option (author feedback: the first placement, on XLII_EliasActiveOptions, only becomes reachable after $global.XLII_blindEyeMissionActive is set - which requires accepting the mission through XLII_EliasOptions/XLII_EliasConfirmOptions and clicking ""Launch the assault"" for real first, needing 500 marines to even get that far. That's not ""skipping the assault,"" that's ""doing the assault's own setup, then declining combat at the last screen"" - defeats the point). XLII_EliasOptions has no such prerequisite: XLII_elias_init's own conditions carry no ""already seen"" flag, so this Q&A screen re-fires on every single contact with Elias until the player either declines or actually launches - reachable on a completely fresh save, zero marines required. No new handler row needed: reuses the exact same option id (elias_dev_skip_fight) as the XLII_EliasActiveOptions placement, so the existing XLII_elias_dev_n_skip_fight row (a plain DialogOptionSelected handler, origin-agnostic) already answers it."
 XLII_elias_dev_opt_instant_victory_early,XLII_EliasOptions,"$global.isDevMode",,,"11:elias_dev_instant_victory:>> (dev) instant victory","Dev-only. Same reasoning as XLII_elias_dev_opt_skip_fight_early above (reachable with zero prerequisites, unlike the XLII_EliasActiveOptions placement) - reuses the existing elias_dev_instant_victory option id and its handler (XLII_elias_dev_n_instant_victory), no new handler needed."
 XLII_elias_why,DialogOptionSelected,"$option == elias_why","$global.XLII_elias_askedWhy = true
-FireAll XLII_EliasOptions","""Two main reasons, firstly, the logistical output of Ring-Port is not insignificant, and we need all the help we can get. Secondly, it's a matter of optics; we may be a small fish in a large pond, but this reflects poorly on the Alliance for not being able to take back such an important asset. Those are the official reasons, anyway; in reality, we need the free operating space to work without oversight. August has been assembling a contingent of those loyal to him and wants to seize control of the Office.""
+FireAll XLII_EliasOptions","""Officially? Throughput and optics. Ring-Port moves cargo, and the Alliance looks weak for not holding it.""
 
-""The plan is straightforward. When the station changes hands, the AIO will arrive quickly after. That is expected. But our people are already embedded here - dock workers, transit staff, maintenance contractors, the list goes on - but the important detail is we've already prepared and secured this station before the AIO can sterilise it. If Alliance personnel hold the facility before the Office arrives, they hold it on the Admiral's terms.""
+A pause that runs slightly long.
 
-A moment's pause as Korrin leans back, as he takes a moment for himself.
+""That's what's in the file.""
+
+He checks something off-feed that you are fairly sure isn't there.
+
+""You would work the rest out inside a week, and you will be standing in the middle of it by tomorrow. So. August is assembling people who answer to him, not to the Office."" A beat. ""I would rather not finish that sentence for you.""
+
+""What he needs is ground the Office cannot audit. I am standing on it.""
+
+""The rest is straightforward. The station changes hands, the Office arrives soon after - that part is expected. But our people are already aboard: dock workers, transit staff, maintenance contractors. If Alliance personnel hold this facility before the Office does, they hold it on the Admiral's terms - and the Office does not get to sterilise it first.""
+
+Korrin leans back, and takes a moment for himself.
 
 ""The timing was mine to judge. I sent the signal when the station's current commander was between reliable subordinates. This window is narrow.""",,
 XLII_elias_occupants,DialogOptionSelected,"$option == elias_occupants","$global.XLII_elias_askedOccupants = true
-FireAll XLII_EliasOptions","He nods as he considers the question.
+FireAll XLII_EliasOptions","He nods, considering it.
 
-""Well, originally, First Fleet veterans who refused integration after the armistice. The originals are mostly old now. Their children and the people those children trained are running the operation now.""
+""First Fleet veterans who refused integration after the armistice. The originals are mostly old now - their children, and the people those children trained, run the operation.""
 
-""They are technically proficient. They have survived in a hostile system on ingenuity and deterrence. They understand that the Alliance cannot absorb them without political consequence."" He stops there. ""But this operation isn't about petty revenge. Besides, their lives will be better under Alliance Control...""
+""Technically proficient. They have survived in a hostile system on ingenuity and deterrence, and they understand the Alliance cannot absorb them without political consequence."" He stops there. ""This is not about revenge. Their lives will be better under Alliance administration.""
 
-He trails off on the last sentence, clearly not sold on his own words. But he catches himself.
+The last sentence is somebody else's.
 
-""The important bit is they are proficient but underfunded fighters, Commander.""",,
+""Proficient and underfunded, Commander. That is the part that matters.""",,
 XLII_elias_accept,DialogOptionSelected,"$option == elias_accept
-XLII_HasMarinesForAssault","FireAll XLII_EliasConfirmOptions","He scans his terminal display. ""That's what I need to hear. My people are staged - the watch rotation on the cargo lock is clear, the maintenance window holds for another six hours. You have a window and the force to use it."" He closes the feed channel. ""The moment you launch, I'm inside with you.""",,"Player has enough marines - show launch confirmation."
+XLII_HasMarinesForAssault","FireAll XLII_EliasConfirmOptions","He scans his terminal display. ""That's what I need to hear. My people are staged - the watch rotation on the cargo lock is clear, the maintenance window holds for another six hours. You have your opening and the force to use it."" He closes the feed channel. ""The moment you launch, I'm inside with you.""",,"Player has enough marines - show launch confirmation."
 XLII_elias_accept_nomines,DialogOptionSelected,"$option == elias_accept
 !XLII_HasMarinesForAssault","FireAll XLII_EliasNeedMarinesOptions","He shakes his head. ""Not yet. The garrison runs thick for its size - First Fleet veterans who've spent two decades hardening that station against exactly this kind of assault. Five hundred marines minimum, and that's assuming everything I've arranged goes right. Come back when you have the numbers.""",,"Player lacks marines - show reminder."
 XLII_elias_decline,DialogOptionSelected,"$option == elias_decline","$global.XLII_blindEyeDeclined = true
@@ -3264,12 +3276,12 @@ XLII_elias_return,OpenCDE,"$isPerson
 $tag:XLII_elias_korrin
 $global.XLII_blindEyeDeclined
 !$global.XLII_blindEyeMissionActive","ShowPersonVisual
-FireAll XLII_EliasReturnOptions","He answers without delay. The expression is the same as when you left it - almost. ""Commander.""",,"Return visit after declining. Offers accept or leave."
+FireAll XLII_EliasReturnOptions","He answers without delay. The expression is the one you left him with - almost. ""Commander.""",,"Return visit after declining. Offers accept or leave."
 XLII_elias_return_opt_accept,XLII_EliasReturnOptions,,,,"1:elias_return_accept:I'll do it",
 XLII_elias_return_opt_leave,XLII_EliasReturnOptions,,,,"2:elias_return_leave:Not yet",
 XLII_elias_return_accept,DialogOptionSelected,"$option == elias_return_accept
 XLII_HasMarinesForAssault","$global.XLII_blindEyeDeclined = false
-FireAll XLII_EliasConfirmOptions","He scans his terminal display again, like he's been keeping it open since you left. ""Good. Nothing's changed on my end - watch rotation on the cargo lock is still clear, maintenance window still holds. You have a window and the force to use it."" He closes the feed channel. ""The moment you launch, I'm inside with you.""",,
+FireAll XLII_EliasConfirmOptions","He scans his terminal display again, like he's been keeping it open since you left. ""Good. Nothing's changed on my end - watch rotation on the cargo lock is still clear, maintenance window still holds. You have your opening and the force to use it."" He closes the feed channel. ""The moment you launch, I'm inside with you.""",,
 XLII_elias_return_accept_nomines,DialogOptionSelected,"$option == elias_return_accept
 !XLII_HasMarinesForAssault",FireAll XLII_EliasNeedMarinesOptions,"He shakes his head. ""Still not yet. The garrison hasn't gotten any thinner since we last talked - First Fleet veterans who've spent two decades hardening that station against exactly this kind of assault. Five hundred marines minimum, same as before. Come back when you have the numbers.""",,
 XLII_elias_return_leave,DialogOptionSelected,"$option == elias_return_leave","EndConversation",,,
@@ -3299,11 +3311,11 @@ $global.XLII_ringPortTaken
 !$global.XLII_blindEyeVictoryAcked","ShowPersonVisual
 XLII_Korrin meet
 FireAll XLII_EliasVictoryIntro","You comm Korrin from the dock. The line connects without routing delay - Ring-Port's comms infrastructure already back under Alliance administration. The station is different. Same bulkheads, same corridors. Different faces at every checkpoint.",,"First visit to Elias after Ring-Port is taken. One-time acknowledgment."
-XLII_elias_victory_intro,XLII_EliasVictoryIntro,,,"""It's done. Good job."" 
+XLII_elias_victory_intro,XLII_EliasVictoryIntro,,,"""It's done. Good job.""
 
 He says it without embellishment.
 
-""August's contingent moved in within the hour. They'll be staged two berths over, waiting on their signal, but for all intents and purposes, the station is already under Alliance administration.""","1:elias_victory_what:What happens next?
+""August's contingent moved in within the hour. They will be staged two berths over, waiting on their signal. For every purpose that matters, the station is already under Alliance administration.""","1:elias_victory_what:What happens next?
 2:elias_victory_ack:Understood",
 XLII_elias_victory_what,DialogOptionSelected,"$option == elias_victory_what",,"""August's people hold the station before the Office arrives. That was the point."" He closes the terminal display. ""The Fleet Admiral will know what was accomplished here. Whatever the Office makes of that is their concern.""","1:elias_victory_close:Understood",
 XLII_elias_victory_close,DialogOptionSelected,"$option == elias_victory_close","$global.XLII_blindEyeVictoryAcked = true
@@ -4095,7 +4107,7 @@ He turns a glass a quarter turn on the table and doesn't drink from it.
 
 ""I flew for Athebyne's First Fleet. What's left of us came here when the peace was signed, because the alternative was swearing an oath to the man who did the bombing. Thirty cycles I've been sitting in this station looking at the same wall on the same chart.""
 
-""The Rift isn't weather. You know that by now, or you wouldn't have run a survey. It's exhaust. Those three arrays feed whatever makes it, and whatever makes it is the only reason the Alliance has never once had to defend that approach against anyone who mattered.""
+""The Rift isn't weather. You know that by now, or you wouldn't have run a survey. It's exhaust. Those three arrays feed whatever makes it, and whatever makes it is the only reason the Alliance has never had to defend that approach against anyone who mattered.""
 
 ""I want them gone. All three.""
 ",,"Entry scene. XLII_SetFallerActive creates/caches Faller and sets him as the bar's active person; the bare ShowPersonVisual form then shows whoever that is, so no person id is passed and there is nothing to NPE on. ShowPersonVisual's two-arg form does getImportantPeople().getData(id).getPerson() with no null check, which would crash the first time anyone meets him.
@@ -4111,23 +4123,19 @@ XLII_faller_bar_decline_opt,XLII_fallerBarOpenMenu,,,,5:fallerDecline:Not intere
 XLII_faller_bar_ask_why_sel,DialogOptionSelected,$option == fallerAskWhy,"$global.XLII_fallerAskedWhy = true
 FireAll XLII_fallerBarOpenMenu","""Itoron buried my world and then inherited it."" He says it without heat, the way a man reads off a figure he has checked many times. ""They have a saviour on one planet and a war criminal on the other, and the only reason that question never got settled is that nobody from outside could ever get in to settle it.""
 
-""I'm not asking you to shoot Itoron. I'm asking you to take the roof off. After that it stops being our argument and starts being everyone's.""
+""I'm not asking you to shoot Itoron. I'm asking you to take the roof off. After that it isn't our argument any more. It's everyone's.""
 ",,
 XLII_faller_bar_ask_how_sel,DialogOptionSelected,$option == fallerAskHow,"$global.XLII_fallerAskedHow = true
-FireAll XLII_fallerBarOpenMenu","""Because I tried."" Flat. ""Four of us, a long time ago, with everything we had left between us. You can hull that thing end to end and it keeps collecting. The spine is the collector, and it's buried in the structure - it has to be cut out from the inside, by people standing on it.""
+FireAll XLII_fallerBarOpenMenu","""Because I tried. Four of us, a long time ago, with everything we had left between us. You can hull that thing end to end and it keeps collecting. The spine is the collector, and it's buried in the structure - it has to be cut out from the inside, by people standing on it.""
 
 ""So you'll need marines. Real ones, a lot of them, in your holds before you start shooting - not a run back to a market afterward.""
-
-He finally drinks.
 
 ""And the guard is the other half of it. Kill the guard and you've told the Alliance exactly which array to reinforce. They're slow about it. They are not stupid. You'll have weeks, not months. Go in with the ground team already aboard, or don't go in.""
 ",,"Elaborates on the brief. The load-bearing copy of that information lives in the accept row, which every accepting player reads - this question is optional and must never be its only home."
 XLII_faller_bar_ask_pay_sel,DialogOptionSelected,$option == fallerAskPay,"$global.XLII_fallerAskedPay = true
-FireAll XLII_fallerBarOpenMenu","""Everything First Fleet still has."" No hesitation at all. ""Which is a good deal more than it looks like from where you're sitting. We've been taking a cut off Alliance shipping since before you were flying, and not one of us had children to leave it to.""
+FireAll XLII_fallerBarOpenMenu","""Everything First Fleet still has. Which is a good deal more than it looks like from where you're sitting. We've been taking a cut off Alliance shipping since before you were flying, and not one of us had children to leave it to.""
 
-""The other half isn't for you. The survey returns go to the Hegemony - every structural scan, every collection figure, the lot. They've wanted a reason to come through here for a century and they have never once had a chart worth the fuel.""
-
-He sets the glass down.
+""The other half isn't for you. The survey returns go to the Hegemony - every structural scan, every collection figure, the lot. They've wanted a reason to come through here for a century and have never had a chart worth the fuel.""
 
 ""That part isn't negotiable. That part is what I actually want.""
 ",,Sets up both halves of the payoff - First Fleet's credits and the Hegemony getting the survey returns - so neither lands unmotivated at the return scene.
@@ -4138,8 +4146,6 @@ BeginMission StellarMirrorQuestMission","He doesn't thank you, and he doesn't of
 ""Three of them. Any order."" He's already looking past you at the door. ""And hear this part, because it's the part that gets crews killed. Hulls won't do it. I've tried. The spine gets cut from the inside, by people standing on it - so you'll want marines, and you'll want them already aboard the first time you go out there, not fetched afterward.""
 
 ""Kill a guard detachment and the Alliance knows exactly which array to reinforce. You'll have weeks to finish what you started.""
-
-He picks the glass back up.
 
 ""Not months.""",1:fallerAcceptDone:Leave,"XLII_SetFallerActive must come BEFORE BeginMission in this same cell: it sets Faller as the bar's active person, which is what BeginMission reads to populate personOverride, which is what gives the intel panel its portrait and crest. Same arrangement as XLII_WasteNotSetWaltActive. See .claude/systems/intel.md.
 
