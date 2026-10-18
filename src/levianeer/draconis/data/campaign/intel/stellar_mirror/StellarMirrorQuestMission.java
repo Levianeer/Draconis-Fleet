@@ -35,10 +35,11 @@ public class StellarMirrorQuestMission extends HubMissionWithBarEvent {
     }
 
     private static final String QUEST_OVERVIEW =
-            "Faller flew for Athebyne's First Fleet. He wants all three Stellar Arrays gone, and "
-                    + "the Rift with them - so that the Alliance which burned his world and then "
-                    + "inherited it stops being the only thing behind that wall. He has never had "
-                    + "the hulls to try it himself.";
+            "Faller flew for Athebyne's First Fleet, and has spent thirty cycles at Ring-Port "
+                    + "looking at the same wall on the same chart. He wants all three Stellar "
+                    + "Arrays destroyed and the Fafnir Rift gone with them - the Rift is the only "
+                    + "reason the Alliance has never had to defend this approach against anyone "
+                    + "who mattered.";
 
     @Override
     protected boolean create(MarketAPI createdAt, boolean barEvent) {
@@ -108,10 +109,11 @@ public class StellarMirrorQuestMission extends HubMissionWithBarEvent {
         if (currentStage == null) return false;
         switch ((Stage) currentStage) {
             case DESTROY_ARRAYS:
-                info.addPara("Destroy the three Stellar Arrays (" + getArraysDestroyedCount() + " of 3)", tc, pad);
+                info.addPara("Destroy the three Stellar Arrays in Fafnir ("
+                        + getArraysDestroyedCount() + " of 3)", tc, pad);
                 return true;
             case RETURN_TO_FALLER:
-                info.addPara("Return to Ring-Port and tell Faller it's done", tc, pad);
+                info.addPara("Return to Faller at Ring-Port", tc, pad);
                 return true;
         }
         return false;
@@ -126,10 +128,11 @@ public class StellarMirrorQuestMission extends HubMissionWithBarEvent {
     @Override
     public String getStageDescriptionText() {
         if (currentStage != Stage.COMPLETED) return null;
-        return "The Rift is down and Faller has been paid out of what the Hegemony gave him for "
-                + "the survey returns. Fafnir is an open approach for the first time in three "
-                + "hundred years, and the Hegemony holds the charts for it. Whatever standing the "
-                + "Alliance still had in Chicomoztoc is gone with the wall that kept it safe.";
+        return "All three arrays are dead, the Rift is receding, and First Fleet has paid you "
+                + "out of everything it had left. Faller's own price was never the credits - the "
+                + "survey returns went to the Hegemony, who have wanted a reason to come through "
+                + "Fafnir for a century and now hold the charts for it. Whatever understanding "
+                + "the Alliance had in Chicomoztoc is gone with the wall that kept it safe.";
     }
 
     @Override
@@ -138,18 +141,23 @@ public class StellarMirrorQuestMission extends HubMissionWithBarEvent {
         float opad = 10f;
         switch ((Stage) currentStage) {
             case DESTROY_ARRAYS:
-                info.addPara("Each array is guarded. Breaking the guard does not break the array - "
-                        + "the collector spine has to be demolished by a ground team, and killing "
-                        + "the guard tells the Alliance which array to reinforce. Marines should "
-                        + "be aboard before the shooting starts, not fetched afterward.", opad);
-                info.addPara("Any order. A cleared array stays open to demolition for %s days "
-                                + "before a fresh guard replaces the one you killed.", 5f,
+                info.addPara("The three arrays can be taken in any order. Each is held by a guard "
+                        + "detachment, and killing that detachment does not touch the array "
+                        + "itself - the collector spine sits deep in the structure and has to be "
+                        + "cut out by a ground team standing on it.", opad);
+                info.addPara("Carry the marines out with you. A dead guard tells the Alliance "
+                        + "which array to reinforce, and there is no time to go back to a market "
+                        + "for a ground team afterward.", 5f);
+                info.addPara("Once an array's guard is down you have %s days to get the ground "
+                                + "team aboard and finish the job. After that a fresh detachment "
+                                + "is on station and has to be fought again before you get "
+                                + "another shot at it.", 5f,
                         Misc.getHighlightColor(), "" + (int) XLII_MirrorAssault.RAID_WINDOW_DAYS);
-                info.addPara(getArraysDestroyedCount() + " of 3 arrays destroyed.", 5f);
                 break;
             case RETURN_TO_FALLER:
-                info.addPara("All three arrays are down and the Rift is already collapsing. "
-                        + "Faller's waiting at Ring-Port's bar for word of it.", opad);
+                info.addPara("The third array is down and the Rift is already receding off the "
+                        + "hyperspace plot. Faller has not left Ring-Port's bar in thirty cycles "
+                        + "and is not going to start now.", opad);
                 break;
         }
     }
