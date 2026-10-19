@@ -50,7 +50,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
     private static final float MAX_WAIT_TIME   = 45f;  // seconds before arriving regardless (fallback)
     private static final float ARRIVAL_CLEARANCE = 300f; // minimum gap between hulls at the arrival point
     private static final float MAP_EDGE_MARGIN   = 500f; // keep arrivals this far inside the battle map
-    private static final Set<String> NO_FLANK_HULLS = Set.of("XLII_alwaid"); // hulls that always rally with the line instead
+    private static final Set<String> IMMEDIATE_WARP_HULLS = Set.of("XLII_alwaid"); // hulls that skip the hold/telegraph and warp in at their deploy point
 
     // Per-combat list of claimed warp destinations to prevent stacking
     private static CombatEngineAPI lastEngine;
@@ -128,12 +128,14 @@ public class XLII_WarpInScript implements AdvanceableListener {
             return;
         }
 
-        // Player-fleet AI ship: immediate warp-in behind deploy position, mirroring the piloted path.
+        // AI ship on the player's side, or any IMMEDIATE_WARP_HULLS hull: immediate warp-in behind
+        // the deploy position, mirroring the piloted path.
         // No camera/sound offset needed since the camera follows the player ship, not this one.
         // Separation/claimed positions are ignored - each ship just warps to its own deploy point.
-        if (ship.getOwner() == 0) {
+        if (ship.getOwner() == 0 || IMMEDIATE_WARP_HULLS.contains(ship.getHullSpec().getBaseHullId())) {
             if (warpTo == null) {
-                warpTo = findClearArrival(engine, new Vector2f(initialPosition.x, initialPosition.y - 750f));
+                float ownSide = ship.getOwner() == 1 ? 1f : -1f;
+                warpTo = findClearArrival(engine, new Vector2f(initialPosition.x, initialPosition.y + 750f * ownSide));
             }
             float arrivalFacing = VectorUtils.getAngle(holdingPosition(), warpTo);
             moveToLocation(warpTo, arrivalFacing, 300f);
@@ -343,8 +345,6 @@ public class XLII_WarpInScript implements AdvanceableListener {
      * never flanks. A slow hull sent wide spends most of the battle in transit.
      */
     private boolean rollFlanking(CombatEngineAPI engine) {
-        if (NO_FLANK_HULLS.contains(ship.getHullSpec().getBaseHullId())) return false;
-
         float mine = baseSpeed(ship);
         float slowest = mine, fastest = mine;
         for (ShipAPI other : engine.getShips()) {
