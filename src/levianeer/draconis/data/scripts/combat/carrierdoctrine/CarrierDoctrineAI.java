@@ -148,8 +148,24 @@ public class CarrierDoctrineAI {
     // --- endurance / withdrawal (M5) ---
     // Bumped up from 0.3/0.5 - withdraw earlier rather than waiting until a ship is nearly dead.
     public static float CRIPPLE_HULL_FRACTION = 0.45f;
-    // PPT-as-fuel: once CR has drained to this fraction of its own max (only possible after
-    // peak performance time has actually run out), treat the ship the same as a hull cripple.
+    // PPT-as-fuel: once peak performance time has run out AND CR has since decayed to this
+    // fraction of what the ship actually deployed with, treat it the same as a hull cripple.
+    //
+    // M18 bug fix: this used to be measured against getMaxCombatReadiness() - the ship's stat
+    // ceiling - with a source comment asserting that falling below it was "only possible after
+    // peak performance time has actually run out". That assertion was false. A ship's CR on
+    // deployment is getCRAtDeployment(), which sits below its stat ceiling for reasons that have
+    // nothing to do with PPT - most commonly a fleet short on supplies, which is exactly the
+    // state an attrition-worn AI fleet is in. Any ship deploying under 65% CR therefore satisfied
+    // this check on its first tick and was ordered to retreat the instant it entered the battle,
+    // before PPT had begun counting down at all.
+    //
+    // Now gated on getPeakTimeRemaining() (a direct PPT accessor the old comment claimed didn't
+    // exist - "without needing a direct PPT-seconds accessor") and measured against
+    // getCRAtDeployment(), so the fraction means what it always claimed to: how much of the
+    // readiness this ship started the fight with has since burned away. losesCRDuringCombat()
+    // is checked too - for a hull that never loses CR in combat this trigger can't legitimately
+    // fire, and shouldn't be reachable by any other route either.
     public static float PPT_EXHAUSTED_CR_FRACTION = 0.65f;
 
     // --- picket unpredictability (M8) ---
@@ -165,11 +181,41 @@ public class CarrierDoctrineAI {
     // deadlier than one timed purely off our own deck readiness. Carriers may launch below the
     // normal DECK_LOAD_FRR_THRESHOLD if the picked target is already flux-locked.
     public static float VULNERABLE_LAUNCH_FRR_THRESHOLD = 0.70f;
-    public static float OVERLOADED_TARGET_BONUS = 220f; // was 200, bumped now that venting scores too
-    public static float VENTING_TARGET_BONUS = 150f;
+    // M15: raised ~3x (220/150/180/150 -> 700/450/400/400) so a genuine vulnerability window can
+    // actually compete with the enemy-carrier term in pickStrikeTarget. At the old scale it
+    // could not: a healthy enemy carrier scores 1000 there, while every non-carrier term in that
+    // method stacked to its theoretical maximum came to 885 (75 engaged + 50 capital hull size +
+    // 100 flux level + 220 overload + 180 cripple + 150 retreating + 60 player + 50 primary
+    // group) - so whenever any intact enemy carrier was reachable, all of M9's flux/cripple/
+    // retreating scoring was decided before it was consulted, and only ever mattered in
+    // carrier-less fights.
+    //
+    // Deliberately raised rather than lowering the carrier term, per tools/CLAUDE.md: carrier-
+    // first targeting is this doctrine's defining strength and "an element cannot be too good at
+    // its role" - the fix for a term that dominates is to make its neighbors genuinely strong,
+    // not to nerf the strength ("if everything is overpowered, nothing is").
+    //
+    // Expected effect at these values: an intact carrier still outscores a single vulnerability
+    // signal (overloaded cruiser = 700 + 100 flux + 40 hull = 840, vs carrier 1000), but loses
+    // to a target that is both flux-locked and crippled (1240), and to any carrier already down
+    // to ~84% of its wings (1000 x potential < 840).
+    // Relative priority among non-carrier targets also shifts noticeably toward flux windows.
+    // If playtest says this still doesn't read, the overshoot test is OVERLOADED_TARGET_BONUS
+    // ~1100 - enough for overload alone to beat a full-strength carrier - to confirm the causal
+    // chain, then dial back to the smallest value that works rather than leaving it there.
+    public static float OVERLOADED_TARGET_BONUS = 700f;
+    public static float VENTING_TARGET_BONUS = 450f; // below overload: a shorter, less total window
     public static float CRIPPLE_TARGET_HULL_FRACTION = 0.4f; // enemy hull below this scores as "finish it"
-    public static float CRIPPLE_TARGET_BONUS = 180f;
-    public static float RETREATING_TARGET_BONUS = 150f; // candidate has a RETREAT assignment on its own side
+    public static float CRIPPLE_TARGET_BONUS = 400f;
+    // Raised alongside its siblings rather than left at 150 - a kill that sticks is the same
+    // class of opportunity as a flux window, and leaving it at the old scale would have made it
+    // inert next to them.
+    public static float RETREATING_TARGET_BONUS = 400f; // candidate has a RETREAT assignment on its own side
+    // M16: how strongly the four bonuses above are scaled by target value (see
+    // getTargetValueMultiplier). 1 = full scaling, 0 = none, which reproduces M15's behavior
+    // exactly - kept zeroable on purpose so this term can be isolated the same way M10 isolated
+    // PLAYER_FLAGSHIP_TARGET_BONUS, per tools/CLAUDE.md's overshoot-and-isolate method.
+    public static float TARGET_VALUE_SCALING = 1f;
     // M10: zeroing this (tools/CLAUDE.md "overshoot, isolate the term" methodology) confirmed it
     // was the deciding factor behind a playtest report of strikes "always" locking onto the
     // player at the original value of 120 - restored at half (60) now that pickStrikeTarget's
@@ -214,16 +260,34 @@ public class CarrierDoctrineAI {
     // locally), <1 retreats later (winning locally) - a ship preservation call shouldn't give the
     // player a free break out of a fight we're actually winning.
     public static float WITHDRAWAL_WINNING_HULL_MULT = 0.6f;
-    public static float WITHDRAWAL_LOSING_HULL_MULT = 1.25f;
+    // M17: was 1.25, which pulled ships out at ~56% hull for the entire duration of any fight
+    // against a materially stronger enemy. Because computeForceScore is fleet-point weighted,
+    // "materially stronger" includes every capital-heavy composition from the first tick - a
+    // 4-capital enemy puts the ratio around 0.33 - so the escalated bar was effectively the
+    // standing threshold in exactly the fights where holding the line matters most, not the
+    // exceptional case it reads as. 1.0 keeps the dial (raise it again freely) while making
+    // "losing" neutral: a ship fights to the same CRIPPLE_HULL_FRACTION it would in an even
+    // fight, and only WITHDRAWAL_WINNING_HULL_MULT still moves the bar.
+    public static float WITHDRAWAL_LOSING_HULL_MULT = 1f;
 
     // --- M11: enemy battle-group segmentation (idea borrowed from AITweaks' FleetSegmentation,
     // adapted to this doctrine's own data) ---
     // How close two enemy ships must be to merge into the same battle group.
     public static float BATTLE_GROUP_MERGE_RANGE = 2000f;
-    // pickStrikeTarget concentration-of-force bonus for a candidate inside the enemy's main
-    // body (the largest valid battle group) - weaker than isEngagedByBattleline's 75 (that's a
-    // sharper "already being hit" signal), stronger than the flat hull-size/flux terms.
-    public static float PRIMARY_GROUP_TARGET_BONUS = 50f;
+    // M15: PRIMARY_GROUP_TARGET_BONUS (a +50 pickStrikeTarget bonus for a candidate inside the
+    // enemy's main body) was removed. At 50 against that method's ~1000-point carrier term it
+    // was well under the threshold at which a change is perceptible at all (tools/CLAUDE.md:
+    // "you cannot reliably perceive <~10% tweaks"), so it was paying for a term that did
+    // nothing - and its sign was arguable in both directions, since steering bomber waves into
+    // the enemy's densest concentration of point defense is good for massing damage where the
+    // battle is decided and bad for wing survival. Rather than pick a side of that and scale it
+    // up, the term is gone. Concentration-of-fire is still represented by isEngagedByBattleline
+    // (a sharper "already being hit" signal, and position-based rather than cluster-based).
+    //
+    // primaryEnemyGroupShips and pickPrimaryEnemyGroup are deliberately NOT removed with it -
+    // CarrierDoctrineDebugOverlay still reads the field to highlight the enemy's main body, and
+    // segmentEnemyFleet runs for computeLocalForceRatio regardless, so picking the primary group
+    // out of groups already computed is nearly free.
 
     protected final int owner;
     protected final CombatEngineAPI engine;
@@ -277,8 +341,9 @@ public class CarrierDoctrineAI {
     protected List<List<DeployedFleetMemberAPI>> enemyBattleGroups = Collections.emptyList();
 
     /** M11: ships in the largest valid battle group this tick (capital-anchored, or at least a
-     * quarter of the largest group's DP) - the enemy's main body, used by
-     * {@link #pickStrikeTarget}'s concentration-of-force bonus. Empty if nothing qualifies. */
+     * quarter of the largest group's DP) - the enemy's main body. M15: this no longer feeds a
+     * {@link #pickStrikeTarget} bonus (see PRIMARY_GROUP_TARGET_BONUS's removal note); it is
+     * read only by {@link CarrierDoctrineDebugOverlay}. Empty if nothing qualifies. */
     protected Set<ShipAPI> primaryEnemyGroupShips = Collections.emptySet();
 
     protected boolean strikeLaunched = false;
@@ -293,10 +358,16 @@ public class CarrierDoctrineAI {
      * {@link #giveStrikeAssignment}. */
     protected AssignmentInfo strikeAssignment;
 
-    /** The one STRIKE-capable carrier currently pulled into CAP duty by the ladder, if any. */
-    protected ShipAPI capPromotion;
+    /** The STRIKE-capable carriers currently pulled into CAP duty by the ladder. Was a single
+     * {@code ShipAPI} field, which capped total CAP coverage at two carriers (one default-duty
+     * plus one promotion) no matter how many bomber wings the enemy actually fielded - see
+     * {@link #updateCapLadder}. Promotions are added one per {@link #CAP_LADDER_HOLD_SECONDS}
+     * window, so the ladder still climbs gradually rather than converting every striker at once. */
+    protected final Set<ShipAPI> capPromotions = new LinkedHashSet<>();
     protected float capLadderHoldTimer = 0f;
-    protected int lastCapCount = -1; // -1 = not yet measured; used to detect a drop in CAP coverage
+    /** -1 = not yet measured; used to detect a drop in CAP coverage. Counts CAP *wings*, not
+     * CAP carriers - see {@link #countCapWings}. */
+    protected int lastCapWingCount = -1;
 
     /** Continuous-flow rotation (M5): used only once there are 2+ bomber-carrying STRIKE
      * carriers. Splits them into two alternating groups so one is always either striking or
@@ -500,6 +571,10 @@ public class CarrierDoctrineAI {
         List<DeployedFleetMemberAPI> screen = new ArrayList<>();
         List<DeployedFleetMemberAPI> battleline = new ArrayList<>();
         List<DeployedFleetMemberAPI> pickets = new ArrayList<>();
+        // Scoring-only bucket: ships this doctrine gives no role and no order to, kept purely so
+        // computeLocalForceRatio can still count them as our own strength. Nothing downstream of
+        // the force ratio reads this list - see that method's own note on the param.
+        List<DeployedFleetMemberAPI> unassigned = new ArrayList<>();
 
         for (DeployedFleetMemberAPI member : deployed) {
             if (member.isFighterWing() || member.getShip() == null) continue;
@@ -517,6 +592,10 @@ public class CarrierDoctrineAI {
                 battleline.add(member);
             } else if (ship.getHullSpec().hasTag(CarrierDoctrineTags.PICKET) && size.ordinal() <= HullSize.FRIGATE.ordinal()) {
                 pickets.add(member);
+            } else if (!member.isStation() && !member.isStationModule()) {
+                // No role, no order - this ship stays on default AI exactly as before. It's
+                // collected only so the force ratio can see it; see computeLocalForceRatio.
+                unassigned.add(member);
             }
         }
 
@@ -544,11 +623,13 @@ public class CarrierDoctrineAI {
         excludeWithdrawalRelated(battleline);
         excludeWithdrawalRelated(screen);
         excludeWithdrawalRelated(carriers);
+        excludeWithdrawalRelated(unassigned);
 
-        // M11: cluster the enemy fleet into battle groups once per tick - feeds both the local
-        // force ratio just below (group-aware radius inclusion instead of a per-ship radius
-        // chop that could split one cluster in half) and pickStrikeTarget's concentration-of-
-        // force bonus (primaryEnemyGroupShips).
+        // M11: cluster the enemy fleet into battle groups once per tick - feeds the local force
+        // ratio just below (group-aware radius inclusion instead of a per-ship radius chop that
+        // could split one cluster in half). M15: primaryEnemyGroupShips no longer feeds a
+        // pickStrikeTarget bonus (see PRIMARY_GROUP_TARGET_BONUS's removal note) and is kept
+        // only for CarrierDoctrineDebugOverlay's main-body highlight.
         enemyBattleGroups = segmentEnemyFleet();
         primaryEnemyGroupShips = pickPrimaryEnemyGroup(enemyBattleGroups);
 
@@ -557,7 +638,7 @@ public class CarrierDoctrineAI {
         // pushes/falls back this tick and how readily a hull-cripple withdraws.
         Vector2f lineRef = lastBattlelineLoc != null ? lastBattlelineLoc : getFormationAnchor(carriers);
         float localRadius = Math.max(LOCAL_FORCE_RADIUS_MIN, getEnemyLongestNonMissileRange() * LOCAL_FORCE_RADIUS_MULT);
-        float localForceRatio = computeLocalForceRatio(battleline, screen, carriers, lineRef, localRadius, enemyBattleGroups);
+        float localForceRatio = computeLocalForceRatio(battleline, screen, carriers, unassigned, lineRef, localRadius, enemyBattleGroups);
         logForceRatio(localForceRatio);
 
         handleWithdrawals(deployed, localForceRatio);
@@ -724,9 +805,9 @@ public class CarrierDoctrineAI {
         carrierCapability.clear();
         carrierDuty.clear();
         resetSingleGroupStrikeState();
-        capPromotion = null;
+        capPromotions.clear();
         capLadderHoldTimer = 0f;
-        lastCapCount = -1;
+        lastCapWingCount = -1;
         rotationActive = false;
         activeMainGroup = 0;
         rotationTarget = null;
@@ -898,13 +979,19 @@ public class CarrierDoctrineAI {
     /**
      * Endurance/withdrawal (M5): any deployed, non-fighter ship on our side - not just carriers,
      * every role - gets ordered to retreat once it's either a hull cripple (below
-     * {@link #CRIPPLE_HULL_FRACTION}) or PPT-exhausted (CR drained to
-     * {@link #PPT_EXHAUSTED_CR_FRACTION} of its own max - only possible once peak performance
-     * time has actually run out, so this is "PPT as fuel" without needing a direct PPT-seconds
-     * accessor). Pairs the retreat with a Light Escort from the nearest other healthy ship,
+     * {@link #CRIPPLE_HULL_FRACTION}) or PPT-exhausted ({@code getPeakTimeRemaining() <= 0} and
+     * CR since decayed to {@link #PPT_EXHAUSTED_CR_FRACTION} of {@code getCRAtDeployment()} -
+     * "PPT as fuel"). M18: that check previously used the ship's stat CR ceiling as its baseline
+     * and had no PPT test at all, which retreated any ship that merely *deployed* under the
+     * fraction - see {@link #PPT_EXHAUSTED_CR_FRACTION}'s note.
+     * Pairs the retreat with a Light Escort from the nearest other healthy ship,
      * same idiom vanilla's own escort assignments use, so the retreating ship isn't abandoned
      * on its way off the map. Tracked in {@link #withdrawingShips} so the order is only issued
      * once per ship rather than re-applied every tick.
+     * <p>
+     * M17: that escort is skipped entirely while we're losing locally - see
+     * {@code escortAffordable}. It costs a second ship off the line per withdrawal, which is
+     * the wrong trade in exactly the fights where line ships are scarcest.
      * <p>
      * Retreat is ordered as a *direct* retreat ({@code orderRetreat(member, cp, direct=true)}) -
      * every Draconis/FortySecond hull carries {@code XLII_SystemHullModBase.WarpDriveScript},
@@ -915,12 +1002,22 @@ public class CarrierDoctrineAI {
      * M9: the hull-cripple trigger (not PPT exhaustion, a hard fuel-out condition unrelated to
      * how the fight is going) scales with {@code localForceRatio} via {@link #resolveCrippleThreshold} -
      * pulling a ship out of a fight we're actually winning locally just hands the player a free
-     * break, so it retreats later when ahead and earlier when outmatched.
+     * break, so it retreats later when ahead. M17: it no longer retreats *earlier* when
+     * outmatched - {@link #WITHDRAWAL_LOSING_HULL_MULT} is 1, see its note.
      */
     protected void handleWithdrawals(List<DeployedFleetMemberAPI> deployed, float localForceRatio) {
         withdrawingShips.retainAll(stillDeployedShips(deployed));
         releaseFinishedWithdrawalEscorts(deployed);
         float crippleThreshold = resolveCrippleThreshold(localForceRatio);
+
+        // M17: an escort costs a second ship off the line for every one withdrawing, so it is
+        // only worth spending while we can afford it. Losing locally - the same condition
+        // resolveCrippleThreshold uses, so no new threshold is introduced - means one ship
+        // leaving beats two: the escort's protection is worth less than its absence from a line
+        // that is already outmatched. Reads counterintuitive (abandon the cripple exactly when
+        // the fight is worst) which is why it's spelled out: the alternative is paying double
+        // for every withdrawal in precisely the fights where ships on the line are scarcest.
+        boolean escortAffordable = localForceRatio > LOCAL_RATIO_FALLBACK_THRESHOLD;
 
         for (DeployedFleetMemberAPI member : deployed) {
             if (member.isFighterWing() || member.getShip() == null) continue;
@@ -929,15 +1026,30 @@ public class CarrierDoctrineAI {
             if (!ship.isAlive() || ship.isHulk()) continue;
             if (withdrawingShips.contains(ship)) continue;
 
-            float maxCR = ship.getMutableStats().getMaxCombatReadiness().getModifiedValue();
             boolean crippled = ship.getHullLevel() < crippleThreshold;
-            boolean pptExhausted = maxCR > 0f && ship.getCurrentCR() < maxCR * PPT_EXHAUSTED_CR_FRACTION;
+            // M18: PPT must actually be spent before CR decay counts as "out of fuel", and the
+            // decay is measured against what this ship deployed with rather than its stat
+            // ceiling - see PPT_EXHAUSTED_CR_FRACTION's note. A zero/unknown deployment CR fails
+            // the comparison rather than passing it, so the degenerate case errs toward keeping
+            // the ship in the fight.
+            float crAtDeployment = ship.getCRAtDeployment();
+            boolean pptExhausted = ship.losesCRDuringCombat()
+                    && ship.getPeakTimeRemaining() <= 0f
+                    && crAtDeployment > 0f
+                    && ship.getCurrentCR() < crAtDeployment * PPT_EXHAUSTED_CR_FRACTION;
             if (!crippled && !pptExhausted) continue;
 
             taskManager.orderRetreat(member, false, true);
             withdrawingShips.add(ship);
             debugMessage("Carrier Doctrine: WITHDRAWING " + ship.getName()
                     + (crippled ? " (hull cripple)" : " (PPT exhausted)"));
+
+            if (!escortAffordable) {
+                // Logged distinctly from "no eligible escort found" below - when diagnosing a
+                // withdrawal, which of the two happened is the useful detail.
+                debugMessage("Carrier Doctrine: NO ESCORT for " + ship.getName() + " (outmatched locally)");
+                continue;
+            }
 
             DeployedFleetMemberAPI escort = pickWithdrawalEscort(ship, deployed);
             if (escort != null) {
@@ -1082,7 +1194,10 @@ public class CarrierDoctrineAI {
 
     /** Bug-fix #3: prefers the nearest SCREEN-tagged ship, then the nearest PICKET-tagged ship,
      * then the nearest anything-else - but never a CARRIER-tagged ship, which the old "nearest
-     * healthy ship of any role" selection could and would pull off the line. Also skips ships
+     * healthy ship of any role" selection could and would pull off the line.
+     * <p>
+     * M17: {@link #handleWithdrawals} may not call this at all - see {@code escortAffordable}
+     * there - so a withdrawing ship is not guaranteed an escort. Also skips ships
      * already escorting another withdrawing ship (see withdrawalEscortAssignments), and ships
      * currently capturing a battle objective (see objectiveCaptureAssignments) - picking one of
      * those used to silently overwrite its CAPTURE order with LIGHT_ESCORT, and since
@@ -1116,8 +1231,10 @@ public class CarrierDoctrineAI {
     }
 
     /** M9: scales {@link #CRIPPLE_HULL_FRACTION} by how the local fight is going - winning
-     * locally raises the bar for pulling a ship out (fight through more damage), losing locally
-     * lowers it (preserve ships earlier). See {@link #handleWithdrawals}. */
+     * locally raises the bar for pulling a ship out (fight through more damage). M17: the losing
+     * branch is now neutral, since {@link #WITHDRAWAL_LOSING_HULL_MULT} is 1 - the branch is kept
+     * rather than deleted so the dial can be raised again without a code change. See
+     * {@link #handleWithdrawals}. */
     protected float resolveCrippleThreshold(float localForceRatio) {
         if (localForceRatio >= LOCAL_RATIO_PUSH_THRESHOLD) return CRIPPLE_HULL_FRACTION * WITHDRAWAL_WINNING_HULL_MULT;
         if (localForceRatio <= LOCAL_RATIO_FALLBACK_THRESHOLD) return CRIPPLE_HULL_FRACTION * WITHDRAWAL_LOSING_HULL_MULT;
@@ -1259,11 +1376,15 @@ public class CarrierDoctrineAI {
     }
 
     /**
-     * Deck-load strike/recover cycle for every carrier on STRIKE duty: hold Regroup until every
-     * strike carrier's FRR clears {@link #DECK_LOAD_FRR_THRESHOLD}, then launch at a shared
+     * Deck-load strike/recover cycle for every carrier on STRIKE duty: hold Regroup until the
+     * bomber carriers' FRR clears {@link #DECK_LOAD_FRR_THRESHOLD}, then launch at a shared
      * target so wings arrive together, and recall back to Regroup once the minimum FRR among
      * them drops below {@link #RECOVERY_FRR_THRESHOLD}. Hysteresis between the two thresholds,
      * tracked via {@link #strikeLaunched}, keeps this from flapping.
+     * <p>
+     * M15: that gate reads the bomber ("main") carriers only - see {@code gateCarriers} below.
+     * It used to read every STRIKE-duty carrier including the fighter-only sweep, so a spent
+     * sweep deck could delay or abort a bomber strike with full decks of its own.
      * <p>
      * Fighter sweep (M3): STRIKE-duty carriers with no bomber wing at all (fighter/interceptor-
      * only, on STRIKE duty via the FIGHTER flex capability) launch immediately as the "sweep" -
@@ -1328,6 +1449,20 @@ public class CarrierDoctrineAI {
             return;
         }
 
+        // M15: the deck-readiness gate measures the *bomber* carriers only, not every carrier
+        // that will fly. The strike this cycle exists to deliver is the bomber wave; a
+        // fighter-only sweep carrier's job is to soak PD/CAP ahead of it, and it rides along
+        // whenever a strike is out at all (see the setPullBackFighters loops at the bottom).
+        // Including sweep decks in minFrr() meant one spent fighter deck could delay - and via
+        // the recall check below, outright abort - a bomber strike whose own decks were full.
+        // runRotatingMainWave already gates on its bomber carriers alone (minFrr(active), where
+        // active is drawn from mainCarriers), so this makes the single-group path consistent
+        // with the rotation path rather than inventing a new rule.
+        // The reverse coupling is deliberately kept: with no bomber carrier ready there is
+        // nothing for a sweep to clear the way for, so sweep-only groups still gate on their
+        // own decks and a sweep still waits on the bombers it's escorting.
+        List<ShipAPI> gateCarriers = mainCarriers.isEmpty() ? sweepCarriers : mainCarriers;
+
         if (!strikeLaunched) {
             // M9: pick the candidate target first so its vulnerability (overloaded/venting) can
             // lower the launch bar - a wave arriving on a flux-locked target is far deadlier than
@@ -1337,7 +1472,7 @@ public class CarrierDoctrineAI {
             float threshold = resolveLaunchThreshold(isVulnerableTarget(candidate));
             if (offCycleThisWave) threshold = Math.min(threshold, offCycleLaunchThresholdInstance);
 
-            if (candidate != null && minFrr(strikeCarriers) >= threshold) {
+            if (candidate != null && minFrr(gateCarriers) >= threshold) {
                 strikeTarget = candidate;
                 strikeLaunched = true;
                 String flavor = (isVulnerableTarget(strikeTarget) ? " [target flux-locked]" : "")
@@ -1371,7 +1506,7 @@ public class CarrierDoctrineAI {
                 strikeTarget = pickStrikeTarget(zoneCenter, zoneRadius, battleline, strikeCarriers);
             }
 
-            if (strikeTarget == null || minFrr(strikeCarriers) < recoveryThresholdInstance) {
+            if (strikeTarget == null || minFrr(gateCarriers) < recoveryThresholdInstance) {
                 resetSingleGroupStrikeState();
                 debugMessage("Carrier Doctrine: STRIKE RECALLED (FRR below " + Math.round(recoveryThresholdInstance * 100) + "%)");
             }
@@ -1624,16 +1759,20 @@ public class CarrierDoctrineAI {
             }
             if (ship == engine.getPlayerShip()) score += PLAYER_FLAGSHIP_TARGET_BONUS;
             if (isEngagedByBattleline(ship, battleline)) score += 75f;
-            if (primaryEnemyGroupShips.contains(ship)) score += PRIMARY_GROUP_TARGET_BONUS;
             score += ship.getHullSize().ordinal() * 10f;
             score += ship.getFluxTracker().getFluxLevel() * 100f;
+
+            // M16: the four vulnerability bonuses are scaled by how much the kill is actually
+            // worth - see getTargetValueMultiplier. Everything above this point is deliberately
+            // left unscaled; see that method's note on why.
+            float valueMult = getTargetValueMultiplier(ship);
             if (ship.getFluxTracker().isOverloaded()) {
-                score += OVERLOADED_TARGET_BONUS;
+                score += OVERLOADED_TARGET_BONUS * valueMult;
             } else if (ship.getFluxTracker().isVenting()) {
-                score += VENTING_TARGET_BONUS;
+                score += VENTING_TARGET_BONUS * valueMult;
             }
-            if (ship.getHullLevel() < CRIPPLE_TARGET_HULL_FRACTION) score += CRIPPLE_TARGET_BONUS;
-            if (isEnemyRetreating(ship)) score += RETREATING_TARGET_BONUS;
+            if (ship.getHullLevel() < CRIPPLE_TARGET_HULL_FRACTION) score += CRIPPLE_TARGET_BONUS * valueMult;
+            if (isEnemyRetreating(ship)) score += RETREATING_TARGET_BONUS * valueMult;
 
             if (score > bestScore) {
                 bestScore = score;
@@ -1675,6 +1814,48 @@ public class CarrierDoctrineAI {
         if (maxWings <= 0) return 1f; // no bay data to measure against - don't penalize
         float fraction = (float) countLiveWings(ship) / maxWings;
         return Math.max(0.15f, Math.min(1f, fraction));
+    }
+
+    /**
+     * M16: how much {@code ship} is worth killing, as a multiplier on {@link #pickStrikeTarget}'s
+     * four vulnerability bonuses (overload/venting/cripple/retreating). Hull size as a fraction
+     * of capital: frigate-or-smaller 0.4, destroyer 0.6, cruiser 0.8, capital 1.0.
+     * <p>
+     * Those bonuses were flat, so a vulnerability signal on a frigate scored exactly as much as
+     * the same signal on a capital while the only size term in that method is a +20-vs-+50
+     * hull-size nudge on a ~1000-point scale. The composition that exploits this is capital spam
+     * screened by a couple of evasive frigates: with no enemy carrier present the 1000-point
+     * carrier term never fires, the capitals' huge hull pools mean they almost never drop under
+     * {@link #CRIPPLE_TARGET_HULL_FRACTION}, and the frigates are the only things that ever read
+     * as "crippled" or "retreating" - so a crippled, retreating frigate scored 870 against a
+     * crippled capital's 565 and soaked the entire bomber wave (scaled: 390 vs an unchanged 565). Our bombers are fast enough to
+     * catch a frigate (180-350 vs 95-160), but heavy anti-capital ordnance mostly misses an agile
+     * target, so the wave is spent for almost nothing and has to rearm. M15's ~3x raise of those
+     * same four bonuses widened that gap considerably; this is what makes the raise safe.
+     * <p>
+     * Expressed as a ratio off {@code HullSize}'s own ordinals rather than four hand-picked
+     * constants, matching this class's "always a ratio of something the battle already measures"
+     * principle. Fleet points were considered as the value metric and rejected: a 60-FP capital
+     * would be 12x a 5-FP frigate, which would swamp every other term and would also make the
+     * scale depend on other mods' FP conventions. {@link #computeShipForceScore} uses FP, but
+     * there it feeds a self-normalizing ratio rather than an absolute multiplier.
+     * <p>
+     * Clamped at the frigate value on the low end so a DEFAULT-sized hull (a module, or anything
+     * unexpected) is deprioritized rather than having its vulnerability bonuses zeroed outright -
+     * same defensive-clamp idiom as {@link #getCarrierStrikePotential}'s 0.15 floor.
+     * <p>
+     * Deliberately applied to <i>only</i> those four bonuses. The carrier term is excluded
+     * because carrier priority is strategic rather than a function of hull value - a
+     * destroyer-hulled carrier is still a flight deck, and scaling it would partly undo bug-fix
+     * #6's decoy fix. {@link #PLAYER_FLAGSHIP_TARGET_BONUS} is excluded because that pressure is
+     * about who is flying the ship, not what size it is. The flux-level (<=100),
+     * battleline-engagement (75) and hull-size (<=50) terms are left alone as too small to be
+     * part of the inversion.
+     */
+    protected float getTargetValueMultiplier(ShipAPI ship) {
+        int ordinal = Math.max(HullSize.FRIGATE.ordinal(), ship.getHullSize().ordinal());
+        float sizeRatio = ordinal / (float) HullSize.CAPITAL_SHIP.ordinal();
+        return 1f + TARGET_VALUE_SCALING * (sizeRatio - 1f);
     }
 
     /**
@@ -1755,7 +1936,7 @@ public class CarrierDoctrineAI {
 
     /**
      * McCain's move: if enemy bomber wings within their own commit range of the carrier group
-     * outnumber our current CAP coverage, pull one dual-capable carrier off STRIKE duty onto
+     * outnumber our current CAP coverage, pull a dual-capable carrier off STRIKE duty onto
      * CAP, and hold that decision for {@link #CAP_LADDER_HOLD_SECONDS} before reconsidering it
      * (release works the same way in reverse) - without the hold, this would re-decide every
      * tick as the enemy wing count fluctuates by one.
@@ -1763,31 +1944,48 @@ public class CarrierDoctrineAI {
      * CAP handoff (M5): the hold is bypassed the instant measured CAP coverage drops below what
      * it was last tick - a CAP carrier lost or crippled (see {@link #handleWithdrawals}) is a
      * real loss of coverage, not the kind of noisy one-off fluctuation the hold exists to ignore.
+     * <p>
+     * Two fixes to the comparison this ladder is built on:
+     * <ul>
+     *   <li><b>Coverage is measured in wings, not carriers.</b> This compared
+     *       {@code countEnemyBomberWingsNear} (a count of enemy <i>wings</i>) against a count of
+     *       our CAP-duty <i>carriers</i> - unit-mismatched, so one CAP carrier flying three
+     *       fighter wings scored as "1" against three incoming bomber wings and the ladder
+     *       over-promoted, converting strikers it didn't need to. Both sides now count wings,
+     *       via {@link #countCapWings}.</li>
+     *   <li><b>More than one carrier can be promoted.</b> {@code capPromotions} was a single
+     *       {@code ShipAPI} and the promote branch required it to be null, so the ladder
+     *       promoted at most one carrier for the entire battle - a hard ceiling of two CAP
+     *       carriers (one by default duty, one promoted) regardless of whether the enemy fielded
+     *       two bomber wings or twelve. It now keeps promoting, one carrier per hold window,
+     *       until coverage is actually reached.</li>
+     * </ul>
+     * Release is also one carrier per hold window (largest first - the reverse of the promotion
+     * preference, so the heaviest striker is the first one handed back), rather than dropping
+     * every promotion at once the moment coverage goes one wing into surplus.
      */
     protected void updateCapLadder(List<DeployedFleetMemberAPI> carriers, Vector2f carrierCenter) {
-        if (capPromotion != null) {
-            EnumSet<CarrierDuty> capability = carrierCapability.get(capPromotion);
-            boolean stillDeployed = carrierDuty.containsKey(capPromotion);
+        for (Iterator<ShipAPI> it = capPromotions.iterator(); it.hasNext(); ) {
+            ShipAPI promoted = it.next();
+            EnumSet<CarrierDuty> capability = carrierCapability.get(promoted);
+            boolean stillDeployed = carrierDuty.containsKey(promoted);
             if (!stillDeployed || capability == null || !capability.contains(CarrierDuty.CAP)) {
-                capPromotion = null;
+                it.remove();
             } else {
-                carrierDuty.put(capPromotion, CarrierDuty.CAP);
+                carrierDuty.put(promoted, CarrierDuty.CAP);
             }
         }
 
-        int capCount = 0;
-        for (CarrierDuty duty : carrierDuty.values()) {
-            if (duty == CarrierDuty.CAP) capCount++;
-        }
+        int capWings = countCapWings();
 
-        // CAP handoff (M5): if coverage just dropped - a CAP carrier died, retreated, or its
-        // promotion was just invalidated above - don't sit out the rest of the hysteresis hold.
-        // That hold exists to stop flip-flopping in a stable situation; it was never meant to
-        // delay reacting to an actual loss of coverage by up to CAP_LADDER_HOLD_SECONDS.
-        if (lastCapCount >= 0 && capCount < lastCapCount) {
+        // CAP handoff (M5): if coverage just dropped - a CAP carrier died, retreated, lost wings,
+        // or its promotion was just invalidated above - don't sit out the rest of the hysteresis
+        // hold. That hold exists to stop flip-flopping in a stable situation; it was never meant
+        // to delay reacting to an actual loss of coverage by up to CAP_LADDER_HOLD_SECONDS.
+        if (lastCapWingCount >= 0 && capWings < lastCapWingCount) {
             capLadderHoldTimer = 0f;
         }
-        lastCapCount = capCount;
+        lastCapWingCount = capWings;
 
         if (capLadderHoldTimer > 0f) {
             capLadderHoldTimer -= tick.getIntervalDuration();
@@ -1796,7 +1994,7 @@ public class CarrierDoctrineAI {
 
         int enemyBomberWings = countEnemyBomberWingsNear(carrierCenter);
 
-        if (enemyBomberWings > capCount && capPromotion == null) {
+        if (enemyBomberWings > capWings) {
             // prefer the SMALLEST eligible carrier, not just the first one found - the ladder
             // should sacrifice the least valuable striker for CAP duty, not arbitrarily grab
             // whichever one happens to be first in deployment order (which could just as easily
@@ -1813,17 +2011,47 @@ public class CarrierDoctrineAI {
                 }
             }
             if (candidate != null) {
-                capPromotion = candidate;
+                capPromotions.add(candidate);
                 carrierDuty.put(candidate, CarrierDuty.CAP);
                 capLadderHoldTimer = CAP_LADDER_HOLD_SECONDS;
                 debugMessage("Carrier Doctrine: CAP PROMOTION (" + candidate.getName()
-                        + " pulled off strike duty, enemy bombers=" + enemyBomberWings + ")");
+                        + " pulled off strike duty, enemy bomber wings=" + enemyBomberWings
+                        + " vs CAP wings=" + capWings + ")");
             }
-        } else if (enemyBomberWings < capCount && capPromotion != null) {
-            debugMessage("Carrier Doctrine: CAP PROMOTION RELEASED (" + capPromotion.getName() + " back to strike duty)");
-            capPromotion = null;
+        } else if (enemyBomberWings < capWings && !capPromotions.isEmpty()) {
+            ShipAPI release = null;
+            for (ShipAPI promoted : capPromotions) {
+                if (release == null || promoted.getHullSize().ordinal() > release.getHullSize().ordinal()) {
+                    release = promoted;
+                }
+            }
+            debugMessage("Carrier Doctrine: CAP PROMOTION RELEASED (" + release.getName() + " back to strike duty)");
+            capPromotions.remove(release);
             capLadderHoldTimer = CAP_LADDER_HOLD_SECONDS;
         }
+    }
+
+    /**
+     * Total CAP-contributing wings currently flown by CAP-duty carriers - the "our coverage"
+     * side of {@link #updateCapLadder}'s comparison, in the same unit (wings) as the enemy
+     * bomber count it's measured against.
+     * <p>
+     * Counts the same roles {@link #updateCarrierCapability} credits toward
+     * {@link CarrierDuty#CAP}: INTERCEPTOR, plus FIGHTER as the flex role. Permanently destroyed
+     * wings don't count, matching {@link #countLiveWings}' treatment - a wing merely away on a
+     * sortie or rebuilding in the bay is still real coverage.
+     */
+    protected int countCapWings() {
+        int count = 0;
+        for (Map.Entry<ShipAPI, CarrierDuty> entry : carrierDuty.entrySet()) {
+            if (entry.getValue() != CarrierDuty.CAP) continue;
+            for (FighterWingAPI wing : entry.getKey().getAllWings()) {
+                if (wing.getSpec() == null || wing.isDestroyed()) continue;
+                WingRole role = wing.getSpec().getRole();
+                if (role == WingRole.INTERCEPTOR || role == WingRole.FIGHTER) count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -1834,6 +2062,24 @@ public class CarrierDoctrineAI {
      * assigned, it should respond to whatever enemy small craft (fighters, interceptors, not
      * just bombers) are actually threatening a carrier, not only strike wings. setShipTarget on
      * a friendly ship makes its wings escort it.
+     * <p>
+     * Coverage is spread across the threatened carriers rather than stacked on one. This used to
+     * pick a single {@code mostThreatened} carrier and point <i>every</i> CAP carrier's wings at
+     * it - so with three carriers each under fighter attack, two of them got no CAP at all while
+     * the third was covered several times over. It also started its search at
+     * {@code mostThreatenedCount = -1}, which meant that with no air threat anywhere (every
+     * carrier at 0) the winner was just whichever carrier came first in deployment order, and
+     * the whole CAP force escorted it for no reason.
+     * <p>
+     * Picks by lowest prospective-coverage-to-threat ratio, assigning one CAP carrier at a time
+     * and counting each assignment as it's made, so the most threatened carrier is covered first
+     * and additional CAP spills onto the next-most-threatened instead of piling up. Deliberately
+     * uses {@code (cover + 1) / (threat + 1)} rather than
+     * {@link #pickCarrierForScreenEscort}'s {@code cover / (threat + 1)}: with no coverage
+     * assigned yet that helper's ratio is 0 for every carrier regardless of threat, which can't
+     * discriminate on the first pick - fine there, where escorts trickle in one per tick and
+     * hold their assignment persistently, but wrong here, where every CAP carrier is re-picked
+     * from scratch each tick and the first pick is the one that matters most.
      */
     protected void updateCapEscort(List<DeployedFleetMemberAPI> carriers, Map<ShipAPI, Integer> carrierThreat) {
         List<ShipAPI> capCarriers = new ArrayList<>();
@@ -1844,20 +2090,22 @@ public class CarrierDoctrineAI {
         }
         if (capCarriers.isEmpty()) return;
 
-        ShipAPI mostThreatened = null;
-        int mostThreatenedCount = -1;
-        for (DeployedFleetMemberAPI member : carriers) {
-            ShipAPI ship = member.getShip();
-            int threat = carrierThreat.getOrDefault(ship, 0);
-            if (threat > mostThreatenedCount) {
-                mostThreatenedCount = threat;
-                mostThreatened = ship;
+        Map<ShipAPI, Integer> coverCount = new LinkedHashMap<>();
+        for (ShipAPI cap : capCarriers) {
+            ShipAPI best = null;
+            float bestRatio = Float.MAX_VALUE;
+            for (DeployedFleetMemberAPI member : carriers) {
+                ShipAPI ship = member.getShip();
+                if (ship == null) continue;
+                float ratio = (coverCount.getOrDefault(ship, 0) + 1f) / (carrierThreat.getOrDefault(ship, 0) + 1f);
+                if (ratio < bestRatio) {
+                    bestRatio = ratio;
+                    best = ship;
+                }
             }
-        }
-        if (mostThreatened == null) return;
-
-        for (ShipAPI ship : capCarriers) {
-            ship.setShipTarget(mostThreatened);
+            if (best == null) return;
+            cap.setShipTarget(best);
+            coverCount.merge(best, 1, Integer::sum);
         }
     }
 
@@ -1910,7 +2158,7 @@ public class CarrierDoctrineAI {
     }
 
     /**
-     * M9: our (battleline+screen+carriers) force score vs. the enemy's, counting only enemy
+     * M9: our (battleline+screen+carriers+unassigned) force score vs. the enemy's, counting only enemy
      * ships within {@code radius} of {@code lineCenter} - not the whole enemy fleet, since a
      * skirmish on one flank shouldn't make a battle elsewhere on the map look lost. Feeds
      * {@link #resolveBattlelineAdvanceFraction} and {@link #resolveCrippleThreshold}.
@@ -1928,15 +2176,41 @@ public class CarrierDoctrineAI {
      *
      * @return a ratio around 1.0 (even), with no local enemy resistance at all treated as
      *         strongly favorable (clamped to {@link #LOCAL_RATIO_PUSH_THRESHOLD}, not infinite).
+     * @param unassigned ships this doctrine gives no role and no order to - anything carrying no
+     *                   {@link CarrierDoctrineTags} role tag, plus a tagged ship that failed its
+     *                   role's size band. Both stay on default AI (search-and-destroy, the API's
+     *                   documented behavior for an unassigned member with the admiral suppressed)
+     *                   and this does not change that - they are counted here and nowhere else.
+     *                   <p>
+     *                   They were previously omitted entirely, which is the same class of
+     *                   systematic self-undercount M13 fixed for carriers: the FP-majority gate
+     *                   admits a fleet up to {@link #FORTYSECOND_MAJORITY_FRACTION}
+     *                   non-FortySecond, and role tags exist only on the FortySecond skins, so a
+     *                   mixed fleet could have nearly half its fleet points invisible to its own
+     *                   force-ratio math - pushing the ratio toward FALLING BACK and holding the
+     *                   line near {@link #BATTLELINE_ADVANCE_FRACTION_FALLBACK} regardless of the
+     *                   fleet's real strength.
+     *                   <p>
+     *                   Counted at full weight, unlike carriers: carriers are discounted because
+     *                   they deliberately hold standoff and contribute little front-line fire,
+     *                   which doesn't apply to a search-and-destroy ship closing on the enemy.
+     *                   Being uncoordinated changes how well such a ship fights, not whether it's
+     *                   there. If a mixed fleet turns out to push too readily on the back of this,
+     *                   that's the point to give it a weight of its own rather than now.
+     *                   Stations/modules are excluded by the caller, matching every other
+     *                   gate/bucket site here - a defended friendly station is a fixed objective,
+     *                   and its fleet-point cost would dwarf the entire mobile fleet's.
      * @param enemyGroups M11: this tick's {@link #segmentEnemyFleet()} result - a battle group
      *                    counts toward the enemy score if ANY of its members is within {@code
      *                    radius} of {@code lineCenter}, so one cluster straddling the radius
      *                    boundary isn't arbitrarily split into "half counts, half doesn't."
      */
     protected float computeLocalForceRatio(List<DeployedFleetMemberAPI> battleline, List<DeployedFleetMemberAPI> screen,
-                                            List<DeployedFleetMemberAPI> carriers, Vector2f lineCenter, float radius,
+                                            List<DeployedFleetMemberAPI> carriers, List<DeployedFleetMemberAPI> unassigned,
+                                            Vector2f lineCenter, float radius,
                                             List<List<DeployedFleetMemberAPI>> enemyGroups) {
         float ourScore = computeForceScore(battleline) + computeForceScore(screen)
+                + computeForceScore(unassigned)
                 + computeForceScore(carriers) * CARRIER_FORCE_SCORE_WEIGHT;
 
         float enemyScore = 0f;
