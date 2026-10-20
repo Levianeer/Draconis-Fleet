@@ -34,8 +34,6 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
     private static final Color EMP_ARC_FRINGE = new Color(100, 180, 255, 180);
     private static final Color EMP_ARC_CORE = new Color(200, 200, 255, 220);
 
-    private CombatFleetManagerAPI.AssignmentInfo defendAssignment = null;
-    private boolean assignmentGiven = false;
     private SpriteAPI ringSprite = null;
 
     private static final Set<ShipAPI> globallyNotifiedTargets =
@@ -127,20 +125,6 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
                 }
             }
         }
-        if (ship.getOwner() != 0 && !assignmentGiven) {
-            CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
-            CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
-            DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
-            if (member != null) {
-                defendAssignment = taskManager.createAssignment(
-                        CombatAssignmentType.DEFEND,
-                        member,
-                        false
-                );
-                taskManager.giveAssignment(member, defendAssignment, false);
-                assignmentGiven = true;
-            }
-        }
     }
 
     @Override
@@ -148,23 +132,12 @@ public class XLII_ESW_SuiteStats extends BaseShipSystemScript {
         CombatEngineAPI engine = Global.getCombatEngine();
         if (engine == null) return;
 
-        ShipAPI ship = (ShipAPI) stats.getEntity();
-        if (ship == null) return;
-
         for (ShipAPI s : engine.getShips()) {
             if (s.isHulk()) continue;
             s.getMutableStats().getBallisticWeaponRangeBonus().unmodify(id);
             s.getMutableStats().getEnergyWeaponRangeBonus().unmodify(id);
         }
 
-        if (ship.getOwner() != 0 && defendAssignment != null) {
-            CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
-            CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
-            taskManager.removeAssignment(defendAssignment);
-            defendAssignment = null;
-        }
-
-        assignmentGiven = false;
         globallyNotifiedTargets.removeAll(affectedShips.keySet());
         affectedShips.clear();
     }
