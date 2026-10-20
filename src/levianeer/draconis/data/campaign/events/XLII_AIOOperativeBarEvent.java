@@ -12,8 +12,8 @@ import com.fs.starfarer.api.impl.campaign.intel.bar.events.BaseBarEvent;
 import java.util.Map;
 
 /**
- * One-time bar event: player meets AIO Operative Daniel Ancker (IRON MOTH) at Ring-Port
- * after the assault. Retired (author request) - see
+ * One-time bar event: player meets AIO Operative Daniel Ancker (compartment IRON MOTH) at
+ * Ring-Port after the assault. Retired (author request) - see
  * {@code XLII_AIOOperativeBarEventCreator}'s doc comment; kept only so any existing save with
  * this event already serialized into {@code PortsideBarData} still deserializes cleanly.
  */
