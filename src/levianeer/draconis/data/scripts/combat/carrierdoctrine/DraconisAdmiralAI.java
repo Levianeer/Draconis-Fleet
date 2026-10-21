@@ -1,0 +1,361 @@
+package levianeer.draconis.data.scripts.combat.carrierdoctrine;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.util.IntervalUtil;
+import org.apache.log4j.Logger;
+
+/**
+ * The adaptive admiral, replacing {@link TaskForceAI}. Augments the vanilla admiral rather than
+ * suppressing it - no {@code setNoOrders}, no {@code clearTasks}, no command point grant, because
+ * the measured baseline beats every replacement-style controller this project has built. See
+ * {@code .claude/systems/adaptive-admiral.md} for the design and the probe evidence behind it.
+ * <p>
+ * <b>Step 1 of 5: observation only.</b> It builds the matchup model, predicts who should be
+ * hurting whom, and logs that against what {@link DamageObserver} actually recorded. It issues no
+ * orders at all. The point is to find out whether the predictions are worth acting on before any
+ * lever is wired to them; the levers themselves (personality slide, INTERCEPT focus, STRIKE
+ * bursts) are steps 3-5 and are already proven to work by the probes.
+ */
+public class DraconisAdmiralAI implements DoctrineController {
+
+    private static final Logger log = Global.getLogger(DraconisAdmiralAI.class);
+
+    /** How far ahead the model predicts. The personality lever needs 5-10s to take effect, so
+     * reacting to the present is always too late; see the probe results. */
+    private static final float WINDOW_SECONDS = 15f;
+
+    private final int owner;
+    private final MatchupModel model = new MatchupModel();
+    private final ProfileCache profiles = new ProfileCache();
+    private final DamageObserver observed = new DamageObserver();
+    private final PersonalitySlide slide = new PersonalitySlide();
+    private final boolean acting = settingOn("draconisAdmiralActs");
+    /** The vanilla admiral's own ~5s re-decide, randomised the same way it is. */
+    private final IntervalUtil decide = new IntervalUtil(3.75f, 6.25f);
+    private final List<ShipAPI> ours = new ArrayList<>();
+    private final List<ShipAPI> theirs = new ArrayList<>();
+    private final List<ShipAPI> all = new ArrayList<>();
+
+    private final Map<ShipAPI, Float> contactSeconds = new IdentityHashMap<>();
+    private final Map<ShipAPI, Float> lastHullLevel = new IdentityHashMap<>();
+    private final Map<ShipAPI, Float> hullLossRate = new IdentityHashMap<>();
+    private final Map<ShipAPI, Float> quietSince = new IdentityHashMap<>();
+    private static final float CONFIDENCE_SECONDS = 20f;
+    /** Incoming DPS that could not kill a hull inside this many seconds is treated as not being a
+     * threat at all. Without it, an EMA decaying towards zero sits in the denominator and reports
+     * a time-to-death of 350,000 seconds. */
+    private static final float THREAT_HORIZON_SECONDS = 300f;
+    /** Hull-loss smoothing. Longer than the damage EMA because hull level only falls, so it can be
+     * averaged harder without losing responsiveness. */
+    private static final float HULL_LOSS_SECONDS = 20f;
+    /** Hysteresis: it takes a clearly winning race to push a hull up, and only a losing one to pull
+     * it back. Asymmetric on purpose - the measured cost of over-committing is far higher than the
+     * cost of sitting a step too cautious. */
+    private static final float RATIO_UP = 1.3f;
+    private static final float RATIO_DOWN = 0.8f;
+    /** Below this many seconds to live, a hull is pulled back whatever the race says. */
+    private static final float TTD_URGENT = 25f;
+    /** Above this, a hull is safe enough to be let forward. */
+    private static final float TTD_SAFE = 90f;
+    /** `ttdHull` under this is the emergency: the hull is being eaten now. It bottoms out at
+     * 2.4-8.7s per hull, which is why it can only ever be an override, never the warning. */
+    private static final float EMERGENCY_TTD_HULL = 12f;
+    /** A carrier rebuilding its wings is capped at steady: its wings are its output, and throwing
+     * a depleted deck forward is what wastes replacement rate. It is a cap, not a push downward,
+     * because a cruiser or capital carrier can still be winning on its own guns. */
+    private static final float CARRIER_REBUILD_FRR = 0.4f;
+    /** How long a hull must go unthreatened before that counts as safe rather than as a lull. */
+    private static final float QUIET_SECONDS = 10f;
+    private static final Comparator<MatchupModel.Pressure> PREDICTED_OUT_DESC =
+            new Comparator<MatchupModel.Pressure>() {
+                @Override
+                public int compare(MatchupModel.Pressure a, MatchupModel.Pressure b) {
+                    return Float.compare(b.predictedOut, a.predictedOut);
+                }
+            };
+    private float elapsed;
+    private float lastDecision;
+
+    public DraconisAdmiralAI(int owner) {
+        this.owner = owner;
+        log.info("DraconisAdmiral,header,t,ship,id,carrier,confidence,obsIncomingDps,obsOutgoingDps,"
+                + "ttdObserved,ttdHull,ttkObserved,ttdPredicted,ttkPredicted,predictedOutRank,"
+                + "threats,targets,shieldRatio,focus,desired,applied,emergency");
+        log.info("Draconis: DraconisAdmiralAI " + (acting ? "ACTING (step 3, personality slide)"
+                : "observing only - set draconisAdmiralActs to let it act"));
+        log.info("DraconisAdmiral,targetHeader,t,enemy,durability,incomingFromUs,ttkObserved,"
+                + "ttkHull,hullLevel,shieldRatio");
+    }
+
+    @Override
+    public void advance(float amount) {
+        CombatEngineAPI engine = Global.getCombatEngine();
+        if (engine == null || engine.isPaused()) return;
+        elapsed += amount;
+        profiles.advance(amount);
+
+        gather(engine);
+        for (ShipAPI ship : all) observed.watch(ship);
+
+        decide.advance(amount);
+        if (!decide.intervalElapsed()) return;
+
+        float window = elapsed - lastDecision;
+        lastDecision = elapsed;
+        if (ours.isEmpty() || theirs.isEmpty()) {
+            observed.closeWindow(window);
+            return;
+        }
+
+        List<MatchupModel.Pressure> pressures = model.compute(ours, theirs, profiles, WINDOW_SECONDS);
+        observed.closeWindow(window);
+        updateContact(pressures, window);
+        updateHullLoss(window);
+
+        // Prediction orders hulls; it never supplies a number of seconds. Measured over 8 hulls the
+        // ordering held to within one place (log r=0.87) while the absolute scale was 69-668x out,
+        // so a rank is the only part of it worth using.
+        List<MatchupModel.Pressure> byPredictedOut = new ArrayList<>(pressures);
+        float[] scratch = new float[2];
+        for (MatchupModel.Pressure p : pressures) {
+            p.predictedOut = predictedOutput(p, scratch);
+        }
+        Collections.sort(byPredictedOut, PREDICTED_OUT_DESC);
+        for (int i = 0; i < byPredictedOut.size(); i++) byPredictedOut.get(i).predictedOutRank = i + 1;
+
+        for (MatchupModel.Pressure p : pressures) {
+            ShipProfile profile = profiles.get(p.ship);
+            float confidence = confidence(p.ship);
+            float incoming = observed.rateInto(p.ship, theirs);
+            float outgoing = observed.rateFrom(p.ship, theirs);
+            float ttdObserved = secondsToKill(model.durability(p.ship), incoming);
+            updateQuiet(p.ship, ttdObserved > 0f);
+            float ttdHull = hullTimeToDeath(p.ship);
+
+            float ttkObserved = -1f;
+            ShipAPI focus = p.bestTarget;
+            if (focus != null) {
+                ttkObserved = secondsToKill(model.durability(focus), observed.rateInto(focus, ours));
+            }
+
+            PersonalitySlide.Step desired = desiredStep(p, ttdObserved, ttkObserved, confidence);
+            boolean emergency = ttdHull > 0f && ttdHull < EMERGENCY_TTD_HULL;
+            PersonalitySlide.Step applied = acting
+                    ? slide.moveToward(p.ship, desired, emergency, window)
+                    : slide.current(p.ship);
+
+            log.info(String.format(
+                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d",
+                    elapsed, p.ship.getName(), p.ship.getId(), profile.carrier ? 1 : 0, confidence,
+                    incoming, outgoing,
+                    ttdObserved, ttdHull, ttkObserved,
+                    clamp(p.timeToDeath), clamp(p.timeToKill),
+                    p.predictedOutRank, p.threatCount, p.reachableTargets,
+                    model.shieldRatio(p.ship), focus == null ? "none" : focus.getName(),
+                    desired, applied, emergency ? 1 : 0));
+        }
+
+        // Target ordering is a fleet-level question, so it is logged once per decision rather than
+        // per hull: which enemy our fleet should be concentrating on, and whether the damage we are
+        // actually landing on it would kill it in a useful amount of time.
+        logTargets();
+        logFleet(pressures);
+    }
+
+    /** Fleet line per decision. {@code resets} is the safety check the whole slide rests on: a
+     * non-zero value means something is clearing our personality override between writes. */
+    private void logFleet(List<MatchupModel.Pressure> pressures) {
+        int[] steps = new int[PersonalitySlide.Step.values().length];
+        for (MatchupModel.Pressure p : pressures) steps[slide.current(p.ship).ordinal()]++;
+        StringBuilder spread = new StringBuilder();
+        for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
+            spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
+        }
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,resets=%d,%s",
+                elapsed, pressures.size(), theirs.size(), slide.getResets(), spread.toString().trim()));
+    }
+
+    /** Predicted damage onto every reachable enemy - ordering only, never read as a rate. */
+    private float predictedOutput(MatchupModel.Pressure p, float[] scratch) {
+        ShipProfile profile = profiles.get(p.ship);
+        float sum = 0f;
+        for (ShipAPI enemy : theirs) {
+            if (!model.inReach(p.ship, profile, enemy, WINDOW_SECONDS)) continue;
+            model.effectiveDps(p.ship, profile, enemy, scratch);
+            sum += scratch[0] + scratch[1];
+        }
+        return sum;
+    }
+
+    /**
+     * Where this hull should sit on the slide. Observation first: the race between how long it
+     * lives and how long its target takes to die. Prediction contributes only an ordering, because
+     * its absolute scale measured 69-668x out.
+     */
+    private PersonalitySlide.Step desiredStep(MatchupModel.Pressure p, float ttdObserved,
+                                              float ttkObserved, float confidence) {
+        PersonalitySlide.Step step = PersonalitySlide.BASELINE;
+
+        if (ttdObserved > 0f && ttkObserved > 0f) {
+            float race = ttdObserved / ttkObserved;
+            if (race >= RATIO_UP) {
+                step = race >= RATIO_UP * 2f ? PersonalitySlide.Step.RECKLESS
+                        : PersonalitySlide.Step.AGGRESSIVE;
+            } else if (race <= RATIO_DOWN) {
+                step = race <= RATIO_DOWN * 0.5f ? PersonalitySlide.Step.TIMID
+                        : PersonalitySlide.Step.CAUTIOUS;
+            }
+        } else if (ttdObserved < 0f && p.reachableTargets > 0 && quietFor(p.ship) >= QUIET_SECONDS) {
+            // Nothing meaningful is hitting this hull and it has something to hit. Gated on the
+            // quiet having lasted: 39% of this step's first-run flips were a hull crossing the
+            // threat-horizon sentinel and back, which made the choice bistable at the boundary.
+            step = PersonalitySlide.Step.AGGRESSIVE;
+        }
+
+        // Hurt with nothing to show for it: no target is dying, so this is not a race worth running.
+        if (ttdObserved > 0f && ttdObserved < TTD_URGENT && step.ordinal() > PersonalitySlide.Step.CAUTIOUS.ordinal()) {
+            step = PersonalitySlide.Step.CAUTIOUS;
+        }
+        if (ttdObserved > TTD_SAFE && step.ordinal() < PersonalitySlide.BASELINE.ordinal()) {
+            step = PersonalitySlide.BASELINE;
+        }
+
+        // Low confidence means the observed seconds are not earned yet, so stay near the baseline.
+        // This is the whole "hesitant early, decisive later" effect, and it is data availability
+        // rather than a scripted ramp.
+        if (confidence < 1f) {
+            int limit = PersonalitySlide.BASELINE.ordinal();
+            int lo = limit - 1;
+            int hi = limit + 1;
+            if (step.ordinal() < lo) step = PersonalitySlide.Step.values()[lo];
+            if (step.ordinal() > hi) step = PersonalitySlide.Step.values()[hi];
+        }
+
+        if (profiles.get(p.ship).carrier
+                && p.ship.getSharedFighterReplacementRate() < CARRIER_REBUILD_FRR
+                && step.ordinal() > PersonalitySlide.BASELINE.ordinal()) {
+            step = PersonalitySlide.BASELINE;
+        }
+        return step;
+    }
+
+    private static boolean settingOn(String id) {
+        try {
+            return Global.getSettings().getBoolean(id);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void logTargets() {
+        for (ShipAPI enemy : theirs) {
+            float onIt = observed.rateInto(enemy, ours);
+            float durability = model.durability(enemy);
+            log.info(String.format("DraconisAdmiral,target,%.0f,%s,%.0f,%.0f,%.1f,%.1f,%.2f,%.2f",
+                    elapsed, enemy.getName(), durability, onIt,
+                    secondsToKill(durability, onIt), hullTimeToDeath(enemy),
+                    enemy.getHullLevel(), model.shieldRatio(enemy)));
+        }
+    }
+
+    /** Seconds for {@code dps} to chew through {@code durability}, or -1 when the rate is too low
+     * to matter inside {@link #THREAT_HORIZON_SECONDS}. -1 means "not under meaningful threat",
+     * which is a usable answer; a five-figure number is not. */
+    private static float secondsToKill(float durability, float dps) {
+        if (dps <= 0f || durability <= 0f) return -1f;
+        float seconds = durability / dps;
+        return seconds > THREAT_HORIZON_SECONDS ? -1f : seconds;
+    }
+
+    /**
+     * Time-to-death from how fast the hull is actually being eaten, rather than from incoming DPS.
+     * Hull level only falls, so this is far less noisy than a damage-rate EMA - and "before the
+     * player can finish them" is literally a statement about hull trajectory. Reads -1 until a
+     * hull has started losing hull, which is correct: armour soaks first.
+     */
+    private float hullTimeToDeath(ShipAPI ship) {
+        Float rate = hullLossRate.get(ship);
+        if (rate == null || rate <= 0f) return -1f;
+        float seconds = ship.getHullLevel() / rate;
+        return seconds > THREAT_HORIZON_SECONDS ? -1f : seconds;
+    }
+
+    /** Seconds since this hull last had a meaningful threat on it. */
+    private float quietFor(ShipAPI ship) {
+        Float since = quietSince.get(ship);
+        return since == null ? 0f : elapsed - since;
+    }
+
+    private void updateQuiet(ShipAPI ship, boolean threatened) {
+        if (threatened) {
+            quietSince.remove(ship);
+        } else if (!quietSince.containsKey(ship)) {
+            quietSince.put(ship, elapsed);
+        }
+    }
+
+    private void updateHullLoss(float window) {
+        if (window <= 0f) return;
+        float alpha = 1f - (float) Math.exp(-window / HULL_LOSS_SECONDS);
+        for (ShipAPI ship : all) {
+            Float prior = lastHullLevel.put(ship, ship.getHullLevel());
+            if (prior == null) continue;
+            float loss = Math.max(0f, prior - ship.getHullLevel()) / window;
+            Float rate = hullLossRate.get(ship);
+            hullLossRate.put(ship, rate == null ? loss : rate + alpha * (loss - rate));
+        }
+    }
+
+    /**
+     * Contact time per hull, which is what {@link #confidence} is built on: a hull that has had
+     * enemies in reach for a while has observations worth trusting, one that just arrived does not.
+     * Time rather than damage volume, so a hull nobody is shooting still becomes confident that it
+     * is safe.
+     */
+    private void updateContact(List<MatchupModel.Pressure> pressures, float window) {
+        for (MatchupModel.Pressure p : pressures) {
+            if (p.threatCount == 0 && p.reachableTargets == 0) continue;
+            Float prior = contactSeconds.get(p.ship);
+            contactSeconds.put(p.ship, (prior == null ? 0f : prior) + window);
+        }
+    }
+
+    /** 0 at first contact, 1 once a hull has been in the fight for {@link #CONFIDENCE_SECONDS}.
+     * Below 1 the observed seconds are not yet worth acting on, which is exactly why the admiral
+     * should look hesitant early and decisive later. */
+    private float confidence(ShipAPI ship) {
+        Float seconds = contactSeconds.get(ship);
+        if (seconds == null) return 0f;
+        return Math.min(1f, seconds / CONFIDENCE_SECONDS);
+    }
+
+    private static float clamp(float seconds) {
+        return Float.isInfinite(seconds) || seconds > 999f ? 999f : seconds;
+    }
+
+    private void gather(CombatEngineAPI engine) {
+        ours.clear();
+        theirs.clear();
+        all.clear();
+        for (ShipAPI ship : engine.getShips()) {
+            if (ship.isFighter() || ship.isDrone() || ship.isStationModule()) continue;
+            if (!ship.isAlive() || ship.isHulk()) continue;
+            all.add(ship);
+            if (ship.getOwner() == owner) {
+                ours.add(ship);
+            } else if (engine.isAwareOf(owner, ship)) {
+                theirs.add(ship);
+            }
+        }
+        profiles.retainOnly(all);
+    }
+}

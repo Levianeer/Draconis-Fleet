@@ -6,7 +6,15 @@
 	"draconisEnableAICoreRaids": true,					# Enable/disable AI core raids on faction markets	#	Default : true
 	"draconisEnableRemnantRaids": true,					# Enable/disable raids on Remnant installations		#	Default : true
 	"draconisEnableWeaponEscalation": true,				# Replace Draconis Naginata loadouts with Daikyu-class when player fields nuclear weapons	#	Default : true
-	"draconisCarrierDoctrineDebugMessages": false,		# Show in-combat Carrier Doctrine AI debug messages (STRIKE/ROTATION/CAP/WITHDRAWAL/SCREEN)	#	Default : false
+
+	"draconisCarrierDoctrineDebugMessages": true,		# Show in-combat Carrier Doctrine AI debug messages and the world-space role/target overlay	#	Default : false
+	"draconisCarrierDoctrineEnabled": true,			# false = install no combat AI at all, record the battle anyway - the baseline every controller must beat	#	Default : true
+	"draconisCarrierDoctrineTaskForce": true,			# true = TaskForceAI (rewrite), false = CarrierDoctrineAI (legacy) - flip to A/B the two	#	Default : true
+	"draconisCarrierDoctrineBattleLog": true,			# Per-battle CSV + summary to saves/common/draconis_tf_battle_* - read the summary	#	Default : true
+	"draconisPersonalityProbe": false,					# Experiment: no controller, halves of the fleet swap timid/reckless every 40s - grep starsector.log for DraconisProbe	#	Default : false
+	"draconisInterceptProbe": false,						# Experiment: no controller, halves of the hulls take INTERCEPT on the player flagship every 40s - grep starsector.log for DraconisIntercept	#	Default : false
+	"draconisAdmiralAI": true,							# DraconisAdmiralAI (TaskForceAI replacement) - takes precedence over draconisCarrierDoctrineTaskForce while both exist	#	Default : true
+	"draconisAdmiralActs": true,						# false = DraconisAdmiralAI observes and logs without issuing orders, which is the baseline it is measured against	#	Default : true
 
 	# ========================================
 	# SHADOW FLEET PATROLS

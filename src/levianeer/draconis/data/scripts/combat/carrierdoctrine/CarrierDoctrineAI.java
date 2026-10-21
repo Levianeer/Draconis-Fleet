@@ -67,7 +67,7 @@ import org.apache.log4j.Logger;
  * .claude/systems/carrier-doctrine.md's "Removed" section if revisiting this.)
  * See .claude/systems/carrier-doctrine.md.
  */
-public class CarrierDoctrineAI {
+public class CarrierDoctrineAI implements DoctrineController {
 
     private static final Logger log = Global.getLogger(CarrierDoctrineAI.class);
 
