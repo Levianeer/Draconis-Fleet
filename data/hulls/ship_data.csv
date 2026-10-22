@@ -4,7 +4,7 @@ Excalibur MRM,XLII_rastaban_mrm,,Draconis,,,500,100,200,,50,,,300,400,400,200,40
 Assault Drone,XLII_drone_assault,,Draconis,,,500,100,500,,50,,,100,150,150,120,240,5,NONE,,0,0,0,,,0,0,,,,,,,,,,,,,,,,,,,,,Not available (drone),,,0,,,,711000
 Utility Drone,XLII_drone_utility,,Draconis,,,30,10,400,,50,,,100,150,150,120,240,5,NONE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Not available (drone),,,0,,,,711000
 Nodus,XLII_nodus,,Draconis,,,400,50,250,,50,,,350,1000,750,250,500,75,FRONT,,210,0,1.0,,,0,0,,,,,,,,,,,,,,,,,,,,,Not available (drone),,,0,,,,711000
-Pulao,XLII_pulao,,Draconis,XLII_ecm_suite_Fighter,,100,25,500,,50,,,300,475,425,175,340,15,NONE,,0,0,0,,,0,0,,,,,,,,,,,,,,,,,,,,,Not available (drone),,,0,,,,711000
+Pulao,XLII_pulao,,Draconis,,,100,25,500,,50,,,300,475,425,175,340,15,NONE,,0,0,0,,,0,0,,,,,,,,,,,,,,,,,,,,,Not available (drone),,,0,,,,711000
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #FIGHTERS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Aldibain,XLII_aldibain,,Draconis,,,450,150,500,,100,,,235,350,350,120,300,40,OMNI,,160,0,1.0,,,1,1,,,,,,,,,,,,,,,,,,,,,,,,0,,,,711000
