@@ -95,6 +95,20 @@ public class PersonalitySlide {
         return next;
     }
 
+    /**
+     * Applies {@code step} now, ignoring dwell and the one-step rule. Only for the opening posture,
+     * which has to be in effect by contact: the first normal step up would not be allowed until
+     * t~15s, after contact. The dwell restarts from here, so the slide resumes normally afterwards.
+     */
+    public Step set(ShipAPI ship, Step step) {
+        if (current(ship) != step) {
+            current.put(ship, step);
+            heldFor.put(ship, 0f);
+        }
+        apply(ship, step);
+        return step;
+    }
+
     private static float dwellFor(Step now, Step desired) {
         return desired.ordinal() < now.ordinal() ? DWELL_DOWN : DWELL_UP;
     }

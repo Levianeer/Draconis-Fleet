@@ -45,12 +45,18 @@ public class DraconisAdmiralAI implements DoctrineController {
     private final ProfileCache profiles = new ProfileCache();
     private final DamageObserver observed = new DamageObserver();
     private final PersonalitySlide slide = new PersonalitySlide();
+    private final OpeningPlan opening;
     private final boolean acting = settingOn("draconisAdmiralActs");
     /** The vanilla admiral's own ~5s re-decide, randomised the same way it is. */
     private final IntervalUtil decide = new IntervalUtil(3.75f, 6.25f);
     private final List<ShipAPI> ours = new ArrayList<>();
     private final List<ShipAPI> theirs = new ArrayList<>();
     private final List<ShipAPI> all = new ArrayList<>();
+    /** Every deployed enemy hull, spotted or not - {@link #theirs} only holds the ones we are aware of. */
+    private final List<ShipAPI> enemiesDeployed = new ArrayList<>();
+    /** Our Draconis carriers while the gate is open - steered or not, so the opening plan can
+     * still record the matchup when it is only observing. */
+    private final List<ShipAPI> airGroup = new ArrayList<>();
     private boolean gateOpen;
 
     private final Map<ShipAPI, Float> contactSeconds = new IdentityHashMap<>();
@@ -92,9 +98,23 @@ public class DraconisAdmiralAI implements DoctrineController {
             };
     private float elapsed;
     private float lastDecision;
+    /**
+     * The opening exchange: our observed damage dealt over damage taken in the first
+     * {@link #OPENING_SECONDS} after contact. Over 15 battles a split at ~1.07 on this ratio sorted
+     * 13 into the right result, and by 60s the winners and losers were indistinguishable - the
+     * opening fighter exchange largely decides the battle. Logged once per battle so a config can be
+     * judged given its opening rather than on raw wins. The sums add smoothed rates per decision, so
+     * only their ratio means anything.
+     */
+    private static final float OPENING_SECONDS = 30f;
+    private float contactAt = -1f;
+    private float openingDealt;
+    private float openingTaken;
+    private boolean openingLogged;
 
     public DraconisAdmiralAI(int owner) {
         this.owner = owner;
+        this.opening = new OpeningPlan(owner, acting && settingOn("draconisAdmiralOpening"));
         log.info("DraconisAdmiral,header,t,ship,id,carrier,confidence,obsIncomingDps,obsOutgoingDps,"
                 + "ttdObserved,ttdHull,ttkObserved,ttdPredicted,ttkPredicted,predictedOutRank,"
                 + "threats,targets,shieldRatio,focus,desired,applied,emergency");
@@ -113,6 +133,11 @@ public class DraconisAdmiralAI implements DoctrineController {
 
         gather(engine);
         for (ShipAPI ship : all) observed.watch(ship);
+        airGroup.clear();
+        for (ShipAPI ship : ours) {
+            if (ship.getNumFighterBays() > 0 && gateOpen && isDraconis(ship)) airGroup.add(ship);
+        }
+        opening.reapply(airGroup, ours);
 
         decide.advance(amount);
         if (!decide.intervalElapsed()) return;
@@ -140,6 +165,20 @@ public class DraconisAdmiralAI implements DoctrineController {
         }
         Collections.sort(byPredictedOut, PREDICTED_OUT_DESC);
         for (int i = 0; i < byPredictedOut.size(); i++) byPredictedOut.get(i).predictedOutRank = i + 1;
+        if (contactAt < 0f) {
+            for (MatchupModel.Pressure p : pressures) {
+                if (p.threatCount > 0) {
+                    contactAt = elapsed;
+                    break;
+                }
+            }
+        }
+        boolean inOpening = contactAt >= 0f && elapsed < contactAt + OPENING_SECONDS;
+        if (gateOpen) {
+            opening.decide(airGroup, enemiesDeployed, elapsed, contactAt, model, profiles);
+        } else if (opening.active()) {
+            opening.end(elapsed, "gate closed");
+        }
 
         for (MatchupModel.Pressure p : pressures) {
             ShipProfile profile = profiles.get(p.ship);
@@ -149,6 +188,10 @@ public class DraconisAdmiralAI implements DoctrineController {
             float ttdObserved = secondsToKill(model.durability(p.ship), incoming);
             updateQuiet(p.ship, ttdObserved > 0f);
             float ttdHull = hullTimeToDeath(p.ship);
+            if (inOpening) {
+                openingDealt += outgoing;
+                openingTaken += incoming;
+            }
 
             float ttkObserved = -1f;
             ShipAPI focus = p.bestTarget;
@@ -160,7 +203,14 @@ public class DraconisAdmiralAI implements DoctrineController {
             boolean emergency = ttdHull > 0f && ttdHull < EMERGENCY_TTD_HULL;
             PersonalitySlide.Step applied;
             if (steering(p.ship)) {
-                applied = slide.moveToward(p.ship, desired, emergency, window);
+                // The emergency outranks the opening posture: a carrier whose hull is being eaten
+                // goes timid and stays out of the posture for the rest of the opening.
+                if (emergency) opening.excuse(p.ship);
+                if (profile.carrier && opening.applies(p.ship)) {
+                    applied = slide.set(p.ship, opening.step());
+                } else {
+                    applied = slide.moveToward(p.ship, desired, emergency, window);
+                }
             } else {
                 slide.release(p.ship);
                 applied = slide.current(p.ship);
@@ -182,6 +232,15 @@ public class DraconisAdmiralAI implements DoctrineController {
         // actually landing on it would kill it in a useful amount of time.
         logTargets();
         logFleet(pressures);
+        if (contactAt >= 0f && !openingLogged && !inOpening) logOpening();
+    }
+
+    private void logOpening() {
+        openingLogged = true;
+        String ratio = openingTaken > 0f ? String.format("%.2f", openingDealt / openingTaken)
+                : openingDealt > 0f ? "perfect" : "n/a";
+        log.info(String.format("DraconisAdmiral,opening,contactAt=%.0f,seconds=%.0f,ratio=%s,dealt=%.0f,taken=%.0f,%s",
+                contactAt, OPENING_SECONDS, ratio, openingDealt, openingTaken, opening.summary()));
     }
 
     /** Fleet line per decision. {@code resets} is the safety check the whole slide rests on: a
@@ -390,14 +449,16 @@ public class DraconisAdmiralAI implements DoctrineController {
         ours.clear();
         theirs.clear();
         all.clear();
+        enemiesDeployed.clear();
         for (ShipAPI ship : engine.getShips()) {
             if (ship.isFighter() || ship.isDrone() || ship.isStationModule()) continue;
             if (!ship.isAlive() || ship.isHulk()) continue;
             all.add(ship);
             if (ship.getOwner() == owner) {
                 ours.add(ship);
-            } else if (engine.isAwareOf(owner, ship)) {
-                theirs.add(ship);
+            } else {
+                enemiesDeployed.add(ship);
+                if (engine.isAwareOf(owner, ship)) theirs.add(ship);
             }
         }
         profiles.retainOnly(all);

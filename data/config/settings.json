@@ -12,6 +12,7 @@
 	"draconisCarrierDoctrineBattleLog": true,			# Per-battle summary to saves/common/draconis_tf_battle_*	#	Default : true
 	"draconisAdmiralAI": true,							# true = DraconisAdmiralAI, false = CarrierDoctrineAI (legacy) - flip to A/B the two	#	Default : true
 	"draconisAdmiralActs": true,						# false = DraconisAdmiralAI observes and logs without issuing orders, which is the baseline it is measured against	#	Default : true
+	"draconisAdmiralOpening": true,						# false = the opening plan only observes and logs its posture, for A/B against the slide alone	#	Default : true
 
 	# ========================================
 	# SHADOW FLEET PATROLS
