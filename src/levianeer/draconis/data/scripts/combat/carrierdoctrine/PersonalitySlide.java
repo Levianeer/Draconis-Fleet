@@ -11,7 +11,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Personalities;
  * Moves a hull along timid - cautious - steady - aggressive - reckless by writing
  * {@code ShipAIConfig.personalityOverride}, the one lever measured to change how a hull fights
  * without overriding its own judgement. Vanilla does the same from a ship system
- * ({@code IncursionModeSystemScript}); {@code PersonalityProbe} confirmed it is read live from a
+ * ({@code IncursionModeSystemScript}); the personality probe confirmed it is read live from a
  * fleet-level script, with nothing overwriting it (resets=0 across two battles).
  * <p>
  * Three rules come straight from measurement, in {@code .claude/systems/adaptive-admiral.md}:
@@ -102,6 +102,18 @@ public class PersonalitySlide {
     public float held(ShipAPI ship) {
         Float value = heldFor.get(ship);
         return value == null ? 0f : value;
+    }
+
+    /** Hands {@code ship} back to its own officer's personality and forgets it, for when the admiral
+     * stops steering it. Clearing to null rather than writing steady, so the hull is exactly as
+     * vanilla would have it. */
+    public void release(ShipAPI ship) {
+        if (written.remove(ship) == null) return;
+        current.remove(ship);
+        heldFor.remove(ship);
+        if (ship.getShipAI() != null && ship.getShipAI().getConfig() != null) {
+            ship.getShipAI().getConfig().personalityOverride = null;
+        }
     }
 
     /** Non-zero would mean something is clearing our override between writes - watched because the

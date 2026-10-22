@@ -10,24 +10,31 @@ import java.util.Map;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import org.apache.log4j.Logger;
 
 /**
- * The adaptive admiral, replacing {@link TaskForceAI}. Augments the vanilla admiral rather than
- * suppressing it - no {@code setNoOrders}, no {@code clearTasks}, no command point grant, because
- * the measured baseline beats every replacement-style controller this project has built. See
+ * The adaptive admiral. Augments the vanilla admiral rather than suppressing it - no
+ * {@code setNoOrders}, no {@code clearTasks}, no command point grant, because the measured baseline
+ * beats every replacement-style controller this project has built. See
  * {@code .claude/systems/adaptive-admiral.md} for the design and the probe evidence behind it.
  * <p>
- * <b>Step 1 of 5: observation only.</b> It builds the matchup model, predicts who should be
- * hurting whom, and logs that against what {@link DamageObserver} actually recorded. It issues no
- * orders at all. The point is to find out whether the predictions are worth acting on before any
- * lever is wired to them; the levers themselves (personality slide, INTERCEPT focus, STRIKE
- * bursts) are steps 3-5 and are already proven to work by the probes.
+ * Its lever is each hull's personality ({@link PersonalitySlide}), driven by what
+ * {@link DamageObserver} has seen. The matchup prediction contributes only an ordering.
+ * Carrier wave discipline (pulling wings back to re-form) was ported from TaskForceAI and removed
+ * again: 0 wins in 3 with it, 3 in 3 without - see the design doc. With {@code draconisAdmiralActs} false it observes and
+ * logs without touching anything, which is the baseline it is measured against.
  */
 public class DraconisAdmiralAI implements DoctrineController {
 
     private static final Logger log = Global.getLogger(DraconisAdmiralAI.class);
+
+    private static final String FORTYSECOND_HULLMOD_ID = "XLII_fortysecond";
+    private static final String DRACONIS_HULLMOD_ID = "XLII_draconishull";
+    /** The admiral only acts when FortySecond is the fleet-point majority of our side. Allied
+     * non-Draconis hulls in a mixed fleet are left alone rather than switching the admiral off. */
+    private static final float FORTYSECOND_MAJORITY_FRACTION = 0.5f;
 
     /** How far ahead the model predicts. The personality lever needs 5-10s to take effect, so
      * reacting to the present is always too late; see the probe results. */
@@ -44,6 +51,7 @@ public class DraconisAdmiralAI implements DoctrineController {
     private final List<ShipAPI> ours = new ArrayList<>();
     private final List<ShipAPI> theirs = new ArrayList<>();
     private final List<ShipAPI> all = new ArrayList<>();
+    private boolean gateOpen;
 
     private final Map<ShipAPI, Float> contactSeconds = new IdentityHashMap<>();
     private final Map<ShipAPI, Float> lastHullLevel = new IdentityHashMap<>();
@@ -120,6 +128,7 @@ public class DraconisAdmiralAI implements DoctrineController {
         observed.closeWindow(window);
         updateContact(pressures, window);
         updateHullLoss(window);
+        updateGate();
 
         // Prediction orders hulls; it never supplies a number of seconds. Measured over 8 hulls the
         // ordering held to within one place (log r=0.87) while the absolute scale was 69-668x out,
@@ -149,9 +158,13 @@ public class DraconisAdmiralAI implements DoctrineController {
 
             PersonalitySlide.Step desired = desiredStep(p, ttdObserved, ttkObserved, confidence);
             boolean emergency = ttdHull > 0f && ttdHull < EMERGENCY_TTD_HULL;
-            PersonalitySlide.Step applied = acting
-                    ? slide.moveToward(p.ship, desired, emergency, window)
-                    : slide.current(p.ship);
+            PersonalitySlide.Step applied;
+            if (steering(p.ship)) {
+                applied = slide.moveToward(p.ship, desired, emergency, window);
+            } else {
+                slide.release(p.ship);
+                applied = slide.current(p.ship);
+            }
 
             log.info(String.format(
                     "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d",
@@ -180,8 +193,9 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
             spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
         }
-        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,resets=%d,%s",
-                elapsed, pressures.size(), theirs.size(), slide.getResets(), spread.toString().trim()));
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,resets=%d,%s",
+                elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed",
+                slide.getResets(), spread.toString().trim()));
     }
 
     /** Predicted damage onto every reachable enemy - ordering only, never read as a rate. */
@@ -246,6 +260,36 @@ public class DraconisAdmiralAI implements DoctrineController {
             step = PersonalitySlide.BASELINE;
         }
         return step;
+    }
+
+    /** Whether the admiral is allowed to move this hull: acting, gate open, and a Draconis hull. */
+    private boolean steering(ShipAPI ship) {
+        return acting && gateOpen && isDraconis(ship);
+    }
+
+    private static boolean isDraconis(ShipAPI ship) {
+        return ship.getVariant().hasHullMod(FORTYSECOND_HULLMOD_ID)
+                || ship.getVariant().hasHullMod(DRACONIS_HULLMOD_ID);
+    }
+
+    /** FortySecond must hold the fleet-point majority of our side for the admiral to act. Logged on
+     * change only, since it is re-evaluated every decision. */
+    private void updateGate() {
+        int fortySecondFP = 0;
+        int totalFP = 0;
+        for (ShipAPI ship : ours) {
+            FleetMemberAPI member = ship.getFleetMember();
+            if (member == null) continue;
+            int fp = member.getFleetPointCost();
+            totalFP += fp;
+            if (ship.getVariant().hasHullMod(FORTYSECOND_HULLMOD_ID)) fortySecondFP += fp;
+        }
+        boolean open = totalFP > 0 && fortySecondFP > totalFP * FORTYSECOND_MAJORITY_FRACTION;
+        if (open != gateOpen) {
+            log.info("Draconis: DraconisAdmiralAI gate " + (open ? "OPEN" : "CLOSED")
+                    + " (FortySecond " + fortySecondFP + " of " + totalFP + " FP)");
+        }
+        gateOpen = open;
     }
 
     private static boolean settingOn(String id) {

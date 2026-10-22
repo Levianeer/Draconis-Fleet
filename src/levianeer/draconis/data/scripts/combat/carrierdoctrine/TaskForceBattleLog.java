@@ -10,16 +10,15 @@ import java.util.Map;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
-import com.fs.starfarer.api.combat.CombatFleetManagerAPI.AssignmentInfo;
-import com.fs.starfarer.api.combat.CombatTaskManagerAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import org.apache.log4j.Logger;
 
 /**
- * Per-battle recorder for {@link TaskForceAI}: one CSV row per sample plus a continuously-rewritten
- * summary, both written to the game's common folder via
+ * Per-battle outcome recorder for whichever controller is running - {@link DraconisAdmiralAI}, the
+ * legacy {@link CarrierDoctrineAI}, or none - so every configuration is judged on the same numbers.
+ * The summary is written to the game's common folder via
  * {@link com.fs.starfarer.api.SettingsAPI#writeTextFileToCommon}.
  * <p>
  * <b>Must go through that API, not {@code java.io}.</b> A first version used {@code FileWriter} and
@@ -33,9 +32,9 @@ import org.apache.log4j.Logger;
  * missing for most of this system's history.
  * <p>
  * <b>Note on provenance:</b> this file was reconstructed after a bad regex deletion destroyed it.
- * {@code trackShips}, {@code tickOutcomeOnly}, the per-ship and attrition print blocks and the field
- * set are as they were; the surrounding scaffolding was rewritten from the behaviour it had to
- * reproduce, so some comment wording here is newer than the code it describes.
+ * {@code trackShips}, {@code tickOutcomeOnly}, the per-ship print block and the field set are as
+ * they were; the surrounding scaffolding was rewritten from the behaviour it had to reproduce, so
+ * some comment wording here is newer than the code it describes.
  */
 public class TaskForceBattleLog {
 
@@ -52,37 +51,16 @@ public class TaskForceBattleLog {
     public static final float OFF_MAP_MARGIN = 500f;
 
     protected final int owner;
-    protected final boolean minimal;
     protected final String label;
     protected final CombatEngineAPI engine;
     protected final String battleId;
-    protected final String csvName;
     protected final String summaryName;
     protected boolean broken = false;
-    /** Rows are accumulated and the whole CSV rewritten on each flush, because the write API takes
-     * a complete file rather than appending. ~120 bytes a sample, so a long battle is tens of KB. */
-    protected final StringBuilder csvRows = new StringBuilder();
 
     protected int ticks = 0;
     protected float firstTime = -1f, lastTime = 0f;
-    protected String startComposition = "?";
     protected float ourStartDP = 0f, enemyStartDP = 0f;
     protected float ourDP = 0f, enemyDP = 0f;
-
-    protected int regroupTicks = 0, regroupMax = 0;
-    protected int cpMin = Integer.MAX_VALUE, cpMax = 0;
-    protected float standoffMin = Float.MAX_VALUE, standoffMax = 0f;
-    protected float lineDistMin = Float.MAX_VALUE, lineDistMax = 0f;
-    protected float advanceMin = Float.MAX_VALUE, advanceMax = 0f;
-    protected float ratioMin = Float.MAX_VALUE, ratioMax = 0f;
-    /** Samples where no battleline or screen hull existed, so the carrier standoff point was the line. */
-    protected int carriersWereTheLineTicks = 0;
-    /** Hull-samples holding each station against the role totals they are drawn from. The ratio is
-     * the only thing that says whether an advisory order is actually being taken up - an assignment
-     * being accepted and an assignment being held are different, and have diverged silently twice. */
-    protected long onCarrierStationSum = 0, carrierHullTicks = 0;
-    protected long onLineSum = 0, lineHullTicks = 0;
-    protected long onPicketSum = 0, picketHullTicks = 0;
 
     protected int ourHulls = 0, enemyHulls = 0, ourStartHulls = 0, enemyStartHulls = 0;
     protected int ourOnField = 0, enemyOnField = 0, ourReserve = 0, enemyReserve = 0;
@@ -90,7 +68,6 @@ public class TaskForceBattleLog {
     /** Names of our hulls still on the field, so a lingering phantom survivor can be identified
      * rather than guessed at - a count of 1 has repeatedly disagreed with what is on screen. */
     protected final List<String> survivors = new ArrayList<>();
-    protected CombatTaskManagerAPI tasks;
 
     /**
      * Per-ship behaviour record. The summary was fleet-aggregate only, so a report about one ship's
@@ -116,99 +93,22 @@ public class TaskForceBattleLog {
     }
 
     protected int ourGoneTicks = 0, enemyGoneTicks = 0;
-    protected final List<String> attrition = new ArrayList<>();
-    protected String lastBuckets = null;
 
     /**
-     * @param label   distinguishes controllers in the filename, so a like-for-like A/B series can be
-     *                run without the records colliding.
-     * @param minimal record only the outcome, DP and hull counts plus the engine-read sections - for
-     *                a controller this class cannot instrument from the inside.
+     * @param label distinguishes controllers in the filename, so a like-for-like A/B series can be
+     *              run without the records colliding.
      */
-    public TaskForceBattleLog(int owner, String label, boolean minimal) {
+    public TaskForceBattleLog(int owner, String label) {
         this.owner = owner;
-        this.minimal = minimal;
         this.label = label;
         this.engine = Global.getCombatEngine();
         this.battleId = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        this.csvName = PREFIX + label + "_" + battleId + ".csv";
         this.summaryName = PREFIX + label + "_" + battleId + "_summary.txt";
-
-        csvRows.append("t,carriers,screen,battleline,pickets,decks,")
-                .append("onCarrierStation,onLine,onPicket,regrouping,")
-                .append("standoff,lineDist,advanceFraction,forceRatio,carriersAreTheLine,cp,")
-                .append("ourDP,enemyDP,assigned\n");
         log.info("XLII_TF battle log: common/" + summaryName);
     }
 
-    public void tick(float time, int carriers, int screen, int battleline, int pickets, int decks,
-                     int onCarrierStation, int onLine, int onPicket, int regrouping,
-                     float standoff, float lineDist, float advanceFraction, float forceRatio,
-                     boolean carriersAreTheLine, int commandPointsLeft,
-                     String composition, String assigned, CombatTaskManagerAPI tasks,
-                     CombatFleetManagerAPI ours, CombatFleetManagerAPI theirs) {
-        if (broken) return;
-
-        ticks++;
-        if (firstTime < 0f) {
-            firstTime = time;
-            startComposition = composition;
-        }
-        lastTime = time;
-
-        this.tasks = tasks;
-        updateSides(ours, theirs);
-        trackShips();
-
-        regroupTicks += regrouping;
-        regroupMax = Math.max(regroupMax, regrouping);
-        cpMin = Math.min(cpMin, commandPointsLeft);
-        cpMax = Math.max(cpMax, commandPointsLeft);
-
-        if (standoff > 0f) {
-            standoffMin = Math.min(standoffMin, standoff);
-            standoffMax = Math.max(standoffMax, standoff);
-        }
-        if (lineDist > 0f) {
-            lineDistMin = Math.min(lineDistMin, lineDist);
-            lineDistMax = Math.max(lineDistMax, lineDist);
-        }
-        if (carriersAreTheLine) {
-            carriersWereTheLineTicks++;
-        } else {
-            advanceMin = Math.min(advanceMin, advanceFraction);
-            advanceMax = Math.max(advanceMax, advanceFraction);
-            ratioMin = Math.min(ratioMin, forceRatio);
-            ratioMax = Math.max(ratioMax, forceRatio);
-        }
-
-        onCarrierStationSum += onCarrierStation;
-        carrierHullTicks += carriers;
-        onLineSum += onLine;
-        lineHullTicks += carriersAreTheLine ? 0 : (battleline > 0 ? battleline : screen);
-        onPicketSum += onPicket;
-        picketHullTicks += pickets;
-
-        String buckets = carriers + "/" + screen + "/" + battleline + "/" + pickets;
-        if (!buckets.equals(lastBuckets)) {
-            attrition.add(String.format(
-                    "  t=%-4.0f carriers=%d screen=%d battleline=%d pickets=%d  (ourDP=%.0f enemyDP=%.0f)",
-                    time, carriers, screen, battleline, pickets, ourDP, enemyDP));
-            lastBuckets = buckets;
-        }
-
-        csvRows.append(String.format("%.0f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%.0f,%.0f,%.2f,%.2f,%s,%d,%.0f,%.0f,%s%n",
-                time, carriers, screen, battleline, pickets, decks,
-                onCarrierStation, onLine, onPicket, regrouping,
-                standoff, lineDist, advanceFraction, forceRatio, carriersAreTheLine,
-                commandPointsLeft, ourDP, enemyDP, assigned.replace(',', ' ')));
-
-        if (ticks % SUMMARY_INTERVAL == 1) writeSummary();
-    }
-
     /**
-     * The controller-agnostic path, for a fleet this class cannot instrument from the inside - the
-     * legacy controller, or no controller at all.
+     * Observes the fleet from outside, so it works the same for every controller and for none.
      * <p>
      * Nothing in this project measured the legacy controller or the no-orders baseline with the same
      * numbers used to judge the rewrite, so every comparison between them was an impression until
@@ -217,13 +117,8 @@ public class TaskForceBattleLog {
     public void tickOutcomeOnly(float time, CombatFleetManagerAPI ours, CombatFleetManagerAPI theirs) {
         if (broken) return;
         ticks++;
-        if (firstTime < 0f) {
-            firstTime = time;
-            startComposition = "(not instrumented)";
-        }
+        if (firstTime < 0f) firstTime = time;
         lastTime = time;
-        // tasks stays null on this path - the fleet is observed from outside, so the per-ship record
-        // carries distance and damage but reports its orders as NONE.
         updateSides(ours, theirs);
         trackShips();
         if (ticks % SUMMARY_INTERVAL == 1) writeSummary();
@@ -328,12 +223,7 @@ public class TaskForceBattleLog {
             r.minHull = Math.min(r.minHull, ship.getHullLevel());
             r.maxFlux = Math.max(r.maxFlux, ship.getFluxTracker().getFluxLevel());
 
-            String order = "NONE";
-            if (tasks != null) {
-                AssignmentInfo info = tasks.getAssignmentFor(ship);
-                if (info != null) order = info.getType().name();
-            }
-            if (ship.isRetreating()) order = "RETREATING";
+            String order = ship.isRetreating() ? "RETREATING" : "NONE";
             r.orders.merge(order, 1, Integer::sum);
             r.fate = ship.isRetreating() ? "retreated" : "alive";
             r.lastSeenTick = ticks;
@@ -349,24 +239,16 @@ public class TaskForceBattleLog {
         sb.append(String.format(
                 "RESULT ctrl=%s outcome=%s dur=%.0f ourDP=%.0f/%.0f enemyDP=%.0f/%.0f ratio=%s "
                         + "ourHulls=%d/%d enemyHulls=%d/%d ourField=%d+%dres enemyField=%d+%dres "
-                        + "onStation=%d%% onLine=%d%% onPicket=%d%% carriersWereLine=%d/%d "
-                        + "standoff=%.0f..%.0f lineDist=%.0f..%.0f cp=%d..%d comp=%s "
                         + "survivors=[%s]%n",
                 label, outcome(), lastTime - firstTime, ourStartDP, ourDP, enemyStartDP, enemyDP,
                 exchangeRatio(),
                 ourStartHulls, ourHulls, enemyStartHulls, enemyHulls,
                 ourOnField, ourReserve, enemyOnField, enemyReserve,
-                pct(onCarrierStationSum, carrierHullTicks), pct(onLineSum, lineHullTicks),
-                pct(onPicketSum, picketHullTicks), carriersWereTheLineTicks, ticks,
-                standoffMin == Float.MAX_VALUE ? 0f : standoffMin, standoffMax,
-                lineDistMin == Float.MAX_VALUE ? 0f : lineDistMin, lineDistMax,
-                cpMin == Integer.MAX_VALUE ? 0 : cpMin, cpMax, startComposition.replace(' ', ','),
                 String.join(", ", survivors).replace(' ', '_')));
 
         sb.append("XLII_TF battle ").append(battleId)
                 .append("  (controller owner=").append(owner).append(")\n");
         line(sb, "duration", String.format("%.0fs (%d samples)", lastTime - firstTime, ticks));
-        line(sb, "composition", startComposition);
         line(sb, "DP  ours", String.format("peak %.0f -> %.0f on field", ourStartDP, ourDP));
         line(sb, "DP  enemy", String.format("peak %.0f -> %.0f on field", enemyStartDP, enemyDP));
         line(sb, "DP  exchange", String.format("we lost %.0f, they lost %.0f",
@@ -377,32 +259,6 @@ public class TaskForceBattleLog {
         line(sb, "on field", String.format("ours %d (+%d reserve), theirs %d (+%d reserve)",
                 ourOnField, ourReserve, enemyOnField, enemyReserve));
         line(sb, "our survivors", survivors.isEmpty() ? "none" : String.join(", ", survivors));
-
-        // Only the controller-specific block is gated. Everything below - attrition, the per-ship
-        // record - is read from the engine rather than from the controller, so it is written on
-        // every path. That is what makes a baseline or legacy record comparable to a task-force one.
-        if (!minimal) {
-            sb.append('\n');
-            line(sb, "carrier standoff", range(standoffMin, standoffMax));
-            line(sb, "line to enemy", range(lineDistMin, lineDistMax));
-            line(sb, "advance fraction", carriersWereTheLineTicks == ticks ? "no line held"
-                    : String.format("%.2f..%.2f", advanceMin, advanceMax));
-            line(sb, "local force ratio", carriersWereTheLineTicks == ticks ? "not measured"
-                    : String.format("%.2f..%.2f", ratioMin, ratioMax));
-            line(sb, "carriers were the line",
-                    carriersWereTheLineTicks + " of " + ticks + " samples (no battleline or screen hull)");
-            line(sb, "holding station", String.format("carriers %d%%, line %d%%, pickets %d%%",
-                    pct(onCarrierStationSum, carrierHullTicks), pct(onLineSum, lineHullTicks),
-                    pct(onPicketSum, picketHullTicks)));
-            line(sb, "deck regroup", String.format("max %d decks at once, %d deck-samples total",
-                    regroupMax, regroupTicks));
-            // Watched because this controller deliberately does not grant itself command points and
-            // leaves the admiral's own escort pass, which is gated on having them, able to run.
-            line(sb, "command points", (cpMin == Integer.MAX_VALUE ? 0 : cpMin) + ".." + cpMax);
-        }
-
-        sb.append('\n').append("ATTRITION (carriers/screen/battleline/pickets)\n");
-        for (String row : attrition) sb.append(row).append('\n');
 
         sb.append('\n').append("PER-SHIP (orders held, in samples | dist from fleet | worst hull/flux)\n");
         for (Map.Entry<ShipAPI, ShipRecord> e : shipRecords.entrySet()) {
@@ -427,20 +283,10 @@ public class TaskForceBattleLog {
 
         try {
             Global.getSettings().writeTextFileToCommon(summaryName, sb.toString());
-            Global.getSettings().writeTextFileToCommon(csvName, csvRows.toString());
         } catch (Exception e) {
             log.warn("XLII_TF battle log write failed", e);
             broken = true;
         }
-    }
-
-    protected static int pct(long part, long whole) {
-        return whole <= 0L ? 0 : (int) Math.round(100.0 * part / whole);
-    }
-
-    protected static String range(float min, float max) {
-        if (min == Float.MAX_VALUE) return "not measured";
-        return String.format("%.0f..%.0f", min, max);
     }
 
     /**
