@@ -16,6 +16,7 @@
 					 "collisionClassByFighter":MISSILE_FF},
 	"behaviorSpec":{"behavior":"PROXIMITY_FUSE",
 					"slowToMaxSpeed":true,
+					"range":50,
 					"explosionSpec":{"duration":0.1f,
 									 "radius":100,
 									 "coreRadius":75, # full damage within core radius
