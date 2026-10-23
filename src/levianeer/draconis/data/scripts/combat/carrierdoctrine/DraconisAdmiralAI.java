@@ -46,6 +46,8 @@ public class DraconisAdmiralAI implements DoctrineController {
     private final DamageObserver observed = new DamageObserver();
     private final PersonalitySlide slide = new PersonalitySlide();
     private final OpeningPlan opening;
+    private final FleetCohesion cohesion;
+    private final List<ShipAPI> cohesionCandidates = new ArrayList<>();
     private final boolean acting = settingOn("draconisAdmiralActs");
     /** The vanilla admiral's own ~5s re-decide, randomised the same way it is. */
     private final IntervalUtil decide = new IntervalUtil(3.75f, 6.25f);
@@ -115,6 +117,7 @@ public class DraconisAdmiralAI implements DoctrineController {
     public DraconisAdmiralAI(int owner) {
         this.owner = owner;
         this.opening = new OpeningPlan(owner, acting && settingOn("draconisAdmiralOpening"));
+        this.cohesion = new FleetCohesion(owner, acting && settingOn("draconisAdmiralCohesion"));
         log.info("DraconisAdmiral,header,t,ship,id,carrier,confidence,obsIncomingDps,obsOutgoingDps,"
                 + "ttdObserved,ttdHull,ttkObserved,ttdPredicted,ttkPredicted,predictedOutRank,"
                 + "threats,targets,shieldRatio,focus,desired,applied,emergency");
@@ -138,6 +141,15 @@ public class DraconisAdmiralAI implements DoctrineController {
             if (ship.getNumFighterBays() > 0 && gateOpen && isDraconis(ship)) airGroup.add(ship);
         }
         opening.reapply(airGroup, ours);
+        // Only hulls the slide has at steady or above: one it has pulled back as losing is never
+        // sent back at the enemy (author decision). Carriers are included, as in AI Tweaks.
+        cohesionCandidates.clear();
+        for (ShipAPI ship : ours) {
+            if (gateOpen && isDraconis(ship) && slide.current(ship).ordinal() >= PersonalitySlide.BASELINE.ordinal()) {
+                cohesionCandidates.add(ship);
+            }
+        }
+        cohesion.advance(amount, elapsed, cohesionCandidates, enemiesDeployed);
 
         decide.advance(amount);
         if (!decide.intervalElapsed()) return;
@@ -252,8 +264,8 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
             spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
         }
-        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,resets=%d,%s",
-                elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed",
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,resets=%d,%s",
+                elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed", cohesion.redirected(),
                 slide.getResets(), spread.toString().trim()));
     }
 

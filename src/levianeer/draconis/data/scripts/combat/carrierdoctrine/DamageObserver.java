@@ -1,3 +1,5 @@
+// Credit to Nick XR!
+// Structure based on the damage listener from the Detailed Combat Results mod
 package levianeer.draconis.data.scripts.combat.carrierdoctrine;
 
 import java.util.HashMap;
@@ -12,9 +14,8 @@ import com.fs.starfarer.api.combat.listeners.DamageListener;
 
 /**
  * What damage was actually dealt, per attacking hull, so predictions can be checked against
- * reality. Structure follows Detailed Combat Results (Nick XR,
- * {@code mods/DetailedCombatResults}): a {@link DamageListener} on each target hull, with the
- * attacker resolved from the projectile or beam that the engine hands to the callback.
+ * reality: a {@link DamageListener} on each target hull, with the attacker resolved from the
+ * projectile or beam that the engine hands to the callback.
  * <p>
  * Fighter damage is credited to the fighter's carrier, so a carrier's output is comparable with
  * the wing DPS its {@link ShipProfile} predicts.
