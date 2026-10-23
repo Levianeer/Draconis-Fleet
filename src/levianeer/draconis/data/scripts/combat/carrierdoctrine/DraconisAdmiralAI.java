@@ -47,7 +47,8 @@ public class DraconisAdmiralAI implements DoctrineController {
     private final PersonalitySlide slide = new PersonalitySlide();
     private final OpeningPlan opening;
     private final FleetCohesion cohesion;
-    private final List<ShipAPI> cohesionCandidates = new ArrayList<>();
+    private final List<ShipAPI> cohesionForward = new ArrayList<>();
+    private final List<ShipAPI> cohesionPulledBack = new ArrayList<>();
     private final boolean acting = settingOn("draconisAdmiralActs");
     /** The vanilla admiral's own ~5s re-decide, randomised the same way it is. */
     private final IntervalUtil decide = new IntervalUtil(3.75f, 6.25f);
@@ -91,6 +92,13 @@ public class DraconisAdmiralAI implements DoctrineController {
     private static final float CARRIER_REBUILD_FRR = 0.4f;
     /** How long a hull must go unthreatened before that counts as safe rather than as a lull. */
     private static final float QUIET_SECONDS = 10f;
+    private static final float OUTMATCH_STEADY = 1.0f;
+    private static final float OUTMATCH_CAUTIOUS = 0.6f;
+    private static final float OUTMATCH_TIMID = 0.35f;
+    /** Our hull level below which a hull may not go reckless, since reckless ignores its own safety. */
+    private static final float RECKLESS_MIN_HULL = 0.5f;
+    /** A lone enemy counts as an opening when we bring at least this many times its DP. */
+    private static final float RECKLESS_OUTMATCH = 2.0f;
     private static final Comparator<MatchupModel.Pressure> PREDICTED_OUT_DESC =
             new Comparator<MatchupModel.Pressure>() {
                 @Override
@@ -120,7 +128,7 @@ public class DraconisAdmiralAI implements DoctrineController {
         this.cohesion = new FleetCohesion(owner, acting && settingOn("draconisAdmiralCohesion"));
         log.info("DraconisAdmiral,header,t,ship,id,carrier,confidence,obsIncomingDps,obsOutgoingDps,"
                 + "ttdObserved,ttdHull,ttkObserved,ttdPredicted,ttkPredicted,predictedOutRank,"
-                + "threats,targets,shieldRatio,focus,desired,applied,emergency");
+                + "threats,targets,shieldRatio,focus,desired,applied,emergency,outmatch,fleetDistance,recklessGate");
         log.info("Draconis: DraconisAdmiralAI " + (acting ? "ACTING (step 3, personality slide)"
                 : "observing only - set draconisAdmiralActs to let it act"));
         log.info("DraconisAdmiral,targetHeader,t,enemy,durability,incomingFromUs,ttkObserved,"
@@ -141,15 +149,20 @@ public class DraconisAdmiralAI implements DoctrineController {
             if (ship.getNumFighterBays() > 0 && gateOpen && isDraconis(ship)) airGroup.add(ship);
         }
         opening.reapply(airGroup, ours);
-        // Only hulls the slide has at steady or above: one it has pulled back as losing is never
-        // sent back at the enemy (author decision). Carriers are included, as in AI Tweaks.
-        cohesionCandidates.clear();
+        // Hulls at steady or above may be sent at the enemy main body; carriers included, as in AI
+        // Tweaks. One the slide has pulled back as losing is never sent at the enemy (author
+        // decision) - it falls back to our own main body instead if it has drifted off it.
+        cohesionForward.clear();
+        cohesionPulledBack.clear();
         for (ShipAPI ship : ours) {
-            if (gateOpen && isDraconis(ship) && slide.current(ship).ordinal() >= PersonalitySlide.BASELINE.ordinal()) {
-                cohesionCandidates.add(ship);
+            if (!gateOpen || !isDraconis(ship)) continue;
+            if (slide.current(ship).ordinal() >= PersonalitySlide.BASELINE.ordinal()) {
+                cohesionForward.add(ship);
+            } else {
+                cohesionPulledBack.add(ship);
             }
         }
-        cohesion.advance(amount, elapsed, cohesionCandidates, enemiesDeployed);
+        cohesion.advance(amount, elapsed, ours, cohesionForward, cohesionPulledBack, enemiesDeployed);
 
         decide.advance(amount);
         if (!decide.intervalElapsed()) return;
@@ -211,7 +224,8 @@ public class DraconisAdmiralAI implements DoctrineController {
                 ttkObserved = secondsToKill(model.durability(focus), observed.rateInto(focus, ours));
             }
 
-            PersonalitySlide.Step desired = desiredStep(p, ttdObserved, ttkObserved, confidence);
+            String recklessGate = recklessGate(p);
+            PersonalitySlide.Step desired = desiredStep(p, ttdObserved, ttkObserved, confidence, recklessGate);
             boolean emergency = ttdHull > 0f && ttdHull < EMERGENCY_TTD_HULL;
             PersonalitySlide.Step applied;
             if (steering(p.ship)) {
@@ -229,14 +243,15 @@ public class DraconisAdmiralAI implements DoctrineController {
             }
 
             log.info(String.format(
-                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d",
+                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d,%.2f,%.0f,%s",
                     elapsed, p.ship.getName(), p.ship.getId(), profile.carrier ? 1 : 0, confidence,
                     incoming, outgoing,
                     ttdObserved, ttdHull, ttkObserved,
                     clamp(p.timeToDeath), clamp(p.timeToKill),
                     p.predictedOutRank, p.threatCount, p.reachableTargets,
                     model.shieldRatio(p.ship), focus == null ? "none" : focus.getName(),
-                    desired, applied, emergency ? 1 : 0));
+                    desired, applied, emergency ? 1 : 0, Math.min(99f, p.outmatch),
+                    cohesion.distanceToMainBody(p.ship), recklessGate == null ? "-" : recklessGate));
         }
 
         // Target ordering is a fleet-level question, so it is logged once per decision rather than
@@ -264,8 +279,9 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
             spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
         }
-        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,resets=%d,%s",
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,resets=%d,%s",
                 elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed", cohesion.redirected(),
+                cohesion.fallingBack(),
                 slide.getResets(), spread.toString().trim()));
     }
 
@@ -287,14 +303,13 @@ public class DraconisAdmiralAI implements DoctrineController {
      * its absolute scale measured 69-668x out.
      */
     private PersonalitySlide.Step desiredStep(MatchupModel.Pressure p, float ttdObserved,
-                                              float ttkObserved, float confidence) {
+                                              float ttkObserved, float confidence, String recklessGate) {
         PersonalitySlide.Step step = PersonalitySlide.BASELINE;
 
         if (ttdObserved > 0f && ttkObserved > 0f) {
             float race = ttdObserved / ttkObserved;
             if (race >= RATIO_UP) {
-                step = race >= RATIO_UP * 2f ? PersonalitySlide.Step.RECKLESS
-                        : PersonalitySlide.Step.AGGRESSIVE;
+                step = recklessGate != null ? PersonalitySlide.Step.RECKLESS : PersonalitySlide.Step.AGGRESSIVE;
             } else if (race <= RATIO_DOWN) {
                 step = race <= RATIO_DOWN * 0.5f ? PersonalitySlide.Step.TIMID
                         : PersonalitySlide.Step.CAUTIOUS;
@@ -330,7 +345,42 @@ public class DraconisAdmiralAI implements DoctrineController {
                 && step.ordinal() > PersonalitySlide.BASELINE.ordinal()) {
             step = PersonalitySlide.BASELINE;
         }
+
+        // The 1-vs-many ceiling. After the confidence clamp on purpose: that clamp exists because
+        // observed damage is not trustworthy yet, and this reads DP, which is known before a shot
+        // lands - so an outmatched hull can back off before the fight starts. Only ever lowers.
+        PersonalitySlide.Step ceiling = outmatchCeiling(p.outmatch);
+        if (step.ordinal() > ceiling.ordinal()) step = ceiling;
         return step;
+    }
+
+    /**
+     * Reckless is an opportunity, not a ratio: it used to follow from the race reaching 2.6 alone.
+     * Over 28 runs no hull died while reckless, but a reckless hull was ~1.3x as likely as an
+     * aggressive one to die within 30s (12.7% vs 9.5%, 102 decisions) despite only ever being there
+     * because it was winning. Now it needs a specific opening on top of a winning race, and a hull
+     * healthy enough to ignore its own safety.
+     *
+     * @return why the gate is open - "overload" or "alone" - or null when it is shut
+     */
+    private static String recklessGate(MatchupModel.Pressure p) {
+        if (p.ship.getHullLevel() < RECKLESS_MIN_HULL) return null;
+        ShipAPI target = p.bestTarget;
+        if (target != null && target.getFluxTracker() != null && target.getFluxTracker().isOverloadedOrVenting()) {
+            return "overload";
+        }
+        if (p.threatCount == 1 && p.outmatch >= RECKLESS_OUTMATCH) return "alone";
+        return null;
+    }
+
+    /** Below 1 the enemies that can reach this hull outweigh everything of ours that can answer
+     * them. Same thresholds for every hull size: a lone frigate facing a cruiser is already deep in
+     * the timid band on DP alone. */
+    private static PersonalitySlide.Step outmatchCeiling(float outmatch) {
+        if (outmatch < OUTMATCH_TIMID) return PersonalitySlide.Step.TIMID;
+        if (outmatch < OUTMATCH_CAUTIOUS) return PersonalitySlide.Step.CAUTIOUS;
+        if (outmatch < OUTMATCH_STEADY) return PersonalitySlide.Step.STEADY;
+        return PersonalitySlide.Step.RECKLESS;
     }
 
     /** Whether the admiral is allowed to move this hull: acting, gate open, and a Draconis hull. */

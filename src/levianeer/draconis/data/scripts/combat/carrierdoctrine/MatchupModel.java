@@ -8,6 +8,7 @@ import com.fs.starfarer.api.combat.DamageType;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.util.Misc;
 
 /**
@@ -51,6 +52,10 @@ public class MatchupModel {
         public float predictedOut;
         public int predictedOutRank;
         public int threatCount;
+        /** Our DP that can bear on this hull's threats - its own plus every ally able to reach one
+         * of them - over the DP of every enemy able to reach it. Below 1 the hull is outmatched,
+         * whether by numbers or by one bigger ship. Known before a shot lands, unlike the race. */
+        public float outmatch = Float.POSITIVE_INFINITY;
         public int reachableTargets;
     }
 
@@ -199,10 +204,12 @@ public class MatchupModel {
             ShipProfile profile = profiles.get(ship);
             Pressure p = new Pressure();
             p.ship = ship;
+            List<ShipAPI> threats = new ArrayList<>();
 
             for (ShipAPI enemy : theirs) {
                 ShipProfile enemyProfile = profiles.get(enemy);
                 if (!inReach(enemy, enemyProfile, ship, window)) continue;
+                threats.add(enemy);
                 effectiveDps(enemy, enemyProfile, ship, scratch);
                 // One incoming number: shields and hull both have to be chewed through, and for
                 // "how fast do I die" the hull phase is what ends the hull.
@@ -211,6 +218,7 @@ public class MatchupModel {
             }
             float durability = durability(ship);
             p.timeToDeath = p.threat <= 0f ? Float.POSITIVE_INFINITY : durability / p.threat;
+            p.outmatch = outmatch(ship, threats, ours, profiles, window);
 
             for (ShipAPI enemy : theirs) {
                 if (!inReach(ship, profile, enemy, window)) continue;
@@ -236,6 +244,31 @@ public class MatchupModel {
             result.add(p);
         }
         return result;
+    }
+
+    private float outmatch(ShipAPI ship, List<ShipAPI> threats, List<ShipAPI> ours,
+                           ProfileCache profiles, float window) {
+        float threatDP = 0f;
+        for (ShipAPI enemy : threats) threatDP += deploymentPoints(enemy);
+        if (threatDP <= 0f) return Float.POSITIVE_INFINITY;
+
+        float supportDP = deploymentPoints(ship);
+        for (ShipAPI friend : ours) {
+            if (friend == ship) continue;
+            ShipProfile friendProfile = profiles.get(friend);
+            for (ShipAPI enemy : threats) {
+                if (inReach(friend, friendProfile, enemy, window)) {
+                    supportDP += deploymentPoints(friend);
+                    break;
+                }
+            }
+        }
+        return supportDP / threatDP;
+    }
+
+    private static float deploymentPoints(ShipAPI ship) {
+        FleetMemberAPI member = ship.getFleetMember();
+        return member == null ? 0f : member.getDeploymentPointsCost();
     }
 
     private static float settingOr(String key, float fallback) {

@@ -47,6 +47,11 @@ import org.lwjgl.util.vector.Vector2f;
  * {@code AIFlags.MANEUVER_TARGET} rather than through bytecode remapping; and the admiral only offers
  * it hulls the personality slide has at steady or above, so a hull judged to be losing is never
  * sent back at the enemy.
+ * <p>
+ * One addition of our own: a hull the slide has at cautious or timid that has drifted out of our
+ * own main body is sent back to it instead, to a point behind its centre. Excluding pulled-back
+ * hulls alone left them backing away from enemies with nothing pulling them towards friends, and
+ * in play they were picked off alone more often than they were saved.
  */
 public class FleetCohesion {
 
@@ -62,8 +67,34 @@ public class FleetCohesion {
     private final boolean acting;
     private final IntervalUtil interval = new IntervalUtil(0.75f, 1.0f);
     private final List<Issued> issued = new ArrayList<>();
-    private final Map<ShipAPI, Float> redirectedSince = new IdentityHashMap<>();
-    private final Map<ShipAPI, ShipAPI> redirectedFrom = new IdentityHashMap<>();
+    private final Map<ShipAPI, Active> active = new IdentityHashMap<>();
+    /** Hulls whose order from us was removed this tick; see {@link #isFree}. */
+    private final Set<ShipAPI> freedThisTick =
+            Collections.newSetFromMap(new IdentityHashMap<ShipAPI, Boolean>());
+    private List<ShipAPI> ourMain = Collections.emptyList();
+
+    private static final String REDIRECT = "redirect";
+    private static final String FALLBACK = "fallback";
+    /** How far behind our main body's centre a pulled-back hull is sent: half the grouping range, so
+     * the point sits inside the fleet's footprint. */
+    private static final float FALLBACK_OFFSET = 1000f;
+    /** Below this the two fleets' centres are too close to say which side is the front. */
+    private static final float MIN_FRONT_SEPARATION = 1000f;
+    private static final float MAP_MARGIN = 1000f;
+
+    private static class Active {
+        final String kind;
+        final float since;
+        final String from;
+        final String to;
+
+        Active(String kind, float since, String from, String to) {
+            this.kind = kind;
+            this.since = since;
+            this.from = from;
+            this.to = to;
+        }
+    }
 
     private static class Issued {
         final ShipAPI ship;
@@ -82,54 +113,132 @@ public class FleetCohesion {
         this.acting = acting;
     }
 
-    /** Ships currently being steered back to the main body, for the fleet log line. */
+    /** Ships currently being steered at the enemy main body, for the fleet log line. */
     public int redirected() {
-        return redirectedSince.size();
+        return count(REDIRECT);
+    }
+
+    /** Pulled-back ships currently being steered back to our own main body. */
+    public int fallingBack() {
+        return count(FALLBACK);
+    }
+
+    private int count(String kind) {
+        int n = 0;
+        for (Active a : active.values()) if (a.kind.equals(kind)) n++;
+        return n;
+    }
+
+    /** Distance from {@code ship} to the nearest member of our main body as of the last tick: 0 for
+     * a member, -1 when there is no main body. For measuring drift, which was only ever seen. */
+    public float distanceToMainBody(ShipAPI ship) {
+        if (ourMain.isEmpty()) return -1f;
+        if (ourMain.contains(ship)) return 0f;
+        float best = Float.MAX_VALUE;
+        for (ShipAPI member : ourMain) best = Math.min(best, Misc.getDistance(ship.getLocation(), member.getLocation()));
+        return best;
     }
 
     /**
-     * Every frame. {@code candidates} are the hulls the admiral is willing to have redirected;
+     * Every frame. {@code forward} are hulls the admiral will let be sent at the enemy main body;
+     * {@code pulledBack} are hulls the slide has at cautious or timid, which instead fall back to
+     * ours if they have drifted off it; {@code ours} is our whole side, for finding our main body;
      * {@code enemies} is every deployed enemy hull.
      */
-    public void advance(float amount, float elapsed, List<ShipAPI> candidates, List<ShipAPI> enemies) {
+    public void advance(float amount, float elapsed, List<ShipAPI> ours, List<ShipAPI> forward,
+                        List<ShipAPI> pulledBack, List<ShipAPI> enemies) {
         interval.advance(amount);
         if (!interval.intervalElapsed()) return;
 
         CombatEngineAPI engine = Global.getCombatEngine();
         CombatTaskManagerAPI tasks = engine.getFleetManager(owner).getTaskManager(false);
         clearIssued(engine, tasks);
+        ourMain = ours.isEmpty() ? Collections.<ShipAPI>emptyList() : segment(ours).get(0);
 
-        Set<ShipAPI> now = Collections.newSetFromMap(new IdentityHashMap<ShipAPI, Boolean>());
+        Map<ShipAPI, Active> now = new IdentityHashMap<>();
         if (allowed(engine, tasks) && !enemies.isEmpty()) {
             List<List<ShipAPI>> groups = segment(enemies);
             List<ShipAPI> primary = groups.get(0);
             List<ShipAPI> valid = validTargets(groups);
             FogOfWarAPI fog = engine.getFogOfWar(owner);
 
-            for (ShipAPI ship : candidates) {
+            for (ShipAPI ship : forward) {
                 if (!eligible(engine, tasks, ship)) continue;
                 ShipAPI target = attackTarget(ship);
                 if (target == null || primary.contains(target)) continue;
                 if (valid.contains(target) && closeToEnemy(engine, ship, target)) continue;
                 ShipAPI dest = nearestBig(ship, primary, fog);
                 if (dest == null || dest == target) continue;
+                now.put(ship, new Active(REDIRECT, elapsed, target.getName(), dest.getName()));
+                if (acting) issue(engine, tasks, ship, dest.getLocation());
+            }
 
-                now.add(ship);
-                if (!redirectedSince.containsKey(ship)) {
-                    redirectedSince.put(ship, elapsed);
-                    redirectedFrom.put(ship, target);
-                    logRedirect(elapsed, ship, "start", target, dest, 0f);
+            Vector2f behind = behindMainBody(engine, enemies);
+            if (behind != null) {
+                for (ShipAPI ship : pulledBack) {
+                    if (ourMain.contains(ship) || !eligibleToFallBack(engine, tasks, ship)) continue;
+                    now.put(ship, new Active(FALLBACK, elapsed, "none", "behind main body"));
+                    if (acting) issue(engine, tasks, ship, behind);
                 }
-                if (acting) issue(engine, tasks, ship, dest);
             }
         }
 
         List<ShipAPI> ended = new ArrayList<>();
-        for (ShipAPI ship : redirectedSince.keySet()) if (!now.contains(ship)) ended.add(ship);
-        for (ShipAPI ship : ended) {
-            float since = redirectedSince.remove(ship);
-            logRedirect(elapsed, ship, "end", redirectedFrom.remove(ship), null, elapsed - since);
+        for (Map.Entry<ShipAPI, Active> entry : active.entrySet()) {
+            Active next = now.get(entry.getKey());
+            if (next == null || !next.kind.equals(entry.getValue().kind)) ended.add(entry.getKey());
         }
+        for (ShipAPI ship : ended) {
+            Active a = active.remove(ship);
+            logRedirect(elapsed, ship, "end", a, elapsed - a.since);
+        }
+        for (Map.Entry<ShipAPI, Active> entry : now.entrySet()) {
+            if (active.containsKey(entry.getKey())) continue;
+            active.put(entry.getKey(), entry.getValue());
+            logRedirect(elapsed, entry.getKey(), "start", entry.getValue(), 0f);
+        }
+    }
+
+    /**
+     * Where a pulled-back hull should rejoin us: behind our main body's centre, on the side away
+     * from the enemy. Both centres are DP-weighted, and the enemy's uses every deployed hull rather
+     * than their main group, so the direction cannot flip when two enemy groups are close in size.
+     * When the centres are too close to give a front - the fleets are mixed together - it is our
+     * plain centre. Kept inside the map. It only has to be roughly right: the order lifts the moment
+     * the hull is back in the group, well before it arrives.
+     */
+    private Vector2f behindMainBody(CombatEngineAPI engine, List<ShipAPI> enemies) {
+        if (ourMain.isEmpty()) return null;
+        Vector2f ours = centroid(ourMain);
+        Vector2f theirs = centroid(enemies);
+        Vector2f point = new Vector2f(ours);
+        float dx = ours.x - theirs.x;
+        float dy = ours.y - theirs.y;
+        float len = (float) Math.sqrt(dx * dx + dy * dy);
+        if (len >= MIN_FRONT_SEPARATION) {
+            point.x += dx / len * FALLBACK_OFFSET;
+            point.y += dy / len * FALLBACK_OFFSET;
+        }
+        float halfW = engine.getMapWidth() / 2f - MAP_MARGIN;
+        float halfH = engine.getMapHeight() / 2f - MAP_MARGIN;
+        point.x = Math.max(-halfW, Math.min(halfW, point.x));
+        point.y = Math.max(-halfH, Math.min(halfH, point.y));
+        return point;
+    }
+
+    /** DP-weighted, falling back to the plain mean if no hull reports DP. */
+    private static Vector2f centroid(List<ShipAPI> ships) {
+        float x = 0f, y = 0f, weight = 0f, mx = 0f, my = 0f;
+        for (ShipAPI ship : ships) {
+            FleetMemberAPI member = ship.getFleetMember();
+            float dp = member == null ? 0f : member.getDeploymentPointsCost();
+            x += ship.getLocation().x * dp;
+            y += ship.getLocation().y * dp;
+            weight += dp;
+            mx += ship.getLocation().x;
+            my += ship.getLocation().y;
+        }
+        return weight > 0f ? new Vector2f(x / weight, y / weight) : new Vector2f(mx / ships.size(), my / ships.size());
     }
 
     /** Off while either side is in full retreat, during a full assault, or while an AVOID order
@@ -144,14 +253,35 @@ public class FleetCohesion {
     }
 
     /** AI Tweaks' own eligibility: a destroyer or larger with weapons, not an ally, not a station or
-     * module, deployed, and holding no order - ours were cleared just before this runs. */
-    private static boolean eligible(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship) {
+     * module, deployed, and holding no order other than the one of ours just cleared. */
+    private boolean eligible(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship) {
         if (!ship.isAlive() || ship.isExpired() || ship.isFighter() || ship.isStation() || ship.isStationModule()) {
             return false;
         }
         if (ship.isAlly() || !isBig(ship)) return false;
         if (findDeployed(engine, ship) == null) return false;
-        return tasks.getAssignmentFor(ship) == null;
+        return isFree(tasks, ship);
+    }
+
+    /**
+     * Holds no order, or only the one of ours removed this tick. Bug fix: {@code removeAssignment}
+     * does not take effect within the frame, so {@code getAssignmentFor} still reports the order
+     * that was just removed. Checking it alone made every hull read as busy straight after its own
+     * order was cleared, so it was re-issued only every other tick - all 472 redirects and fallbacks
+     * in the first logged runs lasted exactly 1s and alternated on and off.
+     */
+    private boolean isFree(CombatTaskManagerAPI tasks, ShipAPI ship) {
+        return tasks.getAssignmentFor(ship) == null || freedThisTick.contains(ship);
+    }
+
+    /** Not AI Tweaks' rule: frigates are included, since the small hulls that slide to timid fastest
+     * are the ones most exposed when they drift off alone. */
+    private boolean eligibleToFallBack(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship) {
+        if (!ship.isAlive() || ship.isExpired() || ship.isFighter() || ship.isStation() || ship.isStationModule()) {
+            return false;
+        }
+        if (ship.isAlly() || findDeployed(engine, ship) == null) return false;
+        return isFree(tasks, ship);
     }
 
     private static boolean isBig(ShipAPI ship) {
@@ -262,10 +392,10 @@ public class FleetCohesion {
         return best;
     }
 
-    private void issue(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship, ShipAPI dest) {
+    private void issue(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship, Vector2f location) {
         DeployedFleetMemberAPI member = findDeployed(engine, ship);
         if (member == null) return;
-        AssignmentTargetAPI waypoint = tasks.createWaypoint2(new Vector2f(dest.getLocation()), false);
+        AssignmentTargetAPI waypoint = tasks.createWaypoint2(new Vector2f(location), false);
         AssignmentInfo rally = tasks.createAssignment(CombatAssignmentType.RALLY_TASK_FORCE, waypoint, false);
         if (rally == null) {
             engine.removeObject(waypoint);
@@ -279,11 +409,13 @@ public class FleetCohesion {
      * spot. Compared by value, because the assignment and waypoint objects are not reliably the
      * same instances on a later read. */
     private void clearIssued(CombatEngineAPI engine, CombatTaskManagerAPI tasks) {
+        freedThisTick.clear();
         for (Issued entry : issued) {
             AssignmentInfo info = entry.ship.isAlive() ? tasks.getAssignmentFor(entry.ship) : null;
             if (info != null && info.getType() == CombatAssignmentType.RALLY_TASK_FORCE
                     && info.getTarget() != null && entry.location.equals(info.getTarget().getLocation())) {
                 tasks.removeAssignment(info);
+                freedThisTick.add(entry.ship);
             }
             engine.removeObject(entry.waypoint);
         }
@@ -297,9 +429,9 @@ public class FleetCohesion {
         return null;
     }
 
-    private void logRedirect(float elapsed, ShipAPI ship, String phase, ShipAPI from, ShipAPI to, float seconds) {
-        log.info(String.format("DraconisAdmiral,cohesion,t=%.0f,ship=%s,id=%s,phase=%s,mode=%s,from=%s,to=%s,seconds=%.0f",
-                elapsed, ship.getName(), ship.getId(), phase, acting ? "acting" : "observing",
-                from == null ? "none" : from.getName(), to == null ? "-" : to.getName(), seconds));
+    private void logRedirect(float elapsed, ShipAPI ship, String phase, Active a, float seconds) {
+        log.info(String.format("DraconisAdmiral,cohesion,t=%.0f,ship=%s,id=%s,phase=%s,kind=%s,mode=%s,from=%s,to=%s,seconds=%.0f",
+                elapsed, ship.getName(), ship.getId(), phase, a.kind, acting ? "acting" : "observing",
+                a.from, a.to, seconds));
     }
 }

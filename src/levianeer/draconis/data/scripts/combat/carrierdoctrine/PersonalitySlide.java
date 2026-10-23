@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.fs.starfarer.api.combat.ShipAIConfig;
 import com.fs.starfarer.api.combat.ShipAPI;
+import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.campaign.ids.Personalities;
 
 /**
@@ -50,7 +51,8 @@ public class PersonalitySlide {
      * then takes 12s rather than 30s, which is what the first acting run needed - timid was desired
      * five times and never reached. Oscillation is still bounded, because coming back up always
      * costs the full dwell, so a hull cannot flip-flop faster than once every {@value #DWELL_UP}
-     * seconds in the direction that gets hulls killed.
+     * seconds in the direction that gets hulls killed. {@link #DWELL_DOWN} now applies to capitals
+     * only; smaller hulls slide down faster, see {@link #stepsDown}.
      */
     private static final float DWELL_UP = 15f;
     private static final float DWELL_DOWN = 6f;
@@ -79,10 +81,12 @@ public class PersonalitySlide {
         Step next;
         if (emergency) {
             next = Step.TIMID;
-        } else if (desired == now || held < dwellFor(now, desired)) {
+        } else if (desired == now || held < dwellFor(ship, now, desired)) {
             next = now;
         } else {
-            next = now.towards(desired);
+            next = now;
+            int steps = desired.ordinal() < now.ordinal() ? stepsDown(ship) : 1;
+            for (int i = 0; i < steps; i++) next = next.towards(desired);
         }
 
         if (next != now) {
@@ -109,8 +113,25 @@ public class PersonalitySlide {
         return step;
     }
 
-    private static float dwellFor(Step now, Step desired) {
-        return desired.ordinal() < now.ordinal() ? DWELL_DOWN : DWELL_UP;
+    private static float dwellFor(ShipAPI ship, Step now, Step desired) {
+        // Reckless is only ever asked for while a short-lived opening is there (an overloaded or
+        // venting target, or a lone outmatched one), and leaving it means the opening has closed.
+        // Waiting out a dwell either way would mean acting on an opportunity that is already gone.
+        if (desired == Step.RECKLESS || now == Step.RECKLESS) return 0f;
+        if (desired.ordinal() >= now.ordinal()) return DWELL_UP;
+        return ship.getHullSize() == HullSize.CAPITAL_SHIP ? DWELL_DOWN : 0f;
+    }
+
+    /**
+     * Smaller hulls slide down faster, not sooner: the thresholds that decide to pull back are the
+     * same for every size (author decision), but a destroyer or frigate has to act before it is
+     * caught, so it covers two steps per decision and a cruiser one with no wait. Capitals keep the
+     * original pace. Coming back up still costs the full dwell for everyone, so this cannot add
+     * oscillation in the direction that loses hulls.
+     */
+    private static int stepsDown(ShipAPI ship) {
+        HullSize size = ship.getHullSize();
+        return size == HullSize.FRIGATE || size == HullSize.DESTROYER ? 2 : 1;
     }
 
     public float held(ShipAPI ship) {
