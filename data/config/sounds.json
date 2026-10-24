@@ -291,16 +291,22 @@
 
 	"XLII_driver_charge":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/XLII_driver_charge_0.ogg","pitch":1.0,"volume":0.15}
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_charge_0.ogg","pitch":1.0,"volume":0.3}
 		]
     },
 
 	"XLII_driver_fire":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_0.ogg","pitch":1.0,"volume":0.3},
-		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_1.ogg","pitch":1.0,"volume":0.3},
-		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_2.ogg","pitch":1.0,"volume":0.3},
-		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_3.ogg","pitch":1.0,"volume":0.3}
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_0.ogg","pitch":1.0,"volume":0.4},
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_1.ogg","pitch":1.0,"volume":0.4},
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_2.ogg","pitch":1.0,"volume":0.4},
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_fire_3.ogg","pitch":1.0,"volume":0.4}
+		]
+    },
+
+	"XLII_driver_down":{
+		"sounds":[
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_down_0.ogg","pitch":1.0,"volume":0.25}
 		]
     },
 

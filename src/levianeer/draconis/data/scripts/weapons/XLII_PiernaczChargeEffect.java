@@ -93,13 +93,32 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
     private static final float FIRE_HEAT_BEAM_FULL = 0.05f;
     private static final float FIRE_HEAT_BEAM_FADE = 0.14f;
 
+    private static final String WIND_DOWN_SOUND = "XLII_driver_down";
+
+    // Post-shot venting: a toned-down take on XLII_ShuntDriveStats' exhaust plume, one jet per barrel side
+    private static final Color VENT_SMOKE_COLOR = new Color(175, 175, 175, 175);
+    private static final float VENT_BACK_OFFSET = 10f;
+    private static final float VENT_SIDE_OFFSET = 7f;
+    private static final float VENT_SPLAY = 20f;
+    private static final float VENT_SPREAD = 15f;
+    private static final float VENT_LENGTH = 40f;
+    private static final int VENT_PARTICLE_COUNT = 2;
+    private static final float VENT_SIZE_MIN = 15f;
+    private static final float VENT_SIZE_RANGE = 30f;
+    private static final float VENT_DURATION = 1f;
+    // Matches the length of XLII_driver_down_0.ogg, not the weapon's chargedown, which runs longer
+    private static final float VENT_EMIT_DURATION = 2.3f;
+
     // Charge state tracking
     private boolean hasFired = false;
+    private boolean windDownPending = false;
+    private float ventTimeRemaining = 0f;
 
     // Intervals
     private final IntervalUtil laserInterval = new IntervalUtil(0.05f, 0.05f);
     private final IntervalUtil particleInterval = new IntervalUtil(0.03f, 0.06f);
     private final IntervalUtil glowInterval = new IntervalUtil(0.02f, 0.04f);
+    private final IntervalUtil ventInterval = new IntervalUtil(0.05f, 0.08f);
 
     @Override
     public void advance(float amount, CombatEngineAPI engine, WeaponAPI weapon) {
@@ -114,14 +133,29 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
         // Track charge state: only show effects during charge-up, not charge-down
         if (chargeLevel >= 1f) {
             hasFired = true;
+            windDownPending = true;
+        } else if (windDownPending) {
+            windDownPending = false;
+            Global.getSoundPlayer().playSound(WIND_DOWN_SOUND, 1f, 1f, weapon.getLocation(), ship.getVelocity());
+            ventTimeRemaining = VENT_EMIT_DURATION;
         }
         if (chargeLevel <= 0f) {
             hasFired = false;
+        }
+
+        if (ventTimeRemaining > 0f) {
+            ventTimeRemaining -= amount;
+            ventInterval.advance(amount);
+            if (ventInterval.intervalElapsed() && MagicRender.screenCheck(0.1f, weapon.getLocation())) {
+                spawnVentSmoke(engine, weapon, ship.getVelocity(), Math.max(0f, ventTimeRemaining / VENT_EMIT_DURATION));
+            }
         }
         if (chargeLevel <= 0f || hasFired) return;
 
         Vector2f shipVel = ship.getVelocity();
         float weaponAngle = weapon.getCurrAngle();
+        // The laser sight deals real damage, so only the purely cosmetic effects below are culled off-screen
+        boolean onScreen = MagicRender.screenCheck(0.1f, weapon.getLocation());
 
         // Both barrels charge and fire together, so every effect below is drawn at each barrel
         for (int barrel = 0; barrel < NUM_BARRELS; barrel++) {
@@ -144,7 +178,7 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
             }
 
             if (barrel == 0) particleInterval.advance(amount);
-            if (particleInterval.intervalElapsed()) {
+            if (onScreen && particleInterval.intervalElapsed()) {
                 int count = (int) (PARTICLE_BASE_COUNT + (PARTICLE_MAX_COUNT - PARTICLE_BASE_COUNT) * chargeLevel);
                 for (int i = 0; i < count; i++) {
                     float distance = MathUtils.getRandomNumberInRange(CONVERGE_RADIUS_MIN, CONVERGE_RADIUS_MAX);
@@ -163,14 +197,14 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
             }
 
             if (barrel == 0) glowInterval.advance(amount);
-            if (glowInterval.intervalElapsed()) {
+            if (onScreen && glowInterval.intervalElapsed()) {
                 float glowSize = GLOW_SIZE_MIN + (GLOW_SIZE_MAX - GLOW_SIZE_MIN) * chargeLevel;
                 engine.addHitParticle(muzzle, shipVel, glowSize, chargeLevel, 0.05f,
                         lerpColor(HEAT_EMBER, HEAT_WHITE_HOT, chargeLevel));
                 engine.addSmoothParticle(muzzle, shipVel, glowSize * 1.5f, chargeLevel * 0.5f, 0.05f, GLOW_COLOR);
             }
 
-            if (chargeLevel > FLARE_CHARGE_THRESHOLD) {
+            if (onScreen && chargeLevel > FLARE_CHARGE_THRESHOLD) {
                 float intensity = (chargeLevel - FLARE_CHARGE_THRESHOLD) / (1f - FLARE_CHARGE_THRESHOLD);
 
                 SpriteAPI streak = Global.getSettings().getSprite("fx", "XLII_torpedo_flare");
@@ -193,6 +227,7 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
     public void onFire(DamagingProjectileAPI projectile, WeaponAPI weapon, CombatEngineAPI engine) {
         ShipAPI ship = weapon.getShip();
         if (ship == null) return;
+        if (!MagicRender.screenCheck(0.1f, projectile.getLocation())) return;
 
         // Each barrel fires its own projectile, so use its actual spawn point rather than
         // a fixed barrel index - this keeps the muzzle blast on the barrel that actually fired.
@@ -246,6 +281,26 @@ public class XLII_PiernaczChargeEffect implements EveryFrameWeaponEffectPlugin, 
                 );
         CombatEntityAPI entity = engine.addLayeredRenderingPlugin(ringPlugin);
         entity.getLocation().set(muzzle);
+    }
+
+    private static void spawnVentSmoke(CombatEngineAPI engine, WeaponAPI weapon, Vector2f shipVel, float brightness) {
+        float rearAngle = weapon.getCurrAngle() + 180f;
+        Vector2f rear = MathUtils.getPointOnCircumference(weapon.getLocation(), VENT_BACK_OFFSET, rearAngle);
+
+        for (int side = -1; side <= 1; side += 2) {
+            Vector2f vent = MathUtils.getPointOnCircumference(rear, VENT_SIDE_OFFSET, rearAngle + 90f * side);
+            float ventAngle = rearAngle + VENT_SPLAY * side;
+
+            for (int i = 0; i < VENT_PARTICLE_COUNT; i++) {
+                float angle = ventAngle + MathUtils.getRandomNumberInRange(-VENT_SPREAD / 2f, VENT_SPREAD / 2f);
+                float r = MathUtils.getRandomNumberInRange(0f, VENT_LENGTH);
+                Vector2f offset = MathUtils.getPointOnCircumference(new Vector2f(), r, angle);
+                Vector2f loc = Vector2f.add(vent, offset, new Vector2f());
+                Vector2f vel = new Vector2f(offset.x * 2f + shipVel.x, offset.y * 2f + shipVel.y);
+                float size = VENT_SIZE_MIN + VENT_SIZE_RANGE * (float) Math.random();
+                engine.addNebulaParticle(loc, vel, size, 1f, 0.1f, 0f, VENT_DURATION, withAlpha(VENT_SMOKE_COLOR, brightness));
+            }
+        }
     }
 
     private static Color withAlpha(Color base, float alphaMult) {
