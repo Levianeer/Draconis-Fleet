@@ -31,7 +31,8 @@ import java.util.Set;
  * <p>
  * Some capitals instead arrive off the enemy formation's left or right edge, beyond
  * weapons range, and close from the side. The chance is weighted by hull speed, so the
- * fleet's fastest capital is the one most likely to be sent wide.
+ * fleet's fastest capital is the one most likely to be sent wide. Only reinforcements can
+ * flank: anything deployed in the first FLANK_MIN_DEPLOY_TIME seconds rallies with its line.
  */
 public class XLII_WarpInScript implements AdvanceableListener {
 
@@ -45,6 +46,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
     private static final float FLANK_CHANCE    = 0.50f; // flank chance for the fleet's fastest capital; scales to 0 at its slowest
     private static final float FLANK_RANGE     = 4000f; // distance beyond the enemy's edge to arrive at
     private static final float MIN_FLANK_RANGE = 2000f; // below this there is no room to flank; rally instead
+    private static final float FLANK_MIN_DEPLOY_TIME = 30f; // battle seconds before a deployment may flank; the first wave never does
     private static final float[] FLANK_Y_OFFSETS = {0f, 1500f, -1500f, 3000f, -3000f}; // tried in order for an unseen arrival
     private static final float MIN_SEPARATION  = 1000f; // minimum distance between warp-in destinations
     private static final float MAX_WAIT_TIME   = 45f;  // seconds before arriving regardless (fallback)
@@ -67,6 +69,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
     private Vector2f initialPosition = null;
     private float    timer        = 0f;
     private float    heldFor      = 0f; // seconds this ship has waited off-map
+    private float    deployedAt   = -1f; // battle time this ship entered the fight
 
     /** Collision classes stashed while the ship waits off-map, restored on arrival. */
     private final Map<ShipAPI, CollisionClass> heldCollision = new IdentityHashMap<>();
@@ -103,6 +106,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
 
         // Capture deploy position once, before any teleport
         if (initialPosition == null) initialPosition = new Vector2f(ship.getLocation());
+        if (deployedAt < 0f) deployedAt = engine.getTotalElapsedTime(false);
 
         // Player-controlled ship: immediate warp-in, no hold phase or telegraphing.
         // We do NOT move the ship to the holding position first - the audio listener follows
@@ -345,6 +349,10 @@ public class XLII_WarpInScript implements AdvanceableListener {
      * never flanks. A slow hull sent wide spends most of the battle in transit.
      */
     private boolean rollFlanking(CombatEngineAPI engine) {
+        // Judged by when the ship deployed, not when it warps: a first-wave capital can wait out its
+        // hold and its escorts until well past 30s, and would otherwise still be sent wide. A lone
+        // first-wave flanker spent the whole battle 3000-6500 units from its own fleet.
+        if (deployedAt < FLANK_MIN_DEPLOY_TIME) return false;
         float mine = baseSpeed(ship);
         float slowest = mine, fastest = mine;
         for (ShipAPI other : engine.getShips()) {
