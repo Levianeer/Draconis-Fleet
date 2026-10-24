@@ -144,10 +144,7 @@ public class DraconisAdmiralAI implements DoctrineController {
 
         gather(engine);
         for (ShipAPI ship : all) observed.watch(ship);
-        airGroup.clear();
-        for (ShipAPI ship : ours) {
-            if (ship.getNumFighterBays() > 0 && gateOpen && isDraconis(ship)) airGroup.add(ship);
-        }
+        rebuildAirGroup();
         opening.reapply(airGroup, ours);
         // Hulls at steady or above may be sent at the enemy main body; carriers included, as in AI
         // Tweaks. One the slide has pulled back as losing is never sent at the enemy (author
@@ -179,6 +176,11 @@ public class DraconisAdmiralAI implements DoctrineController {
         updateContact(pressures, window);
         updateHullLoss(window);
         updateGate();
+        // Bug fix: the air group is built at the start of the frame from the gate's previous state,
+        // so on the decision where the gate first opens it is still empty. When contact landed on
+        // that same decision the opening plan locked with ourCraft=0 - a carrier fleet read as having
+        // no strike craft at all, and the posture never fired.
+        rebuildAirGroup();
 
         // Prediction orders hulls; it never supplies a number of seconds. Measured over 8 hulls the
         // ordering held to within one place (log r=0.87) while the absolute scale was 69-668x out,
@@ -381,6 +383,13 @@ public class DraconisAdmiralAI implements DoctrineController {
         if (outmatch < OUTMATCH_CAUTIOUS) return PersonalitySlide.Step.CAUTIOUS;
         if (outmatch < OUTMATCH_STEADY) return PersonalitySlide.Step.STEADY;
         return PersonalitySlide.Step.RECKLESS;
+    }
+
+    private void rebuildAirGroup() {
+        airGroup.clear();
+        for (ShipAPI ship : ours) {
+            if (ship.getNumFighterBays() > 0 && gateOpen && isDraconis(ship)) airGroup.add(ship);
+        }
     }
 
     /** Whether the admiral is allowed to move this hull: acting, gate open, and a Draconis hull. */

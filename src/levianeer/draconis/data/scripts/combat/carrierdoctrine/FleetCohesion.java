@@ -296,6 +296,10 @@ public class FleetCohesion {
         Object target = ship.getAIFlags() == null ? null : ship.getAIFlags().getCustom(AIFlags.MANEUVER_TARGET);
         if (!(target instanceof ShipAPI)) return null;
         ShipAPI enemy = (ShipAPI) target;
+        // A hull dogfighting strike craft is not chasing a straggler. Fighters and drones are never
+        // in the segmentation, so without this every one read as "outside the main body" and the
+        // hull was sent at the enemy - logged as from=null, since they have no name.
+        if (enemy.isFighter() || enemy.isDrone()) return null;
         return enemy.isAlive() && !enemy.isHulk() && enemy.getOwner() != owner ? enemy : null;
     }
 
