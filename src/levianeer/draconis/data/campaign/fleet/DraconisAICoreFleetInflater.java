@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Monitors Draconis and Forty-Second fleets and fills empty officer slots
+ * Monitors Draconis, Forty-Second and Intelligence Office fleets and fills empty officer slots
  * with Lite Core officers ({@link XLII_LiteCoreOfficerPlugin}).
  */
 public class DraconisAICoreFleetInflater implements EveryFrameScript {
@@ -101,7 +101,9 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
         }
 
         String factionId = fleet.getFaction().getId();
-        if (!Factions.DRACONIS.equals(factionId) && !Factions.FORTYSECOND.equals(factionId)) {
+        if (!Factions.DRACONIS.equals(factionId)
+                && !Factions.FORTYSECOND.equals(factionId)
+                && !Factions.INTELLIGENCE_OFFICE.equals(factionId)) {
             return false;
         }
 
