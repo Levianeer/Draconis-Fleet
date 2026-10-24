@@ -47,10 +47,12 @@ public class XLII_LiteCoreOfficerPlugin implements AICoreOfficerPlugin {
         person.getStats().setSkipRefresh(true);
 
         person.getStats().setLevel(2);
+        person.getStats().setSkillLevel(Skills.HELMSMANSHIP, 2);
+        person.getStats().setSkillLevel(Skills.DAMAGE_CONTROL, 2);
 
         person.getStats().setSkipRefresh(false);
 
-        person.getMemoryWithoutUpdate().set(AUTOMATED_POINTS_MULT, 1f);
+        person.getMemoryWithoutUpdate().set(AUTOMATED_POINTS_MULT, 1.2f);
 
         person.setPortraitSprite(Global.getSettings().getSpriteName("characters", "XLII_bio_ai"));
 
