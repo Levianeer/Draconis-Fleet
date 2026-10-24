@@ -1,12 +1,20 @@
 package levianeer.draconis.data.scripts.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.combat.ShipVariantAPI;
+import com.fs.starfarer.api.characters.PersonAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Strings;
+import com.fs.starfarer.api.impl.campaign.ids.Tags;
+import com.fs.starfarer.api.impl.hullmods.Automated;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.data.campaign.aicores.XLII_LiteCoreOfficerPlugin;
 
 import java.awt.Color;
 
@@ -14,9 +22,40 @@ public class XLII_DraconisHull extends XLII_SystemHullModBase {
 
     public static final float DEGRADE_INCREASE_PERCENT = 50f;
 
+    // Marks that we added TAG_AUTOMATED_NO_PENALTY, so we never strip one set by something else.
+    public static final String AUXCOG_NO_PENALTY_TAG = "XLII_auxcog_no_penalty";
+
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
         stats.getCRLossPerSecondPercent().modifyPercent(id, DEGRADE_INCREASE_PERCENT);
+        applyAuxCogPenaltyExemption(stats);
+    }
+
+    /**
+     * Uses vanilla's no_auto_penalty tag rather than a flat CR offset: the Automated Ships skill
+     * also skips no-penalty ships, so a flat offset would stack with the skill's bonus.
+     */
+    private void applyAuxCogPenaltyExemption(MutableShipStatsAPI stats) {
+        FleetMemberAPI member = stats.getFleetMember();
+        if (member == null) return;
+        ShipVariantAPI variant = member.getVariant();
+        if (variant == null) return;
+
+        if (Misc.isAutomated(variant) && hasAuxCogCaptain(member)) {
+            variant.addTag(Tags.TAG_AUTOMATED_NO_PENALTY);
+            variant.addTag(AUXCOG_NO_PENALTY_TAG);
+            // Hullmod apply order isn't guaranteed; if Automated already ran this pass, undo its penalty.
+            stats.getMaxCombatReadiness().unmodifyFlat(HullMods.AUTOMATED);
+        } else if (variant.hasTag(AUXCOG_NO_PENALTY_TAG)) {
+            variant.removeTag(Tags.TAG_AUTOMATED_NO_PENALTY);
+            variant.removeTag(AUXCOG_NO_PENALTY_TAG);
+        }
+    }
+
+    private static boolean hasAuxCogCaptain(FleetMemberAPI member) {
+        PersonAPI captain = member.getCaptain();
+        return captain != null && captain.isAICore()
+                && XLII_LiteCoreOfficerPlugin.CORE_ID.equals(captain.getAICoreId());
     }
 
     @Override
@@ -44,6 +83,13 @@ public class XLII_DraconisHull extends XLII_SystemHullModBase {
         tooltip.addPara("Draconis-built hulls have a number of shared properties.", opad);
 
         addTransverseJumpTooltipSection(tooltip, opad, h);
+
+        String coreName = Global.getSettings().getCommoditySpec(XLII_LiteCoreOfficerPlugin.CORE_ID).getName();
+        tooltip.addSectionHeading("AuxCog Integration", Alignment.MID, opad);
+        tooltip.addPara("Draconis-built hulls are designed to interface with the %s. If this ship is automated and "
+                + "an %s is in command, the %s automated ship penalty to maximum combat readiness does not apply.",
+                opad, h,
+                coreName, coreName, (int) Math.round(Automated.MAX_CR_PENALTY * 100f) + "%");
 
         tooltip.addSectionHeading("Maintenance", new Color(255,100,0) , new Color(105,40,0,175) , Alignment.MID, opad);
         tooltip.addPara("Draconis-built hulls require excessive maintenance and do not stand up well under the rigours of prolonged engagements.", opad);
