@@ -27,7 +27,8 @@ import java.util.Set;
  * {@code $XLII_blindEyeComplete} is set. See {@code .claude/systems/blind-eye.md}.
  * <p>
  * Created via {@code BeginMission BlindEyeQuestMission} in rules.csv when the player
- * finishes reading gate log fragment 4 ({@code XLII_gateLog4}). Because the mission is
+ * finishes reading gate log fragment 4 ({@code XLII_gateLog4}), or earlier by choosing
+ * "Listen in" on the Gate Rumor bar vignette ({@code XLII_bar_gaterumor_listen}). Because the mission is
  * created mid-questline, {@link #create} checks existing global flags to determine the
  * correct starting stage via {@link #determineStartingStage}.
  * <p>
@@ -46,6 +47,8 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
     private static final float REP_GATE_NOTE = 0.50f;
 
     public enum Stage {
+        /** Overheard the Gate Rumor at a bar; find the Fafnir Gate and recover its logs. */
+        FIND_GATE,
         /** Find the Fafnir Gate; ask Admiral August about the gate logs (rep gate 0.25). */
         EXPLORE_GATE,
         /** Dock at any Draconis market to receive the note (rep gate 0.50). */
@@ -88,6 +91,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         // are permanent, player-facing game
         // state read directly by other rules.csv content, not mission-scoped working state, and
         // must never be auto-unset.
+        setStageOnCustomCondition(Stage.EXPLORE_GATE,      new GlobalBooleanChecker("$XLII_gateLogRead"));
         setStageOnCustomCondition(Stage.RECEIVE_NOTE,      new GlobalBooleanChecker("$XLII_logConversationComplete"));
         setStageOnCustomCondition(Stage.SPEAK_WITH_KORRIN, new GlobalBooleanChecker("$XLII_blindEyeNoteReceived"));
         setStageOnCustomCondition(Stage.PREPARE_FOR_RAID,  new GlobalBooleanChecker("$XLII_transponderVerified"));
@@ -104,6 +108,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
 
     private static final String RING_PORT_MARKET_ID = "pirateStation_market";
     private static final String ADMIRAL_ID = "XLII_fleet_admiral_emil";
+    private static final String GATE_ENTITY_ID = "XLII_fafnir_gate";
 
     /**
      * Registers the per-stage map location for the intel entry, and the "important" indicator on
@@ -117,6 +122,11 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
      * returns him while Ring-Port keeps its own indicator.
      */
     private void addStageMarkers() {
+        SectorEntityToken gate = Global.getSector().getEntityById(GATE_ENTITY_ID);
+        if (gate != null) {
+            makeImportant(gate, null, Stage.FIND_GATE);
+        }
+
         PersonAPI august = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
         if (august != null) {
             makeImportant(august, null,
@@ -214,7 +224,8 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         if (g.getBoolean("$XLII_transponderVerified"))     return Stage.PREPARE_FOR_RAID;
         if (g.getBoolean("$XLII_blindEyeNoteReceived"))    return Stage.SPEAK_WITH_KORRIN;
         if (g.getBoolean("$XLII_logConversationComplete")) return Stage.RECEIVE_NOTE;
-        return Stage.EXPLORE_GATE;
+        if (g.getBoolean("$XLII_gateLogRead"))             return Stage.EXPLORE_GATE;
+        return Stage.FIND_GATE;
     }
 
     @Override
@@ -254,16 +265,28 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
     // =========================================================================
 
     /**
-     * Static, spoiler-free framing shown above the stage-specific text on every visit to
-     * the entry, regardless of how far the questline has progressed.
+     * Spoiler-free framing shown above the stage-specific text. The first two stages come
+     * before the player has dealt with August, so they get their own framing.
      */
     private static final String QUEST_OVERVIEW =
             "Fleet Admiral August is using you as an off-book asset to settle Ring-Port before the "
                     + "Alliance Intelligence Office can intervene.";
+    private static final String QUEST_OVERVIEW_FIND_GATE =
+            "Alliance Command declared the sweep of a Gate wreck in Fafnir complete. Nobody ever "
+                    + "went back to confirm it.";
+    private static final String QUEST_OVERVIEW_EXPLORE_GATE =
+            "The records aboard Fafnir's Lost Gate carry the name of Emil August, now Fleet Admiral "
+                    + "of the Alliance. He may be the only one left who can explain them.";
+
+    private String getQuestOverview() {
+        if (currentStage == Stage.FIND_GATE) return QUEST_OVERVIEW_FIND_GATE;
+        if (currentStage == Stage.EXPLORE_GATE) return QUEST_OVERVIEW_EXPLORE_GATE;
+        return QUEST_OVERVIEW;
+    }
 
     @Override
     public void createSmallDescription(TooltipMakerAPI info, float width, float height) {
-        info.addPara(QUEST_OVERVIEW, Misc.getTextColor(), 0f);
+        info.addPara(getQuestOverview(), Misc.getTextColor(), 0f);
         super.createSmallDescription(info, width, height);
         addDeleteButton(info, width, "Delete entry");
     }
@@ -289,6 +312,9 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
     }
 
     private void clearStageMarkers() {
+        SectorEntityToken gate = Global.getSector().getEntityById(GATE_ENTITY_ID);
+        if (gate != null) makeUnimportant(gate);
+
         PersonAPI august = Global.getSector().getImportantPeople().getPerson(ADMIRAL_ID);
         if (august != null) makeUnimportant(august);
 
@@ -311,6 +337,9 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         if (currentStage == null) return false;
         float rep = getAdmiralRep();
         switch ((Stage) currentStage) {
+            case FIND_GATE:
+                info.addPara("Find Fafnir's Lost Gate and search the wreck", tc, pad);
+                return true;
             case EXPLORE_GATE:
                 if (!hasCommission())
                     info.addPara("Requires a Draconis Defense Alliance commission", tc, pad);
@@ -360,6 +389,10 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
         float opad = 10f;
         Color h = Misc.getHighlightColor();
         switch ((Stage) currentStage) {
+            case FIND_GATE:
+                info.addPara("Two off-duty officers at an Alliance bar were talking about a Gate wreck in Fafnir. Command called the sweep complete, but nobody went back to confirm it.", opad);
+                info.addPara("If the records are still out there, they are aboard %s.", 5f, h, "Fafnir's Lost Gate");
+                break;
             case EXPLORE_GATE:
                 if (!hasCommission()) {
                     addCommissionLine(info, opad);

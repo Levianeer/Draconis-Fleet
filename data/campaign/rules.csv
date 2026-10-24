@@ -1108,7 +1108,8 @@ $market.id == vorium_market
 FireBest BarPrintDesc
 $option = XLII_bar_gaterumor_0 0
 FireBest DialogOptionSelected",,,"Gate rule (Vorium). See XLII_bar_gaterumor_start_itoron."
-XLII_bar_gaterumor_0,DialogOptionSelected,"$option == XLII_bar_gaterumor_0","$global.XLII_barGateRumorSeen = true","Two off-duty officers have claimed the end of the bar, voices pitched low in the particular register of people who think they're being quiet. You catch it anyway.
+XLII_bar_gaterumor_0,DialogOptionSelected,"$option == XLII_bar_gaterumor_0","$global.XLII_barGateRumorSeen = true
+SetOptionColor XLII_bar_gaterumor_listen highlight","Two off-duty officers have claimed the end of the bar, voices pitched low in the particular register of people who think they're being quiet. You catch it anyway.
 
 ""...they told them the sweep on the Gate wreck was complete. But nobody ever went back to confirm it.""
 
@@ -1118,7 +1119,7 @@ XLII_bar_gaterumor_0,DialogOptionSelected,"$option == XLII_bar_gaterumor_0","$gl
 
 The second officer says something too quiet to catch. The first laughs, short and humorless, before they both clock the bartender within earshot and they hush themselves.","1:XLII_bar_gaterumor_listen:Listen in
 2:XLII_bar_gaterumor_ignore:Ignore them",
-XLII_bar_gaterumor_listen,DialogOptionSelected,"$option == XLII_bar_gaterumor_listen",,"You drift a step closer, nursing your drink and angling for better acoustics.
+XLII_bar_gaterumor_listen,DialogOptionSelected,"$option == XLII_bar_gaterumor_listen",BeginMission BlindEyeQuestMission,"You drift a step closer, nursing your drink and angling for better acoustics.
 
 ""...if it's still out there,"" the quieter one says, ""half the Signal Corps roster from that era has been reassigned to Ladon. That's not the kind of oversight anybody wants to explain.""
 
