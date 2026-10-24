@@ -5,7 +5,6 @@
 
 		"XLII_alruba_Elite":0.25,
 		"FortySecond_alruba_Elite":1,
-		"FortySecond_alruba_Strike":1,
 
 		"XLII_alruba_mk2_Elite":0.75,
 
@@ -21,7 +20,6 @@
 
 		"XLII_alruba_Elite":0.25,
 		"FortySecond_alruba_Elite":0.5,
-		"FortySecond_alruba_Strike":0.5,
 
 		"XLII_alruba_mk2_Elite":0.75,
 
@@ -39,7 +37,6 @@
 		"XLII_errakis_Strike":1,
 		"XLII_errakis_Escort":1,
 		"FortySecond_errakis_Elite":1,
-		"FortySecond_errakis_Strike":1,
 
 		"XLII_errakis_mk2_Elite":1,
 
@@ -56,7 +53,6 @@
 		"XLII_eltanin_Elite":2,
 		"XLII_eltanin_Strike":2,
 		"FortySecond_eltanin_Elite":1,
-		"FortySecond_eltanin_Strike":1,
 		
 		"XLII_yunu_Elite":0.25,
 		"XLII_yunu_Strike":0.25,
@@ -67,7 +63,6 @@
 		"XLII_juza_Elite":1,
 		"XLII_juza_Strike":1,
 		"FortySecond_juza_Elite":1,
-		"FortySecond_juza_Strike":1,
 
 		"XLII_nushi_Elite":0.5,
 		"XLII_nushi_Strike":0.5,
@@ -90,7 +85,6 @@
 
 		"XLII_tianlong_Elite":1,
 		"FortySecond_tianlong_Elite":1,
-		"FortySecond_tianlong_Strike":1,
 
 		"XLII_tianlong_mk2_Elite":1.0,
 
@@ -113,9 +107,7 @@
 		"XLII_alrakis_Escort":1,
 		
 		"FortySecond_shaobi_Elite":1,
-		"FortySecond_shaobi_Strike":1,
 		"FortySecond_alrakis_Elite":1,
-		"FortySecond_alrakis_Strike":1,
 
 		"fallback":{"carrierSmall":1},
 		"fallback2":{"carrierLarge":1}
@@ -126,7 +118,6 @@
 		"XLII_alwaid_Escort":1,
 		
 		"FortySecond_alwaid_Elite":1,
-		"FortySecond_alwaid_Strike":1,
 
 		"fallback":{"carrierMedium":1},
 		"fallback2":{"carrierSmall":1}
