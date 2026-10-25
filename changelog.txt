@@ -2,62 +2,87 @@
 VERSION: Version 0.8.0 (NOT save-compatible)
 ===============================================================================
 NEW CONTENT:
-- NEW: "Burn the Machine" ending questline substantially reworked:
-- NEW: Ring-Port trust-arc followup scenes (gated on Blind Eye completion + Ring-Port's capture), plus a new Fleet Admiral August "Office followup" branch once AIO vetting completes.
+- NEW: "Burn the Machine" ending questline substantially reworked, with an epilogue.
+- NEW: Office Takeover crisis - if the Longsight questline goes wrong, AIO bastions spread across the sector, tracked in a new crisis intel panel.
+- NEW: Mission - Waste Not.
+- NEW: Mission - Stellar Mirror, a proper quest for destroying the Stellar Arrays.
+- NEW: Shapes of Old sector tour, rewarding four new hullmods: Shrouded Veil, Entropic Field, Reclamation Plating and Derelict ECM Suite.
+- NEW: Longsight Optimization market condition - monthly industry improvements, the payoff for handing in the Nanoforge.
+- NEW: Korrin companion - recruitable follower officer with Talk topics, gifts, idle lines and contact intel.
+  - Alerts can be muted from his intel panel.
+- NEW: N.I.S.A. (Regin Armaments) replaces Ancker's story point store.
+- NEW: Ring-Port trust-arc followup scenes (gated on Blind Eye completion and Ring-Port's capture), plus a Fleet Admiral August "Office followup" branch once AIO vetting completes.
 - NEW: AIO operative bar - 3-part archive fragment content, a Kori transcript/archive-dig line, and a full offer-negotiation menu (agree/threaten/leave/Q&A).
-- NEW: Ancker escort scene at the Ladon bastion, with met/unmet variants and silent/role Q&A branches.
+- NEW: Ancker escort scene at the AIO bastion, with met/unmet variants and silent/role Q&A branches.
 - NEW: Bar content - an Athebyne joke, Itoron watch/join, a Kori chat, and a "gate rumor" hub linking Athebyne, Itoron, Kori, and Vorium.
-- NEW: Extensive Korrin companion "Talk" topics covering Athebyne, August, career, descent, Emil, Hel, Itoron, Jormungandr, Michal (+ epilogue), Nidhogg, the Office, Ring-Port, sector, staying, succession, Tiamat, and Vorium.
-- NEW: Orbital Station - Remnant - a captured, repurposed Remnant Nexus.
-- NEW: Weapons - IR Burst Laser, Falconet and Piernacz Mass Driver.
-- NEW: Ship systems - Salvobank (banks main-battery damage into standby torpedo salvos).
-- NEW: Skill - Signals Discipline (Draconis, NPC-only/codex-unlockable).
+- NEW: Orbital Fortress - Draconis, a captured, repurposed Remnant Nexus now guarding Kori.
+- NEW: Thuban (XLII) - FortySecond variant of the Thuban.
+- NEW: Pulao interceptor drone wing.
+- NEW: Weapons - IR Burst Laser, Falconet Charge Launcher and Piernacz Mass Driver.
+- NEW: Ship systems - Salvo Bank (banks main-battery damage into standby torpedo salvos) and Strike Jammer (Tianyi).
+- NEW: Skills - Signals Discipline and Echo Illusion (NPC-only, codex-unlockable).
 - NEW: Passive Missile Forge hullmod.
+- NEW: Efficient Engine Assembly built-in hullmod (Juni) - increases zero-flux speed bonus.
+- NEW: FortySecond fleets now fight under an adaptive admiral AI that reads the matchup and adjusts each ship's aggression.
+- NEW: Optional LunaLib refit button to convert regular Draconis hulls at any Draconis market.
 - NEW: More faction themes, split into separate market and encounter tracks.
 
 BALANCE CHANGES:
-- Nushi now has Salvobank (was Flux Cycler).
+- Nushi now has Salvo Bank (was Flux Cycler).
 - Nushi Mk.II now has Shunt Drive (was Emergency Repairs).
 - Kuma now has Emergency Power (was Emergency Repairs).
+- Tianyi now has Strike Jammer (was ECM Suite); wing role Interceptor -> Support, wing size 3 -> 2, refit time 10 -> 15.
 - Rebalanced Aldibain: Hull 500 -> 450, Armor 125 -> 150.
 - Rebalanced Eldsich: Hull 440 -> 500, Armor 60 -> 75, Max speed 160 -> 180, Acceleration 250 -> 275, Deceleration 200 -> 250.
 - Rebalanced Shangshu: Max flux 700 -> 500.
-- Rebalanced Nushi: Max flux 12000 -> 14000, Flux dissipation 675 -> 650, Shield efficiency 1.0 -> 0.9 (worse).
-- Rebalanced Nushi Mk.II: Max flux 12000 -> 14000, Flux dissipation 525 -> 750.
-- Rebalanced Altais: DP (deploy) 35 -> 40, DP (maintenance) 35 -> 40.
-- Rebalanced Alwaid: Armor 700 -> 900, Flux dissipation 950 -> 1200, OP 320 -> 340, Fighter bays 4 -> 5, Shield type Front -> Omni, DP (deploy) 50 -> 60, DP (maintenance) 50 -> 60.
-- Rebalanced Asuia: Armor 900 -> 700, Base value 75000 -> 125000.
+- Rebalanced Juni: Armor 700 -> 850, Max speed 90 -> 85, Acceleration 40 -> 48, Deceleration 30 -> 38, Turn rate 15 -> 22, Turn acceleration 20 -> 26, Shield arc 220 -> 240, Shield upkeep 0.4 -> 0.3.
+- Rebalanced Juza: DP 28 -> 30.
+- Rebalanced Nushi: Max flux 12000 -> 14000, Flux dissipation 675 -> 650, Shield efficiency 1.0 -> 0.9 (better), DP 22 -> 25.
+- Rebalanced Nushi Mk.II: Max flux 12000 -> 14000, Flux dissipation 525 -> 750, DP 20 -> 22.
+- Rebalanced Altais: DP 35 -> 40.
+- Rebalanced Tianlong and Tianlong Mk.II: DP 40 -> 45.
+- Rebalanced Alwaid: Armor 700 -> 900, Flux dissipation 950 -> 1200, OP 320 -> 360, Fighter bays 4 -> 5, Shield type Front -> Omni, Shield upkeep 0.5 -> 0.3, Shield efficiency 1.4 -> 1.2, DP 50 -> 60.
+- Rebalanced Asuia: Armor 900 -> 700, Shield upkeep 0.5 -> 0.6, Shield efficiency 0.8 -> 1.0, Base value 75000 -> 125000.
 - Rebalanced Sunsetter: Base value 500000 -> 1000000.
-- Rebalanced Estocflak: Damage/shot 25 -> 100, now unlimited ammo, chargedown 0.04 -> 0.25, spread fixed at 3 (was 2-6), projectile speed 990 -> 925, projectile HP 20 -> 35, autofire accuracy bonus 0.5 -> 0.75.
-- Rebalanced Razor Flak Cannon: Damage 18 -> 19, tracking 90 -> 100, projectile HP 35 -> 50.
-- Rebalanced Twinspear: OP 26 -> 23; can now be held down for rapid fire.
+- Rebalanced Estoc Flak Cannon: Damage 25 -> 100, now unlimited ammo, chargedown 0.04 -> 0.25, spread fixed at 3 (was 2-6), projectile speed 990 -> 925, projectile HP 20 -> 35, autofire accuracy bonus 0.5 -> 0.75.
+- Rebalanced Razor Flak Cannon: Damage 18 -> 19, tracking 90 -> 100, flux/shot 4 -> 3, projectile HP 35 -> 50.
+- Rebalanced Twin Spear Cannon: OP 26 -> 23; can now be held down for rapid fire.
+- Rebalanced Shashka Mass Driver: OP 16 -> 15, chargeup 2 -> 1, chargedown 9 -> 10.
 - Rebalanced Swordbreaker: OP 4 -> 5.
+- Reworked Particle Burst Lance for more consistent damage delivery.
+- Rebalanced Sovnya Burst Lance: burst delay 3 -> 2.
 - Rebalanced Bardiche family (single/large/built-in): Range 1500 -> 1800; chargedown reduced.
 - Rebalanced Halberd: OP 6 -> 4. Halberd Pod: OP 12 -> 10, chargedown 14 -> 16, burst size 1 -> 2.
 - Rebalanced Hankyu Torpedo Pod: chargedown 9 -> 6, burst size 2 -> 1.
 - Rebalanced Daikyu Torpedo Launcher: Base value 9000 -> 10000.
-- Retuned fighter-mounted weapon ranges: Bardiche 900 -> 1200, Scimitar 1500 -> 1200, Annihilator 1500 -> 1200, Hankyu 2000 -> 1200, Kestros 500 -> 700, Fragarach 700 -> 1000, Gundao 2000 -> 1800; Particle Lance damage/sec 1000 -> 850.
+- Rebalanced Falchion-class Torpedo: Damage 750 -> 375, now fires 2 per burst.
 - Rebalanced Flamberge: EMP damage 2000 -> 500, impact 1000 -> 250, chargedown 9 -> 11.
-- Flux Cycler system reworked into a toggle: builds hard flux and disables weapons fire while active, with a passive flux-generation floor; charge up/down 0.75 -> 1.5, cooldown 12 -> 0.
+- Rebalanced Decoy Launcher: burst size 2 -> 1.
+- Retuned fighter-mounted weapon ranges: Bardiche 900 -> 1200, Scimitar 1500 -> 1200, Annihilator 1500 -> 1200, Hankyu 2000 -> 1200, Kestros 500 -> 700, Fragarach 700 -> 1000, Gundao 2000 -> 1800; Particle Lance damage/sec 1000 -> 850.
+- Temporal Slip (Sunsetter, was Time Slip): charge up 4 -> 0.5, active 7 -> 2, down 2 -> 0.5, cooldown 12 -> 4, flux cost 0.25 -> 0.1.
+- Reverse Mass Cycler (was War Emergency Power): cooldown 3 -> 2 (Thorne, Tianbang, Shangshu), 3 -> 4 (Tiangou).
 - ESW Suite: slower activation and shorter active window (charge up 0.5 -> 2, active 12 -> 6, down 0.5 -> 2, cooldown 18 -> 14).
 - Signal Hijack: charge up 0.25 -> 1.5, active 3 -> 6, down 0.25 -> 1.5.
-- Rebalanced fighter wings: Grumium (alt) OP 14 -> 9, Eldsich OP 16 -> 14, Nodus OP 15 -> 14, Tianbang OP 22 -> 20, Shangshu OP 19 -> 18 (attack run range 1500 -> 1200, refit time 20 -> 25), Shangshu Heavy OP 21 -> 22 (attack run range 2000 -> 1200, refit time 25 -> 30).
-- AIO crisis event frequency increased (triggers more often).
+- Rebalanced fighter wings: Grumium (alt) OP 14 -> 12, wing size 2 -> 4, refit time 25 -> 11; Grumium wing size 3 -> 4, refit time 18 -> 15; Eldsich OP 16 -> 14; Nodus OP 15 -> 14; Tianbang OP 22 -> 20; Shangshu OP 19 -> 18 (attack run range 1500 -> 1200, refit time 20 -> 25); Shangshu Heavy OP 21 -> 22 (attack run range 2000 -> 1200, refit time 25 -> 30).
 
 MINOR IMPROVEMENTS:
-- Fixed comm dialogs leaving the previous speaker's portrait on screen instead of resetting to the market/planet view.
+- Itoron now has Heavy Batteries and Refining (was Ground Defenses); Refining moved off Kori.
+- Draconis AI-core fleets now use the new "wetware" cores.
+- Draconis ship variants reworked; FortySecond Strike variants removed.
 - Fleet Admiral August's opening comms now route through a duty-officer screening layer before he appears in person, consistent with his established unreachability.
 - Added a week-long pacing gate before the nanoforge followup option appears after Ring-Port.
-- US-English spelling normalization (Defence -> Defense, armor -> armor, etc.) across faction names, descriptions, tooltips, README, tips, and dialogue.
+- US-English spelling normalization (Defence -> Defense, armour -> armor, etc.) across faction names, descriptions, tooltips, README, tips, and dialogue.
   - My battle against UK spelling begins...
 - Rewrote/trimmed the Ladon and Vritra planet descriptions.
 - Renamed the Sigma Octantis AI Core officer/questline to Longsight.
+- Corrected several characters' posts and ranks.
+- New faction logos for the Alliance and the AIO.
 
 BUG FIXES:
 - Fixed the DDA/AIO colony crisis tracker being able to escalate toward invasion with zero AI cores installed.
   - The monthly increment's baseline floor applied unconditionally, so a tracker already running (or created without any cores) climbed to invasion over time even with no AI core usage to justify it.
   - The increment, its baseline display factor, and the HAE event frequency check now all return/hide as zero when no AI cores are installed anywhere.
-- Lots that I have forgotten.
+- Fixed comm dialogs leaving the previous speaker's portrait on screen instead of resetting to the market/planet view.
 
 ===============================================================================
 VERSION: Version 0.7.9 (Save-compatible with 0.7.8)
