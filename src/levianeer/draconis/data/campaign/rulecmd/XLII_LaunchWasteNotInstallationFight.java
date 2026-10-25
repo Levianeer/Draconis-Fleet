@@ -28,7 +28,7 @@ import java.util.Random;
 
 /**
  * Rule command: launches the small AIO picket fight guarding the Waste Not installation, fired
- * from the "Press the attack" option once the player commits (the transponder-on branch).
+ * from the installation scene's "Attack" option.
  * Mirrors {@code XLII_RingPortAssault.launchAssault()}'s FID-launch/dismiss/transient-reopen
  * shape - confirmed against that class' own source - scaled down: no multi-beat post-assault
  * RISKY/SAFE framework, just a single boarding scene on win, same simplification
@@ -39,10 +39,9 @@ import java.util.Random;
  * a real in-mod faction" gotcha. Hostility is forced via the {@code MemFlags} override, the same
  * mechanism {@code XLII_OfficeSystem.applyHostility()} uses, not a faction reassignment.
  * <p>
- * On a loss or disengage, the picket is simply despawned and no flag is touched - the standing
- * {@code pickInteractionDialogPlugin} dispatch on the installation entity is itself the retry
- * path (re-approaching with the transponder on re-fires this same command), so no separate retry
- * menu is needed, same reasoning as Ring-Port's own re-dock intercept.
+ * On a loss, the picket is despawned and {@code $XLII_wasteNotInstallationFailed} is set - there
+ * is no retry. The installation scene picks the flag up on the next visit and offers only
+ * "Survey the wreckage", which resolves the quest without the items.
  */
 public class XLII_LaunchWasteNotInstallationFight extends BaseCommandPlugin {
 
