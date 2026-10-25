@@ -306,7 +306,7 @@
 
 	"XLII_driver_down":{
 		"sounds":[
-		{"file":"sounds/sfx_wpn_energy/XLII_driver_down_0.ogg","pitch":1.0,"volume":0.25}
+		{"file":"sounds/sfx_wpn_energy/XLII_driver_down_0.ogg","pitch":1.0,"volume":0.125}
 		]
     },
 
