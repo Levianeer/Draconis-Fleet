@@ -1238,6 +1238,13 @@ public class XLII_RingPortAssault implements InteractionDialogPlugin {
     public static void devSkipToVictory() {
         if (!Global.getSettings().isDevMode()) return;
 
+        // finalizeRaid() is skipped here, so seed its reward vars or August's debrief prints the raw token
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+        long creditReward = 2_000_000L;
+        mem.set("$XLII_raidCreditReward", creditReward);
+        mem.set("$XLII_raidCreditRewardFormatted", String.format("%,.0f", (double) creditReward));
+        mem.set("$XLII_raidSPReward", 0);
+
         XLII_RingPortAssault instance = new XLII_RingPortAssault();
         instance.startingMarines = Global.getSector().getPlayerFleet().getCargo().getMarines();
         instance.completeVictory();
