@@ -1,0 +1,26 @@
+### // 0.8.0 Checklist:
+- [ ] Finish Station sprites
+- [x] Add ability to convert Draconis Hulls to Automated. (See LunaLib Devmode Example for exactly this feature.)
+  - Exclusive to regular Draconis Hulls, NOT FortySecond .skin variants.
+  - This should allow players to freely convert their ships back and forth when docked at any Draconis market.
+  - This is likely to add a dependency on LunaLib, we should ensure it is an *optional* dependency.
+    - What we should instead do is have the AuxCog Core feature mentioned in the hullmod and this feature be dependent on the mod being present, otherwise they do not appear.
+- [x] August's store: "Is there anything special you could offer?" should only play once, followed by a shorter generic response each time after.
+- [x] Add togglable option to Korrin Companion system to mute alerts/barks/notifications in campaign layer. Specifically found in the intel menu.
+  - This is not meant to disable any features, just stop the "Korrin has something to say".
+- [x] After Ring-Port takeover, have August's "About Korrin" dialogue be locked behind actually having Korrin recruited.
+- [x] Stop the assault on the AIO Installion during the Waste Not quest from affecting AIO REP. They should not make a fuss given the circumstances.
+- [x] Add a scene after tuning in the Pristine Nanoforge after the Chain of Custody, when the player next talks to August, they can have another dicussion like the one about the logs.
+  - This is meant to shed some more light on August as a character, basically a back and forth questioning.
+  - Should center around the Domain, the responsibility to protect the "old world" and use it, August's distast for the Luddites and finally his ambitions reveal.
+    - That he wants to make Draconis strong enough to surivive without him, while Monroe wants the Alliance to exist "without threat".
+- [ ] Change each of the quest intel images to be unique to each quest instead of reusing the same one.
+- [x] Rework Waste Not Observe vs Attack options. They can just be dialogue facing, so remove the requirement to have Transponder off etc.
+  - Just have the choice live in Dialogue as if the player approached with their Transponder off.
+- [x] Rework Waste Not Attack option. Add a preview of the fleet the player has to fight, with a comfirmation, so an unprepared player can back out instead.
+  - This should use the same system the Kori Raid uses when previewing the FortySecond defense fleet for Centcom.
+- [x] Add a dialogue chain with August after the Waste Not quest where the player either accuses him of killing and harvesting organs to use as AI Cores OR asks him for some.
+  - August should flattly deny his involvement, approval or knowledge of such.
+  - If the player ask for more: August will point them to Monroe, as the person who would know.
+  - If the player accused: The player can push the point but August will return to his usual stoic self and tell the player to "worry about themselves" instead.
+- [ ] Final playtest
