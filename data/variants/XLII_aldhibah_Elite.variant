@@ -1,14 +1,10 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 10,
-    "fluxVents": 4,
+    "fluxCapacitors": 8,
+    "fluxVents": 0,
     "goalVariant": true,
     "hullId": "XLII_aldhibah",
-    "hullMods": [
-        "targetingunit",
-        "advancedoptics",
-        "extendedshieldemitter"
-    ],
+    "hullMods": [],
     "permaMods": [],
     "sMods": [],
     "variantId": "XLII_aldhibah_Elite",
@@ -16,23 +12,27 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {"WS 004": "phasebeam"}
+            "weapons": {"WS 004": "ionpulser"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS 005": "sabot_single",
-                "WS 006": "sabot_single"
+                "WS 005": "XLII_hankyu_torpedo",
+                "WS 006": "XLII_hankyu_torpedo"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
+            "weapons": {"WS 001": "irpulse"}
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
             "weapons": {
-                "WS 001": "XLII_LaWS",
-                "WS 002": "XLII_LaWS",
-                "WS 003": "XLII_LaWS"
+                "WS 002": "XLII_swordbreaker",
+                "WS 003": "XLII_swordbreaker"
             }
         }
     ]
