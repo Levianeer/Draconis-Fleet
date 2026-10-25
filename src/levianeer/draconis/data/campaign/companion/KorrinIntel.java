@@ -38,6 +38,7 @@ public class KorrinIntel extends BaseIntelPlugin {
     private static final String BUTTON_TAKE_COMMAND = "korrin_take_command";
     private static final String BUTTON_STAND_DOWN = "korrin_stand_down";
     private static final String BUTTON_RETURN_TO_POST = "korrin_return_to_post";
+    private static final String BUTTON_TOGGLE_MUTE = "korrin_toggle_mute";
 
     /** Creates the entry if it does not exist yet. Safe to call on every game load. */
     public static void ensureExists() {
@@ -178,6 +179,11 @@ public class KorrinIntel extends BaseIntelPlugin {
             default:
                 break;
         }
+
+        info.addSpacer(-10f);
+        addGenericButton(info, width,
+                KorrinRateLimit.isMuted() ? KorrinStrings.BUTTON_UNMUTE_TEXT : KorrinStrings.BUTTON_MUTE_TEXT,
+                BUTTON_TOGGLE_MUTE);
     }
 
     /**
@@ -225,6 +231,8 @@ public class KorrinIntel extends BaseIntelPlugin {
             KorrinCompanion.standDown();
         } else if (BUTTON_RETURN_TO_POST.equals(buttonId)) {
             KorrinCompanion.returnToStation();
+        } else if (BUTTON_TOGGLE_MUTE.equals(buttonId)) {
+            KorrinRateLimit.setMuted(!KorrinRateLimit.isMuted());
         } else {
             return;
         }

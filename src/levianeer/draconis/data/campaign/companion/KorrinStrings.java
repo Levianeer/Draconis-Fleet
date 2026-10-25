@@ -38,6 +38,8 @@ public class KorrinStrings {
     public static final String BUTTON_TAKE_COMMAND_TEXT = "Give him a command";
     public static final String BUTTON_STAND_DOWN_TEXT = "Stand him down";
     public static final String BUTTON_RETURN_TO_POST_TEXT = "Return him to his post";
+    public static final String BUTTON_MUTE_TEXT = "Mute his alerts";
+    public static final String BUTTON_UNMUTE_TEXT = "Unmute his alerts";
 
     // Intel panel - backlog
     public static final String BACKLOG_ONE = "He has something he wants to say to you.";

@@ -22,6 +22,7 @@ public class KorrinRateLimit {
 
     private static final String BARK_KEY = "$korrin_last_bark";
     private static final String NUDGE_KEY = "$korrin_last_nudge";
+    private static final String MUTED_KEY = "$korrin_muted";
 
     private static float barkCooldownDays = 5f;
     private static float nudgeCooldownDays = 0f;
@@ -60,7 +61,31 @@ public class KorrinRateLimit {
      */
     public static boolean nudgeAllowed() {
         ensureLoaded();
+        if (isMuted()) return false;
         return elapsedSince(NUDGE_KEY) >= nudgeCooldownDays;
+    }
+
+    /**
+     * Player toggle from the intel panel. Silences nudges and unprompted popups only - popup
+     * topics go to the backlog instead, so nothing he has to say is lost.
+     * <p>
+     * Unset means muted, so a player who never recruits him never hears from him. The first read
+     * while he is aboard writes the unmuted default, which keeps him audible after he is later
+     * returned to his post - that can only happen through the intel panel, which reads this.
+     */
+    public static boolean isMuted() {
+        MemoryAPI memory = memory();
+        if (memory == null) return false;
+        if (!memory.contains(MUTED_KEY)) {
+            if (!KorrinCompanion.isAboard()) return true;
+            memory.set(MUTED_KEY, false);
+        }
+        return memory.getBoolean(MUTED_KEY);
+    }
+
+    public static void setMuted(boolean muted) {
+        MemoryAPI memory = memory();
+        if (memory != null) memory.set(MUTED_KEY, muted);
     }
 
     public static void recordNudge() {

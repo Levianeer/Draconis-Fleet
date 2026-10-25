@@ -264,7 +264,7 @@ public class KorrinTopicQueue {
             return true;
         }
 
-        if (aboard && topic.tier == Tier.POPUP) {
+        if (aboard && topic.tier == Tier.POPUP && !KorrinRateLimit.isMuted()) {
             add(PENDING_KEY, topicId);
             return true;
         }

@@ -128,6 +128,12 @@ public class KorrinCommentScript implements EveryFrameScript {
         String topicId = KorrinTopicQueue.peekPending();
         if (topicId == null) return;
 
+        // Anything queued before the player muted him still gets read, just from the backlog.
+        if (KorrinRateLimit.isMuted()) {
+            KorrinTopicQueue.defer(topicId);
+            return;
+        }
+
         PersonAPI korrin = KorrinCompanion.getKorrin();
         CampaignFleetAPI fleet = Global.getSector().getPlayerFleet();
         if (korrin == null || fleet == null) return;
