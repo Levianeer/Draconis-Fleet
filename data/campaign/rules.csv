@@ -3754,6 +3754,43 @@ $global.XLII_wasteNotComplete = true","He listens through all of it - the manife
 
 ""Most people wouldn't have gone back a second time to confirm there was nothing left to find. That counts for something too, even empty-handed. Good hunting, whatever's next.""","1:backToBar:Return to the bar","No AddCredits - unlike the observed/forced branches, there's nothing concrete to pay for here (no evidence recovered), matching the forced branch's own 'I'll pay for a straight answer, doesn't have to be a good one' framing from the hook - this is the floor of that promise, not a reward tier."
 "#END [WASTE NOT] Report Back",,,,,,
+,,,,,,
+# [WASTE NOT] August Aftermath,,,,,,
+XLII_admiral_main_wastenot_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
+$global.XLII_wasteNotComplete
+!$global.XLII_augustWasteNotDone",,,2:XLII_wn_august:About that installation,"One-time follow-up to Waste Not. Monroe is always known by now: Waste Not needs the nanoforge quest, which needs the Office vetting."
+XLII_wn_august_open,DialogOptionSelected,"$option == XLII_wn_august
+$tag:XLII_fleet_admiral_emil",,"""Commander."" The silhouette doesn't move. ""I've read your report. The colony, and what you found past it.""
+
+A pause, measured to the half-second.
+
+""Ask your question.""","1:XLII_wn_august_accuse:Your people are growing cores out of colonists. Did you sign off on it?
+2:XLII_wn_august_ask:Those cores work. I want more of them
+3:return_to_main_menu:Nothing. Forget I asked",No flag set here - backing out leaves the topic open for another visit.
+XLII_wn_august_accuse,DialogOptionSelected,"$option == XLII_wn_august_accuse
+$tag:XLII_fleet_admiral_emil",$global.XLII_augustWasteNotDone = true,"""No."" Flat, immediate. ""I did not order it. I did not approve it. Until your report crossed my desk, I did not know that installation existed.""
+
+The encryption holds steady. Nothing in his posture changes.
+
+""That is the whole of my answer, Commander.""","1:XLII_wn_august_press:Someone in your Alliance knew. You expect me to believe it wasn't you?
+2:XLII_wn_august_close:Understood",
+XLII_wn_august_press,DialogOptionSelected,"$option == XLII_wn_august_press
+$tag:XLII_fleet_admiral_emil",,"A pause. Not hesitation - something closer to patience being spent.
+
+""I expect nothing of you, Commander. You are owed nothing further on this, and you will get nothing further.""
+
+When he speaks again, his voice has settled back into its usual register, as though the last minute never happened.
+
+""I have an Alliance to keep alive. You have a fleet, a crew, and enemies you haven't met yet. Worry about yourself.""",1:XLII_wn_august_close:Understood,
+XLII_wn_august_ask,DialogOptionSelected,"$option == XLII_wn_august_ask
+$tag:XLII_fleet_admiral_emil",$global.XLII_augustWasteNotDone = true,"""I have none to give you."" No pause this time. ""I had no part in that installation, no knowledge of it, and no say in whatever it supplied.""
+
+A short silence on the line.
+
+""If such a thing exists, and if anyone in this Alliance could put it in your hands, you would want to speak with Monroe. She would know. I would not.""",1:XLII_wn_august_close:Understood,
+XLII_wn_august_close,DialogOptionSelected,"$option == XLII_wn_august_close
+$tag:XLII_fleet_admiral_emil",FireAll XLII_AdmiralMainMenu,,,
+"#END [WASTE NOT] August Aftermath",,,,,,
 "#END [WASTE NOT] Quest",,,,,,
 ,,,,,,
 # [SHAPES OF OLD] Quest,,,,,,
