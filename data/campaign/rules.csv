@@ -143,11 +143,20 @@ $tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMainMenu",,,"Handles return t
 ,,,,,,
 # [EMIL STORE] Store Access,,,,,,
 XLII_admiral_special_access,DialogOptionSelected,"$option == ask_special
-$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralStoreMenu","""There is."" A measured pause. ""I'm authorized to offer you something off the books,"" he continues. ""The XLII's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
+$tag:XLII_fleet_admiral_emil
+!$global.XLII_admiralSpecialSeen","$global.XLII_admiralSpecialSeen = true
+FireAll XLII_AdmiralStoreMenu","""There is."" A measured pause. ""I'm authorized to offer you something off the books,"" he continues. ""The XLII's specialized vessels. Bleeding edge. Ships that aren't in any public registry, that most admirals don't even know exist."" His fingers tap something you can't see. ""Ships that could turn the tide when it matters most.""
 
 A calculated pause. The kind that precedes uncomfortable truths.
 
 ""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""",,
+XLII_admiral_special_access_repeat,DialogOptionSelected,"$option == ask_special
+$tag:XLII_fleet_admiral_emil
+$global.XLII_admiralSpecialSeen",FireAll XLII_AdmiralStoreMenu,"""The same as before, Commander. Terms haven't changed."" The manifest comes up on your display without further comment.
+OR
+""You know the terms."" A brief nod, and the registry opens.
+OR
+""Still interested."" Not quite a question. ""The manifest is yours to review.""",,Short repeat of XLII_admiral_special_access once the full pitch has played.
 "#END [EMIL STORE] Store Access",,,,,,
 ,,,,,,
 # [EMIL STORE] Store Menu,,,,,,
