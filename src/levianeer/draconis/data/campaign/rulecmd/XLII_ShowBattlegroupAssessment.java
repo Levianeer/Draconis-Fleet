@@ -53,9 +53,16 @@ public class XLII_ShowBattlegroupAssessment extends BaseCommandPlugin {
 
     public static boolean render(InteractionDialogAPI dialog) {
         if (dialog == null) return false;
+        return render(dialog, XLII_KoriStrike.previewBattlegroupFleet(),
+                "Your Comms Officer has partial read on the nearest XLII " +
+                "deployment. They recommend you review it before committing.",
+                "Battlegroup");
+    }
 
-        CampaignFleetAPI battlegroup = XLII_KoriStrike.previewBattlegroupFleet();
-        if (battlegroup == null) return false;
+    /** Shared with other pre-fight previews (e.g. XLII_ShowWasteNotPicket). */
+    public static boolean render(InteractionDialogAPI dialog, CampaignFleetAPI battlegroup,
+                                 String intro, String fleetNoun) {
+        if (dialog == null || battlegroup == null) return false;
 
         TextPanelAPI text = dialog.getTextPanel();
 
@@ -80,20 +87,16 @@ public class XLII_ShowBattlegroupAssessment extends BaseCommandPlugin {
 
         TooltipMakerAPI info = text.beginTooltip();
         info.setParaSmallInsignia();
-        info.addPara(
-            "Your Comms Officer has partial read on the nearest XLII " +
-            "deployment. They recommend you review it before committing.",
-            0f
-        );
+        info.addPara(intro, 0f);
         info.addShipList(cols, 1, iconSize, battlegroup.getFaction().getBaseUIColor(), list, 10f);
 
         int remaining = members.size() - list.size();
         if (remaining >= 5) {
             String numStr = remaining < 10 ? "5" : remaining < 20 ? "10" : "20";
-            info.addPara("The assessment notes the Battlegroup may contain upwards of %s other ships " +
+            info.addPara("The assessment notes the " + fleetNoun + " may contain upwards of %s other ships " +
                     "of lesser significance.", 10f, Misc.getHighlightColor(), numStr);
         } else if (remaining > 0) {
-            info.addPara("The assessment notes the Battlegroup may contain several other ships of " +
+            info.addPara("The assessment notes the " + fleetNoun + " may contain several other ships of " +
                     "lesser significance.", 10f);
         } else {
             info.addPara("The assessment appears to be complete.", 10f);

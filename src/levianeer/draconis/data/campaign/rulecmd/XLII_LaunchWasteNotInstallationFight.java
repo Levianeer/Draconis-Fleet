@@ -47,6 +47,8 @@ public class XLII_LaunchWasteNotInstallationFight extends BaseCommandPlugin {
 
     private static final Logger log = Global.getLogger(XLII_LaunchWasteNotInstallationFight.class);
 
+    private static final String PICKET_SEED_KEY = "$XLII_wasteNotPicketSeed";
+
     @Override
     public boolean execute(String ruleId, InteractionDialogAPI dialog,
                             List<Misc.Token> params, Map<String, MemoryAPI> memoryMap) {
@@ -163,14 +165,24 @@ public class XLII_LaunchWasteNotInstallationFight extends BaseCommandPlugin {
         });
     }
 
-    /** Scaled well below the finale's Forty-Second Battlegroup - a hidden site trying not to be found. */
-    private static CampaignFleetAPI createPicketFleet() {
+    /**
+     * Scaled well below the finale's Forty-Second Battlegroup - a hidden site trying not to be found.
+     * <p>
+     * Seeded from memory so XLII_ShowWasteNotPicket's preview builds the same ships the player
+     * then fights. The preview's copy is never spawned, so its hostility flags are harmless.
+     */
+    public static CampaignFleetAPI createPicketFleet() {
+        MemoryAPI mem = Global.getSector().getMemoryWithoutUpdate();
+        if (!mem.contains(PICKET_SEED_KEY)) {
+            mem.set(PICKET_SEED_KEY, new Random().nextLong());
+        }
+
         FleetParamsV3 params = new FleetParamsV3();
         params.factionId = Factions.INTELLIGENCE_OFFICE;
         params.fleetType = FleetTypes.PATROL_SMALL;
         params.quality   = 7f;
         params.combatPts = 200f;
-        params.random    = new Random();
+        params.random    = new Random(mem.getLong(PICKET_SEED_KEY));
 
         CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
         if (fleet != null) {
