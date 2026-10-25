@@ -179,6 +179,8 @@ public class XLII_LaunchWasteNotInstallationFight extends BaseCommandPlugin {
             fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_HOSTILE, true);
             fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_AGGRESSIVE, true);
             fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_IGNORE_PLAYER_COMMS, true);
+            // The Office won't make a fuss over a site it can't admit exists - no AIO rep hit.
+            fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_NO_REP_IMPACT, true);
         }
         return fleet;
     }
