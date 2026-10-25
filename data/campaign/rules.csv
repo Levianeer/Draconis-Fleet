@@ -3357,8 +3357,8 @@ XLII_august_debrief_beat5risky,XLII_AugustDebriefContent,"$global.XLII_beat5Risk
 XLII_august_debrief_beat5safe,XLII_AugustDebriefContent,"$global.XLII_beat5Safe",,"""The inner sanctum's veterans - most of them - are in custody. That is workable. Less clean than a formal surrender. Korrin will manage the transition regardless.""",,"Fires if Beat 5 was SAFE (negotiated surrender, mixed result)."
 XLII_august_debrief_korrin,XLII_AugustDebriefContent,,,"He keys something on the console - not looking at you now.
 
-""I have your transfer ready, $global.XLII_raidCreditRewardFormatted credits, I'm sure you'll appreciate. The Alliance does not forget its contracts.""","1:debrief_elias:About Korrin
-2:debrief_ack:Understood","Always fires last. Fixed Korrin paragraph and close options."
+""I have your transfer ready, $global.XLII_raidCreditRewardFormatted credits, I'm sure you'll appreciate. The Alliance does not forget its contracts.""",2:debrief_ack:Understood,Always fires last. Fixed Korrin paragraph and close options.
+XLII_august_debrief_korrin_opt,XLII_AugustDebriefContent,XLII_Korrin aboard,,,1:debrief_elias:About Korrin,Only offered once Korrin has actually been recruited. FireAll merges this option with XLII_august_debrief_korrin's.
 XLII_august_debrief_ack,DialogOptionSelected,"$option == debrief_ack
 $tag:XLII_fleet_admiral_emil","XLII_DeliverRaidReward
 $global.XLII_blindEyeComplete = true
