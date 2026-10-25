@@ -152,11 +152,11 @@ A calculated pause. The kind that precedes uncomfortable truths.
 ""There's a nominal fee - twice their usual cost and an adjustment to your standing with us. Administrative necessity. Insurance that you understand the value of what we're offering."" The ghost of a smile in his voice. ""But the tactical advantage? The capability these hulls represent?"" Another pause, heavier this time. ""That's worth considerably more than any credit transfer, Commander.""",,
 XLII_admiral_special_access_repeat,DialogOptionSelected,"$option == ask_special
 $tag:XLII_fleet_admiral_emil
-$global.XLII_admiralSpecialSeen",FireAll XLII_AdmiralStoreMenu,"""The same as before, Commander. Terms haven't changed."" The manifest comes up on your display without further comment.
+$global.XLII_admiralSpecialSeen","FireAll XLII_AdmiralStoreMenu","""The same as before, Commander. Terms haven't changed."" The manifest comes up on your display without further comment.
 OR
 ""You know the terms."" A brief nod, and the registry opens.
 OR
-""Still interested."" Not quite a question. ""The manifest is yours to review.""",,Short repeat of XLII_admiral_special_access once the full pitch has played.
+""Still interested."" Not quite a question. ""The manifest is yours to review.""",,"Short repeat of XLII_admiral_special_access once the full pitch has played."
 "#END [EMIL STORE] Store Access",,,,,,
 ,,,,,,
 # [EMIL STORE] Store Menu,,,,,,
@@ -1128,7 +1128,7 @@ SetOptionColor XLII_bar_gaterumor_listen highlight","Two off-duty officers have 
 
 The second officer says something too quiet to catch. The first laughs, short and humorless, before they both clock the bartender within earshot and they hush themselves.","1:XLII_bar_gaterumor_listen:Listen in
 2:XLII_bar_gaterumor_ignore:Ignore them",
-XLII_bar_gaterumor_listen,DialogOptionSelected,"$option == XLII_bar_gaterumor_listen",BeginMission BlindEyeQuestMission,"You drift a step closer, nursing your drink and angling for better acoustics.
+XLII_bar_gaterumor_listen,DialogOptionSelected,"$option == XLII_bar_gaterumor_listen","BeginMission BlindEyeQuestMission","You drift a step closer, nursing your drink and angling for better acoustics.
 
 ""...if it's still out there,"" the quieter one says, ""half the Signal Corps roster from that era has been reassigned to Ladon. That's not the kind of oversight anybody wants to explain.""
 
@@ -3357,8 +3357,8 @@ XLII_august_debrief_beat5risky,XLII_AugustDebriefContent,"$global.XLII_beat5Risk
 XLII_august_debrief_beat5safe,XLII_AugustDebriefContent,"$global.XLII_beat5Safe",,"""The inner sanctum's veterans - most of them - are in custody. That is workable. Less clean than a formal surrender. Korrin will manage the transition regardless.""",,"Fires if Beat 5 was SAFE (negotiated surrender, mixed result)."
 XLII_august_debrief_korrin,XLII_AugustDebriefContent,,,"He keys something on the console - not looking at you now.
 
-""I have your transfer ready, $global.XLII_raidCreditRewardFormatted credits, I'm sure you'll appreciate. The Alliance does not forget its contracts.""",2:debrief_ack:Understood,Always fires last. Fixed Korrin paragraph and close options.
-XLII_august_debrief_korrin_opt,XLII_AugustDebriefContent,XLII_Korrin aboard,,,1:debrief_elias:About Korrin,Only offered once Korrin has actually been recruited. FireAll merges this option with XLII_august_debrief_korrin's.
+""I have your transfer ready, $global.XLII_raidCreditRewardFormatted credits, I'm sure you'll appreciate. The Alliance does not forget its contracts.""","2:debrief_ack:Understood","Always fires last. Fixed Korrin paragraph and close options."
+XLII_august_debrief_korrin_opt,XLII_AugustDebriefContent,"XLII_Korrin aboard",,,"1:debrief_elias:About Korrin","Only offered once Korrin has actually been recruited. FireAll merges this option with XLII_august_debrief_korrin's."
 XLII_august_debrief_ack,DialogOptionSelected,"$option == debrief_ack
 $tag:XLII_fleet_admiral_emil","XLII_DeliverRaidReward
 $global.XLII_blindEyeComplete = true
@@ -3592,6 +3592,89 @@ A pause - the first one that doesn't feel like calculated investigation of you.
 Mission split (this session): this row's own $global.XLII_nanoforgeQuestComplete = true is both OfficeReferralMission's own COMPLETED trigger and the queue condition for XLII_korrin_c_tour_nudge in korrin_topics.csv. ShapesOfOldMission itself no longer starts here - BeginMission ShapesOfOldMission moved to XLII_korrin_a_tour_nudge_in/_why (this session), so the mission is created by the player's own agreement in that conversation, not automatically at the forge handoff. Korrin proposes the plan there, not August here. ShapesOfOldMission covers the sector tour + Kori archive infiltration, ending at $global.XLII_koriInfiltrationComplete. See ENDING_ROADMAP.md step 3d."
 XLII_nanoforge_deliver_close,DialogOptionSelected,"$option == nanoforge_deliver_close","EndConversation",,,
 "#END [CHAIN OF CUSTODY] Monroe Vetting",,,,,,
+,,,,,,
+# [CHAIN OF CUSTODY] August Forge Talk,,,,,,
+XLII_admiral_main_forge_talk_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
+$global.XLII_nanoforgeQuestComplete
+!$global.XLII_forgeTalkDone",,,"1:forge_talk:About the forge","Post-Chain of Custody conversation, shaped like the gate logs talk: three questions in any order, then a finale. The forge handoff ends the conversation, so this first appears on the next comm."
+XLII_forge_talk_sel,DialogOptionSelected,"$option == forge_talk
+$tag:XLII_fleet_admiral_emil","FireAll XLII_ForgeTalkQuestions","""The forge - it reached Kori intact. And, so I'm told, it's working overtime - our R&D's wet dream finally realised...""
+
+Something on his side of the line opens - a file, a report, or something else entirely.
+
+""Hull lattices laid down at a grain no one has managed since the Collapse. Alloy composites our foundries can only describe. Medicine, if we ever turn it that way. One machine doing what a world of factories can't."" The words come faster than usual, with less space between them. ""The Domain built these as a matter of course. After their passing - out here, they're worth a war that engulfs the world.""
+
+""And there are those in this Sector who would sooner see it slagged. Call it a sin, call it penance - call it anything but what it is. A Sector choosing to stay small.""
+
+A pause, and his voice settles back into its usual register.
+
+""You carried it here without asking what it was for. That bought you a few questions, Commander. I think it's owed.""",,
+XLII_forge_talk_q1_opt,XLII_ForgeTalkQuestions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_forgeTalkQ1",,,"1:forge_talk_q1:What does the Domain mean to you?",
+XLII_forge_talk_q2_opt,XLII_ForgeTalkQuestions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_forgeTalkQ2",,,"2:forge_talk_q2:Why does Draconis need one?",
+XLII_forge_talk_q3_opt,XLII_ForgeTalkQuestions,"$tag:XLII_fleet_admiral_emil
+!$global.XLII_forgeTalkQ3",,,"3:forge_talk_q3:What's your problem with the Luddites?",
+XLII_forge_talk_finale_opt,XLII_ForgeTalkQuestions,"$tag:XLII_fleet_admiral_emil
+$global.XLII_forgeTalkQ1
+$global.XLII_forgeTalkQ2
+$global.XLII_forgeTalkQ3",,,"10:forge_talk_finale:What do you actually want, August?",
+XLII_forge_talk_leave_opt,XLII_ForgeTalkQuestions,"$tag:XLII_fleet_admiral_emil",,,"20:return_to_main_menu:That's enough for now","Answered questions stay answered (global flags), same as the gate logs talk - backing out and returning resumes the menu."
+XLII_forge_talk_return_sel,DialogOptionSelected,"$option == forge_talk_return
+$tag:XLII_fleet_admiral_emil","FireAll XLII_ForgeTalkQuestions",,,"Loop-back from each answer."
+XLII_forge_talk_q1_sel,DialogOptionSelected,"$option == forge_talk_q1
+$tag:XLII_fleet_admiral_emil","$global.XLII_forgeTalkQ1 = true","""Proof."" No hesitation. ""That people once built things like that forge as a matter of course. Miracles as infrastructure.""
+
+""Everything out here lives off what they left behind. Every hull, every gate, every core. We patch it, we strip it, we fight over the pieces.""
+
+A pause as he exhales.
+
+""I don't mourn the Domain, Commander. I take it seriously. Most people only manage one or the other.""
+
+""It is- No, it WILL be our salvation. The one fruit our senseless war bore.""","1:forge_talk_return:Continue",
+XLII_forge_talk_q2_sel,DialogOptionSelected,"$option == forge_talk_q2
+$tag:XLII_fleet_admiral_emil","$global.XLII_forgeTalkQ2 = true","""Because someone else will."" Flat. ""The question is never whether the old world gets used. It's who uses it, and whether they're careful.""
+
+""Left alone, it rots. Left unguarded, it gets broken up for parts by people who couldn't build a replacement if their lives depended on it. Eventually, they will.""
+
+The silhouette is still.
+
+""Preservation without use is a museum. Use without preservation is a bonfire. I intend to do neither.""","1:forge_talk_return:Continue",
+XLII_forge_talk_q3_sel,DialogOptionSelected,"$option == forge_talk_q3
+$tag:XLII_fleet_admiral_emil","$global.XLII_forgeTalkQ3 = true","A short sound that might be a laugh, if the encryption let it through.
+
+""They would gladly see us thrust into a dark age. They'd call it a sin, and then ask to be fed by a world that runs on what it makes.""
+
+""I've watched Athebyne's young drift to the Path. They aren't looking for God, Commander. They're looking for someone to tell them the ruin is a virtue, someone to point the blame."" His voice cools by a degree. ""I have no patience for a faith that asks people to starve politely.""
+
+""Their hands are clean because someone else's aren't. I would rather be honest about which side of that I'm on.""","1:forge_talk_return:Continue",
+XLII_forge_talk_finale_sel,DialogOptionSelected,"$option == forge_talk_finale
+$tag:XLII_fleet_admiral_emil","$global.XLII_forgeTalkDone = true","The line goes quiet. Long enough that you check the connection.
+
+""An Alliance that doesn't need me.""
+
+He lets it stand before going on.
+
+""Everything I've built here bends around one man. That isn't strength, Commander, it's a single point of failure. When I'm gone - and I will be - Draconis has to stand on its own. Its fleets, its industry, its people. Not my name.""
+
+""Monroe wants something else. She wants an Alliance that exists without threat. Every danger seen in advance, every rival managed before it becomes one."" A pause. ""It's a reasonable ambition. It's also a cage. A people that is never threatened never learns to stand.""
+
+""I want them strong enough to survive the threat. She wants them never to face it. We've been having that argument for longer than either of us will admit.""
+
+The silhouette tilts, fractionally.
+
+""And you, Commander. You've carried things for both of us now. What are you building?""","1:forge_talk_ans_lasts:Something that lasts
+2:forge_talk_ans_work:I'm just here for the work
+3:forge_talk_ans_undecided:I haven't decided yet","Done flag set here rather than on the answers - the reveal is the payoff, so leaving mid-answer still counts the talk as had."
+XLII_forge_talk_ans_lasts_sel,DialogOptionSelected,"$option == forge_talk_ans_lasts
+$tag:XLII_fleet_admiral_emil",,"""Then we want the same thing."" A beat. ""Remember that. Not everyone you work for will.""","1:forge_talk_close:Understood",
+XLII_forge_talk_ans_work_sel,DialogOptionSelected,"$option == forge_talk_ans_work
+$tag:XLII_fleet_admiral_emil",,"""Honest. Most mercenaries aren't."" Something that isn't quite approval. ""That's useful too. For a while.""","1:forge_talk_close:Understood",
+XLII_forge_talk_ans_undecided_sel,DialogOptionSelected,"$option == forge_talk_ans_undecided
+$tag:XLII_fleet_admiral_emil",,"""Decide soon."" The voice is flat again. ""People who don't choose a side have one chosen for them.""","1:forge_talk_close:Understood",
+XLII_forge_talk_close_sel,DialogOptionSelected,"$option == forge_talk_close
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMainMenu",,,
+"#END [CHAIN OF CUSTODY] August Forge Talk",,,,,,
 "#END [CHAIN OF CUSTODY] Quest",,,,,,
 ,,,,,,
 # [MONROE] Standing Trade,,,,,,
@@ -3687,12 +3770,12 @@ XLII_Korrin queue korrin_waste_not_aftermath","Further down the corridor, tanks 
 
 No one on the comm says anything on the way back to the ships.","1:waste_not_installation_boarding_close:Leave",
 XLII_waste_not_installation_boarding_close,DialogOptionSelected,"$option == waste_not_installation_boarding_close","DismissDialog",,,
-XLII_waste_not_installation_press,DialogOptionSelected,$option == waste_not_installation_press,XLII_ShowWasteNotPicket waste_not_installation_engage,Running dark gets the fleet close enough for a proper look at what's guarding the place.,"1:waste_not_installation_engage:Engage the picket
+XLII_waste_not_installation_press,DialogOptionSelected,"$option == waste_not_installation_press","XLII_ShowWasteNotPicket waste_not_installation_engage","Running dark gets the fleet close enough for a proper look at what's guarding the place.","1:waste_not_installation_engage:Engage the picket
 2:waste_not_installation_back:Back","Pre-fight preview: XLII_ShowWasteNotPicket renders the seeded picket (same ships as the real fight) and puts a confirmation on Engage, which must stay in this row - options are added before the script runs."
-XLII_waste_not_installation_engage,DialogOptionSelected,$option == waste_not_installation_engage,XLII_LaunchWasteNotInstallationFight,,,"Command dismisses the dialog itself and launches the FID - see XLII_LaunchWasteNotInstallationFight. No text here on purpose (execution-order rule: text composes before script runs, and the dismiss makes any text here flash and vanish)."
-XLII_waste_not_installation_back,DialogOptionSelected,$option == waste_not_installation_back,FireAll XLII_WasteNotInstallationOptions,"You hold the fleet at standoff range. The picket keeps to its pattern, none the wiser.",,Backs out of the preview to the installation menu.
+XLII_waste_not_installation_engage,DialogOptionSelected,"$option == waste_not_installation_engage","XLII_LaunchWasteNotInstallationFight",,,"Command dismisses the dialog itself and launches the FID - see XLII_LaunchWasteNotInstallationFight. No text here on purpose (execution-order rule: text composes before script runs, and the dismiss makes any text here flash and vanish)."
+XLII_waste_not_installation_back,DialogOptionSelected,"$option == waste_not_installation_back","FireAll XLII_WasteNotInstallationOptions","You hold the fleet at standoff range. The picket keeps to its pattern, none the wiser.",,"Backs out of the preview to the installation menu."
 XLII_waste_not_installation_open,XLII_WasteNotInstallationScene,,"FireAll XLII_WasteNotInstallationOptions","It isn't on any chart, and it isn't trying to be found - just tucked away, running dark enough that a casual pass would miss it entirely. But it isn't dead the way the colony was. Heat bleeds off in slow, even pulses. Running lights, dimmed but cycling. Something here is still working, on a schedule, like it has somewhere to be.",,"Single, unconditional init row - a prior version split this into two competing rows gated on XLII_IsTransponderOff and let FireBest pick between them, which worked on first approach but broke on re-approach after leaving once (confirmed in live testing: second visit showed only a bare Leave button, no text). Collapsed to one row that always fires plus a merged, re-populated options menu instead - matches the hook scene's own Pattern 8 menu, proven to re-evaluate correctly across repeat visits."
-XLII_waste_not_installation_opt_observe,XLII_WasteNotInstallationOptions,!$global.XLII_wasteNotInstallationFailed,,,10:waste_not_installation_observe:Observe,"Dialogue-only choice: no transponder check, the scene plays as if the player approached running dark."
+XLII_waste_not_installation_opt_observe,XLII_WasteNotInstallationOptions,"!$global.XLII_wasteNotInstallationFailed",,,"10:waste_not_installation_observe:Observe","Dialogue-only choice: no transponder check, the scene plays as if the player approached running dark."
 XLII_waste_not_installation_opt_press,XLII_WasteNotInstallationOptions,"!$global.XLII_wasteNotInstallationFailed",,,"20:waste_not_installation_press:Attack",
 XLII_waste_not_installation_opt_leave,XLII_WasteNotInstallationOptions,,,,"30:waste_not_installation_leave:Leave",
 XLII_waste_not_installation_opt_wreckage,XLII_WasteNotInstallationOptions,"$global.XLII_wasteNotInstallationFailed",,,"15:waste_not_installation_wreckage:Survey the wreckage",
@@ -3758,7 +3841,7 @@ $global.XLII_wasteNotComplete = true","He listens through all of it - the manife
 # [WASTE NOT] August Aftermath,,,,,,
 XLII_admiral_main_wastenot_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emil
 $global.XLII_wasteNotComplete
-!$global.XLII_augustWasteNotDone",,,2:XLII_wn_august:About that installation,"One-time follow-up to Waste Not. Monroe is always known by now: Waste Not needs the nanoforge quest, which needs the Office vetting."
+!$global.XLII_augustWasteNotDone",,,"2:XLII_wn_august:About that installation","One-time follow-up to Waste Not. Monroe is always known by now: Waste Not needs the nanoforge quest, which needs the Office vetting."
 XLII_wn_august_open,DialogOptionSelected,"$option == XLII_wn_august
 $tag:XLII_fleet_admiral_emil",,"""Commander."" The silhouette doesn't move. ""I've read your report. The colony, and what you found past it.""
 
@@ -3766,9 +3849,9 @@ A pause, measured to the half-second.
 
 ""Ask your question.""","1:XLII_wn_august_accuse:Your people are growing cores out of colonists. Did you sign off on it?
 2:XLII_wn_august_ask:Those cores work. I want more of them
-3:return_to_main_menu:Nothing. Forget I asked",No flag set here - backing out leaves the topic open for another visit.
+3:return_to_main_menu:Nothing. Forget I asked","No flag set here - backing out leaves the topic open for another visit."
 XLII_wn_august_accuse,DialogOptionSelected,"$option == XLII_wn_august_accuse
-$tag:XLII_fleet_admiral_emil",$global.XLII_augustWasteNotDone = true,"""No."" Flat, immediate. ""I did not order it. I did not approve it. Until your report crossed my desk, I did not know that installation existed.""
+$tag:XLII_fleet_admiral_emil","$global.XLII_augustWasteNotDone = true","""No."" Flat, immediate. ""I did not order it. I did not approve it. Until your report crossed my desk, I did not know that installation existed.""
 
 The encryption holds steady. Nothing in his posture changes.
 
@@ -3781,15 +3864,15 @@ $tag:XLII_fleet_admiral_emil",,"A pause. Not hesitation - something closer to pa
 
 When he speaks again, his voice has settled back into its usual register, as though the last minute never happened.
 
-""I have an Alliance to keep alive. You have a fleet, a crew, and enemies you haven't met yet. Worry about yourself.""",1:XLII_wn_august_close:Understood,
+""I have an Alliance to keep alive. You have a fleet, a crew, and enemies you haven't met yet. Worry about yourself.""","1:XLII_wn_august_close:Understood",
 XLII_wn_august_ask,DialogOptionSelected,"$option == XLII_wn_august_ask
-$tag:XLII_fleet_admiral_emil",$global.XLII_augustWasteNotDone = true,"""I have none to give you."" No pause this time. ""I had no part in that installation, no knowledge of it, and no say in whatever it supplied.""
+$tag:XLII_fleet_admiral_emil","$global.XLII_augustWasteNotDone = true","""I have none to give you."" No pause this time. ""I had no part in that installation, no knowledge of it, and no say in whatever it supplied.""
 
 A short silence on the line.
 
-""If such a thing exists, and if anyone in this Alliance could put it in your hands, you would want to speak with Monroe. She would know. I would not.""",1:XLII_wn_august_close:Understood,
+""If such a thing exists, and if anyone in this Alliance could put it in your hands, you would want to speak with Monroe. She would know. I would not.""","1:XLII_wn_august_close:Understood",
 XLII_wn_august_close,DialogOptionSelected,"$option == XLII_wn_august_close
-$tag:XLII_fleet_admiral_emil",FireAll XLII_AdmiralMainMenu,,,
+$tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMainMenu",,,
 "#END [WASTE NOT] August Aftermath",,,,,,
 "#END [WASTE NOT] Quest",,,,,,
 ,,,,,,
@@ -4102,23 +4185,23 @@ XLII_interception_open,XLII_interception_open,,"ShowSecondPerson XLII_fleet_admi
 He does not look away while he says the next part. ""I concluded years ago that the alternative to Longsight was Fafnir falling to the first fleet that decided we were worth the trouble. I have never found a version of that where the Alliance survives without it.""
 
 ""What happens here is not dangerous because you might succeed, Commander. It is dangerous because you might not. Whatever you leave standing, half-broken, does not simply return to what it was before you arrived. It stops needing anyone's permission - mine included.""","1:interception_press:Continue","Fix (author request): this row never actually showed August's portrait - the interaction target throughout this whole XLII_KoriStrike flow is Kori's own entity, not August, and no ShowPersonVisual/ShowSecondPerson command was ever added when this content was written or reframed. Fixed with ShowSecondPerson XLII_fleet_admiral_emil, not a bare/two-arg ShowPersonVisual, because Korrin is already the active first-person portrait at this point (his own from XLII_KoriStrike's chamber scene, showChamberOrb()/showChamberCouncil(), persists across the dialog.setPlugin() swap into this rules.csv chain) - August is joining as a genuine second party, not replacing Korrin. Text's opening line updated to name and place both of them explicitly, per the character-handoff rule (starsector-writing/references/dialogue-mechanics.md) - a portrait command alone doesn't establish the appearance for a reader who's reading text, not watching the portrait swap. Given a real writing pass this session: the confrontation reasoning here already matched August's character bible closely and needed no rewrite; XLII_interception_press and XLII_interception_declare each had one voice-rule violation fixed instead (a ""says finally"" adverb on a dialogue tag, and a bare ""So."" fragment - both banned by his own bible's ""speaks in complete sentences, always. No fragments""). Fired via dialog.setPlugin(new RuleBasedInteractionDialogPluginImpl(entity, ""XLII_interception_open"")) from XLII_KoriStrike.showRaidAftermath(), replacing the old direct call to beginAugustScene() - beginAugustScene() is now only reached via the Commit path below, after the fleet fight and boarding sequence. Reuses XLII_burn_state_concern's reasoning almost verbatim (his actual arithmetic about Longsight and Fafnir's survival doesn't need to change) but the surrounding frame flips from ""are you certain you want to do this"" to ""you already did it, and I already know"" - see work/outline/main-story-endings.md's section 3, ""The interception."" No optional digressions like the original chain had (""leave it there for now"") - the player is mid-confrontation now, not a voluntary conversation they can politely exit. Endgame redesign, closing line repointed (see .claude/systems/uplink-to-god-endgame-redesign.md): the old line (""What you do here could kill millions... wreck what we've spent tens of cycles building"") warned against destroying Longsight, which stopped matching the mechanics the moment Cave moved entirely to before the raid (XLII_KoriStrike's own pre-raid confrontation) - by this point in the story the player has already committed, and the real risk ahead is the fleet fight against the Forty-Second, not the raid already behind them. Also deliberate dramatic irony, not just a fix: ""it stops needing anyone's permission - mine included"" foreshadows exactly what happens to August specifically if the player fails that fight (see .claude/systems/uplink-to-god-endgame-redesign.md's failure sequence, showFailureDeath()) - he's more right than he knows."
-XLII_interception_press,DialogOptionSelected,$option == interception_press,,"""I understand you came to settle this. I've had the reports since your marines breached the undercroft - I don't need the rest of the explanation from you.""
+XLII_interception_press,DialogOptionSelected,"$option == interception_press",,"""I understand you came to settle this. I've had the reports since your marines breached the undercroft - I don't need the rest of the explanation from you.""
 
 ""I know what the AIO told me."" He's already looking past you, the way he does once he's made his assessment. ""I have always known that is not the same as what the AIO knows. The difference has a name. It is filed as the Records and Audit Group, which is the least interesting thing anyone has ever called it, and that was the point of calling it that.""
 
-""I wrote the clause it works under. I could have asked what was being done under that clause in any of the first years, and I decided not to ask. That was not negligence, Commander, and I would prefer you did not file it as such. A commander who has not been told cannot be required to answer, and I found that useful.""",1:interception_press_2:Continue,"Reuses XLII_burn_press's reasoning, reframed the same way as the row above - his ""tell me what changed"" no longer makes sense as a request for the player to explain themselves verbally, since the raid already spoke for them. First half of a two-node beat: this row names the Records and Audit Group and admits the blindspot was deliberate, then hands off via a bare Continue (interception_press_2) to XLII_interception_press_cited/_uncited for the consequence arc. Split purely for reading pacing - the combined block ran ~290 words, well past what one node should carry (see the skill's base-game precedent for a Continue purely to break up a huge text block). This node is ungated and shared, because only the second half's opening line differs between the two variants. This is the ONE place RAG is named player-facing, deliberately: August is the only character for whom saying it is a confession rather than a leak (he wrote the clause RAG operates under - Gate Log Fragment 4's fourth mission parameter, XLII_gateLog4). Do not name RAG anywhere else; Korrin only ever has the IRON MOTH compartment designation (korrin_aio_ancker), and Ancker/Monroe naming their own branch would break both characters. Full lore reference: .claude/lore/rag.md."
+""I wrote the clause it works under. I could have asked what was being done under that clause in any of the first years, and I decided not to ask. That was not negligence, Commander, and I would prefer you did not file it as such. A commander who has not been told cannot be required to answer, and I found that useful.""","1:interception_press_2:Continue","Reuses XLII_burn_press's reasoning, reframed the same way as the row above - his ""tell me what changed"" no longer makes sense as a request for the player to explain themselves verbally, since the raid already spoke for them. First half of a two-node beat: this row names the Records and Audit Group and admits the blindspot was deliberate, then hands off via a bare Continue (interception_press_2) to XLII_interception_press_cited/_uncited for the consequence arc. Split purely for reading pacing - the combined block ran ~290 words, well past what one node should carry (see the skill's base-game precedent for a Continue purely to break up a huge text block). This node is ungated and shared, because only the second half's opening line differs between the two variants. This is the ONE place RAG is named player-facing, deliberately: August is the only character for whom saying it is a confession rather than a leak (he wrote the clause RAG operates under - Gate Log Fragment 4's fourth mission parameter, XLII_gateLog4). Do not name RAG anywhere else; Korrin only ever has the IRON MOTH compartment designation (korrin_aio_ancker), and Ancker/Monroe naming their own branch would break both characters. Full lore reference: .claude/lore/rag.md."
 XLII_interception_press_cited,DialogOptionSelected,"$option == interception_press_2
 $global.XLII_logQ2Complete",,"""I told you once that some blindspots are chosen. That was not a figure of speech, and it was not advice. I was describing this one."" A pause. ""I gave the Office a mandate and it filled it. I gave it a clause and it built a department inside the clause. By the time I had reason to look, that department was staffed out of my own fleet, its authority rested on a document with my cipher on the last line, and every signature between the two was in the correct order. I did not lose control of either of them. I signed control of both away, correctly, and that is the part I have never found an argument against.""
 
 ""I decided, a long time ago, that the difference was a cost I could afford not to examine.""
 
-The one admission of uncertainty he allows himself in a conversation, and he spends it now, on the other side of a fight that's already happened. ""I am no longer certain that decision was mine to keep making.""",1:interception_declare:Continue,"Second half of the interception confession, cited variant - fires when $global.XLII_logQ2Complete is set, i.e. the player asked Gate Log question 2 and heard August say ""Some blindspots are chosen, Commander"" (XLII_gate_logs_q2_sel). Opens by explicitly citing that line back at them, which is the whole reason this variant exists; XLII_interception_press_uncited is the fallback for players who skipped the question. Reached from XLII_interception_press's bare Continue."
+The one admission of uncertainty he allows himself in a conversation, and he spends it now, on the other side of a fight that's already happened. ""I am no longer certain that decision was mine to keep making.""","1:interception_declare:Continue","Second half of the interception confession, cited variant - fires when $global.XLII_logQ2Complete is set, i.e. the player asked Gate Log question 2 and heard August say ""Some blindspots are chosen, Commander"" (XLII_gate_logs_q2_sel). Opens by explicitly citing that line back at them, which is the whole reason this variant exists; XLII_interception_press_uncited is the fallback for players who skipped the question. Reached from XLII_interception_press's bare Continue."
 XLII_interception_press_uncited,DialogOptionSelected,"$option == interception_press_2
 !$global.XLII_logQ2Complete",,"""Some blindspots are chosen, Commander. I chose that one, and I was right about what it bought me."" A pause. ""I gave the Office a mandate and it filled it. I gave it a clause and it built a department inside the clause. By the time I had reason to look, that department was staffed out of my own fleet, its authority rested on a document with my cipher on the last line, and every signature between the two was in the correct order. I did not lose control of either of them. I signed control of both away, correctly, and that is the part I have never found an argument against.""
 
 ""I decided, a long time ago, that the difference was a cost I could afford not to examine.""
 
-The one admission of uncertainty he allows himself in a conversation, and he spends it now, on the other side of a fight that's already happened. ""I am no longer certain that decision was mine to keep making.""",1:interception_declare:Continue,"Second half of the interception confession, fallback variant - for players who never asked Gate Log question 2 (XLII_gate_logs_q2_sel, which sets $global.XLII_logQ2Complete and is optional - it sits in the XLII_GateLogsQuestions Q&A loop). Identical to XLII_interception_press_cited except the opening line: the cited variant self-quotes ""I told you once that some blindspots are chosen"", which would be incoherent for a player who never heard it, so this one delivers the line fresh instead. Net effect: nobody misses it, and nobody gets cited a line they never heard. Conditions are mutually exclusive with the cited row's, so dispatch is safe under either FireBest or FireAll. Reached from XLII_interception_press's bare Continue."
+The one admission of uncertainty he allows himself in a conversation, and he spends it now, on the other side of a fight that's already happened. ""I am no longer certain that decision was mine to keep making.""","1:interception_declare:Continue","Second half of the interception confession, fallback variant - for players who never asked Gate Log question 2 (XLII_gate_logs_q2_sel, which sets $global.XLII_logQ2Complete and is optional - it sits in the XLII_GateLogsQuestions Q&A loop). Identical to XLII_interception_press_cited except the opening line: the cited variant self-quotes ""I told you once that some blindspots are chosen"", which would be incoherent for a player who never heard it, so this one delivers the line fresh instead. Net effect: nobody misses it, and nobody gets cited a line they never heard. Conditions are mutually exclusive with the cited row's, so dispatch is safe under either FireBest or FireAll. Reached from XLII_interception_press's bare Continue."
 XLII_interception_declare,DialogOptionSelected,"$option == interception_declare",,"""No,"" he says, and the uncertainty is gone from his voice as fast as it appeared. ""It is still my decision. What you have done doesn't change whose it is - it only changes what's left of it to make.""
 
 ""If you finish this, you do it against the Alliance. The Forty-Second is here because I ordered it here - to hold that chamber long enough for a repair crew to reach the spine, not to make a point of it. What happens next is yours to answer for, not mine.""
