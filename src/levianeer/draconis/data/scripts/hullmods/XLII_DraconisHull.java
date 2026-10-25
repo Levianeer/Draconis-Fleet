@@ -14,6 +14,7 @@ import com.fs.starfarer.api.impl.hullmods.Automated;
 import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.XLII_ModPlugin;
 import levianeer.draconis.data.campaign.aicores.XLII_LiteCoreOfficerPlugin;
 
 import java.awt.Color;
@@ -84,12 +85,16 @@ public class XLII_DraconisHull extends XLII_SystemHullModBase {
 
         addTransverseJumpTooltipSection(tooltip, opad, h);
 
-        String coreName = Global.getSettings().getCommoditySpec(XLII_LiteCoreOfficerPlugin.CORE_ID).getName();
-        tooltip.addSectionHeading("AuxCog Integration", Alignment.MID, opad);
-        tooltip.addPara("Draconis-built hulls are designed to interface with the %s. If this ship is automated and "
-                + "an %s is in command, the %s automated ship penalty to maximum combat readiness does not apply.",
-                opad, h,
-                coreName, coreName, (int) Math.round(Automated.MAX_CR_PENALTY * 100f) + "%");
+        // Only Draconis hulls converted via the LunaLib refit button can be automated, so without it
+        // this section describes something the player can't reach.
+        if (XLII_ModPlugin.hasLunaLib()) {
+            String coreName = Global.getSettings().getCommoditySpec(XLII_LiteCoreOfficerPlugin.CORE_ID).getName();
+            tooltip.addSectionHeading("AuxCog Integration", Alignment.MID, opad);
+            tooltip.addPara("Draconis-built hulls are designed to interface with the %s. If this ship is automated and "
+                    + "an %s is in command, the %s automated ship penalty to maximum combat readiness does not apply.",
+                    opad, h,
+                    coreName, coreName, (int) Math.round(Automated.MAX_CR_PENALTY * 100f) + "%");
+        }
 
         tooltip.addSectionHeading("Maintenance", new Color(255,100,0) , new Color(105,40,0,175) , Alignment.MID, opad);
         tooltip.addPara("Draconis-built hulls require excessive maintenance and do not stand up well under the rigours of prolonged engagements.", opad);

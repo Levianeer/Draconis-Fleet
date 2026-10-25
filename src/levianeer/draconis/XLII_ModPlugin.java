@@ -58,6 +58,7 @@ import levianeer.draconis.data.campaign.events.XLII_KoriStrike;
 import levianeer.draconis.data.campaign.intel.blind_eye.XLII_OfficeContactMonitor;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeGarrisonManager;
 import levianeer.draconis.data.scripts.world.systems.XLII_OfficeSystem;
+import levianeer.draconis.data.scripts.refit.XLII_AutomatedConversionButton;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
@@ -80,6 +81,12 @@ public class XLII_ModPlugin extends BaseModPlugin {
     public static final String BILLHOOK_ID = "XLII_billhook_shot";
     private static final String NEXERELIN_MOD_ID = "nexerelin";
     private static boolean hasNexerelin = false;
+    private static final String LUNALIB_MOD_ID = "lunalib";
+    private static boolean hasLunaLib = false;
+
+    public static boolean hasLunaLib() {
+        return hasLunaLib;
+    }
 
     // Raid system toggles
     private static boolean enableAICoreRaids = true;
@@ -92,6 +99,11 @@ public class XLII_ModPlugin extends BaseModPlugin {
     public void onApplicationLoad() {
         log.info("Draconis: === Mod Loading ===");
         hasNexerelin = Global.getSettings().getModManager().isModEnabled(NEXERELIN_MOD_ID);
+        hasLunaLib = Global.getSettings().getModManager().isModEnabled(LUNALIB_MOD_ID);
+        if (hasLunaLib) {
+            XLII_AutomatedConversionButton.register();
+            log.info("Draconis: LunaLib detected - automated hull conversion enabled");
+        }
 
         // Load raid system toggles from settings
         try {
