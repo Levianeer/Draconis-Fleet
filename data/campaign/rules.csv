@@ -3602,7 +3602,7 @@ $tag:XLII_fleet_admiral_emil","FireAll XLII_ForgeTalkQuestions","""The forge - i
 
 Something on his side of the line opens - a file, a report, or something else entirely.
 
-""Hull lattices laid down at a grain no one has managed since the Collapse. Alloy composites our foundries can only describe. Medicine, if we ever turn it that way. One machine doing what a world of factories can't."" The words come faster than usual, with less space between them. ""The Domain built these as a matter of course. After their passing - out here, they're worth a war that engulfs the world.""
+""Hull lattices laid down at a grain no one has managed since the Collapse. Alloy composites our foundries can only describe. Medicine, if we ever turn it that way. One machine doing what a world of factories can't."" The words come faster than usual, with less space between them. ""The Domain built innumerable quantities of these. After their passing - out here, they're worth a war that engulfs the world.""
 
 ""And there are those in this Sector who would sooner see it slagged. Call it a sin, call it penance - call it anything but what it is. A Sector choosing to stay small.""
 
@@ -3679,7 +3679,7 @@ $tag:XLII_fleet_admiral_emil","FireAll XLII_AdmiralMainMenu",,,
 ,,,,,,
 # [MONROE] Standing Trade,,,,,,
 XLII_monroe_exchange_open,XLII_MonroeExchangeOpen,,"ShowPersonVisual false XLII_aio_director_Haspel
-$global.XLII_monroeExchangeIntroSeen = true","Monroe doesn't rise, and doesn't pretend the return visit is a surprise. ""Commander. I take it Walt Hollis's suspicion bore fruit.""
+$global.XLII_monroeExchangeIntroSeen = true","Monroe doesn't rise, and doesn't pretend the return visit is a surprise. ""Commander. I take it Mister Walt Hollis's suspicion bore fruit.""
 
 She lets that sit for a moment before continuing.
 
