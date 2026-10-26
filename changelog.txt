@@ -77,6 +77,7 @@ MINOR IMPROVEMENTS:
 - Renamed the Sigma Octantis AI Core officer/questline to Longsight.
 - Corrected several characters' posts and ranks.
 - New faction logos for the Alliance and the AIO.
+- Added optional LunaLib support. Required for AuxCog Cores to be usable on Draconis Hulls.
 
 BUG FIXES:
 - Fixed the DDA/AIO colony crisis tracker being able to escalate toward invasion with zero AI cores installed.
