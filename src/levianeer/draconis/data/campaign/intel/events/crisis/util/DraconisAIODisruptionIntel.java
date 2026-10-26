@@ -44,7 +44,7 @@ public class DraconisAIODisruptionIntel extends BaseIntelPlugin {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_security_codes");
+        return Global.getSettings().getSpriteName("intel", "XLII_aio_crisis");
     }
 
     @Override

@@ -187,7 +187,7 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
         if (stageId == Stage.BASTION) {
             return Global.getSettings().getSpriteName("events", BASTION_ICON);
         }
-        return Global.getSettings().getSpriteName("intel", "XLII_security_codes");
+        return Global.getSettings().getSpriteName("intel", "XLII_aio_crisis");
     }
 
     /** Hover tooltip on the Bastion stage icon itself - see {@link #getStageTooltip} for why this
@@ -451,7 +451,7 @@ public class XLII_LongsightCrisisTrackerIntel extends BaseEventIntel {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_security_codes");
+        return Global.getSettings().getSpriteName("intel", "XLII_aio_crisis");
     }
 
     @Override

@@ -300,7 +300,7 @@ public class WasteNotMission extends HubMissionWithBarEvent {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_smuggling");
+        return Global.getSettings().getSpriteName("intel", "XLII_waste_not");
     }
 
     @Override

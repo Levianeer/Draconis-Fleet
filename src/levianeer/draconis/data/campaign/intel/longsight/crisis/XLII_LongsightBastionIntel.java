@@ -475,9 +475,8 @@ public class XLII_LongsightBastionIntel extends BaseIntelPlugin implements Fleet
 
     @Override
     public String getIcon() {
-        // Reverted to XLII_security_codes - the XLII_smuggling swap didn't stick. Bastions are told
-        // apart by name/location (see getName()) rather than by icon.
-        return Global.getSettings().getSpriteName("intel", "XLII_security_codes");
+        // Shares the crisis tracker's icon. Bastions are told apart by name/location (see getName()).
+        return Global.getSettings().getSpriteName("intel", "XLII_aio_crisis");
     }
 
     @Override

@@ -146,7 +146,7 @@ public class LongsightQuestMission extends HubMissionWithBarEvent {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_smuggling");
+        return Global.getSettings().getSpriteName("intel", "XLII_uplink");
     }
 
     @Override

@@ -266,9 +266,14 @@
 		},
 		"intel":{
 			"XLII_ai_found":"graphics/icons/intel/XLII_ai_found.png",
-			"XLII_smuggling":"graphics/icons/missions/smuggle.png",
-			"XLII_disruption_found":"graphics/icons/missions/tactical_bombardment.png",
-			"XLII_security_codes":"graphics/icons/missions/security_codes.png"
+			"XLII_fafnir_access":"graphics/icons/markets/blockade.png",
+			"XLII_blind_eye":"graphics/icons/missions/extraction.png",
+			"XLII_chain_of_custody":"graphics/icons/skills/containment_procedures.png",
+			"XLII_waste_not":"graphics/icons/markets/cryosanctum.png",
+			"XLII_shapes_of_old":"graphics/icons/markets/ruins_vast.png",
+			"XLII_uplink":"graphics/icons/markets/rogue_ai.png",
+			"XLII_stellar_mirror":"graphics/icons/markets/solar_array.png",
+			"XLII_aio_crisis":"graphics/icons/skills/target_analysis.png"
 		},
 		"events":{
 			"XLII_aio_stage":"graphics/icons/campaign/hostile_activity_start.png",

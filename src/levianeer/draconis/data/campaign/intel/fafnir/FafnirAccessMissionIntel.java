@@ -169,7 +169,7 @@ public class FafnirAccessMissionIntel extends BaseIntelPlugin {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_smuggling");
+        return Global.getSettings().getSpriteName("intel", "XLII_fafnir_access");
     }
 
     @Override

@@ -101,7 +101,7 @@ public class ShapesOfOldMission extends HubMissionWithBarEvent {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_smuggling");
+        return Global.getSettings().getSpriteName("intel", "XLII_shapes_of_old");
     }
 
     @Override

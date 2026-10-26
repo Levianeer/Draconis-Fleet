@@ -235,7 +235,7 @@ public class BlindEyeQuestMission extends HubMissionWithBarEvent {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_smuggling");
+        return Global.getSettings().getSpriteName("intel", "XLII_blind_eye");
     }
 
     @Override

@@ -70,7 +70,7 @@ public class StellarMirrorQuestMission extends HubMissionWithBarEvent {
 
     @Override
     public String getIcon() {
-        return Global.getSettings().getSpriteName("intel", "XLII_disruption_found");
+        return Global.getSettings().getSpriteName("intel", "XLII_stellar_mirror");
     }
 
     @Override

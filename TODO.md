@@ -14,7 +14,7 @@
   - This is meant to shed some more light on August as a character, basically a back and forth questioning.
   - Should center around the Domain, the responsibility to protect the "old world" and use it, August's distast for the Luddites and finally his ambitions reveal.
     - That he wants to make Draconis strong enough to surivive without him, while Monroe wants the Alliance to exist "without threat".
-- [ ] Change each of the quest intel images to be unique to each quest instead of reusing the same one.
+- [x] Change each of the quest intel images to be unique to each quest instead of reusing the same one.
 - [x] Rework Waste Not Observe vs Attack options. They can just be dialogue facing, so remove the requirement to have Transponder off etc.
   - Just have the choice live in Dialogue as if the player approached with their Transponder off.
 - [x] Rework Waste Not Attack option. Add a preview of the fleet the player has to fight, with a comfirmation, so an unprepared player can back out instead.
