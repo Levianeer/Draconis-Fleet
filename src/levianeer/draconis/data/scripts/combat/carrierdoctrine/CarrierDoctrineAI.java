@@ -33,6 +33,7 @@ import com.fs.starfarer.api.loading.WingRole;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
 import org.apache.log4j.Logger;
+import levianeer.draconis.DraconisSettings;
 
 /**
  * AI-fleet-only "carrier doctrine" controller. One instance per battle, for the non-player side
@@ -483,7 +484,7 @@ public class CarrierDoctrineAI implements DoctrineController {
 
         boolean debugMessages;
         try {
-            debugMessages = Global.getSettings().getBoolean(DEBUG_MESSAGES_SETTING_ID);
+            debugMessages = DraconisSettings.getBoolean(DEBUG_MESSAGES_SETTING_ID);
         } catch (Exception e) {
             log.warn("Draconis: Failed to load " + DEBUG_MESSAGES_SETTING_ID + " setting, defaulting to false", e);
             debugMessages = false;

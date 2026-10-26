@@ -1,6 +1,7 @@
 package levianeer.draconis.data.campaign.fleet;
 
 import com.fs.starfarer.api.Global;
+import levianeer.draconis.DraconisSettings;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -34,7 +35,7 @@ public class DraconisAICoreScalingConfig {
         try {
             JSONObject settings = Global.getSettings().getJSONObject("draconisAICoreScaling");
 
-            enabled = settings.optBoolean("enabled", true);
+            enabled = DraconisSettings.getBoolean("draconisAICoreScalingEnabled", settings.optBoolean("enabled", true));
             recheckIntervalDays = (float) settings.optDouble("recheckIntervalDays", 120.0);
 
             log.info("Draconis: AI Core Fleet Inflater config loaded successfully - Enabled: " + enabled);

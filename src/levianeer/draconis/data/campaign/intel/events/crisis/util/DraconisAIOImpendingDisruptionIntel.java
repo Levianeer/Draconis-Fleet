@@ -15,6 +15,7 @@ import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.intel.events.crisis.AIOStrings;
 import org.apache.log4j.Logger;
 
@@ -95,7 +96,7 @@ public class DraconisAIOImpendingDisruptionIntel extends BaseIntelPlugin {
 
     private float getSetting(String key, float defaultValue) {
         try {
-            return Global.getSettings().getFloat(key);
+            return DraconisSettings.getFloat(key);
         } catch (Exception e) {
             return defaultValue;
         }

@@ -16,6 +16,7 @@ import static levianeer.draconis.data.campaign.ids.Factions.DRACONIS;
 public class DraconisSteelCurtainMonitor implements EveryFrameScript {
 
     private static final String CONDITION_ID = "draconis_steel_curtain";
+    private static final String DRACON_ID = "draconis_dracon";
     private static final float CHECK_INTERVAL = 1f;
 
     private float daysElapsed = 0f;
@@ -42,6 +43,12 @@ public class DraconisSteelCurtainMonitor implements EveryFrameScript {
 
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             if (market == null || market.isHidden()) continue;
+
+            // DRACON can be switched off mid-save from the LunaLib menu, and this monitor then
+            // takes over from DraconManager; mirror of DraconManager.migrateFromSteelCurtain().
+            if (market.hasCondition(DRACON_ID)) {
+                market.removeCondition(DRACON_ID);
+            }
 
             boolean isDraconisOwned = DRACONIS.equals(market.getFactionId());
             boolean hasCondition = market.hasCondition(CONDITION_ID);

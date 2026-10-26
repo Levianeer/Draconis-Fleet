@@ -1,15 +1,16 @@
 {
 	# ========================================
 	# SYSTEM TOGGLES
+	# With LunaLib enabled, the settings listed in data/config/LunaSettings.csv are changed from its in-game menu instead of here.
 	# ========================================
 
 	"draconisEnableAICoreRaids": true,					# Enable/disable AI core raids on faction markets	#	Default : true
 	"draconisEnableRemnantRaids": true,					# Enable/disable raids on Remnant installations		#	Default : true
 	"draconisEnableWeaponEscalation": true,				# Replace Draconis Naginata loadouts with Daikyu-class when player fields nuclear weapons	#	Default : true
 
-	"draconisCarrierDoctrineDebugMessages": true,		# Show in-combat Carrier Doctrine AI debug messages and the world-space role/target overlay	#	Default : false
+	"draconisCarrierDoctrineDebugMessages": false,		# Show in-combat Carrier Doctrine AI debug messages and the world-space role/target overlay	#	Default : false
 	"draconisCarrierDoctrineEnabled": true,				# false = install no combat AI at all, record the battle anyway - the baseline every controller must beat	#	Default : true
-	"draconisCarrierDoctrineBattleLog": true,			# Per-battle summary to saves/common/draconis_tf_battle_*	#	Default : true
+	"draconisCarrierDoctrineBattleLog": false,			# Per-battle summary to saves/common/draconis_tf_battle_*	#	Default : false
 	"draconisAdmiralAI": true,							# true = DraconisAdmiralAI, false = CarrierDoctrineAI (legacy) - flip to A/B the two	#	Default : true
 	"draconisAdmiralActs": true,						# false = DraconisAdmiralAI observes and logs without issuing orders, which is the baseline it is measured against	#	Default : true
 	"draconisAdmiralOpening": true,						# false = the opening plan only observes and logs its posture, for A/B against the slide alone	#	Default : true
@@ -96,7 +97,6 @@
 
 	# --- One-time factors (combat & donation) ---
 	"draconisAIOCombatHostilePoints": 5,				# Tracker increase when player fights any DDA/XLII fleet	#	Default : 5
-	"draconisAIOCombatShadowPoints": 3,					# Tracker increase when player defeats a shadow fleet (AIO notes capability)	#	Default : 3
 	"draconisAIODonationAlphaPoints": -15,				# Tracker reduction per Alpha core donated to DDA	#	Default : -15
 	"draconisAIODonationBetaPoints": -10,				# Tracker reduction per Beta core donated to DDA	#	Default : -10
 	"draconisAIODonationGammaPoints": -5,				# Tracker reduction per Gamma core donated to DDA	#	Default : -5

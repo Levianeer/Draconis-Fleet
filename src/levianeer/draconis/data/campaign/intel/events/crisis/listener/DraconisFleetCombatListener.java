@@ -5,6 +5,7 @@ import com.fs.starfarer.api.campaign.BattleAPI;
 import com.fs.starfarer.api.campaign.CampaignEventListener.FleetDespawnReason;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.listeners.FleetEventListener;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
 import org.apache.log4j.Logger;
 
@@ -83,7 +84,7 @@ public class DraconisFleetCombatListener implements FleetEventListener {
 
     private int getIntSetting(String key, int defaultValue) {
         try {
-            return (int) Global.getSettings().getFloat(key);
+            return (int) DraconisSettings.getFloat(key);
         } catch (Exception e) {
             return defaultValue;
         }

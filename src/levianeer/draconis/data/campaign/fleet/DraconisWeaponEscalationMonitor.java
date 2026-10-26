@@ -7,6 +7,7 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import levianeer.draconis.DraconisSettings;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +56,7 @@ public class DraconisWeaponEscalationMonitor {
     public static boolean isEnabled() {
         if (cachedEnabled == null) {
             try {
-                cachedEnabled = Global.getSettings().getBoolean(SETTING_ENABLED);
+                cachedEnabled = DraconisSettings.getBoolean(SETTING_ENABLED);
             } catch (Exception e) {
                 log.warn("Draconis: Failed to read " + SETTING_ENABLED + ", defaulting to true", e);
                 cachedEnabled = true;

@@ -9,6 +9,7 @@ import com.fs.starfarer.api.combat.CombatEngineAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import org.apache.log4j.Logger;
+import levianeer.draconis.DraconisSettings;
 
 /**
  * Installed once per battle by XLII_FortySecond (the built-in hullmod every FortySecond-skinned
@@ -76,7 +77,7 @@ public class CarrierDoctrinePlugin extends BaseEveryFrameCombatPlugin {
 
     protected static boolean battleLogEnabled() {
         try {
-            return Global.getSettings().getBoolean("draconisCarrierDoctrineBattleLog");
+            return DraconisSettings.getBoolean("draconisCarrierDoctrineBattleLog");
         } catch (Exception e) {
             return false;
         }
@@ -84,7 +85,7 @@ public class CarrierDoctrinePlugin extends BaseEveryFrameCombatPlugin {
 
     protected static boolean controllerEnabled() {
         try {
-            return Global.getSettings().getBoolean(ENABLED_SETTING_ID);
+            return DraconisSettings.getBoolean(ENABLED_SETTING_ID);
         } catch (Exception e) {
             log.warn("Draconis: failed to read " + ENABLED_SETTING_ID + ", leaving the controller on", e);
             return true;
@@ -93,7 +94,7 @@ public class CarrierDoctrinePlugin extends BaseEveryFrameCombatPlugin {
 
     protected static boolean useAdmiral() {
         try {
-            return Global.getSettings().getBoolean(ADMIRAL_SETTING_ID);
+            return DraconisSettings.getBoolean(ADMIRAL_SETTING_ID);
         } catch (Exception e) {
             log.warn("Draconis: failed to read " + ADMIRAL_SETTING_ID + ", using DraconisAdmiralAI", e);
             return true;

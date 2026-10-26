@@ -1,6 +1,7 @@
 package levianeer.draconis.data.campaign.econ.conditions;
 
 import com.fs.starfarer.api.Global;
+import levianeer.draconis.DraconisSettings;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -52,8 +53,8 @@ public class DraconConfig {
         try {
             JSONObject config = Global.getSettings().getJSONObject("draconisReadinessCondition");
 
-            enabled = config.optBoolean("enabled", true);
-            testLevelOverride = config.optInt("testLevelOverride", -1);
+            enabled = DraconisSettings.getBoolean("draconisDraconEnabled", config.optBoolean("enabled", true));
+            testLevelOverride = DraconisSettings.getInt("draconisDraconTestLevelOverride", config.optInt("testLevelOverride", -1));
 
             JSONObject factors = config.optJSONObject("factorWeights");
             if (factors != null) {

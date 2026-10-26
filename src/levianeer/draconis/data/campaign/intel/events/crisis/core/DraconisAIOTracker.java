@@ -20,6 +20,7 @@ import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.intel.aicore.scanner.DraconisSingleTargetScanner;
 import levianeer.draconis.data.campaign.intel.events.crisis.AIOStrings;
@@ -624,7 +625,7 @@ public class DraconisAIOTracker extends BaseEventIntel {
 
     private float getSetting(String key, float defaultValue) {
         try {
-            return Global.getSettings().getFloat(key);
+            return DraconisSettings.getFloat(key);
         } catch (Exception e) {
             return defaultValue;
         }

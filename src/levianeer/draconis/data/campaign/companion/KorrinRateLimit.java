@@ -3,6 +3,7 @@ package levianeer.draconis.data.campaign.companion;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.rules.MemoryAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
+import levianeer.draconis.DraconisSettings;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -131,9 +132,11 @@ public class KorrinRateLimit {
         loaded = true;
         try {
             JSONObject json = Global.getSettings().getJSONObject("korrinReactions");
-            barkCooldownDays = (float) json.optDouble("barkCooldownDays", barkCooldownDays);
+            barkCooldownDays = DraconisSettings.getFloat("draconisKorrinBarkCooldownDays",
+                    (float) json.optDouble("barkCooldownDays", barkCooldownDays));
             nudgeCooldownDays = (float) json.optDouble("nudgeCooldownDays", nudgeCooldownDays);
-            popupCooldownDays = (float) json.optDouble("popupCooldownDays", popupCooldownDays);
+            popupCooldownDays = DraconisSettings.getFloat("draconisKorrinPopupCooldownDays",
+                    (float) json.optDouble("popupCooldownDays", popupCooldownDays));
         } catch (Exception e) {
             log.warn("Draconis: could not read korrinReactions settings, using defaults", e);
         }

@@ -16,6 +16,7 @@ import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.intel.events.crisis.AIOStrings;
 import org.apache.log4j.Logger;
 
@@ -81,7 +82,7 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
      * Called fresh each tick so cost scales dynamically with deployment.
      */
     public static float computeCurrentMonthlyPayment() {
-        float base = Global.getSettings().getFloat("draconisAIOPaymentCost");
+        float base = DraconisSettings.getFloat("draconisAIOPaymentCost");
         int totalWeight = 0;
         for (MarketAPI m : Global.getSector().getEconomy().getMarketsCopy()) {
             if (!Factions.PLAYER.equals(m.getFactionId())) continue;
@@ -212,7 +213,7 @@ public class DraconisAIOPaymentDealIntel extends BaseIntelPlugin implements Econ
 
         int[] cores = countCoresByTier();
         int gamma = cores[0], beta = cores[1], alpha = cores[2], admin = cores[3];
-        float base = Global.getSettings().getFloat("draconisAIOPaymentCost");
+        float base = DraconisSettings.getFloat("draconisAIOPaymentCost");
 
         tooltip.addPara(AIOStrings.DEAL_TOOLTIP_PARA1, 0f);
 

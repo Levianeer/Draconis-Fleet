@@ -5,6 +5,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICorePriorityManager;
 import levianeer.draconis.data.campaign.intel.aicore.util.DraconisAICoreStockpile;
 import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
@@ -416,7 +417,7 @@ public class DraconisAICoreDonationListener implements EveryFrameScript {
 
     private int getIntSetting(String key, int defaultValue) {
         try {
-            return (int) Global.getSettings().getFloat(key);
+            return (int) DraconisSettings.getFloat(key);
         } catch (Exception e) {
             return defaultValue;
         }

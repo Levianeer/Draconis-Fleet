@@ -8,6 +8,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin;
 import com.fs.starfarer.api.impl.campaign.intel.MessageIntel;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.intel.events.crisis.AIOStrings;
 
 /**
@@ -33,7 +34,7 @@ public class DraconisArmamentsBonus {
 
         sendGainedMessage();
 
-        float exportBonus = Global.getSettings().getFloat("draconisArmamentsExportBonus");
+        float exportBonus = DraconisSettings.getFloat("draconisArmamentsExportBonus");
         Global.getSector().getPlayerStats().getDynamic().getStat(
                         Stats.getCommodityExportCreditsMultId(Commodities.HAND_WEAPONS))
                 .modifyMult(MOD_ID, 1f + exportBonus, AIOStrings.REWARD_STAT_LABEL);
@@ -60,7 +61,7 @@ public class DraconisArmamentsBonus {
     public static void sendGainedMessage() {
         MessageIntel msg = new MessageIntel();
         msg.addLine(AIOStrings.REWARD_GAINED_LINE1, Misc.getBasePlayerColor());
-        float exportBonus = Global.getSettings().getFloat("draconisArmamentsExportBonus");
+        float exportBonus = DraconisSettings.getFloat("draconisArmamentsExportBonus");
         msg.addLine(BaseIntelPlugin.BULLET + AIOStrings.REWARD_GAINED_LINE2_FMT, Misc.getTextColor(),
                 new String[] {"+" + Math.round(exportBonus * 100f) + "%"},
                 Misc.getHighlightColor());

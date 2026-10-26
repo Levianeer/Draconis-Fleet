@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.intel.events.BaseFactorTooltip;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.intel.events.crisis.AIOStrings;
 import levianeer.draconis.data.campaign.intel.events.crisis.core.DraconisAIOTracker;
 
@@ -158,6 +159,6 @@ public class DraconisAIORelationsFactor extends BaseEventFactor {
     }
 
     private float getSetting(String key, float def) {
-        try { return Global.getSettings().getFloat(key); } catch (Exception e) { return def; }
+        try { return DraconisSettings.getFloat(key); } catch (Exception e) { return def; }
     }
 }

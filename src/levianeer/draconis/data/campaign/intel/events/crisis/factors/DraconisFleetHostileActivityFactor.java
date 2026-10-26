@@ -28,6 +28,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipCreator;
 import com.fs.starfarer.api.ui.TooltipMakerAPI.TooltipLocation;
 import com.fs.starfarer.api.util.Misc;
+import levianeer.draconis.DraconisSettings;
 import levianeer.draconis.data.campaign.companion.KorrinTopicQueue;
 import levianeer.draconis.data.campaign.econ.conditions.DraconManager;
 import levianeer.draconis.data.campaign.fleet.DraconisAICoreFleetInflater;
@@ -128,14 +129,14 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
     @Override
     public int getMaxNumFleets(StarSystemAPI system) {
-        return Global.getSettings().getInt("draconisMaxFleets");
+        return DraconisSettings.getInt("draconisMaxFleets");
     }
 
     @Override
     public float getSpawnFrequency(StarSystemAPI system) {
         float baseMagnitude = getEffectMagnitude(system);
         if (baseMagnitude <= 0) return 0f;
-        float multiplier = Global.getSettings().getFloat("draconisSpawnFrequencyMult");
+        float multiplier = DraconisSettings.getFloat("draconisSpawnFrequencyMult");
         return baseMagnitude * multiplier;
     }
 
@@ -161,8 +162,8 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
     public CampaignFleetAPI createFleet(StarSystemAPI system, Random random) {
         float f = intel.getMarketPresenceFactor(system);
 
-        int difficultyBase = Global.getSettings().getInt("draconisPatrolDifficultyBase");
-        float difficultyMult = Global.getSettings().getFloat("draconisPatrolDifficultyMult");
+        int difficultyBase = DraconisSettings.getInt("draconisPatrolDifficultyBase");
+        float difficultyMult = DraconisSettings.getFloat("draconisPatrolDifficultyMult");
 
         // Scale difficulty with both market presence AND AIO tracker value
         DraconisAIOTracker tracker = DraconisAIOTracker.get();
@@ -226,7 +227,7 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
         if (DraconisAIOTracker.get() != null) return 0f; // tracker already running
         // Tracker can exist without a homeworld; fireInvasion in DraconisAIOTracker handles a null homeworld.
         try {
-            return Global.getSettings().getFloat("draconisExpeditionEventFrequency");
+            return DraconisSettings.getFloat("draconisExpeditionEventFrequency");
         } catch (Exception e) {
             return 5.0f;
         }
@@ -312,7 +313,7 @@ public class DraconisFleetHostileActivityFactor extends BaseHostileActivityFacto
 
         float f = intel.getMarketPresenceFactor(system);
 
-        float difficultyBase = Global.getSettings().getFloat("draconisExpeditionDifficultyBase");
+        float difficultyBase = DraconisSettings.getFloat("draconisExpeditionDifficultyBase");
         float difficultyMinFactor = Global.getSettings().getFloat("draconisExpeditionDifficultyMinFactor");
         float difficultyMaxFactor = Global.getSettings().getFloat("draconisExpeditionDifficultyMaxFactor");
 

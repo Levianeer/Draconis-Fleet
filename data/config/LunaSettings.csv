@@ -1,0 +1,47 @@
+fieldID,fieldName,fieldType,defaultValue,secondaryValue,fieldDescription,minValue,maxValue,tab
+draconisTogglesHeader,System Toggles,Header,System Toggles,,,,,General
+draconisRestartText,,Text,Settings marked (Requires Restart) take effect after restarting the game. Settings marked (Requires Save Reload) take effect after loading a save.,,,,,General
+draconisEnableAICoreRaids,AI Core Raids (Requires Restart),Boolean,true,,"Draconis raids target markets holding AI cores and steal them. Requires Nexerelin.",,,General
+draconisEnableRemnantRaids,Remnant Raids (Requires Restart),Boolean,true,,"Draconis raids target Remnant installations. Requires Nexerelin.",,,General
+draconisEnableWeaponEscalation,Weapon Escalation (Requires Save Reload),Boolean,true,,"Draconis fleets swap Naginata loadouts for Daikyu-class torpedoes once the player fields nuclear weapons.",,,General
+draconisDraconEnabled,DRACON Readiness (Requires Save Reload),Boolean,true,,"Draconis markets track a DRACON readiness level that rises with wars, lost colonies and invasions. Disable to use the static Steel Curtain condition instead. Requires Nexerelin.",,,General
+draconisAICoreScalingEnabled,Lite Core Officers (Requires Save Reload),Boolean,true,,"Draconis, Forty-Second and Intelligence Office fleets fill empty officer slots with Lite Core officers.",,,General
+draconisPatrolHeader,Shadow Fleet Patrols,Header,Shadow Fleet Patrols,,,,,General
+draconisPatrolDifficultyBase,Patrol Base Difficulty,Int,4,,"Base difficulty of the hostile fleets that roam systems with player colonies. Difficulty = Base + Market Presence x Scaling.",0,20,General
+draconisPatrolDifficultyMult,Patrol Difficulty Scaling,Double,4.0,,"How much patrol difficulty grows with player market presence.",0,10,General
+draconisMaxFleets,Max Patrols Per System,Int,9,,"Maximum number of patrols active in one system at a time.",1,20,General
+draconisSpawnFrequencyMult,Patrol Spawn Frequency,Double,90.0,,"Higher values spawn patrols more often, competing with other factions' hostile activity.",0,300,General
+draconisKorrinHeader,Korrin,Header,Korrin,,,,,General
+draconisKorrinBarkCooldownDays,Remark Cooldown (Requires Save Reload),Double,5.0,,"Minimum days between Korrin's passing remarks. Remarks skipped by the cooldown are not lost and can still play later.",0,30,General
+draconisKorrinPopupCooldownDays,Popup Cooldown (Requires Save Reload),Double,2.0,,"Minimum days between Korrin's popup conversations.",0,30,General
+draconisCrisisHeader,Colony Crisis,Header,Colony Crisis,,,,,Colony Crisis
+draconisExpeditionEventFrequency,Crisis Likelihood,Double,3.0,,"How likely the Draconis colony crisis is to trigger. Lower is less likely.",0,10,Colony Crisis
+draconisExpeditionDifficultyBase,Expedition Strength,Double,7.0,,"Base strength multiplier for punitive expedition fleets.",1,20,Colony Crisis
+draconisAIOBaseFloor,AIO Tracker Minimum Gain,Double,0.5,,"Minimum monthly tracker increase while any AI cores are installed in player colonies. No gain without AI cores.",0,5,Colony Crisis
+draconisAIOAICoreRate,AIO Tracker Gain Per AI Core,Double,0.4,,"Monthly tracker increase per weighted AI core (Alpha 3, Beta 2, Gamma 1, Admin 1).",0,2,Colony Crisis
+draconisAIORelationsMaxReduction,Reputation Reduction,Double,0.7,,"Largest fraction of tracker gain that high Draconis reputation removes. 0.7 = 70%% less at maximum reputation.",0,1,Colony Crisis
+draconisAIOMaxAccessibilityPenalty,Max Accessibility Penalty,Double,0.5,,"Accessibility penalty on all player colonies at tracker 100. 0.5 = -50%%.",0,1,Colony Crisis
+draconisAIOMaxStabilityPenalty,Max Stability Penalty,Double,2.0,,"Flat stability penalty on all player colonies once the tracker reaches 25.",0,10,Colony Crisis
+draconisAIOPaymentCost,Payment Deal Cost,Int,35000,,"Monthly credits per weighted AI core for the Draconis intelligence payment arrangement.",0,200000,Colony Crisis
+draconisArmamentsExportBonus,Armaments Export Bonus,Double,0.25,,"Heavy armaments export bonus earned by defeating the expedition. 0.25 = +25%%.",0,1,Colony Crisis
+draconisDisruptionHeader,AI Core Disruptions,Header,AI Core Disruptions,,,,,Colony Crisis
+draconisAIODisruptionCooldownMin,Disruption Cooldown (Min),Double,7.0,,"Minimum days between AI core industry disruptions on player colonies.",0,120,Colony Crisis
+draconisAIODisruptionCooldownMax,Disruption Cooldown (Max),Double,45.0,,"Maximum days between AI core industry disruptions on player colonies. Keep this at or above the minimum.",0,180,Colony Crisis
+draconisAIOWarningDays,Disruption Warning,Double,14.0,,"Days of advance warning before a disruption lands, giving time to hire a security team.",0,60,Colony Crisis
+draconisAIOSecurityTeamSuccessChance,Security Team Success Chance,Double,0.75,,"Chance a paid security team stops the disruption. 1.0 always succeeds.",0,1,Colony Crisis
+draconisAIOSecurityTeamCostFraction,Security Team Cost,Double,1.5,,"Security team cost as a multiple of the targeted industry's build cost.",0,5,Colony Crisis
+draconisTrackerHeader,Tracker Points,Header,Tracker Points,,,,,Colony Crisis
+draconisAIOCombatHostilePoints,Fighting Draconis Fleets,Int,5,,"AIO tracker increase each time the player fights a Draconis or Forty-Second fleet.",0,30,Colony Crisis
+draconisAIODonationAlphaPoints,Alpha Core Donation,Int,-15,,"AIO tracker change per Alpha core donated to the Alliance. Negative values lower the tracker.",-50,0,Colony Crisis
+draconisAIODonationBetaPoints,Beta Core Donation,Int,-10,,"AIO tracker change per Beta core donated to the Alliance. Negative values lower the tracker.",-50,0,Colony Crisis
+draconisAIODonationGammaPoints,Gamma Core Donation,Int,-5,,"AIO tracker change per Gamma core donated to the Alliance. Negative values lower the tracker.",-50,0,Colony Crisis
+draconisDebugHeader,Combat AI Debug,Header,Combat AI Debug,,,,,Debug
+draconisCarrierDoctrineDebugMessages,Debug Messages,Boolean,false,,"Shows in-combat Carrier Doctrine debug messages and the role/target overlay.",,,Debug
+draconisCarrierDoctrineBattleLog,Battle Log,Boolean,false,,"Writes a per-battle summary to saves/common/draconis_tf_battle_*.",,,Debug
+draconisCarrierDoctrineEnabled,Carrier Doctrine AI,Boolean,true,,"Disable to install no Draconis combat AI at all. Battles are still recorded for comparison.",,,Debug
+draconisAdmiralAI,Adaptive Admiral,Boolean,true,,"Uses the adaptive admiral. Disable to use the legacy Carrier Doctrine AI.",,,Debug
+draconisAdmiralActs,Admiral Issues Orders,Boolean,true,,"Disable to have the admiral observe and log without issuing orders.",,,Debug
+draconisAdmiralOpening,Admiral Opening Plan,Boolean,true,,"Disable to have the opening plan only observe and log its posture.",,,Debug
+draconisAdmiralCohesion,Admiral Fleet Cohesion,Boolean,true,,"Disable to have fleet cohesion only observe and log its redirects.",,,Debug
+draconisDraconDebugHeader,DRACON Debug,Header,DRACON Debug,,,,,Debug
+draconisDraconTestLevelOverride,Force DRACON Level (Requires Save Reload),Int,-1,,"Forces every Draconis market to one DRACON level, 1 to 5. -1 turns the override off.",-1,5,Debug

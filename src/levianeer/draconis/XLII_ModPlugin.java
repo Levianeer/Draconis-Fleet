@@ -92,9 +92,6 @@ public class XLII_ModPlugin extends BaseModPlugin {
     private static boolean enableAICoreRaids = true;
     private static boolean enableRemnantRaids = true;
 
-    // AI Core Fleet Scaling toggle
-    private static boolean enableAICoreFleetScaling = true;
-
     @Override
     public void onApplicationLoad() {
         log.info("Draconis: === Mod Loading ===");
@@ -107,7 +104,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
         // Load raid system toggles from settings
         try {
-            enableAICoreRaids = Global.getSettings().getBoolean("draconisEnableAICoreRaids");
+            enableAICoreRaids = DraconisSettings.getBoolean("draconisEnableAICoreRaids");
             log.info("Draconis: AI Core Raids: " + (enableAICoreRaids ? "ENABLED" : "DISABLED"));
         } catch (Exception e) {
             log.warn("Draconis: Failed to load draconisEnableAICoreRaids setting, defaulting to true", e);
@@ -115,7 +112,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
         }
 
         try {
-            enableRemnantRaids = Global.getSettings().getBoolean("draconisEnableRemnantRaids");
+            enableRemnantRaids = DraconisSettings.getBoolean("draconisEnableRemnantRaids");
             log.info("Draconis: Remnant Raids: " + (enableRemnantRaids ? "ENABLED" : "DISABLED"));
         } catch (Exception e) {
             log.warn("Draconis: Failed to load draconisEnableRemnantRaids setting, defaulting to true", e);
@@ -124,8 +121,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
 
         // Load AI Core Fleet Scaling config (initializes singleton)
         DraconisAICoreScalingConfig config = DraconisAICoreScalingConfig.getInstance();
-        enableAICoreFleetScaling = config.isEnabled();
-        log.info("Draconis: AI Core Fleet Scaling: " + (enableAICoreFleetScaling ? "ENABLED" : "DISABLED"));
+        log.info("Draconis: AI Core Fleet Scaling: " + (config.isEnabled() ? "ENABLED" : "DISABLED"));
 
         if (hasNexerelin) {
             log.info("Draconis: Nexerelin detected - AI core acquisition system will be enabled");
@@ -320,7 +316,7 @@ public class XLII_ModPlugin extends BaseModPlugin {
         log.info("Draconis:   - Longsight Crisis Combat Listener");
 
         // Add AI Core Fleet Scaling system
-        if (enableAICoreFleetScaling) {
+        if (DraconisAICoreScalingConfig.getInstance().isEnabled()) {
             log.info("Draconis: Registering AI Core Fleet Scaling");
             Global.getSector().addScript(new DraconisAICoreFleetInflater());
             log.info("Draconis:   - AI Core Fleet Inflater");

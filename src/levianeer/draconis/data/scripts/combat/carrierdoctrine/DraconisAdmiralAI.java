@@ -13,6 +13,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import org.apache.log4j.Logger;
+import levianeer.draconis.DraconisSettings;
 
 /**
  * The adaptive admiral. Augments the vanilla admiral rather than suppressing it - no
@@ -424,7 +425,7 @@ public class DraconisAdmiralAI implements DoctrineController {
 
     private static boolean settingOn(String id) {
         try {
-            return Global.getSettings().getBoolean(id);
+            return DraconisSettings.getBoolean(id);
         } catch (Exception e) {
             return false;
         }
