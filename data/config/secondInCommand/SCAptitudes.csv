@@ -1,0 +1,2 @@
+id,name,categories,spawnWeight,color,tags,order,plugin
+XLII_signals,Signals,,0.25,"140, 160, 255, 255","always_show_in_codex,",650,levianeer.draconis.data.scripts.skills.signals.AptitudeSignals

@@ -39,6 +39,10 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
 
     private static final float SHIELD_DEFENSE_MULT_BONUS = 1.5f;
 
+    // Detachments are built from FortySecond doctrine but fly under the market's faction, so the
+    // faction id alone can't identify them later.
+    public static final String DETACHMENT_KEY = "$XLII_fortySecondDetachment";
+
     private int getDraconLevel() {
         Object stored = Global.getSector().getMemoryWithoutUpdate().get(DraconManager.LEVEL_KEY);
         return (stored instanceof Number n) ? n.intValue() : 5;
@@ -352,6 +356,7 @@ public class XLII_HighCommand extends BaseIndustry implements RouteFleetSpawner,
         fleet.addEventListener(this);
 
         fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_PATROL_FLEET, true);
+        fleet.getMemoryWithoutUpdate().set(DETACHMENT_KEY, true);
         fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.3f);
         fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_CUSTOMS_INSPECTOR, true);
 

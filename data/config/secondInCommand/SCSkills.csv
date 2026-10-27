@@ -1,0 +1,12 @@
+id,name,iconPath,npcSpawnWeight,plugin
+XLII_signals_doctrine,Signals Doctrine,graphics/secondInCommand/XLII_signals/signals_doctrine.png,1,levianeer.draconis.data.scripts.skills.signals.SignalsDoctrine
+XLII_signals_ghost_contacts,Ghost Contacts,graphics/secondInCommand/XLII_signals/ghost_contacts.png,1,levianeer.draconis.data.scripts.skills.signals.GhostContacts
+XLII_signals_hardened_emitters,Hardened Emitters,graphics/secondInCommand/XLII_signals/hardened_emitters.png,1,levianeer.draconis.data.scripts.skills.signals.HardenedEmitters
+XLII_signals_fire_control_spoofing,Fire-Control Spoofing,graphics/secondInCommand/XLII_signals/fire_control_spoofing.png,1,levianeer.draconis.data.scripts.skills.signals.FireControlSpoofing
+XLII_signals_seeker_blinding,Seeker Blinding,graphics/secondInCommand/XLII_signals/seeker_blinding.png,1,levianeer.draconis.data.scripts.skills.signals.SeekerBlinding
+XLII_signals_target_painting,Target Painting,graphics/secondInCommand/XLII_signals/target_painting.png,1,levianeer.draconis.data.scripts.skills.signals.TargetPainting
+XLII_signals_crosslink,Crosslink,graphics/secondInCommand/XLII_signals/crosslink.png,1,levianeer.draconis.data.scripts.skills.signals.Crosslink
+XLII_signals_interlock,Interlock,graphics/secondInCommand/XLII_signals/interlock.png,1,levianeer.draconis.data.scripts.skills.signals.Interlock
+XLII_signals_comms_disruption,Comms Disruption,graphics/secondInCommand/XLII_signals/comms_disruption.png,1,levianeer.draconis.data.scripts.skills.signals.CommsDisruption
+XLII_signals_overclocked_arrays,Overclocked Arrays,graphics/secondInCommand/XLII_signals/overclocked_arrays.png,1,levianeer.draconis.data.scripts.skills.signals.OverclockedArrays
+XLII_signals_full_spectrum,Full Spectrum,graphics/secondInCommand/XLII_signals/full_spectrum.png,1,levianeer.draconis.data.scripts.skills.signals.FullSpectrum

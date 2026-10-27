@@ -15,6 +15,7 @@
 	"draconisAdmiralActs": true,						# false = DraconisAdmiralAI observes and logs without issuing orders, which is the baseline it is measured against	#	Default : true
 	"draconisAdmiralOpening": true,						# false = the opening plan only observes and logs its posture, for A/B against the slide alone	#	Default : true
 	"draconisAdmiralCohesion": true,					# false = fleet cohesion (adapted from AI Tweaks) only observes and logs its redirects, for A/B against the slide alone	#	Default : true
+	"draconisSignalsDebug": false,						# Second-in-Command only: in-combat readout of each side's ECM advantage and Signals skills, and the Signals effects on your ship and target	#	Default : false
 
 	# ========================================
 	# SHADOW FLEET PATROLS

@@ -43,5 +43,7 @@ draconisAdmiralAI,Adaptive Admiral,Boolean,true,,"Uses the adaptive admiral. Dis
 draconisAdmiralActs,Admiral Issues Orders,Boolean,true,,"Disable to have the admiral observe and log without issuing orders.",,,Debug
 draconisAdmiralOpening,Admiral Opening Plan,Boolean,true,,"Disable to have the opening plan only observe and log its posture.",,,Debug
 draconisAdmiralCohesion,Admiral Fleet Cohesion,Boolean,true,,"Disable to have fleet cohesion only observe and log its redirects.",,,Debug
+draconisSignalsDebugHeader,Signals Debug,Header,Signals Debug,,,,,Debug
+draconisSignalsDebug,Signals Debug Readout,Boolean,false,,"Second-in-Command only. Shows each side's ECM advantage and Signals skills in combat, and which Signals effects are applied to your ship and your target.",,,Debug
 draconisDraconDebugHeader,DRACON Debug,Header,DRACON Debug,,,,,Debug
 draconisDraconTestLevelOverride,Force DRACON Level (Requires Save Reload),Int,-1,,"Forces every Draconis market to one DRACON level, 1 to 5. -1 turns the override off.",-1,5,Debug
