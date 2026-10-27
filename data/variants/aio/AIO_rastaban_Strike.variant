@@ -1,0 +1,59 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 6,
+    "fluxVents": 20,
+    "hullId": "XLII_rastaban_aio",
+    "hullMods": [
+        "targetingunit",
+        "escort_package",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "targetingunit",
+        "escort_package"
+    ],
+    "sMods": [
+        "ecm",
+        "targetingunit",
+        "escort_package"
+    ],
+    "variantId": "AIO_rastaban_Strike",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "hveldriver",
+                "WS0011": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "heavymauler"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
+                "WS0004": "XLII_LaWS"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

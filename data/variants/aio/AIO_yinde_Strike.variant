@@ -1,0 +1,51 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 21,
+    "fluxVents": 30,
+    "hullId": "XLII_yinde_aio",
+    "hullMods": [
+        "targetingunit",
+        "ecm",
+        "eccm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "targetingunit"
+    ],
+    "variantId": "AIO_yinde_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "XLII_shashka",
+                "WS0004": "XLII_shashka",
+                "WS0007": "XLII_shashka",
+                "WS0008": "XLII_shashka"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0009": "XLII_montante"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0010": "pdlaser"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 7,
+    "fluxVents": 20,
+    "hullId": "XLII_giausar_aio",
+    "hullMods": [
+        "targetingunit",
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "targetingunit"
+    ],
+    "variantId": "AIO_giausar_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "lightac",
+                "WS0002": "lightac",
+                "WS0004": "lightac"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_cestus"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

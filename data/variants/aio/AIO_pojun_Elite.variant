@@ -1,0 +1,57 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 16,
+    "fluxVents": 20,
+    "hullId": "XLII_pojun_aio",
+    "hullMods": [
+        "targetingunit",
+        "escort_package",
+        "hardenedshieldemitter",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "targetingunit"
+    ],
+    "variantId": "AIO_pojun_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_shashka"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_rapier",
+                "WS0002": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_estocflak"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

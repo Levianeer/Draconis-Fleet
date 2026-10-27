@@ -1,0 +1,57 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 8,
+    "fluxVents": 0,
+    "hullId": "XLII_aldhibah_aio",
+    "hullMods": [
+        "ecm",
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "permaMods": [
+        "ecm",
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "sMods": [
+        "ecm",
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "variantId": "AIO_aldhibah_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 004": "ionpulser"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 005": "XLII_hankyu_torpedo",
+                "WS 006": "XLII_hankyu_torpedo"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "irpulse"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "XLII_swordbreaker",
+                "WS 003": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

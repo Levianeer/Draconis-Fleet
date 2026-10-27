@@ -1,0 +1,70 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 0,
+    "fluxVents": 5,
+    "hullId": "XLII_shaobi_fortysecond",
+    "hullMods": [
+        "XLII_slap_er",
+        "ecm",
+        "fluxdistributor"
+    ],
+    "permaMods": [
+        "ecm",
+        "XLII_slap_er",
+        "fluxdistributor"
+    ],
+    "sMods": [
+        "ecm",
+        "XLII_slap_er",
+        "fluxdistributor"
+    ],
+    "variantId": "FortySecond_shaobi_Elite_ECM",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "sabot",
+                "WS0004": "sabot"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0008": "XLII_falconet"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_LaWS",
+                "WS0002": "XLII_LaWS",
+                "WS0006": "XLII_LaWS",
+                "WS0009": "XLII_LaWS"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_tianbang_wing",
+        "XLII_nodus_wing"
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

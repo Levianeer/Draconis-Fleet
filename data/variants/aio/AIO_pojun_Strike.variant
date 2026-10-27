@@ -1,0 +1,57 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 17,
+    "fluxVents": 20,
+    "hullId": "XLII_pojun_aio",
+    "hullMods": [
+        "targetingunit",
+        "advancedoptics",
+        "escort_package",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "advancedoptics",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "advancedoptics",
+        "targetingunit"
+    ],
+    "variantId": "AIO_pojun_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "hveldriver",
+                "WS0002": "hveldriver"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "gravitonbeam"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "ionbeam"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_estocflak"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

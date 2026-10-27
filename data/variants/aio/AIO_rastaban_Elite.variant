@@ -1,0 +1,60 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 6,
+    "fluxVents": 18,
+    "hullId": "XLII_rastaban_aio",
+    "hullMods": [
+        "targetingunit",
+        "escort_package",
+        "hardenedshieldemitter",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "targetingunit"
+    ],
+    "variantId": "AIO_rastaban_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_rapier",
+                "WS0011": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "XLII_bardiche"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
+                "WS0005": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

@@ -1,0 +1,65 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 18,
+    "fluxVents": 12,
+    "hullId": "XLII_errakis_aio",
+    "hullMods": [
+        "missleracks",
+        "extendedshieldemitter",
+        "ecm",
+        "eccm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "variantId": "AIO_errakis_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_naginata"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "sabot",
+                "WS0006": "sabot"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "XLII_estocflak",
+                "WS0003": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

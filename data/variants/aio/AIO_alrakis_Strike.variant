@@ -1,0 +1,79 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 26,
+    "fluxVents": 30,
+    "hullId": "XLII_alrakis_aio",
+    "hullMods": [
+        "targetingunit",
+        "ecm",
+        "eccm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "targetingunit"
+    ],
+    "variantId": "AIO_alrakis_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0011": "XLII_bardiche_large"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "harpoon",
+                "WS0007": "harpoon",
+                "WS0008": "harpoon",
+                "WS0009": "harpoon"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_longsword"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "XLII_culverin",
+                "WS0003": "XLII_culverin"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0010": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_estocflak",
+                "WS0005": "XLII_estocflak"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_tianyi_wing",
+        "XLII_grumium_wing",
+        "XLII_grumium_wing"
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

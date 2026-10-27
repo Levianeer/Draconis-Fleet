@@ -1,0 +1,100 @@
+{
+    "displayName": "Escort",
+    "fluxCapacitors": 4,
+    "fluxVents": 50,
+    "hullId": "XLII_alwaid_aio",
+    "hullMods": [
+        "targetingunit",
+        "magazines",
+        "stabilizedshieldemitter",
+        "missleracks",
+        "ecm",
+        "eccm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "variantId": "AIO_alwaid_Escort",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0013": "XLII_naginata",
+                "WS0014": "XLII_naginata"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0011": "XLII_bardiche",
+                "WS0012": "XLII_bardiche"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "XLII_halberd_pod",
+                "WS0006": "XLII_halberd_pod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0025": "XLII_longsword",
+                "WS0026": "XLII_longsword"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_estocflak",
+                "WS0002": "XLII_estocflak",
+                "WS0009": "XLII_estocflak",
+                "WS0010": "XLII_estocflak",
+                "WS0030": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0027": "XLII_razorflak",
+                "WS0031": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0003": "XLII_swordbreaker",
+                "WS0004": "XLII_swordbreaker",
+                "WS0007": "XLII_swordbreaker",
+                "WS0008": "XLII_swordbreaker",
+                "WS0028": "XLII_swordbreaker",
+                "WS0029": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_grumium_alt_wing",
+        "XLII_grumium_wing",
+        "XLII_grumium_wing",
+        "XLII_grumium_wing",
+        "XLII_grumium_alt_wing"
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

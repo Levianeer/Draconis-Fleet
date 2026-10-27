@@ -48,33 +48,32 @@
 	"shipsWhenImporting":{
 		"tags":[],
 		"hulls":[
-			"XLII_shaowei",
-			"XLII_juza",
-			"XLII_yinde",
-			"XLII_tianlong_mk2",
-			"XLII_asuia",
+			"XLII_shaowei_aio",
+			"XLII_juza_aio",
+			"XLII_yinde_aio",
+			"XLII_tianlong_mk2_aio",
+			"XLII_asuia_aio",
 			"XLII_sunsetter"
 		],
 	},
 	
+	# XLII_aio_bp is the _aio skins (data/hulls/skins/XLII_*_aio.skin), so AIO only spawns its own
+	# S-modded variants (data/variants/aio/). The Alsafis are civilian and stay on the base hulls.
 	"knownShips":{
-		"tags":["XLII_ship_bp"],
+		"tags":["XLII_aio_bp"],
 		"hulls":[
-			"XLII_shaowei",
-			"XLII_juza",
-			"XLII_yinde",
-			"XLII_tianlong_mk2",
-			"XLII_asuia"
+			"XLII_alsafi",
+			"XLII_alsafi_cargo"
 		],
 	},
 	
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":["XLII_ship_bp"],
+		"tags":["XLII_aio_bp"],
 		"hulls":[
-			"XLII_shaowei",
-			"XLII_yinde",
-			"XLII_asuia"
+			"XLII_shaowei_aio",
+			"XLII_yinde_aio",
+			"XLII_asuia_aio"
 		],
 	},
 	

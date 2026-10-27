@@ -1,0 +1,60 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 30,
+    "fluxVents": 30,
+    "hullId": "XLII_nushi_aio",
+    "hullMods": [
+        "targetingunit",
+        "frontemitter",
+        "hardenedshieldemitter",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "targetingunit",
+        "hardenedshieldemitter"
+    ],
+    "sMods": [
+        "ecm",
+        "targetingunit",
+        "hardenedshieldemitter"
+    ],
+    "variantId": "AIO_nushi_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0015": "XLII_shashka"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0013": "XLII_montante",
+                "WS0014": "XLII_montante"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0017": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0016": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_pulao_wing"
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

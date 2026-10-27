@@ -1,0 +1,57 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 10,
+    "fluxVents": 10,
+    "hullId": "XLII_thuban_fortysecond",
+    "hullMods": [
+        "hardenedshieldemitter",
+        "stabilizedshieldemitter",
+        "extendedshieldemitter",
+        "XLII_slap_er",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "extendedshieldemitter"
+    ],
+    "sMods": [
+        "ecm",
+        "hardenedshieldemitter",
+        "extendedshieldemitter"
+    ],
+    "variantId": "FortySecond_thuban_Elite_ECM",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_durendal"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "lightac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_LaWS"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

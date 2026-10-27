@@ -1,0 +1,59 @@
+{
+    "displayName": "Assault",
+    "fluxCapacitors": 15,
+    "fluxVents": 20,
+    "hullId": "XLII_rastaban_aio",
+    "hullMods": [
+        "missleracks",
+        "ecm",
+        "fluxdistributor"
+    ],
+    "permaMods": [
+        "ecm",
+        "missleracks",
+        "fluxdistributor"
+    ],
+    "sMods": [
+        "ecm",
+        "missleracks",
+        "fluxdistributor"
+    ],
+    "variantId": "AIO_rastaban_Assault",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_cestus",
+                "WS0011": "XLII_cestus"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0006": "XLII_cestus"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_LaWS",
+                "WS0002": "XLII_LaWS",
+                "WS0004": "vulcan"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

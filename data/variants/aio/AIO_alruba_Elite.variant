@@ -1,0 +1,51 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 3,
+    "fluxVents": 10,
+    "hullId": "XLII_alruba_aio",
+    "hullMods": [
+        "ecm",
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "permaMods": [
+        "ecm",
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "sMods": [
+        "ecm",
+        "fluxdistributor",
+        "fluxcoil"
+    ],
+    "variantId": "AIO_alruba_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "XLII_rapier",
+                "WS0003": "XLII_rapier"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_bardiche_single",
+                "WS0005": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0015": "lightag",
+                "WS0016": "lightag"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

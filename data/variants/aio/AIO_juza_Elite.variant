@@ -1,0 +1,72 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 16,
+    "fluxVents": 30,
+    "hullId": "XLII_juza_aio",
+    "hullMods": [
+        "targetingunit",
+        "turretgyros",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "targetingunit",
+        "turretgyros"
+    ],
+    "sMods": [
+        "ecm",
+        "targetingunit",
+        "turretgyros"
+    ],
+    "variantId": "AIO_juza_Elite",
+    "weaponGroups": [
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0003": "XLII_ttc",
+                "WS0020": "XLII_ttc"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "breach",
+                "WS0021": "breach",
+                "WS0026": "breach",
+                "WS0027": "breach",
+                "WS0028": "breach",
+                "WS0029": "breach"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0015": "XLII_estocflak",
+                "WS0024": "XLII_estocflak",
+                "WS0025": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_razorflak",
+                "WS0019": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0005": "XLII_swordbreaker",
+                "WS0006": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

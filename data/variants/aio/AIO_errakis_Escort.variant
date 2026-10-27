@@ -1,0 +1,62 @@
+{
+    "displayName": "Escort",
+    "fluxCapacitors": 0,
+    "fluxVents": 17,
+    "hullId": "XLII_errakis_aio",
+    "hullMods": [
+        "converted_hangar",
+        "missleracks",
+        "ecm",
+        "eccm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "variantId": "AIO_errakis_Escort",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "XLII_bardiche_large"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_halberd",
+                "WS0006": "XLII_halberd"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker",
+                "WS0002": "XLII_swordbreaker",
+                "WS0003": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_tianbang_wing"
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

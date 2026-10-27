@@ -1,0 +1,57 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 3,
+    "fluxVents": 10,
+    "hullId": "XLII_aldhibah_aio",
+    "hullMods": [
+        "missleracks",
+        "ecm",
+        "fluxdistributor"
+    ],
+    "permaMods": [
+        "ecm",
+        "missleracks",
+        "fluxdistributor"
+    ],
+    "sMods": [
+        "ecm",
+        "missleracks",
+        "fluxdistributor"
+    ],
+    "variantId": "AIO_aldhibah_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 004": "XLII_shashka"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 005": "sabot",
+                "WS 006": "sabot"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "lightac"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "XLII_swordbreaker",
+                "WS 003": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

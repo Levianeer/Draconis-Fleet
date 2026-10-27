@@ -1,0 +1,84 @@
+{
+    "displayName": "Strike",
+    "fluxCapacitors": 15,
+    "fluxVents": 50,
+    "hullId": "XLII_altais_aio",
+    "hullMods": [
+        "targetingunit",
+        "ecm",
+        "eccm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "targetingunit"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "targetingunit"
+    ],
+    "variantId": "AIO_altais_Strike",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "ALTERNATING",
+            "weapons": {
+                "WS0001": "XLII_shashka",
+                "WS0002": "XLII_shashka",
+                "WS0003": "XLII_shashka",
+                "WS0004": "XLII_shashka",
+                "WS0005": "XLII_shashka",
+                "WS0006": "XLII_shashka"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0014": "XLII_pike",
+                "WS0015": "XLII_pike"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_hankyu_torpedo",
+                "WS0019": "XLII_hankyu_torpedo",
+                "WS0028": "XLII_hankyu_torpedo_pod",
+                "WS0029": "XLII_hankyu_torpedo_pod"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0024": "XLII_razorflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0009": "XLII_LaWS",
+                "WS0010": "XLII_LaWS",
+                "WS0012": "XLII_LaWS",
+                "WS0027": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0007": "XLII_swordbreaker",
+                "WS0008": "XLII_swordbreaker",
+                "WS0011": "XLII_swordbreaker",
+                "WS0023": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

@@ -1,0 +1,68 @@
+{
+    "displayName": "Elite",
+    "fluxCapacitors": 7,
+    "fluxVents": 20,
+    "hullId": "XLII_errakis_aio",
+    "hullMods": [
+        "eccm",
+        "missleracks",
+        "converted_hangar",
+        "ecm"
+    ],
+    "permaMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "sMods": [
+        "ecm",
+        "eccm",
+        "missleracks"
+    ],
+    "variantId": "AIO_errakis_Elite",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0004": "squall"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0005": "XLII_bardiche_single",
+                "WS0006": "XLII_bardiche_single"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_culverin"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0002": "XLII_estocflak",
+                "WS0003": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "XLII_swordbreaker"
+            }
+        }
+    ],
+    "wings": [
+        "XLII_pulao_wing"
+    ],
+    "tags": [
+        "no_autofit_unless_player"
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "baseHullId": "XLII_eltanin",
+    "skinHullId": "XLII_eltanin_aio",
+    "hullName": "Eltanin (AIO)",
+    "incompatibleWithBaseHull": true,
+    "descriptionPrefix": "Refitted by the Alliance Intelligence Office with a dedicated electronic warfare suite. Ships of this pattern are rarely seen outside Office operations.",
+    "tags": [
+        "XLII_aio_bp",
+        "no_dealer",
+        "hide_in_codex"
+    ],
+    "tech": "Intelligence Office"
+}
