@@ -11,8 +11,8 @@ import static levianeer.draconis.data.campaign.ids.Factions.INTELLIGENCE_OFFICE;
 /**
  * Haspel Monroe - Director of the Alliance Intelligence Office.
  * Registered with ImportantPeopleAPI only - not placed at any market or comm directory.
- * Her black site (XLII_OfficeSystem's Ladon) has no MarketAPI to place her on. Set up ahead
- * of a future story beat; no dialogue or reveal path exists yet.
+ * Her black site (XLII_OfficeSystem's Ladon) has no MarketAPI to place her on. Her dialogue
+ * (Chain of Custody vetting, standing core trade) lives in rules.csv.
  */
 public class XLII_PersonHaspelMonroe {
 
