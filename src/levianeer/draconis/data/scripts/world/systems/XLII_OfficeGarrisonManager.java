@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.AICoreOfficerPlugin;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FleetAssignment;
+import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
@@ -15,6 +16,8 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.util.Misc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static levianeer.draconis.data.campaign.ids.Factions.INTELLIGENCE_OFFICE;
@@ -45,6 +48,9 @@ public class XLII_OfficeGarrisonManager extends SeededFleetManager {
     private static final float RESPAWN_MAX_DAYS = 12f;
 
     private static final float REORBIT_INTERVAL_DAYS = 7f;
+
+    /** Marks a fleet spawned by {@link #ensureStationBattleFleet}, not by the seeded garrison. */
+    private static final String STATION_GUARD_FLAG = "$XLII_bastionStationGuard";
 
     private final SectorEntityToken anchor;
     private final Random random = new Random();
@@ -123,8 +129,48 @@ public class XLII_OfficeGarrisonManager extends SeededFleetManager {
 
     @Override
     protected CampaignFleetAPI spawnFleet(long seed) {
-        Random seedRandom = new Random(seed);
+        CampaignFleetAPI fleet = createGarrisonFleet(new Random(seed));
+        if (fleet == null) return null;
 
+        system.addEntity(fleet);
+        fleet.setLocation(anchor.getLocation().x, anchor.getLocation().y);
+        fleet.getAI().addAssignment(FleetAssignment.ORBIT_PASSIVE, anchor, 30f, null);
+
+        return fleet;
+    }
+
+    /**
+     * Anti-cheese for Burn the Machine's station battle: if no Office fleet is close enough for
+     * the battle to pull in (the garrison was lured off, or destroyed and still on its respawn
+     * timer), spawns one on the bastion just for this fight. Called right before the fight opens.
+     */
+    public static void ensureStationBattleFleet(CampaignFleetAPI bastion) {
+        LocationAPI loc = bastion.getContainingLocation();
+        if (loc == null) return;
+
+        List<CampaignFleetAPI> strayGuards = new ArrayList<>();
+        for (CampaignFleetAPI other : loc.getFleets()) {
+            if (other == bastion || other.isStationMode() || other.getBattle() != null) continue;
+            if (!INTELLIGENCE_OFFICE.equals(other.getFaction().getId())) continue;
+
+            // Same range test FleetInteractionDialogPluginImpl.pullInNearbyFleets() uses.
+            float dist = Misc.getDistance(bastion, other) - bastion.getRadius() - other.getRadius();
+            if (dist < Misc.getBattleJoinRange()) return;
+            if (other.getMemoryWithoutUpdate().getBoolean(STATION_GUARD_FLAG)) strayGuards.add(other);
+        }
+        // A guard from an earlier attempt that has since been lured off - don't let them pile up.
+        for (CampaignFleetAPI stray : strayGuards) stray.despawn();
+
+        CampaignFleetAPI fleet = createGarrisonFleet(new Random());
+        if (fleet == null) return;
+        fleet.getMemoryWithoutUpdate().set(STATION_GUARD_FLAG, true);
+
+        loc.addEntity(fleet);
+        fleet.setLocation(bastion.getLocation().x, bastion.getLocation().y);
+        fleet.getAI().addAssignment(FleetAssignment.ORBIT_PASSIVE, bastion, 1000f, null);
+    }
+
+    private static CampaignFleetAPI createGarrisonFleet(Random seedRandom) {
         // No MarketAPI source - these patrols aren't tied to a colony's economy at all.
         FleetParamsV3 params = new FleetParamsV3(
                 null,                     // loc in hyper; not needed, fleet spawns in-system
@@ -147,16 +193,11 @@ public class XLII_OfficeGarrisonManager extends SeededFleetManager {
         fleet.setName("");
         inflateWithAICores(fleet, seedRandom);
         XLII_OfficeSystem.applyHostility(fleet);
-
-        system.addEntity(fleet);
-        fleet.setLocation(anchor.getLocation().x, anchor.getLocation().y);
-        fleet.getAI().addAssignment(FleetAssignment.ORBIT_PASSIVE, anchor, 30f, null);
-
         return fleet;
     }
 
     /** Every combat ship gets an Alpha Core captain - no human officers, no partial coverage. */
-    private void inflateWithAICores(CampaignFleetAPI fleet, Random random) {
+    private static void inflateWithAICores(CampaignFleetAPI fleet, Random random) {
         AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(Commodities.ALPHA_CORE);
         if (plugin == null) return;
 

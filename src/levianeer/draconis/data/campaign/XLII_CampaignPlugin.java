@@ -16,6 +16,9 @@ import levianeer.draconis.data.campaign.events.XLII_RingPortAssault;
 import levianeer.draconis.data.campaign.fleet.DraconisWeaponEscalationMonitor;
 import levianeer.draconis.data.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.RuleBasedInteractionDialogPluginImpl;
+import com.fs.starfarer.api.impl.campaign.FleetInteractionDialogPluginImpl;
+import levianeer.draconis.data.campaign.events.XLII_BastionDestructionMonitor;
+import levianeer.draconis.data.scripts.world.systems.XLII_OfficeGarrisonManager;
 import levianeer.draconis.data.campaign.intel.blind_eye.XLII_OfficeContactMonitor;
 import levianeer.draconis.data.campaign.intel.fafnir.FafnirAccessStrings;
 import levianeer.draconis.data.campaign.intel.fafnir.XLII_FafnirBlockedDialogPlugin;
@@ -192,6 +195,27 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
                     log.debug("Draconis: Office bastion Ancker Kori-transcript intercept");
                     return new PluginPick<>(
                             new RuleBasedInteractionDialogPluginImpl("XLII_AnckerKoriTranscript"),
+                            CampaignPlugin.PickPriority.MOD_SPECIFIC
+                    );
+                }
+
+                // --- Office bastion: Burn the Machine's station battle ---
+                // Checked ahead of the exchange below - that branch has no hostility gate, and
+                // would otherwise open Monroe's trade menu on a bastion that's shooting at you.
+                // First click plays her final transmission (rules.csv, # [UPLINK TO GOD] Monroe
+                // Confrontation), which ends in XLII_BeginBastionBattle; later clicks (after a
+                // retreat) skip straight to the fight.
+                if (XLII_BastionDestructionMonitor.shouldRegister()) {
+                    if (!mem.getBoolean("$XLII_monroeFinaleSeen")) {
+                        log.debug("Draconis: Office bastion Monroe finale intercept");
+                        return new PluginPick<>(
+                                new RuleBasedInteractionDialogPluginImpl("XLII_MonroeFinale"),
+                                CampaignPlugin.PickPriority.MOD_SPECIFIC
+                        );
+                    }
+                    XLII_OfficeGarrisonManager.ensureStationBattleFleet(fleet);
+                    return new PluginPick<>(
+                            new FleetInteractionDialogPluginImpl(),
                             CampaignPlugin.PickPriority.MOD_SPECIFIC
                     );
                 }

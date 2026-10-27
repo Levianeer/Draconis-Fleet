@@ -4229,6 +4229,52 @@ He does not argue, and he does not come.
 He is gone by the time your fleet forms up. No argument, no scene. Just an empty berth where his gear used to be.","1:interception_begin_fight:Understood","Elias's loyalty fork, low-rep/unrecruited fallback - zero conditions so FireBest only picks it when the stays-branch (above) doesn't match. returnToStation is idempotent, safe to call even if he was never aboard. No direct confrontation, per his character bible. Options column changed (this session) from return_to_main_menu to interception_begin_fight, same reason as XLII_burn_elias_stays above."
 XLII_interception_begin_fight,DialogOptionSelected,"$option == interception_begin_fight","XLII_BeginBattlegroupFight",,,"Fired by XLII_burn_elias_stays/_leaves's own ""Understood"" option (changed from return_to_main_menu, see those rows). Starts the fleet fight against the Forty-Second Battlegroup - see XLII_KoriStrike.launchBattlegroupFight()."
 "#END [UPLINK TO GOD] Burn the Machine",,,,,,
+# [UPLINK TO GOD] Monroe Confrontation,,,,,,
+XLII_monroe_finale_open,XLII_MonroeFinale,,,"The bastion's sensor arrays have stopped cycling. For the first time since you've known the place, they hold still, fixed on you.",1:monroe_finale_hail:Continue,"Dispatched from XLII_CampaignPlugin's bastion interception on the first click once XLII_BastionDestructionMonitor.shouldRegister() (Kori strike done, finale not yet). Later clicks skip this and go straight to the fight."
+XLII_monroe_finale_hail,DialogOptionSelected,$option == monroe_finale_hail,ShowPersonVisual false XLII_aio_director_Haspel,"A burst transmission cuts across the fleet channel with no handshake and no Office routing codes. It's Monroe, framed tight against a dark room. Her data-slate sits neatly to one side, untouched.
+
+""Commander.""
+
+""I read what August sent. I read what he didn't think to send. An independent. Unaffiliated. I cleared you anyway. You were reliable, and you were useful, and useful things are cheap until they aren't.""
+
+A pause, shorter than her pauses usually are.
+
+""That decision came down to me. I have made a great many decisions, Commander, and I have never once been made to answer for one, and I find I don't know how this part is supposed to go.""
+
+She stops. Whatever came next, she doesn't say it.
+
+""Your officers. Your contacts at - ""
+
+Nothing. The line holds.
+
+""Who is paying you?""
+
+The question sits on the channel. She seems to hear it a moment after you do.
+
+""No. It doesn't matter."" She's composed again, or close enough. ""I know what you are. I've read hundreds of you. And I can still stop you.""","1:monroe_finale_challenge:Your mistake was thinking no one would interfere
+2:monroe_finale_morality:I'm doing this because it's right, not because it's profitable
+3:monroe_finale_fight:Yeah, I get that a lot",
+XLII_monroe_finale_challenge,DialogOptionSelected,$option == monroe_finale_challenge,,"""No one interferes, Commander. People are bought, moved, or removed. That is the entire job.""
+
+""My mistake was clearing you. I priced you wrong.""
+
+A breath. Then, quieter, almost not meant for you:
+
+""God willing, I'll correct it myself.""",1:monroe_finale_cut:Continue,
+XLII_monroe_finale_morality,DialogOptionSelected,$option == monroe_finale_morality,,"""I've heard that from more of your kind than I could file. You sell yourselves for virtue the way the rest sell themselves for coin. The only difference is the receipt.""
+
+""And the receipt is all you'll have. Whatever you build out there - the fleets, the colonies, the name - it decays. It always does.""
+
+""Look at Sindria. They had a lion too. Brilliant. Righteous. Adored. Now he sleeps, and everything they built around him is coming apart at the seams.""
+
+""Yours will go the same way, Commander. And you will die by the sword you wield so brazenly.""",1:monroe_finale_cut:Continue,
+XLII_monroe_finale_fight,DialogOptionSelected,$option == monroe_finale_fight,,"""Hmph.""
+
+""Then I will be the exception.""",1:monroe_finale_cut:Continue,
+XLII_monroe_finale_cut,DialogOptionSelected,$option == monroe_finale_cut,"ShowDefaultVisual
+$global.XLII_monroeFinaleSeen = true","The channel cuts. A moment later the sensor arrays begin cycling again, faster now, in patterns that don't repeat.",1:monroe_finale_engage:Engage,"Shared close for all three branches. ShowDefaultVisual on the bastion fleet swaps Monroe's portrait for the strength comparison panel as the channel drops. Seen-flag set here, once the player has received the whole transmission."
+XLII_monroe_finale_engage,DialogOptionSelected,$option == monroe_finale_engage,XLII_BeginBastionBattle,,,"XLII_BeginBastionBattle spawns a dedicated defense fleet if no garrison fleet is in battle-join range, dismisses, and opens the vanilla fleet encounter on the bastion next frame."
+"#END [UPLINK TO GOD] Monroe Confrontation",,,,,,
 "#END [UPLINK TO GOD] Quest",,,,,,
 ,,,,,,
 # [STELLAR MIRROR] Quest,,,,,,
