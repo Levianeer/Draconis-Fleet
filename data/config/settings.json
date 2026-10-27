@@ -217,7 +217,8 @@
 
 	"designTypeColors":{
 	"Draconis":[130,157,209,255],
-	"XLII Battlegroup":[130,157,209,255] # Will change later, idk
+	"Intelligence Office":[147,42,42,255],
+	"XLII Battlegroup":[130,157,209,255]
 	},
 
 	"ruleCommandPackages":["levianeer.draconis.data.campaign.rulecmd"],
