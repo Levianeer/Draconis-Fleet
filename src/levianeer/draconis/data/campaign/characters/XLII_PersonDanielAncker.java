@@ -12,9 +12,8 @@ import static levianeer.draconis.data.campaign.ids.Factions.INTELLIGENCE_OFFICE;
 /**
  * Daniel Ancker - AIO operative, Records and Audit Group custody element (compartment IRON MOTH;
  * see {@code .claude/lore/rag.md}). Registered once with ImportantPeopleAPI so he can be looked
- * up by id wherever he actually appears: the AIO bastion escort scene and Kori-transcript bastion
- * revisit ({@code XLII_ancker_escort_*}/{@code XLII_AnckerKoriTranscript} rows, rules.csv,
- * dispatched from {@code XLII_CampaignPlugin}'s bastion interception) and the dynamic crisis
+ * up by id wherever he actually appears: the AIO bastion escort scene ({@code XLII_ancker_escort_*}
+ * rows, rules.csv, dispatched from {@code XLII_CampaignPlugin}'s bastion interception) and the dynamic crisis
  * payment-deal bar event ({@code DraconisAIOPaymentBarEvent}, any player-owned colony).
  * <p>
  * No fixed market placement or comm-directory entry (author request, this session) - he used to

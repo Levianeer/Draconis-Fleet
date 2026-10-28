@@ -182,23 +182,6 @@ public class XLII_CampaignPlugin extends BaseCampaignPlugin {
                     );
                 }
 
-                // --- Office bastion: Ancker's Kori-transcript delivery (author request) ---
-                // Relocated this session off Ring-Port's comm directory (the old
-                // XLII_aio_operative_init OpenCDE scene, # [ANCKER] Kori Transcript in rules.csv)
-                // onto a dedicated bastion revisit - checked ahead of Monroe's own standing
-                // exchange below so a fresh visit after Burn the Machine always gets this
-                // one-time scene first. One-shot: gated on !$XLII_koriTranscriptRead, set by the
-                // scene's own closing row. Ring-Port no longer has any placement or comm-
-                // directory role for Ancker at all - see XLII_PersonDanielAncker's doc comment.
-                if (mem.getBoolean("$XLII_burnTheMachineComplete")
-                        && !mem.getBoolean("$XLII_koriTranscriptRead")) {
-                    log.debug("Draconis: Office bastion Ancker Kori-transcript intercept");
-                    return new PluginPick<>(
-                            new RuleBasedInteractionDialogPluginImpl("XLII_AnckerKoriTranscript"),
-                            CampaignPlugin.PickPriority.MOD_SPECIFIC
-                    );
-                }
-
                 // --- Office bastion: Burn the Machine's station battle ---
                 // Checked ahead of the exchange below - that branch has no hostility gate, and
                 // would otherwise open Monroe's trade menu on a bastion that's shooting at you.

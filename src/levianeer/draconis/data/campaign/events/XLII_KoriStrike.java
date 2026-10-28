@@ -821,12 +821,6 @@ public class XLII_KoriStrike implements InteractionDialogPlugin {
             "him to."
         );
 
-        if (totalMarinesLost > 0) {
-            AddRemoveCommodity.addCommodityLossText(Commodities.MARINES, totalMarinesLost, text);
-        } else {
-            text.addPara("Your marines suffered no casualties.", new Color(153, 252, 0));
-        }
-
         text.addPara(
             "The chamber's power spine is severed regardless of whatever that was, Longsight's " +
             "own uplink already gone dark on its own. Severed is not the same as finished, though " +

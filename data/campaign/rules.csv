@@ -2913,23 +2913,6 @@ XLII_korrin_dev_n_back,DialogOptionSelected,"$option == korrin_dev_back","XLII_K
 "#END [KORRIN] Dev Testing",,,,,,
 "#END [KORRIN] Companion",,,,,,
 ,,,,,,
-# [ANCKER] System,,,,,,
-,,,,,,
-# [ANCKER] Kori Transcript,,,,,,
-XLII_ancker_kori_transcript_open,XLII_AnckerKoriTranscript,,"ShowPersonVisual false XLII_aio_operative_Daniel","Ancker meets you himself this time, no relay, no escort - just him, waiting with a slate already open. ""There's something in the traffic about Kori."" He doesn't wait for you to ask.
-
-He doesn't summarize it. He puts the fragment on your screen exactly as recovered, unedited, timestamp intact.","1:aio_kori_frag1:Continue","Relocated this session (author request) from the old Ring-Port comm-directory OpenCDE scene (formerly XLII_aio_operative_init/XLII_aio_operative_main_opt_kori, # [ANCKER] Greeting) onto a dedicated bastion-revisit scene instead - dispatched from XLII_CampaignPlugin.pickInteractionDialogPlugin() the same way Monroe's own standing exchange is (see the [CHAIN OF CUSTODY] Monroe Vetting section's notes), checked ahead of that exchange so a fresh $global.XLII_burnTheMachineComplete && !$global.XLII_koriTranscriptRead visit always gets this scene first. Ring-Port no longer has any placement or comm-directory role for Ancker at all - see XLII_PersonDanielAncker's own doc comment."
-XLII_aio_kori_frag1,DialogOptionSelected,"$option == aio_kori_frag1","AddTextSmall ""Recovered Fragment 1 of 2 - Loss Report Addendum, Kori Undercroft"" highlight","""Uplink XLII-07, Longsight liaison equipment, reported non-responsive at 0347 local, coincident with unauthorized entry to the undercroft. Equipment presumed destroyed in the subsequent engagement. Terminal channel logged one unscheduled outbound transmission immediately prior to loss of signal. Origin unconfirmed. Content follows.""","1:aio_kori_frag2:Continue",
-XLII_aio_kori_frag2,DialogOptionSelected,"$option == aio_kori_frag2","AddTextSmall ""Recovered Fragment 2 of 2 - Unscheduled Outbound Transmission"" highlight","""the hour was come / it has passed / (i have kept an older hour besides)""","1:aio_kori_close:Continue","Longsight's epitaph, per work/outline/main-story-endings.md - full archaic register, delivered as recovered transcript text rather than spoken live, per character_profile-longsight.md's 'match its register exactly or don't have it speak at all.' Lowercase/verse-break typography matches the live voice rewrite - see character_profile-longsight.md's Omega/THREAT typographic references."
-XLII_aio_kori_close,DialogOptionSelected,"$option == aio_kori_close","$global.XLII_koriTranscriptRead = true","Ancker lets it sit on the screen longer than he needs to before he closes the file. ""I don't have a reading on that I'd stake anything on. I've stopped trying to have one for anything that comes out of Kori.""
-
-The part that costs him something to say plainly, and he says it plainly anyway. ""The Rift is failing. Whatever held it up went with the installation. Hegemony inspection traffic will reach this system eventually - weeks, possibly less. That is not a variable I can manage for you.""
-
-""One loose end left, and it's mine to name, not yours to guess at. Ladon. The bastion's garrison went hostile again the moment Kori did - the Office doesn't keep black sites standing for men it no longer trusts to know where they are."" A pause that isn't for effect. ""I'd call that your problem now.""","1:aio_kori_end:Understood",
-XLII_aio_kori_end,DialogOptionSelected,"$option == aio_kori_end","DismissDialog",,,"Standalone bare RuleBasedInteractionDialogPluginImpl scene dispatched directly from XLII_CampaignPlugin's bastion interception, same shape as XLII_MonroeVetting/XLII_MonroeExchangeOpen - DismissDialog, not EndConversation (no parent menu to fall back to). See the longsight.md Gotchas 'sibling trap' entry."
-"#END [ANCKER] Kori Transcript",,,,,,
-"#END [ANCKER] System",,,,,,
-,,,,,,
 # [NISA] System,,,,,,
 ,,,,,,
 # [NISA] Greeting,,,,,,
@@ -3843,15 +3826,15 @@ XLII_admiral_main_wastenot_opt,XLII_AdmiralMainMenu,"$tag:XLII_fleet_admiral_emi
 $global.XLII_wasteNotComplete
 !$global.XLII_augustWasteNotDone",,,"2:XLII_wn_august:About that installation","One-time follow-up to Waste Not. Monroe is always known by now: Waste Not needs the nanoforge quest, which needs the Office vetting."
 XLII_wn_august_open,DialogOptionSelected,"$option == XLII_wn_august
-$tag:XLII_fleet_admiral_emil",,"""Commander."" The silhouette doesn't move. ""I've read your report. The colony, and what you found past it.""
+$tag:XLII_fleet_admiral_emil",,"""Commander?""
 
-A pause, measured to the half-second.
+The silhouette doesn't move, a pause, measured to the half-second.
 
 ""Ask your question.""","1:XLII_wn_august_accuse:Your people are growing cores out of colonists. Did you sign off on it?
 2:XLII_wn_august_ask:Those cores work. I want more of them
 3:return_to_main_menu:Nothing. Forget I asked","No flag set here - backing out leaves the topic open for another visit."
 XLII_wn_august_accuse,DialogOptionSelected,"$option == XLII_wn_august_accuse
-$tag:XLII_fleet_admiral_emil","$global.XLII_augustWasteNotDone = true","""No."" Flat, immediate. ""I did not order it. I did not approve it. Until your report crossed my desk, I did not know that installation existed.""
+$tag:XLII_fleet_admiral_emil","$global.XLII_augustWasteNotDone = true","""No."" Flat, immediate. ""I did not order it. I did not approve it. Until now, I did not know that installation existed.""
 
 The encryption holds steady. Nothing in his posture changes.
 
@@ -4229,8 +4212,9 @@ He does not argue, and he does not come.
 He is gone by the time your fleet forms up. No argument, no scene. Just an empty berth where his gear used to be.","1:interception_begin_fight:Understood","Elias's loyalty fork, low-rep/unrecruited fallback - zero conditions so FireBest only picks it when the stays-branch (above) doesn't match. returnToStation is idempotent, safe to call even if he was never aboard. No direct confrontation, per his character bible. Options column changed (this session) from return_to_main_menu to interception_begin_fight, same reason as XLII_burn_elias_stays above."
 XLII_interception_begin_fight,DialogOptionSelected,"$option == interception_begin_fight","XLII_BeginBattlegroupFight",,,"Fired by XLII_burn_elias_stays/_leaves's own ""Understood"" option (changed from return_to_main_menu, see those rows). Starts the fleet fight against the Forty-Second Battlegroup - see XLII_KoriStrike.launchBattlegroupFight()."
 "#END [UPLINK TO GOD] Burn the Machine",,,,,,
+,,,,,,
 # [UPLINK TO GOD] Monroe Confrontation,,,,,,
-XLII_monroe_finale_open,XLII_MonroeFinale,,,"The bastion's sensor arrays have stopped cycling. For the first time since you've known the place, they hold still, fixed on you.",1:monroe_finale_hail:Continue,"Dispatched from XLII_CampaignPlugin's bastion interception on the first click once XLII_BastionDestructionMonitor.shouldRegister() (Kori strike done, finale not yet). Later clicks skip this and go straight to the fight."
+XLII_monroe_finale_open,XLII_MonroeFinale,,,"The bastion's sensor arrays have stopped cycling. For the first time since you've known the place, they hold still, fixed on you.","1:monroe_finale_hail:Continue","Dispatched from XLII_CampaignPlugin's bastion interception on the first click once XLII_BastionDestructionMonitor.shouldRegister() (Kori strike done, finale not yet). Later clicks skip this and go straight to the fight."
 XLII_monroe_finale_hail,DialogOptionSelected,$option == monroe_finale_hail,ShowPersonVisual false XLII_aio_director_Haspel,"A burst transmission cuts across the fleet channel with no handshake and no Office routing codes. It's Monroe, framed tight against a dark room. Her data-slate sits neatly to one side, untouched.
 
 ""Commander.""
@@ -4239,9 +4223,8 @@ XLII_monroe_finale_hail,DialogOptionSelected,$option == monroe_finale_hail,ShowP
 
 A pause, shorter than her pauses usually are.
 
-""That decision came down to me. I have made a great many decisions, Commander, and I have never once been made to answer for one, and I find I don't know how this part is supposed to go.""
-
-She stops. Whatever came next, she doesn't say it.
+""That decision came down to me. I have made a great many decisions, Commander, and I have never once been made to answer for one, and I find I don't know how this part is supposed to go.""",1:monroe_finale_question:Continue,
+XLII_monroe_finale_question,DialogOptionSelected,$option == monroe_finale_question,,"She stops. Whatever came next, she doesn't say it.
 
 ""Your officers. Your contacts at - ""
 
@@ -4254,26 +4237,26 @@ The question sits on the channel. She seems to hear it a moment after you do.
 ""No. It doesn't matter."" She's composed again, or close enough. ""I know what you are. I've read hundreds of you. And I can still stop you.""","1:monroe_finale_challenge:Your mistake was thinking no one would interfere
 2:monroe_finale_morality:I'm doing this because it's right, not because it's profitable
 3:monroe_finale_fight:Yeah, I get that a lot",
-XLII_monroe_finale_challenge,DialogOptionSelected,$option == monroe_finale_challenge,,"""No one interferes, Commander. People are bought, moved, or removed. That is the entire job.""
+XLII_monroe_finale_challenge,DialogOptionSelected,"$option == monroe_finale_challenge",,"""No one interferes, Commander. People are bought, moved, or removed. That is the entire job.""
 
 ""My mistake was clearing you. I priced you wrong.""
 
 A breath. Then, quieter, almost not meant for you:
 
-""God willing, I'll correct it myself.""",1:monroe_finale_cut:Continue,
-XLII_monroe_finale_morality,DialogOptionSelected,$option == monroe_finale_morality,,"""I've heard that from more of your kind than I could file. You sell yourselves for virtue the way the rest sell themselves for coin. The only difference is the receipt.""
+""God willing, I'll correct it myself.""","1:monroe_finale_cut:Continue",
+XLII_monroe_finale_morality,DialogOptionSelected,"$option == monroe_finale_morality",,"""I've heard that from more of your kind than I could file. You sell yourselves for virtue the way the rest sell themselves for coin. The only difference is the receipt.""
 
 ""And the receipt is all you'll have. Whatever you build out there - the fleets, the colonies, the name - it decays. It always does.""
 
 ""Look at Sindria. They had a lion too. Brilliant. Righteous. Adored. Now he sleeps, and everything they built around him is coming apart at the seams.""
 
-""Yours will go the same way, Commander. And you will die by the sword you wield so brazenly.""",1:monroe_finale_cut:Continue,
-XLII_monroe_finale_fight,DialogOptionSelected,$option == monroe_finale_fight,,"""Hmph.""
+""Yours will go the same way, Commander. And you will die by the sword you wield so brazenly.""","1:monroe_finale_cut:Continue",
+XLII_monroe_finale_fight,DialogOptionSelected,"$option == monroe_finale_fight",,"""Hmph.""
 
-""Then I will be the exception.""",1:monroe_finale_cut:Continue,
-XLII_monroe_finale_cut,DialogOptionSelected,$option == monroe_finale_cut,"ShowDefaultVisual
-$global.XLII_monroeFinaleSeen = true","The channel cuts. A moment later the sensor arrays begin cycling again, faster now, in patterns that don't repeat.",1:monroe_finale_engage:Engage,"Shared close for all three branches. ShowDefaultVisual on the bastion fleet swaps Monroe's portrait for the strength comparison panel as the channel drops. Seen-flag set here, once the player has received the whole transmission."
-XLII_monroe_finale_engage,DialogOptionSelected,$option == monroe_finale_engage,XLII_BeginBastionBattle,,,"XLII_BeginBastionBattle spawns a dedicated defense fleet if no garrison fleet is in battle-join range, dismisses, and opens the vanilla fleet encounter on the bastion next frame."
+""Then I will be the exception.""","1:monroe_finale_cut:Continue",
+XLII_monroe_finale_cut,DialogOptionSelected,"$option == monroe_finale_cut","ShowDefaultVisual
+$global.XLII_monroeFinaleSeen = true","The channel cuts. A moment later the sensor arrays begin cycling again, faster now, in patterns that don't repeat.","1:monroe_finale_engage:Engage","Shared close for all three branches. ShowDefaultVisual on the bastion fleet swaps Monroe's portrait for the strength comparison panel as the channel drops. Seen-flag set here, once the player has received the whole transmission."
+XLII_monroe_finale_engage,DialogOptionSelected,"$option == monroe_finale_engage","XLII_BeginBastionBattle",,,"XLII_BeginBastionBattle spawns a dedicated defense fleet if no garrison fleet is in battle-join range, dismisses, and opens the vanilla fleet encounter on the bastion next frame."
 "#END [UPLINK TO GOD] Monroe Confrontation",,,,,,
 "#END [UPLINK TO GOD] Quest",,,,,,
 ,,,,,,
