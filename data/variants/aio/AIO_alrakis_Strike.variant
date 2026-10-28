@@ -1,12 +1,13 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 26,
+    "fluxCapacitors": 2,
     "fluxVents": 30,
     "hullId": "XLII_alrakis",
     "hullMods": [
         "targetingunit",
         "ecm",
-        "eccm"
+        "eccm",
+        "missleracks"
     ],
     "permaMods": [
         "ecm",
@@ -18,31 +19,28 @@
         "eccm",
         "targetingunit"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_alrakis_Strike",
     "weaponGroups": [
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0011": "XLII_bardiche_large"
-            }
+            "weapons": {"WS0011": "XLII_naginata"}
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0006": "harpoon",
-                "WS0007": "harpoon",
-                "WS0008": "harpoon",
-                "WS0009": "harpoon"
+                "WS0006": "breach",
+                "WS0007": "breach",
+                "WS0008": "breach",
+                "WS0009": "breach"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "XLII_longsword"
-            }
+            "weapons": {"WS0001": "XLII_longsword"}
         },
         {
             "autofire": true,
@@ -55,9 +53,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0010": "XLII_razorflak"
-            }
+            "weapons": {"WS0010": "XLII_razorflak"}
         },
         {
             "autofire": true,
@@ -72,8 +68,5 @@
         "XLII_tianyi_wing",
         "XLII_grumium_wing",
         "XLII_grumium_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

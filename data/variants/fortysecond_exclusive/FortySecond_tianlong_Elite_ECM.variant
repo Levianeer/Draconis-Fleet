@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 44,
-    "fluxVents": 50,
+    "fluxCapacitors": 0,
+    "fluxVents": 34,
     "hullId": "XLII_tianlong_fortysecond",
     "hullMods": [
         "XLII_fortysecond_mk2",
@@ -9,7 +9,8 @@
         "targetingunit",
         "magazines",
         "turretgyros",
-        "ecm"
+        "ecm",
+        "missleracks"
     ],
     "permaMods": [
         "XLII_fortysecond_mk2",
@@ -22,6 +23,7 @@
         "targetingunit",
         "XLII_slap_er"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "FortySecond_tianlong_Elite_ECM",
     "weaponGroups": [
         {
@@ -36,31 +38,27 @@
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0019": "breach",
-                "WS0020": "breach",
-                "WS0021": "breach",
-                "WS0022": "breach",
-                "WS0023": "breach",
-                "WS0024": "breach"
+                "WS0019": "XLII_hankyu_torpedo",
+                "WS0020": "XLII_hankyu_torpedo",
+                "WS0021": "XLII_hankyu_torpedo",
+                "WS0022": "XLII_hankyu_torpedo",
+                "WS0023": "XLII_hankyu_torpedo",
+                "WS0024": "XLII_hankyu_torpedo"
             }
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0031": "XLII_ttc"
-            }
+            "weapons": {"WS0031": "XLII_ttc"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0028": "XLII_razorflak"
-            }
+            "weapons": {"WS0028": "XLII_razorflak"}
         },
         {
             "autofire": true,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0025": "XLII_swordbreaker",
                 "WS0026": "XLII_swordbreaker",
@@ -71,8 +69,5 @@
     "wings": [
         "XLII_pulao_wing",
         "XLII_pulao_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

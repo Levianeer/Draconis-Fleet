@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 31,
+    "fluxCapacitors": 29,
     "fluxVents": 50,
     "hullId": "XLII_alwaid",
     "hullMods": [
@@ -18,11 +18,12 @@
         "eccm",
         "dedicated_targeting_core"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_alwaid_Elite",
     "weaponGroups": [
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0013": "XLII_naginata",
                 "WS0014": "XLII_naginata"
@@ -30,20 +31,18 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0005": "XLII_halberd_pod",
-                "WS0006": "XLII_halberd_pod",
-                "WS0011": "XLII_halberd_pod",
-                "WS0012": "XLII_halberd_pod"
+                "WS0011": "sabotpod",
+                "WS0012": "sabotpod"
             }
         },
         {
             "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_bardiche_single",
-                "WS0004": "XLII_bardiche_single"
+                "WS0005": "sabotpod",
+                "WS0006": "sabotpod"
             }
         },
         {
@@ -75,9 +74,11 @@
             }
         },
         {
-            "autofire": true,
-            "mode": "ALTERNATING",
+            "autofire": false,
+            "mode": "LINKED",
             "weapons": {
+                "WS0003": "XLII_swordbreaker",
+                "WS0004": "XLII_swordbreaker",
                 "WS0009": "XLII_swordbreaker",
                 "WS0010": "XLII_swordbreaker",
                 "WS0028": "XLII_swordbreaker"
@@ -90,8 +91,5 @@
         "XLII_shangshu_wing",
         "XLII_shangshu_heavy_wing",
         "XLII_thorne_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

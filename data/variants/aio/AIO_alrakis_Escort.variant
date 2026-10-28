@@ -1,12 +1,13 @@
 {
     "displayName": "Escort",
-    "fluxCapacitors": 16,
+    "fluxCapacitors": 0,
     "fluxVents": 30,
     "hullId": "XLII_alrakis",
     "hullMods": [
         "targetingunit",
         "ecm",
-        "eccm"
+        "eccm",
+        "missleracks"
     ],
     "permaMods": [
         "ecm",
@@ -18,14 +19,13 @@
         "eccm",
         "targetingunit"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_alrakis_Escort",
     "weaponGroups": [
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0011": "XLII_naginata"
-            }
+            "weapons": {"WS0011": "squall"}
         },
         {
             "autofire": false,
@@ -48,16 +48,12 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "devastator"
-            }
+            "weapons": {"WS0001": "devastator"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0010": "XLII_razorflak"
-            }
+            "weapons": {"WS0010": "XLII_razorflak"}
         },
         {
             "autofire": true,
@@ -72,8 +68,5 @@
         "XLII_grumium_alt_wing",
         "XLII_tianyi_wing",
         "XLII_thorne_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

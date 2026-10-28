@@ -1,6 +1,6 @@
 {
     "displayName": "Strike",
-    "fluxCapacitors": 1,
+    "fluxCapacitors": 3,
     "fluxVents": 50,
     "hullId": "XLII_alwaid",
     "hullMods": [
@@ -20,6 +20,7 @@
         "eccm",
         "targetingunit"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_alwaid_Strike",
     "weaponGroups": [
         {
@@ -32,7 +33,7 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0005": "pilum",
                 "WS0006": "pilum",
@@ -78,7 +79,7 @@
         },
         {
             "autofire": true,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0009": "XLII_swordbreaker",
                 "WS0010": "XLII_swordbreaker",
@@ -87,13 +88,10 @@
         }
     ],
     "wings": [
-        "XLII_aldibain_wing",
         "XLII_eldsich_wing",
         "XLII_eldsich_wing",
         "XLII_eldsich_wing",
-        "XLII_aldibain_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
+        "XLII_eldsich_wing",
+        "XLII_pulao_wing"
     ]
 }

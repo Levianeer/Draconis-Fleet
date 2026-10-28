@@ -1,12 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 30,
+    "fluxCapacitors": 15,
     "fluxVents": 30,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
         "targetingunit",
         "fluxbreakers",
-        "ecm"
+        "ecm",
+        "reinforcedhull"
     ],
     "permaMods": [
         "ecm",
@@ -18,6 +19,7 @@
         "targetingunit",
         "fluxbreakers"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "FortySecond_juza_Elite_ECM",
     "weaponGroups": [
         {
@@ -59,8 +61,5 @@
                 "WS0025": "XLII_estocflak"
             }
         }
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

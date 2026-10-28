@@ -1,14 +1,14 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 10,
-    "fluxVents": 10,
+    "fluxVents": 6,
     "hullId": "XLII_thuban",
     "hullMods": [
         "hardenedshieldemitter",
         "stabilizedshieldemitter",
         "autorepair",
         "extendedshieldemitter",
-        "ecm"
+        "hardened_subsystems"
     ],
     "permaMods": [
         "ecm",
@@ -20,38 +20,28 @@
         "hardenedshieldemitter",
         "extendedshieldemitter"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_thuban_Elite",
     "weaponGroups": [
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0003": "XLII_durendal"
-            }
+            "weapons": {"WS0003": "XLII_durendal"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0002": "lightac"
-            }
+            "weapons": {"WS0002": "lightac"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0005": "XLII_estocflak"
-            }
+            "weapons": {"WS0005": "XLII_estocflak"}
         },
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0001": "XLII_swordbreaker"
-            }
+            "weapons": {"WS0001": "XLII_swordbreaker"}
         }
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

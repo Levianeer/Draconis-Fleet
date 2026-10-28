@@ -1,12 +1,13 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 30,
+    "fluxCapacitors": 18,
     "fluxVents": 30,
     "hullId": "XLII_nushi",
     "hullMods": [
         "targetingunit",
         "hardenedshieldemitter",
-        "ecm"
+        "ecm",
+        "reinforcedhull"
     ],
     "permaMods": [
         "ecm",
@@ -18,6 +19,7 @@
         "targetingunit",
         "hardenedshieldemitter"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_nushi_Elite",
     "weaponGroups": [
         {
@@ -31,9 +33,7 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0016": "XLII_swordbreaker"
-            }
+            "weapons": {"WS0016": "XLII_swordbreaker"}
         },
         {
             "autofire": true,
@@ -44,10 +44,5 @@
             }
         }
     ],
-    "wings": [
-        "XLII_pulao_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
-    ]
+    "wings": ["XLII_pulao_wing"]
 }

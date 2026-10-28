@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 2,
-    "fluxVents": 8,
+    "fluxCapacitors": 10,
+    "fluxVents": 0,
     "hullId": "XLII_alruba_fortysecond",
     "hullMods": [
         "missleracks",
@@ -18,18 +18,17 @@
         "missleracks",
         "fluxdistributor"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "FortySecond_alruba_Elite_ECM",
     "weaponGroups": [
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0003": "XLII_shashka"
-            }
+            "weapons": {"WS0003": "XLII_shashka"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0004": "sabot",
                 "WS0005": "sabot"
@@ -38,20 +37,15 @@
         {
             "autofire": false,
             "mode": "LINKED",
-            "weapons": {
-                "WS0002": "XLII_rapier"
-            }
+            "weapons": {"WS0002": "XLII_rapier"}
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0015": "XLII_swordbreaker",
                 "WS0016": "XLII_swordbreaker"
             }
         }
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

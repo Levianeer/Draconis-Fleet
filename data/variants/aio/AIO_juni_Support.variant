@@ -1,6 +1,6 @@
 {
     "displayName": "Support",
-    "fluxCapacitors": 26,
+    "fluxCapacitors": 23,
     "fluxVents": 30,
     "hullId": "XLII_juni",
     "hullMods": [
@@ -18,6 +18,7 @@
         "targetingunit",
         "advancedoptics"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_juni_Support",
     "weaponGroups": [
         {
@@ -30,10 +31,10 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
-                "WS0018": "atropos",
-                "WS0019": "atropos"
+                "WS0018": "breach",
+                "WS0019": "breach"
             }
         },
         {
@@ -41,9 +42,13 @@
             "mode": "LINKED",
             "weapons": {
                 "WS0003": "gravitonbeam",
-                "WS0020": "gravitonbeam",
-                "WS0050": "gravitonbeam"
+                "WS0020": "gravitonbeam"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0050": "ionbeam"}
         },
         {
             "autofire": true,
@@ -64,12 +69,7 @@
         {
             "autofire": true,
             "mode": "LINKED",
-            "weapons": {
-                "WS0015": "XLII_swordbreaker"
-            }
+            "weapons": {"WS0015": "XLII_swordbreaker"}
         }
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

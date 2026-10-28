@@ -1,12 +1,14 @@
 {
     "displayName": "Elite",
     "fluxCapacitors": 10,
-    "fluxVents": 10,
+    "fluxVents": 1,
     "hullId": "XLII_alruba_mk2",
     "hullMods": [
         "missleracks",
         "eccm",
-        "ecm"
+        "ecm",
+        "hardenedshieldemitter",
+        "unstable_injector"
     ],
     "permaMods": [
         "ecm",
@@ -18,6 +20,7 @@
         "missleracks",
         "eccm"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_alruba_mk2_Elite",
     "weaponGroups": [
         {
@@ -46,8 +49,5 @@
                 "WS0006": "XLII_estocflak"
             }
         }
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

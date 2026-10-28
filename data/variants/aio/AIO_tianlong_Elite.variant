@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 32,
+    "fluxCapacitors": 26,
     "fluxVents": 50,
     "hullId": "XLII_tianlong",
     "hullMods": [
@@ -20,27 +20,9 @@
         "targetingunit",
         "fluxbreakers"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_tianlong_Elite",
     "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0019": "breach",
-                "WS0020": "breach",
-                "WS0021": "breach",
-                "WS0022": "breach",
-                "WS0023": "breach",
-                "WS0024": "breach"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0028": "XLII_halberd_pod"
-            }
-        },
         {
             "autofire": true,
             "mode": "LINKED",
@@ -50,11 +32,22 @@
             }
         },
         {
-            "autofire": true,
+            "autofire": false,
             "mode": "LINKED",
             "weapons": {
-                "WS0031": "XLII_ttc"
+                "WS0019": "XLII_halberd",
+                "WS0020": "XLII_halberd",
+                "WS0021": "XLII_halberd",
+                "WS0022": "XLII_halberd",
+                "WS0023": "XLII_halberd",
+                "WS0024": "XLII_halberd",
+                "WS0028": "XLII_halberd_pod"
             }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {"WS0031": "XLII_ttc"}
         },
         {
             "autofire": true,
@@ -69,8 +62,5 @@
     "wings": [
         "XLII_pulao_wing",
         "XLII_pulao_wing"
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }

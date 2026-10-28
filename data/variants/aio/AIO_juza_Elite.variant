@@ -1,7 +1,7 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 16,
-    "fluxVents": 30,
+    "fluxCapacitors": 30,
+    "fluxVents": 16,
     "hullId": "XLII_juza",
     "hullMods": [
         "targetingunit",
@@ -18,6 +18,7 @@
         "targetingunit",
         "turretgyros"
     ],
+    "tags": ["no_autofit_unless_player"],
     "variantId": "AIO_juza_Elite",
     "weaponGroups": [
         {
@@ -30,7 +31,7 @@
         },
         {
             "autofire": false,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0001": "breach",
                 "WS0021": "breach",
@@ -59,14 +60,11 @@
         },
         {
             "autofire": true,
-            "mode": "ALTERNATING",
+            "mode": "LINKED",
             "weapons": {
                 "WS0005": "XLII_swordbreaker",
                 "WS0006": "XLII_swordbreaker"
             }
         }
-    ],
-    "tags": [
-        "no_autofit_unless_player"
     ]
 }
