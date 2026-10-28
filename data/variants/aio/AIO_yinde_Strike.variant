@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 21,
     "fluxVents": 30,
-    "hullId": "XLII_yinde_aio",
+    "hullId": "XLII_yinde",
     "hullMods": [
         "targetingunit",
         "ecm",

@@ -2,7 +2,7 @@
     "displayName": "Assault",
     "fluxCapacitors": 15,
     "fluxVents": 20,
-    "hullId": "XLII_rastaban_aio",
+    "hullId": "XLII_rastaban",
     "hullMods": [
         "missleracks",
         "ecm",

@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 13,
     "fluxVents": 30,
-    "hullId": "XLII_yunu_aio",
+    "hullId": "XLII_yunu",
     "hullMods": [
         "targetingunit",
         "eccm",

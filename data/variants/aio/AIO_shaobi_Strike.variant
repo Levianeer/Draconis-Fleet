@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 0,
     "fluxVents": 11,
-    "hullId": "XLII_shaobi_aio",
+    "hullId": "XLII_shaobi",
     "hullMods": [
         "ecm",
         "fluxdistributor",

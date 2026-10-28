@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 36,
     "fluxVents": 38,
-    "hullId": "XLII_kuma_aio",
+    "hullId": "XLII_kuma",
     "hullMods": [
         "advancedoptics",
         "ecm",

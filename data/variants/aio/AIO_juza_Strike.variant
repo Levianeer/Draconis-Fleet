@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 12,
     "fluxVents": 30,
-    "hullId": "XLII_juza_aio",
+    "hullId": "XLII_juza",
     "hullMods": [
         "targetingunit",
         "advancedoptics",

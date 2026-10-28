@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 20,
     "fluxVents": 30,
-    "hullId": "XLII_eltanin_aio",
+    "hullId": "XLII_eltanin",
     "hullMods": [
         "targetingunit",
         "stabilizedshieldemitter",

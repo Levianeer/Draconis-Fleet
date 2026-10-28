@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 30,
     "fluxVents": 50,
-    "hullId": "XLII_dziban_aio",
+    "hullId": "XLII_dziban",
     "hullMods": [
         "hardenedshieldemitter",
         "extendedshieldemitter",

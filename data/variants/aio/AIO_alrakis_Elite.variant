@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 28,
     "fluxVents": 30,
-    "hullId": "XLII_alrakis_aio",
+    "hullId": "XLII_alrakis",
     "hullMods": [
         "targetingunit",
         "ecm",

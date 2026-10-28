@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 8,
     "fluxVents": 30,
-    "hullId": "XLII_yinde_aio",
+    "hullId": "XLII_yinde",
     "hullMods": [
         "targetingunit",
         "advancedoptics",

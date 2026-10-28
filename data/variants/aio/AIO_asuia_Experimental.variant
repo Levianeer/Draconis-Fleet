@@ -2,7 +2,7 @@
     "displayName": "Experimental",
     "fluxCapacitors": 30,
     "fluxVents": 30,
-    "hullId": "XLII_asuia_aio",
+    "hullId": "XLII_asuia",
     "hullMods": [
         "targetingunit",
         "stabilizedshieldemitter",

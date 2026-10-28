@@ -2,7 +2,7 @@
     "displayName": "Escort",
     "fluxCapacitors": 0,
     "fluxVents": 17,
-    "hullId": "XLII_errakis_aio",
+    "hullId": "XLII_errakis",
     "hullMods": [
         "converted_hangar",
         "missleracks",

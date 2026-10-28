@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 18,
     "fluxVents": 12,
-    "hullId": "XLII_errakis_aio",
+    "hullId": "XLII_errakis",
     "hullMods": [
         "missleracks",
         "extendedshieldemitter",

@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 20,
     "fluxVents": 15,
-    "hullId": "XLII_shaowei_aio",
+    "hullId": "XLII_shaowei",
     "hullMods": [
         "eccm",
         "ecm",

@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 38,
     "fluxVents": 50,
-    "hullId": "XLII_altais_aio",
+    "hullId": "XLII_altais",
     "hullMods": [
         "eccm",
         "unstable_injector",

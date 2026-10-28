@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 3,
     "fluxVents": 10,
-    "hullId": "XLII_aldhibah_aio",
+    "hullId": "XLII_aldhibah",
     "hullMods": [
         "missleracks",
         "ecm",

@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 10,
     "fluxVents": 10,
-    "hullId": "XLII_alruba_mk2_aio",
+    "hullId": "XLII_alruba_mk2",
     "hullMods": [
         "missleracks",
         "eccm",

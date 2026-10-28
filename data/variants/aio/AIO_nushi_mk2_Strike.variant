@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 14,
     "fluxVents": 30,
-    "hullId": "XLII_nushi_mk2_aio",
+    "hullId": "XLII_nushi_mk2",
     "hullMods": [
         "targetingunit",
         "hardenedshieldemitter",

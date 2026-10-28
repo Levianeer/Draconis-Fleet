@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 1,
     "fluxVents": 50,
-    "hullId": "XLII_alwaid_aio",
+    "hullId": "XLII_alwaid",
     "hullMods": [
         "targetingunit",
         "eccm",

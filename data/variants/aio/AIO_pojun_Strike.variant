@@ -2,7 +2,7 @@
     "displayName": "Strike",
     "fluxCapacitors": 17,
     "fluxVents": 20,
-    "hullId": "XLII_pojun_aio",
+    "hullId": "XLII_pojun",
     "hullMods": [
         "targetingunit",
         "advancedoptics",

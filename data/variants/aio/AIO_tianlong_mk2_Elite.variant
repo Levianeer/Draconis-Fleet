@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 32,
     "fluxVents": 50,
-    "hullId": "XLII_tianlong_mk2_aio",
+    "hullId": "XLII_tianlong_mk2",
     "hullMods": [
         "targetingunit",
         "missleracks",

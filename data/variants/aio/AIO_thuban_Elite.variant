@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 10,
     "fluxVents": 10,
-    "hullId": "XLII_thuban_aio",
+    "hullId": "XLII_thuban",
     "hullMods": [
         "hardenedshieldemitter",
         "stabilizedshieldemitter",

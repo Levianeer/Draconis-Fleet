@@ -2,7 +2,7 @@
     "displayName": "Escort",
     "fluxCapacitors": 4,
     "fluxVents": 50,
-    "hullId": "XLII_alwaid_aio",
+    "hullId": "XLII_alwaid",
     "hullMods": [
         "targetingunit",
         "magazines",

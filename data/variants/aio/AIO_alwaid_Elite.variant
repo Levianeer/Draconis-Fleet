@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 31,
     "fluxVents": 50,
-    "hullId": "XLII_alwaid_aio",
+    "hullId": "XLII_alwaid",
     "hullMods": [
         "eccm",
         "dedicated_targeting_core",

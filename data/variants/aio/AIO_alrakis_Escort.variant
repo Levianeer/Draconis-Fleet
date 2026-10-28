@@ -2,7 +2,7 @@
     "displayName": "Escort",
     "fluxCapacitors": 16,
     "fluxVents": 30,
-    "hullId": "XLII_alrakis_aio",
+    "hullId": "XLII_alrakis",
     "hullMods": [
         "targetingunit",
         "ecm",

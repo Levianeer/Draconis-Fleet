@@ -2,7 +2,7 @@
     "displayName": "Elite",
     "fluxCapacitors": 17,
     "fluxVents": 30,
-    "hullId": "XLII_juni_aio",
+    "hullId": "XLII_juni",
     "hullMods": [
         "targetingunit",
         "missile_autoloader",

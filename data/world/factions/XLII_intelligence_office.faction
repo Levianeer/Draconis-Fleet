@@ -48,32 +48,33 @@
 	"shipsWhenImporting":{
 		"tags":[],
 		"hulls":[
-			"XLII_shaowei_aio",
-			"XLII_juza_aio",
-			"XLII_yinde_aio",
-			"XLII_tianlong_mk2_aio",
-			"XLII_asuia_aio",
+			"XLII_shaowei",
+			"XLII_juza",
+			"XLII_yinde",
+			"XLII_tianlong_mk2",
+			"XLII_asuia",
 			"XLII_sunsetter"
 		],
 	},
 	
-	# XLII_aio_bp is the _aio skins (data/hulls/skins/XLII_*_aio.skin), so AIO only spawns its own
-	# S-modded variants (data/variants/aio/). The Alsafis are civilian and stay on the base hulls.
 	"knownShips":{
-		"tags":["XLII_aio_bp"],
+		"tags":["XLII_ship_bp"],
 		"hulls":[
-			"XLII_alsafi",
-			"XLII_alsafi_cargo"
+			"XLII_shaowei",
+			"XLII_juza",
+			"XLII_yinde",
+			"XLII_tianlong_mk2",
+			"XLII_asuia"
 		],
 	},
 	
 	# listing ships here will make the faction mostly use them even if other hulls become available
 	"priorityShips":{
-		"tags":["XLII_aio_bp"],
+		"tags":["XLII_ship_bp"],
 		"hulls":[
-			"XLII_shaowei_aio",
-			"XLII_yinde_aio",
-			"XLII_asuia_aio"
+			"XLII_shaowei",
+			"XLII_yinde",
+			"XLII_asuia"
 		],
 	},
 	
@@ -144,9 +145,142 @@
 		]
 	},
 
+	# AIO shares the base Draconis hulls, so its S-modded variants (data/variants/aio/) live here instead
+	# of default_ship_roles.json: a role defined here replaces the default one for this faction only, which
+	# keeps AIO off the regular XLII_ variants and every other faction off the AIO_ ones. Any new default
+	# role that lists a Draconis combat hull needs an AIO entry here too, or AIO will pick it up from there.
 	"shipRoles":{
 		"remnantStation1":{
 			"remnant_station2_Standard":10,
+		},
+		"combatSmallForSmallFleet":{
+			"AIO_thuban_Elite":1.5,
+			"AIO_alruba_Elite":0.25,
+			"AIO_alruba_mk2_Elite":0.75,
+			"AIO_aldhibah_Elite":1.5,
+			"AIO_aldhibah_Strike":1.5,
+
+			"fallback":{"combatSmall":1},
+		},
+		"combatSmall":{
+			"AIO_thuban_Elite":2,
+			"AIO_alruba_Elite":0.25,
+			"AIO_alruba_mk2_Elite":0.75,
+			"AIO_aldhibah_Elite":1,
+			"AIO_aldhibah_Strike":1,
+
+			"fallback":{"combatMedium":1},
+		},
+		"combatMedium":{
+			"AIO_rastaban_Elite":1.5,
+			"AIO_rastaban_Strike":1,
+			"AIO_rastaban_Assault":1,
+			"AIO_errakis_Elite":1,
+			"AIO_errakis_Strike":1,
+			"AIO_errakis_Escort":1,
+			"AIO_errakis_mk2_Elite":1,
+			"AIO_pojun_Elite":1.25,
+			"AIO_pojun_Strike":0.75,
+			"AIO_giausar_Elite":0.5,
+			"AIO_shaowei_Elite":0.25,
+
+			"fallback":{"combatSmall":1},
+		},
+		"combatLarge":{
+			"AIO_eltanin_Elite":2,
+			"AIO_eltanin_Strike":2,
+			"AIO_yunu_Elite":0.25,
+			"AIO_yunu_Strike":0.25,
+			"AIO_juni_Elite":1,
+			"AIO_juni_Support":0.5,
+			"AIO_juza_Elite":1,
+			"AIO_juza_Strike":1,
+			"AIO_nushi_Elite":0.5,
+			"AIO_nushi_Strike":0.5,
+			"AIO_nushi_mk2_Elite":0.75,
+			"AIO_nushi_mk2_Strike":0.75,
+			"AIO_yinde_Elite":0.1,
+			"AIO_yinde_Strike":0.1,
+			"AIO_asuia_Experimental":0.75,
+
+			"fallback":{"combatMedium":1},
+		},
+		"combatCapital":{
+			"AIO_altais_Elite":1,
+			"AIO_altais_Strike":1,
+			"AIO_jufeng_Elite":1,
+			"AIO_tianlong_Elite":1,
+			"AIO_tianlong_mk2_Elite":1,
+			"AIO_dziban_Elite":0.25,
+			"AIO_dziban_Strike":0.25,
+
+			"fallback":{"combatLarge":1},
+		},
+		"carrierMedium":{
+			"AIO_shaobi_Elite":1,
+			"AIO_shaobi_Strike":1,
+			"AIO_alrakis_Elite":1,
+			"AIO_alrakis_Strike":1,
+			"AIO_alrakis_Escort":1,
+
+			"fallback":{"carrierSmall":1},
+			"fallback2":{"carrierLarge":1},
+		},
+		"carrierLarge":{
+			"AIO_alwaid_Elite":1,
+			"AIO_alwaid_Strike":1,
+			"AIO_alwaid_Escort":1,
+
+			"fallback":{"carrierMedium":1},
+			"fallback2":{"carrierSmall":1},
+		},
+		"combatFreighterLarge":{
+			"AIO_yunu_Elite":10,
+			"AIO_yunu_Strike":10,
+
+			"fallback":{"combatFreighterMedium":1},
+		},
+		"personnelMedium":{
+			"AIO_shaobi_Elite":1,
+
+			"fallback":{"personnelSmall":1},
+			"fallback2":{"personnelLarge":1},
+		},
+		"personnelLarge":{
+			"AIO_yunu_Elite":1,
+			"AIO_yunu_Strike":1,
+
+			"fallback":{"personnelMedium":1},
+			"fallback2":{"personnelSmall":1},
+		},
+		"linerSmall":{
+			"AIO_shaobi_Elite":10,
+
+			"fallback":{"linerMedium":0.5},
+			"fallback2":{"linerLarge":0.25},
+		},
+		"linerMedium":{
+			"AIO_yunu_Elite":10,
+			"AIO_yunu_Strike":10,
+
+			"fallback":{"linerSmall":1},
+			"fallback2":{"linerLarge":0.5},
+		},
+		"linerLarge":{
+			"AIO_kuma_Elite":10,
+
+			"fallback":{"linerMedium":1},
+			"fallback2":{"linerSmall":1},
+		},
+		"tug":{
+			"AIO_kuma_Elite":1,
+
+			"fallback":{"utility":1},
+		},
+		"utility":{
+			"AIO_kuma_Elite":1,
+			"AIO_yunu_Elite":0.5,
+			"AIO_yunu_Strike":0.5,
 		},
 	},
 	
