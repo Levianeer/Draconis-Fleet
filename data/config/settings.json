@@ -15,6 +15,9 @@
 	"draconisAdmiralActs": true,						# false = DraconisAdmiralAI observes and logs without issuing orders, which is the baseline it is measured against	#	Default : true
 	"draconisAdmiralOpening": true,						# false = the opening plan only observes and logs its posture, for A/B against the slide alone	#	Default : true
 	"draconisAdmiralCohesion": true,					# false = fleet cohesion (adapted from AI Tweaks) only observes and logs its redirects, for A/B against the slide alone	#	Default : true
+	"draconisAdmiralLine": true,						# false = the battle line (unengaged hulls form a line abreast facing the enemy) only observes and logs, for A/B	#	Default : true
+	"draconisAdmiralSelfPreservation": true,			# false = self-preservation (outnumbered hulls go timid and fall back to the main body) only observes and logs, for A/B	#	Default : true
+	"draconisAdmiralPhaseRecall": true,					# false = phase recall (pull wings back while the opening STRIKE target is phased) only observes and logs	#	Default : true
 	"draconisSignalsDebug": false,						# Second-in-Command only: in-combat readout of each side's ECM advantage and Signals skills, and the Signals effects on your ship and target	#	Default : false
 
 	# ========================================

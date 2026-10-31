@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
@@ -48,6 +49,9 @@ public class DraconisAdmiralAI implements DoctrineController {
     private final PersonalitySlide slide = new PersonalitySlide();
     private final OpeningPlan opening;
     private final FleetCohesion cohesion;
+    private final ShipBehaviourLog shipLog;
+    private final SelfPreservation selfPreservation;
+    private final List<ShipAPI> draconisInGate = new ArrayList<>();
     private final List<ShipAPI> cohesionForward = new ArrayList<>();
     private final List<ShipAPI> cohesionPulledBack = new ArrayList<>();
     private final boolean acting = settingOn("draconisAdmiralActs");
@@ -122,14 +126,21 @@ public class DraconisAdmiralAI implements DoctrineController {
     private float openingDealt;
     private float openingTaken;
     private boolean openingLogged;
+    /** Every hull ever deployed per side, so the whole-battle exchange keeps counting dead ships. */
+    private final Set<ShipAPI> oursSeen = Collections.newSetFromMap(new IdentityHashMap<ShipAPI, Boolean>());
+    private final Set<ShipAPI> theirsSeen = Collections.newSetFromMap(new IdentityHashMap<ShipAPI, Boolean>());
 
     public DraconisAdmiralAI(int owner) {
         this.owner = owner;
-        this.opening = new OpeningPlan(owner, acting && settingOn("draconisAdmiralOpening"));
-        this.cohesion = new FleetCohesion(owner, acting && settingOn("draconisAdmiralCohesion"));
+        this.opening = new OpeningPlan(owner, acting && settingOn("draconisAdmiralOpening"),
+                settingOn("draconisAdmiralPhaseRecall"));
+        this.cohesion = new FleetCohesion(owner, acting && settingOn("draconisAdmiralCohesion"),
+                acting && settingOn("draconisAdmiralLine"));
+        this.shipLog = new ShipBehaviourLog(owner);
+        this.selfPreservation = new SelfPreservation(acting && settingOn("draconisAdmiralSelfPreservation"));
         log.info("DraconisAdmiral,header,t,ship,id,carrier,confidence,obsIncomingDps,obsOutgoingDps,"
                 + "ttdObserved,ttdHull,ttkObserved,ttdPredicted,ttkPredicted,predictedOutRank,"
-                + "threats,targets,shieldRatio,focus,desired,applied,emergency,outmatch,fleetDistance,recklessGate");
+                + "threats,targets,shieldRatio,focus,desired,applied,emergency,outmatch,fleetDistance,recklessGate,slotDistance");
         log.info("Draconis: DraconisAdmiralAI " + (acting ? "ACTING (step 3, personality slide)"
                 : "observing only - set draconisAdmiralActs to let it act"));
         log.info("DraconisAdmiral,targetHeader,t,enemy,durability,incomingFromUs,ttkObserved,"
@@ -145,8 +156,23 @@ public class DraconisAdmiralAI implements DoctrineController {
 
         gather(engine);
         for (ShipAPI ship : all) observed.watch(ship);
+        for (ShipAPI ship : engine.getShips()) {
+            if (ship.isFighter() && ship.isAlive()) observed.watch(ship);
+        }
+        shipLog.advance(amount, elapsed, ours, enemiesDeployed);
         rebuildAirGroup();
         opening.reapply(airGroup, ours);
+        opening.phaseRecall(airGroup, elapsed);
+        draconisInGate.clear();
+        for (ShipAPI ship : ours) {
+            if (gateOpen && isDraconis(ship)) draconisInGate.add(ship);
+        }
+        selfPreservation.advance(amount, elapsed, draconisInGate, ours, enemiesDeployed);
+        // Outnumbered: timid now rather than at the next decision, so the classification below
+        // already hands the hull to cohesion's fallback this frame.
+        for (ShipAPI ship : draconisInGate) {
+            if (steering(ship) && selfPreservation.holds(ship)) slide.set(ship, PersonalitySlide.Step.TIMID);
+        }
         // Hulls at steady or above may be sent at the enemy main body; carriers included, as in AI
         // Tweaks. One the slide has pulled back as losing is never sent at the enemy (author
         // decision) - it falls back to our own main body instead if it has drifted off it.
@@ -167,6 +193,7 @@ public class DraconisAdmiralAI implements DoctrineController {
 
         float window = elapsed - lastDecision;
         lastDecision = elapsed;
+        logExchange();
         if (ours.isEmpty() || theirs.isEmpty()) {
             observed.closeWindow(window);
             return;
@@ -232,10 +259,13 @@ public class DraconisAdmiralAI implements DoctrineController {
             boolean emergency = ttdHull > 0f && ttdHull < EMERGENCY_TTD_HULL;
             PersonalitySlide.Step applied;
             if (steering(p.ship)) {
-                // The emergency outranks the opening posture: a carrier whose hull is being eaten
+                // The emergency and being outnumbered both outrank the opening posture: the carrier
                 // goes timid and stays out of the posture for the rest of the opening.
-                if (emergency) opening.excuse(p.ship);
-                if (profile.carrier && opening.applies(p.ship)) {
+                boolean outnumbered = selfPreservation.holds(p.ship);
+                if (emergency || outnumbered) opening.excuse(p.ship);
+                if (outnumbered) {
+                    applied = slide.set(p.ship, PersonalitySlide.Step.TIMID);
+                } else if (profile.carrier && opening.applies(p.ship)) {
                     applied = slide.set(p.ship, opening.step());
                 } else {
                     applied = slide.moveToward(p.ship, desired, emergency, window);
@@ -246,7 +276,7 @@ public class DraconisAdmiralAI implements DoctrineController {
             }
 
             log.info(String.format(
-                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d,%.2f,%.0f,%s",
+                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d,%.2f,%.0f,%s,%.0f",
                     elapsed, p.ship.getName(), p.ship.getId(), profile.carrier ? 1 : 0, confidence,
                     incoming, outgoing,
                     ttdObserved, ttdHull, ttkObserved,
@@ -254,7 +284,8 @@ public class DraconisAdmiralAI implements DoctrineController {
                     p.predictedOutRank, p.threatCount, p.reachableTargets,
                     model.shieldRatio(p.ship), focus == null ? "none" : focus.getName(),
                     desired, applied, emergency ? 1 : 0, Math.min(99f, p.outmatch),
-                    cohesion.distanceToMainBody(p.ship), recklessGate == null ? "-" : recklessGate));
+                    cohesion.distanceToMainBody(p.ship), recklessGate == null ? "-" : recklessGate,
+                    cohesion.distanceToSlot(p.ship)));
         }
 
         // Target ordering is a fleet-level question, so it is logged once per decision rather than
@@ -273,6 +304,37 @@ public class DraconisAdmiralAI implements DoctrineController {
                 contactAt, OPENING_SECONDS, ratio, openingDealt, openingTaken, opening.summary()));
     }
 
+    /**
+     * Whole-battle damage dealt over damage taken, our side against theirs, from cumulative totals
+     * rather than the smoothed rates the opening ratio sums, so the absolute numbers mean something.
+     * The main ratio counts damage to fighters, so a change that spends wings is not flattered; the
+     * hull-only ratio is kept for comparison with runs logged before fighters were watched.
+     * Running, once per decision: the last line of a battle is its result. This is the yardstick
+     * rather than the outcome, since ships should only take favourable fights.
+     */
+    private void logExchange() {
+        float dealt = 0f;
+        float taken = 0f;
+        float hullDealt = 0f;
+        float hullTaken = 0f;
+        for (ShipAPI us : oursSeen) {
+            for (ShipAPI them : theirsSeen) {
+                dealt += observed.dealtWithWings(us, them);
+                taken += observed.dealtWithWings(them, us);
+                hullDealt += observed.dealt(us, them);
+                hullTaken += observed.dealt(them, us);
+            }
+        }
+        log.info(String.format("DraconisAdmiral,exchange,t=%.0f,dealt=%.0f,taken=%.0f,ratio=%s,"
+                        + "hullDealt=%.0f,hullTaken=%.0f,hullRatio=%s,mode=%s",
+                elapsed, dealt, taken, ratio(dealt, taken), hullDealt, hullTaken, ratio(hullDealt, hullTaken),
+                acting ? "acting" : "observing"));
+    }
+
+    private static String ratio(float dealt, float taken) {
+        return taken > 0f ? String.format("%.2f", dealt / taken) : dealt > 0f ? "perfect" : "n/a";
+    }
+
     /** Fleet line per decision. {@code resets} is the safety check the whole slide rests on: a
      * non-zero value means something is clearing our personality override between writes. */
     private void logFleet(List<MatchupModel.Pressure> pressures) {
@@ -282,9 +344,9 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
             spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
         }
-        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,resets=%d,%s",
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,line=%d,phaseRecall=%d,outnumbered=%d,resets=%d,%s",
                 elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed", cohesion.redirected(),
-                cohesion.fallingBack(),
+                cohesion.fallingBack(), cohesion.inLine(), opening.recalling(), selfPreservation.holding(),
                 slide.getResets(), spread.toString().trim()));
     }
 
@@ -528,8 +590,10 @@ public class DraconisAdmiralAI implements DoctrineController {
             all.add(ship);
             if (ship.getOwner() == owner) {
                 ours.add(ship);
+                oursSeen.add(ship);
             } else {
                 enemiesDeployed.add(ship);
+                theirsSeen.add(ship);
                 if (engine.isAwareOf(owner, ship)) theirs.add(ship);
             }
         }

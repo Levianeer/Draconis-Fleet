@@ -27,6 +27,11 @@ public class DamageObserver {
      * observed total, which made the comparison unreadable. Ids, not names: the simulator
      * duplicates names across sister ships. */
     private final Map<String, Float> pairTotal = new HashMap<>();
+    /** Damage to fighters, keyed by their carrier. Kept out of {@link #pairTotal} so it never reaches
+     * the rates the slide decides on: a carrier losing wings would read as dying and slide timid.
+     * Only the reporting totals ({@link #dealtWithWings}) include it. Empty unless fighters are
+     * {@link #watch}ed. */
+    private final Map<String, Float> wingTotal = new HashMap<>();
     private final Map<String, Float> pairAtLastWindow = new HashMap<>();
     /** Smoothed damage per second per pair. Raw window rates are far too spiky to trigger on - a
      * bomber run lands in one window and nothing lands in the next. */
@@ -51,6 +56,12 @@ public class DamageObserver {
         float sum = 0f;
         for (ShipAPI victim : victims) sum += dealt(attacker, victim);
         return sum;
+    }
+
+    /** Cumulative damage {@code attacker} has dealt to {@code victim}, its wings' fighters included. */
+    public float dealtWithWings(ShipAPI attacker, ShipAPI victim) {
+        String k = key(attacker.getId(), victim.getId());
+        return value(pairTotal, k) + value(wingTotal, k);
     }
 
     /** Damage {@code attacker} dealt to {@code victims} since the last {@link #closeWindow},
@@ -115,11 +126,19 @@ public class DamageObserver {
     }
 
     private void record(ShipAPI attacker, ShipAPI victim, ApplyDamageResultAPI result) {
+        add(pairTotal, attacker, victim, result);
+    }
+
+    private void recordWing(ShipAPI attacker, ShipAPI carrier, ApplyDamageResultAPI result) {
+        add(wingTotal, attacker, carrier, result);
+    }
+
+    private static void add(Map<String, Float> totals, ShipAPI attacker, ShipAPI victim, ApplyDamageResultAPI result) {
         float total = result.getDamageToHull() + result.getTotalDamageToArmor()
                 + result.getDamageToShields();
         if (total <= 0f) return;
         String k = key(attacker.getId(), victim.getId());
-        pairTotal.put(k, value(pairTotal, k) + total);
+        totals.put(k, value(totals, k) + total);
     }
 
     /** Separate class rather than an anonymous one so {@code hasListenerOfClass} can find it. */
@@ -138,8 +157,10 @@ public class DamageObserver {
             ShipAPI victim = (ShipAPI) target;
             // Fighters are credited to their carrier on both sides of the pair, so a wing's damage
             // lands on the carrier's row rather than a short-lived fighter's.
-            if (victim.isFighter() && victim.getWing() != null && victim.getWing().getSourceShip() != null) {
-                victim = victim.getWing().getSourceShip();
+            if (victim.isFighter()) {
+                if (victim.getWing() == null || victim.getWing().getSourceShip() == null) return;
+                observer.recordWing(attacker, victim.getWing().getSourceShip(), result);
+                return;
             }
             observer.record(attacker, victim, result);
         }

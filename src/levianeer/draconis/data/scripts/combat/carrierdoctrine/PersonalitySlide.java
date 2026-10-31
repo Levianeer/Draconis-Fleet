@@ -100,9 +100,10 @@ public class PersonalitySlide {
     }
 
     /**
-     * Applies {@code step} now, ignoring dwell and the one-step rule. Only for the opening posture,
-     * which has to be in effect by contact: the first normal step up would not be allowed until
-     * t~15s, after contact. The dwell restarts from here, so the slide resumes normally afterwards.
+     * Applies {@code step} now, ignoring dwell and the one-step rule. For the opening posture, which
+     * has to be in effect by contact (the first normal step up would not be allowed until t~15s),
+     * and for an outnumbered hull ({@link SelfPreservation}), which has to leave before it is caught.
+     * The dwell restarts from here, so the slide resumes normally afterwards.
      */
     public Step set(ShipAPI ship, Step step) {
         if (current(ship) != step) {

@@ -2,6 +2,7 @@ package levianeer.draconis.data.scripts.combat.carrierdoctrine;
 
 import java.util.Collections;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -63,9 +64,25 @@ public class OpeningPlan {
      * the plan on and off can be compared like for like. */
     private final boolean acting;
 
-    public OpeningPlan(int owner, boolean acting) {
+    /** False logs phase recall without recalling anything. */
+    private final boolean recallActing;
+    private final Set<ShipAPI> recalled = Collections.newSetFromMap(new IdentityHashMap<ShipAPI, Boolean>());
+    /** How long the target must stay cloaked before wings are recalled. AI phase ships blink to
+     * dodge single shots: in the first test 5 of 9 cloaks lasted under a second, and recalling on
+     * those turned the wings around just as the target reappeared. */
+    private static final float RECALL_ONSET_SECONDS = 1.5f;
+    private boolean targetPhased;
+    private float phasedSince;
+    private int cloakEpisodes;
+    private boolean holding;
+    private float holdingSince;
+    private int recallEpisodes;
+    private float recallSeconds;
+
+    public OpeningPlan(int owner, boolean acting, boolean recallActing) {
         this.owner = owner;
         this.acting = acting;
+        this.recallActing = acting && recallActing;
     }
 
     /**
@@ -138,9 +155,73 @@ public class OpeningPlan {
         maxHolders = Math.max(maxHolders, holders);
     }
 
+    /**
+     * Every frame. While the STRIKE target stays phased, our fighters cannot hurt it, so the striking
+     * carriers' wings are pulled back rather than spending sorties on it; they are released the
+     * frame it unphases. Waits {@link #RECALL_ONSET_SECONDS} first. Idea from Project Solar Tail
+     * (TIDAL, RoaringWriter). Uses {@code setPullBackFighters}, the toggle the legacy controller
+     * relies on. Only carriers this recalled are ever released, so a pull-back set by anything else
+     * is left alone.
+     */
+    public void phaseRecall(List<ShipAPI> carriers, float elapsed) {
+        boolean phased = active() && posture == Posture.STRIKE && strikeTarget != null
+                && strikeTarget.isAlive() && strikeTarget.isPhased();
+        if (phased != targetPhased) {
+            if (phased) {
+                phasedSince = elapsed;
+                cloakEpisodes++;
+            }
+            log.info(String.format("DraconisAdmiral,phaseRecall,t=%.1f,target=%s,phase=%s,mode=%s,seconds=%.1f,recalled=%d",
+                    elapsed, strikeTarget == null ? "none" : strikeTarget.getName(), phased ? "start" : "end",
+                    recallActing ? "acting" : "observing", phased ? 0f : elapsed - phasedSince, holding ? 1 : 0));
+            targetPhased = phased;
+        }
+        boolean hold = phased && elapsed - phasedSince >= RECALL_ONSET_SECONDS;
+        if (hold != holding) {
+            if (hold) {
+                holdingSince = elapsed;
+                recallEpisodes++;
+            } else {
+                recallSeconds += elapsed - holdingSince;
+            }
+            holding = hold;
+        }
+        if (!hold || !recallActing) {
+            releaseRecall();
+            return;
+        }
+        for (ShipAPI carrier : carriers) {
+            if (excused.contains(carrier)) continue;
+            carrier.setPullBackFighters(true);
+            recalled.add(carrier);
+        }
+        for (Iterator<ShipAPI> it = recalled.iterator(); it.hasNext(); ) {
+            ShipAPI carrier = it.next();
+            if (!excused.contains(carrier) && carriers.contains(carrier)) continue;
+            carrier.setPullBackFighters(false);
+            it.remove();
+        }
+    }
+
+    /** Carriers whose wings phase recall is holding right now. */
+    public int recalling() {
+        return recalled.size();
+    }
+
+    private void releaseRecall() {
+        for (ShipAPI carrier : recalled) carrier.setPullBackFighters(false);
+        recalled.clear();
+    }
+
     /** Tears the STRIKE down and hands every carrier back to the slide. */
     public void end(float elapsed, String why) {
         if (over) return;
+        if (holding) {
+            recallSeconds += elapsed - holdingSince;
+            holding = false;
+        }
+        targetPhased = false;
+        releaseRecall();
         over = true;
         if (acting && strikeTarget != null) {
             CombatEngineAPI engine = Global.getCombatEngine();
@@ -154,9 +235,10 @@ public class OpeningPlan {
 
     /** For the once-per-battle opening line, so the outcome can be read against the posture. */
     public String summary() {
-        return String.format("posture=%s,mode=%s,ourCraft=%d,enemyCraft=%d,target=%s,strikeHolders=%d",
+        return String.format("posture=%s,mode=%s,ourCraft=%d,enemyCraft=%d,target=%s,strikeHolders=%d,"
+                        + "phaseCloaks=%d,phaseRecalls=%d,phaseRecallSeconds=%.0f",
                 posture, mode(), ourCraft, enemyCraft, strikeTarget == null ? "none" : strikeTarget.getName(),
-                maxHolders);
+                maxHolders, cloakEpisodes, recallEpisodes, recallSeconds);
     }
 
     private String mode() {
