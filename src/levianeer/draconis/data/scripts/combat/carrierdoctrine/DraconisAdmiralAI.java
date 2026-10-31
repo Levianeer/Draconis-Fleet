@@ -173,6 +173,9 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (ShipAPI ship : draconisInGate) {
             if (steering(ship) && selfPreservation.holds(ship)) slide.set(ship, PersonalitySlide.Step.TIMID);
         }
+        for (ShipAPI ship : selfPreservation.takeReleased()) {
+            if (steering(ship)) slide.set(ship, PersonalitySlide.BASELINE);
+        }
         // Hulls at steady or above may be sent at the enemy main body; carriers included, as in AI
         // Tweaks. One the slide has pulled back as losing is never sent at the enemy (author
         // decision) - it falls back to our own main body instead if it has drifted off it.
@@ -344,9 +347,9 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
             spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
         }
-        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,line=%d,phaseRecall=%d,outnumbered=%d,resets=%d,%s",
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,line=%d,phaseRecall=%d,outnumbered=%d,guard=%s,resets=%d,%s",
                 elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed", cohesion.redirected(),
-                cohesion.fallingBack(), cohesion.inLine(), opening.recalling(), selfPreservation.holding(),
+                cohesion.fallingBack(), cohesion.inLine(), opening.recalling(), selfPreservation.holding(), selfPreservation.guarded() ? "on" : "off",
                 slide.getResets(), spread.toString().trim()));
     }
 

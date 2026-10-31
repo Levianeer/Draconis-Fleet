@@ -1,5 +1,7 @@
 package levianeer.draconis.data.scripts.combat.carrierdoctrine;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,10 @@ import org.apache.log4j.Logger;
  * starts below {@link #ENTER_RATIO} and lifts at {@link #EXIT_RATIO} or with no enemy near, but not
  * before {@link #MIN_HOLD_SECONDS}: without the hold, leaving the radius released the hull at once
  * and it drifted back in, so episodes lasted 3-4s and repeated.
+ * <p>
+ * It stands down while too much of the fleet is outnumbered at once ({@link #GUARD_ON_SHARE}):
+ * saving a hull from a local fight works while the fleet holds, and costs the fight when the whole
+ * fleet is outmatched.
  */
 public class SelfPreservation {
 
@@ -35,11 +41,23 @@ public class SelfPreservation {
     private static final float ENTER_RATIO = 1.0f;
     private static final float EXIT_RATIO = 1.5f;
     private static final float MIN_HOLD_SECONDS = 8f;
+    /**
+     * Fleet guard: with this share of our hulls outnumbered at once, the fleet as a whole is
+     * outmatched and nothing acts. In the matched Hard runs 35-55% of the fleet was outnumbered
+     * together; sending all of it timid took it out of the fight with no safe main body to reach,
+     * and lost every pair, while the Even runs (7-25%) gained in every pair. Lifts below
+     * {@link #GUARD_OFF_SHARE}; the gap keeps it from flickering.
+     */
+    private static final float GUARD_ON_SHARE = 1f / 3f;
+    private static final float GUARD_OFF_SHARE = 0.25f;
 
     private final boolean acting;
     private final IntervalUtil interval = new IntervalUtil(0.5f, 0.5f);
     /** Hull -> when its current episode started. */
     private final Map<ShipAPI, Float> holding = new IdentityHashMap<>();
+    private boolean guarded;
+    /** Hulls that were being held when the guard tripped, for the admiral to put back to steady. */
+    private final List<ShipAPI> released = new ArrayList<>();
 
     public SelfPreservation(boolean acting) {
         this.acting = acting;
@@ -47,7 +65,24 @@ public class SelfPreservation {
 
     /** Whether the admiral should hold {@code ship} on timid now. Always false in observe-only mode. */
     public boolean holds(ShipAPI ship) {
-        return acting && holding.containsKey(ship);
+        return acting && !guarded && holding.containsKey(ship);
+    }
+
+    /** Whether the fleet guard is suppressing self-preservation, for the fleet log line. */
+    public boolean guarded() {
+        return guarded;
+    }
+
+    /**
+     * Hulls this was holding on timid when the guard tripped, once each. The admiral puts them
+     * straight back to steady: left to climb at the slide's pace, one step per 15s, they would sit
+     * out most of the fight anyway - the very failure the guard exists to prevent.
+     */
+    public List<ShipAPI> takeReleased() {
+        if (released.isEmpty()) return Collections.emptyList();
+        List<ShipAPI> out = new ArrayList<>(released);
+        released.clear();
+        return out;
     }
 
     /** Hulls currently in an episode, for the fleet log line. */
@@ -72,6 +107,22 @@ public class SelfPreservation {
             }
         }
         holding.keySet().retainAll(steered);
+        updateGuard(elapsed, steered.size());
+    }
+
+    private void updateGuard(float elapsed, int hulls) {
+        if (hulls == 0) return;
+        float share = (float) holding.size() / hulls;
+        if (!guarded && share >= GUARD_ON_SHARE) {
+            guarded = true;
+            if (acting) released.addAll(holding.keySet());
+        } else if (guarded && share < GUARD_OFF_SHARE) {
+            guarded = false;
+        } else {
+            return;
+        }
+        log.info(String.format("DraconisAdmiral,selfPreservationGuard,t=%.0f,state=%s,mode=%s,outnumbered=%d,hulls=%d,share=%.2f",
+                elapsed, guarded ? "on" : "off", acting ? "acting" : "observing", holding.size(), hulls, share));
     }
 
     /** DP of {@code ships} within {@link #LOCAL_RADIUS} of {@code ship}, edge to edge, counting itself if listed. */
