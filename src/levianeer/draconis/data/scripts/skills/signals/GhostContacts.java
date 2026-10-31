@@ -6,7 +6,7 @@ import second_in_command.SCData;
 
 public class GhostContacts extends SignalsSkill {
 
-    public static final float SPEED_PER_ADVANTAGE = 1f;
+    public static final float SPEED_PER_ADVANTAGE = 1.5f;
     public static final float MANEUVERABILITY_PER_ADVANTAGE = 2f;
 
     @Override

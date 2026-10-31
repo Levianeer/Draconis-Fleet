@@ -6,8 +6,8 @@ import second_in_command.SCData;
 
 public class Interlock extends SignalsSkill {
 
-    public static final float ANTI_SMALLCRAFT_DAMAGE_PER_ADVANTAGE = 2f;
-    public static final float WEAPON_TURN_RATE_PER_ADVANTAGE = 2f;
+    public static final float ANTI_SMALLCRAFT_DAMAGE_PER_ADVANTAGE = 3.5f;
+    public static final float WEAPON_TURN_RATE_PER_ADVANTAGE = 3f;
 
     @Override
     public void addTooltip(SCData data, TooltipMakerAPI tooltip) {

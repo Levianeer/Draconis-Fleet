@@ -7,7 +7,7 @@ import second_in_command.SCData;
 public class TargetPainting extends SignalsSkill {
 
     public static final float MISSILE_DAMAGE_PER_ADVANTAGE = 1.5f;
-    public static final float MISSILE_PERFORMANCE_PER_ADVANTAGE = 3f;
+    public static final float MISSILE_PERFORMANCE_PER_ADVANTAGE = 3.5f;
 
     @Override
     public void addTooltip(SCData data, TooltipMakerAPI tooltip) {

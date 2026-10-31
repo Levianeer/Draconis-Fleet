@@ -6,8 +6,8 @@ import second_in_command.SCData;
 
 public class SeekerBlinding extends SignalsSkill {
 
-    public static final float MISSILE_SPEED_PER_ADVANTAGE = 2f;
-    public static final float MISSILE_MANEUVERABILITY_PER_ADVANTAGE = 2f;
+    public static final float MISSILE_SPEED_PER_ADVANTAGE = 2.5f;
+    public static final float MISSILE_MANEUVERABILITY_PER_ADVANTAGE = 3.5f;
 
     @Override
     public String getAffectsString() {
