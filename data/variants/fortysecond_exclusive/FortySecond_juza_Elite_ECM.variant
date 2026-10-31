@@ -1,6 +1,6 @@
 {
     "displayName": "Elite",
-    "fluxCapacitors": 15,
+    "fluxCapacitors": 9,
     "fluxVents": 30,
     "hullId": "XLII_juza_fortysecond",
     "hullMods": [
@@ -23,31 +23,23 @@
     "variantId": "FortySecond_juza_Elite_ECM",
     "weaponGroups": [
         {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0018": "XLII_shashka",
-                "WS0019": "XLII_shashka"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS0001": "heatseeker",
-                "WS0021": "heatseeker",
-                "WS0026": "heatseeker",
-                "WS0027": "heatseeker",
-                "WS0028": "heatseeker",
-                "WS0029": "heatseeker"
-            }
-        },
-        {
             "autofire": true,
             "mode": "LINKED",
             "weapons": {
-                "WS0003": "XLII_montante",
-                "WS0020": "XLII_montante"
+                "WS0003": "gauss",
+                "WS0020": "gauss"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0001": "breach",
+                "WS0021": "breach",
+                "WS0026": "breach",
+                "WS0027": "breach",
+                "WS0028": "breach",
+                "WS0029": "breach"
             }
         },
         {
@@ -59,6 +51,14 @@
                 "WS0015": "XLII_estocflak",
                 "WS0024": "XLII_estocflak",
                 "WS0025": "XLII_estocflak"
+            }
+        },
+        {
+            "autofire": true,
+            "mode": "LINKED",
+            "weapons": {
+                "WS0018": "XLII_razorflak",
+                "WS0019": "XLII_razorflak"
             }
         }
     ]
