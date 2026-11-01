@@ -1,0 +1,1 @@
+Phase 1 probe for the Draconis combat AI: the AI-side carriers have their wings recalled, sent at two enemy targets in turn, and set on a friendly ship, by a test controller. Turn on autopilot and let it run to the end.
