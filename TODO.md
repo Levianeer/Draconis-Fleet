@@ -23,4 +23,8 @@
   - August should flattly deny his involvement, approval or knowledge of such.
   - If the player ask for more: August will point them to Monroe, as the person who would know.
   - If the player accused: The player can push the point but August will return to his usual stoic self and tell the player to "worry about themselves" instead.
+- [ ] Expand Second in Command Siginal skill tree.
+  - (Rework one/two skills to include the following)
+    - Debuff that slows enemy objective capture speed.
+    - Debuff that reduces enemy autofire accuracy.
 - [ ] Final playtest
