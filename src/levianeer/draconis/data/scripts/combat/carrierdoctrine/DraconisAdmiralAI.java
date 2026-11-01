@@ -489,6 +489,8 @@ public class DraconisAdmiralAI implements DoctrineController {
     }
 
     private static boolean settingOn(String id) {
+        Boolean forced = TestRunLedger.forced(id);
+        if (forced != null) return forced;
         try {
             return DraconisSettings.getBoolean(id);
         } catch (Exception e) {

@@ -9,20 +9,16 @@ import levianeer.draconis.data.scripts.combat.carrierdoctrine.TestMissionFleets;
 public class MissionDefinition implements MissionDefinitionPlugin {
 
     public void defineMission(MissionDefinitionAPI api) {
-        TestMissionFleets.setUp(api, "Frigate and destroyer swarm (184 DP)");
+        TestMissionFleets.setUp(api, "xlii_test_swarm", "Frigate and destroyer swarm (146 DP)");
 
         api.addToFleet(FleetSide.PLAYER, "fury_Attack", FleetMemberType.SHIP, "Swarm Fury", false);
-        api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, "Swarm Medusa 1", false);
-        api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, "Swarm Medusa 2", false);
+        api.addToFleet(FleetSide.PLAYER, "medusa_Attack", FleetMemberType.SHIP, "Swarm Medusa", false);
         api.addToFleet(FleetSide.PLAYER, "hammerhead_Balanced", FleetMemberType.SHIP, "Swarm Hammerhead 1", false);
         api.addToFleet(FleetSide.PLAYER, "hammerhead_Balanced", FleetMemberType.SHIP, "Swarm Hammerhead 2", false);
         api.addToFleet(FleetSide.PLAYER, "sunder_Assault", FleetMemberType.SHIP, "Swarm Sunder", false);
-        api.addToFleet(FleetSide.PLAYER, "shrike_Attack", FleetMemberType.SHIP, "Swarm Shrike 1", false);
-        api.addToFleet(FleetSide.PLAYER, "shrike_Attack", FleetMemberType.SHIP, "Swarm Shrike 2", false);
-        api.addToFleet(FleetSide.PLAYER, "condor_Strike", FleetMemberType.SHIP, "Swarm Condor", false);
+        api.addToFleet(FleetSide.PLAYER, "shrike_Attack", FleetMemberType.SHIP, "Swarm Shrike", false);
         api.addToFleet(FleetSide.PLAYER, "tempest_Attack", FleetMemberType.SHIP, "Swarm Tempest 1", false);
         api.addToFleet(FleetSide.PLAYER, "tempest_Attack", FleetMemberType.SHIP, "Swarm Tempest 2", false);
-        api.addToFleet(FleetSide.PLAYER, "tempest_Attack", FleetMemberType.SHIP, "Swarm Tempest 3", false);
         api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, "Swarm Scarab 1", false);
         api.addToFleet(FleetSide.PLAYER, "scarab_Experimental", FleetMemberType.SHIP, "Swarm Scarab 2", false);
         api.addToFleet(FleetSide.PLAYER, "omen_PD", FleetMemberType.SHIP, "Swarm Omen", false);

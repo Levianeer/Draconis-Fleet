@@ -63,6 +63,7 @@ public class CarrierDoctrinePlugin extends BaseEveryFrameCombatPlugin {
             }
         }
         if (ai != null) ai.advance(amount);
+        TestRunLedger.recordIfOver();
 
         if (battleLog != null) {
             elapsed += amount;
