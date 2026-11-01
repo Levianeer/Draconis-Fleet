@@ -22,9 +22,9 @@ public final class TestRunLedger {
     private static final Logger log = Global.getLogger(TestRunLedger.class);
 
     /** The setting the test missions alternate. */
-    public static final String SETTING = "draconisAdmiralPhaseRecall";
+    public static final String SETTING = "draconisAdmiralActs";
     /** Rename whenever the lever changes, so runs of an older version stop counting. */
-    public static final String EXPERIMENT = "phaseRecall-v1";
+    public static final String EXPERIMENT = "admiral-vs-vanilla-v1";
     public static final int RUNS_PER_ARM = 3;
 
     private static final String FILE = "draconis_admiral_tests.csv";
