@@ -7,6 +7,7 @@ import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
+import levianeer.draconis.data.scripts.combat.commander.Commander;
 
 /**
  * Shared setup for the combat AI test missions ({@code data/missions/xlii_test_*}), Phase 0 of
@@ -19,7 +20,9 @@ import com.fs.starfarer.api.mission.MissionDefinitionAPI;
  * The FortySecond's optimised loadouts already win most even fights under vanilla AI, so an even
  * fight cannot show whether the AI is any good. Two kinds of mission instead: the mirror, where the
  * same fleet on both sides cancels the loadout advantage, and outnumbered fights, where each
- * opponent's {@link Opponent#odds} is tuned until vanilla wins only about 2 runs in 5.
+ * opponent's {@link Opponent#odds} is tuned until the floor (our admiral with no ship control, see
+ * {@link TestRunLedger#FLOOR}) wins only about 2 runs in 5. Calibrated against vanilla's admiral in
+ * Phase 0, which turned out to hold the fleet back; re-calibrated against the floor in Phase 2.
  * <p>
  * The game splits the battle size between the sides in proportion to fleet DP and the maximum is
  * 400, so both fleets together must stay under 400 or ships wait in reserve. The FortySecond fleet
@@ -93,7 +96,7 @@ public final class TestMissions {
         MIRROR("FortySecond battlegroup, vanilla AI", 1f, FORTYSECOND);
 
         final String tagline;
-        /** Opponent DP as a multiple of the FortySecond's. Tuned in Phase 0; runs at different odds
+        /** Opponent DP as a multiple of the FortySecond's, tuned against the floor; runs at different odds
          * are recorded apart. */
         final float odds;
         final String[][] ships;
@@ -108,7 +111,10 @@ public final class TestMissions {
     private TestMissions() {
     }
 
-    /** Both fleets, the briefing, a plain map and the battle log for one test mission. */
+    /**
+     * Both fleets, the briefing, a plain map and the battle log for one test mission. The Draconis
+     * side's arm is chosen by {@link TestRunLedger#nextArm}.
+     */
     public static void define(MissionDefinitionAPI api, String missionId, Opponent opponent) {
         api.initFleet(FleetSide.PLAYER, "OPP", FleetGoal.ATTACK, true);
         api.initFleet(FleetSide.ENEMY, "DDA", FleetGoal.ATTACK, true);
@@ -121,10 +127,13 @@ public final class TestMissions {
         String runKey = String.format("%s@%.2f", missionId, opponent.odds);
         api.addBriefingItem("Test mission: turn on autopilot - your side is the opponent");
         api.addBriefingItem("Set battle size to 400 so both fleets deploy in full");
+        String arm = TestRunLedger.nextArm(runKey);
         for (String line : TestRunLedger.briefing(runKey)) api.addBriefingItem(line);
 
         api.initMap(-MAP_SIZE / 2f, MAP_SIZE / 2f, -MAP_SIZE / 2f, MAP_SIZE / 2f);
-        api.addPlugin(new TestBattleLog(runKey));
+        api.addPlugin(new TestBattleLog(runKey, arm));
+        if (TestRunLedger.COMMANDER.equals(arm)) api.addPlugin(new Commander(1, true));
+        else if (TestRunLedger.FLOOR.equals(arm)) api.addPlugin(new Commander(1, false));
     }
 
     /** Adds ships in list order while they fit {@code maxDp}, numbering repeated names. Returns the DP added. */

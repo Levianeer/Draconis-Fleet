@@ -1,1 +1,0 @@
-Phase 1 probe for the Draconis combat AI: the AI-side FortySecond battlegroup holds and moves a line under fire while vanilla AI still handles its weapons and shields, against an identical fleet under vanilla AI. Turn on autopilot and let it run to the end.

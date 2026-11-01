@@ -4,23 +4,30 @@ import com.fs.starfarer.api.Global;
 import org.apache.log4j.Logger;
 
 /**
- * Finished test-mission runs, kept in a common file shared by every save, so nobody has to count
- * runs by hand. One line per finished run, written by {@link TestBattleLog} when the battle is over:
+ * Finished test-mission runs, kept in a common file shared by every save, so nobody has to flip a
+ * setting between runs or count them by hand. One line per finished run, written by
+ * {@link TestBattleLog} when the battle is over:
  * {@code experiment,mission,arm,winner,seconds,dealt,taken,draconisDpLost,opponentDpLost}, where
- * {@code mission} is {@code missionId@odds} so runs at different odds stay apart. A run quit
- * early is never written. Changing {@link #EXPERIMENT} starts a fresh count without deleting the old
- * one.
+ * {@code mission} is {@code missionId@odds} so runs at different odds stay apart. A run quit early is
+ * never written. Changing {@link #EXPERIMENT} starts a fresh count without deleting the old one.
  * <p>
- * Phase 0 only measures vanilla, so every run is the {@link #ARM} arm. When the commander exists,
- * the arm alternates between it and vanilla here.
+ * The arm says what flew the Draconis side. Each run gets whichever arm in {@link #ARMS} has the fewest
+ * finished runs in that mission (the first on a tie), so A/B runs alternate on their own.
  */
 public final class TestRunLedger {
 
     private static final Logger log = Global.getLogger(TestRunLedger.class);
 
     /** Rename when the thing being measured changes, so older runs stop counting. */
-    public static final String EXPERIMENT = "baseline-v1";
-    public static final String ARM = "vanilla";
+    public static final String EXPERIMENT = "phase2-v1";
+    /** Vanilla AI with vanilla's admiral. Phase 0 baseline; not run any more. */
+    public static final String VANILLA = "vanilla";
+    /** The commander's admiral only (deploys everything, no orders or retreats); ships fly vanilla. */
+    public static final String FLOOR = "floor";
+    /** The floor plus whatever the commander currently adds. */
+    public static final String COMMANDER = "commander";
+    /** The arms the test missions alternate between. */
+    static final String[] ARMS = {FLOOR};
     public static final int RUNS_PER_ARM = 5;
 
     private static final String FILE = "draconis_commander_tests.csv";
@@ -28,9 +35,9 @@ public final class TestRunLedger {
     private TestRunLedger() {
     }
 
-    static void record(String mission, String winner, float seconds, float dealt, float taken,
+    static void record(String mission, String arm, String winner, float seconds, float dealt, float taken,
                        float draconisDpLost, float opponentDpLost) {
-        String line = String.format("%s,%s,%s,%s,%.0f,%.0f,%.0f,%.0f,%.0f", EXPERIMENT, mission, ARM, winner,
+        String line = String.format("%s,%s,%s,%s,%.0f,%.0f,%.0f,%.0f,%.0f", EXPERIMENT, mission, arm, winner,
                 seconds, dealt, taken, draconisDpLost, opponentDpLost);
         try {
             Global.getSettings().writeTextFileToCommon(FILE, read() + line + "\n");
@@ -39,19 +46,37 @@ public final class TestRunLedger {
         }
     }
 
-    /** Briefing lines for {@code mission}: runs and Draconis wins so far in the current experiment. */
+    /** The arm the next run of {@code mission} gets. */
+    static String nextArm(String mission) {
+        int[][] done = finished(mission);
+        int best = 0;
+        for (int i = 1; i < ARMS.length; i++) if (done[i][0] < done[best][0]) best = i;
+        return ARMS[best];
+    }
+
+    /** Briefing lines for {@code mission}: runs and Draconis wins per arm, and the next run's arm. */
     static String[] briefing(String mission) {
-        int runs = 0;
-        int wins = 0;
+        int[][] done = finished(mission);
+        StringBuilder progress = new StringBuilder(EXPERIMENT).append(":");
+        for (int i = 0; i < ARMS.length; i++) {
+            progress.append(String.format(" %s %d/%d (won %d)", ARMS[i], done[i][0], RUNS_PER_ARM, done[i][1]));
+        }
+        return new String[]{progress.toString(), "This run: " + nextArm(mission) + " (set automatically)"};
+    }
+
+    /** Per arm in {@link #ARMS}: {runs, Draconis wins} in the current experiment. */
+    private static int[][] finished(String mission) {
+        int[][] done = new int[ARMS.length][2];
         for (String line : read().split("\n")) {
             String[] f = line.trim().split(",");
-            if (f.length < 4 || !f[0].equals(EXPERIMENT) || !f[1].equals(mission) || !f[2].equals(ARM)) continue;
-            runs++;
-            if ("draconis".equals(f[3])) wins++;
+            if (f.length < 4 || !f[0].equals(EXPERIMENT) || !f[1].equals(mission)) continue;
+            for (int i = 0; i < ARMS.length; i++) {
+                if (!ARMS[i].equals(f[2])) continue;
+                done[i][0]++;
+                if ("draconis".equals(f[3])) done[i][1]++;
+            }
         }
-        String done = runs >= RUNS_PER_ARM ? " - complete, further runs still count" : "";
-        return new String[]{String.format("%s, %s AI: %d/%d runs, Draconis won %d%s", EXPERIMENT, ARM, runs,
-                RUNS_PER_ARM, wins, done)};
+        return done;
     }
 
     private static String read() {

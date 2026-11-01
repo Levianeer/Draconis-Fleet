@@ -39,6 +39,7 @@ public class TestBattleLog extends BaseEveryFrameCombatPlugin implements DamageL
     private static final float DEPLOY_CHECK_AT = 10f;
 
     private final String missionId;
+    private final String arm;
     private final Set<ShipAPI> watched = Collections.newSetFromMap(new IdentityHashMap<ShipAPI, Boolean>());
     private float dealt;
     private float taken;
@@ -47,8 +48,9 @@ public class TestBattleLog extends BaseEveryFrameCombatPlugin implements DamageL
     private boolean deployChecked;
     private boolean recorded;
 
-    public TestBattleLog(String missionId) {
+    public TestBattleLog(String missionId, String arm) {
         this.missionId = missionId;
+        this.arm = arm;
     }
 
     /** Reset here rather than relying on a fresh instance, in case a restarted mission reuses this one. */
@@ -104,10 +106,10 @@ public class TestBattleLog extends BaseEveryFrameCombatPlugin implements DamageL
         log.info(String.format("DraconisTest,result,experiment=%s,mission=%s,arm=%s,winner=%s,t=%.0f,dealt=%.0f,taken=%.0f,"
                         + "ratio=%s,hullDealt=%.0f,hullTaken=%.0f,draconisDpLost=%.0f,opponentDpLost=%.0f,"
                         + "draconisRetreated=%d,opponentRetreated=%d",
-                TestRunLedger.EXPERIMENT, missionId, TestRunLedger.ARM, winner, t, dealt, taken,
+                TestRunLedger.EXPERIMENT, missionId, arm, winner, t, dealt, taken,
                 taken > 0f ? String.format("%.2f", dealt / taken) : "perfect", hullDealt, hullTaken,
                 oursLost, theirsLost, ships(ours.getRetreatedCopy()), ships(theirs.getRetreatedCopy())));
-        TestRunLedger.record(missionId, winner, t, dealt, taken, oursLost, theirsLost);
+        TestRunLedger.record(missionId, arm, winner, t, dealt, taken, oursLost, theirsLost);
     }
 
     /** A ship can be in both the disabled and the destroyed list, so each member is counted once by id. */
