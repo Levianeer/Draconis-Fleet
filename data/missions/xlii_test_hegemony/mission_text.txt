@@ -1,0 +1,1 @@
+The FortySecond battlegroup against a larger Hegemony XIV battlegroup. The odds are set so the vanilla AI wins only about 2 battles in 5. For testing the Draconis combat AI: the Draconis fleet is the AI side; turn on autopilot and let the two AI fleets fight. No officers on either side.
