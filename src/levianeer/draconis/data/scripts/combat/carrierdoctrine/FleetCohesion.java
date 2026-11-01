@@ -52,14 +52,6 @@ import org.lwjgl.util.vector.Vector2f;
  * own main body is sent back to it instead, to a point behind its centre. Excluding pulled-back
  * hulls alone left them backing away from enemies with nothing pulling them towards friends, and
  * in play they were picked off alone more often than they were saved.
- * <p>
- * A second addition: the battle line. Forward hulls of any size, carriers included, that are not yet
- * engaged are held in a line abreast facing the enemy main body, which advances as a unit (see
- * {@link #lineSlots}). Once an enemy comes inside a hull's range its slot lifts and it fights on its
- * own judgement - the redirect above then applies to it - so the line shapes the approach and the
- * regroup, never the fight itself. Holding hulls at positions through a fight pinned them at full
- * flux in the TaskForce work. Modelled on the legacy controller's battleline, which was a single
- * rally point rather than a line.
  */
 public class FleetCohesion {
 
@@ -83,20 +75,6 @@ public class FleetCohesion {
 
     private static final String REDIRECT = "redirect";
     private static final String FALLBACK = "fallback";
-    private static final String LINE = "line";
-    /** How far ahead of the line hulls' centre the line is placed. Recomputed every tick from where
-     * the hulls are, so the line advances as a unit at the pace of the group rather than racing to a
-     * fixed point: fast hulls are held back to their slot while slower ones catch up. */
-    private static final float LINE_ADVANCE = 800f;
-    /** Clear space between neighbouring hulls, on top of their own widths. */
-    private static final float LINE_GAP = 400f;
-    /** A hull counts as engaged, and leaves the line to fight, with an enemy hull this many times its
-     * longest weapon range away - not before, so the line holds while closing. */
-    private static final float ENGAGE_RANGE_MULT = 1.2f;
-    /** Engagement floor for hulls with little or no gun range, mainly pure carriers. */
-    private static final float MIN_ENGAGE_RANGE = 1000f;
-    /** Within this of its slot a hull counts as in formation, for the log. */
-    private static final float IN_SLOT = 500f;
     /** How far behind our main body's centre a pulled-back hull is sent: half the grouping range, so
      * the point sits inside the fleet's footprint. */
     private static final float FALLBACK_OFFSET = 1000f;
@@ -130,27 +108,9 @@ public class FleetCohesion {
         }
     }
 
-    /** False keeps the pre-line behaviour - every forward hull handled by the redirect - and only
-     * measures where the line would have put each hull, for A/B. */
-    private final boolean lineActing;
-    private final Map<ShipAPI, Float> slotDistance = new IdentityHashMap<>();
-
-    public FleetCohesion(int owner, boolean acting, boolean lineActing) {
+    public FleetCohesion(int owner, boolean acting) {
         this.owner = owner;
         this.acting = acting;
-        this.lineActing = lineActing;
-    }
-
-    /** Hulls currently held in the battle line, for the fleet log line. */
-    public int inLine() {
-        return count(LINE);
-    }
-
-    /** Distance from {@code ship} to its line slot as of the last tick, or -1 if it had none (engaged,
-     * pulled back, busy, or no front). Measured in observe-only mode too. */
-    public float distanceToSlot(ShipAPI ship) {
-        Float d = slotDistance.get(ship);
-        return d == null ? -1f : d;
     }
 
     /** Ships currently being steered at the enemy main body, for the fleet log line. */
@@ -196,32 +156,13 @@ public class FleetCohesion {
         ourMain = ours.isEmpty() ? Collections.<ShipAPI>emptyList() : segment(ours).get(0);
 
         Map<ShipAPI, Active> now = new IdentityHashMap<>();
-        slotDistance.clear();
         if (allowed(engine, tasks) && !enemies.isEmpty()) {
             List<List<ShipAPI>> groups = segment(enemies);
             List<ShipAPI> primary = groups.get(0);
             List<ShipAPI> valid = validTargets(groups);
             FogOfWarAPI fog = engine.getFogOfWar(owner);
 
-            List<ShipAPI> lineHulls = new ArrayList<>();
-            List<ShipAPI> engaged = new ArrayList<>();
             for (ShipAPI ship : forward) {
-                if (!eligibleAnySize(engine, tasks, ship)) continue;
-                (isEngaged(ship, enemies) ? engaged : lineHulls).add(ship);
-            }
-            Map<ShipAPI, Vector2f> slots = lineSlots(engine, lineHulls, primary);
-            for (Map.Entry<ShipAPI, Vector2f> entry : slots.entrySet()) {
-                slotDistance.put(entry.getKey(), Misc.getDistance(entry.getKey().getLocation(), entry.getValue()));
-            }
-            logLine(elapsed, slots, engaged.size());
-
-            for (ShipAPI ship : forward) {
-                Vector2f slot = slots.get(ship);
-                if (lineActing && slot != null) {
-                    now.put(ship, new Active(LINE, elapsed, "none", "line slot"));
-                    issue(engine, tasks, ship, slot);
-                    continue;
-                }
                 if (!eligible(engine, tasks, ship)) continue;
                 ShipAPI target = attackTarget(ship);
                 if (target == null || primary.contains(target)) continue;
@@ -235,7 +176,7 @@ public class FleetCohesion {
             Vector2f behind = behindMainBody(engine, enemies);
             if (behind != null) {
                 for (ShipAPI ship : pulledBack) {
-                    if (ourMain.contains(ship) || !eligibleAnySize(engine, tasks, ship)) continue;
+                    if (ourMain.contains(ship) || !eligibleToFallBack(engine, tasks, ship)) continue;
                     now.put(ship, new Active(FALLBACK, elapsed, "none", "behind main body"));
                     if (acting) issue(engine, tasks, ship, behind);
                 }
@@ -278,86 +219,11 @@ public class FleetCohesion {
             point.x += dx / len * FALLBACK_OFFSET;
             point.y += dy / len * FALLBACK_OFFSET;
         }
-        return clampToMap(engine, point);
-    }
-
-    private static Vector2f clampToMap(CombatEngineAPI engine, Vector2f point) {
         float halfW = engine.getMapWidth() / 2f - MAP_MARGIN;
         float halfH = engine.getMapHeight() / 2f - MAP_MARGIN;
         point.x = Math.max(-halfW, Math.min(halfW, point.x));
         point.y = Math.max(-halfH, Math.min(halfH, point.y));
         return point;
-    }
-
-    /** An enemy hull is within {@link #ENGAGE_RANGE_MULT} of this hull's longest weapon range, edge
-     * to edge. */
-    private static boolean isEngaged(ShipAPI ship, List<ShipAPI> enemies) {
-        float range = Math.max(MIN_ENGAGE_RANGE, maxRange(ship) * ENGAGE_RANGE_MULT);
-        for (ShipAPI enemy : enemies) {
-            float dist = Misc.getDistance(ship.getLocation(), enemy.getLocation())
-                    - ship.getCollisionRadius() - enemy.getCollisionRadius();
-            if (dist <= range) return true;
-        }
-        return false;
-    }
-
-    /**
-     * A line abreast facing the enemy main body, {@link #LINE_ADVANCE} ahead of the line hulls' own
-     * centre. Hulls keep their current left-to-right order so none has to cross the formation, and
-     * each slot is the hull's own width plus {@link #LINE_GAP}. Empty when the two centres are too
-     * close to give a front.
-     */
-    private static Map<ShipAPI, Vector2f> lineSlots(CombatEngineAPI engine, List<ShipAPI> hulls, List<ShipAPI> primary) {
-        Map<ShipAPI, Vector2f> slots = new IdentityHashMap<>();
-        if (hulls.isEmpty()) return slots;
-        final Vector2f ours = centroid(hulls);
-        Vector2f theirs = centroid(primary);
-        float dx = theirs.x - ours.x;
-        float dy = theirs.y - ours.y;
-        float len = (float) Math.sqrt(dx * dx + dy * dy);
-        if (len < MIN_FRONT_SEPARATION) return slots;
-        final float ax = dx / len, ay = dy / len;
-        final float px = -ay, py = ax;
-
-        List<ShipAPI> ordered = new ArrayList<>(hulls);
-        Collections.sort(ordered, new Comparator<ShipAPI>() {
-            @Override
-            public int compare(ShipAPI a, ShipAPI b) {
-                return Float.compare(lateral(a), lateral(b));
-            }
-
-            private float lateral(ShipAPI s) {
-                return (s.getLocation().x - ours.x) * px + (s.getLocation().y - ours.y) * py;
-            }
-        });
-
-        float width = 0f;
-        for (ShipAPI ship : ordered) width += ship.getCollisionRadius() * 2f + LINE_GAP;
-        float cx = ours.x + ax * LINE_ADVANCE;
-        float cy = ours.y + ay * LINE_ADVANCE;
-        float offset = -width / 2f;
-        for (ShipAPI ship : ordered) {
-            float w = ship.getCollisionRadius() * 2f + LINE_GAP;
-            float lateral = offset + w / 2f;
-            offset += w;
-            slots.put(ship, clampToMap(engine, new Vector2f(cx + px * lateral, cy + py * lateral)));
-        }
-        return slots;
-    }
-
-    private void logLine(float elapsed, Map<ShipAPI, Vector2f> slots, int engaged) {
-        if (slots.isEmpty() && engaged == 0) return;
-        int inSlot = 0;
-        float sum = 0f, max = 0f;
-        for (Map.Entry<ShipAPI, Vector2f> entry : slots.entrySet()) {
-            float d = Misc.getDistance(entry.getKey().getLocation(), entry.getValue());
-            if (d <= IN_SLOT) inSlot++;
-            sum += d;
-            max = Math.max(max, d);
-        }
-        log.info(String.format("DraconisAdmiral,line,t=%.0f,mode=%s,members=%d,engaged=%d,inSlot=%d,meanSlotDist=%.0f,maxSlotDist=%.0f",
-                elapsed, lineActing ? "acting" : "observing", slots.size(), engaged, inSlot,
-                slots.isEmpty() ? 0f : sum / slots.size(), max));
     }
 
     /** DP-weighted, falling back to the plain mean if no hull reports DP. */
@@ -408,10 +274,9 @@ public class FleetCohesion {
         return tasks.getAssignmentFor(ship) == null || freedThisTick.contains(ship);
     }
 
-    /** Not AI Tweaks' rule: frigates are included, for the fallback because the small hulls that
-     * slide to timid fastest are the ones most exposed when they drift off alone, and for the line
-     * because every hull forms it. */
-    private boolean eligibleAnySize(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship) {
+    /** Not AI Tweaks' rule: frigates are included, since the small hulls that slide to timid fastest
+     * are the ones most exposed when they drift off alone. */
+    private boolean eligibleToFallBack(CombatEngineAPI engine, CombatTaskManagerAPI tasks, ShipAPI ship) {
         if (!ship.isAlive() || ship.isExpired() || ship.isFighter() || ship.isStation() || ship.isStationModule()) {
             return false;
         }

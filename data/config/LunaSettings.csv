@@ -43,7 +43,6 @@ draconisAdmiralAI,Adaptive Admiral,Boolean,true,,"Uses the adaptive admiral. Dis
 draconisAdmiralActs,Admiral Issues Orders,Boolean,true,,"Disable to have the admiral observe and log without issuing orders.",,,Debug
 draconisAdmiralOpening,Admiral Opening Plan,Boolean,true,,"Disable to have the opening plan only observe and log its posture.",,,Debug
 draconisAdmiralCohesion,Admiral Fleet Cohesion,Boolean,true,,"Disable to have fleet cohesion only observe and log its redirects.",,,Debug
-draconisAdmiralLine,Admiral Battle Line,Boolean,true,,"Disable to have the battle line only observe and log. The battle line forms unengaged hulls into a line abreast facing the enemy.",,,Debug
 draconisAdmiralSelfPreservation,Admiral Self-Preservation,Boolean,true,,"Disable to have self-preservation only observe and log. Self-preservation sends outnumbered ships timid and back to the main body.",,,Debug
 draconisAdmiralPhaseRecall,Admiral Phase Recall,Boolean,true,,"Disable to have phase recall only observe and log. Phase recall pulls carrier wings back while the opening strike target is phased.",,,Debug
 draconisSignalsDebugHeader,Signals Debug,Header,Signals Debug,,,,,Debug

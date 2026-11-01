@@ -134,13 +134,12 @@ public class DraconisAdmiralAI implements DoctrineController {
         this.owner = owner;
         this.opening = new OpeningPlan(owner, acting && settingOn("draconisAdmiralOpening"),
                 settingOn("draconisAdmiralPhaseRecall"));
-        this.cohesion = new FleetCohesion(owner, acting && settingOn("draconisAdmiralCohesion"),
-                acting && settingOn("draconisAdmiralLine"));
+        this.cohesion = new FleetCohesion(owner, acting && settingOn("draconisAdmiralCohesion"));
         this.shipLog = new ShipBehaviourLog(owner);
         this.selfPreservation = new SelfPreservation(acting && settingOn("draconisAdmiralSelfPreservation"));
         log.info("DraconisAdmiral,header,t,ship,id,carrier,confidence,obsIncomingDps,obsOutgoingDps,"
                 + "ttdObserved,ttdHull,ttkObserved,ttdPredicted,ttkPredicted,predictedOutRank,"
-                + "threats,targets,shieldRatio,focus,desired,applied,emergency,outmatch,fleetDistance,recklessGate,slotDistance");
+                + "threats,targets,shieldRatio,focus,desired,applied,emergency,outmatch,fleetDistance,recklessGate");
         log.info("Draconis: DraconisAdmiralAI " + (acting ? "ACTING (step 3, personality slide)"
                 : "observing only - set draconisAdmiralActs to let it act"));
         log.info("DraconisAdmiral,targetHeader,t,enemy,durability,incomingFromUs,ttkObserved,"
@@ -279,7 +278,7 @@ public class DraconisAdmiralAI implements DoctrineController {
             }
 
             log.info(String.format(
-                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d,%.2f,%.0f,%s,%.0f",
+                    "DraconisAdmiral,row,%.0f,%s,%s,%d,%.2f,%.0f,%.0f,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%d,%d,%.2f,%s,%s,%s,%d,%.2f,%.0f,%s",
                     elapsed, p.ship.getName(), p.ship.getId(), profile.carrier ? 1 : 0, confidence,
                     incoming, outgoing,
                     ttdObserved, ttdHull, ttkObserved,
@@ -287,8 +286,7 @@ public class DraconisAdmiralAI implements DoctrineController {
                     p.predictedOutRank, p.threatCount, p.reachableTargets,
                     model.shieldRatio(p.ship), focus == null ? "none" : focus.getName(),
                     desired, applied, emergency ? 1 : 0, Math.min(99f, p.outmatch),
-                    cohesion.distanceToMainBody(p.ship), recklessGate == null ? "-" : recklessGate,
-                    cohesion.distanceToSlot(p.ship)));
+                    cohesion.distanceToMainBody(p.ship), recklessGate == null ? "-" : recklessGate));
         }
 
         // Target ordering is a fleet-level question, so it is logged once per decision rather than
@@ -347,9 +345,9 @@ public class DraconisAdmiralAI implements DoctrineController {
         for (PersonalitySlide.Step step : PersonalitySlide.Step.values()) {
             spread.append(step).append('=').append(steps[step.ordinal()]).append(' ');
         }
-        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,line=%d,phaseRecall=%d,outnumbered=%d,guard=%s,resets=%d,%s",
+        log.info(String.format("DraconisAdmiral,fleet,%.0f,hulls=%d,enemies=%d,gate=%s,cohesion=%d,fallback=%d,phaseRecall=%d,outnumbered=%d,guard=%s,resets=%d,%s",
                 elapsed, pressures.size(), theirs.size(), gateOpen ? "open" : "closed", cohesion.redirected(),
-                cohesion.fallingBack(), cohesion.inLine(), opening.recalling(), selfPreservation.holding(), selfPreservation.guarded() ? "on" : "off",
+                cohesion.fallingBack(), opening.recalling(), selfPreservation.holding(), selfPreservation.guarded() ? "on" : "off",
                 slide.getResets(), spread.toString().trim()));
     }
 
