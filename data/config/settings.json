@@ -8,15 +8,6 @@
 	"draconisEnableRemnantRaids": true,					# Enable/disable raids on Remnant installations		#	Default : true
 	"draconisEnableWeaponEscalation": true,				# Replace Draconis Naginata loadouts with Daikyu-class when player fields nuclear weapons	#	Default : true
 
-	"draconisCarrierDoctrineDebugMessages": false,		# Show in-combat Carrier Doctrine AI debug messages and the world-space role/target overlay	#	Default : false
-	"draconisCarrierDoctrineEnabled": true,				# false = install no combat AI at all, record the battle anyway - the baseline every controller must beat	#	Default : true
-	"draconisCarrierDoctrineBattleLog": false,			# Per-battle summary to saves/common/draconis_tf_battle_*	#	Default : false
-	"draconisAdmiralAI": true,							# true = DraconisAdmiralAI, false = CarrierDoctrineAI (legacy) - flip to A/B the two	#	Default : true
-	"draconisAdmiralActs": true,						# false = DraconisAdmiralAI observes and logs without issuing orders, which is the baseline it is measured against	#	Default : true
-	"draconisAdmiralOpening": true,						# false = the opening plan only observes and logs its posture, for A/B against the slide alone	#	Default : true
-	"draconisAdmiralCohesion": true,					# false = fleet cohesion (adapted from AI Tweaks) only observes and logs its redirects, for A/B against the slide alone	#	Default : true
-	"draconisAdmiralSelfPreservation": true,			# false = self-preservation (outnumbered hulls go timid and fall back to the main body) only observes and logs, for A/B	#	Default : true
-	"draconisAdmiralPhaseRecall": true,					# false = phase recall (pull wings back while the opening STRIKE target is phased) only observes and logs	#	Default : true
 	"draconisSignalsDebug": false,						# Second-in-Command only: in-combat readout of each side's ECM advantage and Signals skills, and the Signals effects on your ship and target	#	Default : false
 
 	# ========================================

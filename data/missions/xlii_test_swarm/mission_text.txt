@@ -1,1 +1,0 @@
-A small-ship fight: many frigates and destroyers around a single light cruiser, to test how the FortySecond fleet handles being outnumbered by hull count. For testing the FortySecond admiral: the FortySecond fleet is the AI side and identical in every test mission; turn on autopilot and let the two AI fleets fight.

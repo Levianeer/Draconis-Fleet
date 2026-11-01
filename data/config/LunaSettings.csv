@@ -35,16 +35,6 @@ draconisAIOCombatHostilePoints,Fighting Draconis Fleets,Int,5,,"AIO tracker incr
 draconisAIODonationAlphaPoints,Alpha Core Donation,Int,-15,,"AIO tracker change per Alpha core donated to the Alliance. Negative values lower the tracker.",-50,0,Colony Crisis
 draconisAIODonationBetaPoints,Beta Core Donation,Int,-10,,"AIO tracker change per Beta core donated to the Alliance. Negative values lower the tracker.",-50,0,Colony Crisis
 draconisAIODonationGammaPoints,Gamma Core Donation,Int,-5,,"AIO tracker change per Gamma core donated to the Alliance. Negative values lower the tracker.",-50,0,Colony Crisis
-draconisDebugHeader,Combat AI Debug,Header,Combat AI Debug,,,,,Debug
-draconisCarrierDoctrineDebugMessages,Debug Messages,Boolean,false,,"Shows in-combat Carrier Doctrine debug messages and the role/target overlay.",,,Debug
-draconisCarrierDoctrineBattleLog,Battle Log,Boolean,false,,"Writes a per-battle summary to saves/common/draconis_tf_battle_*.",,,Debug
-draconisCarrierDoctrineEnabled,Carrier Doctrine AI,Boolean,true,,"Disable to install no Draconis combat AI at all. Battles are still recorded for comparison.",,,Debug
-draconisAdmiralAI,Adaptive Admiral,Boolean,true,,"Uses the adaptive admiral. Disable to use the legacy Carrier Doctrine AI.",,,Debug
-draconisAdmiralActs,Admiral Issues Orders,Boolean,true,,"Disable to have the admiral observe and log without issuing orders.",,,Debug
-draconisAdmiralOpening,Admiral Opening Plan,Boolean,true,,"Disable to have the opening plan only observe and log its posture.",,,Debug
-draconisAdmiralCohesion,Admiral Fleet Cohesion,Boolean,true,,"Disable to have fleet cohesion only observe and log its redirects.",,,Debug
-draconisAdmiralSelfPreservation,Admiral Self-Preservation,Boolean,true,,"Disable to have self-preservation only observe and log. Self-preservation sends outnumbered ships timid and back to the main body.",,,Debug
-draconisAdmiralPhaseRecall,Admiral Phase Recall,Boolean,true,,"Disable to have phase recall only observe and log. Phase recall pulls carrier wings back while the opening strike target is phased.",,,Debug
 draconisSignalsDebugHeader,Signals Debug,Header,Signals Debug,,,,,Debug
 draconisSignalsDebug,Signals Debug Readout,Boolean,false,,"Second-in-Command only. Shows each side's ECM advantage and Signals skills in combat, and which Signals effects are applied to your ship and your target.",,,Debug
 draconisDraconDebugHeader,DRACON Debug,Header,DRACON Debug,,,,,Debug

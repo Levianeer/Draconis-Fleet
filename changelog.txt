@@ -23,7 +23,6 @@ NEW CONTENT:
 - NEW: Skills - Signals Discipline and Echo Illusion (NPC-only, codex-unlockable).
 - NEW: Passive Missile Forge hullmod.
 - NEW: Efficient Engine Assembly built-in hullmod (Juni) - increases zero-flux speed bonus.
-- NEW: FortySecond fleets now fight under an adaptive admiral AI that reads the matchup and adjusts each ship's aggression.
 - NEW: Optional LunaLib refit button to convert regular Draconis hulls at any Draconis market.
 - NEW: More faction themes, split into separate market and encounter tracks.
 

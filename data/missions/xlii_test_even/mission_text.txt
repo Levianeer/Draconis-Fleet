@@ -1,1 +1,0 @@
-An even fight: a mixed Hegemony-style fleet of about the same deployment points as the FortySecond test fleet. For testing the FortySecond admiral: the FortySecond fleet is the AI side and identical in every test mission; turn on autopilot and let the two AI fleets fight.
