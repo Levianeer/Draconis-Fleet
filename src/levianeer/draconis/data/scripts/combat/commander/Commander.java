@@ -11,11 +11,11 @@ import com.fs.starfarer.api.input.InputEventAPI;
 import org.apache.log4j.Logger;
 
 /**
- * The Draconis commander (third combat AI, {@code .claude/systems/draconis-commander.md}), built as
- * the floor plus additions. The floor replaces the side's admiral with {@link CommanderAdmiral}
- * (deploy everything, no orders, no retreats) and leaves every ship to vanilla's ship AI; it won the
- * test mirror 5 of 5, where vanilla's own admiral won 1 of 5. Each addition must beat the floor in the
- * test missions or it is removed. Current addition: {@link TaskForces}.
+ * The Draconis commander (third combat AI, {@code .claude/systems/draconis-commander.md}). The floor
+ * replaces the side's admiral with {@link CommanderAdmiral} (deploy everything, no orders, no retreats)
+ * and leaves every ship to vanilla's ship AI; it won the test mirror 5 of 5, where vanilla's own admiral
+ * won 1 of 5. The commander is the floor plus {@link TaskForces}, built and judged as a whole (section 11
+ * of the build doc), with {@link CommanderOverlay} drawing its state.
  * <p>
  * Only ever touches ships of its own side, and never the player's ship.
  */
@@ -51,6 +51,7 @@ public class Commander extends BaseEveryFrameCombatPlugin {
             fleet.setAdmiralAI(new CommanderAdmiral(fleet, side, taskForces));
             if (taskForces != null) {
                 fleet.getTaskManager(false).getCommandPointsStat().modifyFlat("draconis_commander", COMMAND_POINTS);
+                engine.addLayeredRenderingPlugin(new CommanderOverlay(taskForces));
             }
             log.info(String.format("DraconisCommander,start,side=%d,additions=%s", side, taskForces != null));
         }
