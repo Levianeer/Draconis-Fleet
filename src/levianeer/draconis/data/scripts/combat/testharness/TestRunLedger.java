@@ -19,7 +19,7 @@ public final class TestRunLedger {
     private static final Logger log = Global.getLogger(TestRunLedger.class);
 
     /** Rename when the thing being measured changes, so older runs stop counting. */
-    public static final String EXPERIMENT = "jumpout-v2";
+    public static final String EXPERIMENT = "jumpout-v3";
     /** Vanilla AI with vanilla's admiral. Phase 0 baseline; not run any more. */
     public static final String VANILLA = "vanilla";
     /** The commander's admiral only (deploys everything, no orders or retreats); ships fly vanilla. */
