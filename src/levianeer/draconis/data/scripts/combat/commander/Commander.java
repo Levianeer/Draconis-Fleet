@@ -5,6 +5,7 @@ import java.util.List;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import org.apache.log4j.Logger;
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
  * the floor plus additions. The floor replaces the side's admiral with {@link CommanderAdmiral}
  * (deploy everything, no orders, no retreats) and leaves every ship to vanilla's ship AI; it won the
  * test mirror 5 of 5, where vanilla's own admiral won 1 of 5. Each addition must beat the floor in the
- * test missions or it is removed. Current addition: {@link JumpOut}.
+ * test missions or it is removed. Current addition: {@link TaskForces}.
  * <p>
  * Only ever touches ships of its own side, and never the player's ship.
  */
@@ -22,16 +23,21 @@ public class Commander extends BaseEveryFrameCombatPlugin {
 
     private static final Logger log = Global.getLogger(Commander.class);
 
+    /**
+     * Creating an assignment spends a command point and fails without one; the commander gives orders
+     * all battle, so its side gets more than it can use.
+     */
+    private static final float COMMAND_POINTS = 1000f;
+
     private final int side;
     /** Null = the floor alone. */
-    private final JumpOut jumpOut;
+    private final TaskForces taskForces;
     private boolean admiralSet;
-    private boolean reported;
 
     /** {@code additions} false = the floor alone. */
     public Commander(int side, boolean additions) {
         this.side = side;
-        this.jumpOut = additions ? new JumpOut(side) : null;
+        this.taskForces = additions ? new TaskForces(side) : null;
     }
 
     @Override
@@ -41,15 +47,14 @@ public class Commander extends BaseEveryFrameCombatPlugin {
 
         if (!admiralSet) {
             admiralSet = true;
-            engine.getFleetManager(side).setAdmiralAI(new CommanderAdmiral(engine.getFleetManager(side), side));
-            log.info(String.format("DraconisCommander,start,side=%d,additions=%s", side, jumpOut != null));
+            CombatFleetManagerAPI fleet = engine.getFleetManager(side);
+            fleet.setAdmiralAI(new CommanderAdmiral(fleet, side, taskForces));
+            if (taskForces != null) {
+                fleet.getTaskManager(false).getCommandPointsStat().modifyFlat("draconis_commander", COMMAND_POINTS);
+            }
+            log.info(String.format("DraconisCommander,start,side=%d,additions=%s", side, taskForces != null));
         }
-        if (jumpOut != null) jumpOut.advance(engine, amount);
-
-        if (!reported && engine.isCombatOver()) {
-            reported = true;
-            if (jumpOut != null) jumpOut.report(engine, engine.getTotalElapsedTime(false));
-        }
+        if (taskForces != null) taskForces.advance(engine, amount);
     }
 
     /** Only ships of our side, never fighters, stations or the player's ship. */
