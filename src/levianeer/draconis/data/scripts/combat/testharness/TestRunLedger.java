@@ -19,7 +19,7 @@ public final class TestRunLedger {
     private static final Logger log = Global.getLogger(TestRunLedger.class);
 
     /** Rename when the thing being measured changes, so older runs stop counting. */
-    public static final String EXPERIMENT = "phase2-v1";
+    public static final String EXPERIMENT = "jumpout-v1";
     /** Vanilla AI with vanilla's admiral. Phase 0 baseline; not run any more. */
     public static final String VANILLA = "vanilla";
     /** The commander's admiral only (deploys everything, no orders or retreats); ships fly vanilla. */
@@ -27,7 +27,7 @@ public final class TestRunLedger {
     /** The floor plus whatever the commander currently adds. */
     public static final String COMMANDER = "commander";
     /** The arms the test missions alternate between. */
-    static final String[] ARMS = {FLOOR};
+    static final String[] ARMS = {FLOOR, COMMANDER};
     public static final int RUNS_PER_ARM = 5;
 
     private static final String FILE = "draconis_commander_tests.csv";

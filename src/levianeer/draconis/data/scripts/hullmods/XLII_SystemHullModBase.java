@@ -39,6 +39,12 @@ public abstract class XLII_SystemHullModBase extends BaseHullMod {
 
     public static class WarpDriveScript extends XLII_TransverseJumpScript {
 
+        /**
+         * Ship custom data key set by the combat commander on a ship it orders out without spending a
+         * command point, so the jump does not refund one it never cost.
+         */
+        public static final String NO_CP_REFUND_KEY = "draconis_jumpNoCpRefund";
+
         private final IntervalUtil overloadArcInterval = new IntervalUtil(0.075f, 0.125f);
         private int arcCounter = 0;
 
@@ -60,9 +66,11 @@ public abstract class XLII_SystemHullModBase extends BaseHullMod {
             CombatFleetManagerAPI fleetManager = engine.getFleetManager(ship.getOwner());
             if (fleetManager == null) return;
 
-            String key = modId + "_cpRefund";
-            fleetManager.getTaskManager(false).getCommandPointsStat().modifyFlat(key, 1f);
-            fleetManager.getTaskManager(true).getCommandPointsStat().modifyFlat(key, 1f);
+            if (!ship.getCustomData().containsKey(NO_CP_REFUND_KEY)) {
+                String key = modId + "_cpRefund";
+                fleetManager.getTaskManager(false).getCommandPointsStat().modifyFlat(key, 1f);
+                fleetManager.getTaskManager(true).getCommandPointsStat().modifyFlat(key, 1f);
+            }
 
             fleetManager.removeDeployed(ship, true);
         }
