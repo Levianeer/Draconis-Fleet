@@ -18,8 +18,11 @@ import org.lwjgl.util.vector.Vector2f;
  * <li>a ring around each enemy cluster: crimson for the main body, orange for a stray, grey otherwise;</li>
  * <li>a ring on each of our ships in its group's colour, thicker on the lead, with a faint line from each
  * escort to its lead;</li>
- * <li>each lead's job: a white line and diamond to the core it attacks, a line and square to its hold
- * point, or a green line to the lead it regroups onto.</li>
+ * <li>each lead's job: a white line and diamond to the core it attacks, a line and square to its rally
+ * point (attack, while still moving, and hold), a green line to the lead it regroups onto, or a line in
+ * its own colour to the line lead it screens;</li>
+ * <li>each ship's spacing mode ({@link Spacing}) as a small inner ring: grey for keep out, cyan for
+ * hold, orange for commit, with an orange line to the enemy a skirmisher is taking an opening on.</li>
  * </ul>
  * Job, balance and stance are spelled out in {@link TaskForces}'s floating text.
  */
@@ -32,6 +35,7 @@ final class CommanderOverlay extends BaseCombatLayeredRenderingPlugin {
     private static final Color OTHER = new Color(140, 140, 140);
     private static final Color ATTACK = Color.WHITE;
     private static final Color REGROUP = new Color(60, 255, 120);
+    private static final Color[] SPACING = {new Color(170, 170, 190), new Color(60, 230, 255), new Color(255, 120, 40)};
 
     private final TaskForces taskForces;
 
@@ -66,25 +70,36 @@ final class CommanderOverlay extends BaseCombatLayeredRenderingPlugin {
             for (ShipAPI s : g.ships) {
                 boolean lead = s == g.lead;
                 circle(s.getLocation(), s.getCollisionRadius() + 20f, color, 0.8f * alpha, lead ? 3f : 1.5f);
+                Spacing.Mode mode = taskForces.spacing.modes.get(s);
+                if (mode != null) circle(s.getLocation(), s.getCollisionRadius() * 0.6f, SPACING[mode.ordinal()], 0.9f * alpha, 2f);
+                ShipAPI opening = taskForces.spacing.openings.get(s);
+                if (opening != null && opening.isAlive()) line(s.getLocation(), opening.getLocation(), SPACING[Spacing.Mode.COMMIT.ordinal()], 0.7f * alpha, 2f);
                 if (!lead) line(s.getLocation(), g.lead.getLocation(), color, 0.25f * alpha, 1f);
             }
             if (taskForces.stance == TaskForces.Stance.WITHDRAW) continue;
             switch (g.job) {
                 case ATTACK:
+                case FLANK:
                     if (g.attacking != null && g.attacking.core.isAlive()) {
                         line(g.lead.getLocation(), g.attacking.core.getLocation(), ATTACK, 0.5f * alpha, 1.5f);
                         diamond(g.attacking.core.getLocation(), 40f, ATTACK, 0.8f * alpha);
                     }
+                    if (!g.free && g.movePoint != null) square(g.movePoint, 40f, color, 0.8f * alpha);
                     break;
                 case HOLD:
-                    if (g.holdPoint != null) {
-                        line(g.lead.getLocation(), g.holdPoint, color, 0.5f * alpha, 1.5f);
-                        square(g.holdPoint, 40f, color, 0.8f * alpha);
+                    if (g.movePoint != null) {
+                        line(g.lead.getLocation(), g.movePoint, color, 0.5f * alpha, 1.5f);
+                        square(g.movePoint, 40f, color, 0.8f * alpha);
                     }
                     break;
                 case REGROUP:
                     if (g.regroupTo != null && g.regroupTo.lead != null) {
                         line(g.lead.getLocation(), g.regroupTo.lead.getLocation(), REGROUP, 0.6f * alpha, 2f);
+                    }
+                    break;
+                case SCREEN:
+                    if (g.regroupTo != null && g.regroupTo.lead != null) {
+                        line(g.lead.getLocation(), g.regroupTo.lead.getLocation(), color, 0.6f * alpha, 2f);
                     }
                     break;
             }

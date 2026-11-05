@@ -37,10 +37,22 @@ import org.lwjgl.util.vector.Vector2f;
  * reach;</li>
  * <li><b>withdraw</b>: the battle is lost, so every ship jumps out. Final.</li>
  * </ul>
- * <b>Jobs:</b> attack (the lead intercepts the cluster's core), hold (the lead rallies on a point outside
- * the main body's reach), regroup (a group outmatched where it stands falls back onto the nearest other
- * group, its lead escorting that lead). Regroup overrides the stance's job until the group is no longer
- * outmatched.
+ * <b>Jobs:</b>
+ * <ul>
+ * <li><b>attack</b>: the lead rallies on a point at its own reach from the cluster's edge, then fights
+ * freely once there ({@link #ATTACK_FREE}). Not {@code INTERCEPT}: that is vanilla's commit mode, which
+ * closes to 0.7x range and skips the danger checks, so every lead charged in (step 3);</li>
+ * <li><b>hold</b>: the lead rallies on a point just outside the main body's reach;</li>
+ * <li><b>regroup</b>: a group outmatched where it stands falls back onto the nearest other group, its lead
+ * escorting that lead, for at least {@link #REGROUP_MIN_SECONDS}. It overrides the stance's job;</li>
+ * <li><b>flank</b>: the skirmish group's default. It attacks the main body from the side, at its lead's
+ * reach from the edge square to the line's approach, so the main body faces the line while the
+ * skirmishers take the openings it leaves ({@link Spacing});</li>
+ * <li><b>screen</b>: the skirmish lead escorts the line's lead, while the line is outmatched (below
+ * {@link #SCREEN_AT}, until {@link #SCREEN_END}). In core2-v1 screen was the default and the skirmishers
+ * did nothing but follow (see {@link #plan} for the roles).</li>
+ * </ul>
+ * How each ship then fights is {@link Spacing}'s call (core 1).
  * <p>
  * The engine keeps one task per target and replaces the old one when another is created on it, so each
  * task is created once and reused; a regrouping lead joins the other lead's escort task.
@@ -49,7 +61,6 @@ final class TaskForces {
 
     private static final Logger log = Global.getLogger(TaskForces.class);
 
-    private static final int MAX_GROUPS = 3;
     /** Ships this close to a lead count towards its group's local balance. */
     private static final float LOCAL = 3000f;
     private static final float UPDATE_SECONDS = 1f;
@@ -57,21 +68,51 @@ final class TaskForces {
     private static final float MIN_STANCE_SECONDS = 10f;
     /** A pick off gives up after this long. */
     private static final float PICK_OFF_LIMIT = 45f;
-    /** A group picks off a stray only if it outweighs it this much. */
+    /** A group picks off a stray only if it outweighs it this much ... */
     private static final float PICK_OFF_EDGE = 1.5f;
+    /** ... and its slowest ship is at least this fast relative to the stray's fastest, or it never catches it. */
+    private static final float PICK_OFF_SPEED = 1f;
     /** A pick off ends once the main body gets this much closer than its reach to the picking group. */
     private static final float PICK_OFF_DANGER = 500f;
     /** How far outside the main body's reach a holding group waits. */
     private static final float HOLD_MARGIN = 800f;
-    /** A hold point moves only when the wanted point is this far from the current one. */
-    private static final float HOLD_MOVE = 500f;
-    /** A group regroups below this local balance and returns to the stance's job above {@link #REGROUP_END}. */
-    private static final float REGROUP_AT = 0.8f;
-    private static final float REGROUP_END = 1f;
-    /** Withdraw once our strength is below this share of the enemy's ... */
+    /** A rally point moves only when the wanted point is this far from the current one. */
+    private static final float POINT_MOVE = 500f;
+    /**
+     * An attacking lead fights freely once within this of its attack point or in contact (an enemy within its
+     * reach plus {@link #CONTACT}), and rallies again only beyond {@link #ATTACK_LEASH} and out of contact.
+     * core1-v1 freed it only at the point, which a lead fighting its way in rarely reached, so the rally
+     * kept dragging it and was re-given about twice a second.
+     */
+    private static final float ATTACK_FREE = 800f;
+    private static final float ATTACK_LEASH = 2500f;
+    private static final float CONTACT = 500f;
+    private static final float OUT_OF_CONTACT = 1500f;
+    /**
+     * A group's other ships escort the lead only to travel together. Once one is in contact it is released
+     * to fight under its spacing mode, and goes back on escort when out of contact or more than this far from
+     * the lead. Held on escort, vanilla's escort maneuver kept them parked behind the lead while one or two
+     * ships fought (author, core2-v2).
+     */
+    private static final float ESCORT_LEASH = 3000f;
+    /**
+     * A group regroups below this local balance and returns to the stance's job above {@link #REGROUP_END},
+     * after at least {@link #REGROUP_MIN_SECONDS}; it does not regroup again within {@link #REGROUP_COOLDOWN}.
+     * Step 3 flipped at a single 0.8/1.0 threshold.
+     */
+    private static final float REGROUP_AT = 0.7f;
+    private static final float REGROUP_END = 1.1f;
+    private static final float REGROUP_MIN_SECONDS = 15f;
+    private static final float REGROUP_COOLDOWN = 10f;
+    /**
+     * Withdraw once our deployed DP is below this share of the enemy's, we have lost more DP than they have,
+     * and no group has held a balance of 1 or better for {@link #WITHDRAW_AFTER}. DP rather than DP x hull, so
+     * damaged ships still count: step 3 withdrew at 23 DP lost because the battered Alwaid counted as 17.
+     */
     private static final float WITHDRAW_AT = 0.5f;
-    /** ... and no group has held a balance of 1 or better for this long. */
-    private static final float WITHDRAW_AFTER = 10f;
+    private static final float SCREEN_AT = 1f;
+    private static final float SCREEN_END = 1.3f;
+    private static final float WITHDRAW_AFTER = 15f;
     private static final float LOG_SECONDS = 5f;
     private static final float LABEL_SECONDS = 2f;
     static final Color[] COLORS = {new Color(90, 200, 255), new Color(255, 210, 80), new Color(230, 110, 255)};
@@ -79,10 +120,14 @@ final class TaskForces {
 
     enum Stance { CONCENTRATE, PICK_OFF, WITHDRAW }
 
-    enum Job { ATTACK, HOLD, REGROUP }
+    enum Job { ATTACK, HOLD, REGROUP, SCREEN, FLANK }
+
+    /** Line first: it deploys first and is listed first. */
+    enum Role { LINE, SKIRMISH }
 
     static final class Group {
         final int id;
+        final Role role;
         /** Lead first (the biggest), then by DP, largest first. */
         final List<FleetMemberAPI> members = new ArrayList<>();
         float dp;
@@ -94,20 +139,24 @@ final class TaskForces {
         Job job = Job.ATTACK;
         /** Attack: the cluster attacked; null = none, search and destroy. */
         BattlePicture.Cluster attacking;
-        /** Hold: the point and its waypoint. */
-        Vector2f holdPoint;
-        AssignmentTargetAPI holdWaypoint;
-        /** Regroup: the group fallen back onto. */
+        /** Attack or hold: the rally point and its waypoint; attack drops the rally while {@link #free}. */
+        Vector2f movePoint;
+        AssignmentTargetAPI moveWaypoint;
+        boolean free;
+        /** Regroup or screen: the group fallen back onto or screened; when the group last started or ended a regroup. */
         Group regroupTo;
+        float regroupChanged = -1000f;
 
-        Group(int id) {
+        Group(int id, Role role) {
             this.id = id;
+            this.role = role;
         }
     }
 
     private final int side;
     final List<Group> groups = new ArrayList<>();
     final BattlePicture picture;
+    final Spacing spacing = new Spacing();
     Stance stance = Stance.CONCENTRATE;
     private float stanceSince;
     /** Pick off: the group sent and the core of the stray it chases. */
@@ -115,6 +164,8 @@ final class TaskForces {
     private ShipAPI pickTarget;
     private float lastBalanceAboveOne;
     private final Set<ShipAPI> withdrawn = Collections.newSetFromMap(new IdentityHashMap<>());
+    /** Non-lead ships currently released from escort to fight. */
+    private final Set<ShipAPI> released = Collections.newSetFromMap(new IdentityHashMap<>());
     private float sinceUpdate;
     private float sincePlan = PLAN_SECONDS;
     private float sinceLog = LOG_SECONDS;
@@ -128,43 +179,45 @@ final class TaskForces {
     }
 
     /**
-     * Splits the ships about to deploy into groups and returns them in deployment order, group by group,
-     * so each group starts together. Ships arriving after the first deployment join the smallest group.
+     * Splits the ships about to deploy into a line group (capitals, cruisers and carriers, led by the
+     * biggest) and a skirmish group (the other frigates and destroyers, led by the biggest of them), and
+     * returns them in deployment order, line first, so each group starts together. Ships arriving later
+     * join the group of their role.
+     * <p>
+     * Grouped by role rather than DP balance: balancing by DP paired the capital with one frigate and tied
+     * every fast, fragile ship to the slow cruiser, leaving the capital unprotected (author, core1-v2).
      */
     List<List<FleetMemberAPI>> plan(List<FleetMemberAPI> ships) {
         List<FleetMemberAPI> sorted = new ArrayList<>(ships);
         sorted.sort((a, b) -> Float.compare(b.getDeploymentPointsCost(), a.getDeploymentPointsCost()));
-        if (!groups.isEmpty()) {
-            for (FleetMemberAPI m : sorted) add(smallest(), m);
-            return Collections.singletonList(sorted);
-        }
-        for (FleetMemberAPI m : sorted) {
-            if (groups.size() < MAX_GROUPS && (m.isCruiser() || m.isCapital())) add(new Group(groups.size() + 1), m);
-        }
-        if (groups.isEmpty() && !sorted.isEmpty()) add(new Group(1), sorted.get(0));
-        for (FleetMemberAPI m : sorted) {
-            if (groups.stream().noneMatch(g -> g.members.contains(m))) add(smallest(), m);
-        }
+        boolean first = groups.isEmpty();
+        for (FleetMemberAPI m : sorted) add(groupFor(role(m)), m);
+        if (!first) return Collections.singletonList(sorted);
+        groups.sort((a, b) -> a.role.compareTo(b.role));
         List<List<FleetMemberAPI>> order = new ArrayList<>();
         for (Group g : groups) {
             order.add(g.members);
             StringBuilder names = new StringBuilder();
             for (FleetMemberAPI m : g.members) names.append(names.length() == 0 ? "" : "|").append(m.getShipName());
-            log.info(String.format("DraconisCommander,group,id=%d,dp=%.0f,members=%s", g.id, g.dp, names));
+            log.info(String.format("DraconisCommander,group,id=%d,role=%s,dp=%.0f,members=%s", g.id, g.role, g.dp, names));
         }
         return order;
     }
 
-    private void add(Group g, FleetMemberAPI m) {
-        if (!groups.contains(g)) groups.add(g);
-        g.members.add(m);
-        g.dp += m.getDeploymentPointsCost();
+    private static Role role(FleetMemberAPI m) {
+        return m.isCapital() || m.isCruiser() || m.isCarrier() ? Role.LINE : Role.SKIRMISH;
     }
 
-    private Group smallest() {
-        Group best = groups.get(0);
-        for (Group g : groups) if (g.dp < best.dp) best = g;
-        return best;
+    private Group groupFor(Role role) {
+        for (Group g : groups) if (g.role == role) return g;
+        Group g = new Group(groups.size() + 1, role);
+        groups.add(g);
+        return g;
+    }
+
+    private void add(Group g, FleetMemberAPI m) {
+        g.members.add(m);
+        g.dp += m.getDeploymentPointsCost();
     }
 
     void advance(CombatEngineAPI engine, float amount) {
@@ -181,9 +234,10 @@ final class TaskForces {
         List<ShipAPI> ours = refreshGroups(engine, fleet, t);
 
         if (stance != Stance.WITHDRAW) {
+            spacing.update(ours, picture, t, this::isSkirmisher);
             if (sincePlan >= PLAN_SECONDS) {
                 sincePlan = 0f;
-                planStance(ours, t);
+                planStance(engine, t);
             }
             assignJobs(t);
         }
@@ -239,13 +293,16 @@ final class TaskForces {
     }
 
     /** Withdraw if lost; otherwise end an unsafe or finished pick off, or start a safe one. */
-    private void planStance(List<ShipAPI> ours, float t) {
-        float our = 0f;
-        for (ShipAPI s : ours) our += BattlePicture.strength(s);
-        float their = 0f;
-        for (BattlePicture.Cluster c : picture.clusters) their += c.strength;
-        if (their > 0f && our < their * WITHDRAW_AT && t - lastBalanceAboveOne >= WITHDRAW_AFTER) {
-            setStance(Stance.WITHDRAW, t, String.format("our=%.0f,their=%.0f,noWinningGroupFor=%.0f", our, their, t - lastBalanceAboveOne));
+    private void planStance(CombatEngineAPI engine, float t) {
+        CombatFleetManagerAPI ourFleet = engine.getFleetManager(side);
+        CombatFleetManagerAPI theirFleet = engine.getFleetManager(1 - side);
+        float our = deployedDp(ourFleet);
+        float their = deployedDp(theirFleet);
+        float ourLost = lostDp(ourFleet);
+        float theirLost = lostDp(theirFleet);
+        if (their > 0f && our < their * WITHDRAW_AT && ourLost > theirLost && t - lastBalanceAboveOne >= WITHDRAW_AFTER) {
+            setStance(Stance.WITHDRAW, t, String.format("ourDp=%.0f,theirDp=%.0f,ourLost=%.0f,theirLost=%.0f,noWinningGroupFor=%.0f",
+                    our, their, ourLost, theirLost, t - lastBalanceAboveOne));
             return;
         }
         if (stance == Stance.PICK_OFF) {
@@ -264,8 +321,13 @@ final class TaskForces {
         BattlePicture.Cluster bestStray = null;
         for (BattlePicture.Cluster c : picture.clusters) {
             if (!c.stray) continue;
+            float strayTop = 0f;
+            for (ShipAPI s : c.ships) strayTop = Math.max(strayTop, s.getMaxSpeed());
             for (Group g : live) {
                 if (g.own < c.strength * PICK_OFF_EDGE || !picture.catchable(c, g.lead.getLocation())) continue;
+                float slowest = Float.MAX_VALUE;
+                for (ShipAPI s : g.ships) slowest = Math.min(slowest, s.getMaxSpeed());
+                if (slowest < strayTop * PICK_OFF_SPEED) continue;
                 if (best == null || g.own < best.own
                         || g.own == best.own && Misc.getDistance(g.lead.getLocation(), c.centre) < Misc.getDistance(best.lead.getLocation(), bestStray.centre)) {
                     best = g;
@@ -279,6 +341,22 @@ final class TaskForces {
         setStance(Stance.PICK_OFF, t, String.format("group=%d(%.0f),stray=%s(%d,%.0f),gap=%.0f,distance=%.0f",
                 best.id, best.own, bestStray.core.getName(), bestStray.ships.size(), bestStray.strength, bestStray.gapToMain,
                 Misc.getDistance(best.lead.getLocation(), bestStray.centre)));
+    }
+
+    private static float deployedDp(CombatFleetManagerAPI fleet) {
+        float dp = 0f;
+        for (FleetMemberAPI m : fleet.getDeployedCopy()) if (!m.isFighterWing()) dp += m.getDeploymentPointsCost();
+        return dp;
+    }
+
+    /** A ship can be both disabled and destroyed, so each member counts once. */
+    private static float lostDp(CombatFleetManagerAPI fleet) {
+        Set<String> counted = new java.util.HashSet<>();
+        float dp = 0f;
+        List<FleetMemberAPI> lost = new ArrayList<>(fleet.getDisabledCopy());
+        lost.addAll(fleet.getDestroyedCopy());
+        for (FleetMemberAPI m : lost) if (!m.isFighterWing() && counted.add(m.getId())) dp += m.getDeploymentPointsCost();
+        return dp;
     }
 
     /** Why the current pick off must end, or null to carry on. */
@@ -302,14 +380,22 @@ final class TaskForces {
         stanceSince = t;
     }
 
-    /** The stance's job for each group, overridden by regroup while a group is outmatched. */
+    /**
+     * The stance's job for each group, overridden by regroup while a group is outmatched. A skirmish group
+     * that is not picking off screens the line: its lead escorts the line's lead, so the fast ships cover the
+     * capital instead of fighting the main body on their own.
+     */
     private void assignJobs(float t) {
         List<Group> live = live();
+        Group line = null;
+        for (Group g : live) if (g.role == Role.LINE) line = g;
         for (Group g : live) {
             Job job;
             BattlePicture.Cluster attacking = null;
             Group regroupTo = null;
-            boolean outmatched = g.job == Job.REGROUP ? g.balance < REGROUP_END : g.balance < REGROUP_AT;
+            boolean outmatched = g.job == Job.REGROUP
+                    ? g.balance < REGROUP_END || t - g.regroupChanged < REGROUP_MIN_SECONDS
+                    : g.balance < REGROUP_AT && t - g.regroupChanged >= REGROUP_COOLDOWN;
             Group nearest = null;
             for (Group other : live) {
                 if (other == g || other.regroupTo == g) continue;
@@ -320,6 +406,13 @@ final class TaskForces {
                 regroupTo = nearest;
             } else if (stance == Stance.PICK_OFF && g != picker) {
                 job = Job.HOLD;
+            } else if (g.role == Role.SKIRMISH && line != null && g != picker
+                    && (line.balance < SCREEN_AT || g.job == Job.SCREEN && line.balance < SCREEN_END)) {
+                job = Job.SCREEN;
+                regroupTo = line;
+            } else if (g.role == Role.SKIRMISH && line != null && g != picker && picture.main != null) {
+                job = Job.FLANK;
+                attacking = picture.main;
             } else {
                 job = Job.ATTACK;
                 attacking = stance == Stance.PICK_OFF ? picture.clusterOf(pickTarget) : picture.main;
@@ -328,11 +421,44 @@ final class TaskForces {
                 log.info(String.format("DraconisCommander,job,t=%.1f,group=%d,from=%s,to=%s,balance=%s%s", t, g.id, g.job, job,
                         balanceText(g.balance), regroupTo == null ? "" : ",onto=" + regroupTo.id));
             }
+            if ((job == Job.REGROUP) != (g.job == Job.REGROUP)) g.regroupChanged = t;
             g.job = job;
             g.attacking = attacking;
             g.regroupTo = regroupTo;
-            if (job == Job.HOLD) g.holdPoint = holdPoint(g);
+            if (job == Job.HOLD) g.movePoint = holdPoint(g);
+            else if (job == Job.ATTACK) g.movePoint = attacking == null ? null : attackPoint(g, attacking);
+            else if (job == Job.FLANK) g.movePoint = flankPoint(g, line, attacking);
         }
+    }
+
+    /** Skirmishers are the opportunists that take openings ({@link Spacing}). */
+    private boolean isSkirmisher(ShipAPI ship) {
+        for (Group g : groups) if (g.role == Role.SKIRMISH && g.ships.contains(ship)) return true;
+        return false;
+    }
+
+    /**
+     * Square to the line's approach on the cluster: from its centre, perpendicular to the line lead's
+     * bearing, on the skirmish lead's side, at the cluster's radius plus the skirmish lead's reach.
+     */
+    private Vector2f flankPoint(Group g, Group line, BattlePicture.Cluster c) {
+        Vector2f approach = Vector2f.sub(line.lead.getLocation(), c.centre, new Vector2f());
+        if (approach.lengthSquared() < 1f) approach.set(0f, side == 1 ? 1f : -1f);
+        approach.normalise();
+        Vector2f flank = new Vector2f(-approach.y, approach.x);
+        Vector2f toSkirmish = Vector2f.sub(g.lead.getLocation(), c.centre, new Vector2f());
+        if (Vector2f.dot(flank, toSkirmish) < 0f) flank.negate();
+        flank.scale(c.radius + BattlePicture.reach(g.lead));
+        return Vector2f.add(c.centre, flank, flank);
+    }
+
+    /** At the lead's own reach from the cluster's edge, on the lead's side. */
+    private Vector2f attackPoint(Group g, BattlePicture.Cluster c) {
+        Vector2f dir = Vector2f.sub(g.lead.getLocation(), c.centre, new Vector2f());
+        if (dir.lengthSquared() < 1f) dir.set(0f, side == 1 ? 1f : -1f);
+        dir.normalise();
+        dir.scale(c.radius + BattlePicture.reach(g.lead));
+        return Vector2f.add(c.centre, dir, dir);
     }
 
     /**
@@ -353,33 +479,71 @@ final class TaskForces {
         if (g.lead == null) return;
         DeployedFleetMemberAPI leadMember = fleet.getDeployedFleetMember(g.lead);
         AssignmentInfo escort = task(tasks, CombatAssignmentType.MEDIUM_ESCORT, leadMember);
-        for (int i = 1; i < g.ships.size(); i++) give(tasks, fleet, g.ships.get(i), escort);
+        for (int i = 1; i < g.ships.size(); i++) {
+            ShipAPI ship = g.ships.get(i);
+            float gap = enemyGap(ship);
+            if (Misc.getDistance(ship.getLocation(), g.lead.getLocation()) > ESCORT_LEASH || gap > OUT_OF_CONTACT) released.remove(ship);
+            else if (gap <= CONTACT) released.add(ship);
+            if (!released.contains(ship)) {
+                give(tasks, fleet, ship, escort);
+            } else if (tasks.getAssignmentFor(ship) != null) {
+                tasks.orderSearchAndDestroy(fleet.getDeployedFleetMember(ship), false);
+                reissued++;
+            }
+        }
+        boolean rally = false;
         switch (g.job) {
             case ATTACK:
-                ShipAPI core = g.attacking == null ? null : g.attacking.core;
-                DeployedFleetMemberAPI target = core == null ? null : engine.getFleetManager(core.getOwner()).getDeployedFleetMember(core);
-                if (target != null) {
-                    give(tasks, fleet, g.lead, task(tasks, CombatAssignmentType.INTERCEPT, target));
-                } else if (tasks.getAssignmentFor(g.lead) != null) {
+            case FLANK:
+                if (g.movePoint != null) {
+                    float distance = Misc.getDistance(g.lead.getLocation(), g.movePoint);
+                    float gap = enemyGap(g.lead);
+                    if (distance <= ATTACK_FREE || gap <= CONTACT) g.free = true;
+                    else if (distance > ATTACK_LEASH && gap > OUT_OF_CONTACT) g.free = false;
+                    rally = !g.free;
+                }
+                if (!rally && tasks.getAssignmentFor(g.lead) != null) {
                     tasks.orderSearchAndDestroy(leadMember, false);
                     reissued++;
                 }
                 break;
             case HOLD:
-                if (g.holdWaypoint == null || Misc.getDistance(g.holdWaypoint.getLocation(), g.holdPoint) > HOLD_MOVE) {
-                    if (g.holdWaypoint != null) tasks.removeAssignment(tasks.getAssignmentInfoForTarget(g.holdWaypoint));
-                    g.holdWaypoint = tasks.createWaypoint2(g.holdPoint, false);
-                }
-                give(tasks, fleet, g.lead, task(tasks, CombatAssignmentType.RALLY_TASK_FORCE, g.holdWaypoint));
+                g.free = false;
+                rally = true;
                 break;
             case REGROUP:
+            case SCREEN:
+                g.free = false;
                 give(tasks, fleet, g.lead, task(tasks, CombatAssignmentType.MEDIUM_ESCORT, fleet.getDeployedFleetMember(g.regroupTo.lead)));
                 break;
         }
-        if (g.job != Job.HOLD && g.holdWaypoint != null) {
-            tasks.removeAssignment(tasks.getAssignmentInfoForTarget(g.holdWaypoint));
-            g.holdWaypoint = null;
+        if (rally) {
+            if (g.moveWaypoint == null || Misc.getDistance(g.moveWaypoint.getLocation(), g.movePoint) > POINT_MOVE) {
+                if (g.moveWaypoint != null) tasks.removeAssignment(tasks.getAssignmentInfoForTarget(g.moveWaypoint));
+                g.moveWaypoint = tasks.createWaypoint2(g.movePoint, false);
+            }
+            give(tasks, fleet, g.lead, task(tasks, CombatAssignmentType.RALLY_TASK_FORCE, g.moveWaypoint));
+        } else if (g.moveWaypoint != null) {
+            tasks.removeAssignment(tasks.getAssignmentInfoForTarget(g.moveWaypoint));
+            g.moveWaypoint = null;
         }
+    }
+
+    /**
+     * How far the nearest enemy is outside the ship's own reach (negative inside it). For a capital,
+     * frigates do not count: a capital is never "in contact" with a frigate, so one chasing a frigate falls
+     * out of contact and is pulled back to its group or attack point (see {@link Spacing} for the rest).
+     */
+    private float enemyGap(ShipAPI ship) {
+        float reach = BattlePicture.reach(ship) + ship.getCollisionRadius();
+        float best = Float.MAX_VALUE;
+        for (BattlePicture.Cluster c : picture.clusters) {
+            for (ShipAPI e : c.ships) {
+                if (ship.isCapital() && e.isFrigate()) continue;
+                best = Math.min(best, Misc.getDistance(e.getLocation(), ship.getLocation()) - reach);
+            }
+        }
+        return best;
     }
 
     /**
@@ -420,7 +584,7 @@ final class TaskForces {
         for (Group g : groups) {
             if (g.lead == null) continue;
             if (flagship == null) flagship = g.lead;
-            String text = "TF" + g.id + " " + jobText(g) + " " + balanceText(g.balance);
+            String text = "TF" + g.id + " " + g.role + " " + jobText(g) + " " + balanceText(g.balance);
             engine.addFloatingText(g.lead.getLocation(), text, 26f, COLORS[(g.id - 1) % COLORS.length], g.lead, 0f, 0f);
         }
         if (flagship != null) {
@@ -431,8 +595,10 @@ final class TaskForces {
 
     private static String jobText(Group g) {
         switch (g.job) {
-            case ATTACK: return g.attacking == null ? "SEARCH" : "ATTACK " + g.attacking.core.getHullSpec().getHullName();
+            case ATTACK: return g.attacking == null ? "SEARCH" : "ATTACK " + g.attacking.core.getHullSpec().getHullName() + (g.free ? "" : " (moving)");
             case HOLD: return "HOLD";
+            case SCREEN: return "SCREEN>TF" + g.regroupTo.id;
+            case FLANK: return "FLANK " + g.attacking.core.getHullSpec().getHullName() + (g.free ? "" : " (moving)");
             default: return "REGROUP>TF" + g.regroupTo.id;
         }
     }
@@ -460,6 +626,7 @@ final class TaskForces {
                     m == null ? -1f : mainGap, reissued));
         }
         reissued = 0;
+        spacing.logState(t);
     }
 
     static String balanceText(float balance) {
