@@ -71,14 +71,6 @@ public class XLII_WarpInScript implements AdvanceableListener {
     private float    heldFor      = 0f; // seconds this ship has waited off-map
     private float    deployedAt   = -1f; // battle time this ship entered the fight
 
-    /**
-     * Set by a combat commander: the ship waits in the off-map hold, skipping the immediate warp-in
-     * and its own choice of arrival, until {@link #commandArrival} gives it a point. Never set on a
-     * player-side ship.
-     */
-    private boolean commanded = false;
-    private Float   commandedFacing = null;
-
     /** Collision classes stashed while the ship waits off-map, restored on arrival. */
     private final Map<ShipAPI, CollisionClass> heldCollision = new IdentityHashMap<>();
 
@@ -144,7 +136,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
         // the deploy position, mirroring the piloted path.
         // No camera/sound offset needed since the camera follows the player ship, not this one.
         // Separation/claimed positions are ignored - each ship just warps to its own deploy point.
-        if (!commanded && (ship.getOwner() == 0 || IMMEDIATE_WARP_HULLS.contains(ship.getHullSpec().getBaseHullId()))) {
+        if (ship.getOwner() == 0 || IMMEDIATE_WARP_HULLS.contains(ship.getHullSpec().getBaseHullId())) {
             if (warpTo == null) {
                 float ownSide = ship.getOwner() == 1 ? 1f : -1f;
                 warpTo = findClearArrival(engine, new Vector2f(initialPosition.x, initialPosition.y + 750f * ownSide));
@@ -179,7 +171,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
             // where the escorts are dead or the fleet is capitals only.
             List<ShipAPI> escorts = findEscorts(engine);
             boolean lineFormed = heldFor > warpDelay && escorts.size() >= MIN_ESCORTS;
-            if (!commanded && (lineFormed || heldFor > MAX_WAIT_TIME)) {
+            if (lineFormed || heldFor > MAX_WAIT_TIME) {
                 // Deferred to here: ranking this capital against the others needs the
                 // fleet roster, which does not exist yet when the script is constructed.
                 if (flanking == null) flanking = rollFlanking(engine);
@@ -192,32 +184,6 @@ public class XLII_WarpInScript implements AdvanceableListener {
             freeze(ship.getMutableStats());
             enterHold();
         }
-    }
-
-    // -------------------------------------------------------------------------
-    // Commander control
-    // -------------------------------------------------------------------------
-
-    /** Sends the ship (back) to the off-map hold, where it waits for {@link #commandArrival}. */
-    public void holdForCommand() {
-        commanded = true;
-        warpTo = null;
-        commandedFacing = null;
-        timer = 0f;
-        healNextFrame = false;
-        activeWarp = true;
-    }
-
-    /** Starts the telegraph towards {@code point}; the ship arrives facing {@code facing}. */
-    public void commandArrival(Vector2f point, float facing) {
-        if (!commanded || warpTo != null) return;
-        warpTo = new Vector2f(point);
-        commandedFacing = facing;
-    }
-
-    /** True while the ship waits in the hold, before or during its telegraph. */
-    public boolean isHolding() {
-        return activeWarp && !healNextFrame;
     }
 
     // -------------------------------------------------------------------------
@@ -267,8 +233,7 @@ public class XLII_WarpInScript implements AdvanceableListener {
         if (!isClearArrival(engine, warpTo)) {
             warpTo = findClearArrival(engine, warpTo);
         }
-        float facing = commandedFacing != null ? commandedFacing : VectorUtils.getAngle(ship.getLocation(), warpTo);
-        moveToLocation(warpTo, facing, 300f);
+        moveToLocation(warpTo, VectorUtils.getAngle(ship.getLocation(), warpTo), 300f);
         unfreeze(ship.getMutableStats());
         ship.turnOffTravelDrive();
         ship.turnOnTravelDrive(2);

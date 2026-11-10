@@ -1,1 +1,0 @@
-The FortySecond battlegroup against an identical fleet flown by the vanilla AI. For testing the Draconis combat AI: the Draconis fleet is the AI side; turn on autopilot and let the two AI fleets fight. No officers on either side.
