@@ -397,7 +397,8 @@ public class XLII_SlapERMissileAI implements MissileAIPlugin, GuidedMissileAI {
         List<Vector2f> clouds = new ArrayList<>();
         Map<String, Object> customData = engine.getCustomData();
         for (Map.Entry<String, Object> entry : customData.entrySet()) {
-            if (entry.getKey().startsWith("XLII_MIST_CLOUD_") && entry.getValue() instanceof Vector2f) {
+            // Other mods can put a null key into the shared custom data map
+            if (entry.getKey() != null && entry.getKey().startsWith("XLII_MIST_CLOUD_") && entry.getValue() instanceof Vector2f) {
                 clouds.add((Vector2f) entry.getValue());
             }
         }
