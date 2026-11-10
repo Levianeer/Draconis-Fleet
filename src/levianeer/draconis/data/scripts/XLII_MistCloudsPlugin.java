@@ -397,7 +397,8 @@ public class XLII_MistCloudsPlugin implements EveryFrameCombatPlugin {
         // Collect spawn locations during iteration (don't modify map yet)
         for (Map.Entry<String, Object> entry : customData.entrySet()) {
             String key = entry.getKey();
-            if (key.startsWith("XLII_MIST_SPAWN_" + forcedOwnerSide + "_")) {
+            // Other mods can put a null key into the shared custom data map
+            if (key != null && key.startsWith("XLII_MIST_SPAWN_" + forcedOwnerSide + "_")) {
                 Object value = entry.getValue();
                 if (value instanceof Vector2f spawnLocation) {
                     cloudsToSpawn.add(new Vector2f(spawnLocation));
