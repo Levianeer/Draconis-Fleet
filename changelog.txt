@@ -87,6 +87,19 @@ BUG FIXES:
   - Saving clears the officer list on fleets with no officers, and the AI core sweep then tried to add to it in the same session.
 
 ===============================================================================
+VERSION: Version 0.7.91 (Save-compatible with 0.7.9)
+===============================================================================
+BUG FIXES:
+- Fixed a crash when Draconis fleets were given AI cores after the game had been saved in the same session.
+  - Saving clears the officer list on fleets with no officers, and the monthly AI core sweep then crashed on them.
+- Fixed a battle crash when another mod puts a null key into the combat engine's custom data.
+  - Affected the mist cloud plugin and the SLAP-ER missile AI.
+- Fixed the DDA colony crisis being triggerable with zero AI cores installed. Thanks to Camellia895 for the fix.
+  - The Alliance Intelligence Office can no longer be selected by the hostile activity system without at least one
+    AI core in a player industry or administrator, and with zero cores installed the assessment holds its value
+    instead of advancing.
+
+===============================================================================
 VERSION: Version 0.7.9 (Save-compatible with 0.7.8)
 ===============================================================================
 NEW CONTENT:

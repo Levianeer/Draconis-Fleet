@@ -8,7 +8,7 @@
     "patch":0
   },
   "description":"The Draconis Defense Alliance holds the remote Fafnir system under permanent military governance. Their doctrine emphasises fast hulls, guided munitions, and layered point defense: a fleet built for isolation and no retreat.",
-  "gameVersion":"0.98a-RC8",
+  "gameVersion":"0.98.5a-RC5",
   "dependencies":[
     {
       "id":"lw_lazylib",
