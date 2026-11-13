@@ -79,12 +79,7 @@ MINOR IMPROVEMENTS:
 - Added optional LunaLib support. Required for AuxCog Cores to be usable on Draconis Hulls.
 
 BUG FIXES:
-- Fixed the DDA/AIO colony crisis tracker being able to escalate toward invasion with zero AI cores installed.
-  - The monthly increment's baseline floor applied unconditionally, so a tracker already running (or created without any cores) climbed to invasion over time even with no AI core usage to justify it.
-  - The increment, its baseline display factor, and the HAE event frequency check now all return/hide as zero when no AI cores are installed anywhere.
 - Fixed comm dialogs leaving the previous speaker's portrait on screen instead of resetting to the market/planet view.
-- Fixed a crash that could occur shortly after saving, when a Draconis fleet was assigned AI cores.
-  - Saving clears the officer list on fleets with no officers, and the AI core sweep then tried to add to it in the same session.
 
 ===============================================================================
 VERSION: Version 0.7.91 (Save-compatible with 0.7.9)
