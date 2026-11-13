@@ -189,6 +189,10 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
     }
 
     private void processFleet(CampaignFleetAPI fleet) {
+        // Saving nulls the officers list on every officerless fleet (FleetData.writeReplace) and
+        // addOfficer() dereferences it unchecked; getOfficersCopy() goes through the getter that recreates it.
+        fleet.getFleetData().getOfficersCopy();
+
         List<FleetMemberAPI> emptySlots = findEmptyOfficerSlots(fleet, false);
 
         Random random = new Random();
@@ -300,6 +304,9 @@ public class DraconisAICoreFleetInflater implements EveryFrameScript {
 
         DraconisAICoreScalingConfig config = DraconisAICoreScalingConfig.getInstance();
         if (!config.isEnabled()) return;
+
+        // Recreates a save-nulled officers list - see processFleet.
+        fleet.getFleetData().getOfficersCopy();
 
         List<FleetMemberAPI> emptySlots = findEmptyOfficerSlots(fleet, forceReplace);
 
